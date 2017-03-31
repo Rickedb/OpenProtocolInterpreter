@@ -18,7 +18,7 @@ namespace OpenProtocolInterpreter.MIDs.Reply
     /// </summary>
     public class MID_0004 : MID
     {
-        private readonly Interfaces.IMID nextTemplate;
+        private readonly IMID nextTemplate;
 
         private const int length = 26;
         private const int mid = 4;
@@ -27,7 +27,7 @@ namespace OpenProtocolInterpreter.MIDs.Reply
         public int FailedMid { get; set; }
         public Errors ErrorCode { get; set; }
 
-        public MID_0004(Interfaces.IMID nextTemplate) : base(length, mid, revision)
+        public MID_0004(IMID nextTemplate) : base(length, mid, revision)
         {
             this.registerDatafields();
             this.nextTemplate = nextTemplate;
@@ -49,9 +49,14 @@ namespace OpenProtocolInterpreter.MIDs.Reply
         {
             if (base.isCorrectType(package))
             {
-                base.processPackage(package);
-                this.FailedMid = (int)base.RegisteredDataFields[(int)DataFields.MID].Value;
-                this.ErrorCode = (Errors)base.RegisteredDataFields[(int)DataFields.ERROR_CODE].Value;
+                base.HeaderData = base.processHeader(package);
+
+                var field = base.RegisteredDataFields[(int)DataFields.MID];
+                this.FailedMid = Convert.ToInt32(package.Substring(field.Index, field.Size));
+
+                field = base.RegisteredDataFields[(int)DataFields.ERROR_CODE];
+                this.ErrorCode = (Errors)Convert.ToInt32(package.Substring(field.Index, field.Size));
+
                 return this;
             }
 
@@ -71,8 +76,8 @@ namespace OpenProtocolInterpreter.MIDs.Reply
             this.RegisteredDataFields.AddRange(
                 new DataField[]
                 {
-                    new DataField((int)DataFields.MID, 0, 4),
-                    new DataField((int)DataFields.ERROR_CODE, 4, 2)
+                    new DataField((int)DataFields.MID, 20, 4),
+                    new DataField((int)DataFields.ERROR_CODE, 24, 2)
                 });
         }
 

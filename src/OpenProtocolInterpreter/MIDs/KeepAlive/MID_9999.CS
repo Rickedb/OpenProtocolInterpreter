@@ -30,18 +30,12 @@ namespace OpenProtocolInterpreter.MIDs.KeepAlive
 
         public MID_9999() : base(length, mid, revision) { }
 
-        public override string buildPackage()
-        {
-            if (base.isCorrectType(mid))
-                return base.buildPackage();
-
-            throw new NotImplementedException("O MID <" + mid + "> não está implementado!");
-        }
-
         public override MID processPackage(string package)
         {
-            base.processHeader(package);
-            return true;
+            if (this.isCorrectType(package))
+                return base.processPackage(package);
+
+            throw new NotImplementedException("O MID <" + mid + "> não está implementado!");
         }
     }
 }

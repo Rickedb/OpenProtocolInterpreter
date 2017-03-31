@@ -77,20 +77,10 @@ namespace OpenProtocolInterpreter.MIDs
             return this;
         }
 
-
-        public virtual ExpectedMid processPackage<ExpectedMid>(string package) where ExpectedMid : MID
-        {
-            return (ExpectedMid)this.processPackage(package);
-        }
-
         protected void processDataFields(string package)
         {
-            int identifierIterator = 2; //Precedent numbers of each datafield "01FIELD02FIELD03FIELD", etc...
             foreach (var dataField in this.RegisteredDataFields)
-            {
-                dataField.Value = package.Substring(20+ identifierIterator + dataField.Index, dataField.Size);
-                identifierIterator += 2;
-            }
+                dataField.Value = package.Substring(2 + dataField.Index, dataField.Size);
         }
 
         

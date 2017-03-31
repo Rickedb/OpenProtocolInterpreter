@@ -45,29 +45,29 @@ namespace OpenProtocolInterpreter.MIDs.Tightening
             this.RegisteredDataFields.AddRange(
                 new DataField[]
                 {
-                    new DataField((int)DataFields.CELL_ID, 0, 4),
-                    new DataField((int)DataFields.CHANNEL_ID, 4, 2),
-                    new DataField((int)DataFields.TORQUE_CONTROLLER_NAME, 6, 25),
-                    new DataField((int)DataFields.VIN_NUMBER, 31, 25),
-                    new DataField((int)DataFields.JOB_ID, 56, 2),
-                    new DataField((int)DataFields.PARAMETER_SET_ID, 58, 3),
-                    new DataField((int)DataFields.BATCH_SIZE, 61, 
-                    new DataField((int)DataFields.BATCH_COUNTER
-                    new DataField((int)DataFields.TIGHTENING_STATUS
-                    new DataField((int)DataFields.TORQUE_STATUS
-                    new DataField((int)DataFields.ANGLE_STATUS
-                    new DataField((int)DataFields.TORQUE_MIN_LIMIT
-                    new DataField((int)DataFields.TORQUE_MAX_LIMIT
-                    new DataField((int)DataFields.TORQUE_FINAL_TARGET
-                    new DataField((int)DataFields.TORQUE
-                    new DataField((int)DataFields.ANGLE_MIN_LIMIT
-                    new DataField((int)DataFields.ANGLE_MAX_LIMIT
-                    new DataField((int)DataFields.ANGLE_FINAL_TARGET
-                    new DataField((int)DataFields.ANGLE
-                    new DataField((int)DataFields.TIMESTAMP
-                    new DataField((int)DataFields.LAST_CHANGE_IN_PARAMETER_SET
-                    new DataField((int)DataFields.BATCH_STATUS
-                    new DataField((int)DataFields.TIGHTENING_ID
+                    new DataField((int)DataFields.CELL_ID, 20, 4),
+                    new DataField((int)DataFields.CHANNEL_ID, 26, 2),
+                    new DataField((int)DataFields.TORQUE_CONTROLLER_NAME, 30, 25),
+                    new DataField((int)DataFields.VIN_NUMBER, 57, 25),
+                    new DataField((int)DataFields.JOB_ID, 84, 2),
+                    new DataField((int)DataFields.PARAMETER_SET_ID, 88, 3),
+                    new DataField((int)DataFields.BATCH_SIZE, 93, 4),
+                    new DataField((int)DataFields.BATCH_COUNTER, 99, 4),
+                    new DataField((int)DataFields.TIGHTENING_STATUS, 105, 1),
+                    new DataField((int)DataFields.TORQUE_STATUS, 108, 1),
+                    new DataField((int)DataFields.ANGLE_STATUS, 111, 1),
+                    new DataField((int)DataFields.TORQUE_MIN_LIMIT, 114, 6),
+                    new DataField((int)DataFields.TORQUE_MAX_LIMIT, 122, 6),
+                    new DataField((int)DataFields.TORQUE_FINAL_TARGET, 130, 6),
+                    new DataField((int)DataFields.TORQUE, 138, 6),
+                    new DataField((int)DataFields.ANGLE_MIN_LIMIT, 146, 5),
+                    new DataField((int)DataFields.ANGLE_MAX_LIMIT, 153, 5),
+                    new DataField((int)DataFields.ANGLE_FINAL_TARGET, 160, 5),
+                    new DataField((int)DataFields.ANGLE, 167, 5),
+                    new DataField((int)DataFields.TIMESTAMP, 174, 19),
+                    new DataField((int)DataFields.LAST_CHANGE_IN_PARAMETER_SET, 195, 19),
+                    new DataField((int)DataFields.BATCH_STATUS, 216, 1),
+                    new DataField((int)DataFields.TIGHTENING_ID, 219, 10)
                 });
         }
 

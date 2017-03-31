@@ -36,16 +36,5 @@
 
             return this.nextTemplate.processPackage(package);
         }
-
-        public override ExpectedMid processPackage<ExpectedMid>(string package)
-        {
-            if (base.isCorrectType(package))
-                if (typeof(ExpectedMid) == this.GetType())
-                    return (ExpectedMid)this.processPackage(package);
-                else
-                    base.processPackage(package);
-
-            return this.nextTemplate.processPackage<ExpectedMid>(package);
-        }
     }
 }

@@ -49,7 +49,7 @@ namespace OpenProtocolInterpreter.MIDs.Job
 
         private void registerDatafields()
         {
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.JOB_ID, 0, 2));
+            this.RegisteredDataFields.Add(new DataField((int)DataFields.JOB_ID, 20, 2));
         }
 
         public enum DataFields

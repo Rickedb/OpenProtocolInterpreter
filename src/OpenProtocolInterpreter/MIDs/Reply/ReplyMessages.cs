@@ -1,6 +1,4 @@
-﻿using OpenProtocolInterpreter.MIDs.Interfaces;
-
-namespace OpenProtocolInterpreter.MIDs.Reply
+﻿namespace OpenProtocolInterpreter.MIDs.Reply
 {
     public class ReplyMessages
     {

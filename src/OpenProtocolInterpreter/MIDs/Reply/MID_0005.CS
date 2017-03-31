@@ -20,7 +20,7 @@ namespace OpenProtocolInterpreter.MIDs.Reply
     /// </summary>
     public class MID_0005 : MID
     {
-        private readonly Interfaces.IMID nextTemplate;
+        private readonly IMID nextTemplate;
 
         private const int length = 24;
         private const int mid = 5;
@@ -34,7 +34,7 @@ namespace OpenProtocolInterpreter.MIDs.Reply
             this.MIDAccepted = midAccepted;
         }
 
-        public MID_0005(Interfaces.IMID nextTemplate) : base(length, mid, revision)
+        public MID_0005(IMID nextTemplate) : base(length, mid, revision)
         {
             this.registerDatafields();
             this.nextTemplate = nextTemplate;
@@ -62,7 +62,7 @@ namespace OpenProtocolInterpreter.MIDs.Reply
 
         private void registerDatafields()
         {
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.MIDAccepted, 0, 4));
+            this.RegisteredDataFields.Add(new DataField((int)DataFields.MIDAccepted, 20, 4));
         }
 
         public enum DataFields

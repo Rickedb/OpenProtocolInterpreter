@@ -93,12 +93,12 @@ namespace OpenProtocolInterpreter.MIDs.Job
             this.RegisteredDataFields.AddRange(
                 new DataField[]
                 {
-                    new DataField((int)DataFields.JOB_ID, 0, 2),
-                    new DataField((int)DataFields.JOB_STATUS, 2, 1),
-                    new DataField((int)DataFields.JOB_BATCH_MODE, 3, 1),
-                    new DataField((int)DataFields.JOB_BATCH_SIZE, 4, 4),
-                    new DataField((int)DataFields.JOB_BATCH_COUNTER, 8, 4),
-                    new DataField((int)DataFields.TIMESTAMP, 12, 19)
+                    new DataField((int)DataFields.JOB_ID, 20, 2),
+                    new DataField((int)DataFields.JOB_STATUS, 24, 1),
+                    new DataField((int)DataFields.JOB_BATCH_MODE, 27, 1),
+                    new DataField((int)DataFields.JOB_BATCH_SIZE, 30, 4),
+                    new DataField((int)DataFields.JOB_BATCH_COUNTER, 36, 4),
+                    new DataField((int)DataFields.TIMESTAMP, 42, 19)
                 });
         }
 

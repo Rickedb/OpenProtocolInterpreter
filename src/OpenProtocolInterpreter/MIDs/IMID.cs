@@ -7,7 +7,7 @@ namespace OpenProtocolInterpreter.MIDs
         MID.Header HeaderData { get; set; }
         List<DataField> RegisteredDataFields { get; set; }
         MID processPackage(string package);
-        ExpectedMid processPackage<ExpectedMid>(string package) where ExpectedMid : MID;
+        
         string buildPackage();
     }
 }

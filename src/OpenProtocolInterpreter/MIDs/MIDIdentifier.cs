@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using OpenProtocolInterpreter.MIDs.Interfaces;
 
 namespace OpenProtocolInterpreter.MIDs
 {
@@ -39,6 +38,11 @@ namespace OpenProtocolInterpreter.MIDs
             throw new NotImplementedException();
         }
 
+        public ExpectedMid processPackage<ExpectedMid>(string package) where ExpectedMid : MID
+        {
+            return null;
+        }
+
         private bool isKeepAliveMessage(int mid) { return (mid == 9999); }
 
         private bool isCommunicationMessage(int mid) { return (mid > 0 && mid < 4); }
@@ -65,7 +69,7 @@ namespace OpenProtocolInterpreter.MIDs
 
         private bool isUserInterfaceMessage(int mid) { return (mid > 109 && mid < 114); }
 
-        private bool isAdvancedJobMessage(int mid) { return (mid > 119  && mid < 141); }
+        private bool isAdvancedJobMessage(int mid) { return (mid > 119 && mid < 141); }
 
         private bool isMultipleIdentifiersMessage(int mid) { return (mid > 149 && mid < 158); }
 
