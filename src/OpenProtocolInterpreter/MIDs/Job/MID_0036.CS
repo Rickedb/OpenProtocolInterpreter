@@ -1,4 +1,5 @@
-﻿namespace OpenProtocolInterpreter.MIDs.Job
+﻿using System;
+namespace OpenProtocolInterpreter.MIDs.Job
 {
     /// <summary>
     /// MID: Job info acknowledge
@@ -8,7 +9,7 @@
     /// </summary>
     public class MID_0036 : MID
     {
-        private readonly Interfaces.IMID nextTemplate;
+        private readonly IMID nextTemplate;
 
         private const int length = 20;
         private const int mid = 36;
@@ -16,7 +17,7 @@
 
         public MID_0036() : base(length, mid, revision) {  }
 
-        public MID_0036(Interfaces.IMID nextTemplate) : base(length, mid, revision)
+        public MID_0036(IMID nextTemplate) : base(length, mid, revision)
         {
             this.nextTemplate = nextTemplate;
         }
@@ -26,7 +27,7 @@
             if(base.isCorrectType(package))
                 return (MID_0036)base.processPackage(package);
 
-            return this.nextTemplate.processPackage(package);
+            throw new NotImplementedException("MID not implemented or doesn't exists!");
         }
     }
 }

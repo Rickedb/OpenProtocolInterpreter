@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenProtocolInterpreter.MIDs.Tightening
 {
@@ -20,6 +16,30 @@ namespace OpenProtocolInterpreter.MIDs.Tightening
         private const int mid = 61;
         private const int revision = 1;
 
+        public int CellID { get; set; }
+        public int ChannelID { get; set; }
+        public string TorqueControllerName { get; set; }
+        public string VINNumber { get; set; }
+        public int JobID { get; set; }
+        public int ParameterSetID { get; set; }
+        public int BatchSize { get; set; }
+        public int BatchCounter { get; set; }
+        public bool TighteningStatus { get; set; }
+        public TighteningValuesStatuses TorqueStatus { get; set; }
+        public TighteningValuesStatuses AngleStatus { get; set; }
+        public decimal TorqueMinLimit { get; set; }
+        public decimal TorqueMaxLimit { get; set; }
+        public decimal TorqueFinalTarget { get; set; }
+        public decimal Torque { get; set; }
+        public int AngleMinLimit { get; set; }
+        public int AngleMaxLimit { get; set; }
+        public int AngleFinalTarget { get; set; }
+        public int Angle { get; set; }
+        public DateTime TimeStamp { get; set; }
+        public DateTime LastChangeInParameterSet { get; set; }
+        public BatchStatuses BatchStatus { get; set; }
+        public int TighteningID { get; set; }
+
         public MID_0061() : base(length, mid, revision)
         {
 
@@ -32,9 +52,35 @@ namespace OpenProtocolInterpreter.MIDs.Tightening
 
         public override MID processPackage(string package)
         {
-            if(base.isCorrectType(package))
+            if (base.isCorrectType(package))
             {
+                base.processPackage(package);
 
+                this.CellID = (int)base.RegisteredDataFields[(int)DataFields.CELL_ID].Value;
+                this.ChannelID = (int)base.RegisteredDataFields[(int)DataFields.CHANNEL_ID].Value;
+                this.TorqueControllerName = base.RegisteredDataFields[(int)DataFields.TORQUE_CONTROLLER_NAME].Value.ToString();
+                this.VINNumber = base.RegisteredDataFields[(int)DataFields.VIN_NUMBER].Value.ToString();
+                this.JobID = (int)base.RegisteredDataFields[(int)DataFields.JOB_ID].Value;
+                this.ParameterSetID = (int)base.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].Value;
+                this.BatchSize = (int)base.RegisteredDataFields[(int)DataFields.BATCH_SIZE].Value;
+                this.BatchCounter = (int)base.RegisteredDataFields[(int)DataFields.BATCH_COUNTER].Value;
+                this.TighteningStatus = Convert.ToBoolean(base.RegisteredDataFields[(int)DataFields.TIGHTENING_STATUS].Value);
+                this.TorqueStatus = (TighteningValuesStatuses)(int)base.RegisteredDataFields[(int)DataFields.TORQUE_STATUS].Value;
+                this.AngleStatus = (TighteningValuesStatuses)(int)base.RegisteredDataFields[(int)DataFields.ANGLE_STATUS].Value;
+                this.TorqueMinLimit = (int)base.RegisteredDataFields[(int)DataFields.TORQUE_MIN_LIMIT].Value / 100;
+                this.TorqueMaxLimit = ((int)base.RegisteredDataFields[(int)DataFields.TORQUE_MAX_LIMIT].Value) / 100;
+                this.TorqueFinalTarget = ((int)base.RegisteredDataFields[(int)DataFields.TORQUE_FINAL_TARGET].Value) / 100;
+                this.Torque= ((int)base.RegisteredDataFields[(int)DataFields.TORQUE].Value) / 100;
+                this.AngleMinLimit = (int)base.RegisteredDataFields[(int)DataFields.ANGLE_MIN_LIMIT].Value;
+                this.AngleMaxLimit = (int)base.RegisteredDataFields[(int)DataFields.ANGLE_MAX_LIMIT].Value;
+                this.AngleFinalTarget = (int)base.RegisteredDataFields[(int)DataFields.ANGLE_FINAL_TARGET].Value;
+                this.Angle = (int)base.RegisteredDataFields[(int)DataFields.ANGLE].Value;
+                this.TimeStamp = Convert.ToDateTime(base.RegisteredDataFields[(int)DataFields.TIMESTAMP].Value);
+                this.LastChangeInParameterSet = Convert.ToDateTime(base.RegisteredDataFields[(int)DataFields.LAST_CHANGE_IN_PARAMETER_SET].Value);
+                this.BatchStatus = (BatchStatuses)(int)base.RegisteredDataFields[(int)DataFields.ANGLE_STATUS].Value;
+                this.TighteningID = (int)base.RegisteredDataFields[(int)DataFields.TIGHTENING_ID].Value;
+
+                return this;
             }
 
             return this.nextTemplate.processPackage(package);
@@ -96,6 +142,20 @@ namespace OpenProtocolInterpreter.MIDs.Tightening
             LAST_CHANGE_IN_PARAMETER_SET,
             BATCH_STATUS,
             TIGHTENING_ID
+        }
+
+        public enum TighteningValuesStatuses
+        {
+            LOW,
+            OK,
+            HIGH
+        }
+
+        public enum BatchStatuses
+        {
+            NOK,
+            OK,
+            NOT_USED
         }
     }
 }

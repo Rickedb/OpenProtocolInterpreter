@@ -1,0 +1,37 @@
+﻿using System;
+
+namespace OpenProtocolInterpreter.MIDs.Job.Advanced
+{
+    /// <summary>
+    /// MID: Abort Job
+    /// Description: Abort the current running job if there is one.
+    /// Message sent by: Integrator
+    /// Answer: MID 0005
+    /// </summary>
+    public class MID_0127 : MID
+    {
+        private readonly IMID nextTemplate;
+
+        private const int length = 22;
+        private const int mid = 38;
+        private const int revision = 1;
+
+        public MID_0127() : base(length, mid, revision)
+        {
+
+        }
+
+        public MID_0127(IMID nextTemplate) : base(length, mid, revision)
+        {
+            this.nextTemplate = nextTemplate;
+        }
+
+        public override MID processPackage(string package)
+        {
+            if (base.isCorrectType(package))
+                return (MID_0127)base.processPackage(package);
+
+            throw new NotImplementedException("MID not implemented or doesn't exists!");
+        }
+    }
+}

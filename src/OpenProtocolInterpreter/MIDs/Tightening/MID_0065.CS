@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenProtocolInterpreter.MIDs.Tightening
 {
@@ -14,18 +10,111 @@ namespace OpenProtocolInterpreter.MIDs.Tightening
     /// </summary>
     public class MID_0065 : MID
     {
+        private readonly IMID nextTemplate;
+
         private const int length = 118;
         private const int mid = 65;
         private const int revision = 1;
         
+        public int TighteningID { get; set; }
+        public string VINNumber { get; set; }
+        public int ParameterSetID { get; set; }
+        public int BatchCounter { get; set; }
+        public bool TighteningStatus { get; set; }
+        public TighteningValuesStatuses TorqueStatus { get; set; }
+        public TighteningValuesStatuses AngleStatus { get; set; }
+        public decimal Torque { get; set; }
+        public int Angle { get; set; }
+        public DateTime TimeStamp { get; set; }
+        public BatchStatuses BatchStatus { get; set; }
+
+
         public MID_0065() : base(length, mid, revision)
         {
 
         }
 
-        public override IEnumerable<DataField> processPackage(string package)
+        public MID_0065(IMID nextTemplate) : base(length, mid, revision)
         {
-            throw new NotImplementedException();
+            this.nextTemplate = nextTemplate;
+        }
+
+        public override MID processPackage(string package)
+        {
+            if (base.isCorrectType(package))
+            {
+                base.processPackage(package);
+
+                this.TighteningID = (int)base.RegisteredDataFields[(int)DataFields.TIGHTENING_ID].Value;
+                this.VINNumber = base.RegisteredDataFields[(int)DataFields.VIN_NUMBER].Value.ToString();
+                this.ParameterSetID = (int)base.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].Value;
+                this.BatchCounter = (int)base.RegisteredDataFields[(int)DataFields.BATCH_COUNTER].Value;
+                this.TighteningStatus = Convert.ToBoolean(base.RegisteredDataFields[(int)DataFields.TIGHTENING_STATUS].Value);
+                this.TorqueStatus = (TighteningValuesStatuses)(int)base.RegisteredDataFields[(int)DataFields.TORQUE_STATUS].Value;
+                this.AngleStatus = (TighteningValuesStatuses)(int)base.RegisteredDataFields[(int)DataFields.ANGLE_STATUS].Value;
+                this.Torque = ((int)base.RegisteredDataFields[(int)DataFields.TORQUE].Value) / 100;
+                this.Angle = (int)base.RegisteredDataFields[(int)DataFields.ANGLE].Value;
+                this.TimeStamp = Convert.ToDateTime(base.RegisteredDataFields[(int)DataFields.TIMESTAMP].Value);
+                this.BatchStatus = (BatchStatuses)(int)base.RegisteredDataFields[(int)DataFields.ANGLE_STATUS].Value;
+                
+
+                return this;
+            }
+
+            if(this.nextTemplate == null)
+                throw new NotImplementedException("MID not implemented or doesn't exists");
+
+
+            return this.nextTemplate.processPackage(package);
+        }
+
+
+        private void registerDatafields()
+        {
+            this.RegisteredDataFields.AddRange(
+                new DataField[]
+                {
+                    new DataField((int)DataFields.TIGHTENING_ID, 20, 10),
+                    new DataField((int)DataFields.VIN_NUMBER, 32, 25),
+                    new DataField((int)DataFields.PARAMETER_SET_ID, 59, 3),
+                    new DataField((int)DataFields.BATCH_COUNTER, 64, 4),
+                    new DataField((int)DataFields.TIGHTENING_STATUS, 70, 1),
+                    new DataField((int)DataFields.TORQUE_STATUS, 73, 1),
+                    new DataField((int)DataFields.ANGLE_STATUS, 76, 1),
+                    new DataField((int)DataFields.TORQUE, 79, 6),
+                    new DataField((int)DataFields.ANGLE, 87, 5),
+                    new DataField((int)DataFields.TIMESTAMP, 94, 19),
+                    new DataField((int)DataFields.BATCH_STATUS, 115, 1)
+                });
+        }
+
+        public enum DataFields
+        {
+            TIGHTENING_ID,
+            VIN_NUMBER,
+            PARAMETER_SET_ID,
+            BATCH_COUNTER,
+            TIGHTENING_STATUS,
+            TORQUE_STATUS,
+            ANGLE_STATUS,
+            TORQUE,
+            ANGLE,
+            TIMESTAMP,
+            BATCH_STATUS
+        }
+
+        public enum TighteningValuesStatuses
+        {
+            LOW,
+            OK,
+            HIGH
+        }
+
+        public enum BatchStatuses
+        {
+            NOK,
+            OK,
+            NOT_USED
         }
     }
 }

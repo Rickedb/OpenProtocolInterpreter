@@ -41,13 +41,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MIDs\DataField.cs" />
+    <Compile Include="MIDs\IMessagesTemplate.cs" />
     <Compile Include="MIDs\IMID.cs" />
+    <Compile Include="MIDs\Job\Advanced\AdvancedJobMessages.cs" />
+    <Compile Include="MIDs\Job\JobMessages.cs" />
     <Compile Include="MIDs\Job\MID_0034.CS" />
     <Compile Include="MIDs\Job\MID_0035.CS" />
     <Compile Include="MIDs\Job\MID_0036.CS" />
     <Compile Include="MIDs\Job\MID_0037.CS" />
     <Compile Include="MIDs\Job\MID_0038.CS" />
-    <Compile Include="MIDs\Job\MID_0127.CS" />
+    <Compile Include="MIDs\Job\Advanced\MID_0127.CS" />
     <Compile Include="MIDs\KeepAlive\MID_9999.CS" />
     <Compile Include="MIDs\MID.cs" />
     <Compile Include="MIDs\MIDIdentifier.cs" />
@@ -57,8 +60,10 @@
     <Compile Include="MIDs\Tightening\MID_0060.CS" />
     <Compile Include="MIDs\Tightening\MID_0061.CS" />
     <Compile Include="MIDs\Tightening\MID_0062.CS" />
+    <Compile Include="MIDs\Tightening\MID_0063.cs" />
     <Compile Include="MIDs\Tightening\MID_0064.CS" />
     <Compile Include="MIDs\Tightening\MID_0065.CS" />
+    <Compile Include="MIDs\Tightening\TighteningMessages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -67,7 +72,6 @@
     <Folder Include="MIDs\Communication\" />
     <Folder Include="MIDs\Controller\" />
     <Folder Include="MIDs\IOInterface\" />
-    <Folder Include="MIDs\Job\Advanced\" />
     <Folder Include="MIDs\MotorTuning\" />
     <Folder Include="MIDs\MultipleIdentifiers\" />
     <Folder Include="MIDs\MultiSpindle\" />
@@ -81,7 +85,7 @@
     <Folder Include="MIDs\ToolLocationSystem\" />
     <Folder Include="MIDs\Tool\" />
     <Folder Include="MIDs\UserInterface\" />
-    <Folder Include="MIDs\vin\" />
+    <Folder Include="MIDs\VIN\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

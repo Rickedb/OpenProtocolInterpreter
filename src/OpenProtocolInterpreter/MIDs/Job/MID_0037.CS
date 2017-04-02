@@ -8,7 +8,7 @@
     /// </summary>
     public class MID_0037 : MID
     {
-        private readonly Interfaces.IMID nextTemplate;
+        private readonly IMID nextTemplate;
 
         private const int length = 20;
         private const int mid = 37;
@@ -16,7 +16,7 @@
         
         public MID_0037() : base(length, mid, revision) { }
 
-        public MID_0037(Interfaces.IMID nextTemplate) : base(length, mid, revision)
+        public MID_0037(IMID nextTemplate) : base(length, mid, revision)
         {
             this.nextTemplate = nextTemplate;
         }

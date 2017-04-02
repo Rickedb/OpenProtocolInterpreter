@@ -16,7 +16,7 @@ namespace OpenProtocolInterpreter.MIDs.Job
     /// </summary>
     public class MID_0038 : MID
     {
-        private readonly Interfaces.IMID nextTemplate;
+        private readonly IMID nextTemplate;
 
         private const int length = 22;
         private const int mid = 38;
@@ -30,7 +30,7 @@ namespace OpenProtocolInterpreter.MIDs.Job
             this.JobID = jobId;
         }
 
-        public MID_0038(Interfaces.IMID nextTemplate) : base(length, mid, revision)
+        public MID_0038(IMID nextTemplate) : base(length, mid, revision)
         {
             this.registerDatafields();
             this.nextTemplate = nextTemplate;
@@ -42,6 +42,7 @@ namespace OpenProtocolInterpreter.MIDs.Job
             {
                 base.processPackage(package);
                 this.JobID = (int)base.RegisteredDataFields[(int)DataFields.JOB_ID].Value;
+                return this;
             }
 
             return this.nextTemplate.processPackage(package);

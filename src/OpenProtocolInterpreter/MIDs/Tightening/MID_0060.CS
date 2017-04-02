@@ -1,4 +1,5 @@
-﻿namespace OpenProtocolInterpreter.MIDs.Tightening
+﻿using System;
+namespace OpenProtocolInterpreter.MIDs.Tightening
 {
     /// <summary>
     /// MID: Last tightening result data subscribe
@@ -34,7 +35,7 @@
             if(base.isCorrectType(package))
                 return base.processPackage(package);
 
-            return this.nextTemplate.processPackage(package);
+            throw new NotImplementedException("MID not implemented or doesn't exists");
         }
     }
 }

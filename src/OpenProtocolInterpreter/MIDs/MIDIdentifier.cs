@@ -8,40 +8,33 @@ namespace OpenProtocolInterpreter.MIDs
 {
     public class MIDIdentifier
     {
-        private readonly IMID midTemplates;
+        private readonly Dictionary<Func<int, bool>, Func<string, MID>> messageInterpreterTemplates;
 
         public MIDIdentifier()
         {
-
+            this.messageInterpreterTemplates = new Dictionary<Func<int, bool>, Func<string, MID>>()
+            {
+                { mid => this.isKeepAliveMessage(mid), package => new KeepAlive.MID_9999() },
+                { mid => this.isReplyMessage(mid), package => new Reply.ReplyMessages().processPackage(package) },
+                { mid => this.isTighteningMessage(mid), package => new Tightening.TighteningMessages().processPackage(package) },
+                { mid => this.isJobMessage(mid), package => new Job.JobMessages().processPackage(package) },
+                { mid => this.isAdvancedJobMessage(mid), package => new Job.Advanced.AdvancedJobMessages().processPackage(package) }
+            };
         }
 
         public MID IdentifyMid(string package)
         {
             int mid = int.Parse(package.Substring(4, 4));
 
-            if (this.isKeepAliveMessage(mid))
-            {
-                return new KeepAlive.MID_9999();
-            }
-            else
-            {
-                if (this.isCommunicationMessage(mid))
-                {
-
-                }
-                else
-                {
-                    //if()
-                }
-            }
-
-            throw new NotImplementedException();
+            var func = this.messageInterpreterTemplates.FirstOrDefault(x => x.Key(mid));
+            return func.Value(package);
         }
 
-        public ExpectedMid processPackage<ExpectedMid>(string package) where ExpectedMid : MID
+        public ExpectedMid IdentifyMid<ExpectedMid>(string package) where ExpectedMid : MID
         {
-            return null;
+            return (ExpectedMid)this.IdentifyMid(package);
         }
+
 
         private bool isKeepAliveMessage(int mid) { return (mid == 9999); }
 

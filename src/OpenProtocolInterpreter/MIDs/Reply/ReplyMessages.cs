@@ -1,6 +1,6 @@
 ﻿namespace OpenProtocolInterpreter.MIDs.Reply
 {
-    public class ReplyMessages
+    internal class ReplyMessages : IMessagesTemplate
     {
         private readonly IMID templates;
 

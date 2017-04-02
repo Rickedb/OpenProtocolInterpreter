@@ -35,7 +35,7 @@ namespace OpenProtocolInterpreter.MIDs.KeepAlive
             if (this.isCorrectType(package))
                 return base.processPackage(package);
 
-            throw new NotImplementedException("O MID <" + mid + "> não está implementado!");
+            throw new NotImplementedException("MID not implemented or doesn't exists!");
         }
     }
 }

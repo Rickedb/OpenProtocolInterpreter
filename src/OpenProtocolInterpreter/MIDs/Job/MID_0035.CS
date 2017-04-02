@@ -17,7 +17,7 @@ namespace OpenProtocolInterpreter.MIDs.Job
     /// </summary>
     public class MID_0035 : MID
     {
-        private readonly Interfaces.IMID nextTemplate;
+        private readonly IMID nextTemplate;
 
         private const int length = 63;
         private const int mid = 35;
@@ -42,7 +42,7 @@ namespace OpenProtocolInterpreter.MIDs.Job
             this.constructMe(jobId, jobStatus, jobBatchMode, jobBatchSize, jobBatchCounter, timestamp);
         }
 
-        public MID_0035(Interfaces.IMID nextTemplate) : base(length, mid, revision)
+        public MID_0035(IMID nextTemplate) : base(length, mid, revision)
         {
             this.registerDatafields();
             this.nextTemplate = nextTemplate;

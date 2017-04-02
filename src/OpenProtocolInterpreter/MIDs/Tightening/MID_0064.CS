@@ -21,18 +21,45 @@ namespace OpenProtocolInterpreter.MIDs.Tightening
     /// </summary>
     public class MID_0064 : MID
     {
+        private readonly IMID nextTemplate;
+
         private const int length = 30;
         private const int mid = 64;
         private const int revision = 1;
+        
+        public int TighteningID { get; set; }
 
-        public MID_0064() : base(length, mid, revision)
+        public MID_0064(int tighteningId) : base(length, mid, revision)
         {
-
+            this.registerDatafields();
+            this.TighteningID = tighteningId;
         }
 
-        public override IEnumerable<DataField> processPackage(string package)
+        public MID_0064(IMID nextTemplate) : base(length, mid, revision)
         {
-            throw new NotImplementedException();
+            this.registerDatafields();
+            this.nextTemplate = nextTemplate;
+        }
+
+        public override MID processPackage(string package)
+        {
+            if (base.isCorrectType(package))
+            {
+                base.processPackage(package);
+                this.TighteningID = (int)base.RegisteredDataFields[(int)DataFields.TIGHTENING_ID].Value;
+            }
+
+            return this.nextTemplate.processPackage(package);
+        }
+
+        private void registerDatafields()
+        {
+            this.RegisteredDataFields.Add(new DataField((int)DataFields.TIGHTENING_ID, 20, 10));
+        }
+
+        public enum DataFields
+        {
+            TIGHTENING_ID
         }
     }
 }
