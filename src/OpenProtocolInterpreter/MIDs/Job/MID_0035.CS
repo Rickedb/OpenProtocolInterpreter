@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenProtocolInterpreter.MIDs.Job
 {
@@ -65,12 +61,14 @@ namespace OpenProtocolInterpreter.MIDs.Job
             {
                 base.processPackage(package);
 
-                this.JobID = (int)base.RegisteredDataFields[(int)DataFields.JOB_ID].Value;
-                this.JobStatus = (JobStatuses)base.RegisteredDataFields[(int)DataFields.JOB_STATUS].Value;
-                this.JobBatchMode = (JobBatchModes)base.RegisteredDataFields[(int)DataFields.JOB_BATCH_MODE].Value;
-                this.JobBatchSize = (int)base.RegisteredDataFields[(int)DataFields.JOB_BATCH_SIZE].Value;
-                this.JobBatchCounter = (int)base.RegisteredDataFields[(int)DataFields.JOB_BATCH_COUNTER].Value;
-                this.TimeStamp = Convert.ToDateTime(base.RegisteredDataFields[(int)DataFields.TIMESTAMP].Value);
+                this.JobID = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.JOB_ID].Value);
+                this.JobStatus = (JobStatuses)Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.JOB_STATUS].Value);
+                this.JobBatchMode = (JobBatchModes)Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.JOB_BATCH_MODE].Value);
+                this.JobBatchSize = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.JOB_BATCH_SIZE].Value);
+                this.JobBatchCounter = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.JOB_BATCH_COUNTER].Value);
+
+                var timestamp = base.RegisteredDataFields[(int)DataFields.TIMESTAMP].Value.ToString();
+                this.TimeStamp = Convert.ToDateTime(timestamp.Substring(0, 10) + " " + timestamp.Substring(11, 8));
 
                 return this;
             }

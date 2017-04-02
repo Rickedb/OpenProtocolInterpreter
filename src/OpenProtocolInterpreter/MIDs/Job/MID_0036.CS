@@ -1,5 +1,4 @@
-﻿using System;
-namespace OpenProtocolInterpreter.MIDs.Job
+﻿namespace OpenProtocolInterpreter.MIDs.Job
 {
     /// <summary>
     /// MID: Job info acknowledge
@@ -27,7 +26,7 @@ namespace OpenProtocolInterpreter.MIDs.Job
             if(base.isCorrectType(package))
                 return (MID_0036)base.processPackage(package);
 
-            throw new NotImplementedException("MID not implemented or doesn't exists!");
+            return this.nextTemplate.processPackage(package);
         }
     }
 }

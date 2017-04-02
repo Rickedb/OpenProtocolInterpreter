@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.MIDs.Job.Advanced
 
         public MID processPackage(string package)
         {
-            throw new NotImplementedException();
+            return this.nextTemplate.processPackage(package);
         }
     }
 }

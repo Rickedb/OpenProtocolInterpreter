@@ -36,12 +36,22 @@ namespace OpenProtocolInterpreter.MIDs.Job
             this.nextTemplate = nextTemplate;
         }
 
+        public override string buildPackage()
+        {
+            if (this.JobID == 0)
+                throw new ArgumentNullException("JobID cannot be null");
+
+            return base.buildHeader() + this.JobID.ToString().PadLeft(2, '0');
+        }
+
+
         public override MID processPackage(string package)
         {
             if (base.isCorrectType(package))
             {
-                base.processPackage(package);
-                this.JobID = (int)base.RegisteredDataFields[(int)DataFields.JOB_ID].Value;
+                base.HeaderData = base.processHeader(package);
+                var dataField = base.RegisteredDataFields[(int)DataFields.JOB_ID];
+                this.JobID = Convert.ToInt32(package.Substring(dataField.Index, dataField.Size));
                 return this;
             }
 

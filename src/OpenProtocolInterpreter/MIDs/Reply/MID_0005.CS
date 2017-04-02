@@ -52,8 +52,9 @@ namespace OpenProtocolInterpreter.MIDs.Reply
         {
             if (base.isCorrectType(package))
             {
-                base.processPackage(package);
-                this.MIDAccepted = (int)base.RegisteredDataFields[(int)DataFields.MIDAccepted].Value;
+                this.HeaderData = this.processHeader(package);
+                var dataField = base.RegisteredDataFields[(int)DataFields.MIDAccepted];
+                this.MIDAccepted = Convert.ToInt32(package.Substring(dataField.Index, dataField.Size));
                 return this;
             }
 
