@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace OpenProtocolInterpreter.MIDs.Tightening
 {
     /// <summary>
@@ -41,12 +36,16 @@ namespace OpenProtocolInterpreter.MIDs.Tightening
             this.nextTemplate = nextTemplate;
         }
 
+        public override string buildPackage() { return base.buildHeader() + this.TighteningID.ToString().PadRight(10, ' '); }
+
         public override MID processPackage(string package)
         {
             if (base.isCorrectType(package))
             {
-                base.processPackage(package);
-                this.TighteningID = (int)base.RegisteredDataFields[(int)DataFields.TIGHTENING_ID].Value;
+                this.HeaderData = this.processHeader(package);
+                var dataField = base.RegisteredDataFields[(int)DataFields.TIGHTENING_ID];
+                this.TighteningID = Convert.ToInt32(package.Substring(dataField.Index, dataField.Size));
+                return this;
             }
 
             return this.nextTemplate.processPackage(package);

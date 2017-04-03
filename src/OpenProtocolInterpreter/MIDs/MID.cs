@@ -83,8 +83,6 @@ namespace OpenProtocolInterpreter.MIDs
                 dataField.Value = package.Substring(2 + dataField.Index, dataField.Size);
         }
 
-        
-
         public struct Header
         {
             public int Length { get; set; }

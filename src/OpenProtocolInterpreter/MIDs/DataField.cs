@@ -52,6 +52,12 @@
             return this.Value.ToString().PadRight(this.Size, character);
         }
 
+        public System.DateTime ToDateTime()
+        {
+            var date = this.Value.ToString();
+            return System.Convert.ToDateTime(date.Substring(0, 10) + " " + date.Substring(11, 8));
+        }
+
         private void createObject(int field, int index, int size, object value)
         {
             this.Field = field;

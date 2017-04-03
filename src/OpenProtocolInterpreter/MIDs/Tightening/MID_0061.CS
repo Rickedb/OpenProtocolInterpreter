@@ -42,11 +42,12 @@ namespace OpenProtocolInterpreter.MIDs.Tightening
 
         public MID_0061() : base(length, mid, revision)
         {
-
+            this.registerDatafields();
         }
 
         public MID_0061(IMID nextTemplate) : base(length, mid, revision)
         {
+            this.registerDatafields();
             this.nextTemplate = nextTemplate;
         }
 
@@ -56,29 +57,29 @@ namespace OpenProtocolInterpreter.MIDs.Tightening
             {
                 base.processPackage(package);
 
-                this.CellID = (int)base.RegisteredDataFields[(int)DataFields.CELL_ID].Value;
-                this.ChannelID = (int)base.RegisteredDataFields[(int)DataFields.CHANNEL_ID].Value;
+                this.CellID = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.CELL_ID].Value);
+                this.ChannelID = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.CHANNEL_ID].Value);
                 this.TorqueControllerName = base.RegisteredDataFields[(int)DataFields.TORQUE_CONTROLLER_NAME].Value.ToString();
                 this.VINNumber = base.RegisteredDataFields[(int)DataFields.VIN_NUMBER].Value.ToString();
-                this.JobID = (int)base.RegisteredDataFields[(int)DataFields.JOB_ID].Value;
-                this.ParameterSetID = (int)base.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].Value;
-                this.BatchSize = (int)base.RegisteredDataFields[(int)DataFields.BATCH_SIZE].Value;
-                this.BatchCounter = (int)base.RegisteredDataFields[(int)DataFields.BATCH_COUNTER].Value;
-                this.TighteningStatus = Convert.ToBoolean(base.RegisteredDataFields[(int)DataFields.TIGHTENING_STATUS].Value);
-                this.TorqueStatus = (TighteningValuesStatuses)(int)base.RegisteredDataFields[(int)DataFields.TORQUE_STATUS].Value;
-                this.AngleStatus = (TighteningValuesStatuses)(int)base.RegisteredDataFields[(int)DataFields.ANGLE_STATUS].Value;
-                this.TorqueMinLimit = (int)base.RegisteredDataFields[(int)DataFields.TORQUE_MIN_LIMIT].Value / 100;
-                this.TorqueMaxLimit = ((int)base.RegisteredDataFields[(int)DataFields.TORQUE_MAX_LIMIT].Value) / 100;
-                this.TorqueFinalTarget = ((int)base.RegisteredDataFields[(int)DataFields.TORQUE_FINAL_TARGET].Value) / 100;
-                this.Torque= ((int)base.RegisteredDataFields[(int)DataFields.TORQUE].Value) / 100;
-                this.AngleMinLimit = (int)base.RegisteredDataFields[(int)DataFields.ANGLE_MIN_LIMIT].Value;
-                this.AngleMaxLimit = (int)base.RegisteredDataFields[(int)DataFields.ANGLE_MAX_LIMIT].Value;
-                this.AngleFinalTarget = (int)base.RegisteredDataFields[(int)DataFields.ANGLE_FINAL_TARGET].Value;
-                this.Angle = (int)base.RegisteredDataFields[(int)DataFields.ANGLE].Value;
-                this.TimeStamp = Convert.ToDateTime(base.RegisteredDataFields[(int)DataFields.TIMESTAMP].Value);
-                this.LastChangeInParameterSet = Convert.ToDateTime(base.RegisteredDataFields[(int)DataFields.LAST_CHANGE_IN_PARAMETER_SET].Value);
-                this.BatchStatus = (BatchStatuses)(int)base.RegisteredDataFields[(int)DataFields.ANGLE_STATUS].Value;
-                this.TighteningID = (int)base.RegisteredDataFields[(int)DataFields.TIGHTENING_ID].Value;
+                this.JobID = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.JOB_ID].Value);
+                this.ParameterSetID = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].Value);
+                this.BatchSize = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.BATCH_SIZE].Value);
+                this.BatchCounter = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.BATCH_COUNTER].Value);
+                this.TighteningStatus = Convert.ToBoolean(Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.TIGHTENING_STATUS].Value));
+                this.TorqueStatus = (TighteningValuesStatuses)Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.TORQUE_STATUS].Value);
+                this.AngleStatus = (TighteningValuesStatuses)Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.ANGLE_STATUS].Value);
+                this.TorqueMinLimit = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.TORQUE_MIN_LIMIT].Value) / 100;
+                this.TorqueMaxLimit = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.TORQUE_MAX_LIMIT].Value) / 100;
+                this.TorqueFinalTarget = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.TORQUE_FINAL_TARGET].Value) / 100;
+                this.Torque= Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.TORQUE].Value) / 100;
+                this.AngleMinLimit = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.ANGLE_MIN_LIMIT].Value);
+                this.AngleMaxLimit = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.ANGLE_MAX_LIMIT].Value);
+                this.AngleFinalTarget = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.ANGLE_FINAL_TARGET].Value);
+                this.Angle = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.ANGLE].Value);
+                this.TimeStamp = base.RegisteredDataFields[(int)DataFields.TIMESTAMP].ToDateTime();
+                this.LastChangeInParameterSet = base.RegisteredDataFields[(int)DataFields.LAST_CHANGE_IN_PARAMETER_SET].ToDateTime();
+                this.BatchStatus = (BatchStatuses)Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.ANGLE_STATUS].Value);
+                this.TighteningID = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.TIGHTENING_ID].Value);
 
                 return this;
             }

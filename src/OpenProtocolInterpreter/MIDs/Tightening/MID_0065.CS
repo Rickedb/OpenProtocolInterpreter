@@ -36,6 +36,7 @@ namespace OpenProtocolInterpreter.MIDs.Tightening
 
         public MID_0065(IMID nextTemplate) : base(length, mid, revision)
         {
+            this.registerDatafields();
             this.nextTemplate = nextTemplate;
         }
 
@@ -45,18 +46,17 @@ namespace OpenProtocolInterpreter.MIDs.Tightening
             {
                 base.processPackage(package);
 
-                this.TighteningID = (int)base.RegisteredDataFields[(int)DataFields.TIGHTENING_ID].Value;
+                this.TighteningID = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.TIGHTENING_ID].Value);
                 this.VINNumber = base.RegisteredDataFields[(int)DataFields.VIN_NUMBER].Value.ToString();
-                this.ParameterSetID = (int)base.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].Value;
-                this.BatchCounter = (int)base.RegisteredDataFields[(int)DataFields.BATCH_COUNTER].Value;
-                this.TighteningStatus = Convert.ToBoolean(base.RegisteredDataFields[(int)DataFields.TIGHTENING_STATUS].Value);
-                this.TorqueStatus = (TighteningValuesStatuses)(int)base.RegisteredDataFields[(int)DataFields.TORQUE_STATUS].Value;
-                this.AngleStatus = (TighteningValuesStatuses)(int)base.RegisteredDataFields[(int)DataFields.ANGLE_STATUS].Value;
-                this.Torque = ((int)base.RegisteredDataFields[(int)DataFields.TORQUE].Value) / 100;
-                this.Angle = (int)base.RegisteredDataFields[(int)DataFields.ANGLE].Value;
-                this.TimeStamp = Convert.ToDateTime(base.RegisteredDataFields[(int)DataFields.TIMESTAMP].Value);
-                this.BatchStatus = (BatchStatuses)(int)base.RegisteredDataFields[(int)DataFields.ANGLE_STATUS].Value;
-                
+                this.ParameterSetID = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].Value);
+                this.BatchCounter = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.BATCH_COUNTER].Value);
+                this.TighteningStatus = Convert.ToBoolean(Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.TIGHTENING_STATUS].Value));
+                this.TorqueStatus = (TighteningValuesStatuses)Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.TORQUE_STATUS].Value);
+                this.AngleStatus = (TighteningValuesStatuses)Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.ANGLE_STATUS].Value);
+                this.Torque = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.TORQUE].Value) / 100;
+                this.Angle = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.ANGLE].Value);
+                this.TimeStamp = base.RegisteredDataFields[(int)DataFields.TIMESTAMP].ToDateTime();
+                this.BatchStatus = (BatchStatuses)Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.ANGLE_STATUS].Value);
 
                 return this;
             }

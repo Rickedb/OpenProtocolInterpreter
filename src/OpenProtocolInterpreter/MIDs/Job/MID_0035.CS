@@ -66,9 +66,7 @@ namespace OpenProtocolInterpreter.MIDs.Job
                 this.JobBatchMode = (JobBatchModes)Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.JOB_BATCH_MODE].Value);
                 this.JobBatchSize = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.JOB_BATCH_SIZE].Value);
                 this.JobBatchCounter = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.JOB_BATCH_COUNTER].Value);
-
-                var timestamp = base.RegisteredDataFields[(int)DataFields.TIMESTAMP].Value.ToString();
-                this.TimeStamp = Convert.ToDateTime(timestamp.Substring(0, 10) + " " + timestamp.Substring(11, 8));
+                this.TimeStamp = base.RegisteredDataFields[(int)DataFields.TIMESTAMP].ToDateTime();
 
                 return this;
             }
