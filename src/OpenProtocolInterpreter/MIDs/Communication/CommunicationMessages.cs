@@ -1,10 +1,10 @@
-﻿namespace OpenProtocolInterpreter.MIDs.Reply
+﻿namespace OpenProtocolInterpreter.MIDs.Communication
 {
-    internal class ReplyMessages : IMessagesTemplate
+    internal class CommunicationMessages : IMessagesTemplate
     {
         private readonly IMID templates;
 
-        public ReplyMessages()
+        public CommunicationMessages()
         {
             this.templates = new MID_0005(new MID_0004(null));
         }

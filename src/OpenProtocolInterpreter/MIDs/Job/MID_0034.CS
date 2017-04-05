@@ -12,7 +12,7 @@
     {
         private readonly IMID nextTemplate;
 
-        private const int length = 63;
+        private const int length = 20;
         private const int mid = 34;
         private const int revision = 1;
 

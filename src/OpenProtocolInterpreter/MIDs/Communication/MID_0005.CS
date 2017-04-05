@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenProtocolInterpreter.MIDs.Reply
+namespace OpenProtocolInterpreter.MIDs.Communication
 {
     /// <summary>
     /// MID: Application Communication positive acknowledge
