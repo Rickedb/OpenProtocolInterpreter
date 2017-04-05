@@ -1,11 +1,11 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.MIDs;
-using OpenProtocolInterpreter.MIDs.Reply;
 using OpenProtocolInterpreter.MIDs.KeepAlive;
 using OpenProtocolInterpreter.MIDs.Job;
 using OpenProtocolInterpreter.MIDs.Job.Advanced;
 using OpenProtocolInterpreter.MIDs.Tightening;
+using OpenProtocolInterpreter.MIDs.Communication;
 
 namespace MIDTesters
 {
@@ -15,7 +15,7 @@ namespace MIDTesters
         [TestMethod]
         public void TestMIDIdentifier()
         {
-            this.TestReplyMessages();
+            this.TestCommunicationMessages();
             this.TestKeepAliveMessages();
             this.TestJobMessages();
             this.TestAdvancedJobMessages();
@@ -23,7 +23,7 @@ namespace MIDTesters
         }
 
         [TestMethod]
-        public void TestReplyMessages()
+        public void TestCommunicationMessages()
         {
             MIDIdentifier identifier = new MIDIdentifier();
 
