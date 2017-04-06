@@ -5,12 +5,7 @@
         public int Field { get; set; }
         public int Index { get; set; }
         public int Size { get; set; }
-        public object Value
-        {
-            get;
-            set;
-
-        }
+        public object Value { get; set; }
 
         public DataField(int field, int index, int size)
         {
@@ -56,6 +51,11 @@
         {
             var date = this.Value.ToString();
             return System.Convert.ToDateTime(date.Substring(0, 10) + " " + date.Substring(11, 8));
+        }
+
+        public int ToInt32()
+        {
+            return System.Convert.ToInt32(this.Value);
         }
 
         private void createObject(int field, int index, int size, object value)

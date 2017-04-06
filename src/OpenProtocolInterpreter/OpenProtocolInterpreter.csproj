@@ -64,6 +64,12 @@
     <Compile Include="MIDs\Communication\MID_0005.CS" />
     <Compile Include="MIDs\Communication\CommunicationMessages.cs" />
     <Compile Include="MIDs\ParameterSet\MID_0010.cs" />
+    <Compile Include="MIDs\ParameterSet\MID_0011.cs" />
+    <Compile Include="MIDs\ParameterSet\MID_0012.cs" />
+    <Compile Include="MIDs\ParameterSet\MID_0013.cs" />
+    <Compile Include="MIDs\ParameterSet\MID_0014.cs" />
+    <Compile Include="MIDs\ParameterSet\MID_0015.cs" />
+    <Compile Include="MIDs\ParameterSet\MID_0016.cs" />
     <Compile Include="MIDs\Tightening\MID_0060.CS" />
     <Compile Include="MIDs\Tightening\MID_0061.CS" />
     <Compile Include="MIDs\Tightening\MID_0062.CS" />
