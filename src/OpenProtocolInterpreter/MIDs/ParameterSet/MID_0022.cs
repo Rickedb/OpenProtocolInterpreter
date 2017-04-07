@@ -21,6 +21,11 @@ namespace OpenProtocolInterpreter.MIDs.ParameterSet
 
         public MID_0022() : base(length, mid, revision) { }
 
+        public MID_0022(bool relayStatus) : base(length, mid, revision)
+        {
+            this.RelayStatus = relayStatus;
+        }
+
         public MID_0022(IMID nextTemplate) : base(length, mid, revision)
         {
             this.nextTemplate = nextTemplate;

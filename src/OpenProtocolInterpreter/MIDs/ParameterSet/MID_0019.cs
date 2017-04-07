@@ -22,6 +22,12 @@ namespace OpenProtocolInterpreter.MIDs.ParameterSet
 
         public MID_0019() : base(length, mid, revision) { }
 
+        public MID_0019(int parameterSetId, int batchSize) : base(length, mid, revision)
+        {
+            this.ParameterSetID = parameterSetId;
+            this.BatchSize = batchSize;
+        }
+
         public MID_0019(IMID nextTemplate) : base(length, mid, revision)
         {
             this.nextTemplate = nextTemplate;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenProtocolInterpreter.MIDs.ParameterSet
 {
@@ -29,6 +30,11 @@ namespace OpenProtocolInterpreter.MIDs.ParameterSet
             this.ParameterSets = new List<int>();
         }
 
+        public MID_0011(IEnumerable<int> parameterSets) : base(length, mid, revision)
+        {
+            this.ParameterSets = parameterSets.ToList();
+        }
+
         public MID_0011(IMID nextTemplate) : base(length, mid, revision)
         {
             this.ParameterSets = new List<int>();
@@ -45,9 +51,7 @@ namespace OpenProtocolInterpreter.MIDs.ParameterSet
 
             var datafield = this.RegisteredDataFields[(int)DataFields.EACH_PARAMETER_SET];
             foreach(int param in this.ParameterSets)
-            {
                 package += param.ToString().PadLeft(datafield.Size, '0');
-            }
 
             return package;
         }

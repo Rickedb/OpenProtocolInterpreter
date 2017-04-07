@@ -21,6 +21,11 @@ namespace OpenProtocolInterpreter.MIDs.ParameterSet
 
         public MID_0018() : base(length, mid, revision) { }
 
+        public MID_0018(int parameterSetId) : base(length, mid, revision)
+        {
+            this.ParameterSetID = parameterSetId;
+        }
+
         public MID_0018(IMID nextTemplate) : base(length, mid, revision)
         {
             this.nextTemplate = nextTemplate;

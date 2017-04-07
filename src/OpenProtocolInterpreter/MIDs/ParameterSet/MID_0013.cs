@@ -1,5 +1,4 @@
-﻿using System;
-namespace OpenProtocolInterpreter.MIDs.ParameterSet
+﻿namespace OpenProtocolInterpreter.MIDs.ParameterSet
 {
     /// <summary>
     /// MID: Parameter set data upload reply
@@ -28,6 +27,22 @@ namespace OpenProtocolInterpreter.MIDs.ParameterSet
         public int AngleFinalTarget { get; set; }
 
         public MID_0013() : base(length, mid, revision) { }
+
+        public MID_0013(int parameterSetId, string parameterSetName, RotationDirections rotationDirection, int batchSize,
+                        decimal minTorque, decimal maxTorque, decimal torqueFinalTarget, int minAngle, int maxAngle, 
+                        int angleFinalTarget) : base(length, mid, revision)
+        {
+            this.ParameterSetID = parameterSetId;
+            this.ParameterSetName = parameterSetName;
+            this.RotationDirection = rotationDirection;
+            this.BatchSize = batchSize;
+            this.MinTorque = minTorque;
+            this.MaxTorque = maxTorque;
+            this.TorqueFinalTarget = torqueFinalTarget;
+            this.MinAngle = minAngle;
+            this.MaxAngle = maxAngle;
+            this.AngleFinalTarget = angleFinalTarget;
+        }
 
         public MID_0013(IMID nextTemplate) : base(length, mid, revision)
         {
