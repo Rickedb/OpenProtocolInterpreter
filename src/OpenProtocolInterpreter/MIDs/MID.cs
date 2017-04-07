@@ -11,7 +11,7 @@ namespace OpenProtocolInterpreter.MIDs
             this.RegisteredDataFields = new List<DataField>();
         }
 
-        public MID(int length, int mid, int revision, int? noAckFlag = null, int? spindleID = null, int? stationID = null)
+        public MID(int length, int mid, int revision, int? noAckFlag = null, int? spindleID = null, int? stationID = null, IEnumerable<DataField> usedAs = null)
         {
             this.HeaderData = new Header()
             {
@@ -20,7 +20,8 @@ namespace OpenProtocolInterpreter.MIDs
                 Revision = revision,
                 NoAckFlag = noAckFlag,
                 SpindleID = spindleID,
-                StationID = stationID
+                StationID = stationID,
+                UsedAs = usedAs
             };
             this.RegisteredDataFields = new List<DataField>();
         }
@@ -40,7 +41,7 @@ namespace OpenProtocolInterpreter.MIDs
             return false;
         }
 
-        protected string buildHeader() { return this.HeaderData.ToString(); }
+        protected virtual string buildHeader() { return this.HeaderData.ToString(); }
 
         public virtual string buildPackage()
         {
@@ -56,7 +57,7 @@ namespace OpenProtocolInterpreter.MIDs
         }
 
 
-        protected Header processHeader(string package)
+        protected virtual Header processHeader(string package)
         {
             Header header = new Header();
 
@@ -91,6 +92,7 @@ namespace OpenProtocolInterpreter.MIDs
             public int? NoAckFlag { get; set; }
             public int? SpindleID { get; set; }
             public int? StationID { get; set; }
+            public IEnumerable<DataField> UsedAs { get; set; }
 
             public override string ToString()
             {
@@ -100,8 +102,15 @@ namespace OpenProtocolInterpreter.MIDs
                 header += this.Revision.ToString().PadLeft(3, '0');
                 header += this.NoAckFlag.ToString().PadLeft(1, ' ');
                 header += (this.StationID != null) ? this.StationID.ToString().PadLeft(2, '0') : this.StationID.ToString().PadLeft(2, ' ');
-                header += (this.StationID != null) ? this.SpindleID.ToString().PadLeft(2, '0') : this.SpindleID.ToString().PadLeft(2, ' ');
-                header += "    "; //"Used as" (doesn't matter for UMI)
+                header += (this.SpindleID != null) ? this.SpindleID.ToString().PadLeft(2, '0') : this.SpindleID.ToString().PadLeft(2, ' ');
+                string usedAs = "    ";
+                if (UsedAs != null)
+                {
+                    usedAs = string.Empty;
+                    foreach (DataField field in UsedAs)
+                        usedAs += field.Value.ToString();
+                }
+                header += usedAs;
                 return header;
             }
         }
