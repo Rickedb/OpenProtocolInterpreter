@@ -35,7 +35,7 @@ namespace OpenProtocolInterpreter.MIDs.ParameterSet
             this.ParameterSets = parameterSets.ToList();
         }
 
-        public MID_0011(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0011(IMID nextTemplate) : base(length, mid, revision)
         {
             this.ParameterSets = new List<int>();
             this.nextTemplate = nextTemplate;

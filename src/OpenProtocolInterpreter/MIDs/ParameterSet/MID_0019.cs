@@ -28,7 +28,7 @@ namespace OpenProtocolInterpreter.MIDs.ParameterSet
             this.BatchSize = batchSize;
         }
 
-        public MID_0019(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0019(IMID nextTemplate) : base(length, mid, revision)
         {
             this.nextTemplate = nextTemplate;
         }

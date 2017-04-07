@@ -44,7 +44,7 @@
             this.AngleFinalTarget = angleFinalTarget;
         }
 
-        public MID_0013(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0013(IMID nextTemplate) : base(length, mid, revision)
         {
             this.nextTemplate = nextTemplate;
         }

@@ -26,7 +26,7 @@ namespace OpenProtocolInterpreter.MIDs.ParameterSet
             this.RelayStatus = relayStatus;
         }
 
-        public MID_0022(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0022(IMID nextTemplate) : base(length, mid, revision)
         {
             this.nextTemplate = nextTemplate;
         }

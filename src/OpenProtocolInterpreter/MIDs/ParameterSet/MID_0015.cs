@@ -31,7 +31,7 @@ namespace OpenProtocolInterpreter.MIDs.ParameterSet
             this.LastChangeInParameterSet = lastChangeInParameterSet;
         }
 
-        public MID_0015(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0015(IMID nextTemplate) : base(length, mid, revision)
         {
             this.nextTemplate = nextTemplate;
         }
