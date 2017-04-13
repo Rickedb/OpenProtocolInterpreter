@@ -29,7 +29,7 @@ namespace OpenProtocolInterpreter.MIDs.Job
         public override string buildPackage()
         {
             string package = base.buildHeader();
-            package += this.JobID.ToString().PadLeft(this.RegisteredDataFields[(int)DataFields.NUMBER_OF_JOBS].Size, '0');
+            package += this.JobID.ToString().PadLeft(this.RegisteredDataFields[(int)DataFields.JOB_ID].Size, '0');
             return package;
         }
 

@@ -58,6 +58,11 @@
             return System.Convert.ToInt32(this.Value);
         }
 
+        public bool ToBoolean()
+        {
+            return System.Convert.ToBoolean(this.ToInt32());
+        }
+
         private void createObject(int field, int index, int size, object value)
         {
             this.Field = field;

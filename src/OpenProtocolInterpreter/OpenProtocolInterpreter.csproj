@@ -51,6 +51,10 @@
     <Compile Include="MIDs\IMID.cs" />
     <Compile Include="MIDs\Job\Advanced\AdvancedJobMessages.cs" />
     <Compile Include="MIDs\Job\JobMessages.cs" />
+    <Compile Include="MIDs\Job\MID_0030.cs" />
+    <Compile Include="MIDs\Job\MID_0031.cs" />
+    <Compile Include="MIDs\Job\MID_0032.cs" />
+    <Compile Include="MIDs\Job\MID_0033.cs" />
     <Compile Include="MIDs\Job\MID_0034.CS" />
     <Compile Include="MIDs\Job\MID_0035.CS" />
     <Compile Include="MIDs\Job\MID_0036.CS" />
@@ -58,6 +62,8 @@
     <Compile Include="MIDs\Job\MID_0038.CS" />
     <Compile Include="MIDs\Job\Advanced\MID_0127.CS" />
     <Compile Include="MIDs\KeepAlive\MID_9999.CS" />
+    <Compile Include="MIDs\LinkCommunication\MID_9997.cs" />
+    <Compile Include="MIDs\LinkCommunication\MID_9998.cs" />
     <Compile Include="MIDs\MID.cs" />
     <Compile Include="MIDs\MIDIdentifier.cs" />
     <Compile Include="MIDs\Communication\MID_0004.CS" />
