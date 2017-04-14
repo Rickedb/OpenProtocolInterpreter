@@ -50,7 +50,7 @@
     <Compile Include="MIDs\Communication\MID_0008.cs" />
     <Compile Include="MIDs\Communication\MID_0009.cs" />
     <Compile Include="MIDs\DataField.cs" />
-    <Compile Include="MIDs\IMessagesTemplate.cs" />
+    <Compile Include="Messages\IMessagesTemplate.cs" />
     <Compile Include="MIDs\IMID.cs" />
     <Compile Include="MIDs\Job\Advanced\AdvancedJobMessages.cs" />
     <Compile Include="MIDs\Job\JobMessages.cs" />
@@ -67,6 +67,7 @@
     <Compile Include="MIDs\KeepAlive\MID_9999.CS" />
     <Compile Include="MIDs\LinkCommunication\MID_9997.cs" />
     <Compile Include="MIDs\LinkCommunication\MID_9998.cs" />
+    <Compile Include="Messages\MessageTemplateFactory.cs" />
     <Compile Include="MIDs\MID.cs" />
     <Compile Include="MIDs\MIDIdentifier.cs" />
     <Compile Include="MIDs\Communication\MID_0004.CS" />
@@ -112,7 +113,7 @@
     <Folder Include="MIDs\MultipleIdentifiers\" />
     <Folder Include="MIDs\MultiSpindle\" />
     <Folder Include="MIDs\OpenProtocolCommandsDisabled\" />
-    <Folder Include="MIDs\PLCUserData\" />
+    <Folder Include="MIDs\ParameterSet\PLCUserData\" />
     <Folder Include="MIDs\PowerMACS\" />
     <Folder Include="MIDs\Reply\" />
     <Folder Include="MIDs\Selector\" />

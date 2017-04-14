@@ -1,4 +1,7 @@
-﻿namespace OpenProtocolInterpreter.MIDs.Tightening
+﻿using OpenProtocolInterpreter.Messages;
+using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.MIDs.Tightening
 {
     internal class TighteningMessages : IMessagesTemplate
     {
@@ -17,6 +20,11 @@
         public TighteningMessages(bool onlyController)
         {
             this.templates = (onlyController) ? this.initControllerTemplates() : this.initIntegratorTemplates();
+        }
+
+        public TighteningMessages(IEnumerable<MID> selectedMids)
+        {
+            this.templates = MessageTemplateFactory.buildChainOfMids(selectedMids);
         }
 
         public MID processPackage(string package)

@@ -23,6 +23,18 @@ namespace MIDTesters
         }
 
         [TestMethod]
+        public void Test()
+        {
+            var myTEmplate = new MIDIdentifier(new MID[]
+            {
+                new MID_0001(),
+                new MID_0002(),
+                new MID_0003(),
+                new MID_0004()
+            });
+        }
+
+        [TestMethod]
         public void TestCommunicationMessages()
         {
             MIDIdentifier identifier = new MIDIdentifier();

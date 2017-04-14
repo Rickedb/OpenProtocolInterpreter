@@ -20,6 +20,18 @@ namespace OpenProtocolInterpreter.MIDs
             };
         }
 
+        public MIDIdentifier(IEnumerable<MID> selectedMids)
+        {
+            this.messageInterpreterTemplates = new Dictionary<Func<int, bool>, Func<string, MID>>()
+            {
+                { mid => this.isKeepAliveMessage(mid), package => new KeepAlive.MID_9999() },
+                { mid => this.isReplyMessage(mid), package => new Communication.CommunicationMessages(selectedMids.Where(x=> x.GetType().Namespace.Contains(".Communication"))).processPackage(package) },
+                { mid => this.isTighteningMessage(mid), package => new Tightening.TighteningMessages(selectedMids.Where(x=> x.GetType().Namespace.Contains(".Tightening"))).processPackage(package) },
+                { mid => this.isJobMessage(mid), package => new Job.JobMessages(selectedMids.Where(x=> x.GetType().Namespace.Contains(".Job"))).processPackage(package) },
+                { mid => this.isAdvancedJobMessage(mid), package => new Job.Advanced.AdvancedJobMessages(selectedMids.Where(x=> x.GetType().Namespace.Contains(".AdvancedJob"))).processPackage(package) }
+            };
+        }
+
         public MID IdentifyMid(string package)
         {
             int mid = int.Parse(package.Substring(4, 4));
@@ -32,7 +44,6 @@ namespace OpenProtocolInterpreter.MIDs
         {
             return (ExpectedMid)this.IdentifyMid(package);
         }
-
 
         private bool isKeepAliveMessage(int mid) { return (mid == 9999); }
 

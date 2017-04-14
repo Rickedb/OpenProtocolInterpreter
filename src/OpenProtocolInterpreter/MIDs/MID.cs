@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.MIDs
 {
     public abstract class MID : IMID
     {
+        protected IMID nextTemplate;
+
         public MID(Header header)
         {
             this.HeaderData = header;
@@ -113,6 +116,12 @@ namespace OpenProtocolInterpreter.MIDs
                 header += usedAs;
                 return header;
             }
+        }
+
+        internal MID setNextTemplate(MID mid)
+        {
+            this.nextTemplate = mid;
+            return this;
         }
     }
 }

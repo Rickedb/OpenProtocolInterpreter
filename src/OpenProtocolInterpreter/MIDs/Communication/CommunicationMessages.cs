@@ -1,4 +1,8 @@
-﻿namespace OpenProtocolInterpreter.MIDs.Communication
+﻿using System.Linq;
+using System.Collections.Generic;
+using OpenProtocolInterpreter.Messages;
+
+namespace OpenProtocolInterpreter.MIDs.Communication
 {
     internal class CommunicationMessages : IMessagesTemplate
     {
@@ -7,6 +11,11 @@
         public CommunicationMessages()
         {
             this.templates = new MID_0005(new MID_0004(new MID_0001(new MID_0002(null))));
+        }
+
+        public CommunicationMessages(IEnumerable<MID> selectedMids)
+        {
+            this.templates = MessageTemplateFactory.buildChainOfMids(selectedMids);
         }
 
         public MID processPackage(string package)
