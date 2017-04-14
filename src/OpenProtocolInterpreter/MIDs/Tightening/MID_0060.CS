@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.MIDs.Tightening
     /// Answer: MID 0005 Command accepted or MID 0004 Command error, Last tightening subscription already 
     ///         exists or MID revision not supported
     /// </summary>
-    public class MID_0060 : MID
+    public class MID_0060 : MID, ITightening
     {
         private const int length = 20;
         private const int mid = 60;

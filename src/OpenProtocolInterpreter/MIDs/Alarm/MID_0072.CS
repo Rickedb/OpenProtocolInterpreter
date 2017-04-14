@@ -8,7 +8,7 @@
     /// Message sent by: Integrator
     /// Answer: None
     /// </summary>
-    public class MID_0072 : MID
+    public class MID_0072 : MID, IAlarm
     {
         private const int length = 20;
         private const int mid = 72;

@@ -14,7 +14,7 @@ namespace OpenProtocolInterpreter.MIDs.Job
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted or MID 0004 Command error, Job can not be set, or Invalid data
     /// </summary>
-    public class MID_0038 : MID
+    public class MID_0038 : MID, IJob
     {
         private const int length = 22;
         private const int mid = 38;

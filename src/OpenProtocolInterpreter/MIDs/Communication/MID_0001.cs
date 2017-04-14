@@ -9,7 +9,7 @@
     /// Answer: MID 0002 Communication start acknowledge or MID 0004 Command error, 
     ///         Client already connected or MID revision unsupported
     /// </summary>
-    public class MID_0001 : MID
+    public class MID_0001 : MID, ICommunication
     {
         private const int length = 20;
         private const int mid = 1;

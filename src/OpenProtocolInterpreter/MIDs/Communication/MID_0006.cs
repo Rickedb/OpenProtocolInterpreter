@@ -17,7 +17,7 @@ namespace OpenProtocolInterpreter.MIDs.Communication
     /// Message sent by: Integrator
     /// Answer: MID Requested for or MID 0004 Command error. Error described at each MID description.
     /// </summary>
-    public class MID_0006 : MID
+    public class MID_0006 : MID, ICommunication
     {
         private const int length = 24;
         private const int mid = 5;

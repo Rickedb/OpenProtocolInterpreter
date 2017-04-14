@@ -6,7 +6,7 @@
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted or MID 0004 Command error, Last tightening result subscription does not exist
     /// </summary>
-    public class MID_0063 :MID
+    public class MID_0063 : MID, ITightening
     {
         private const int length = 20;
         private const int mid = 63;

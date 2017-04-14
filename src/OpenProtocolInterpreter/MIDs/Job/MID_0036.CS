@@ -6,7 +6,7 @@
     /// Message sent by: Integrator
     /// Answer: None
     /// </summary>
-    public class MID_0036 : MID
+    public class MID_0036 : MID, IJob
     {
         private const int length = 20;
         private const int mid = 36;

@@ -8,7 +8,7 @@ namespace OpenProtocolInterpreter.MIDs.Tightening
     /// Message sent by: Controller
     /// Answer: None
     /// </summary>
-    public class MID_0065 : MID
+    public class MID_0065 : MID, ITightening
     {
         private const int length = 118;
         private const int mid = 65;

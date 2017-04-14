@@ -8,7 +8,7 @@
     /// Message sent by: Integrator
     /// Answer: MID 0031 Job ID upload reply
     /// </summary>
-    public class MID_0030 : MID
+    public class MID_0030 : MID, IJob
     {
         private const int length = 20;
         private const int mid = 30;

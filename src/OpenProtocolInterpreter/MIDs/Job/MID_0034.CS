@@ -8,7 +8,7 @@
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command Accepted or MID 0004 Command error, Job info subscription already exists
     /// </summary>
-    public class MID_0034 : MID
+    public class MID_0034 : MID, IJob
     {
         private const int length = 20;
         private const int mid = 34;

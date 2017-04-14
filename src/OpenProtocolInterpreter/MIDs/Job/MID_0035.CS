@@ -11,7 +11,7 @@ namespace OpenProtocolInterpreter.MIDs.Job
     /// Message sent by: Controller
     /// Answer: MID 0036
     /// </summary>
-    public class MID_0035 : MID
+    public class MID_0035 : MID, IJob
     {
         private const int length = 63;
         private const int mid = 35;

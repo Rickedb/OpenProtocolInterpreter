@@ -11,7 +11,7 @@ namespace OpenProtocolInterpreter.MIDs.Communication
     /// Message sent by: Controller
     /// Answer: None
     /// </summary>
-    public class MID_0002 : MID
+    public class MID_0002 : MID, ICommunication
     {
         private const int length = 20;
         private const int mid = 2;

@@ -9,7 +9,7 @@ namespace OpenProtocolInterpreter.MIDs.Job
     /// Message sent by: Integrator
     /// Answer: MID 0033 Job data upload or MID 0004 Command error, Job ID not present
     /// </summary>
-    public class MID_0032 : MID
+    public class MID_0032 : MID, IJob
     {
         private const int length = 22;
         private const int mid = 32;

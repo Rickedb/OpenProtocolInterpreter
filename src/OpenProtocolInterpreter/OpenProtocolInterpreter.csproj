@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MIDs\Alarm\AlarmMessages.cs" />
+    <Compile Include="MIDs\Alarm\IAlarm.cs" />
     <Compile Include="MIDs\Alarm\MID_0070.cs" />
     <Compile Include="MIDs\Alarm\MID_0071.cs" />
     <Compile Include="MIDs\Alarm\MID_0072.cs" />

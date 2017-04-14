@@ -9,7 +9,7 @@ namespace OpenProtocolInterpreter.MIDs.Alarm
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted or MID 0004 Command error, Alarm subscription already exists
     /// </summary>
-    public class MID_0070 : MID
+    public class MID_0070 : MID, IAlarm
     {
         private const int length = 20;
         private const int mid = 70;

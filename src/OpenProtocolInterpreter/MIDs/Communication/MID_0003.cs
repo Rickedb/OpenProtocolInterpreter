@@ -8,7 +8,7 @@
     /// Message sent by: Controller
     /// Answer: MID 0005 Command accepted
     /// </summary>
-    public class MID_0003 : MID
+    public class MID_0003 : MID, ICommunication
     {
         private const int length = 20;
         private const int mid = 3;

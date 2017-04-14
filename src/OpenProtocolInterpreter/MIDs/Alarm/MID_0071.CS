@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.MIDs.Alarm
     /// Message sent by: Controller
     /// Answer: MID 0072 Alarm acknowledge
     /// </summary>
-    public class MID_0071 : MID
+    public class MID_0071 : MID, IAlarm
     {
         private const int length = 53;
         private const int mid = 71;

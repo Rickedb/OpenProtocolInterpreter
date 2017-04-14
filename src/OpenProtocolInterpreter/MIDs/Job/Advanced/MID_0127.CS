@@ -8,7 +8,7 @@ namespace OpenProtocolInterpreter.MIDs.Job.Advanced
     /// Message sent by: Integrator
     /// Answer: MID 0005
     /// </summary>
-    public class MID_0127 : MID
+    public class MID_0127 : MID, IAdvancedJob
     {
         private const int length = 20;
         private const int mid = 127;

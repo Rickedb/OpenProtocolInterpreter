@@ -14,7 +14,7 @@ namespace OpenProtocolInterpreter.MIDs.Tightening
     ///         or MID 0004 Command error, Tightening ID requested not found,
     ///         or MID revision not supported
     /// </summary>
-    public class MID_0064 : MID
+    public class MID_0064 : MID, ITightening
     {
         private const int length = 30;
         private const int mid = 64;

@@ -18,7 +18,7 @@ namespace OpenProtocolInterpreter.MIDs.Communication
     /// Answer: MID 0005 Command accepted with the MID subscribed for or MID 0004 Command error, 
     ///         MID revision unsupported or Invalid data code and the MID subscribed for
     /// </summary>
-    public class MID_0008
+    internal class MID_0008
     {
     }
 }

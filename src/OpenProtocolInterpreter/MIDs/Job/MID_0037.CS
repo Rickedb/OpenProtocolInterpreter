@@ -8,7 +8,7 @@ namespace OpenProtocolInterpreter.MIDs.Job
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted or MID 0004 Command error, Job info subscription does not exist
     /// </summary>
-    public class MID_0037 : MID
+    public class MID_0037 : MID, IJob
     {
         private const int length = 20;
         private const int mid = 37;
