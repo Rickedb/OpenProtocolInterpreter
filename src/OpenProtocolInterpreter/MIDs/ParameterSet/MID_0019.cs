@@ -11,8 +11,6 @@ namespace OpenProtocolInterpreter.MIDs.ParameterSet
     /// </summary>
     public class MID_0019 : MID
     {
-        private readonly IMID nextTemplate;
-
         private const int length = 25;
         private const int mid = 19;
         private const int revision = 1;

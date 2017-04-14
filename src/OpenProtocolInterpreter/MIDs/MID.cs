@@ -118,10 +118,9 @@ namespace OpenProtocolInterpreter.MIDs
             }
         }
 
-        internal MID setNextTemplate(MID mid)
+        internal void setNextTemplate(MID mid)
         {
             this.nextTemplate = mid;
-            return this;
         }
     }
 }

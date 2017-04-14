@@ -28,7 +28,7 @@ namespace OpenProtocolInterpreter.MIDs
                 { mid => this.isReplyMessage(mid), package => new Communication.CommunicationMessages(selectedMids.Where(x=> x.GetType().Namespace.Contains(".Communication"))).processPackage(package) },
                 { mid => this.isTighteningMessage(mid), package => new Tightening.TighteningMessages(selectedMids.Where(x=> x.GetType().Namespace.Contains(".Tightening"))).processPackage(package) },
                 { mid => this.isJobMessage(mid), package => new Job.JobMessages(selectedMids.Where(x=> x.GetType().Namespace.Contains(".Job"))).processPackage(package) },
-                { mid => this.isAdvancedJobMessage(mid), package => new Job.Advanced.AdvancedJobMessages(selectedMids.Where(x=> x.GetType().Namespace.Contains(".AdvancedJob"))).processPackage(package) }
+                { mid => this.isAdvancedJobMessage(mid), package => new Job.Advanced.AdvancedJobMessages(selectedMids.Where(x=> x.GetType().Namespace.Contains(".Job.Advanced"))).processPackage(package) }
             };
         }
 

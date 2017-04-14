@@ -11,8 +11,6 @@ namespace OpenProtocolInterpreter.MIDs.Alarm
     /// </summary>
     public class MID_0070 : MID
     {
-        private readonly IMID nextTemplate;
-
         private const int length = 20;
         private const int mid = 70;
         private const int revision = 1;

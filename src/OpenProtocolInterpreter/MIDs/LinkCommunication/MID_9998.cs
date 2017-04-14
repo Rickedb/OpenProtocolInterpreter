@@ -16,8 +16,6 @@ namespace OpenProtocolInterpreter.MIDs.LinkCommunication
     /// </summary>
     class MID_9998 : MID
     {
-        private readonly IMID nextTemplate;
-
         private const int length = 27;
         private const int mid = 9998;
         private const int revision = 1;

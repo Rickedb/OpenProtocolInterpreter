@@ -10,8 +10,6 @@ namespace OpenProtocolInterpreter.MIDs.Tightening
     /// </summary>
     public class MID_0065 : MID
     {
-        private readonly IMID nextTemplate;
-
         private const int length = 118;
         private const int mid = 65;
         private const int revision = 1;

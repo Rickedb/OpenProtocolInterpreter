@@ -12,8 +12,6 @@ namespace OpenProtocolInterpreter.MIDs.Time
     /// </summary>
     public class MID_0081 : MID
     {
-        private readonly IMID nextTemplate;
-
         private const int length = 39;
         private const int mid = 81;
         private const int revision = 1;

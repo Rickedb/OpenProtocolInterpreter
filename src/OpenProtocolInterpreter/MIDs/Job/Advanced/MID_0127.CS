@@ -10,8 +10,6 @@ namespace OpenProtocolInterpreter.MIDs.Job.Advanced
     /// </summary>
     public class MID_0127 : MID
     {
-        private readonly IMID nextTemplate;
-
         private const int length = 20;
         private const int mid = 127;
         private const int revision = 1;
