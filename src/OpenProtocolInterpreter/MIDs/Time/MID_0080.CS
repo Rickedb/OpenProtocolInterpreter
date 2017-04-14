@@ -8,7 +8,7 @@
     /// Message sent by: Integrator
     /// Answer: MID 0081 Read time upload reply
     /// </summary>
-    public class MID_0080 : MID
+    public class MID_0080 : MID, ITime
     {
         private const int length = 20;
         private const int mid = 80;

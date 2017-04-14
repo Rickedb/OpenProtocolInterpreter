@@ -6,7 +6,7 @@ namespace OpenProtocolInterpreter.Messages
 {
     internal class MessageTemplateFactory
     {
-        internal static IMID buildChainOfMids(IEnumerable<MID> selectedMids)
+        public static IMID buildChainOfMids(IEnumerable<MID> selectedMids)
         {
             if (selectedMids.Count() == 0)
                 return null;

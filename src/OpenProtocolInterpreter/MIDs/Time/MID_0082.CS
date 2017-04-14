@@ -10,7 +10,7 @@ namespace OpenProtocolInterpreter.MIDs.Time
     /// Message sent by: Integrator
     /// Answer: None
     /// </summary>
-    public class MID_0082 : MID
+    public class MID_0082 : MID, ITime
     {
         private const int length = 39;
         private const int mid = 81;
