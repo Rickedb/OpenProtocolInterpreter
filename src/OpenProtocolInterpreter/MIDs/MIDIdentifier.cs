@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.MIDs
             this.messageInterpreterTemplates = new Dictionary<Func<int, bool>, Func<string, MID>>()
             {
                 { mid => this.isKeepAliveMessage(mid), package => new KeepAlive.MID_9999() },
-                { mid => this.isReplyMessage(mid), package => new Reply.CommunicationMessages().processPackage(package) },
+                { mid => this.isReplyMessage(mid), package => new Communication.CommunicationMessages().processPackage(package) },
                 { mid => this.isTighteningMessage(mid), package => new Tightening.TighteningMessages().processPackage(package) },
                 { mid => this.isJobMessage(mid), package => new Job.JobMessages().processPackage(package) },
                 { mid => this.isAdvancedJobMessage(mid), package => new Job.Advanced.AdvancedJobMessages().processPackage(package) }

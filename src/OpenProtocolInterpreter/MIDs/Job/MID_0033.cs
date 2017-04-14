@@ -98,13 +98,20 @@ namespace OpenProtocolInterpreter.MIDs.Job
                 this.Reserved = (Reserveds)this.fields[(int)Fields.RESERVED].ToInt32();
                 this.NumberOfParameterSets = this.fields[(int)Fields.NUMBER_OF_PARAMETER_SETS].ToInt32();
 
-                jobData.JobList = new Jobs().getJobsFromPackage(package.Substring(89), this.NumberOfParameterSets);
+                jobData.JobList = new Jobs().getJobsFromPackage(package.Substring(89));
                 return jobData;
             }
 
             public override string ToString()
             {
                 string package = string.Empty;
+
+                foreach (var dataField in this.fields)
+                    dataField.Value = package.Substring(2 + dataField.Index, dataField.Size);
+                for (int i = 1; i < this.fields.Count + 1; i++)
+                    package += i.ToString().PadLeft(2, '0') + fields[i - 1].getPaddedLeftValue();
+                foreach (Jobs job in this.JobList)
+                    package += job.ToString();
 
                 return base.ToString();
             }
@@ -183,16 +190,36 @@ namespace OpenProtocolInterpreter.MIDs.Job
                 public bool AutoValue { get; set; }
                 public int BatchSize { get; set; }
 
-                public List<Jobs> getJobsFromPackage(string package, int totalJobs)
+                public List<Jobs> getJobsFromPackage(string package)
                 {
                     List<Jobs> jobs = new List<Jobs>();
+
+                    var stringJobs = package.Substring(91).Split(';');
+                    foreach (string job in stringJobs)
+                    {
+                        var jobParams = job.Split(':');
+                        if (jobParams.Count() == 4)
+                            jobs.Add(new Jobs()
+                            {
+                                ChannelID = Convert.ToInt32(jobParams[0]),
+                                TypeID = Convert.ToInt32(jobParams[1]),
+                                AutoValue = Convert.ToBoolean(Convert.ToInt32(jobParams[2])),
+                                BatchSize = Convert.ToInt32(jobParams[3])
+                            });
+                    }
 
                     return jobs;
                 }
 
                 public override string ToString()
                 {
-                    return base.ToString();
+                    return string.Join(":",
+                        new string[]{
+                            this.ChannelID.ToString().PadLeft(2, '0'),
+                            this.TypeID.ToString().PadLeft(3, '0'),
+                            Convert.ToInt32(this.AutoValue).ToString(),
+                            this.BatchSize.ToString().PadLeft(2, '0')
+                        }) + ";";
                 }
             }
         }

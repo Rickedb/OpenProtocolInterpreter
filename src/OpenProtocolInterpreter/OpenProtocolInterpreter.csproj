@@ -40,6 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MIDs\Alarm\MID_0070.cs" />
+    <Compile Include="MIDs\Alarm\MID_0071.cs" />
+    <Compile Include="MIDs\Alarm\MID_0072.cs" />
     <Compile Include="MIDs\Communication\MID_0001.cs" />
     <Compile Include="MIDs\Communication\MID_0002.cs" />
     <Compile Include="MIDs\Communication\MID_0003.cs" />
@@ -96,10 +99,12 @@
     <Compile Include="MIDs\Tightening\MID_0064.CS" />
     <Compile Include="MIDs\Tightening\MID_0065.CS" />
     <Compile Include="MIDs\Tightening\TighteningMessages.cs" />
+    <Compile Include="MIDs\Time\MID_0080.cs" />
+    <Compile Include="MIDs\Time\MID_0081.cs" />
+    <Compile Include="MIDs\Time\MID_0082.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="MIDs\Alarm\" />
     <Folder Include="MIDs\AutomaticManualMode\" />
     <Folder Include="MIDs\Controller\" />
     <Folder Include="MIDs\IOInterface\" />
@@ -112,7 +117,6 @@
     <Folder Include="MIDs\Reply\" />
     <Folder Include="MIDs\Selector\" />
     <Folder Include="MIDs\Statistic\" />
-    <Folder Include="MIDs\Time\" />
     <Folder Include="MIDs\ToolLocationSystem\" />
     <Folder Include="MIDs\Tool\" />
     <Folder Include="MIDs\UserInterface\" />
