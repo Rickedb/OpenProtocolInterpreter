@@ -9,7 +9,7 @@ namespace OpenProtocolInterpreter.MIDs.ParameterSet
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted or MID 0004 Command error, Invalid data
     /// </summary>
-    public class MID_0019 : MID
+    public class MID_0019 : MID, IParameterSet
     {
         private const int length = 25;
         private const int mid = 19;

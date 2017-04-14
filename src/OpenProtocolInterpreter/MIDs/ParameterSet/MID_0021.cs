@@ -8,7 +8,7 @@
     /// Answer: MID 0005 Command accepted or MID 0004 Command error
     /// Message: MID 0022 relay status immediately after MID 0005 Command accepted
     /// </summary>
-    public class MID_0021 : MID
+    public class MID_0021 : MID, IParameterSet
     {
         private const int length = 20;
         private const int mid = 21;

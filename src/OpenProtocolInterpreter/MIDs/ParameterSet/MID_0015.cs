@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.MIDs.ParameterSet
     /// Message sent by: Controller
     /// Answer: MID 0016 New parameter set selected acknowledge
     /// </summary>
-    public class MID_0015 : MID
+    public class MID_0015 : MID, IParameterSet
     {
         private const int length = 42;
         private const int mid = 15;

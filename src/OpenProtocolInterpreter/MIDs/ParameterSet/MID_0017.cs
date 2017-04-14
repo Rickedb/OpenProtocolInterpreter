@@ -7,7 +7,7 @@
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted or MID 0004 Command error, Parameter set subscription does not exist
     /// </summary>
-    public class MID_0017 : MID
+    public class MID_0017 : MID, IParameterSet
     {
         private const int length = 20;
         private const int mid = 17;

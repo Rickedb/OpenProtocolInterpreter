@@ -7,7 +7,7 @@
     /// Message sent by: Integrator
     /// Answer: MID 0011 Parameter set ID upload reply
     /// </summary>
-    public class MID_0010 : MID
+    public class MID_0010 : MID, IParameterSet
     {
         private const int length = 20;
         private const int mid = 10;

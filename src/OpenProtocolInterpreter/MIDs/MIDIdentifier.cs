@@ -13,10 +13,12 @@ namespace OpenProtocolInterpreter.MIDs
             this.messageInterpreterTemplates = new Dictionary<Func<int, bool>, Func<string, MID>>()
             {
                 { mid => this.isKeepAliveMessage(mid), package => new KeepAlive.MID_9999() },
-                { mid => this.isReplyMessage(mid), package => new Communication.CommunicationMessages().processPackage(package) },
+                { mid => this.isCommunicationMessage(mid), package => new Communication.CommunicationMessages().processPackage(package) },
+                { mid => this.isAlarmMessage(mid), package => new Alarm.AlarmMessages().processPackage(package) },
                 { mid => this.isTighteningMessage(mid), package => new Tightening.TighteningMessages().processPackage(package) },
                 { mid => this.isJobMessage(mid), package => new Job.JobMessages().processPackage(package) },
-                { mid => this.isAdvancedJobMessage(mid), package => new Job.Advanced.AdvancedJobMessages().processPackage(package) }
+                { mid => this.isAdvancedJobMessage(mid), package => new Job.Advanced.AdvancedJobMessages().processPackage(package) },
+                { mid => this.isTimeMessage(mid), package => new Time.TimeMessages().processPackage(package) }
             };
         }
 
@@ -26,10 +28,11 @@ namespace OpenProtocolInterpreter.MIDs
             {
                 { mid => this.isKeepAliveMessage(mid), package => new KeepAlive.MID_9999() },
                 { mid => this.isCommunicationMessage(mid), package => new Communication.CommunicationMessages(selectedMids.Where(x=> typeof(Communication.ICommunication).IsAssignableFrom(x.GetType()))).processPackage(package) },
-                { mid => this.isReplyMessage(mid), package => new Alarm.AlarmMessages(selectedMids.Where(x=> typeof(Alarm.IAlarm).IsAssignableFrom(x.GetType()))).processPackage(package) },
+                { mid => this.isAlarmMessage(mid), package => new Alarm.AlarmMessages(selectedMids.Where(x=> typeof(Alarm.IAlarm).IsAssignableFrom(x.GetType()))).processPackage(package) },
                 { mid => this.isTighteningMessage(mid), package => new Tightening.TighteningMessages(selectedMids.Where(x=> typeof(Tightening.ITightening).IsAssignableFrom(x.GetType()))).processPackage(package) },
                 { mid => this.isJobMessage(mid), package => new Job.JobMessages(selectedMids.Where(x=> typeof(Job.IJob).IsAssignableFrom(x.GetType()))).processPackage(package) },
                 { mid => this.isAdvancedJobMessage(mid), package => new Job.Advanced.AdvancedJobMessages(selectedMids.Where(x=> typeof(Job.Advanced.IAdvancedJob).IsAssignableFrom(x.GetType()))).processPackage(package) }
+                { mid => this.isTimeMessage(mid), package => new Time.TimeMessages(selectedMids.Where(x=> typeof(Time.ITime).IsAssignableFrom(x.GetType()))).processPackage(package) }
             };
         }
 
@@ -48,7 +51,7 @@ namespace OpenProtocolInterpreter.MIDs
 
         private bool isKeepAliveMessage(int mid) { return (mid == 9999); }
 
-        private bool isCommunicationMessage(int mid) { return (mid > 0 && mid < 4); }
+        private bool isCommunicationMessage(int mid) { return (mid > 0 && mid < 10); }
 
         private bool isReplyMessage(int mid) { return (mid > 3 && mid < 6); }
 

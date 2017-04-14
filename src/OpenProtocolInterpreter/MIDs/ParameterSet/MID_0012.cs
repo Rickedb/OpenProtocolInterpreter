@@ -9,7 +9,7 @@ namespace OpenProtocolInterpreter.MIDs.ParameterSet
     /// Message sent by: Integrator
     /// Answer: MID 0013 Parameter set data upload reply, or MID 0004 Command error, Parameter set not present
     /// </summary>
-    public class MID_0012 : MID
+    public class MID_0012 : MID, IParameterSet
     {
         private const int length = 23;
         private const int mid = 12;

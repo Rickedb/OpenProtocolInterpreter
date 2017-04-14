@@ -9,7 +9,7 @@
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted and MID 0015 Parameter set selected
     /// </summary>
-    public class MID_0014 : MID
+    public class MID_0014 : MID, IParameterSet
     {
         private const int length = 20;
         private const int mid = 14;

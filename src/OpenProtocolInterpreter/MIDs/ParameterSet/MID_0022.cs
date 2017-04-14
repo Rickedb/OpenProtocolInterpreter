@@ -9,7 +9,7 @@ namespace OpenProtocolInterpreter.MIDs.ParameterSet
     /// Message sent by: Controller
     /// Answer: MID 0023 Lock at batch done upload Ack
     /// </summary>
-    public class MID_0022 : MID
+    public class MID_0022 : MID, IParameterSet
     {
         private const int length = 21;
         private const int mid = 22;

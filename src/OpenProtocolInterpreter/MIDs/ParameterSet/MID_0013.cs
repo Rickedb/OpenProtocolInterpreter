@@ -7,7 +7,7 @@
     /// Message sent by: Controller
     /// Answer: None
     /// </summary>
-    public class MID_0013 : MID
+    public class MID_0013 : MID, IParameterSet
     {
         private const int length = 104;
         private const int mid = 13;

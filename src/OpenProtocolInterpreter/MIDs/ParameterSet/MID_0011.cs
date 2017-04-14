@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.MIDs.ParameterSet
     /// Message sent by: Controller
     /// Answer: None
     /// </summary>
-    public class MID_0011 : MID
+    public class MID_0011 : MID, IParameterSet
     {
         private const int length = 23;
         private const int mid = 11;

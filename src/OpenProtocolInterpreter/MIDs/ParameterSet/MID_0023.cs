@@ -7,7 +7,7 @@
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted
     /// </summary>
-    public class MID_0023 : MID
+    public class MID_0023 : MID, IParameterSet
     {
         private const int length = 20;
         private const int mid = 23;

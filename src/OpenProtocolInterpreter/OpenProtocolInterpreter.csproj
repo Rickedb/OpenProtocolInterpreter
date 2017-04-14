@@ -45,6 +45,7 @@
     <Compile Include="MIDs\Alarm\MID_0070.cs" />
     <Compile Include="MIDs\Alarm\MID_0071.cs" />
     <Compile Include="MIDs\Alarm\MID_0072.cs" />
+    <Compile Include="MIDs\Communication\ICommunication.cs" />
     <Compile Include="MIDs\Communication\MID_0001.cs" />
     <Compile Include="MIDs\Communication\MID_0002.cs" />
     <Compile Include="MIDs\Communication\MID_0003.cs" />
@@ -55,6 +56,8 @@
     <Compile Include="Messages\IMessagesTemplate.cs" />
     <Compile Include="MIDs\IMID.cs" />
     <Compile Include="MIDs\Job\Advanced\AdvancedJobMessages.cs" />
+    <Compile Include="MIDs\Job\Advanced\IAdvancedJob.cs" />
+    <Compile Include="MIDs\Job\IJob.cs" />
     <Compile Include="MIDs\Job\JobMessages.cs" />
     <Compile Include="MIDs\Job\MID_0030.cs" />
     <Compile Include="MIDs\Job\MID_0031.cs" />
@@ -75,6 +78,7 @@
     <Compile Include="MIDs\Communication\MID_0004.CS" />
     <Compile Include="MIDs\Communication\MID_0005.CS" />
     <Compile Include="MIDs\Communication\CommunicationMessages.cs" />
+    <Compile Include="MIDs\ParameterSet\IParameterSet.cs" />
     <Compile Include="MIDs\ParameterSet\MID_0010.cs" />
     <Compile Include="MIDs\ParameterSet\MID_0011.cs" />
     <Compile Include="MIDs\ParameterSet\MID_0012.cs" />
@@ -95,6 +99,7 @@
     <Compile Include="MIDs\ParameterSet\MID_2501.cs" />
     <Compile Include="MIDs\ParameterSet\MID_2504.cs" />
     <Compile Include="MIDs\ParameterSet\MID_2505.cs" />
+    <Compile Include="MIDs\Tightening\ITightening.cs" />
     <Compile Include="MIDs\Tightening\MID_0060.CS" />
     <Compile Include="MIDs\Tightening\MID_0061.CS" />
     <Compile Include="MIDs\Tightening\MID_0062.CS" />
@@ -102,9 +107,11 @@
     <Compile Include="MIDs\Tightening\MID_0064.CS" />
     <Compile Include="MIDs\Tightening\MID_0065.CS" />
     <Compile Include="MIDs\Tightening\TighteningMessages.cs" />
+    <Compile Include="MIDs\Time\ITime.cs" />
     <Compile Include="MIDs\Time\MID_0080.cs" />
     <Compile Include="MIDs\Time\MID_0081.cs" />
     <Compile Include="MIDs\Time\MID_0082.cs" />
+    <Compile Include="MIDs\Time\TimeMessages.cs" />
     <Compile Include="MIDs\Tool\MID_0040.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

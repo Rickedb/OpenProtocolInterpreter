@@ -9,7 +9,7 @@ namespace OpenProtocolInterpreter.MIDs.ParameterSet
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted or MID 0004 Command error, Dynamic Job cannot be created, non-existing pset
     /// </summary>
-    public class MID_2504 : MID
+    public class MID_2504 : MID, IParameterSet
     {
         private const int length = 23;
         private const int mid = 2504;

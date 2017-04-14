@@ -7,7 +7,7 @@
     /// Message sent by: Integrator
     /// Answer: None
     /// </summary>
-    public class MID_0016 : MID
+    public class MID_0016 : MID, IParameterSet
     {
         private const int length = 20;
         private const int mid = 16;
