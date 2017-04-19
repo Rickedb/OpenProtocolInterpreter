@@ -19,7 +19,7 @@ namespace OpenProtocolInterpreter.MIDs.Job.Advanced
 
         }
 
-        public MID_0127(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0127(IMID nextTemplate) : base(length, mid, revision)
         {
             this.nextTemplate = nextTemplate;
         }

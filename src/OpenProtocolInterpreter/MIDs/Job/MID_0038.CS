@@ -29,7 +29,7 @@ namespace OpenProtocolInterpreter.MIDs.Job
             this.JobID = jobId;
         }
 
-        public MID_0038(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0038(IMID nextTemplate) : base(length, mid, revision)
         {
             this.nextTemplate = nextTemplate;
         }

@@ -33,7 +33,7 @@ namespace OpenProtocolInterpreter.MIDs.Communication
             this.MIDAccepted = midAccepted;
         }
 
-        public MID_0005(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0005(IMID nextTemplate) : base(length, mid, revision)
         {
             this.nextTemplate = nextTemplate;
         }

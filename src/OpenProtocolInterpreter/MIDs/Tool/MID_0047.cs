@@ -28,7 +28,7 @@ namespace OpenProtocolInterpreter.MIDs.Tool
 
         public MID_0047() : base(length, mid, revision) {  }
 
-        public MID_0047(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0047(IMID nextTemplate) : base(length, mid, revision)
         {
             this.nextTemplate = nextTemplate;
         }

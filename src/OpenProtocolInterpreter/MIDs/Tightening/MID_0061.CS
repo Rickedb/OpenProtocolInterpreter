@@ -40,7 +40,7 @@ namespace OpenProtocolInterpreter.MIDs.Tightening
 
         public MID_0061() : base(length, mid, revision) {  }
 
-        public MID_0061(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0061(IMID nextTemplate) : base(length, mid, revision)
         {
             this.nextTemplate = nextTemplate;
         }

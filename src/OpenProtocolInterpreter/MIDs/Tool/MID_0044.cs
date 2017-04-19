@@ -20,7 +20,7 @@
 
         }
 
-        public MID_0044(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0044(IMID nextTemplate) : base(length, mid, revision)
         {
             this.nextTemplate = nextTemplate;
         }

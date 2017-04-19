@@ -36,7 +36,7 @@ namespace OpenProtocolInterpreter.MIDs.Job
             this.constructMe(jobId, jobStatus, jobBatchMode, jobBatchSize, jobBatchCounter, timestamp);
         }
 
-        public MID_0035(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0035(IMID nextTemplate) : base(length, mid, revision)
         {
             this.nextTemplate = nextTemplate;
         }

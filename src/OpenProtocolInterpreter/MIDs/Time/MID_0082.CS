@@ -23,7 +23,7 @@ namespace OpenProtocolInterpreter.MIDs.Time
 
         }
 
-        public MID_0082(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0082(IMID nextTemplate) : base(length, mid, revision)
         {
             this.nextTemplate = nextTemplate;
         }

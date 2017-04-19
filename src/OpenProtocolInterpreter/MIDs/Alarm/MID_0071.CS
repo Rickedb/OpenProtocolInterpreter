@@ -25,7 +25,7 @@ namespace OpenProtocolInterpreter.MIDs.Alarm
 
         }
 
-        public MID_0071(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0071(IMID nextTemplate) : base(length, mid, revision)
         {
             this.nextTemplate = nextTemplate;
         }
