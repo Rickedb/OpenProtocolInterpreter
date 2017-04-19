@@ -35,5 +35,7 @@ namespace OpenProtocolInterpreter.MIDs.Tightening
 
             throw new NotImplementedException("MID not implemented or doesn't exists");
         }
+
+        protected override void registerDatafields() { }
     }
 }

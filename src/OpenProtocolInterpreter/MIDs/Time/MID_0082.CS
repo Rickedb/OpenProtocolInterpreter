@@ -48,8 +48,7 @@ namespace OpenProtocolInterpreter.MIDs.Time
             throw new NotImplementedException("MID not implemented or doesn't exists");
         }
 
-
-        private void registerDatafields()
+        protected override void registerDatafields()
         {
             this.RegisteredDataFields.Add(new DataField((int)DataFields.TIME, 20, 19));
         }

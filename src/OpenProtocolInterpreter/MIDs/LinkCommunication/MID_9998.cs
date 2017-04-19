@@ -88,6 +88,8 @@ namespace OpenProtocolInterpreter.MIDs.LinkCommunication
             return this.nextTemplate.processPackage(package);
         }
 
+        protected override void registerDatafields() { }
+
         public enum UsedsAs
         {
             SEQUENCE_NUMBER,

@@ -18,10 +18,7 @@ namespace OpenProtocolInterpreter.MIDs.Time
 
         public DateTime Time { get; set; }
 
-        public MID_0081() : base(length, mid, revision)
-        {
-
-        }
+        public MID_0081() : base(length, mid, revision) {  }
 
         public MID_0081(IMID nextTemplate) : base(length, mid, revision)
         {
@@ -49,7 +46,7 @@ namespace OpenProtocolInterpreter.MIDs.Time
         }
 
 
-        private void registerDatafields()
+        protected override void registerDatafields()
         {
             this.RegisteredDataFields.Add(new DataField((int)DataFields.TIME, 20, 19));
         }

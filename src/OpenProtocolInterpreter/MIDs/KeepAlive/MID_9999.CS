@@ -37,5 +37,7 @@ namespace OpenProtocolInterpreter.MIDs.KeepAlive
 
             throw new NotImplementedException("MID not implemented or doesn't exists!");
         }
+
+        protected override void registerDatafields() { }
     }
 }

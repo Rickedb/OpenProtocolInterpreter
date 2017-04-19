@@ -26,6 +26,11 @@ namespace OpenProtocolInterpreter.MIDs.Communication
 
         public int MIDAccepted { get; set; }
 
+        public MID_0005() : base(length, mid, revision)
+        {
+            this.registerDatafields();
+        }
+
         public MID_0005(int midAccepted) : base(length, mid, revision)
         {
             this.registerDatafields();

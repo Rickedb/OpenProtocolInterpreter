@@ -21,11 +21,10 @@ namespace OpenProtocolInterpreter.MIDs.Job
 
         public JobDatas JobData { get; set; }
 
-        public MID_0033() : base(length, mid, revision) { }
+        public MID_0033() : base(length, mid, revision) {  }
 
         public MID_0033(IMID nextTemplate) : base(length, mid, revision)
         {
-            this.registerDatafields();
             this.nextTemplate = nextTemplate;
         }
 
@@ -49,7 +48,7 @@ namespace OpenProtocolInterpreter.MIDs.Job
         }
 
 
-        private void registerDatafields()
+        protected override void registerDatafields()
         {
             this.RegisteredDataFields.Add(new DataField((int)DataFields.JOB_DATA, 20, 71));
         }

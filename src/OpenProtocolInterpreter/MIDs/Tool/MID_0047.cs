@@ -26,14 +26,10 @@ namespace OpenProtocolInterpreter.MIDs.Tool
 
         public PairingHandlingTypes PairingHandlingType { get; set; }
 
-        public MID_0047() : base(length, mid, revision)
-        {
-            this.registerDatafields();
-        }
+        public MID_0047() : base(length, mid, revision) {  }
 
         public MID_0047(IMID nextTemplate) : base(length, mid, revision)
         {
-            this.registerDatafields();
             this.nextTemplate = nextTemplate;
         }
 
@@ -45,7 +41,7 @@ namespace OpenProtocolInterpreter.MIDs.Tool
             return this.nextTemplate.processPackage(package);
         }
 
-        private void registerDatafields()
+        protected override void registerDatafields()
         {
             this.RegisteredDataFields.Add(new DataField((int)DataFields.PAIRING_HANDLING_TYPE, 20, 2));
 

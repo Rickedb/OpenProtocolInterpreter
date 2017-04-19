@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace OpenProtocolInterpreter.MIDs.Alarm
 {
     /// <summary>
@@ -32,5 +34,7 @@ namespace OpenProtocolInterpreter.MIDs.Alarm
 
             return this.nextTemplate.processPackage(package);
         }
+
+        protected override void registerDatafields() { }
     }
 }

@@ -27,7 +27,7 @@ namespace OpenProtocolInterpreter.MIDs.Communication
 
         public MID_0004() : base(length, mid, revision)
         {
-
+            this.registerDatafields();
         }
 
         public MID_0004(IMID nextTemplate) : base(length, mid, revision)
@@ -38,12 +38,14 @@ namespace OpenProtocolInterpreter.MIDs.Communication
 
         public MID_0004(int failedMid, int errorCode) : base(length, mid, revision)
         {
+            this.registerDatafields();
             this.FailedMid = failedMid;
             this.ErrorCode = (Errors)errorCode;
         }
 
         public MID_0004(int failedMid, Errors errorCode) : base(length, mid, revision)
         {
+            this.registerDatafields();
             this.FailedMid = failedMid;
             this.ErrorCode = errorCode;
         }

@@ -38,14 +38,10 @@ namespace OpenProtocolInterpreter.MIDs.Tightening
         public BatchStatuses BatchStatus { get; set; }
         public int TighteningID { get; set; }
 
-        public MID_0061() : base(length, mid, revision)
-        {
-            this.registerDatafields();
-        }
+        public MID_0061() : base(length, mid, revision) {  }
 
         public MID_0061(IMID nextTemplate) : base(length, mid, revision)
         {
-            this.registerDatafields();
             this.nextTemplate = nextTemplate;
         }
 
@@ -85,7 +81,7 @@ namespace OpenProtocolInterpreter.MIDs.Tightening
             return this.nextTemplate.processPackage(package);
         }
 
-        private void registerDatafields()
+        protected override void registerDatafields()
         {
             this.RegisteredDataFields.AddRange(
                 new DataField[]

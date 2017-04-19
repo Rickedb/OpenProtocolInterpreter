@@ -87,7 +87,7 @@
             return this.nextTemplate.processPackage(package);
         }
 
-        private void registerDatafields()
+        protected override void registerDatafields()
         {
             this.RegisteredDataFields.AddRange(
                 new DataField[]

@@ -60,7 +60,7 @@ namespace OpenProtocolInterpreter.MIDs.ParameterSet
             return this.nextTemplate.processPackage(package);
         }
 
-        private void registerDatafields()
+        protected override void registerDatafields()
         {
             this.RegisteredDataFields.Add(new DataField((int)DataFields.PARAMETER_SET_ID, 20, 3));
             this.RegisteredDataFields.Add(new DataField((int)DataFields.LAST_CHANGE_IN_PARAMETER_SET, 23, 19));

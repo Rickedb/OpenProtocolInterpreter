@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.MIDs
@@ -7,6 +6,8 @@ namespace OpenProtocolInterpreter.MIDs
     public abstract class MID : IMID
     {
         protected IMID nextTemplate;
+
+        protected abstract void registerDatafields();
 
         public MID(Header header)
         {
@@ -27,6 +28,7 @@ namespace OpenProtocolInterpreter.MIDs
                 UsedAs = usedAs
             };
             this.RegisteredDataFields = new List<DataField>();
+            this.registerDatafields();
         }
 
         public List<DataField> RegisteredDataFields { get; set; }

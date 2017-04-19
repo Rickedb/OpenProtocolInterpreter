@@ -28,5 +28,7 @@ namespace OpenProtocolInterpreter.MIDs.Job
 
             throw new NotImplementedException("MID not implemented or doesn't exists!");
         }
+
+        protected override void registerDatafields() { }
     }
 }

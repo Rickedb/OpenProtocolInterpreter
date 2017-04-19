@@ -20,14 +20,10 @@ namespace OpenProtocolInterpreter.MIDs.Tool
         public DateTime LastCalibrationDate { get; set; }
         public string ControllerSerialNumber { get; set; }
 
-        public MID_0041() : base(length, mid, revision)
-        {
-            this.registerDatafields();
-        }
+        public MID_0041() : base(length, mid, revision) { }
 
         public MID_0041(IMID nextTemplate) : base(length, mid, revision)
         {
-            this.registerDatafields();
             this.nextTemplate = nextTemplate;
         }
 
@@ -58,7 +54,7 @@ namespace OpenProtocolInterpreter.MIDs.Tool
             return this.nextTemplate.processPackage(package);
         }
 
-        private void registerDatafields()
+        protected override void registerDatafields() 
         {
             this.RegisteredDataFields.AddRange(new DataField[]
             {

@@ -18,14 +18,10 @@
 
         public PrimaryTools PrimaryTool { get; set; }
 
-        public MID_0046() : base(length, mid, revision)
-        {
-            this.registerDatafields();
-        }
+        public MID_0046() : base(length, mid, revision) {  }
 
         public MID_0046(IMID nextTemplate) : base(length, mid, revision)
         {
-            this.registerDatafields();
             this.nextTemplate = nextTemplate;
         }
 
@@ -47,7 +43,7 @@
             return this.nextTemplate.processPackage(package);
         }
 
-        private void registerDatafields()
+        protected override void registerDatafields() 
         {
             this.RegisteredDataFields.Add(new DataField((int)DataFields.PRIMARY_TOOL, 20, 2));
 

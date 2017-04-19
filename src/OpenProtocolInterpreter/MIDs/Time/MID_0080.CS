@@ -31,5 +31,7 @@
 
             return this.nextTemplate.processPackage(package);
         }
+
+        protected override void registerDatafields() { }
     }
 }

@@ -18,14 +18,10 @@ namespace OpenProtocolInterpreter.MIDs.Tool
         public PairingStatuses PairingStatus { get; set; }
         public DateTime TimeStamp { get; set; }
 
-        public MID_0048() : base(length, mid, revision)
-        {
-            this.registerDatafields();
-        }
+        public MID_0048() : base(length, mid, revision) { }
 
         public MID_0048(IMID nextTemplate) : base(length, mid, revision)
         {
-            this.registerDatafields();
             this.nextTemplate = nextTemplate;
         }
 
@@ -52,7 +48,7 @@ namespace OpenProtocolInterpreter.MIDs.Tool
             return this.nextTemplate.processPackage(package);
         }
 
-        private void registerDatafields()
+        protected override void registerDatafields()
         {
             this.RegisteredDataFields.AddRange(new DataField[] {
                 new DataField((int)DataFields.PAIRING_STATUS, 20, 2),

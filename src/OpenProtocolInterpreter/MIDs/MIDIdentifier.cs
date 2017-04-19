@@ -7,6 +7,7 @@ namespace OpenProtocolInterpreter.MIDs
     public class MIDIdentifier
     {
         private readonly Dictionary<Func<int, bool>, Func<string, MID>> messageInterpreterTemplates;
+        private readonly IEnumerable<MID> selectedMids;
 
         public MIDIdentifier()
         {
@@ -18,12 +19,14 @@ namespace OpenProtocolInterpreter.MIDs
                 { mid => this.isTighteningMessage(mid), package => new Tightening.TighteningMessages().processPackage(package) },
                 { mid => this.isJobMessage(mid), package => new Job.JobMessages().processPackage(package) },
                 { mid => this.isAdvancedJobMessage(mid), package => new Job.Advanced.AdvancedJobMessages().processPackage(package) },
-                { mid => this.isTimeMessage(mid), package => new Time.TimeMessages().processPackage(package) }
+                { mid => this.isTimeMessage(mid), package => new Time.TimeMessages().processPackage(package) },
+                { mid => this.isToolMessage(mid), package => new Tool.ToolMessages().processPackage(package) }
             };
         }
 
-        public MIDIdentifier(IEnumerable<MID> selectedMids)
+        public MIDIdentifier(IEnumerable<MID> useOnlyTheseMids)
         {
+            this.selectedMids = useOnlyTheseMids;
             this.messageInterpreterTemplates = new Dictionary<Func<int, bool>, Func<string, MID>>()
             {
                 { mid => this.isKeepAliveMessage(mid), package => new KeepAlive.MID_9999() },
@@ -31,8 +34,9 @@ namespace OpenProtocolInterpreter.MIDs
                 { mid => this.isAlarmMessage(mid), package => new Alarm.AlarmMessages(selectedMids.Where(x=> typeof(Alarm.IAlarm).IsAssignableFrom(x.GetType()))).processPackage(package) },
                 { mid => this.isTighteningMessage(mid), package => new Tightening.TighteningMessages(selectedMids.Where(x=> typeof(Tightening.ITightening).IsAssignableFrom(x.GetType()))).processPackage(package) },
                 { mid => this.isJobMessage(mid), package => new Job.JobMessages(selectedMids.Where(x=> typeof(Job.IJob).IsAssignableFrom(x.GetType()))).processPackage(package) },
-                { mid => this.isAdvancedJobMessage(mid), package => new Job.Advanced.AdvancedJobMessages(selectedMids.Where(x=> typeof(Job.Advanced.IAdvancedJob).IsAssignableFrom(x.GetType()))).processPackage(package) }
-                { mid => this.isTimeMessage(mid), package => new Time.TimeMessages(selectedMids.Where(x=> typeof(Time.ITime).IsAssignableFrom(x.GetType()))).processPackage(package) }
+                { mid => this.isAdvancedJobMessage(mid), package => new Job.Advanced.AdvancedJobMessages(selectedMids.Where(x=> typeof(Job.Advanced.IAdvancedJob).IsAssignableFrom(x.GetType()))).processPackage(package) },
+                { mid => this.isTimeMessage(mid), package => new Time.TimeMessages(selectedMids.Where(x=> typeof(Time.ITime).IsAssignableFrom(x.GetType()))).processPackage(package) },
+                { mid => this.isToolMessage(mid), package => new Tool.ToolMessages(selectedMids.Where(x=> typeof(Tool.ITool).IsAssignableFrom(x.GetType()))).processPackage(package) }
             };
         }
 
@@ -53,13 +57,11 @@ namespace OpenProtocolInterpreter.MIDs
 
         private bool isCommunicationMessage(int mid) { return (mid > 0 && mid < 10); }
 
-        private bool isReplyMessage(int mid) { return (mid > 3 && mid < 6); }
-
         private bool isParameterSetMessage(int mid) { return (mid > 9 && mid < 26); }
 
         private bool isJobMessage(int mid) { return (mid > 29 && mid < 40); }
 
-        private bool isToolMessage(int mid) { return (mid > 39 && mid < 47); }
+        private bool isToolMessage(int mid) { return (mid > 39 && mid < 49); }
 
         private bool isVINMessage(int mid) { return (mid > 49 && mid < 55); }
 

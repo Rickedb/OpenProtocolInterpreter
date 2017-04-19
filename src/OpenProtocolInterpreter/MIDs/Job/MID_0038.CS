@@ -22,15 +22,15 @@ namespace OpenProtocolInterpreter.MIDs.Job
 
         public int JobID { get; set; }
 
+        public MID_0038() : base(length, mid, revision) { }
+
         public MID_0038(int jobId) : base(length, mid, revision)
         {
-            this.registerDatafields();
             this.JobID = jobId;
         }
 
         public MID_0038(IMID nextTemplate) : base(length, mid, revision)
         {
-            this.registerDatafields();
             this.nextTemplate = nextTemplate;
         }
 
@@ -41,7 +41,6 @@ namespace OpenProtocolInterpreter.MIDs.Job
 
             return base.buildHeader() + this.JobID.ToString().PadLeft(2, '0');
         }
-
 
         public override MID processPackage(string package)
         {
@@ -56,7 +55,7 @@ namespace OpenProtocolInterpreter.MIDs.Job
             return this.nextTemplate.processPackage(package);
         }
 
-        private void registerDatafields()
+        protected override void registerDatafields() 
         {
             this.RegisteredDataFields.Add(new DataField((int)DataFields.JOB_ID, 20, 2));
         }

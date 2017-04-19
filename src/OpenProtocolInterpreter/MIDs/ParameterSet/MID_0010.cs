@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.MIDs.ParameterSet
+﻿using System;
+
+namespace OpenProtocolInterpreter.MIDs.ParameterSet
 {
     /// <summary>
     /// MID: Parameter set ID upload request
@@ -27,5 +29,7 @@
 
             return this.nextTemplate.processPackage(package);
         }
+
+        protected override void registerDatafields() {  }
     }
 }

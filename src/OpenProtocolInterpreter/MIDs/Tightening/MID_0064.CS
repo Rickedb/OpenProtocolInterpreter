@@ -22,15 +22,15 @@ namespace OpenProtocolInterpreter.MIDs.Tightening
         
         public int TighteningID { get; set; }
 
+        public MID_0064() : base(length, mid, revision) { }
+
         public MID_0064(int tighteningId) : base(length, mid, revision)
         {
-            this.registerDatafields();
             this.TighteningID = tighteningId;
         }
 
         public MID_0064(IMID nextTemplate) : base(length, mid, revision)
         {
-            this.registerDatafields();
             this.nextTemplate = nextTemplate;
         }
 
@@ -49,7 +49,7 @@ namespace OpenProtocolInterpreter.MIDs.Tightening
             return this.nextTemplate.processPackage(package);
         }
 
-        private void registerDatafields()
+        protected override void registerDatafields()
         {
             this.RegisteredDataFields.Add(new DataField((int)DataFields.TIGHTENING_ID, 20, 10));
         }

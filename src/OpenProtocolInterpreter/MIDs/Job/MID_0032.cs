@@ -47,7 +47,7 @@ namespace OpenProtocolInterpreter.MIDs.Job
         }
 
 
-        private void registerDatafields()
+        protected override void registerDatafields() 
         {
             this.RegisteredDataFields.Add(new DataField((int)DataFields.JOB_ID, 20, 2));
         }

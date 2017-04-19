@@ -42,7 +42,7 @@ namespace OpenProtocolInterpreter.MIDs.Alarm
             return this.nextTemplate.processPackage(package);
         }
 
-        private void registerDatafields()
+        protected override void registerDatafields()
         {
             this.RegisteredDataFields.Add(new DataField((int)DataFields.ALARM_DATA, 20, 33));
         }

@@ -24,21 +24,20 @@ namespace OpenProtocolInterpreter.MIDs.Job
         public int JobBatchCounter { get; set; }
         public DateTime TimeStamp { get; set; }
 
+        public MID_0035() : base(length, mid, revision) {  }
+
         public MID_0035(int jobId, int jobStatus, int jobBatchMode, int jobBatchSize, int jobBatchCounter, DateTime timestamp) : base(length, mid, revision)
         {
-            this.registerDatafields();
             this.constructMe(jobId, (JobStatuses)jobStatus, (JobBatchModes)jobBatchMode, jobBatchSize, jobBatchCounter, timestamp);
         }
 
         public MID_0035(int jobId, JobStatuses jobStatus, JobBatchModes jobBatchMode, int jobBatchSize, int jobBatchCounter, DateTime timestamp) : base(length, mid, revision)
         {
-            this.registerDatafields();
             this.constructMe(jobId, jobStatus, jobBatchMode, jobBatchSize, jobBatchCounter, timestamp);
         }
 
         public MID_0035(IMID nextTemplate) : base(length, mid, revision)
         {
-            this.registerDatafields();
             this.nextTemplate = nextTemplate;
         }
 
@@ -82,7 +81,7 @@ namespace OpenProtocolInterpreter.MIDs.Job
             this.TimeStamp = timestamp;
         }
 
-        private void registerDatafields()
+        protected override void registerDatafields()
         {
             this.RegisteredDataFields.AddRange(
                 new DataField[]
