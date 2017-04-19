@@ -1,25 +1,24 @@
 ﻿namespace OpenProtocolInterpreter.MIDs.Tool
 {
     /// <summary>
-    /// MID: Tool data upload request
+    /// MID: Enable tool
     /// Description: 
-    ///     A request for some of the data stored in the tool. The result of this command is the transmission of the
-    ///     tool data.
+    ///     Enable tool.
     /// Message sent by: Integrator
-    /// Answer: MID 0041 Tool data upload reply
+    /// Answer: MID 0005 Command accepted
     /// </summary>
-    public class MID_0040 : MID, ITool
+    public class MID_0043 : MID, ITool
     {
         private const int length = 20;
-        private const int mid = 40;
+        private const int mid = 43;
         private const int revision = 1;
 
-        public MID_0040() : base(length, mid, revision)
+        public MID_0043() : base(length, mid, revision)
         {
 
         }
 
-        public MID_0040(IMID nextTemplate) : base(length, mid, revision)
+        public MID_0043(IMID nextTemplate) : base(length, mid, revision)
         {
             this.nextTemplate = nextTemplate;
         }

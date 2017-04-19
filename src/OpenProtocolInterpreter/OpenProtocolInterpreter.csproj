@@ -99,6 +99,7 @@
     <Compile Include="MIDs\ParameterSet\MID_2501.cs" />
     <Compile Include="MIDs\ParameterSet\MID_2504.cs" />
     <Compile Include="MIDs\ParameterSet\MID_2505.cs" />
+    <Compile Include="MIDs\ParameterSet\ParameterSetMessages.cs" />
     <Compile Include="MIDs\Tightening\ITightening.cs" />
     <Compile Include="MIDs\Tightening\MID_0060.CS" />
     <Compile Include="MIDs\Tightening\MID_0061.CS" />
@@ -112,7 +113,9 @@
     <Compile Include="MIDs\Time\MID_0081.cs" />
     <Compile Include="MIDs\Time\MID_0082.cs" />
     <Compile Include="MIDs\Time\TimeMessages.cs" />
+    <Compile Include="MIDs\Tool\ITool.cs" />
     <Compile Include="MIDs\Tool\MID_0040.cs" />
+    <Compile Include="MIDs\Tool\MID_0041.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
