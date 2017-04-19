@@ -45,5 +45,6 @@ namespace OpenProtocolInterpreter.MIDs.Communication
             throw new NotImplementedException();
         }
 
+        protected override void registerDatafields() { }
     }
 }

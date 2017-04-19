@@ -23,11 +23,10 @@ namespace OpenProtocolInterpreter.MIDs.Communication
 
         public string ControllerName { get; set; }
 
-        public MID_0002() : base(length, mid, revision) { this.registerDatafields(); }
+        public MID_0002() : base(length, mid, revision) {  }
 
         public MID_0002(IMID nextTemplate) : base(length, mid, revision)
         {
-            this.registerDatafields();
             this.nextTemplate = nextTemplate;
         }
 
@@ -47,7 +46,7 @@ namespace OpenProtocolInterpreter.MIDs.Communication
             return this.nextTemplate.processPackage(package);
         }
 
-        private void registerDatafields()
+        protected override void registerDatafields() 
         {
             this.RegisteredDataFields.AddRange(
                 new DataField[]

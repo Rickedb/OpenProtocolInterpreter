@@ -25,27 +25,21 @@ namespace OpenProtocolInterpreter.MIDs.Communication
         public int FailedMid { get; set; }
         public Errors ErrorCode { get; set; }
 
-        public MID_0004() : base(length, mid, revision)
-        {
-            this.registerDatafields();
-        }
+        public MID_0004() : base(length, mid, revision) { }
 
         public MID_0004(IMID nextTemplate) : base(length, mid, revision)
         {
-            this.registerDatafields();
             this.nextTemplate = nextTemplate;
         }
 
         public MID_0004(int failedMid, int errorCode) : base(length, mid, revision)
         {
-            this.registerDatafields();
             this.FailedMid = failedMid;
             this.ErrorCode = (Errors)errorCode;
         }
 
         public MID_0004(int failedMid, Errors errorCode) : base(length, mid, revision)
         {
-            this.registerDatafields();
             this.FailedMid = failedMid;
             this.ErrorCode = errorCode;
         }
@@ -76,7 +70,7 @@ namespace OpenProtocolInterpreter.MIDs.Communication
             return base.buildHeader() + this.FailedMid.ToString().PadLeft(4, '0') + ((int)this.ErrorCode).ToString().PadLeft(2, '0');
         }
 
-        private void registerDatafields()
+        protected override void registerDatafields() 
         {
             this.RegisteredDataFields.AddRange(
                 new DataField[]

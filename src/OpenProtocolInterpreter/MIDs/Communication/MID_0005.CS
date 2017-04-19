@@ -26,20 +26,15 @@ namespace OpenProtocolInterpreter.MIDs.Communication
 
         public int MIDAccepted { get; set; }
 
-        public MID_0005() : base(length, mid, revision)
-        {
-            this.registerDatafields();
-        }
+        public MID_0005() : base(length, mid, revision) { }
 
         public MID_0005(int midAccepted) : base(length, mid, revision)
         {
-            this.registerDatafields();
             this.MIDAccepted = midAccepted;
         }
 
         public MID_0005(IMID nextTemplate) : base(length, mid, revision)
         {
-            this.registerDatafields();
             this.nextTemplate = nextTemplate;
         }
 
@@ -64,7 +59,7 @@ namespace OpenProtocolInterpreter.MIDs.Communication
             return this.nextTemplate.processPackage(package);
         }
 
-        private void registerDatafields()
+        protected override void registerDatafields()
         {
             this.RegisteredDataFields.Add(new DataField((int)DataFields.MIDAccepted, 20, 4));
         }

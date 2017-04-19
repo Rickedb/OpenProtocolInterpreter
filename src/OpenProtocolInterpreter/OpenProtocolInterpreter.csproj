@@ -116,6 +116,15 @@
     <Compile Include="MIDs\Tool\ITool.cs" />
     <Compile Include="MIDs\Tool\MID_0040.cs" />
     <Compile Include="MIDs\Tool\MID_0041.cs" />
+    <Compile Include="MIDs\Tool\MID_0042.cs" />
+    <Compile Include="MIDs\Tool\MID_0043.cs" />
+    <Compile Include="MIDs\Tool\MID_0044.cs" />
+    <Compile Include="MIDs\Tool\MID_0045.cs" />
+    <Compile Include="MIDs\Tool\MID_0046.cs" />
+    <Compile Include="MIDs\Tool\MID_0047.cs" />
+    <Compile Include="MIDs\Tool\MID_0048.cs" />
+    <Compile Include="MIDs\Tool\MID_0700.cs" />
+    <Compile Include="MIDs\Tool\ToolMessages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
