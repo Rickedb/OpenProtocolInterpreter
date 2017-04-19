@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OpenProtocolInterpreter.MIDs.Tool
+﻿namespace OpenProtocolInterpreter.MIDs.Tool
 {
     /// <summary>
     /// MID: Tool Pairing handling
@@ -33,10 +27,20 @@ namespace OpenProtocolInterpreter.MIDs.Tool
             this.nextTemplate = nextTemplate;
         }
 
+        public override string buildPackage()
+        {
+            this.RegisteredDataFields[(int)DataFields.PAIRING_HANDLING_TYPE].Value = (int)this.PairingHandlingType;
+            return base.buildPackage();
+        }
+
         public override MID processPackage(string package)
         {
             if (base.isCorrectType(package))
-                return base.processPackage(package);
+            {
+                base.processPackage(package);
+                this.PairingHandlingType = (PairingHandlingTypes)this.RegisteredDataFields[(int)DataFields.PAIRING_HANDLING_TYPE].ToInt32();
+                return this;
+            }
 
             return this.nextTemplate.processPackage(package);
         }
