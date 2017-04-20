@@ -125,6 +125,13 @@
     <Compile Include="MIDs\Tool\MID_0048.cs" />
     <Compile Include="MIDs\Tool\MID_0700.cs" />
     <Compile Include="MIDs\Tool\ToolMessages.cs" />
+    <Compile Include="MIDs\VIN\IVIN.cs" />
+    <Compile Include="MIDs\VIN\MID_0053.cs" />
+    <Compile Include="MIDs\VIN\MID_0050.cs" />
+    <Compile Include="MIDs\VIN\MID_0051.cs" />
+    <Compile Include="MIDs\VIN\MID_0052.cs" />
+    <Compile Include="MIDs\VIN\MID_0054.cs" />
+    <Compile Include="MIDs\VIN\VINMessages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -142,7 +149,6 @@
     <Folder Include="MIDs\Statistic\" />
     <Folder Include="MIDs\ToolLocationSystem\" />
     <Folder Include="MIDs\UserInterface\" />
-    <Folder Include="MIDs\VIN\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
