@@ -12,21 +12,21 @@ namespace OpenProtocolInterpreter.MIDs.ParameterSet
     public class MID_0019 : MID, IParameterSet
     {
         private const int length = 25;
-        private const int mid = 19;
+        public const int MID = 19;
         private const int revision = 1;
 
         public int ParameterSetID { get; set; }
         public int BatchSize { get; set; }
 
-        public MID_0019() : base(length, mid, revision) { }
+        public MID_0019() : base(length, MID, revision) { }
 
-        public MID_0019(int parameterSetId, int batchSize) : base(length, mid, revision)
+        public MID_0019(int parameterSetId, int batchSize) : base(length, MID, revision)
         {
             this.ParameterSetID = parameterSetId;
             this.BatchSize = batchSize;
         }
 
-        internal MID_0019(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0019(IMID nextTemplate) : base(length, MID, revision)
         {
             this.nextTemplate = nextTemplate;
         }

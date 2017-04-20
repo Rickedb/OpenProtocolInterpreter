@@ -12,19 +12,19 @@ namespace OpenProtocolInterpreter.MIDs.ParameterSet
     public class MID_0018 : MID, IParameterSet
     {
         private const int length = 23;
-        private const int mid = 18;
+        public const int MID = 18;
         private const int revision = 1;
 
         public int ParameterSetID { get; set; }
 
-        public MID_0018() : base(length, mid, revision) { }
+        public MID_0018() : base(length, MID, revision) { }
 
-        public MID_0018(int parameterSetId) : base(length, mid, revision)
+        public MID_0018(int parameterSetId) : base(length, MID, revision)
         {
             this.ParameterSetID = parameterSetId;
         }
 
-        internal MID_0018(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0018(IMID nextTemplate) : base(length, MID, revision)
         {
             this.nextTemplate = nextTemplate;
         }

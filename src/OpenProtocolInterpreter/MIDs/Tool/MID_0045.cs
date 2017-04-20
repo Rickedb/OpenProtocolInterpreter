@@ -12,15 +12,15 @@ namespace OpenProtocolInterpreter.MIDs.Tool
     public class MID_0045 : MID, ITool
     {
         private const int length = 31;
-        private const int mid = 45;
+        public const int MID = 45;
         private const int revision = 1;
 
         public CalibrationValueUnits CalibrationValueUnit { get; set; }
         public double CalibrationValue { get; set; }
 
-        public MID_0045() : base(length, mid, revision) { }
+        public MID_0045() : base(length, MID, revision) { }
 
-        internal MID_0045(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0045(IMID nextTemplate) : base(length, MID, revision)
         {
             this.nextTemplate = nextTemplate;
         }

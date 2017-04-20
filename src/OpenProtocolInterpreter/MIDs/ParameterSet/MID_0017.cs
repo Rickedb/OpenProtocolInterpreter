@@ -10,12 +10,12 @@
     public class MID_0017 : MID, IParameterSet
     {
         private const int length = 20;
-        private const int mid = 17;
+        public const int MID = 17;
         private const int revision = 1;
 
-        public MID_0017() : base(length, mid, revision) { }
+        public MID_0017() : base(length, MID, revision) { }
 
-        internal MID_0017(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0017(IMID nextTemplate) : base(length, MID, revision)
         {
             this.nextTemplate = nextTemplate;
         }

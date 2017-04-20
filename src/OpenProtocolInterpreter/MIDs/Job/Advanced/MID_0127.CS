@@ -11,15 +11,15 @@ namespace OpenProtocolInterpreter.MIDs.Job.Advanced
     public class MID_0127 : MID, IAdvancedJob
     {
         private const int length = 20;
-        private const int mid = 127;
+        public const int MID = 127;
         private const int revision = 1;
 
-        public MID_0127() : base(length, mid, revision)
+        public MID_0127() : base(length, MID, revision)
         {
 
         }
 
-        internal MID_0127(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0127(IMID nextTemplate) : base(length, MID, revision)
         {
             this.nextTemplate = nextTemplate;
         }

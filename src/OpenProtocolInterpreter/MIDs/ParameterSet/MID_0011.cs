@@ -16,24 +16,24 @@ namespace OpenProtocolInterpreter.MIDs.ParameterSet
     public class MID_0011 : MID, IParameterSet
     {
         private const int length = 23;
-        private const int mid = 11;
+        public const int MID = 11;
         private const int revision = 1;
 
         public int TotalParameterSets { get; private set; }
 
         public List<int> ParameterSets { get; set; }
 
-        public MID_0011() : base(length, mid, revision)
+        public MID_0011() : base(length, MID, revision)
         {
             this.ParameterSets = new List<int>();
         }
 
-        public MID_0011(IEnumerable<int> parameterSets) : base(length, mid, revision)
+        public MID_0011(IEnumerable<int> parameterSets) : base(length, MID, revision)
         {
             this.ParameterSets = parameterSets.ToList();
         }
 
-        internal MID_0011(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0011(IMID nextTemplate) : base(length, MID, revision)
         {
             this.ParameterSets = new List<int>();
             this.nextTemplate = nextTemplate;

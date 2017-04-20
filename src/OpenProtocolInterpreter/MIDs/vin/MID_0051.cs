@@ -20,15 +20,15 @@
     public class MID_0051 : MID, IVIN
     {
         private const int length = 20;
-        private const int mid = 51;
+        public const int MID = 51;
         private const int revision = 1;
 
-        public MID_0051() : base(length, mid, revision)
+        public MID_0051() : base(length, MID, revision)
         {
 
         }
 
-        internal MID_0051(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0051(IMID nextTemplate) : base(length, MID, revision)
         {
             this.nextTemplate = nextTemplate;
         }

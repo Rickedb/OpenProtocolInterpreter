@@ -13,17 +13,17 @@ namespace OpenProtocolInterpreter.MIDs.Time
     public class MID_0082 : MID, ITime
     {
         private const int length = 39;
-        private const int mid = 81;
+        public const int MID = 81;
         private const int revision = 1;
 
         public DateTime Time { get; set; }
 
-        public MID_0082() : base(length, mid, revision)
+        public MID_0082() : base(length, MID, revision)
         {
 
         }
 
-        internal MID_0082(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0082(IMID nextTemplate) : base(length, MID, revision)
         {
             this.nextTemplate = nextTemplate;
         }

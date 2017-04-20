@@ -17,19 +17,19 @@ namespace OpenProtocolInterpreter.MIDs.Job
     public class MID_0038 : MID, IJob
     {
         private const int length = 22;
-        private const int mid = 38;
+        public const int MID = 38;
         private const int revision = 1;
 
         public int JobID { get; set; }
 
-        public MID_0038() : base(length, mid, revision) { }
+        public MID_0038() : base(length, MID, revision) { }
 
-        public MID_0038(int jobId) : base(length, mid, revision)
+        public MID_0038(int jobId) : base(length, MID, revision)
         {
             this.JobID = jobId;
         }
 
-        internal MID_0038(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0038(IMID nextTemplate) : base(length, MID, revision)
         {
             this.nextTemplate = nextTemplate;
         }

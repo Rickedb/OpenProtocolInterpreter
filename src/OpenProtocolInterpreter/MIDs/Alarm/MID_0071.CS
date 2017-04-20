@@ -15,17 +15,17 @@ namespace OpenProtocolInterpreter.MIDs.Alarm
     public class MID_0071 : MID, IAlarm
     {
         private const int length = 53;
-        private const int mid = 71;
+        public const int MID = 71;
         private const int revision = 1;
 
         public Alarms AlarmData { get; set; }
 
-        public MID_0071() : base(length, mid, revision)
+        public MID_0071() : base(length, MID, revision)
         {
 
         }
 
-        internal MID_0071(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0071(IMID nextTemplate) : base(length, MID, revision)
         {
             this.nextTemplate = nextTemplate;
         }

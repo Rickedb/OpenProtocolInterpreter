@@ -17,10 +17,10 @@ namespace OpenProtocolInterpreter.MIDs.LinkCommunication
     class MID_9998 : MID
     {
         private const int length = 27;
-        private const int mid = 9998;
+        public const int MID = 9998;
         private const int revision = 1;
 
-        public MID_9998() : base(length, mid, revision, null, null, null, new DataField[]
+        public MID_9998() : base(length, MID, revision, null, null, null, new DataField[]
         {
             new DataField((int)UsedsAs.MESSAGE_NUMBER, 16, 2),
             new DataField((int)UsedsAs.NUMBER_OF_MESSAGES, 18, 1),
@@ -30,7 +30,7 @@ namespace OpenProtocolInterpreter.MIDs.LinkCommunication
 
         }
 
-        internal MID_9998(IMID nextTemplate) : base(length, mid, revision, null, null, null, new DataField[] 
+        internal MID_9998(IMID nextTemplate) : base(length, MID, revision, null, null, null, new DataField[] 
         {
             new DataField((int)UsedsAs.MESSAGE_NUMBER, 16, 2),
             new DataField((int)UsedsAs.NUMBER_OF_MESSAGES, 18, 1),

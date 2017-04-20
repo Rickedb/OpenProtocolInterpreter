@@ -25,10 +25,10 @@ namespace OpenProtocolInterpreter.MIDs.KeepAlive
     public class MID_9999 : MID
     {
         private const int length = 20;
-        private const int mid = 9999;
+        public const int MID = 9999;
         private const int revision = 1;
 
-        public MID_9999() : base(length, mid, revision) { }
+        public MID_9999() : base(length, MID, revision) { }
 
         public override MID processPackage(string package)
         {

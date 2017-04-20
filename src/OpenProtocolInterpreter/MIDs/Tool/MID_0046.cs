@@ -13,14 +13,14 @@
     public class MID_0046 : MID, ITool
     {
         private const int length = 24;
-        private const int mid = 46;
+        public const int MID = 46;
         private const int revision = 1;
 
         public PrimaryTools PrimaryTool { get; set; }
 
-        public MID_0046() : base(length, mid, revision) {  }
+        public MID_0046() : base(length, MID, revision) {  }
 
-        internal MID_0046(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0046(IMID nextTemplate) : base(length, MID, revision)
         {
             this.nextTemplate = nextTemplate;
         }

@@ -11,12 +11,12 @@
     public class MID_0003 : MID, ICommunication
     {
         private const int length = 20;
-        private const int mid = 3;
+        public const int MID = 3;
         private const int revision = 1;
 
-        public MID_0003() : base(length, mid, revision) { }
+        public MID_0003() : base(length, MID, revision) { }
 
-        internal MID_0003(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0003(IMID nextTemplate) : base(length, MID, revision)
         {
             this.nextTemplate = nextTemplate;
         }

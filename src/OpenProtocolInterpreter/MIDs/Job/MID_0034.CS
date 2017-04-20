@@ -11,12 +11,12 @@
     public class MID_0034 : MID, IJob
     {
         private const int length = 20;
-        private const int mid = 34;
+        public const int MID = 34;
         private const int revision = 1;
 
-        public MID_0034() : base(length, mid, revision) { }
+        public MID_0034() : base(length, MID, revision) { }
 
-        internal MID_0034(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0034(IMID nextTemplate) : base(length, MID, revision)
         {
             this.nextTemplate = nextTemplate;
         }

@@ -11,14 +11,14 @@
     public class MID_0050 : MID, IVIN
     {
         private const int length = 45;
-        private const int mid = 50;
+        public const int MID = 50;
         private const int revision = 1;
 
         public string VINNumber{ get; set; }
 
-        public MID_0050() : base(length, mid, revision) { }
+        public MID_0050() : base(length, MID, revision) { }
 
-        internal MID_0050(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0050(IMID nextTemplate) : base(length, MID, revision)
         {
             this.nextTemplate = nextTemplate;
         }

@@ -17,19 +17,19 @@ namespace OpenProtocolInterpreter.MIDs.Tightening
     public class MID_0064 : MID, ITightening
     {
         private const int length = 30;
-        private const int mid = 64;
+        public const int MID = 64;
         private const int revision = 1;
         
         public int TighteningID { get; set; }
 
-        public MID_0064() : base(length, mid, revision) { }
+        public MID_0064() : base(length, MID, revision) { }
 
-        public MID_0064(int tighteningId) : base(length, mid, revision)
+        public MID_0064(int tighteningId) : base(length, MID, revision)
         {
             this.TighteningID = tighteningId;
         }
 
-        internal MID_0064(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0064(IMID nextTemplate) : base(length, MID, revision)
         {
             this.nextTemplate = nextTemplate;
         }

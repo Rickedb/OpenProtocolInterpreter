@@ -12,15 +12,15 @@ namespace OpenProtocolInterpreter.MIDs.Tool
     public class MID_0048 : MID, ITool
     {
         private const int length = 45;
-        private const int mid = 48;
+        public const int MID = 48;
         private const int revision = 1;
 
         public PairingStatuses PairingStatus { get; set; }
         public DateTime TimeStamp { get; set; }
 
-        public MID_0048() : base(length, mid, revision) { }
+        public MID_0048() : base(length, MID, revision) { }
 
-        internal MID_0048(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0048(IMID nextTemplate) : base(length, MID, revision)
         {
             this.nextTemplate = nextTemplate;
         }

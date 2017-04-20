@@ -11,15 +11,15 @@ namespace OpenProtocolInterpreter.MIDs.ParameterSet
     public class MID_0020 : MID, IParameterSet
     {
         private const int length = 23;
-        private const int mid = 20;
+        public const int MID = 20;
         private const int revision = 1;
 
         public int ParameterSetID { get; set; }
         public int BatchSize { get; set; }
 
-        public MID_0020() : base(length, mid, revision) { }
+        public MID_0020() : base(length, MID, revision) { }
 
-        internal MID_0020(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0020(IMID nextTemplate) : base(length, MID, revision)
         {
             this.nextTemplate = nextTemplate;
         }

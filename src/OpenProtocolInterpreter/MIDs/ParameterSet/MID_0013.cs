@@ -10,7 +10,7 @@
     public class MID_0013 : MID, IParameterSet
     {
         private const int length = 104;
-        private const int mid = 13;
+        public const int MID = 13;
         private const int revision = 1;
 
         public int ParameterSetID { get; set; }
@@ -24,11 +24,11 @@
         public int MaxAngle { get; set; }
         public int AngleFinalTarget { get; set; }
 
-        public MID_0013() : base(length, mid, revision) { }
+        public MID_0013() : base(length, MID, revision) { }
 
         public MID_0013(int parameterSetId, string parameterSetName, RotationDirections rotationDirection, int batchSize,
                         decimal minTorque, decimal maxTorque, decimal torqueFinalTarget, int minAngle, int maxAngle, 
-                        int angleFinalTarget) : base(length, mid, revision)
+                        int angleFinalTarget) : base(length, MID, revision)
         {
             this.ParameterSetID = parameterSetId;
             this.ParameterSetName = parameterSetName;
@@ -42,7 +42,7 @@
             this.AngleFinalTarget = angleFinalTarget;
         }
 
-        internal MID_0013(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0013(IMID nextTemplate) : base(length, MID, revision)
         {
             this.nextTemplate = nextTemplate;
         }

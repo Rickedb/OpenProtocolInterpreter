@@ -15,14 +15,14 @@
     public class MID_0047 : MID, ITool
     {
         private const int length = 24;
-        private const int mid = 47;
+        public const int MID = 47;
         private const int revision = 1;
 
         public PairingHandlingTypes PairingHandlingType { get; set; }
 
-        public MID_0047() : base(length, mid, revision) {  }
+        public MID_0047() : base(length, MID, revision) {  }
 
-        internal MID_0047(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0047(IMID nextTemplate) : base(length, MID, revision)
         {
             this.nextTemplate = nextTemplate;
         }

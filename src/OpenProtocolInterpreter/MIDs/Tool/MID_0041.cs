@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.MIDs.Tool
     public class MID_0041 : MID, ITool
     {
         private const int length = 81;
-        private const int mid = 41;
+        public const int MID = 41;
         private const int revision = 1;
 
         public string ToolSerialNumber { get; set; }
@@ -20,9 +20,9 @@ namespace OpenProtocolInterpreter.MIDs.Tool
         public DateTime LastCalibrationDate { get; set; }
         public string ControllerSerialNumber { get; set; }
 
-        public MID_0041() : base(length, mid, revision) { }
+        public MID_0041() : base(length, MID, revision) { }
 
-        internal MID_0041(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0041(IMID nextTemplate) : base(length, MID, revision)
         {
             this.nextTemplate = nextTemplate;
         }

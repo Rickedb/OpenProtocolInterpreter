@@ -6,6 +6,7 @@ using OpenProtocolInterpreter.MIDs.Job;
 using OpenProtocolInterpreter.MIDs.Job.Advanced;
 using OpenProtocolInterpreter.MIDs.Tightening;
 using OpenProtocolInterpreter.MIDs.Communication;
+using OpenProtocolInterpreter.MIDs.Alarm;
 
 namespace MIDTesters
 {

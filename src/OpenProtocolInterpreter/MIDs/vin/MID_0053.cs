@@ -16,15 +16,15 @@ namespace OpenProtocolInterpreter.MIDs.VIN
     public class MID_0053 : MID, IVIN
     {
         private const int length = 20;
-        private const int mid = 53;
+        public const int MID = 53;
         private const int revision = 1;
 
-        public MID_0053() : base(length, mid, revision)
+        public MID_0053() : base(length, MID, revision)
         {
 
         }
 
-        internal MID_0053(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0053(IMID nextTemplate) : base(length, MID, revision)
         {
             this.nextTemplate = nextTemplate;
         }

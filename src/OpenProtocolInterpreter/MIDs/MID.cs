@@ -15,12 +15,12 @@ namespace OpenProtocolInterpreter.MIDs
             this.RegisteredDataFields = new List<DataField>();
         }
 
-        public MID(int length, int mid, int revision, int? noAckFlag = null, int? spindleID = null, int? stationID = null, IEnumerable<DataField> usedAs = null)
+        public MID(int length, int MID, int revision, int? noAckFlag = null, int? spindleID = null, int? stationID = null, IEnumerable<DataField> usedAs = null)
         {
             this.HeaderData = new Header()
             {
                 Length = length,
-                Mid = mid,
+                Mid = MID,
                 Revision = revision,
                 NoAckFlag = noAckFlag,
                 SpindleID = spindleID,

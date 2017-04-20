@@ -20,17 +20,17 @@ namespace OpenProtocolInterpreter.MIDs.Communication
     public class MID_0006 : MID, ICommunication
     {
         private const int length = 24;
-        private const int mid = 5;
+        public const int MID = 5;
         private const int revision = 1;
 
         public int MIDAccepted { get; set; }
 
-        public MID_0006() : base(length, mid, revision)
+        public MID_0006() : base(length, MID, revision)
         {
 
         }
 
-        internal MID_0006(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0006(IMID nextTemplate) : base(length, MID, revision)
         {
             this.nextTemplate = nextTemplate;
         }

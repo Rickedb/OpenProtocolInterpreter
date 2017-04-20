@@ -14,7 +14,7 @@ namespace OpenProtocolInterpreter.MIDs.Communication
     public class MID_0002 : MID, ICommunication
     {
         private const int length = 20;
-        private const int mid = 2;
+        public const int MID = 2;
         private const int revision = 1;
 
         public int CellID { get; set; }
@@ -23,9 +23,9 @@ namespace OpenProtocolInterpreter.MIDs.Communication
 
         public string ControllerName { get; set; }
 
-        public MID_0002() : base(length, mid, revision) {  }
+        public MID_0002() : base(length, MID, revision) {  }
 
-        internal MID_0002(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0002(IMID nextTemplate) : base(length, MID, revision)
         {
             this.nextTemplate = nextTemplate;
         }

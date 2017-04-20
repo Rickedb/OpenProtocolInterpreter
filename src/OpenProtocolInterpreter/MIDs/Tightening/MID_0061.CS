@@ -11,7 +11,7 @@ namespace OpenProtocolInterpreter.MIDs.Tightening
     public class MID_0061 : MID, ITightening
     {
         private const int length = 231;
-        private const int mid = 61;
+        public const int MID = 61;
         private const int revision = 1;
 
         public int CellID { get; set; }
@@ -38,9 +38,9 @@ namespace OpenProtocolInterpreter.MIDs.Tightening
         public BatchStatuses BatchStatus { get; set; }
         public int TighteningID { get; set; }
 
-        public MID_0061() : base(length, mid, revision) {  }
+        public MID_0061() : base(length, MID, revision) {  }
 
-        internal MID_0061(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0061(IMID nextTemplate) : base(length, MID, revision)
         {
             this.nextTemplate = nextTemplate;
         }

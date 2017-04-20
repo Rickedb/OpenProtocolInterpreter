@@ -14,7 +14,7 @@ namespace OpenProtocolInterpreter.MIDs.Job
     public class MID_0035 : MID, IJob
     {
         private const int length = 63;
-        private const int mid = 35;
+        public const int MID = 35;
         private const int revision = 1;
 
         public int JobID { get; set; }
@@ -24,19 +24,19 @@ namespace OpenProtocolInterpreter.MIDs.Job
         public int JobBatchCounter { get; set; }
         public DateTime TimeStamp { get; set; }
 
-        public MID_0035() : base(length, mid, revision) {  }
+        public MID_0035() : base(length, MID, revision) {  }
 
-        public MID_0035(int jobId, int jobStatus, int jobBatchMode, int jobBatchSize, int jobBatchCounter, DateTime timestamp) : base(length, mid, revision)
+        public MID_0035(int jobId, int jobStatus, int jobBatchMode, int jobBatchSize, int jobBatchCounter, DateTime timestamp) : base(length, MID, revision)
         {
             this.constructMe(jobId, (JobStatuses)jobStatus, (JobBatchModes)jobBatchMode, jobBatchSize, jobBatchCounter, timestamp);
         }
 
-        public MID_0035(int jobId, JobStatuses jobStatus, JobBatchModes jobBatchMode, int jobBatchSize, int jobBatchCounter, DateTime timestamp) : base(length, mid, revision)
+        public MID_0035(int jobId, JobStatuses jobStatus, JobBatchModes jobBatchMode, int jobBatchSize, int jobBatchCounter, DateTime timestamp) : base(length, MID, revision)
         {
             this.constructMe(jobId, jobStatus, jobBatchMode, jobBatchSize, jobBatchCounter, timestamp);
         }
 
-        internal MID_0035(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0035(IMID nextTemplate) : base(length, MID, revision)
         {
             this.nextTemplate = nextTemplate;
         }

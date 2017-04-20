@@ -15,21 +15,21 @@ namespace OpenProtocolInterpreter.MIDs.ParameterSet
     public class MID_0015 : MID, IParameterSet
     {
         private const int length = 42;
-        private const int mid = 15;
+        public const int MID = 15;
         private const int revision = 1;
 
         public int ParameterSetID { get; set; }
         public DateTime LastChangeInParameterSet { get; set; }
 
-        public MID_0015() : base(length, mid, revision) { }
+        public MID_0015() : base(length, MID, revision) { }
 
-        public MID_0015(int parameterSetId, DateTime lastChangeInParameterSet) : base(length, mid, revision)
+        public MID_0015(int parameterSetId, DateTime lastChangeInParameterSet) : base(length, MID, revision)
         {
             this.ParameterSetID = parameterSetId;
             this.LastChangeInParameterSet = lastChangeInParameterSet;
         }
 
-        internal MID_0015(IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0015(IMID nextTemplate) : base(length, MID, revision)
         {
             this.nextTemplate = nextTemplate;
         }
