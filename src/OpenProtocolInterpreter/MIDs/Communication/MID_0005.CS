@@ -20,8 +20,8 @@ namespace OpenProtocolInterpreter.MIDs.Communication
     /// </summary>
     public class MID_0005 : MID, ICommunication
     {
-        private const int length = 24;
         public const int MID = 5;
+        private const int length = 24;
         private const int revision = 1;
 
         public int MIDAccepted { get; set; }

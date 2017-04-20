@@ -20,7 +20,8 @@ namespace OpenProtocolInterpreter.MIDs
                 { mid => this.isJobMessage(mid), package => new Job.JobMessages().processPackage(package) },
                 { mid => this.isAdvancedJobMessage(mid), package => new Job.Advanced.AdvancedJobMessages().processPackage(package) },
                 { mid => this.isTimeMessage(mid), package => new Time.TimeMessages().processPackage(package) },
-                { mid => this.isToolMessage(mid), package => new Tool.ToolMessages().processPackage(package) }
+                { mid => this.isToolMessage(mid), package => new Tool.ToolMessages().processPackage(package) },
+                { mid => this.isVINMessage(mid), package => new VIN.VINMessages().processPackage(package) }
             };
         }
 
@@ -36,7 +37,8 @@ namespace OpenProtocolInterpreter.MIDs
                 { mid => this.isJobMessage(mid), package => new Job.JobMessages(selectedMids.Where(x=> typeof(Job.IJob).IsAssignableFrom(x.GetType()))).processPackage(package) },
                 { mid => this.isAdvancedJobMessage(mid), package => new Job.Advanced.AdvancedJobMessages(selectedMids.Where(x=> typeof(Job.Advanced.IAdvancedJob).IsAssignableFrom(x.GetType()))).processPackage(package) },
                 { mid => this.isTimeMessage(mid), package => new Time.TimeMessages(selectedMids.Where(x=> typeof(Time.ITime).IsAssignableFrom(x.GetType()))).processPackage(package) },
-                { mid => this.isToolMessage(mid), package => new Tool.ToolMessages(selectedMids.Where(x=> typeof(Tool.ITool).IsAssignableFrom(x.GetType()))).processPackage(package) }
+                { mid => this.isToolMessage(mid), package => new Tool.ToolMessages(selectedMids.Where(x=> typeof(Tool.ITool).IsAssignableFrom(x.GetType()))).processPackage(package) },
+                { mid => this.isVINMessage(mid), package => new VIN.VINMessages(selectedMids.Where(x=> typeof(VIN.IVIN).IsAssignableFrom(x.GetType()))).processPackage(package) }
             };
         }
 
