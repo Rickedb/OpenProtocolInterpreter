@@ -45,6 +45,12 @@
     <Compile Include="MIDs\Alarm\MID_0070.cs" />
     <Compile Include="MIDs\Alarm\MID_0071.cs" />
     <Compile Include="MIDs\Alarm\MID_0072.cs" />
+    <Compile Include="MIDs\Alarm\MID_0073.cs" />
+    <Compile Include="MIDs\Alarm\MID_0074.cs" />
+    <Compile Include="MIDs\Alarm\MID_0075.cs" />
+    <Compile Include="MIDs\Alarm\MID_0076.cs" />
+    <Compile Include="MIDs\Alarm\MID_0077.cs" />
+    <Compile Include="MIDs\Alarm\MID_0078.cs" />
     <Compile Include="MIDs\Communication\ICommunication.cs" />
     <Compile Include="MIDs\Communication\MID_0001.cs" />
     <Compile Include="MIDs\Communication\MID_0002.cs" />
@@ -78,6 +84,12 @@
     <Compile Include="MIDs\Communication\MID_0004.CS" />
     <Compile Include="MIDs\Communication\MID_0005.CS" />
     <Compile Include="MIDs\Communication\CommunicationMessages.cs" />
+    <Compile Include="MIDs\MultiSpindle\MultiSpindleMessages.cs" />
+    <Compile Include="MIDs\MultiSpindle\Result\MID_0100.cs" />
+    <Compile Include="MIDs\MultiSpindle\IMultiSpindle.cs" />
+    <Compile Include="MIDs\MultiSpindle\Status\MID_0090.cs" />
+    <Compile Include="MIDs\MultiSpindle\Status\MID_0091.cs" />
+    <Compile Include="MIDs\MultiSpindle\Status\MID_0092.cs" />
     <Compile Include="MIDs\ParameterSet\IParameterSet.cs" />
     <Compile Include="MIDs\ParameterSet\MID_0010.cs" />
     <Compile Include="MIDs\ParameterSet\MID_0011.cs" />
@@ -140,7 +152,6 @@
     <Folder Include="MIDs\IOInterface\" />
     <Folder Include="MIDs\MotorTuning\" />
     <Folder Include="MIDs\MultipleIdentifiers\" />
-    <Folder Include="MIDs\MultiSpindle\" />
     <Folder Include="MIDs\OpenProtocolCommandsDisabled\" />
     <Folder Include="MIDs\ParameterSet\PLCUserData\" />
     <Folder Include="MIDs\PowerMACS\" />

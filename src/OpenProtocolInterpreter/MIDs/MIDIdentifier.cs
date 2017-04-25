@@ -21,7 +21,8 @@ namespace OpenProtocolInterpreter.MIDs
                 { mid => this.isAdvancedJobMessage(mid), package => new Job.Advanced.AdvancedJobMessages().processPackage(package) },
                 { mid => this.isTimeMessage(mid), package => new Time.TimeMessages().processPackage(package) },
                 { mid => this.isToolMessage(mid), package => new Tool.ToolMessages().processPackage(package) },
-                { mid => this.isVINMessage(mid), package => new VIN.VINMessages().processPackage(package) }
+                { mid => this.isVINMessage(mid), package => new VIN.VINMessages().processPackage(package) },
+                { mid => this.isMultiSpindleMessage(mid), package => new MultiSpindle.MultiSpindleMessages(selectedMids.Where(x=> typeof(MultiSpindle.IMultiSpindle).IsAssignableFrom(x.GetType()))).processPackage(package) }
             };
         }
 
@@ -38,7 +39,8 @@ namespace OpenProtocolInterpreter.MIDs
                 { mid => this.isAdvancedJobMessage(mid), package => new Job.Advanced.AdvancedJobMessages(selectedMids.Where(x=> typeof(Job.Advanced.IAdvancedJob).IsAssignableFrom(x.GetType()))).processPackage(package) },
                 { mid => this.isTimeMessage(mid), package => new Time.TimeMessages(selectedMids.Where(x=> typeof(Time.ITime).IsAssignableFrom(x.GetType()))).processPackage(package) },
                 { mid => this.isToolMessage(mid), package => new Tool.ToolMessages(selectedMids.Where(x=> typeof(Tool.ITool).IsAssignableFrom(x.GetType()))).processPackage(package) },
-                { mid => this.isVINMessage(mid), package => new VIN.VINMessages(selectedMids.Where(x=> typeof(VIN.IVIN).IsAssignableFrom(x.GetType()))).processPackage(package) }
+                { mid => this.isVINMessage(mid), package => new VIN.VINMessages(selectedMids.Where(x=> typeof(VIN.IVIN).IsAssignableFrom(x.GetType()))).processPackage(package) },
+                { mid => this.isMultiSpindleMessage(mid), package => new MultiSpindle.MultiSpindleMessages(selectedMids.Where(x=> typeof(MultiSpindle.IMultiSpindle).IsAssignableFrom(x.GetType()))).processPackage(package) }
             };
         }
 
