@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.MIDs.Time
     public class MID_0082 : MID, ITime
     {
         private const int length = 39;
-        public const int MID = 81;
+        public const int MID = 82;
         private const int revision = 1;
 
         public DateTime Time { get; set; }

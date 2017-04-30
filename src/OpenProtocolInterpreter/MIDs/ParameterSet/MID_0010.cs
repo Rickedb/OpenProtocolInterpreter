@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OpenProtocolInterpreter.MIDs.ParameterSet
+﻿namespace OpenProtocolInterpreter.MIDs.ParameterSet
 {
     /// <summary>
     /// MID: Parameter set ID upload request
