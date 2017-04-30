@@ -27,7 +27,7 @@
         public override MID processPackage(string package)
         {
             if (base.isCorrectType(package))
-                return base.processPackage(package);
+                return (MID_0080)base.processPackage(package);
 
             return this.nextTemplate.processPackage(package);
         }
