@@ -1,5 +1,10 @@
 ﻿using System;
-namespace OpenProtocolInterpreter.MIDs.Tightening
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DCX.ITLC.UMI.AtlasCopco.OpenProtocol.MIDs.Tightening
 {
     /// <summary>
     /// MID: Old tightening result upload request
@@ -14,49 +19,20 @@ namespace OpenProtocolInterpreter.MIDs.Tightening
     ///         or MID 0004 Command error, Tightening ID requested not found,
     ///         or MID revision not supported
     /// </summary>
-    public class MID_0064 : MID, ITightening
+    public class MID_0064 : MID
     {
         private const int length = 30;
-        public const int MID = 64;
+        private const int mid = 64;
         private const int revision = 1;
-        
-        public int TighteningID { get; set; }
 
-        public MID_0064() : base(length, MID, revision) { }
-
-        public MID_0064(int tighteningId) : base(length, MID, revision)
+        public MID_0064() : base(length, mid, revision)
         {
-            this.TighteningID = tighteningId;
+
         }
 
-        internal MID_0064(IMID nextTemplate) : base(length, MID, revision)
+        public override IEnumerable<DataField> processPackage(string package)
         {
-            this.nextTemplate = nextTemplate;
-        }
-
-        public override string buildPackage() { return base.buildHeader() + this.TighteningID.ToString().PadRight(10, ' '); }
-
-        public override MID processPackage(string package)
-        {
-            if (base.isCorrectType(package))
-            {
-                this.HeaderData = this.processHeader(package);
-                var dataField = base.RegisteredDataFields[(int)DataFields.TIGHTENING_ID];
-                this.TighteningID = Convert.ToInt32(package.Substring(dataField.Index, dataField.Size));
-                return this;
-            }
-
-            return this.nextTemplate.processPackage(package);
-        }
-
-        protected override void registerDatafields()
-        {
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.TIGHTENING_ID, 20, 10));
-        }
-
-        public enum DataFields
-        {
-            TIGHTENING_ID
+            throw new NotImplementedException();
         }
     }
 }

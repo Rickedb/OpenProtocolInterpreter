@@ -1,34 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using DCX.ITLC.UMI.AtlasCopco.OpenProtocol.MIDs.Interfaces;
 
-namespace OpenProtocolInterpreter.MIDs
+namespace DCX.ITLC.UMI.AtlasCopco.OpenProtocol.MIDs
 {
     public abstract class MID : IMID
     {
-        protected IMID nextTemplate;
-
-        protected abstract void registerDatafields();
-
         public MID(Header header)
         {
             this.HeaderData = header;
             this.RegisteredDataFields = new List<DataField>();
         }
 
-        public MID(int length, int MID, int revision, int? noAckFlag = null, int? spindleID = null, int? stationID = null, IEnumerable<DataField> usedAs = null)
+        public MID(int length, int mid, int revision, int? noAckFlag = null, int? spindleID = null, int? stationID = null)
         {
             this.HeaderData = new Header()
             {
                 Length = length,
-                Mid = MID,
+                Mid = mid,
                 Revision = revision,
                 NoAckFlag = noAckFlag,
                 SpindleID = spindleID,
-                StationID = stationID,
-                UsedAs = usedAs
+                StationID = stationID
             };
             this.RegisteredDataFields = new List<DataField>();
-            this.registerDatafields();
         }
 
         public List<DataField> RegisteredDataFields { get; set; }
@@ -46,7 +41,7 @@ namespace OpenProtocolInterpreter.MIDs
             return false;
         }
 
-        protected virtual string buildHeader() { return this.HeaderData.ToString(); }
+        protected string buildHeader() { return this.HeaderData.ToString(); }
 
         public virtual string buildPackage()
         {
@@ -61,17 +56,16 @@ namespace OpenProtocolInterpreter.MIDs
             return package;
         }
 
-
-        protected virtual Header processHeader(string package)
+        protected Header processHeader(string package)
         {
             Header header = new Header();
 
             header.Length = Convert.ToInt32(package.Substring(0, 4));
             header.Mid = Convert.ToInt32(package.Substring(4, 4));
-            header.Revision = (!string.IsNullOrWhiteSpace(package.Substring(8, 3))) ? Convert.ToInt32(package.Substring(8, 3)) : 1;
-            header.NoAckFlag = (!string.IsNullOrWhiteSpace(package.Substring(11, 1))) ? (int?)Convert.ToInt32(package.Substring(11, 1)) : null;
-            header.StationID = (!string.IsNullOrWhiteSpace(package.Substring(12, 2))) ? (int?)Convert.ToInt32(package.Substring(12, 2)) : null;
-            header.SpindleID = (!string.IsNullOrWhiteSpace(package.Substring(14, 2))) ? (int?)Convert.ToInt32(package.Substring(14, 2)) : null;
+            header.Revision = Convert.ToInt32(package.Substring(8, 3));
+            header.NoAckFlag = (!string.IsNullOrEmpty(package.Substring(11, 1))) ? (int?)Convert.ToInt32(package.Substring(11, 1)) : null;
+            header.StationID = (!string.IsNullOrEmpty(package.Substring(12, 2))) ? (int?)Convert.ToInt32(package.Substring(12, 2)) : null;
+            header.SpindleID = (!string.IsNullOrEmpty(package.Substring(14, 2))) ? (int?)Convert.ToInt32(package.Substring(14, 2)) : null;
 
             return header;
         }
@@ -85,8 +79,12 @@ namespace OpenProtocolInterpreter.MIDs
 
         protected void processDataFields(string package)
         {
+            int identifierIterator = 2; //Precedent numbers of each datafield "01FIELD02FIELD03FIELD", etc...
             foreach (var dataField in this.RegisteredDataFields)
-                dataField.Value = package.Substring(2 + dataField.Index, dataField.Size);
+            {
+                dataField.Value = package.Substring(20+ identifierIterator + dataField.Index, dataField.Size);
+                identifierIterator += 2;
+            }
         }
 
         public struct Header
@@ -97,7 +95,6 @@ namespace OpenProtocolInterpreter.MIDs
             public int? NoAckFlag { get; set; }
             public int? SpindleID { get; set; }
             public int? StationID { get; set; }
-            public IEnumerable<DataField> UsedAs { get; set; }
 
             public override string ToString()
             {
@@ -106,23 +103,11 @@ namespace OpenProtocolInterpreter.MIDs
                 header += this.Mid.ToString().PadLeft(4, '0');
                 header += this.Revision.ToString().PadLeft(3, '0');
                 header += this.NoAckFlag.ToString().PadLeft(1, ' ');
-                header += (this.StationID != null) ? this.StationID.ToString().PadLeft(2, '0') : this.StationID.ToString().PadLeft(2, ' ');
-                header += (this.SpindleID != null) ? this.SpindleID.ToString().PadLeft(2, '0') : this.SpindleID.ToString().PadLeft(2, ' ');
-                string usedAs = "    ";
-                if (UsedAs != null)
-                {
-                    usedAs = string.Empty;
-                    foreach (DataField field in UsedAs)
-                        usedAs += field.Value.ToString();
-                }
-                header += usedAs;
+                header += this.StationID.ToString().PadLeft(2, '0');
+                header += this.SpindleID.ToString().PadLeft(2, '0');
+                header += "   "; //"Used as" (doesn't matter for UMI)
                 return header;
             }
-        }
-
-        internal void setNextTemplate(MID mid)
-        {
-            this.nextTemplate = mid;
         }
     }
 }

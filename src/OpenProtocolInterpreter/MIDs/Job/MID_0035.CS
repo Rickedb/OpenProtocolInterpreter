@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace OpenProtocolInterpreter.MIDs.Job
+namespace DCX.ITLC.UMI.AtlasCopco.OpenProtocol.MIDs.Job
 {
     /// <summary>
     /// MID: Job info
@@ -11,10 +15,12 @@ namespace OpenProtocolInterpreter.MIDs.Job
     /// Message sent by: Controller
     /// Answer: MID 0036
     /// </summary>
-    public class MID_0035 : MID, IJob
+    public class MID_0035 : MID
     {
+        private readonly Interfaces.IMID nextTemplate;
+
         private const int length = 63;
-        public const int MID = 35;
+        private const int mid = 35;
         private const int revision = 1;
 
         public int JobID { get; set; }
@@ -24,20 +30,21 @@ namespace OpenProtocolInterpreter.MIDs.Job
         public int JobBatchCounter { get; set; }
         public DateTime TimeStamp { get; set; }
 
-        public MID_0035() : base(length, MID, revision) {  }
-
-        public MID_0035(int jobId, int jobStatus, int jobBatchMode, int jobBatchSize, int jobBatchCounter, DateTime timestamp) : base(length, MID, revision)
+        public MID_0035(int jobId, int jobStatus, int jobBatchMode, int jobBatchSize, int jobBatchCounter, DateTime timestamp) : base(length, mid, revision)
         {
+            this.registerDatafields();
             this.constructMe(jobId, (JobStatuses)jobStatus, (JobBatchModes)jobBatchMode, jobBatchSize, jobBatchCounter, timestamp);
         }
 
-        public MID_0035(int jobId, JobStatuses jobStatus, JobBatchModes jobBatchMode, int jobBatchSize, int jobBatchCounter, DateTime timestamp) : base(length, MID, revision)
+        public MID_0035(int jobId, JobStatuses jobStatus, JobBatchModes jobBatchMode, int jobBatchSize, int jobBatchCounter, DateTime timestamp) : base(length, mid, revision)
         {
+            this.registerDatafields();
             this.constructMe(jobId, jobStatus, jobBatchMode, jobBatchSize, jobBatchCounter, timestamp);
         }
 
-        internal MID_0035(IMID nextTemplate) : base(length, MID, revision)
+        public MID_0035(Interfaces.IMID nextTemplate) : base(length, mid, revision)
         {
+            this.registerDatafields();
             this.nextTemplate = nextTemplate;
         }
 
@@ -58,12 +65,12 @@ namespace OpenProtocolInterpreter.MIDs.Job
             {
                 base.processPackage(package);
 
-                this.JobID = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.JOB_ID].Value);
-                this.JobStatus = (JobStatuses)Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.JOB_STATUS].Value);
-                this.JobBatchMode = (JobBatchModes)Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.JOB_BATCH_MODE].Value);
-                this.JobBatchSize = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.JOB_BATCH_SIZE].Value);
-                this.JobBatchCounter = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.JOB_BATCH_COUNTER].Value);
-                this.TimeStamp = base.RegisteredDataFields[(int)DataFields.TIMESTAMP].ToDateTime();
+                this.JobID = (int)base.RegisteredDataFields[(int)DataFields.JOB_ID].Value;
+                this.JobStatus = (JobStatuses)base.RegisteredDataFields[(int)DataFields.JOB_STATUS].Value;
+                this.JobBatchMode = (JobBatchModes)base.RegisteredDataFields[(int)DataFields.JOB_BATCH_MODE].Value;
+                this.JobBatchSize = (int)base.RegisteredDataFields[(int)DataFields.JOB_BATCH_SIZE].Value;
+                this.JobBatchCounter = (int)base.RegisteredDataFields[(int)DataFields.JOB_BATCH_COUNTER].Value;
+                this.TimeStamp = Convert.ToDateTime(base.RegisteredDataFields[(int)DataFields.TIMESTAMP].Value);
 
                 return this;
             }
@@ -81,17 +88,17 @@ namespace OpenProtocolInterpreter.MIDs.Job
             this.TimeStamp = timestamp;
         }
 
-        protected override void registerDatafields()
+        private void registerDatafields()
         {
             this.RegisteredDataFields.AddRange(
                 new DataField[]
                 {
-                    new DataField((int)DataFields.JOB_ID, 20, 2),
-                    new DataField((int)DataFields.JOB_STATUS, 24, 1),
-                    new DataField((int)DataFields.JOB_BATCH_MODE, 27, 1),
-                    new DataField((int)DataFields.JOB_BATCH_SIZE, 30, 4),
-                    new DataField((int)DataFields.JOB_BATCH_COUNTER, 36, 4),
-                    new DataField((int)DataFields.TIMESTAMP, 42, 19)
+                    new DataField((int)DataFields.JOB_ID, 0, 2),
+                    new DataField((int)DataFields.JOB_STATUS, 2, 1),
+                    new DataField((int)DataFields.JOB_BATCH_MODE, 3, 1),
+                    new DataField((int)DataFields.JOB_BATCH_SIZE, 4, 4),
+                    new DataField((int)DataFields.JOB_BATCH_COUNTER, 8, 4),
+                    new DataField((int)DataFields.TIMESTAMP, 12, 19)
                 });
         }
 

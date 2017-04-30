@@ -1,4 +1,10 @@
-﻿namespace OpenProtocolInterpreter.MIDs.Tightening
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DCX.ITLC.UMI.AtlasCopco.OpenProtocol.MIDs.Tightening
 {
     /// <summary>
     /// MID: Last tightening result data acknowledge
@@ -6,31 +12,20 @@
     /// Message sent by: Integrator
     /// Answer: None
     /// </summary>
-    public class MID_0062 : MID, ITightening
+    public class MID_0062 : MID
     {
         private const int length = 20;
-        public const int MID = 62;
+        private const int mid = 62;
         private const int revision = 1;
-        
 
-        public MID_0062() : base(length, MID, revision)
+        public MID_0062() : base(length, mid, revision)
         {
 
         }
 
-        internal MID_0062(IMID nextTemplate) : base(length, MID, revision)
+        public override IEnumerable<DataField> processPackage(string package)
         {
-            this.nextTemplate = nextTemplate;
+            throw new NotImplementedException();
         }
-
-        public override MID processPackage(string package)
-        {
-            if (base.isCorrectType(package))
-                return base.processPackage(package);
-
-            return this.nextTemplate.processPackage(package);
-        }
-
-        protected override void registerDatafields() { }
     }
 }
