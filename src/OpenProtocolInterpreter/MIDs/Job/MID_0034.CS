@@ -1,4 +1,4 @@
-﻿namespace DCX.ITLC.UMI.AtlasCopco.OpenProtocol.MIDs.Job
+﻿namespace OpenProtocolInterpreter.MIDs.Job
 {
     /// <summary>
     /// MID: Job Info Subscribe
@@ -8,17 +8,15 @@
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command Accepted or MID 0004 Command error, Job info subscription already exists
     /// </summary>
-    public class MID_0034 : MID
+    public class MID_0034 : MID, IJob
     {
-        private readonly Interfaces.IMID nextTemplate;
-
-        private const int length = 63;
-        private const int mid = 35;
+        private const int length = 20;
+        public const int MID = 34;
         private const int revision = 1;
 
-        public MID_0034() : base(length, mid, revision) { }
+        public MID_0034() : base(length, MID, revision) { }
 
-        public MID_0034(Interfaces.IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0034(IMID nextTemplate) : base(length, MID, revision)
         {
             this.nextTemplate = nextTemplate;
         }
@@ -30,5 +28,7 @@
 
             return this.nextTemplate.processPackage(package);
         }
+
+        protected override void registerDatafields() { }
     }
 }

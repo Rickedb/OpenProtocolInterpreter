@@ -87,9 +87,6 @@
     <Compile Include="MIDs\MultiSpindle\MultiSpindleMessages.cs" />
     <Compile Include="MIDs\MultiSpindle\Result\MID_0100.cs" />
     <Compile Include="MIDs\MultiSpindle\IMultiSpindle.cs" />
-    <Compile Include="MIDs\MultiSpindle\Result\MID_0101.cs" />
-    <Compile Include="MIDs\MultiSpindle\Result\MID_0102.cs" />
-    <Compile Include="MIDs\MultiSpindle\Result\MID_0103.cs" />
     <Compile Include="MIDs\MultiSpindle\Status\MID_0090.cs" />
     <Compile Include="MIDs\MultiSpindle\Status\MID_0091.cs" />
     <Compile Include="MIDs\MultiSpindle\Status\MID_0092.cs" />

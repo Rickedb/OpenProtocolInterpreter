@@ -1,4 +1,10 @@
-﻿namespace OpenProtocolInterpreter.MIDs.MultiSpindle.Result
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace OpenProtocolInterpreter.MIDs.MultiSpindle.Result
 {
     /// <summary>
     /// MID: Multi-spindle status subscribe
@@ -13,27 +19,11 @@
     ///         Controller is not a sync master/station controller, 
     ///         Multi-spindle result subscription already exists or MID revision unsupported
     /// </summary>
-    public class MID_0100 : MID, IMultiSpindle
+    class MID_0100 
     {
         public const int MID = 100;
         private const int length = 20;
         private const int revision = 1;
 
-        public MID_0100() : base(length, MID, revision) { }
-
-        internal MID_0100(IMID nextTemplate) : base(length, MID, revision)
-        {
-            this.nextTemplate = nextTemplate;
-        }
-
-        public override MID processPackage(string package)
-        {
-            if (base.isCorrectType(package))
-                return (MID_0100)base.processPackage(package);
-
-            return this.nextTemplate.processPackage(package);
-        }
-
-        protected override void registerDatafields() { }
     }
 }

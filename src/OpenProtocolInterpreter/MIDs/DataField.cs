@@ -1,16 +1,11 @@
-﻿namespace DCX.ITLC.UMI.AtlasCopco.OpenProtocol.MIDs
+﻿namespace OpenProtocolInterpreter.MIDs
 {
     public class DataField
     {
         public int Field { get; set; }
         public int Index { get; set; }
         public int Size { get; set; }
-        public object Value
-        {
-            get;
-            set;
-
-        }
+        public object Value { get; set; }
 
         public DataField(int field, int index, int size)
         {
@@ -50,6 +45,22 @@
         public string getPaddedRightValue(char character)
         {
             return this.Value.ToString().PadRight(this.Size, character);
+        }
+
+        public System.DateTime ToDateTime()
+        {
+            var date = this.Value.ToString();
+            return System.Convert.ToDateTime(date.Substring(0, 10) + " " + date.Substring(11, 8));
+        }
+
+        public int ToInt32()
+        {
+            return System.Convert.ToInt32(this.Value);
+        }
+
+        public bool ToBoolean()
+        {
+            return System.Convert.ToBoolean(this.ToInt32());
         }
 
         private void createObject(int field, int index, int size, object value)

@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DCX.ITLC.UMI.AtlasCopco.OpenProtocol.MIDs.KeepAlive
+namespace OpenProtocolInterpreter.MIDs.KeepAlive
 {
     /// <summary>
     /// MID: Keep alive message
@@ -25,23 +21,19 @@ namespace DCX.ITLC.UMI.AtlasCopco.OpenProtocol.MIDs.KeepAlive
     public class MID_9999 : MID
     {
         private const int length = 20;
-        private const int mid = 9999;
+        public const int MID = 9999;
         private const int revision = 1;
 
-        public MID_9999() : base(length, mid, revision) { }
+        public MID_9999() : base(length, MID, revision) { }
 
-        public override string buildPackage(IEnumerable<object> dataFields)
+        public override MID processPackage(string package)
         {
-            if (base.isCorrectType(mid))
-                return base.buildPackage(dataFields);
+            if (this.isCorrectType(package))
+                return base.processPackage(package);
 
-            throw new NotImplementedException("O MID <" + mid + "> não está implementado!");
+            throw new NotImplementedException("MID not implemented or doesn't exists!");
         }
 
-        public override bool processPackage(string package)
-        {
-            base.processHeader(package);
-            return true;
-        }
+        protected override void registerDatafields() { }
     }
 }

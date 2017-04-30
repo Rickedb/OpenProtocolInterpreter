@@ -1,4 +1,6 @@
-﻿namespace DCX.ITLC.UMI.AtlasCopco.OpenProtocol.MIDs.Job
+﻿using System;
+
+namespace OpenProtocolInterpreter.MIDs.Job
 {
     /// <summary>
     /// MID: Job info unsubscribe
@@ -6,17 +8,15 @@
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted or MID 0004 Command error, Job info subscription does not exist
     /// </summary>
-    public class MID_0037 : MID
+    public class MID_0037 : MID, IJob
     {
-        private readonly Interfaces.IMID nextTemplate;
-
         private const int length = 20;
-        private const int mid = 37;
+        public const int MID = 37;
         private const int revision = 1;
         
-        public MID_0037() : base(length, mid, revision) { }
+        public MID_0037() : base(length, MID, revision) { }
 
-        public MID_0037(Interfaces.IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0037(IMID nextTemplate) : base(length, MID, revision)
         {
             this.nextTemplate = nextTemplate;
         }
@@ -26,7 +26,9 @@
             if (base.isCorrectType(package))
                 return (MID_0037)base.processPackage(package);
 
-            return this.nextTemplate.processPackage(package);
+            throw new NotImplementedException("MID not implemented or doesn't exists!");
         }
+
+        protected override void registerDatafields() { }
     }
 }

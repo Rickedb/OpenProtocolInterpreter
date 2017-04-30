@@ -1,4 +1,5 @@
-﻿namespace DCX.ITLC.UMI.AtlasCopco.OpenProtocol.MIDs.Tightening
+﻿using System;
+namespace OpenProtocolInterpreter.MIDs.Tightening
 {
     /// <summary>
     /// MID: Last tightening result data subscribe
@@ -11,20 +12,18 @@
     /// Answer: MID 0005 Command accepted or MID 0004 Command error, Last tightening subscription already 
     ///         exists or MID revision not supported
     /// </summary>
-    public class MID_0060 : MID
+    public class MID_0060 : MID, ITightening
     {
-        private readonly Interfaces.IMID nextTemplate;
-
         private const int length = 20;
-        private const int mid = 60;
+        public const int MID = 60;
         private const int revision = 1;
 
-        public MID_0060() : base(length, mid, revision)
+        public MID_0060() : base(length, MID, revision)
         {
 
         }
 
-        public MID_0060(Interfaces.IMID nextTemplate) : base(length, mid, revision)
+        internal MID_0060(IMID nextTemplate) : base(length, MID, revision)
         {
             this.nextTemplate = nextTemplate;
         }
@@ -32,9 +31,11 @@
         public override MID processPackage(string package)
         {
             if(base.isCorrectType(package))
-                return (MID_0060)base.processPackage(package);
+                return base.processPackage(package);
 
-            return this.nextTemplate.processPackage(package);
+            throw new NotImplementedException("MID not implemented or doesn't exists");
         }
+
+        protected override void registerDatafields() { }
     }
 }
