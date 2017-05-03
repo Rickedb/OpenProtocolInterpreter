@@ -112,6 +112,12 @@
     <Compile Include="MIDs\ParameterSet\MID_2504.cs" />
     <Compile Include="MIDs\ParameterSet\MID_2505.cs" />
     <Compile Include="MIDs\ParameterSet\ParameterSetMessages.cs" />
+    <Compile Include="MIDs\PowerMACS\IPowerMACS.cs" />
+    <Compile Include="MIDs\PowerMACS\MID_0105.cs" />
+    <Compile Include="MIDs\PowerMACS\MID_0106.cs" />
+    <Compile Include="MIDs\PowerMACS\MID_0107.cs" />
+    <Compile Include="MIDs\PowerMACS\MID_0108.cs" />
+    <Compile Include="MIDs\PowerMACS\MID_0109.cs" />
     <Compile Include="MIDs\Tightening\ITightening.cs" />
     <Compile Include="MIDs\Tightening\MID_0060.CS" />
     <Compile Include="MIDs\Tightening\MID_0061.CS" />
@@ -137,6 +143,11 @@
     <Compile Include="MIDs\Tool\MID_0048.cs" />
     <Compile Include="MIDs\Tool\MID_0700.cs" />
     <Compile Include="MIDs\Tool\ToolMessages.cs" />
+    <Compile Include="MIDs\UserInterface\IUserInterface.cs" />
+    <Compile Include="MIDs\UserInterface\MID_0111.cs" />
+    <Compile Include="MIDs\UserInterface\MID_0113.cs" />
+    <Compile Include="MIDs\UserInterface\MID_0110.cs" />
+    <Compile Include="MIDs\UserInterface\UserInterfaceMessages.cs" />
     <Compile Include="MIDs\VIN\IVIN.cs" />
     <Compile Include="MIDs\VIN\MID_0053.cs" />
     <Compile Include="MIDs\VIN\MID_0050.cs" />
@@ -154,12 +165,10 @@
     <Folder Include="MIDs\MultipleIdentifiers\" />
     <Folder Include="MIDs\OpenProtocolCommandsDisabled\" />
     <Folder Include="MIDs\ParameterSet\PLCUserData\" />
-    <Folder Include="MIDs\PowerMACS\" />
     <Folder Include="MIDs\Reply\" />
     <Folder Include="MIDs\Selector\" />
     <Folder Include="MIDs\Statistic\" />
     <Folder Include="MIDs\ToolLocationSystem\" />
-    <Folder Include="MIDs\UserInterface\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

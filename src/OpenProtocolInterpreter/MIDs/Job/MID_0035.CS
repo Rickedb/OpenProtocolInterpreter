@@ -58,11 +58,11 @@ namespace OpenProtocolInterpreter.MIDs.Job
             {
                 base.processPackage(package);
 
-                this.JobID = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.JOB_ID].Value);
-                this.JobStatus = (JobStatuses)Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.JOB_STATUS].Value);
-                this.JobBatchMode = (JobBatchModes)Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.JOB_BATCH_MODE].Value);
-                this.JobBatchSize = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.JOB_BATCH_SIZE].Value);
-                this.JobBatchCounter = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.JOB_BATCH_COUNTER].Value);
+                this.JobID = base.RegisteredDataFields[(int)DataFields.JOB_ID].ToInt32();
+                this.JobStatus = (JobStatuses)base.RegisteredDataFields[(int)DataFields.JOB_STATUS].ToInt32();
+                this.JobBatchMode = (JobBatchModes)base.RegisteredDataFields[(int)DataFields.JOB_BATCH_MODE].ToInt32();
+                this.JobBatchSize = base.RegisteredDataFields[(int)DataFields.JOB_BATCH_SIZE].ToInt32();
+                this.JobBatchCounter = base.RegisteredDataFields[(int)DataFields.JOB_BATCH_COUNTER].ToInt32();
                 this.TimeStamp = base.RegisteredDataFields[(int)DataFields.TIMESTAMP].ToDateTime();
 
                 return this;
