@@ -26,7 +26,7 @@ namespace OpenProtocolInterpreter.MIDs.Job
             if (base.isCorrectType(package))
                 return (MID_0037)base.processPackage(package);
 
-            throw new NotImplementedException("MID not implemented or doesn't exists!");
+            return this.nextTemplate.processPackage(package);
         }
 
         protected override void registerDatafields() { }

@@ -32,7 +32,7 @@ namespace OpenProtocolInterpreter.MIDs.Time
         {
             string package = base.buildHeader();
             package += this.Time.ToString("yyyy-MM-dd:HH:mm:ss");
-            return base.buildPackage();
+            return package;
         }
 
         public override MID processPackage(string package)
@@ -45,7 +45,7 @@ namespace OpenProtocolInterpreter.MIDs.Time
                 return this;
             }
 
-            throw new NotImplementedException("MID not implemented or doesn't exists");
+            return this.nextTemplate.processPackage(package);
         }
 
         protected override void registerDatafields()

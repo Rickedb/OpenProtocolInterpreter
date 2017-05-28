@@ -15,6 +15,7 @@ namespace OpenProtocolInterpreter.MIDs
             {
                 { mid => this.isKeepAliveMessage(mid), package => new KeepAlive.MID_9999() },
                 { mid => this.isCommunicationMessage(mid), package => new Communication.CommunicationMessages().processPackage(package) },
+				{ mid => this.isParameterSetMessage(mid), package => new ParameterSet.ParameterSetMessages().processPackage(package) },
                 { mid => this.isAlarmMessage(mid), package => new Alarm.AlarmMessages().processPackage(package) },
                 { mid => this.isTighteningMessage(mid), package => new Tightening.TighteningMessages().processPackage(package) },
                 { mid => this.isJobMessage(mid), package => new Job.JobMessages().processPackage(package) },
@@ -34,6 +35,7 @@ namespace OpenProtocolInterpreter.MIDs
             {
                 { mid => this.isKeepAliveMessage(mid), package => new KeepAlive.MID_9999() },
                 { mid => this.isCommunicationMessage(mid), package => new Communication.CommunicationMessages(selectedMids.Where(x=> typeof(Communication.ICommunication).IsAssignableFrom(x.GetType()))).processPackage(package) },
+				{ mid => this.isParameterSetMessage(mid), package => new ParameterSet.ParameterSetMessages(selectedMids.Where(x=> typeof(ParameterSet.IParameterSet).IsAssignableFrom(x.GetType()))).processPackage(package) },
                 { mid => this.isAlarmMessage(mid), package => new Alarm.AlarmMessages(selectedMids.Where(x=> typeof(Alarm.IAlarm).IsAssignableFrom(x.GetType()))).processPackage(package) },
                 { mid => this.isTighteningMessage(mid), package => new Tightening.TighteningMessages(selectedMids.Where(x=> typeof(Tightening.ITightening).IsAssignableFrom(x.GetType()))).processPackage(package) },
                 { mid => this.isJobMessage(mid), package => new Job.JobMessages(selectedMids.Where(x=> typeof(Job.IJob).IsAssignableFrom(x.GetType()))).processPackage(package) },
@@ -42,6 +44,7 @@ namespace OpenProtocolInterpreter.MIDs
                 { mid => this.isToolMessage(mid), package => new Tool.ToolMessages(selectedMids.Where(x=> typeof(Tool.ITool).IsAssignableFrom(x.GetType()))).processPackage(package) },
                 { mid => this.isVINMessage(mid), package => new VIN.VINMessages(selectedMids.Where(x=> typeof(VIN.IVIN).IsAssignableFrom(x.GetType()))).processPackage(package) },
                 { mid => this.isMultiSpindleMessage(mid), package => new MultiSpindle.MultiSpindleMessages(selectedMids.Where(x=> typeof(MultiSpindle.IMultiSpindle).IsAssignableFrom(x.GetType()))).processPackage(package) },
+                { mid => this.isPowerMACSMessage(mid), package => new PowerMACS.PowerMACSMessages(selectedMids.Where(x=> typeof(PowerMACS.IPowerMACS).IsAssignableFrom(x.GetType()))).processPackage(package) },
                 { mid => this.isUserInterfaceMessage(mid), package => new UserInterface.UserInterfaceMessages(selectedMids.Where(x=> typeof(UserInterface.IUserInterface).IsAssignableFrom(x.GetType()))).processPackage(package) }
             };
         }

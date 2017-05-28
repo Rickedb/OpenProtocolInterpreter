@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MIDs\DataTypes.cs" />
     <Compile Include="MIDs\Alarm\AlarmMessages.cs" />
     <Compile Include="MIDs\Alarm\IAlarm.cs" />
     <Compile Include="MIDs\Alarm\MID_0070.cs" />
@@ -112,12 +113,19 @@
     <Compile Include="MIDs\ParameterSet\MID_2504.cs" />
     <Compile Include="MIDs\ParameterSet\MID_2505.cs" />
     <Compile Include="MIDs\ParameterSet\ParameterSetMessages.cs" />
+    <Compile Include="MIDs\PLCUserData\IPLCUserData.cs" />
+    <Compile Include="MIDs\PLCUserData\MID_0240.cs" />
+    <Compile Include="MIDs\PLCUserData\MID_0241.cs" />
+    <Compile Include="MIDs\PLCUserData\MID_0242.cs" />
+    <Compile Include="MIDs\PLCUserData\MID_0243.cs" />
+    <Compile Include="MIDs\PLCUserData\PLCUserDataMessages.cs" />
     <Compile Include="MIDs\PowerMACS\IPowerMACS.cs" />
     <Compile Include="MIDs\PowerMACS\MID_0105.cs" />
     <Compile Include="MIDs\PowerMACS\MID_0106.cs" />
     <Compile Include="MIDs\PowerMACS\MID_0107.cs" />
     <Compile Include="MIDs\PowerMACS\MID_0108.cs" />
     <Compile Include="MIDs\PowerMACS\MID_0109.cs" />
+    <Compile Include="MIDs\PowerMACS\PowerMACSMessages.cs" />
     <Compile Include="MIDs\Tightening\ITightening.cs" />
     <Compile Include="MIDs\Tightening\MID_0060.CS" />
     <Compile Include="MIDs\Tightening\MID_0061.CS" />
@@ -164,7 +172,6 @@
     <Folder Include="MIDs\MotorTuning\" />
     <Folder Include="MIDs\MultipleIdentifiers\" />
     <Folder Include="MIDs\OpenProtocolCommandsDisabled\" />
-    <Folder Include="MIDs\ParameterSet\PLCUserData\" />
     <Folder Include="MIDs\Reply\" />
     <Folder Include="MIDs\Selector\" />
     <Folder Include="MIDs\Statistic\" />

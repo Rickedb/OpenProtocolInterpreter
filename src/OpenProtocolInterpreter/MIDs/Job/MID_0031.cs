@@ -20,10 +20,11 @@ namespace OpenProtocolInterpreter.MIDs.Job
         public int TotalJobs { get; private set; }
         public List<int> JobIds { get; set; }
 
-        public MID_0031() : base(length, MID, revision) { }
+        public MID_0031() : base(length, MID, revision) { this.JobIds = new List<int>(); }
 
         internal MID_0031(IMID nextTemplate) : base(length, MID, revision)
         {
+            this.JobIds = new List<int>();
             this.nextTemplate = nextTemplate;
         }
 

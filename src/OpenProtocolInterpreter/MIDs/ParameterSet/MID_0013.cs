@@ -73,7 +73,7 @@
                 this.ParameterSetID = base.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].ToInt32();
                 this.ParameterSetName = base.RegisteredDataFields[(int)DataFields.PARAMETER_SET_NAME].Value.ToString();
                 this.RotationDirection = (RotationDirections)base.RegisteredDataFields[(int)DataFields.ROTATION_DIRECTION].ToInt32();
-                this.BatchSize = base.RegisteredDataFields[(int)DataFields.BATCH_SIZE].ToInt32() / 100;
+                this.BatchSize = base.RegisteredDataFields[(int)DataFields.BATCH_SIZE].ToInt32();
                 this.MinTorque = base.RegisteredDataFields[(int)DataFields.MIN_TORQUE].ToInt32() / 100;
                 this.MaxTorque = base.RegisteredDataFields[(int)DataFields.MAX_TORQUE].ToInt32() / 100;
                 this.TorqueFinalTarget = base.RegisteredDataFields[(int)DataFields.TORQUE_FINAL_TARGET].ToInt32();

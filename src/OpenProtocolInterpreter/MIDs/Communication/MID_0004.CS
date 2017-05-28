@@ -59,7 +59,7 @@ namespace OpenProtocolInterpreter.MIDs.Communication
                 return this;
             }
 
-            throw new NotImplementedException("This MID is not implemented or does not exists");
+            return this.nextTemplate.processPackage(package);
         }
 
         public override string buildPackage()

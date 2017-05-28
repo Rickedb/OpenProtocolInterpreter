@@ -1,6 +1,5 @@
 ﻿using OpenProtocolInterpreter.Messages;
 
-
 namespace OpenProtocolInterpreter.MIDs.ParameterSet
 {
     internal class ParameterSetMessages : IMessagesTemplate
