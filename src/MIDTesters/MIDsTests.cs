@@ -7,6 +7,7 @@ using OpenProtocolInterpreter.MIDs.Job.Advanced;
 using OpenProtocolInterpreter.MIDs.Tightening;
 using OpenProtocolInterpreter.MIDs.Communication;
 using OpenProtocolInterpreter.MIDs.Alarm;
+using OpenProtocolInterpreter.MIDs.PowerMACS;
 
 namespace MIDTesters
 {
@@ -31,8 +32,12 @@ namespace MIDTesters
                 new MID_0001(),
                 new MID_0002(),
                 new MID_0003(),
-                new MID_0004()
+                new MID_0004(),
+                new MID_0106()
             });
+
+            string mid106 = @"05050106            010502010300000381270401050231                062017-05-25:09:51:38071108Ap.320Nm Diant.P11  091101119BM384069HB066171                       1204130114115116117329.9091835.854019360.00020310.000219999.002200.0000130214115116117328.7361836.102219360.00020310.000219999.002200.0000130314115116117356.04518763.97619370.00020304.000219999.002200.0000130414115116117355.40718380.87219370.00020304.000219999.002200.00002302Data No Station     I 100000027897Free No 1           I 100000000002";
+            var myMid106 = myTEmplate.IdentifyMid<MID_0106>(mid106);
         }
 
         [TestMethod]
