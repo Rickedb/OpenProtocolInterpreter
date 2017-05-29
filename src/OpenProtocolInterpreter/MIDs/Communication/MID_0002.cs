@@ -36,8 +36,13 @@ namespace OpenProtocolInterpreter.MIDs.Communication
             {
                 base.processPackage(package);
 
-                this.CellID = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.CELL_ID].Value);
-                this.ChannelID = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.CHANNEL_ID].Value);
+                int cellId = 0;
+                int channelId = 0;
+                int.TryParse(base.RegisteredDataFields[(int)DataFields.CELL_ID].Value.ToString(), out cellId);
+                int.TryParse(base.RegisteredDataFields[(int)DataFields.CHANNEL_ID].Value.ToString(), out channelId);
+
+                this.CellID = cellId;
+                this.ChannelID = channelId;
                 this.ControllerName = base.RegisteredDataFields[(int)DataFields.CONTROLLER_NAME].Value.ToString();
 
                 return this;
