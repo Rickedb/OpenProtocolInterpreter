@@ -63,6 +63,11 @@
             return System.Convert.ToBoolean(this.ToInt32());
         }
 
+        public float ToFloat()
+        {
+            return float.Parse(this.Value.ToString().Replace('.', ','));
+        }
+
         private void createObject(int field, int index, int size, object value)
         {
             this.Field = field;

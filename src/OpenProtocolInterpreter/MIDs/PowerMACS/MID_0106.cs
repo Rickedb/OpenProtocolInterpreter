@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenProtocolInterpreter.MIDs.PowerMACS
 {
@@ -46,7 +44,11 @@ namespace OpenProtocolInterpreter.MIDs.PowerMACS
         public List<BoltData> BoltsData { get; set; }
         public List<SpecialValue> SpecialValues { get; set; }
 
-        public MID_0106() : base(length, MID, revision) { this.BoltsData = new List<BoltData>(); }
+        public MID_0106() : base(length, MID, revision)
+        {
+            this.BoltsData = new List<BoltData>();
+            this.SpecialValues = new List<SpecialValue>();
+        }
 
         internal MID_0106(IMID nextTemplate) : base(length, MID, revision)
         {
@@ -55,10 +57,17 @@ namespace OpenProtocolInterpreter.MIDs.PowerMACS
             this.nextTemplate = nextTemplate;
         }
 
+        public override string buildPackage()
+        {
+            //TODO
+            return base.buildPackage();
+        }
+
         public override MID processPackage(string package)
         {
             if (base.isCorrectType(package))
             {
+                base.HeaderData.Length = package.Length;
                 base.processPackage(package);
 
                 this.TotalNumberOfMessages = base.RegisteredDataFields[(int)DataFields.TOTAL_NUMBER_OF_MESSAGES].ToInt32();
@@ -174,19 +183,14 @@ namespace OpenProtocolInterpreter.MIDs.PowerMACS
                 bolt.SimpleBoltStatus = this.fields[(int)DataFields.SIMPLE_BOLT_STATUS].ToBoolean();
                 bolt.TorqueStatus = (TorqueStatuses)this.fields[(int)DataFields.TORQUE_STATUS].ToInt32();
                 bolt.AngleStatus = (AngleStatuses)this.fields[(int)DataFields.ANGLE_STATUS].ToInt32();
-                bolt.BoltTorque = this.getFloat(this.fields[(int)DataFields.BOLT_TORQUE].Value.ToString());
-                bolt.BoltAngle = this.getFloat(this.fields[(int)DataFields.BOLT_ANGLE].Value.ToString());
-                bolt.BoltTorqueHighLimit = this.getFloat(this.fields[(int)DataFields.BOLT_TORQUE_HIGH_LIMIT].Value.ToString());
-                bolt.BoltTorqueLowLimit = this.getFloat(this.fields[(int)DataFields.BOLT_TORQUE_LOW_LIMIT].Value.ToString());
-                bolt.BoltAngleHighLimit = this.getFloat(this.fields[(int)DataFields.BOLT_ANGLE_HIGH_LIMIT].Value.ToString());
-                bolt.BoltAngleLowLimit = this.getFloat(this.fields[(int)DataFields.BOLT_ANGLE_LOW_LIMIT].Value.ToString());
+                bolt.BoltTorque = this.fields[(int)DataFields.BOLT_TORQUE].ToFloat();
+                bolt.BoltAngle = this.fields[(int)DataFields.BOLT_ANGLE].ToFloat();
+                bolt.BoltTorqueHighLimit = this.fields[(int)DataFields.BOLT_TORQUE_HIGH_LIMIT].ToFloat();
+                bolt.BoltTorqueLowLimit = this.fields[(int)DataFields.BOLT_TORQUE_LOW_LIMIT].ToFloat();
+                bolt.BoltAngleHighLimit = this.fields[(int)DataFields.BOLT_ANGLE_HIGH_LIMIT].ToFloat();
+                bolt.BoltAngleLowLimit = this.fields[(int)DataFields.BOLT_ANGLE_LOW_LIMIT].ToFloat();
 
                 return bolt;
-            }
-
-            private float getFloat(string floatValue)
-            {
-                return float.Parse(floatValue.Replace('.', ','));
             }
 
             private void registerDatafields()
@@ -275,7 +279,7 @@ namespace OpenProtocolInterpreter.MIDs.PowerMACS
                 SpecialValue val = new SpecialValue();
 
                 val.VariableName = package.Substring(this.fields[(int)DataFields.VARIABLE_NAME].Index, this.fields[(int)DataFields.VARIABLE_NAME].Size);
-                val.Type = DataType.DataTypes.SingleOrDefault(x=> x.Type == package.Substring(this.fields[(int)DataFields.TYPE].Index, this.fields[(int)DataFields.TYPE].Size).Trim());
+                val.Type = DataType.DataTypes.SingleOrDefault(x => x.Type == package.Substring(this.fields[(int)DataFields.TYPE].Index, this.fields[(int)DataFields.TYPE].Size).Trim());
                 val.Length = Convert.ToInt32(package.Substring(this.fields[(int)DataFields.LENGTH].Index, this.fields[(int)DataFields.LENGTH].Size));
                 val.Value = package.Substring(this.fields[(int)DataFields.VALUE].Index, val.Length);
 
