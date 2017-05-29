@@ -15,9 +15,11 @@ namespace OpenProtocolInterpreter.MIDs.Job
         public const int MID = 32;
         private const int revision = 1;
 
-        public int JobID { get; private set; }
+        public int JobID { get; set; }
 
         public MID_0032() : base(length, MID, revision) { }
+
+        public MID_0032(int jobId) : base(length, MID, revision) { this.JobID = jobId; }
 
         internal MID_0032(IMID nextTemplate) : base(length, MID, revision)
         {
