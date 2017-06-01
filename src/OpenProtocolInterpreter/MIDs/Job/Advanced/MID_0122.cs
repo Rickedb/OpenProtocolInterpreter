@@ -9,7 +9,7 @@
     /// Message sent by: Controller
     /// Answer: MID 0125 Job line control info acknowledged
     /// </summary>
-    public class MID_0122 : MID
+    public class MID_0122 : MID, IAdvancedJob
     {
         private const int length = 20;
         public const int MID = 122;

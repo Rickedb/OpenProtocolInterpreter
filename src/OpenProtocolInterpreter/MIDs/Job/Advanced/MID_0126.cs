@@ -7,7 +7,7 @@
     /// Answer: MID 0005 Command accepted or
     /// MID 0004 Command error, Job line control info subscription does not exist
     /// </summary>
-    public class MID_0126 : MID
+    public class MID_0126 : MID, IAdvancedJob
     {
         private const int length = 20;
         public const int MID = 126;

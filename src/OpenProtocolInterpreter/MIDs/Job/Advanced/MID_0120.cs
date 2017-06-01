@@ -8,7 +8,7 @@
     /// Message sent by: Integrator
     /// Answer: MID 0005 or MID 0004 Command error, Job line control info subscription already exists
     /// </summary>
-    public class MID_0120 : MID
+    public class MID_0120 : MID, IAdvancedJob
     {
         private const int length = 20;
         public const int MID = 120;

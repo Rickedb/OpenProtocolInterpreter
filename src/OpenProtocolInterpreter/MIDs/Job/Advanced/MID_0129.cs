@@ -14,7 +14,7 @@
     /// Answer: MID 0005 Command accepted or
     /// MID 0004 Command error, Job batch decrement failed (only for MID revision 2)
     /// </summary>
-    public class MID_0129 : MID
+    public class MID_0129 : MID, IAdvancedJob
     {
         private const int length = 20;
         public const int MID = 129;
