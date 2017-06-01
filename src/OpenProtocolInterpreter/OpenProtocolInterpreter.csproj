@@ -99,6 +99,16 @@
     <Compile Include="MIDs\Communication\MID_0004.CS" />
     <Compile Include="MIDs\Communication\MID_0005.CS" />
     <Compile Include="MIDs\Communication\CommunicationMessages.cs" />
+    <Compile Include="MIDs\MultipleIdentifiers\IMultipleIdentifier.cs" />
+    <Compile Include="MIDs\MultipleIdentifiers\MID_0150.cs" />
+    <Compile Include="MIDs\MultipleIdentifiers\MID_0151.cs" />
+    <Compile Include="MIDs\MultipleIdentifiers\MID_0152.cs" />
+    <Compile Include="MIDs\MultipleIdentifiers\MID_0153.cs" />
+    <Compile Include="MIDs\MultipleIdentifiers\MID_0154.cs" />
+    <Compile Include="MIDs\MultipleIdentifiers\MID_0155.cs" />
+    <Compile Include="MIDs\MultipleIdentifiers\MID_0156.cs" />
+    <Compile Include="MIDs\MultipleIdentifiers\MID_0157.cs" />
+    <Compile Include="MIDs\MultipleIdentifiers\MultipleIdentifierMessages.cs" />
     <Compile Include="MIDs\MultiSpindle\MultiSpindleMessages.cs" />
     <Compile Include="MIDs\MultiSpindle\Result\MID_0100.cs" />
     <Compile Include="MIDs\MultiSpindle\IMultiSpindle.cs" />
@@ -184,7 +194,6 @@
     <Folder Include="MIDs\Controller\" />
     <Folder Include="MIDs\IOInterface\" />
     <Folder Include="MIDs\MotorTuning\" />
-    <Folder Include="MIDs\MultipleIdentifiers\" />
     <Folder Include="MIDs\OpenProtocolCommandsDisabled\" />
     <Folder Include="MIDs\Reply\" />
     <Folder Include="MIDs\Selector\" />
