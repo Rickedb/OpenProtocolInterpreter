@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenProtocolInterpreter.MIDs.IOInterface
 {
@@ -21,21 +18,34 @@ namespace OpenProtocolInterpreter.MIDs.IOInterface
     /// </summary>
     internal class MID_0215 : MID, IIOInterface
     {
-        private const int length = 104;
-        public const int MID = 13;
+        private const int length = 92;
+        public const int MID = 215;
         private const int revision = 1;
 
+        public int IODeviceID { get; set; }
+        public List<Relay> RelayList { get; set; }
+        public List<DigitalInput> DigitalInputList { get; set; }
 
-        public MID_0215() : base(length, MID, revision) { }
+        public MID_0215() : base(length, MID, revision)
+        {
+            this.RelayList = new List<Relay>();
+            this.DigitalInputList = new List<DigitalInput>();
+        }
 
         internal MID_0215(IMID nextTemplate) : base(length, MID, revision)
         {
+            this.RelayList = new List<Relay>();
+            this.DigitalInputList = new List<DigitalInput>();
             this.nextTemplate = nextTemplate;
         }
 
         public override string buildPackage()
         {
-            return base.buildPackage();
+            string pkg = base.buildHeader();
+            pkg += this.IODeviceID.ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.IO_DEVICE_ID].Size, '0');
+            RelayList.ForEach(x => pkg += x.buildPackage());
+            DigitalInputList.ForEach(x => pkg += x.buildPackage());
+            return pkg;
         }
 
         public override MID processPackage(string package)
@@ -43,8 +53,9 @@ namespace OpenProtocolInterpreter.MIDs.IOInterface
             if (base.isCorrectType(package))
             {
                 base.processPackage(package);
-
-
+                this.IODeviceID = base.RegisteredDataFields[(int)DataFields.IO_DEVICE_ID].ToInt32();
+                this.RelayList = new Relay().getRelaysFromPackage(base.RegisteredDataFields[(int)DataFields.RELAY_LIST].Value.ToString()).ToList();
+                this.DigitalInputList = new DigitalInput().getDigitalInputsFromPackage(base.RegisteredDataFields[(int)DataFields.DIGITAL_INPUT_LIST].Value.ToString()).ToList();
                 return this;
             }
 
@@ -56,9 +67,9 @@ namespace OpenProtocolInterpreter.MIDs.IOInterface
             this.RegisteredDataFields.AddRange(
                 new DataField[]
                 {
-                    new DataField((int)DataFields.IO_DEVICE_ID, 20, 3),
-                    new DataField((int)DataFields.RELAY_LIST, 25, 25),
-                    new DataField((int)DataFields.DIGITAL_INPUT_LIST, 52, 1)
+                    new DataField((int)DataFields.IO_DEVICE_ID, 20, 2),
+                    new DataField((int)DataFields.RELAY_LIST, 24, 32),
+                    new DataField((int)DataFields.DIGITAL_INPUT_LIST, 58, 32)
                 });
         }
 
@@ -67,65 +78,6 @@ namespace OpenProtocolInterpreter.MIDs.IOInterface
             IO_DEVICE_ID,
             RELAY_LIST,
             DIGITAL_INPUT_LIST
-        }
-
-        public class Relay
-        {
-            public enum RelayNumbers
-            {
-                OFF = 0,
-                OK = 1,
-                NOK = 2,
-                LOW = 3,
-                HIGH = 4,
-                LOW_TORQUE = 5,
-                HIGH_TORQUE = 6,
-                LOW_ANGLE = 7,
-                HIGH_ANGLE = 8,
-                CYCLE_COMPLETE = 9,
-                ALARM = 10,
-                BATCH_NXOK = 11,
-                JOB_OK = 12,
-                JOB_NOK = 13,
-                JOB_RUNNING = 14,
-                RESERVED1 = 15,
-                RESERVED2 = 16,
-                NOT_USED1 = 17,
-                POWER_FOCUS_READY = 18,
-                TOOL_READY = 19,
-                TOOL_START_SWITCH = 20,
-                DIR_SWITCH_CLOCKWISE = 21,
-                DIR_SWITCH_COUNTER_CLOCKWISE = 22,
-                TIGHTENING_DIRECTION_COUNTER_CLOCKWISE = 23,
-                TOOL_TIGHTENING = 24,
-                TOOL_LOOSENING = 25,
-                TOOL_RUNNING = 26,
-                TOOL_RUNNING_CLOCKWISE = 27,
-                TOOL_RUNNING_COUNTER_CLOCKWISE = 28,
-                STATISTIC_ALARM = 29,
-                TOOL_LOCKED = 30,
-                RECEIVED_IDENTIFIER = 31,
-                RUNNING_PSET_BIT_0 = 32,
-                RUNNING_PSET_BIT_1 = 33,
-                RUNNING_PSET_BIT_2 = 34,
-                RUNNING_PSET_BIT_3 = 35,
-                RUNNING_JOB_BIT_0 = 36,
-                RUNNING_JOB_BIT_1 = 37,
-                RUNNING_JOB_BIT_2 = 38,
-                RUNNING_JOB_BIT_3 = 39,
-                NOT_USED2 = 40,
-                NOT_USED3 = 41,
-                NOT_USED4 = 42,
-                NOT_USED5 = 43,
-                LINE_OK = 44,
-                LINE_CONTROL_ALERT_1 = 45,
-                LINE_CONTROL_ALERT_2 = 46,
-                SERVICE_INDICATOR = 47,
-                FIELDBUS_RELAY_1 = 48,
-                FIELDBUS_RELAY_2 = 49,
-                FIELDBUS_RELAY_3 = 50,
-                FIELDBUS_RELAY_4 = 51
-            }
         }
     }
 }

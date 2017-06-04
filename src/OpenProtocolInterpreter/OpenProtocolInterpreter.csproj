@@ -62,6 +62,7 @@
     <Compile Include="MIDs\DataField.cs" />
     <Compile Include="Messages\IMessagesTemplate.cs" />
     <Compile Include="MIDs\IMID.cs" />
+    <Compile Include="MIDs\IOInterface\DigitalInput.cs" />
     <Compile Include="MIDs\IOInterface\IIOInterface.cs" />
     <Compile Include="MIDs\IOInterface\MID_0200.cs" />
     <Compile Include="MIDs\IOInterface\MID_0210.cs" />
@@ -70,6 +71,11 @@
     <Compile Include="MIDs\IOInterface\MID_0213.cs" />
     <Compile Include="MIDs\IOInterface\MID_0214.cs" />
     <Compile Include="MIDs\IOInterface\MID_0215.cs" />
+    <Compile Include="MIDs\IOInterface\MID_0216.cs" />
+    <Compile Include="MIDs\IOInterface\MID_0217.cs" />
+    <Compile Include="MIDs\IOInterface\MID_0218.cs" />
+    <Compile Include="MIDs\IOInterface\MID_0219.cs" />
+    <Compile Include="MIDs\IOInterface\Relay.cs" />
     <Compile Include="MIDs\Job\Advanced\AdvancedJobMessages.cs" />
     <Compile Include="MIDs\Job\Advanced\IAdvancedJob.cs" />
     <Compile Include="MIDs\Job\Advanced\MID_0120.cs" />
