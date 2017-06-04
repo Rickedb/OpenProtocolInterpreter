@@ -15,7 +15,7 @@ namespace OpenProtocolInterpreter.MIDs.IOInterface
     public class MID_0217 : MID, IIOInterface
     {
         public const int MID = 217;
-        private const int length = 24;
+        private const int length = 28;
         private const int revision = 1;
 
         public Relay.RelayNumbers RelayNumber { get; set; }
@@ -31,8 +31,8 @@ namespace OpenProtocolInterpreter.MIDs.IOInterface
         public override string buildPackage()
         {
             string pkg = base.buildHeader();
-            pkg += ((int)this.RelayNumber).ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.RELAY_NUMBER].Size, '0');
-            pkg += Convert.ToInt32(this.RelayStatus).ToString();
+            pkg += "01" + ((int)this.RelayNumber).ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.RELAY_NUMBER].Size, '0');
+            pkg += "02" + Convert.ToInt32(this.RelayStatus).ToString();
             return pkg;
         }
 
@@ -40,10 +40,9 @@ namespace OpenProtocolInterpreter.MIDs.IOInterface
         {
             if (base.isCorrectType(package))
             {
-                base.processHeader(package);
-                var relay = new Relay().getRelay(package.Substring(20));
-                this.RelayNumber = relay.Number;
-                this.RelayStatus = relay.Status;
+                base.processPackage(package);
+                this.RelayNumber =(Relay.RelayNumbers) base.RegisteredDataFields[(int)DataFields.RELAY_NUMBER].ToInt32();
+                this.RelayStatus = base.RegisteredDataFields[(int)DataFields.RELAY_STATUS].ToBoolean();
                 return this;
             }
 
@@ -54,7 +53,7 @@ namespace OpenProtocolInterpreter.MIDs.IOInterface
         protected override void registerDatafields()
         {
             this.RegisteredDataFields.Add(new DataField((int)DataFields.RELAY_NUMBER, 20, 3));
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.RELAY_STATUS, 23, 1));
+            this.RegisteredDataFields.Add(new DataField((int)DataFields.RELAY_STATUS, 25, 1));
         }
 
         public enum DataFields

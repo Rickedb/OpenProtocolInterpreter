@@ -9,7 +9,7 @@ namespace OpenProtocolInterpreter.MIDs.IOInterface
     public class DigitalInput
     {
         private List<DataField> fields;
-        public DigitalInputNumber Number { get; set; }
+        public DigitalInputNumbers Number { get; set; }
         public bool Status { get; set; }
 
         public DigitalInput()
@@ -37,7 +37,7 @@ namespace OpenProtocolInterpreter.MIDs.IOInterface
         private DigitalInput getDigIn(string package)
         {
             DigitalInput obj = new DigitalInput();
-            obj.Number = (DigitalInputNumber)Convert.ToInt32(package.Substring(this.fields[(int)DataFields.DIGITAL_INPUT_NUMBER].Index, this.fields[(int)DataFields.DIGITAL_INPUT_NUMBER].Size));
+            obj.Number = (DigitalInputNumbers)Convert.ToInt32(package.Substring(this.fields[(int)DataFields.DIGITAL_INPUT_NUMBER].Index, this.fields[(int)DataFields.DIGITAL_INPUT_NUMBER].Size));
             obj.Status = Convert.ToBoolean(Convert.ToInt32(package.Substring(this.fields[(int)DataFields.DIGITAL_INPUT_STATUS].Index, this.fields[(int)DataFields.DIGITAL_INPUT_STATUS].Size)));
             return obj;
         }
@@ -58,7 +58,7 @@ namespace OpenProtocolInterpreter.MIDs.IOInterface
             DIGITAL_INPUT_STATUS
         }
 
-        public enum DigitalInputNumber
+        public enum DigitalInputNumbers
         {
             OFF = 0,
             RESET_BATCH = 1,
