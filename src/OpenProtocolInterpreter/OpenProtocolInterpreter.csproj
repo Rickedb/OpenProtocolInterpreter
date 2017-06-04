@@ -40,6 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MIDs\ApplicationSelector\IApplicationSelector.cs" />
+    <Compile Include="MIDs\ApplicationSelector\MID_0250.cs" />
+    <Compile Include="MIDs\ApplicationSelector\MID_0251.cs" />
+    <Compile Include="MIDs\ApplicationSelector\MID_0252.cs" />
+    <Compile Include="MIDs\ApplicationSelector\MID_0253.cs" />
+    <Compile Include="MIDs\ApplicationSelector\MID_0254.cs" />
     <Compile Include="MIDs\DataTypes.cs" />
     <Compile Include="MIDs\Alarm\AlarmMessages.cs" />
     <Compile Include="MIDs\Alarm\IAlarm.cs" />
@@ -64,6 +70,7 @@
     <Compile Include="MIDs\IMID.cs" />
     <Compile Include="MIDs\IOInterface\DigitalInput.cs" />
     <Compile Include="MIDs\IOInterface\IIOInterface.cs" />
+    <Compile Include="MIDs\IOInterface\IOInterfaceMessages.cs" />
     <Compile Include="MIDs\IOInterface\MID_0200.cs" />
     <Compile Include="MIDs\IOInterface\MID_0210.cs" />
     <Compile Include="MIDs\IOInterface\MID_0211.cs" />
@@ -75,6 +82,12 @@
     <Compile Include="MIDs\IOInterface\MID_0217.cs" />
     <Compile Include="MIDs\IOInterface\MID_0218.cs" />
     <Compile Include="MIDs\IOInterface\MID_0219.cs" />
+    <Compile Include="MIDs\IOInterface\MID_0220.cs" />
+    <Compile Include="MIDs\IOInterface\MID_0221.cs" />
+    <Compile Include="MIDs\IOInterface\MID_0222.cs" />
+    <Compile Include="MIDs\IOInterface\MID_0223.cs" />
+    <Compile Include="MIDs\IOInterface\MID_0224.cs" />
+    <Compile Include="MIDs\IOInterface\MID_0225.cs" />
     <Compile Include="MIDs\IOInterface\Relay.cs" />
     <Compile Include="MIDs\Job\Advanced\AdvancedJobMessages.cs" />
     <Compile Include="MIDs\Job\Advanced\IAdvancedJob.cs" />
@@ -156,6 +169,8 @@
     <Compile Include="MIDs\PLCUserData\MID_0241.cs" />
     <Compile Include="MIDs\PLCUserData\MID_0242.cs" />
     <Compile Include="MIDs\PLCUserData\MID_0243.cs" />
+    <Compile Include="MIDs\PLCUserData\MID_0244.cs" />
+    <Compile Include="MIDs\PLCUserData\MID_0245.cs" />
     <Compile Include="MIDs\PLCUserData\PLCUserDataMessages.cs" />
     <Compile Include="MIDs\PowerMACS\IPowerMACS.cs" />
     <Compile Include="MIDs\PowerMACS\MID_0105.cs" />
@@ -204,7 +219,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="MIDs\AutomaticManualMode\" />
+    <Folder Include="MIDs\Communication\AutomaticManualMode\" />
     <Folder Include="MIDs\Controller\" />
     <Folder Include="MIDs\MotorTuning\" />
     <Folder Include="MIDs\OpenProtocolCommandsDisabled\" />
