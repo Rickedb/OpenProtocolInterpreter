@@ -30,7 +30,7 @@ namespace OpenProtocolInterpreter.MIDs.PLCUserData
     /// Controller is not a sync master/station controller or
     /// MID revision not supported.
     /// </summary>
-    public class MID_0255 : MID, IPLCUserData
+    public class MID_0245 : MID, IPLCUserData
     {
         private const int length = 223;
         public const int MID = 255;
@@ -39,9 +39,9 @@ namespace OpenProtocolInterpreter.MIDs.PLCUserData
         public int Offset { get; set; }
         public string UserData { get; set; }
 
-        public MID_0255() : base(length, MID, revision) { }
+        public MID_0245() : base(length, MID, revision) { }
 
-        internal MID_0255(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0245(IMID nextTemplate) : base(length, MID, revision)
         {
             this.nextTemplate = nextTemplate;
         }
