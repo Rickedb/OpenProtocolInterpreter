@@ -8,7 +8,7 @@ namespace OpenProtocolInterpreter.MIDs.PLCUserData
 
         public PLCUserDataMessages()
         {
-            this.templates = new MID_0240(new MID_0241( new MID_0242( new MID_0243(null))));
+            this.templates = new MID_0240(new MID_0241( new MID_0242( new MID_0243(new MID_0244(new MID_0245(null))))));
         }
 
         public PLCUserDataMessages(System.Collections.Generic.IEnumerable<MID> selectedMids)
