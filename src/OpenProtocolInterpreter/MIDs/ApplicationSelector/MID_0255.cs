@@ -4,9 +4,9 @@ using System.Collections.Generic;
 namespace OpenProtocolInterpreter.MIDs.ApplicationSelector
 {
     /// <summary>
-    /// MID: Selector control green lights
+    /// MID: Selector control red lights
     /// Description:
-    ///     This message controls the selector green lights. 
+    ///     This message controls the selector red lights. 
     ///     The green light can be set (steady), reset (off) or flash. 
     ///     A command must be sent for each one of the selector positions (1-8).
     ///     
