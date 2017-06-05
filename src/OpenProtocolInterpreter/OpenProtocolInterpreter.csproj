@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MIDs\ApplicationController\MID_0270.cs" />
+    <Compile Include="MIDs\ApplicationSelector\ApplicationSelectorMessages.cs" />
     <Compile Include="MIDs\ApplicationSelector\IApplicationSelector.cs" />
     <Compile Include="MIDs\ApplicationSelector\MID_0250.cs" />
     <Compile Include="MIDs\ApplicationSelector\MID_0251.cs" />
@@ -47,10 +49,14 @@
     <Compile Include="MIDs\ApplicationSelector\MID_0253.cs" />
     <Compile Include="MIDs\ApplicationSelector\MID_0254.cs" />
     <Compile Include="MIDs\ApplicationSelector\MID_0255.cs" />
+    <Compile Include="MIDs\ApplicationToolLocationSystem\ApplicationToolLocationSystemMessages.cs" />
     <Compile Include="MIDs\ApplicationToolLocationSystem\IApplicationToolLocationSystem.cs" />
     <Compile Include="MIDs\ApplicationToolLocationSystem\MID_0260.cs" />
     <Compile Include="MIDs\ApplicationToolLocationSystem\MID_0261.cs" />
     <Compile Include="MIDs\ApplicationToolLocationSystem\MID_0262.cs" />
+    <Compile Include="MIDs\ApplicationToolLocationSystem\MID_0263.cs" />
+    <Compile Include="MIDs\ApplicationToolLocationSystem\MID_0264.cs" />
+    <Compile Include="MIDs\ApplicationToolLocationSystem\MID_0265.cs" />
     <Compile Include="MIDs\DataTypes.cs" />
     <Compile Include="MIDs\Alarm\AlarmMessages.cs" />
     <Compile Include="MIDs\Alarm\IAlarm.cs" />
@@ -184,6 +190,9 @@
     <Compile Include="MIDs\PowerMACS\MID_0108.cs" />
     <Compile Include="MIDs\PowerMACS\MID_0109.cs" />
     <Compile Include="MIDs\PowerMACS\PowerMACSMessages.cs" />
+    <Compile Include="MIDs\Statistic\IStatistic.cs" />
+    <Compile Include="MIDs\Statistic\MID_0300.cs" />
+    <Compile Include="MIDs\Statistic\MID_0301.cs" />
     <Compile Include="MIDs\Tightening\ITightening.cs" />
     <Compile Include="MIDs\Tightening\MID_0060.CS" />
     <Compile Include="MIDs\Tightening\MID_0061.CS" />
@@ -225,12 +234,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MIDs\AutomaticManualMode\" />
-    <Folder Include="MIDs\Controller\" />
     <Folder Include="MIDs\MotorTuning\" />
     <Folder Include="MIDs\OpenProtocolCommandsDisabled\" />
     <Folder Include="MIDs\Reply\" />
-    <Folder Include="MIDs\Selector\" />
-    <Folder Include="MIDs\Statistic\" />
     <Folder Include="MIDs\ToolLocationSystem\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
