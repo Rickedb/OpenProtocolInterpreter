@@ -46,6 +46,11 @@
     <Compile Include="MIDs\ApplicationSelector\MID_0252.cs" />
     <Compile Include="MIDs\ApplicationSelector\MID_0253.cs" />
     <Compile Include="MIDs\ApplicationSelector\MID_0254.cs" />
+    <Compile Include="MIDs\ApplicationSelector\MID_0255.cs" />
+    <Compile Include="MIDs\ApplicationToolLocationSystem\IApplicationToolLocationSystem.cs" />
+    <Compile Include="MIDs\ApplicationToolLocationSystem\MID_0260.cs" />
+    <Compile Include="MIDs\ApplicationToolLocationSystem\MID_0261.cs" />
+    <Compile Include="MIDs\ApplicationToolLocationSystem\MID_0262.cs" />
     <Compile Include="MIDs\DataTypes.cs" />
     <Compile Include="MIDs\Alarm\AlarmMessages.cs" />
     <Compile Include="MIDs\Alarm\IAlarm.cs" />
@@ -219,7 +224,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="MIDs\Communication\AutomaticManualMode\" />
+    <Folder Include="MIDs\AutomaticManualMode\" />
     <Folder Include="MIDs\Controller\" />
     <Folder Include="MIDs\MotorTuning\" />
     <Folder Include="MIDs\OpenProtocolCommandsDisabled\" />
