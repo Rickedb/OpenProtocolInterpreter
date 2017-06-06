@@ -161,6 +161,12 @@
     <Compile Include="MIDs\MultiSpindle\Status\MID_0090.cs" />
     <Compile Include="MIDs\MultiSpindle\Status\MID_0091.cs" />
     <Compile Include="MIDs\MultiSpindle\Status\MID_0092.cs" />
+    <Compile Include="MIDs\OpenProtocolCommandsDisabled\IOpenProtocolCommandsDisabled.cs" />
+    <Compile Include="MIDs\OpenProtocolCommandsDisabled\MID_0420.cs" />
+    <Compile Include="MIDs\OpenProtocolCommandsDisabled\MID_0421.cs" />
+    <Compile Include="MIDs\OpenProtocolCommandsDisabled\MID_0422.cs" />
+    <Compile Include="MIDs\OpenProtocolCommandsDisabled\MID_0423.cs" />
+    <Compile Include="MIDs\OpenProtocolCommandsDisabled\OpenProtocolCommandsDisabledMessages.cs" />
     <Compile Include="MIDs\ParameterSet\IParameterSet.cs" />
     <Compile Include="MIDs\ParameterSet\MID_0010.cs" />
     <Compile Include="MIDs\ParameterSet\MID_0011.cs" />
