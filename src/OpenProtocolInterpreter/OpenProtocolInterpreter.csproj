@@ -57,6 +57,14 @@
     <Compile Include="MIDs\ApplicationToolLocationSystem\MID_0263.cs" />
     <Compile Include="MIDs\ApplicationToolLocationSystem\MID_0264.cs" />
     <Compile Include="MIDs\ApplicationToolLocationSystem\MID_0265.cs" />
+    <Compile Include="MIDs\AutomaticManualMode\AutomaticManualModeMessages.cs" />
+    <Compile Include="MIDs\AutomaticManualMode\IAutomaticManualMode.cs" />
+    <Compile Include="MIDs\AutomaticManualMode\MID_0400.cs" />
+    <Compile Include="MIDs\AutomaticManualMode\MID_0401.cs" />
+    <Compile Include="MIDs\AutomaticManualMode\MID_0402.cs" />
+    <Compile Include="MIDs\AutomaticManualMode\MID_0403.cs" />
+    <Compile Include="MIDs\AutomaticManualMode\MID_0410.cs" />
+    <Compile Include="MIDs\AutomaticManualMode\MID_0411.cs" />
     <Compile Include="MIDs\DataTypes.cs" />
     <Compile Include="MIDs\Alarm\AlarmMessages.cs" />
     <Compile Include="MIDs\Alarm\IAlarm.cs" />
@@ -193,6 +201,7 @@
     <Compile Include="MIDs\Statistic\IStatistic.cs" />
     <Compile Include="MIDs\Statistic\MID_0300.cs" />
     <Compile Include="MIDs\Statistic\MID_0301.cs" />
+    <Compile Include="MIDs\Statistic\StatisticMessages.cs" />
     <Compile Include="MIDs\Tightening\ITightening.cs" />
     <Compile Include="MIDs\Tightening\MID_0060.CS" />
     <Compile Include="MIDs\Tightening\MID_0061.CS" />
@@ -233,11 +242,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="MIDs\AutomaticManualMode\" />
     <Folder Include="MIDs\MotorTuning\" />
-    <Folder Include="MIDs\OpenProtocolCommandsDisabled\" />
     <Folder Include="MIDs\Reply\" />
-    <Folder Include="MIDs\ToolLocationSystem\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
