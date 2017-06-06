@@ -53,6 +53,11 @@ namespace OpenProtocolInterpreter.MIDs.Job.Advanced
             this.nextTemplate = nextTemplate;
         }
 
+        public override string buildPackage()
+        {
+            return base.buildPackage();
+        }
+
         public override MID processPackage(string package)
         {
             if (base.isCorrectType(package))

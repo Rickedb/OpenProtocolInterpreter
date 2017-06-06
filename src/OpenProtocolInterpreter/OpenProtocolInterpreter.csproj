@@ -145,6 +145,13 @@
     <Compile Include="MIDs\Communication\MID_0004.CS" />
     <Compile Include="MIDs\Communication\MID_0005.CS" />
     <Compile Include="MIDs\Communication\CommunicationMessages.cs" />
+    <Compile Include="MIDs\MotorTuning\IMotorTuning.cs" />
+    <Compile Include="MIDs\MotorTuning\MID_0500.cs" />
+    <Compile Include="MIDs\MotorTuning\MID_0501.cs" />
+    <Compile Include="MIDs\MotorTuning\MID_0502.cs" />
+    <Compile Include="MIDs\MotorTuning\MID_0503.cs" />
+    <Compile Include="MIDs\MotorTuning\MID_0504.cs" />
+    <Compile Include="MIDs\MotorTuning\MotorTuningMessages.cs" />
     <Compile Include="MIDs\MultipleIdentifiers\IMultipleIdentifier.cs" />
     <Compile Include="MIDs\MultipleIdentifiers\MID_0150.cs" />
     <Compile Include="MIDs\MultipleIdentifiers\MID_0151.cs" />
@@ -248,7 +255,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="MIDs\MotorTuning\" />
     <Folder Include="MIDs\Reply\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
