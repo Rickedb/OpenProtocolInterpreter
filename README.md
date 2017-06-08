@@ -14,8 +14,6 @@ Most common Tightening Controllers from Atlas Copco company are **PowerFocus4000
 OpenProtocolInterpreter is a **library that converts the ugly string** that came from Open Protocol packages, which is commonly called **MID**, to an **object**.
 Substringing packages is such a boring thing to do, so let OpenProtocolIntepreter do it for you!
 
-> **IMPORTANT NOTE:** Only Revision 1 packages were implemented, but yes, I'm looking foward to implement other revisions
-
 **[If you're curious, just take a look at their documentation.](https://github.com/Rickedb/OpenProtocolIntepreter/blob/master/docs/OpenProtocol_Specification.pdf)**
 
 ## How does it work?
@@ -94,6 +92,86 @@ MID_0030 myMid30 = myMidIdentifier.IdentifyMid<MID_0030>(package);
 ```
 
 > In my conception you should always register used MIDs when you are the **Integrator**
+
+#### Advanced Example
+
+Declared a delegate:
+
+``` csharp
+protected delegate void ReceivedCommandActionDelegate(ReceivedMIDEventArgs e);
+```
+**ReceivedMIDEventArgs class**:
+``` csharp
+public class ReceivedMIDEventArgs : EventArgs
+{
+    public MID ReceivedMID { get; set; }
+}
+```
+Created a method to register all those MID types by delegates:
+
+``` csharp
+protected Dictionary<Type, ReceivedCommandActionDelegate> RegisterOnAsyncReceivedMIDs()
+{
+    var receivedMids = new Dictionary<Type, ReceivedCommandActionDelegate>();
+    receivedMids.Add(typeof(MID_0005), new ReceivedCommandActionDelegate(this.onCommandAcceptedReceived));
+    receivedMids.Add(typeof(MID_0004), new ReceivedCommandActionDelegate(this.onErrorReceived));
+    receivedMids.Add(typeof(MID_0071), new ReceivedCommandActionDelegate(this.onAlarmReceived));
+    receivedMids.Add(typeof(MID_0061), new ReceivedCommandActionDelegate(this.onTighteningReceived));
+    receivedMids.Add(typeof(MID_0035), new ReceivedCommandActionDelegate(this.onJobInfoReceived));
+    return receivedMids;
+}
+```
+What was done is registering in a dictionary the correspondent delegate for a determinated MID, once done that we just need to invoke the delegate everytime you face a desired MID.
+
+When a package income:
+
+``` csharp
+protected void onPackageReceived(string message)
+{
+    try
+    {
+        var mid = this.DriverManager.IdentifyMidFromPackage(message);
+
+        //Get Registered delegate for the MID that was identified
+        var action = this.onReceivedMID.FirstOrDefault(x => x.Key == mid.GetType());
+        
+        if (action.Equals(default(KeyValuePair<Type, ReceivedCommandActionDelegate>)))
+           return; //Stop if there is no delegate registered for the message that arrived
+
+         action.Value(new ReceivedMIDEventArgs() { ReceivedMID = mid }); //Call delegate
+     }
+     catch (Exception ex)
+     {
+        Console.log(ex.Message);
+     }
+}
+```
+This would call the registered delegate which you're sure what mid it is. 
+For example when a **MID_0061** (last tightening) pop up, the  **onTighteningReceived** delegate will be called:
+
+``` csharp
+protected void onTighteningReceived(ReceivedMIDEventArgs e)
+{
+    try
+    {
+        
+        MID_0061 tighteningMid = e.ReceivedMID as MID_0061; //Converting to the right mid
+
+        //This method just send the ack from tightening mid
+        this.buildAndSendAcknowledge(tighteningMid); 
+        Console.log("TIGHTENING ARRIVED")
+     }
+     catch (Exception ex)
+     {
+         Console.log(ex.Message);
+     }
+}
+
+protected void buildAndSendAcknowledge(MID mid)
+{
+     this.tcpClient.GetStream().Write(new MID_0062().buildPackage()); //Send acknowledge to controller
+}
+```
 
 ### Tips
 
