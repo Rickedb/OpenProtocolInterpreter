@@ -42,7 +42,7 @@ namespace OpenProtocolInterpreter.MIDs
         public MIDIdentifier(IEnumerable<MID> useOnlyTheseMids)
         {
             this.selectedMids = useOnlyTheseMids;
-            this.messageInterpreterTemplates = new Dictionary<Func<int, bool>, Func<string, MID>>()
+            var fullDictionary = new Dictionary<Func<int, bool>, Func<string, MID>>()
             {
                 { mid => this.isKeepAliveMessage(mid), package => new KeepAlive.MID_9999() },
                 { mid => this.isCommunicationMessage(mid), package => new Communication.CommunicationMessages(selectedMids.Where(x=> typeof(Communication.ICommunication).IsAssignableFrom(x.GetType()))).processPackage(package) },
@@ -68,6 +68,15 @@ namespace OpenProtocolInterpreter.MIDs
                 { mid => this.isOpenProtocolCommandsDisabledModeMessage(mid), package => new OpenProtocolCommandsDisabled.OpenProtocolCommandsDisabledMessages(selectedMids.Where(x=> typeof(OpenProtocolCommandsDisabled.IOpenProtocolCommandsDisabled).IsAssignableFrom(x.GetType()))).processPackage(package) },
                 { mid => this.isMotorTuningMessage(mid), package => new MotorTuning.MotorTuningMessages(selectedMids.Where(x=> typeof(MotorTuning.IMotorTuning).IsAssignableFrom(x.GetType()))).processPackage(package) }
             };
+
+            this.messageInterpreterTemplates = new Dictionary<Func<int, bool>, Func<string, MID>>();
+            foreach(MID mid in useOnlyTheseMids)
+            {
+                var template = fullDictionary.Single(x => x.Key(mid.HeaderData.Mid));
+                if (!template.Equals(default(KeyValuePair<Func<int, bool>, Func<string, MID>>))
+                    && !this.messageInterpreterTemplates.ContainsKey(template.Key))
+                    this.messageInterpreterTemplates.Add(template.Key, template.Value);
+            }
         }
 
         public MID IdentifyMid(string package)
