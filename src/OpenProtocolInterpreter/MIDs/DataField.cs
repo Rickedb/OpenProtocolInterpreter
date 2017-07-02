@@ -2,6 +2,7 @@
 {
     public class DataField
     {
+        private char paddingChar;
         public int Field { get; set; }
         public int Index { get; set; }
         public int Size { get; set; }
@@ -14,6 +15,12 @@
 
         public DataField(int field, string index, int size)
         {
+            this.createObject(field, System.Convert.ToInt32(index), size, null);
+        }
+
+        public DataField(int field, int index, int size, char paddingChar)
+        {
+            this.paddingChar = paddingChar;
             this.createObject(field, System.Convert.ToInt32(index), size, null);
         }
 
@@ -47,25 +54,72 @@
             return this.Value.ToString().PadRight(this.Size, character);
         }
 
+        public void setBoolean(bool value)
+        {
+            this.Value = System.Convert.ToInt32(value);
+        }
+
+        public void setPaddedLeftValue(object value)
+        {
+            this.setPaddedLeftValue(value, this.paddingChar);
+        }
+
+        public void setPaddedRightValue(object value)
+        {
+            this.setPaddedRightValue(value, this.paddingChar);
+        }
+
+        public void setPaddedLeftValue(object value, char character)
+        {
+            this.Value = value.ToString().PadLeft(this.Size, character);
+        }
+
+        public void setPaddedRightValue(object value, char character)
+        {
+            this.Value = value.ToString().PadRight(this.Size, character);
+        }
+
         public System.DateTime ToDateTime()
         {
-            var date = this.Value.ToString();
-            return System.Convert.ToDateTime(date.Substring(0, 10) + " " + date.Substring(11, 8));
+            System.DateTime convertedValue = System.DateTime.MinValue;
+            if (this.Value != null)
+            {
+                var date = this.Value.ToString();
+                convertedValue = System.Convert.ToDateTime(date.Substring(0, 10) + " " + date.Substring(11, 8));
+            }
+            return convertedValue;
         }
 
         public int ToInt32()
         {
-            return System.Convert.ToInt32(this.Value);
+            int convertedValue = 0;
+            if (this.Value != null)
+                int.TryParse(this.Value.ToString(), out convertedValue);
+            return convertedValue;
         }
 
         public bool ToBoolean()
         {
-            return System.Convert.ToBoolean(this.ToInt32());
+            bool convertedValue = false;
+            if (this.Value != null)
+                convertedValue = System.Convert.ToBoolean(this.ToInt32());
+            return convertedValue;
         }
 
         public float ToFloat()
         {
-            return float.Parse(this.Value.ToString().Replace('.', ','));
+            float convertedValue = 0;
+            if (this.Value != null)
+                convertedValue = float.Parse(this.Value.ToString().Replace('.', ','));
+            return convertedValue;
+        }
+
+        public override string ToString()
+        {
+            string convertedValue = string.Empty;
+            if (this.Value != null)
+                convertedValue = this.Value.ToString();
+            return convertedValue;
         }
 
         private void createObject(int field, int index, int size, object value)

@@ -1,18 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenProtocolInterpreter.MIDs
 {
     public abstract class MID : IMID
     {
+        protected Dictionary<int, IEnumerable<DataField>> RevisionsByFields;
         protected IMID nextTemplate;
-
-        protected abstract void registerDatafields();
 
         public MID(Header header)
         {
             this.HeaderData = header;
             this.RegisteredDataFields = new List<DataField>();
+            this.RevisionsByFields = new Dictionary<int, IEnumerable<DataField>>();
+            this.loadRevisionsFields();
+            this.registerDatafields();
         }
 
         public MID(int length, int MID, int revision, int? noAckFlag = null, int? spindleID = null, int? stationID = null, IEnumerable<DataField> usedAs = null)
@@ -28,6 +31,26 @@ namespace OpenProtocolInterpreter.MIDs
                 UsedAs = usedAs
             };
             this.RegisteredDataFields = new List<DataField>();
+            this.RevisionsByFields = new Dictionary<int, IEnumerable<DataField>>();
+            this.loadRevisionsFields();
+            this.registerDatafields();
+        }
+
+        public MID(int MID, int revision, int? noAckFlag = null, int? spindleID = null, int? stationID = null, IEnumerable<DataField> usedAs = null)
+        {
+            this.HeaderData = new Header()
+            {
+                Length = 20,
+                Mid = MID,
+                Revision = revision,
+                NoAckFlag = noAckFlag,
+                SpindleID = spindleID,
+                StationID = stationID,
+                UsedAs = usedAs
+            };
+            this.RegisteredDataFields = new List<DataField>();
+            this.RevisionsByFields = new Dictionary<int, IEnumerable<DataField>>();
+            this.loadRevisionsFields();
             this.registerDatafields();
         }
 
@@ -61,6 +84,17 @@ namespace OpenProtocolInterpreter.MIDs
             return package;
         }
 
+        protected virtual void registerDatafields()
+        {
+            this.RegisteredDataFields.Clear();
+            for (int i = 1; i <= this.HeaderData.Revision; i++)
+                this.RegisteredDataFields.AddRange(this.RevisionsByFields[i]);
+        }
+
+        protected virtual void loadRevisionsFields()
+        {
+           
+        }
 
         protected virtual Header processHeader(string package)
         {
@@ -87,6 +121,11 @@ namespace OpenProtocolInterpreter.MIDs
         {
             foreach (var dataField in this.RegisteredDataFields)
                 dataField.Value = package.Substring(2 + dataField.Index, dataField.Size);
+        }
+
+        protected void updateRevisionFromPackage(string package)
+        {
+            this.HeaderData.Revision = (!string.IsNullOrWhiteSpace(package.Substring(8, 3))) ? Convert.ToInt32(package.Substring(8, 3)) : this.RevisionsByFields.Keys.Max();
         }
 
         public class Header
