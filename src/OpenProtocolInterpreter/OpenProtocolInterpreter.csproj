@@ -33,6 +33,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\DictionaryHelper.cs" />
     <Compile Include="MIDs\ApplicationController\MID_0270.cs" />
     <Compile Include="MIDs\ApplicationSelector\ApplicationSelectorMessages.cs" />
     <Compile Include="MIDs\ApplicationSelector\IApplicationSelector.cs" />
