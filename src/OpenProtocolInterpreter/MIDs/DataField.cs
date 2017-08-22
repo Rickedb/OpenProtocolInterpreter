@@ -61,21 +61,29 @@
 
         public void setPaddedLeftValue(object value)
         {
+            if (value == null)
+                value = string.Empty;
             this.setPaddedLeftValue(value, this.paddingChar);
         }
 
         public void setPaddedRightValue(object value)
         {
+            if (value == null)
+                value = string.Empty;
             this.setPaddedRightValue(value, this.paddingChar);
         }
 
         public void setPaddedLeftValue(object value, char character)
         {
+            if (value == null)
+                value = string.Empty;
             this.Value = value.ToString().PadLeft(this.Size, character);
         }
 
         public void setPaddedRightValue(object value, char character)
         {
+            if (value == null)
+                value = string.Empty;
             this.Value = value.ToString().PadRight(this.Size, character);
         }
 
