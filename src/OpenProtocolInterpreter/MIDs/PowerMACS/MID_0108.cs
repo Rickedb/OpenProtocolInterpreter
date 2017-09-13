@@ -19,7 +19,7 @@ namespace OpenProtocolInterpreter.MIDs.PowerMACS
     public class MID_0108 : MID, IPowerMACS
     {
         public const int MID = 108;
-        private const int length = 20;
+        private const int length = 21;
         private const int revision = 1;
 
         public bool BoltData { get; set; }
