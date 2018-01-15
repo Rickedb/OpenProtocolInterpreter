@@ -1,8 +1,11 @@
-﻿namespace OpenProtocolInterpreter.MIDs
+﻿using System;
+
+namespace OpenProtocolInterpreter.MIDs
 {
     public class DataField
     {
         private char paddingChar;
+        private PaddingOrientations paddingOrientation;
         public int Field { get; set; }
         public int Index { get; set; }
         public int Size { get; set; }
@@ -18,9 +21,10 @@
             this.createObject(field, System.Convert.ToInt32(index), size, null);
         }
 
-        public DataField(int field, int index, int size, char paddingChar)
+        public DataField(int field, int index, int size, char paddingChar, PaddingOrientations paddingOrientation = PaddingOrientations.RIGHT_PADDED)
         {
             this.paddingChar = paddingChar;
+            this.paddingOrientation = paddingOrientation;
             this.createObject(field, System.Convert.ToInt32(index), size, null);
         }
 
@@ -32,6 +36,14 @@
         public string getIndex()
         {
             return this.Index.ToString().PadLeft(2, '0');
+        }
+
+        public string getPaddedValue()
+        {
+            if (this.paddingOrientation == PaddingOrientations.RIGHT_PADDED)
+                return this.getPaddedRightValue(this.paddingChar);
+
+            return this.getPaddedLeftValue(this.paddingChar);
         }
 
         public string getPaddedLeftValue()
@@ -57,6 +69,11 @@
         public void setBoolean(bool value)
         {
             this.Value = System.Convert.ToInt32(value);
+        }
+
+        public void setDateTime(DateTime value)
+        {
+            this.Value = value.ToString("yyyy-MM-dd:HH:mm:ss");
         }
 
         public void setPaddedLeftValue(object value)
@@ -128,6 +145,12 @@
             this.Index = index;
             this.Size = size;
             this.Value = value;
+        }
+
+        public enum PaddingOrientations
+        {
+            RIGHT_PADDED,
+            LEFT_PADDED
         }
     }
 }

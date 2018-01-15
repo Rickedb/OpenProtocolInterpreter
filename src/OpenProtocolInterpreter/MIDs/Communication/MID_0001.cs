@@ -15,9 +15,7 @@
         public const int MID = 1;
         private const int lastRevision = 5;
 
-        public MID_0001() : base(length, MID, lastRevision) { }
-
-        public MID_0001(int revision) : base(length, MID, revision) { }
+        public MID_0001(int revision = lastRevision) : base(length, MID, revision) { }
 
         internal MID_0001(IMID nextTemplate) : base(length, MID, lastRevision)
         {

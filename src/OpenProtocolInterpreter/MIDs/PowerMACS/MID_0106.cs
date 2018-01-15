@@ -79,6 +79,7 @@ namespace OpenProtocolInterpreter.MIDs.PowerMACS
                 this.ModeNumber = base.RegisteredDataFields[(int)DataFields.MODE_NUMBER].ToInt32();
                 this.ModeName = base.RegisteredDataFields[(int)DataFields.MODE_NAME].Value.ToString();
                 this.SimpleStatus = base.RegisteredDataFields[(int)DataFields.SIMPLE_STATUS].ToBoolean();
+                this.WpId = base.RegisteredDataFields[(int)DataFields.WP_ID].Value.ToString();
                 this.PMStatus = (PowerMacsStatuses)base.RegisteredDataFields[(int)DataFields.PM_STATUS].ToInt32();
                 this.NumberOfBolts = base.RegisteredDataFields[(int)DataFields.NUMBER_OF_BOLTS].ToInt32();
 

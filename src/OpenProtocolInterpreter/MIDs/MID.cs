@@ -125,7 +125,8 @@ namespace OpenProtocolInterpreter.MIDs
 
         protected void updateRevisionFromPackage(string package)
         {
-            this.HeaderData.Revision = (!string.IsNullOrWhiteSpace(package.Substring(8, 3))) ? Convert.ToInt32(package.Substring(8, 3)) : this.RevisionsByFields.Keys.Max();
+            this.HeaderData.Revision = (!string.IsNullOrWhiteSpace(package.Substring(8, 3))) ? Convert.ToInt32(package.Substring(8, 3)) : 1;
+            this.registerDatafields();
         }
 
         public class Header

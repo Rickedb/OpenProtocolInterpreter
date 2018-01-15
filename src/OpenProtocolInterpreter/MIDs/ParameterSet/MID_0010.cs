@@ -11,11 +11,11 @@
     {
         private const int length = 20;
         public const int MID = 10;
-        private const int revision = 1;
+        private const int lastRevision = 3;
 
-        public MID_0010() : base(length, MID, revision) { }
+        public MID_0010(int revision = lastRevision) : base(length, MID, revision) { }
 
-        internal MID_0010(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0010(IMID nextTemplate) : base(length, MID, lastRevision)
         {
             this.nextTemplate = nextTemplate;
         }

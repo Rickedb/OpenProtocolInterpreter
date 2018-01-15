@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.MIDs.ParameterSet
+﻿using System.Linq.Expressions;
+
+namespace OpenProtocolInterpreter.MIDs.ParameterSet
 {
     /// <summary>
     /// MID: Parameter set selected subscribe
@@ -15,7 +17,14 @@
         public const int MID = 14;
         private const int revision = 1;
 
-        public MID_0014() : base(length, MID, revision) { }
+        public MID_0014(bool? ackFlag = null) 
+            : base(length, 
+                  MID, 
+                  revision, 
+                  ((ackFlag != null) ? (int?)Expression.Constant(System.Convert.ToInt32(ackFlag), typeof(int?)).Value : null)) 
+        { 
+        
+        }
 
         internal MID_0014(IMID nextTemplate) : base(length, MID, revision)
         {

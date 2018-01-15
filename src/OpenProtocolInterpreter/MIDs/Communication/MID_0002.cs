@@ -23,12 +23,16 @@ namespace OpenProtocolInterpreter.MIDs.Communication
         public int CellID { get; set; }
         public int ChannelID { get; set; }
         public string ControllerName { get; set; }
+        //Rev 2
         public string SupplierCode { get; set; }
+        //Rev 3
         public string OpenProtocolVersion { get; set; }
         public string ControllerSoftwareVersion { get; set; }
         public string ToolSoftwareVersion { get; set; }
+        //Rev 4
         public string RBUType { get; set; }
         public string ControllerSerialNumber { get; set; }
+        //Rev 5 
         public SystemTypes SystemType { get; set; }
         /// <summary>
         /// <para>If no subtype exists it will be set to 000</para>
@@ -38,33 +42,21 @@ namespace OpenProtocolInterpreter.MIDs.Communication
         /// <para>001 = a normal tightening system </para>
         /// <para>002 = a system running presses instead of spindles.</para>
         /// </summary>
-        public int SystemSubType { get; set; }
+        public SystemSubTypes SystemSubType { get; set; }
+        //Rev 6
         public bool SequenceNumberSupport { get; set; }
         public bool LinkingHandlingSupport { get; set; }
 
-        public MID_0002() : base(MID, lastRevision)
+        public MID_0002(int revision = lastRevision) : base(MID, revision)
         {
             this.revisionsActions = new Dictionary<int, Action>()
             {
-                { 1, this.storeRevision1 },
-                { 2, this.storeRevision2 },
-                { 3, this.storeRevision3 },
-                { 4, this.storeRevision4 },
-                { 5, this.storeRevision5 },
-                { 6, this.storeRevision6 }
-            };
-        }
-
-        public MID_0002(int revision) : base(MID, revision)
-        {
-            this.revisionsActions = new Dictionary<int, Action>()
-            {
-                { 1, this.storeRevision1 },
-                { 2, this.storeRevision2 },
-                { 3, this.storeRevision3 },
-                { 4, this.storeRevision4 },
-                { 5, this.storeRevision5 },
-                { 6, this.storeRevision6 }
+                { 1, this.buildRevision1 },
+                { 2, this.buildRevision2 },
+                { 3, this.buildRevision3 },
+                { 4, this.buildRevision4 },
+                { 5, this.buildRevision5 },
+                { 6, this.buildRevision6 }
             };
         }
 
@@ -93,7 +85,7 @@ namespace OpenProtocolInterpreter.MIDs.Communication
         {
             if (base.isCorrectType(package))
             {
-                this.updateRevisionFromPackage(package);
+                base.updateRevisionFromPackage(package);
                 base.processPackage(package);
                 for (int i = 1; i <= this.HeaderData.Revision; i++)
                     this.revisionsActions[i]();
@@ -147,7 +139,7 @@ namespace OpenProtocolInterpreter.MIDs.Communication
                     6, new DataField []
                             {
                                 new DataField((int)DataFields.SEQUENCE_NUMBER_SUPPORT, 173, 1),
-                                new DataField((int)DataFields.LINKING_HANDLING_SUPPORT, 177, 1)
+                                new DataField((int)DataFields.LINKING_HANDLING_SUPPORT, 176, 1)
                             }
                 }
             };
@@ -181,7 +173,7 @@ namespace OpenProtocolInterpreter.MIDs.Communication
         private void processRevision5()
         {
             this.SystemType = (SystemTypes)base.RegisteredDataFields.getDataField((int)DataFields.SYSTEM_TYPE).ToInt32();
-            this.SystemSubType = base.RegisteredDataFields.getDataField((int)DataFields.SYSTEM_SUBTYPE).ToInt32();
+            this.SystemSubType = (SystemSubTypes)base.RegisteredDataFields.getDataField((int)DataFields.SYSTEM_SUBTYPE).ToInt32();
         }
 
         private void processRevision6()
@@ -190,38 +182,38 @@ namespace OpenProtocolInterpreter.MIDs.Communication
             this.LinkingHandlingSupport = base.RegisteredDataFields.getDataField((int)DataFields.LINKING_HANDLING_SUPPORT).ToBoolean();
         }
 
-        private void storeRevision1()
+        private void buildRevision1()
         {
             base.RegisteredDataFields.getDataField((int)DataFields.CELL_ID).setPaddedLeftValue(this.CellID);
             base.RegisteredDataFields.getDataField((int)DataFields.CHANNEL_ID).setPaddedLeftValue(this.ChannelID);
             base.RegisteredDataFields.getDataField((int)DataFields.CONTROLLER_NAME).setPaddedRightValue(this.ControllerName);
         }
 
-        private void storeRevision2()
+        private void buildRevision2()
         {
             base.RegisteredDataFields.getDataField((int)DataFields.SUPPLIER_CODE).setPaddedRightValue(this.SupplierCode);
         }
 
-        private void storeRevision3()
+        private void buildRevision3()
         {
             base.RegisteredDataFields.getDataField((int)DataFields.OPEN_PROTOCOL_VERSION).setPaddedRightValue(this.OpenProtocolVersion);
             base.RegisteredDataFields.getDataField((int)DataFields.CONTROLLER_SOFTWARE_VERSION).setPaddedRightValue(this.ControllerSoftwareVersion);
             base.RegisteredDataFields.getDataField((int)DataFields.TOOL_SOFTWARE_VERSION).setPaddedRightValue(this.ToolSoftwareVersion);
         }
 
-        private void storeRevision4()
+        private void buildRevision4()
         {
             base.RegisteredDataFields.getDataField((int)DataFields.RBU_TYPE).setPaddedRightValue(this.RBUType);
             base.RegisteredDataFields.getDataField((int)DataFields.CONTROLLER_SERIAL_NUMBER).setPaddedRightValue(this.ControllerSerialNumber);
         }
 
-        private void storeRevision5()
+        private void buildRevision5()
         {
             base.RegisteredDataFields.getDataField((int)DataFields.SYSTEM_TYPE).setPaddedLeftValue((int)this.SystemType);
-            base.RegisteredDataFields.getDataField((int)DataFields.SYSTEM_SUBTYPE).setPaddedLeftValue(this.SystemSubType);
+            base.RegisteredDataFields.getDataField((int)DataFields.SYSTEM_SUBTYPE).setPaddedLeftValue((int)this.SystemSubType);
         }
 
-        private void storeRevision6()
+        private void buildRevision6()
         {
             base.RegisteredDataFields.getDataField((int)DataFields.SEQUENCE_NUMBER_SUPPORT).setBoolean(this.SequenceNumberSupport);
             base.RegisteredDataFields.getDataField((int)DataFields.LINKING_HANDLING_SUPPORT).setBoolean(this.LinkingHandlingSupport);
@@ -236,6 +228,16 @@ namespace OpenProtocolInterpreter.MIDs.Communication
             POWER_FOCUS_4000 = 1,
             POWER_MACS_4000 = 2,
             POWER_FOCUS_6000 = 3
+        }
+
+        /// <summary>
+        /// Added at revision 5
+        /// </summary>
+        public enum SystemSubTypes
+        {
+            NO_SUBTYPE_EXISTS = 0,
+            NORMAL_TIGHTENING_SYSTEM = 1,
+            SYSTEM_RUNNING_PRESSES = 2
         }
 
         public enum DataFields

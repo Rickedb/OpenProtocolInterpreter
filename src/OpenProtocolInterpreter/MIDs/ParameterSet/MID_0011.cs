@@ -15,6 +15,7 @@ namespace OpenProtocolInterpreter.MIDs.ParameterSet
     /// </summary>
     public class MID_0011 : MID, IParameterSet
     {
+        private readonly Dictionary<int, Action<string>> revisionsActions;
         private const int length = 23;
         public const int MID = 11;
         private const int revision = 1;
@@ -37,6 +38,13 @@ namespace OpenProtocolInterpreter.MIDs.ParameterSet
         {
             this.ParameterSets = new List<int>();
             this.nextTemplate = nextTemplate;
+            this.revisionsActions = new Dictionary<int, Action<string>>()
+            {
+                { 1, this.processRevision1 },
+                { 2, this.processRevision2 },
+                { 3, this.processRevision3 }
+            };
+
         }
 
         public override string buildPackage()
@@ -81,6 +89,29 @@ namespace OpenProtocolInterpreter.MIDs.ParameterSet
         {
             this.RegisteredDataFields.Add(new DataField((int)DataFields.TOTAL_PARAMETER_SETS, 20, 3));
             this.RegisteredDataFields.Add(new DataField((int)DataFields.EACH_PARAMETER_SET, 23, 3));
+        }
+
+        private void processRevision1(string package)
+        {
+            var datafield = this.RegisteredDataFields[(int)DataFields.TOTAL_PARAMETER_SETS];
+            this.TotalParameterSets = Convert.ToInt32(package.Substring(datafield.Index, datafield.Size));
+
+            datafield = this.RegisteredDataFields[(int)DataFields.EACH_PARAMETER_SET];
+            int packageIndex = datafield.Index;
+            for (int i = 0; i < this.TotalParameterSets; i++)
+            {
+                this.ParameterSets.Add(Convert.ToInt32(package.Substring(packageIndex, datafield.Size)));
+                packageIndex += datafield.Size;
+            }
+        }
+
+        private void processRevision2(string package)
+        {
+            
+        }
+        private void processRevision3(string package)
+        {
+            
         }
 
         public enum DataFields
