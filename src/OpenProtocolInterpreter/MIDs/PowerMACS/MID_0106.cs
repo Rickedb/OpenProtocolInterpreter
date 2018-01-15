@@ -184,22 +184,14 @@ namespace OpenProtocolInterpreter.MIDs.PowerMACS
                 bolt.SimpleBoltStatus = this.fields[(int)DataFields.SIMPLE_BOLT_STATUS].ToBoolean();
                 bolt.TorqueStatus = (TorqueStatuses)this.fields[(int)DataFields.TORQUE_STATUS].ToInt32();
                 bolt.AngleStatus = (AngleStatuses)this.fields[(int)DataFields.ANGLE_STATUS].ToInt32();
-                bolt.BoltTorque = this.ConvertDecimalPositions(this.fields[(int)DataFields.BOLT_TORQUE].ToFloat());
-                bolt.BoltAngle = this.ConvertDecimalPositions(this.fields[(int)DataFields.BOLT_ANGLE].ToFloat());
-                bolt.BoltTorqueHighLimit = this.ConvertDecimalPositions(this.fields[(int)DataFields.BOLT_TORQUE_HIGH_LIMIT].ToFloat());
-                bolt.BoltTorqueLowLimit = this.ConvertDecimalPositions(this.fields[(int)DataFields.BOLT_TORQUE_LOW_LIMIT].ToFloat());
-                bolt.BoltAngleHighLimit = this.ConvertDecimalPositions(this.fields[(int)DataFields.BOLT_ANGLE_HIGH_LIMIT].ToFloat());
-                bolt.BoltAngleLowLimit = this.ConvertDecimalPositions(this.fields[(int)DataFields.BOLT_ANGLE_LOW_LIMIT].ToFloat());
+                bolt.BoltTorque = this.fields[(int)DataFields.BOLT_TORQUE].ToFloat();
+                bolt.BoltAngle = this.fields[(int)DataFields.BOLT_ANGLE].ToFloat();
+                bolt.BoltTorqueHighLimit = this.fields[(int)DataFields.BOLT_TORQUE_HIGH_LIMIT].ToFloat();
+                bolt.BoltTorqueLowLimit = this.fields[(int)DataFields.BOLT_TORQUE_LOW_LIMIT].ToFloat();
+                bolt.BoltAngleHighLimit = this.fields[(int)DataFields.BOLT_ANGLE_HIGH_LIMIT].ToFloat();
+                bolt.BoltAngleLowLimit = this.fields[(int)DataFields.BOLT_ANGLE_LOW_LIMIT].ToFloat();
 
                 return bolt;
-            }
-
-            private float ConvertDecimalPositions(float value)
-            {
-                if (value % 1 == 0)
-                    return value;
-                else
-                    return value * 100;
             }
 
             private void registerDatafields()
