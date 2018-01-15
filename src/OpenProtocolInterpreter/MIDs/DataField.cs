@@ -117,7 +117,7 @@
         public float ToFloat()
         {
             float convertedValue = 0;
-            if (this.Value != null)
+            if (!string.IsNullOrWhiteSpace(this.Value.ToString()))
                 convertedValue = float.Parse(this.Value.ToString().Replace('.', ','));
             return convertedValue;
         }
