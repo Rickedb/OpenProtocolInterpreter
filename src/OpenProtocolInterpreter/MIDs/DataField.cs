@@ -89,11 +89,11 @@
 
         public System.DateTime ToDateTime()
         {
-            System.DateTime convertedValue = System.DateTime.MinValue;
-            if (this.Value != null)
+            System.DateTime convertedValue = System.DateTime.Now;
+            if (!string.IsNullOrWhiteSpace(this.Value.ToString()))
             {
                 var date = this.Value.ToString();
-                convertedValue = System.Convert.ToDateTime(date.Substring(0, 10) + " " + date.Substring(11, 8));
+                System.DateTime.TryParse(date.Substring(0, 10) + " " + date.Substring(11, 8), out convertedValue);
             }
             return convertedValue;
         }
