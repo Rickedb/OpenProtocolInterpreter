@@ -11,7 +11,7 @@
     public class MID_0244 : MID, IPLCUserData
     {
         private const int length = 20;
-        public const int MID = 243;
+        public const int MID = 244;
         private const int revision = 1;
 
         public MID_0244() : base(length, MID, revision) { }
