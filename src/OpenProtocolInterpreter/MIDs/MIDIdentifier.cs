@@ -84,12 +84,19 @@ namespace OpenProtocolInterpreter.MIDs
             int mid = int.Parse(package.Substring(4, 4));
 
             var func = this.messageInterpreterTemplates.FirstOrDefault(x => x.Key(mid));
+            if (func.Equals(default(KeyValuePair<Func<int, bool>, Func<string, MID>>)))
+                throw new NotImplementedException($"MID {mid} was not implemented, please register it on MidIntepreter constructor!");
+
             return func.Value(package);
         }
 
         public ExpectedMid IdentifyMid<ExpectedMid>(string package) where ExpectedMid : MID
         {
-            return (ExpectedMid)this.IdentifyMid(package);
+            MID mid = this.IdentifyMid(package);
+            if (mid.GetType().Equals(typeof(ExpectedMid)))
+                return (ExpectedMid)mid;
+
+            throw new InvalidCastException($"Package is MID {mid.GetType().Name}, cannot be casted to {typeof(ExpectedMid).Name}");
         }
 
         private bool isKeepAliveMessage(int mid) { return (mid == 9999); }
