@@ -7,6 +7,9 @@ using System.Windows.Forms;
 using OpenProtocolInterpreter.Sample.Driver.Helpers;
 using OpenProtocolInterpreter.MIDs.KeepAlive;
 using System.Drawing;
+using OpenProtocolInterpreter.MIDs.Tightening;
+using OpenProtocolInterpreter.MIDs.Communication;
+using OpenProtocolInterpreter.MIDs.Job;
 
 namespace OpenProtocolInterpreter.Sample
 {
@@ -69,17 +72,17 @@ namespace OpenProtocolInterpreter.Sample
 
         private void KeepAliveTimer_Tick(object sender, EventArgs e)
         {
-            if (this.driver.keepAlive.ElapsedMilliseconds == 10000) //10 sec
+            if (this.driver.keepAlive.ElapsedMilliseconds > 10000) //10 sec
             {
-                Console.Write($"Sending Keep Alive...");
+                Console.WriteLine($"Sending Keep Alive...");
                 var pack = this.driver.sendAndWaitForResponse(new MID_9999().buildPackage(), TimeSpan.FromSeconds(10));
                 if (pack != null && pack.HeaderData.Mid == MID_9999.MID)
                 {
                     lastMessageArrived.Text = MID_9999.MID.ToString();
-                    Console.Write($"Keep Alive Received");
+                    Console.WriteLine($"Keep Alive Received");
                 }
                 else
-                    Console.Write($"Keep Alive Not Received");
+                    Console.WriteLine($"Keep Alive Not Received");
             }
         }
 
@@ -90,7 +93,23 @@ namespace OpenProtocolInterpreter.Sample
         /// <param name="e"></param>
         private void btnJobInfoSubscribe_Click(object sender, EventArgs e)
         {
-            this.driver.AddUpdateOnReceivedCommand(typeof(MIDs.Job.MID_0035), this.onJobInfoReceived);
+            Console.WriteLine($"Sending Job Info Subscribe...");
+            var pack = this.driver.sendAndWaitForResponse(new MID_0034().buildPackage(), TimeSpan.FromSeconds(10));
+
+            if (pack != null)
+            {
+                if (pack.HeaderData.Mid == MID_0004.MID)
+                {
+                    var mid04 = pack as MID_0004;
+                    Console.WriteLine($@"Error while subscribing (MID 0004):
+                                         Error Code: <{mid04.ErrorCode}>
+                                         Failed MID: <{mid04.FailedMid}>");
+                }
+                else
+                    Console.WriteLine($"Job Info Subscribe accepted!");
+            }
+
+            this.driver.AddUpdateOnReceivedCommand(typeof(MID_0035), this.onJobInfoReceived);
         }
 
         /// <summary>
@@ -100,7 +119,25 @@ namespace OpenProtocolInterpreter.Sample
         /// <param name="e"></param>
         private void btnTighteningSubscribe_Click(object sender, EventArgs e)
         {
-            this.driver.AddUpdateOnReceivedCommand(typeof(MIDs.Tightening.MID_0060), this.onTighteningReceived);
+            
+            Console.WriteLine($"Sending Tightening Subscribe...");
+            var pack = this.driver.sendAndWaitForResponse(new MID_0060().buildPackage(), TimeSpan.FromSeconds(10));
+
+            if(pack != null)
+            {
+                if(pack.HeaderData.Mid == MID_0004.MID)
+                {
+                    var mid04 = pack as MID_0004;
+                    Console.WriteLine($@"Error while subscribing (MID 0004):
+                                         Error Code: <{mid04.ErrorCode}>
+                                         Failed MID: <{mid04.FailedMid}>");
+                }
+                else
+                    Console.WriteLine($"Tightening Subscribe accepted!");
+            }
+            
+            //register command
+            this.driver.AddUpdateOnReceivedCommand(typeof(MID_0061), this.onTighteningReceived);
         }
 
         /// <summary>
@@ -111,8 +148,8 @@ namespace OpenProtocolInterpreter.Sample
         {
             this.driver.sendMessage(e.Mid.BuildAckPackage());
             
-            var jobInfo = e.Mid as MIDs.Job.MID_0035;
-            lastMessageArrived.Text = MIDs.Job.MID_0035.MID.ToString();
+            var jobInfo = e.Mid as MID_0035;
+            lastMessageArrived.Text = MID_0035.MID.ToString();
             Console.WriteLine($@"JOB INFO RECEIVED (MID 0035): 
                                  Job ID: <{jobInfo.JobID}>
                                  Job Status: <{(int)jobInfo.JobStatus}> ({jobInfo.JobStatus.ToString()})
@@ -123,15 +160,16 @@ namespace OpenProtocolInterpreter.Sample
         }
 
         /// <summary>
-        /// Async method from controller, MID 0035 (Job Info)
+        /// Async method from controller, MID 0061 (Last Tightening)
+        /// Basically, on every tightening this method will be called!
         /// </summary>
         /// <param name="e"></param>
         private void onTighteningReceived(MIDIncome e)
         {
             this.driver.sendMessage(e.Mid.BuildAckPackage());
 
-            var tighteningMid = e.Mid as MIDs.Tightening.MID_0061;
-            lastMessageArrived.Text = MIDs.Tightening.MID_0061.MID.ToString();
+            var tighteningMid = e.Mid as MID_0061;
+            lastMessageArrived.Text = MID_0061.MID.ToString();
             Console.WriteLine($@"TIGHTENING RECEIVED (MID 0061): 
                                  Cell ID: <{tighteningMid.CellID}>
                                  Channel ID: <{tighteningMid.ChannelID}>

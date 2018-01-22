@@ -89,6 +89,7 @@ namespace OpenProtocolInterpreter.Sample.Driver
                 System.Threading.Thread.Sleep(500);
                 MID midResponse = null;
 
+                Console.WriteLine($"Sending message: {message}");
                 Message response = this.simpleTcpClient.WriteLineAndGetReply(message, timeout);
 
                 Console.WriteLine((response != null) ? $"Response: {response.MessageString}" : "TIMEOUT!");
