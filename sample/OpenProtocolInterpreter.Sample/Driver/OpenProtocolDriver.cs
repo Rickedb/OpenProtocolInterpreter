@@ -40,6 +40,8 @@ namespace OpenProtocolInterpreter.Sample.Driver
         public bool BeginCommunication(SimpleTcpClient client)
         {
             this.simpleTcpClient = client;
+            this.simpleTcpClient.DataReceived += this.onPackageReceived;
+            this.simpleTcpClient.DelimiterDataReceived += this.onPackageReceived;
             return this.startCommunication();
         }
 

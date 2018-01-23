@@ -36,14 +36,20 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btnConnection = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.numericPort = new System.Windows.Forms.NumericUpDown();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnTighteningSubscribe = new System.Windows.Forms.Button();
             this.btnJobInfoSubscribe = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.numericJob = new System.Windows.Forms.NumericUpDown();
+            this.btnSendJob = new System.Windows.Forms.Button();
+            this.btnSendProduct = new System.Windows.Forms.Button();
+            this.txtProduct = new System.Windows.Forms.TextBox();
             this.statusStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericPort)).BeginInit();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericJob)).BeginInit();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -118,19 +124,20 @@
             this.label2.TabIndex = 6;
             this.label2.Text = "Port:";
             // 
-            // numericUpDown1
+            // numericPort
             // 
-            this.numericUpDown1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericUpDown1.Location = new System.Drawing.Point(250, 13);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
+            this.numericPort.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numericPort.Location = new System.Drawing.Point(250, 13);
+            this.numericPort.Maximum = new decimal(new int[] {
             1215752192,
             23,
             0,
             0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(120, 22);
-            this.numericUpDown1.TabIndex = 7;
-            this.numericUpDown1.Value = new decimal(new int[] {
+            this.numericPort.Name = "numericPort";
+            this.numericPort.Size = new System.Drawing.Size(120, 22);
+            this.numericPort.TabIndex = 7;
+            this.numericPort.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numericPort.Value = new decimal(new int[] {
             4545,
             0,
             0,
@@ -172,6 +179,10 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.txtProduct);
+            this.groupBox2.Controls.Add(this.btnSendProduct);
+            this.groupBox2.Controls.Add(this.btnSendJob);
+            this.groupBox2.Controls.Add(this.numericJob);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(12, 148);
             this.groupBox2.Name = "groupBox2";
@@ -180,6 +191,51 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Commands";
             // 
+            // numericJob
+            // 
+            this.numericJob.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numericJob.Location = new System.Drawing.Point(6, 21);
+            this.numericJob.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.numericJob.Name = "numericJob";
+            this.numericJob.Size = new System.Drawing.Size(62, 22);
+            this.numericJob.TabIndex = 10;
+            this.numericJob.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // btnSendJob
+            // 
+            this.btnSendJob.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSendJob.Location = new System.Drawing.Point(74, 21);
+            this.btnSendJob.Name = "btnSendJob";
+            this.btnSendJob.Size = new System.Drawing.Size(100, 23);
+            this.btnSendJob.TabIndex = 10;
+            this.btnSendJob.Text = "Send Job";
+            this.btnSendJob.UseVisualStyleBackColor = true;
+            this.btnSendJob.Click += new System.EventHandler(this.btnSendJob_Click);
+            // 
+            // btnSendProduct
+            // 
+            this.btnSendProduct.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSendProduct.Location = new System.Drawing.Point(355, 20);
+            this.btnSendProduct.Name = "btnSendProduct";
+            this.btnSendProduct.Size = new System.Drawing.Size(100, 23);
+            this.btnSendProduct.TabIndex = 11;
+            this.btnSendProduct.Text = "Send Product";
+            this.btnSendProduct.UseVisualStyleBackColor = true;
+            this.btnSendProduct.Click += new System.EventHandler(this.btnSendProduct_Click);
+            // 
+            // txtProduct
+            // 
+            this.txtProduct.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtProduct.Location = new System.Drawing.Point(189, 21);
+            this.txtProduct.MaxLength = 25;
+            this.txtProduct.Name = "txtProduct";
+            this.txtProduct.Size = new System.Drawing.Size(160, 22);
+            this.txtProduct.TabIndex = 10;
+            // 
             // DriverForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -187,7 +243,7 @@
             this.ClientSize = new System.Drawing.Size(653, 290);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.numericUpDown1);
+            this.Controls.Add(this.numericPort);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.btnConnection);
             this.Controls.Add(this.label1);
@@ -197,8 +253,11 @@
             this.Text = "Form1";
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericPort)).EndInit();
             this.groupBox1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericJob)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -213,12 +272,16 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnConnection;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown numericPort;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btnTighteningSubscribe;
         private System.Windows.Forms.Button btnJobInfoSubscribe;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ToolStripStatusLabel lastMessageArrived;
+        private System.Windows.Forms.Button btnSendJob;
+        private System.Windows.Forms.NumericUpDown numericJob;
+        private System.Windows.Forms.TextBox txtProduct;
+        private System.Windows.Forms.Button btnSendProduct;
     }
 }
 

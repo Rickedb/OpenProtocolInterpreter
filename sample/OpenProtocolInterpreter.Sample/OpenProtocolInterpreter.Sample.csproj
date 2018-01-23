@@ -48,6 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Driver\Commands\DownloadProductCommand.cs" />
+    <Compile Include="Driver\Commands\SendJobCommand.cs" />
     <Compile Include="Driver\Events\MIDIncome.cs" />
     <Compile Include="Driver\Helpers\AcknowledgeHelper.cs" />
     <Compile Include="Driver\OpenProtocolDriver.cs" />
@@ -86,8 +88,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Driver\States\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

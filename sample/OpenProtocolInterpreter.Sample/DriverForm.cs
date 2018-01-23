@@ -10,6 +10,7 @@ using System.Drawing;
 using OpenProtocolInterpreter.MIDs.Tightening;
 using OpenProtocolInterpreter.MIDs.Communication;
 using OpenProtocolInterpreter.MIDs.Job;
+using OpenProtocolInterpreter.Sample.Driver.Commands;
 
 namespace OpenProtocolInterpreter.Sample
 {
@@ -56,7 +57,7 @@ namespace OpenProtocolInterpreter.Sample
                 new MID_9999()
             });
 
-            if (this.driver.BeginCommunication(new Ethernet.SimpleTcpClient().Connect(this.textIp.Text, 4545)))
+            if (this.driver.BeginCommunication(new Ethernet.SimpleTcpClient().Connect(this.textIp.Text, (int)this.numericPort.Value)))
             {
                 this.keepAliveTimer.Start();
                 this.connectionStatus.Text = "Connected!";
@@ -140,6 +141,12 @@ namespace OpenProtocolInterpreter.Sample
             this.driver.AddUpdateOnReceivedCommand(typeof(MID_0061), this.onTighteningReceived);
         }
 
+
+        private void btnSendJob_Click(object sender, EventArgs e)
+        {
+            new SendJobCommand(this.driver).Execute((int)this.numericJob.Value);
+        }
+
         /// <summary>
         /// Async method from controller, MID 0035 (Job Info)
         /// </summary>
@@ -196,5 +203,9 @@ namespace OpenProtocolInterpreter.Sample
                                  TighteningID: <{tighteningMid.TighteningID}>");
         }
 
+        private void btnSendProduct_Click(object sender, EventArgs e)
+        {
+            new DownloadProductCommand(this.driver).Execute(this.txtProduct.Text);
+        }
     }
 }
