@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Driver\Commands\AbortJobCommand.cs" />
     <Compile Include="Driver\Commands\DownloadProductCommand.cs" />
     <Compile Include="Driver\Commands\SendJobCommand.cs" />
     <Compile Include="Driver\Events\MIDIncome.cs" />

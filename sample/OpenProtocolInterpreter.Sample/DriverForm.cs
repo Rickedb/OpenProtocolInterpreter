@@ -207,5 +207,10 @@ namespace OpenProtocolInterpreter.Sample
         {
             new DownloadProductCommand(this.driver).Execute(this.txtProduct.Text);
         }
+
+        private void btnAbortJob_Click(object sender, EventArgs e)
+        {
+            new AbortJobCommand(this.driver).Execute();
+        }
     }
 }
