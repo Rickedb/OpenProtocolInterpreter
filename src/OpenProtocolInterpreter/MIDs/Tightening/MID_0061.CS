@@ -62,10 +62,10 @@ namespace OpenProtocolInterpreter.MIDs.Tightening
                 this.TighteningStatus = Convert.ToBoolean(Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.TIGHTENING_STATUS].Value));
                 this.TorqueStatus = (TighteningValuesStatuses)Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.TORQUE_STATUS].Value);
                 this.AngleStatus = (TighteningValuesStatuses)Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.ANGLE_STATUS].Value);
-                this.TorqueMinLimit = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.TORQUE_MIN_LIMIT].Value) / 100;
-                this.TorqueMaxLimit = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.TORQUE_MAX_LIMIT].Value) / 100;
-                this.TorqueFinalTarget = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.TORQUE_FINAL_TARGET].Value) / 100;
-                this.Torque= Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.TORQUE].Value) / 100;
+                this.TorqueMinLimit = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.TORQUE_MIN_LIMIT].Value) / 100m;
+                this.TorqueMaxLimit = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.TORQUE_MAX_LIMIT].Value) / 100m;
+                this.TorqueFinalTarget = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.TORQUE_FINAL_TARGET].Value) / 100m;
+                this.Torque= Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.TORQUE].Value) / 100m;
                 this.AngleMinLimit = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.ANGLE_MIN_LIMIT].Value);
                 this.AngleMaxLimit = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.ANGLE_MAX_LIMIT].Value);
                 this.AngleFinalTarget = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.ANGLE_FINAL_TARGET].Value);
