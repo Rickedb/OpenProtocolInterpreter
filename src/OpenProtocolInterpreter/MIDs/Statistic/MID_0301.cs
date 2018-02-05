@@ -62,9 +62,9 @@
                 base.processPackage(package);
                 this.ParameterSetID = base.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].ToInt32();
                 this.HistogramType = (HistogramTypes)base.RegisteredDataFields[(int)DataFields.HISTOGRAM_TYPE].ToInt32();
-                this.SigmaHistogram = base.RegisteredDataFields[(int)DataFields.SIGMA_HISTOGRAM].ToInt32() / 100;
-                this.MeanValueHistogram = base.RegisteredDataFields[(int)DataFields.MEAN_VALUE_HISTOGRAM].ToInt32() / 100;
-                this.ClassRange = base.RegisteredDataFields[(int)DataFields.CLASS_RANGE].ToInt32() / 100;
+                this.SigmaHistogram = base.RegisteredDataFields[(int)DataFields.SIGMA_HISTOGRAM].ToInt32() / 100m;
+                this.MeanValueHistogram = base.RegisteredDataFields[(int)DataFields.MEAN_VALUE_HISTOGRAM].ToInt32() / 100m;
+                this.ClassRange = base.RegisteredDataFields[(int)DataFields.CLASS_RANGE].ToInt32() / 100m;
                 this.Bar1 = base.RegisteredDataFields[(int)DataFields.BAR_1].ToInt32();
                 this.Bar2 = base.RegisteredDataFields[(int)DataFields.BAR_2].ToInt32();
                 this.Bar3 = base.RegisteredDataFields[(int)DataFields.BAR_3].ToInt32();

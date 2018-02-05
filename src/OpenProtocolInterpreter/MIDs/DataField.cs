@@ -78,31 +78,39 @@ namespace OpenProtocolInterpreter.MIDs
 
         public void setPaddedLeftValue(object value)
         {
+            if (value == null)
+                value = string.Empty;
             this.setPaddedLeftValue(value, this.paddingChar);
         }
 
         public void setPaddedRightValue(object value)
         {
+            if (value == null)
+                value = string.Empty;
             this.setPaddedRightValue(value, this.paddingChar);
         }
 
         public void setPaddedLeftValue(object value, char character)
         {
+            if (value == null)
+                value = string.Empty;
             this.Value = value.ToString().PadLeft(this.Size, character);
         }
 
         public void setPaddedRightValue(object value, char character)
         {
+            if (value == null)
+                value = string.Empty;
             this.Value = value.ToString().PadRight(this.Size, character);
         }
 
         public System.DateTime ToDateTime()
         {
-            System.DateTime convertedValue = System.DateTime.MinValue;
-            if (this.Value != null)
+            System.DateTime convertedValue = System.DateTime.Now;
+            if (!string.IsNullOrWhiteSpace(this.Value.ToString()))
             {
                 var date = this.Value.ToString();
-                convertedValue = System.Convert.ToDateTime(date.Substring(0, 10) + " " + date.Substring(11, 8));
+                System.DateTime.TryParse(date.Substring(0, 10) + " " + date.Substring(11, 8), out convertedValue);
             }
             return convertedValue;
         }
@@ -126,7 +134,7 @@ namespace OpenProtocolInterpreter.MIDs
         public float ToFloat()
         {
             float convertedValue = 0;
-            if (this.Value != null)
+            if (!string.IsNullOrWhiteSpace(this.Value.ToString()))
                 convertedValue = float.Parse(this.Value.ToString().Replace('.', ','));
             return convertedValue;
         }
