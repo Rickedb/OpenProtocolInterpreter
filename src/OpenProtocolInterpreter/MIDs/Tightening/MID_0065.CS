@@ -47,7 +47,7 @@ namespace OpenProtocolInterpreter.MIDs.Tightening
                 this.TighteningStatus = Convert.ToBoolean(Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.TIGHTENING_STATUS].Value));
                 this.TorqueStatus = (TighteningValuesStatuses)Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.TORQUE_STATUS].Value);
                 this.AngleStatus = (TighteningValuesStatuses)Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.ANGLE_STATUS].Value);
-                this.Torque = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.TORQUE].Value) / 100;
+                this.Torque = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.TORQUE].Value) / 100m;
                 this.Angle = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.ANGLE].Value);
                 this.TimeStamp = base.RegisteredDataFields[(int)DataFields.TIMESTAMP].ToDateTime();
                 this.BatchStatus = (BatchStatuses)Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.ANGLE_STATUS].Value);

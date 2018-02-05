@@ -81,6 +81,7 @@ namespace OpenProtocolInterpreter.MIDs.PowerMACS
                 this.SimpleStatus = base.RegisteredDataFields[(int)DataFields.SIMPLE_STATUS].ToBoolean();
                 this.WpId = base.RegisteredDataFields[(int)DataFields.WP_ID].Value.ToString();
                 this.PMStatus = (PowerMacsStatuses)base.RegisteredDataFields[(int)DataFields.PM_STATUS].ToInt32();
+                this.WpId = base.RegisteredDataFields[(int)DataFields.WP_ID].ToString();
                 this.NumberOfBolts = base.RegisteredDataFields[(int)DataFields.NUMBER_OF_BOLTS].ToInt32();
 
                 base.RegisteredDataFields[(int)DataFields.BOLT_DATA].Size = (this.TotalNumberOfMessages - 1) * 67; //BoltData size

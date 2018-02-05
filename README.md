@@ -12,7 +12,7 @@ Most common Tightening Controllers from Atlas Copco company are **PowerFocus4000
 ## What is OpenProtocolInterpreter?
 
 OpenProtocolInterpreter is a **library that converts the ugly string** that came from Open Protocol packages, which is commonly called **MID**, to an **object**.
-Substringing packages is such a boring thing to do, so let OpenProtocolIntepreter do it for you!
+*"Substringing"* packages is such a boring thing to do, so let OpenProtocolIntepreter do it for you!
 
 **[If you're curious, just take a look at their documentation.](https://github.com/Rickedb/OpenProtocolIntepreter/blob/master/docs/OpenProtocol_Specification.pdf)**
 
@@ -54,7 +54,7 @@ string package = jobUploadRequest.buildPackage();
 ## Advanced Section!
 
 Now we will get real!
-Put one thing in mind, in real world will always need to build something more complex than the dummies examples we give you.
+Put one thing in mind, in real world we will always need to build something more complex than the dummies examples we give to you.
 **With this in mind, this section is for you:**
 
 #### How it was built?
@@ -175,7 +175,7 @@ protected void buildAndSendAcknowledge(MID mid)
 
 ### Tips
 
-> Instantiate the **MIDIdentifier** class just once, it takes some time to build all the chain thing, and you don't want to lose time instantiating it everytime a package arrives.
+> Instantiate the **MIDIdentifier** class just once, it takes some time to build all the "chain thing", and you don't want to lose time instantiating it everytime a package arrives.
 
 > **Controller Implementation Tip:** Always **TRY** to register used MIDs, not all Tightening Controllers use every available MID.
 

@@ -102,10 +102,10 @@ namespace OpenProtocolInterpreter.MIDs
 
             header.Length = Convert.ToInt32(package.Substring(0, 4));
             header.Mid = Convert.ToInt32(package.Substring(4, 4));
-            header.Revision = (!string.IsNullOrWhiteSpace(package.Substring(8, 3))) ? Convert.ToInt32(package.Substring(8, 3)) : 1;
-            header.NoAckFlag = (!string.IsNullOrWhiteSpace(package.Substring(11, 1))) ? (int?)Convert.ToInt32(package.Substring(11, 1)) : null;
-            header.StationID = (!string.IsNullOrWhiteSpace(package.Substring(12, 2))) ? (int?)Convert.ToInt32(package.Substring(12, 2)) : null;
-            header.SpindleID = (!string.IsNullOrWhiteSpace(package.Substring(14, 2))) ? (int?)Convert.ToInt32(package.Substring(14, 2)) : null;
+            header.Revision = (package.Length >= 11 && !string.IsNullOrWhiteSpace(package.Substring(8, 3))) ? Convert.ToInt32(package.Substring(8, 3)) : 1;
+            header.NoAckFlag = (package.Length >= 12 && !string.IsNullOrWhiteSpace(package.Substring(11, 1))) ? (int?)Convert.ToInt32(package.Substring(11, 1)) : null;
+            header.StationID = (package.Length >= 14 && !string.IsNullOrWhiteSpace(package.Substring(12, 2))) ? (int?)Convert.ToInt32(package.Substring(12, 2)) : null;
+            header.SpindleID = (package.Length >= 16 && !string.IsNullOrWhiteSpace(package.Substring(14, 2))) ? (int?)Convert.ToInt32(package.Substring(14, 2)) : null;
 
             return header;
         }
@@ -120,7 +120,14 @@ namespace OpenProtocolInterpreter.MIDs
         protected void processDataFields(string package)
         {
             foreach (var dataField in this.RegisteredDataFields)
-                dataField.Value = package.Substring(2 + dataField.Index, dataField.Size);
+                try
+                {
+                    dataField.Value = package.Substring(2 + dataField.Index, dataField.Size);
+                }
+                catch(ArgumentOutOfRangeException)
+                {
+                    //null value
+                }
         }
 
         protected void updateRevisionFromPackage(string package)

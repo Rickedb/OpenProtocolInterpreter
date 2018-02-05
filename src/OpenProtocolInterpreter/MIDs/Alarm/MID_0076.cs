@@ -37,7 +37,6 @@ namespace OpenProtocolInterpreter.MIDs.Alarm
                 return this;
             }
 
-
             return this.nextTemplate.processPackage(package);
         }
 
@@ -65,7 +64,6 @@ namespace OpenProtocolInterpreter.MIDs.Alarm
             public AlarmStatusesData getAlarmStatusFromPackage(string package)
             {
                 this.processFields(package);
-                AlarmStatusesData alarmStatus = new AlarmStatusesData();
 
                 this.AlarmStatus = this.fields[(int)Fields.ALARM_STATUS].ToBoolean();
                 this.ErrorCode = this.fields[(int)Fields.ERROR_CODE].ToString();
@@ -73,7 +71,7 @@ namespace OpenProtocolInterpreter.MIDs.Alarm
                 this.ToolReadyStatus = this.fields[(int)Fields.TOOL_READY_STATUS].ToBoolean();
                 this.Time = this.fields[(int)Fields.TIME].ToDateTime();
 
-                return alarmStatus;
+                return this;
             }
 
             public override string ToString()

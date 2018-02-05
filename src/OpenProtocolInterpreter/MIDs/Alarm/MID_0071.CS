@@ -22,11 +22,12 @@ namespace OpenProtocolInterpreter.MIDs.Alarm
 
         public MID_0071() : base(length, MID, revision)
         {
-
+            this.AlarmData = new Alarms();
         }
 
         internal MID_0071(IMID nextTemplate) : base(length, MID, revision)
         {
+            this.AlarmData = new Alarms();
             this.nextTemplate = nextTemplate;
         }
 
@@ -65,14 +66,13 @@ namespace OpenProtocolInterpreter.MIDs.Alarm
             public Alarms getAlarmFromPackage(string package)
             {
                 this.processFields(package);
-                Alarms alarm = new Alarms();
 
                 this.ErrorCode = this.fields[(int)Fields.ERROR_CODE].ToString();
                 this.ControllerReadyStatus = this.fields[(int)Fields.CONTROLLER_READY_STATUS].ToBoolean();
                 this.ToolReadyStatus = this.fields[(int)Fields.TOOL_READY_STATUS].ToBoolean();
                 this.Time = this.fields[(int)Fields.TIME].ToDateTime();
 
-                return alarm;
+                return this;
             }
 
             public override string ToString()
