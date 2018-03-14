@@ -1,0 +1,110 @@
+﻿using System;
+
+namespace OpenProtocolInterpreter.Tool
+{
+    /// <summary>
+    /// MID: Tool Pairing status
+    /// Description: 
+    ///     This message is sent by the controller in order to report the current status of the tool pairing.
+    /// Message sent by: Controller
+    /// Answer: N/A
+    /// </summary>
+    public class MID_0048 : MID, ITool
+    {
+        private const int length = 45;
+        public const int MID = 48;
+        private const int revision = 1;
+
+        public PairingStatuses PairingStatus { get; set; }
+        public DateTime TimeStamp { get; set; }
+
+        public MID_0048() : base(length, MID, revision) { }
+
+        internal MID_0048(IMID nextTemplate) : base(length, MID, revision)
+        {
+            this.NextTemplate = nextTemplate;
+        }
+
+        public override string BuildPackage()
+        {
+            this.RegisteredDataFields[(int)DataFields.PAIRING_STATUS].Value = (int)this.PairingStatus;
+            this.RegisteredDataFields[(int)DataFields.TIMESTAMP].Value = this.TimeStamp.ToString("yyyy-MM-dd:HH:mm:ss");
+
+            return base.BuildPackage();
+        }
+
+        public override MID ProcessPackage(string package)
+        {
+            if (base.IsCorrectType(package))
+            {
+                base.ProcessPackage(package);
+
+                this.PairingStatus = (PairingStatuses)this.RegisteredDataFields[(int)DataFields.PAIRING_STATUS].ToInt32();
+                this.TimeStamp = this.RegisteredDataFields[(int)DataFields.TIMESTAMP].ToDateTime();
+
+                return this;
+            }
+
+            return this.NextTemplate.ProcessPackage(package);
+        }
+
+        protected override void RegisterDatafields()
+        {
+            this.RegisteredDataFields.AddRange(new DataField[] {
+                new DataField((int)DataFields.PAIRING_STATUS, 20, 2),
+                new DataField((int)DataFields.TIMESTAMP, 24, 19),
+            });
+
+        }
+
+        public enum PairingStatuses
+        {
+            /// <summary>
+            /// Tool not mounted yet
+            /// </summary>
+            UNDEFINED,
+            /// <summary>
+            /// Pairing allowed and started
+            /// </summary>
+            ACCEPTED,
+            /// <summary>
+            /// Normal pairing sequence as OK
+            /// </summary>
+            INQUIRY,
+            /// <summary>
+            /// Normal pairing sequence as OK
+            /// </summary>
+            SENDPIN,
+            /// <summary>
+            /// Normal pairing sequence as OK
+            /// </summary>
+            PINOK,
+            /// <summary>
+            /// Normal pairing sequence as OK
+            /// </summary>
+            READY,
+            /// <summary>
+            /// Ongoing Pairing Aborted
+            /// </summary>
+            ABORTED,
+            /// <summary>
+            /// Pairing not allowed. Program control.
+            /// </summary>
+            DENIED,
+            /// <summary>
+            /// Pairing attempt failed
+            /// </summary>
+            FAILED,
+            /// <summary>
+            /// Pairing never done before or disconnected
+            /// </summary>
+            UNREADY
+        }
+
+        public enum DataFields
+        {
+            PAIRING_STATUS,
+            TIMESTAMP
+        }
+    }
+}

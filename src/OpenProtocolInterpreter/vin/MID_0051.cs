@@ -1,0 +1,46 @@
+﻿namespace OpenProtocolInterpreter.VIN
+{
+    /// <summary>
+    /// MID: Vehicle ID Number subscribe
+    /// Description: 
+    ///     This message is used by the integrator to set a subscription for the current identifiers of the tightening
+    ///     result.
+    ///     The tightening result can be stamped with up to four identifiers:
+    ///         - VIN number
+    ///         - Identifier result part 2
+    ///         - Identifier result part 3
+    ///         - Identifier result part 4
+    ///     The identifiers are received by the controller from several input sources, for example serial, Ethernet,
+    ///     or field bus.
+    ///     In revision 1 of the MID 0052 Vehicle ID Number, only the VIN number is transmitted.In revision 2, all
+    ///     four possible identifiers are transmitted.
+    /// Message sent by: Integrator
+    /// Answer: MID 0005 Command accepted or MID 0004 Command error, VIN subscription already exists
+    /// </summary>
+    public class MID_0051 : MID, IVIN
+    {
+        private const int length = 20;
+        public const int MID = 51;
+        private const int revision = 1;
+
+        public MID_0051() : base(length, MID, revision)
+        {
+
+        }
+
+        internal MID_0051(IMID nextTemplate) : base(length, MID, revision)
+        {
+            this.NextTemplate = nextTemplate;
+        }
+
+        public override MID ProcessPackage(string package)
+        {
+            if (base.IsCorrectType(package))
+                return base.ProcessPackage(package);
+
+            return this.NextTemplate.ProcessPackage(package);
+        }
+
+        protected override void RegisterDatafields() { }
+    }
+}

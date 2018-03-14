@@ -1,0 +1,34 @@
+﻿using System;
+
+namespace OpenProtocolInterpreter.Job
+{
+    /// <summary>
+    /// MID: Job info unsubscribe
+    /// Description: Reset the subscription for a Job info message.
+    /// Message sent by: Integrator
+    /// Answer: MID 0005 Command accepted or MID 0004 Command error, Job info subscription does not exist
+    /// </summary>
+    public class MID_0037 : MID, IJob
+    {
+        private const int length = 20;
+        public const int MID = 37;
+        private const int revision = 1;
+        
+        public MID_0037() : base(length, MID, revision) { }
+
+        internal MID_0037(IMID nextTemplate) : base(length, MID, revision)
+        {
+            this.NextTemplate = nextTemplate;
+        }
+
+        public override MID ProcessPackage(string package)
+        {
+            if (base.IsCorrectType(package))
+                return (MID_0037)base.ProcessPackage(package);
+
+            return this.NextTemplate.ProcessPackage(package);
+        }
+
+        protected override void RegisterDatafields() { }
+    }
+}
