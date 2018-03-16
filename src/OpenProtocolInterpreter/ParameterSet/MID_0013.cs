@@ -1,5 +1,7 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Converters;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenProtocolInterpreter.ParameterSet
 {
@@ -12,134 +14,206 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// </summary>
     public class MID_0013 : MID, IParameterSet
     {
-        private readonly Dictionary<int, Action> revisionsActions;
-        private const int length = 120;
+        private readonly IValueConverter<int> _intConverter;
+        private readonly IValueConverter<decimal> _decimalConverter;
+        private const int LAST_REVISION = 2;
         public const int MID = 13;
-        private const int lastRevision = 2;
 
-        public int ParameterSetID { get; set; }
-        public string ParameterSetName { get; set; }
-        public RotationDirections RotationDirection { get; set; }
-        public int BatchSize { get; set; }
-        public decimal MinTorque { get; set; }
-        public decimal MaxTorque { get; set; }
-        public decimal TorqueFinalTarget { get; set; }
-        public int MinAngle { get; set; }
-        public int MaxAngle { get; set; }
-        public int AngleFinalTarget { get; set; }
+        public int ParameterSetId
+        {
+            get => RevisionsByFields[1][(int)DataFields.PARAMETER_SET_ID].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.PARAMETER_SET_ID].SetValue(_intConverter.Convert, value);
+        }
+        public string ParameterSetName
+        {
+            get => RevisionsByFields[1][(int)DataFields.PARAMETER_SET_NAME].Value;
+            set => RevisionsByFields[1][(int)DataFields.PARAMETER_SET_NAME].SetValue(value);
+        }
+        public RotationDirections RotationDirection
+        {
+            get => (RotationDirections)RevisionsByFields[1][(int)DataFields.ROTATION_DIRECTION].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.ROTATION_DIRECTION].SetValue(_intConverter.Convert, (int)value);
+        }
+        public int BatchSize
+        {
+            get => RevisionsByFields[1][(int)DataFields.BATCH_SIZE].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.BATCH_SIZE].SetValue(_intConverter.Convert, value);
+        }
+        public decimal MinTorque
+        {
+            get => RevisionsByFields[1][(int)DataFields.MIN_TORQUE].GetValue(_decimalConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.MIN_TORQUE].SetValue(_decimalConverter.Convert, value);
+        }
+        public decimal MaxTorque
+        {
+            get => RevisionsByFields[1][(int)DataFields.MAX_TORQUE].GetValue(_decimalConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.MAX_TORQUE].SetValue(_decimalConverter.Convert, value);
+        }
+        public decimal TorqueFinalTarget
+        {
+            get => RevisionsByFields[1][(int)DataFields.TORQUE_FINAL_TARGET].GetValue(_decimalConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.TORQUE_FINAL_TARGET].SetValue(_decimalConverter.Convert, value);
+        }
+        public int MinAngle
+        {
+            get => RevisionsByFields[1][(int)DataFields.MIN_ANGLE].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.MIN_ANGLE].SetValue(_intConverter.Convert, value);
+        }
+        public int MaxAngle
+        {
+            get => RevisionsByFields[1][(int)DataFields.MAX_ANGLE].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.MAX_ANGLE].SetValue(_intConverter.Convert, value);
+        }
+        public int AngleFinalTarget
+        {
+            get => RevisionsByFields[1][(int)DataFields.ANGLE_FINAL_TARGET].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.ANGLE_FINAL_TARGET].SetValue(_intConverter.Convert, value);
+        }
         //Rev 2
-        public decimal FirstTarget { get; set; }
-        public decimal StartFinalAngle { get; set; }
-
-        public MID_0013(int revision = lastRevision) : base(length, MID, revision)
+        public decimal FirstTarget
         {
-            this.revisionsActions = new Dictionary<int, Action>()
-            {
-                { 1, this.buildRevision1 },
-                { 2, this.buildRevision2 }
-            };
+            get => RevisionsByFields[2][(int)DataFields.FIRST_TARGET].GetValue(_decimalConverter.Convert);
+            set => RevisionsByFields[2][(int)DataFields.FIRST_TARGET].SetValue(_decimalConverter.Convert, value);
+        }
+        public decimal StartFinalAngle
+        {
+            get => RevisionsByFields[2][(int)DataFields.START_FINAL_TARGET].GetValue(_decimalConverter.Convert);
+            set => RevisionsByFields[2][(int)DataFields.START_FINAL_TARGET].SetValue(_decimalConverter.Convert, value);
         }
 
-        internal MID_0013(IMID nextTemplate) : base(length, MID, lastRevision)
+        public MID_0013(int revision = LAST_REVISION) : base(MID, revision)
         {
-            this.NextTemplate = nextTemplate;
-            this.revisionsActions = new Dictionary<int, Action>()
-            {
-                { 1, this.processRevision1 },
-                { 2, this.processRevision2 }
-            };
+            _intConverter = new Int32Converter();
+            _decimalConverter = new DecimalTrucatedConverter(2);
         }
 
-        public override string BuildPackage()
+        /// <summary>
+        /// Revision 1 Constructor
+        /// </summary>
+        /// <param name="parameterSetId">Three ASCII digits, range 000-999</param>
+        /// <param name="parameterSetName">25 ASCII characters. Right padded with space if name is less than 25 characters.</param>
+        /// <param name="rotationDirection">1=CW (Clockwise), 2=CCW (Counter Clockwise)</param>
+        /// <param name="batchSize">2 ASCII digits, range 00-99</param>
+        /// <param name="minTorque">The torque min limit is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
+        /// <param name="maxTorque">The torque max limit is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
+        /// <param name="torqueFinalTarget">The torque final target is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
+        /// <param name="minAngle">The angle min value is five bytes long and is specified by five ASCII digits.Range: 00000-99999.</param>
+        /// <param name="maxAngle">The angle max value is five bytes long and is specified by five ASCII digits.Range: 00000-99999.</param>
+        /// <param name="angleFinalTarget">The target angle is specified in degrees. 5 ASCII digits. Range: 00000-99999.</param>
+        /// <param name="revision">Revision number (default = 1)</param>
+        public MID_0013(int parameterSetId, string parameterSetName, RotationDirections rotationDirection, int batchSize, decimal minTorque, decimal maxTorque, 
+            decimal torqueFinalTarget, int minAngle, int maxAngle, int angleFinalTarget, int revision = 1) : base(MID, revision)
         {
-            for (int i = 1; i <= this.HeaderData.Revision; i++)
-                this.revisionsActions[i]();
-            return base.BuildPackage();
+            _intConverter = new Int32Converter();
+            _decimalConverter = new DecimalTrucatedConverter(2);
+            SetRevision1(parameterSetId, parameterSetName, rotationDirection, batchSize, minTorque, maxTorque, torqueFinalTarget, minAngle, maxAngle, angleFinalTarget);
         }
 
-        public override MID ProcessPackage(string package)
+        /// <summary>
+        /// Revision 2 Constructor
+        /// </summary>
+        /// <param name="parameterSetId">Three ASCII digits, range 000-999</param>
+        /// <param name="parameterSetName">25 ASCII characters. Right padded with space if name is less than 25 characters.</param>
+        /// <param name="rotationDirection">1=CW (Clockwise), 2=CCW (Counter Clockwise)</param>
+        /// <param name="batchSize">2 ASCII digits, range 00-99</param>
+        /// <param name="minTorque">The torque min limit is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
+        /// <param name="maxTorque">The torque max limit is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
+        /// <param name="torqueFinalTarget">The torque final target is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
+        /// <param name="minAngle">The angle min value is five bytes long and is specified by five ASCII digits.Range: 00000-99999.</param>
+        /// <param name="maxAngle">The angle max value is five bytes long and is specified by five ASCII digits.Range: 00000-99999.</param>
+        /// <param name="angleFinalTarget">The target angle is specified in degrees. 5 ASCII digits. Range: 00000-99999.</param>
+        /// <param name="firstTarget">The torque first target is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
+        /// <param name="startFinalAngle">The start final angle is the torque to reach the snug level. The start final angle is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
+        /// <param name="revision">Revision number (default = 1)</param>
+        public MID_0013(int parameterSetId, string parameterSetName, RotationDirections rotationDirection, int batchSize, decimal minTorque, decimal maxTorque, 
+            decimal torqueFinalTarget, int minAngle, int maxAngle, int angleFinalTarget, decimal firstTarget, decimal startFinalAngle, int revision = 2) : base(MID, revision)
         {
-            if (base.IsCorrectType(package))
-            {
-                base.UpdateRevisionFromPackage(package);
-                base.ProcessPackage(package);
-                for (int i = 1; i <= this.HeaderData.Revision; i++)
-                    this.revisionsActions[i]();
-                return this;
-            }
-
-            return this.NextTemplate.ProcessPackage(package);
+            _intConverter = new Int32Converter();
+            _decimalConverter = new DecimalTrucatedConverter(2);
+            SetRevision1(parameterSetId, parameterSetName, rotationDirection, batchSize, minTorque, maxTorque, torqueFinalTarget, minAngle, maxAngle, angleFinalTarget);
+            SetRevision2(firstTarget, startFinalAngle);
         }
 
-        protected override void loadRevisionsFields()
+        internal MID_0013(IMID nextTemplate) : base(MID, LAST_REVISION)
         {
-            base.RevisionsByFields = new Dictionary<int, IEnumerable<DataField>>()
+            NextTemplate = nextTemplate;
+            _intConverter = new Int32Converter();
+            _decimalConverter = new DecimalTrucatedConverter(2);
+        }
+
+        public void SetRevision1(int parameterSetId, string parameterSetName, RotationDirections rotationDirection, int batchSize, decimal minTorque, decimal maxTorque,
+            decimal torqueFinalTarget, int minAngle, int maxAngle, int angleFinalTarget)
+        {
+            ParameterSetId = parameterSetId;
+            ParameterSetName = ParameterSetName;
+            RotationDirection = rotationDirection;
+            BatchSize = batchSize;
+            MinTorque = minTorque;
+            MaxTorque = maxTorque;
+            TorqueFinalTarget = torqueFinalTarget;
+            MinAngle = minAngle;
+            MaxAngle = maxAngle;
+            AngleFinalTarget = angleFinalTarget;
+        }
+
+        public void SetRevision2(decimal firstTarget, decimal startFinalAngle)
+        {
+            FirstTarget = firstTarget;
+            StartFinalAngle = startFinalAngle;
+        }
+
+        /// <summary>
+        /// Validate all fields size
+        /// </summary>
+        public bool Validate(out IEnumerable<string> errors)
+        {
+            List<string> failed = new List<string>();
+            //Rev 1
+            if (ParameterSetId < 0 || ParameterSetId > 999)
+                failed.Add(new ArgumentOutOfRangeException(nameof(ParameterSetId), "Range: 000-999").Message);
+            if (ParameterSetName.Length > 25)
+                failed.Add(new ArgumentOutOfRangeException(nameof(ParameterSetName), "Max of 25 characters").Message);
+            if (BatchSize < 0 || BatchSize > 99)
+                failed.Add(new ArgumentOutOfRangeException(nameof(BatchSize), "Range: 00-99").Message);
+            if (MinAngle < 0 || MinAngle > 99999)
+                failed.Add(new ArgumentOutOfRangeException(nameof(MinAngle), "Range: 00000-99999").Message);
+            if (MaxAngle < 0 || MaxAngle > 99999)
+                failed.Add(new ArgumentOutOfRangeException(nameof(MaxAngle), "Range: 00000-99999").Message);
+            if (AngleFinalTarget < 0 || AngleFinalTarget > 99999)
+                failed.Add(new ArgumentOutOfRangeException(nameof(AngleFinalTarget), "Range: 00000-99999").Message);
+
+            errors = failed;
+            return errors.Any();
+        }
+
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        {
+            return new Dictionary<int, List<DataField>>()
             {
                 {
-                    1, new DataField[]
+                    1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.PARAMETER_SET_ID, 20, 3, '0'),
+                                new DataField((int)DataFields.PARAMETER_SET_ID, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED),
                                 new DataField((int)DataFields.PARAMETER_SET_NAME, 25, 25, ' '),
                                 new DataField((int)DataFields.ROTATION_DIRECTION, 52, 1, '0'),
-                                new DataField((int)DataFields.BATCH_SIZE, 55, 2, '0'),
-                                new DataField((int)DataFields.MIN_TORQUE, 59, 6, '0'),
-                                new DataField((int)DataFields.MAX_TORQUE, 67, 6, '0'),
-                                new DataField((int)DataFields.TORQUE_FINAL_TARGET, 75, 6, '0'),
-                                new DataField((int)DataFields.MIN_ANGLE, 83, 5, '0'),
-                                new DataField((int)DataFields.MAX_ANGLE, 90, 5, '0'),
-                                new DataField((int)DataFields.ANGLE_FINAL_TARGET, 97, 5, '0')
+                                new DataField((int)DataFields.BATCH_SIZE, 55, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.MIN_TORQUE, 59, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.MAX_TORQUE, 67, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.TORQUE_FINAL_TARGET, 75, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.MIN_ANGLE, 83, 5, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.MAX_ANGLE, 90, 5, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.ANGLE_FINAL_TARGET, 97, 5, '0', DataField.PaddingOrientations.LEFT_PADDED)
                             }
                 },
                 {
-                    2, new DataField []
+                    2, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.FIRST_TARGET, 104, 6, '0'),
-                                new DataField((int)DataFields.START_FINAL_TARGET, 112, 6, '0')
+                                new DataField((int)DataFields.FIRST_TARGET, 104, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.START_FINAL_TARGET, 112, 6, '0', DataField.PaddingOrientations.LEFT_PADDED)
                             }
                 }
             };
         }
-
-        private void processRevision1()
-        {
-            this.ParameterSetID = base.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].ToInt32();
-            this.ParameterSetName = base.RegisteredDataFields[(int)DataFields.PARAMETER_SET_NAME].Value.ToString();
-            this.RotationDirection = (RotationDirections)base.RegisteredDataFields[(int)DataFields.ROTATION_DIRECTION].ToInt32();
-            this.BatchSize = base.RegisteredDataFields[(int)DataFields.BATCH_SIZE].ToInt32();
-            this.MinTorque = base.RegisteredDataFields[(int)DataFields.MIN_TORQUE].ToInt32() / 100;
-            this.MaxTorque = base.RegisteredDataFields[(int)DataFields.MAX_TORQUE].ToInt32() / 100;
-            this.TorqueFinalTarget = base.RegisteredDataFields[(int)DataFields.TORQUE_FINAL_TARGET].ToInt32();
-            this.MinAngle = base.RegisteredDataFields[(int)DataFields.MIN_ANGLE].ToInt32();
-            this.MaxAngle = base.RegisteredDataFields[(int)DataFields.MAX_ANGLE].ToInt32();
-            this.AngleFinalTarget = base.RegisteredDataFields[(int)DataFields.ANGLE_FINAL_TARGET].ToInt32();
-        }
-
-        private void processRevision2()
-        {
-            this.FirstTarget = base.RegisteredDataFields[(int)DataFields.FIRST_TARGET].ToInt32() / 100;
-            this.StartFinalAngle = base.RegisteredDataFields[(int)DataFields.START_FINAL_TARGET].ToInt32() / 100;
-        }
-
-        private void buildRevision1()
-        {
-            base.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].Value = this.ParameterSetID;
-            base.RegisteredDataFields[(int)DataFields.PARAMETER_SET_NAME].Value = this.ParameterSetName;
-            base.RegisteredDataFields[(int)DataFields.ROTATION_DIRECTION].Value = this.RotationDirection;
-            base.RegisteredDataFields[(int)DataFields.BATCH_SIZE].Value = this.BatchSize;
-            base.RegisteredDataFields[(int)DataFields.MIN_TORQUE].Value = this.MinTorque;
-            base.RegisteredDataFields[(int)DataFields.MAX_TORQUE].Value = this.MaxTorque;
-            base.RegisteredDataFields[(int)DataFields.TORQUE_FINAL_TARGET].Value = this.TorqueFinalTarget;
-            base.RegisteredDataFields[(int)DataFields.MIN_ANGLE].Value = this.MinAngle;
-            base.RegisteredDataFields[(int)DataFields.MAX_ANGLE].Value = this.MaxAngle;
-            base.RegisteredDataFields[(int)DataFields.ANGLE_FINAL_TARGET].Value = this.AngleFinalTarget;
-        }
-
-        private void buildRevision2()
-        {
-            base.RegisteredDataFields[(int)DataFields.FIRST_TARGET].Value = this.FirstTarget;
-            base.RegisteredDataFields[(int)DataFields.START_FINAL_TARGET].Value = this.StartFinalAngle;
-        }
-
 
         public enum DataFields
         {

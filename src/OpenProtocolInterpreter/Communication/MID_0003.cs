@@ -16,13 +16,5 @@
         public MID_0003() : base(MID, LAST_REVISION) { }
 
         internal MID_0003(IMID nextTemplate) : base(MID, LAST_REVISION) => NextTemplate = nextTemplate;
-
-        public override MID ProcessPackage(string package)
-        {
-            if (IsCorrectType(package))
-                return base.ProcessPackage(package);
-
-            return NextTemplate.ProcessPackage(package);
-        }
     }
 }

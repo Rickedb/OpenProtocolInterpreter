@@ -94,9 +94,14 @@ namespace OpenProtocolInterpreter
 
         public virtual MID ProcessPackage(string package)
         {
-            HeaderData = ProcessHeader(package);
-            ProcessDataFields(package);
-            return this;
+            if (IsCorrectType(package))
+            {
+                HeaderData = ProcessHeader(package);
+                ProcessDataFields(package);
+                return this;
+            }
+
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected void ProcessDataFields(string package)

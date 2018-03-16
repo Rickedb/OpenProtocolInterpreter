@@ -245,14 +245,6 @@ namespace OpenProtocolInterpreter.Communication
             NextTemplate = nextTemplate;
         }
 
-        public override MID ProcessPackage(string package)
-        {
-            if (IsCorrectType(package))
-                return base.ProcessPackage(package);
-
-            return NextTemplate.ProcessPackage(package);
-        }
-
         /// <summary>
         /// Revision 1 Setter
         /// </summary>

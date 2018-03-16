@@ -33,7 +33,6 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\ConvertersHelper.cs" />
     <Compile Include="ApplicationController\MID_0270.cs" />
     <Compile Include="ApplicationSelector\ApplicationSelectorMessages.cs" />
     <Compile Include="ApplicationSelector\IApplicationSelector.cs" />
@@ -81,9 +80,11 @@
     <Compile Include="DataField.cs" />
     <Compile Include="_internals\Converters\BoolConverter.cs" />
     <Compile Include="_internals\Converters\DateConverter.cs" />
+    <Compile Include="_internals\Converters\DecimalTrucatedConverter.cs" />
     <Compile Include="_internals\Converters\FloatConverter.cs" />
     <Compile Include="_internals\Converters\Int32Converter.cs" />
     <Compile Include="_internals\Converters\IValueConverter.cs" />
+    <Compile Include="_internals\Converters\ValueConverter.cs" />
     <Compile Include="_internals\Messages\IMessagesTemplate.cs" />
     <Compile Include="IMID.cs" />
     <Compile Include="IOInterface\DigitalInput.cs" />

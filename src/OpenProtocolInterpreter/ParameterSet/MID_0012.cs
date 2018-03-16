@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Converters;
+using System;
 using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.ParameterSet
@@ -12,91 +13,123 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// </summary>
     public class MID_0012 : MID, IParameterSet
     {
-        private readonly Dictionary<int, Action<string>> revisionsActions;
-        private readonly Dictionary<int, Func<string>> revisionsBuildActions;
-        private const int length = 23;
+        private readonly IValueConverter<int> _intConverter;
+        private const int LAST_REVISION = 4;
         public const int MID = 12;
-        private const int lastRevision = 2;
 
-        public int ParameterSetID { get; set; }
-        public int ParameterSetFileVersion { get; set; }
-
-        public MID_0012(int revision = lastRevision) : base(length, MID, revision) { }
-
-        public MID_0012(int parameterSetId, int revision = lastRevision) : base(length, MID, revision)
+        public int ParameterSetID
         {
-            this.ParameterSetID = parameterSetId;
-        }
-
-        internal MID_0012(IMID nextTemplate) : base(length, MID, lastRevision)
-        {
-            this.NextTemplate = nextTemplate;
-            this.revisionsActions = new Dictionary<int, Action<string>>()
+            get
             {
-                { 1, this.processRevision1 },
-                { 2, this.processRevision2 }
-            };
-        }
+                if (HeaderData.Revision < 3)
+                    return RevisionsByFields[1][(int)DataFields.PARAMETER_SET_ID].GetValue(_intConverter.Convert);
 
-        public override string BuildPackage()
-        {
-            string pack = base.BuildHeader();
-            for(int i = 1; i < this.HeaderData.Revision; i++)
-                pack += this.revisionsBuildActions[i].Invoke();
-            return pack;
-        }
-
-        public override MID ProcessPackage(string package)
-        {
-            if (base.IsCorrectType(package))
-            {
-                base.UpdateRevisionFromPackage(package);
-                this.HeaderData = base.ProcessHeader(package);
-                for (int i = 1; i <= this.HeaderData.Revision; i++)
-                    this.revisionsActions[i](package);
-
-                return this;
+                return default(int);
             }
-                
-            return this.NextTemplate.ProcessPackage(package);
+            set
+            {
+                if (HeaderData.Revision < 3)
+                    RevisionsByFields[1][(int)DataFields.PARAMETER_SET_ID].SetValue(_intConverter.Convert, value);
+            }
+        }
+        public int ParameterSetFileVersion
+        {
+            get
+            {
+                if (HeaderData.Revision > 2)
+                    return RevisionsByFields[2][(int)DataFields.PSET_FILE_VERSION].GetValue(_intConverter.Convert);
+
+                return default(int);
+            }
+            set
+            {
+                if (HeaderData.Revision > 2)
+                    RevisionsByFields[2][(int)DataFields.PSET_FILE_VERSION].SetValue(_intConverter.Convert, value);
+            }
         }
 
-        private void processRevision1(string package)
+        public MID_0012(int revision = LAST_REVISION) : base(MID, revision)
         {
-            var datafield = this.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID];
-            this.ParameterSetID = Convert.ToInt32(package.Substring(datafield.Index, datafield.Size));
+            _intConverter = new Int32Converter();
         }
 
-        private void processRevision2(string package)
+        /// <summary>
+        /// Revision 1 and 2 Constructor
+        /// </summary>
+        /// <param name="parameterSetId">Parameter Set Id. Three ASCII digits. Range: 000-999</param>
+        /// <param name="revision">Revision</param>
+        public MID_0012(int parameterSetId, int revision) : base(MID, revision)
         {
-            var datafield = this.RegisteredDataFields[(int)DataFields.PSET_FILE_VERSION];
-            this.ParameterSetID = Convert.ToInt32(package.Substring(datafield.Index, datafield.Size));
+            _intConverter = new Int32Converter();
+            SetRevision1Or2(parameterSetId);
         }
 
-        private string buildRevision1(string package = "")
+        /// <summary>
+        /// Revision 3 and 4 Constructor
+        /// </summary>
+        /// <param name="parameterSetId">Parameter Set Id. Three ASCII digits. Range: 000-999</param>
+        /// <param name="parameterSetFileVersion">00000000 (special usage see Toyota appendix)</param>
+        /// <param name="revision">Revision</param>
+        public MID_0012(int parameterSetId, int parameterSetFileVersion, int revision) : base(MID, revision)
         {
-            return this.ParameterSetID.ToString().PadLeft(this.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].Size, '0');
+            _intConverter = new Int32Converter();
+            SetRevision1Or2(parameterSetId);
+            SetRevision3Or4(parameterSetFileVersion);
         }
 
-        private string buildRevision2(string package = "")
+        internal MID_0012(IMID nextTemplate) : base(MID, LAST_REVISION)
         {
-            return this.ParameterSetFileVersion.ToString().PadLeft(this.RegisteredDataFields[(int)DataFields.PSET_FILE_VERSION].Size, '0');
+            _intConverter = new Int32Converter();
+            NextTemplate = nextTemplate;
         }
 
-        protected override void RegisterDatafields() 
+        /// <summary>
+        /// Revision 1 and 2 Setter
+        /// </summary>
+        /// <param name="parameterSetId">Parameter Set Id. Three ASCII digits. Range: 000-999</param>
+        public void SetRevision1Or2(int parameterSetId)
         {
-            this.RevisionsByFields = new Dictionary<int, IEnumerable<DataField>>()
+            ParameterSetID = parameterSetId;
+        }
+
+        /// <summary>
+        /// Revision 3 and 4 Setter
+        /// </summary>
+        /// <param name="parameterSetFileVersion">00000000 (special usage see Toyota appendix)</param>
+        public void SetRevision3Or4(int parameterSetFileVersion)
+        {
+            ParameterSetFileVersion = parameterSetFileVersion;
+        }
+
+        /// <summary>
+        /// Validate all fields size
+        /// </summary>
+        public bool Validate(out IEnumerable<string> errors)
+        {
+            List<string> failed = new List<string>();
+            if (ParameterSetID < 1 || ParameterSetID > 999)
+                failed.Add(new ArgumentOutOfRangeException(nameof(ParameterSetID), "Range: 000-999").Message);
+            if (ParameterSetFileVersion < 0 || ParameterSetID > 99999999)
+                failed.Add(new ArgumentOutOfRangeException(nameof(ParameterSetFileVersion), "Range: 00000000-99999999").Message);
+
+            errors = failed;
+            return failed.Count > 0;
+        }
+
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        {
+            return new Dictionary<int, List<DataField>>()
             {
                 {
-                    1, new DataField[]
+                    1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.PARAMETER_SET_ID, 20, 3, '0')
+                                new DataField((int)DataFields.PARAMETER_SET_ID, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
                             }
                 },
                 {
-                    2, new DataField []
+                    2, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.PSET_FILE_VERSION, 24, 8, '0')
+                                new DataField((int)DataFields.PSET_FILE_VERSION, 23, 8, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
                             }
                 }
             };
@@ -104,9 +137,9 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public enum DataFields
         {
-            //Revision 1
+            //Revision 1-2
             PARAMETER_SET_ID,
-            //Revision 2
+            //Revision 3-4
             PSET_FILE_VERSION
         }
     }

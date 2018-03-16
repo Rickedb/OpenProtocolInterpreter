@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace OpenProtocolInterpreter.ParameterSet
+﻿namespace OpenProtocolInterpreter.ParameterSet
 {
     /// <summary>
     /// MID: Parameter set selected subscribe
@@ -13,32 +11,21 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// </summary>
     public class MID_0014 : MID, IParameterSet
     {
-        private const int length = 20;
+        private const int LAST_REVISION = 1;
         public const int MID = 14;
-        private const int revision = 1;
 
-        public MID_0014(bool? ackFlag = null) 
-            : base(length, 
-                  MID, 
-                  revision, 
-                  ((ackFlag != null) ? (int?)Expression.Constant(System.Convert.ToInt32(ackFlag), typeof(int?)).Value : null)) 
+        /// <summary>
+        /// Revision 1 Constructor
+        /// </summary>
+        /// <param name="ackFlag">0=Ack needed, 1=No Ack needed</param>
+        public MID_0014(int? ackFlag = null) : base(MID, LAST_REVISION, ackFlag, null, null, null) 
         { 
         
         }
 
-        internal MID_0014(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0014(IMID nextTemplate) : base(MID, LAST_REVISION)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
-
-        public override MID ProcessPackage(string package)
-        {
-            if (base.IsCorrectType(package))
-                return (MID_0014)base.ProcessPackage(package);
-
-            return this.NextTemplate.ProcessPackage(package);
-        }
-
-        protected override void RegisterDatafields() { }
     }
 }

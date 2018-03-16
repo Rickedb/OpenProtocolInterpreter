@@ -5,7 +5,6 @@ namespace OpenProtocolInterpreter
     public class DataField
     {
         private object CachedValue;
-
         private char PaddingChar;
         private PaddingOrientations PaddingOrientation;
 

@@ -49,14 +49,6 @@ namespace OpenProtocolInterpreter.Communication
             NextTemplate = nextTemplate;
         }
 
-        public override MID ProcessPackage(string package)
-        {
-            if (IsCorrectType(package))
-                return base.ProcessPackage(package);
-
-            return NextTemplate.ProcessPackage(package);
-        }
-
         /// <summary>
         /// Revision 1 Setter
         /// </summary>
@@ -72,8 +64,8 @@ namespace OpenProtocolInterpreter.Communication
         public bool Validate(out IEnumerable<string> errors)
         {
             List<string> failed = new List<string>();
-            if (MidAccepted < 1)
-                failed.Add(new ArgumentNullException(nameof(MidAccepted), "Range: 0000-9999").Message);
+            if (MidAccepted < 1 || MidAccepted > 9999)
+                failed.Add(new ArgumentOutOfRangeException(nameof(MidAccepted), "Range: 0000-9999").Message);
 
             errors = failed;
             return failed.Count > 0;
