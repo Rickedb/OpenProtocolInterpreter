@@ -18,21 +18,21 @@ namespace OpenProtocolInterpreter
             RegisterDatafields();
         }
 
-        public MID(int length, int MID, int? revision, int? noAckFlag = null, int? spindleID = null, int? stationID = null, IEnumerable<DataField> usedAs = null)
-        {
-            HeaderData = new Header()
-            {
-                Length = length,
-                Mid = MID,
-                Revision = revision,
-                NoAckFlag = noAckFlag,
-                SpindleID = spindleID,
-                StationID = stationID,
-                UsedAs = usedAs
-            };
-            RevisionsByFields = new Dictionary<int, List<DataField>>();
-            RegisterDatafields();
-        }
+        //public MID(int length, int MID, int? revision, int? noAckFlag = null, int? spindleID = null, int? stationID = null, IEnumerable<DataField> usedAs = null)
+        //{
+        //    HeaderData = new Header()
+        //    {
+        //        Length = length,
+        //        Mid = MID,
+        //        Revision = revision,
+        //        NoAckFlag = noAckFlag,
+        //        SpindleID = spindleID,
+        //        StationID = stationID,
+        //        UsedAs = usedAs
+        //    };
+        //    RevisionsByFields = new Dictionary<int, List<DataField>>();
+        //    RegisterDatafields();
+        //}
 
         public MID(int MID, int revision, int? noAckFlag = null, int? spindleID = null, int? stationID = null, IEnumerable<DataField> usedAs = null)
         {

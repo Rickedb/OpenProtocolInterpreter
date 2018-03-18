@@ -78,6 +78,7 @@
     <Compile Include="Communication\MID_0008.cs" />
     <Compile Include="Communication\MID_0009.cs" />
     <Compile Include="DataField.cs" />
+    <Compile Include="Enums\RotationDirections.cs" />
     <Compile Include="_internals\Converters\BoolConverter.cs" />
     <Compile Include="_internals\Converters\DateConverter.cs" />
     <Compile Include="_internals\Converters\DecimalTrucatedConverter.cs" />

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Converters;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenProtocolInterpreter.ParameterSet
 {
@@ -11,49 +14,70 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// </summary>
     public class MID_2504 : MID, IParameterSet
     {
-        private const int length = 23;
+        private readonly IValueConverter<int> _intConverter;
+        private const int LAST_REVISION = 1;
         public const int MID = 2504;
-        private const int revision = 1;
 
-        public int ParameterSetID { get; set; }
-
-        public MID_2504() : base(length, MID, revision) { }
-
-        public MID_2504(int parameterSetId) : base(length, MID, revision)
+        public int ParameterSetId
         {
-            this.ParameterSetID = parameterSetId;
+            get => RevisionsByFields[1][(int)DataFields.PARAMETER_SET_ID].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.PARAMETER_SET_ID].SetValue(_intConverter.Convert, value);
         }
 
-        internal MID_2504(IMID nextTemplate) : base(length, MID, revision)
+        public MID_2504() : base(MID, LAST_REVISION)
         {
-            this.NextTemplate = nextTemplate;
+            _intConverter = new Int32Converter();
         }
 
-        public override string BuildPackage()
+        /// <summary>
+        /// Revision 1 Constructor
+        /// </summary>
+        /// <param name="parameterSetId">Three ASCII digits, range 000-999</param>
+        public MID_2504(int parameterSetId) : base(MID, LAST_REVISION)
         {
-            string package = base.BuildPackage();
-            package += this.ParameterSetID.ToString().PadLeft(this.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].Size, '0');
-            return package;
+            _intConverter = new Int32Converter();
+            SetRevision1(parameterSetId);
         }
 
-        public override MID ProcessPackage(string package)
+        internal MID_2504(IMID nextTemplate) : base(MID, LAST_REVISION)
         {
-            if (base.IsCorrectType(package))
+            _intConverter = new Int32Converter();
+            NextTemplate = nextTemplate;
+        }
+
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        {
+            return new Dictionary<int, List<DataField>>()
             {
-                this.HeaderData = base.ProcessHeader(package);
-
-                this.ParameterSetID = Convert.ToInt32(package.Substring(this.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].Index,
-                                                                        this.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].Size));
-
-                return this;
-            }
-
-            return this.NextTemplate.ProcessPackage(package);
+                {
+                    1, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.PARAMETER_SET_ID, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                            }
+                }
+            };
         }
 
-        protected override void RegisterDatafields() 
+        /// <summary>
+        /// Revision 1 Setter
+        /// </summary>
+        /// <param name="parameterSetId">Three ASCII digits, range 000-999</param>
+        public void SetRevision1(int parameterSetId)
         {
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.PARAMETER_SET_ID, 20, 3));
+            ParameterSetId = parameterSetId;
+        }
+
+        /// <summary>
+        /// Validate all fields size
+        /// </summary>
+        public bool Validate(out IEnumerable<string> errors)
+        {
+            List<string> failed = new List<string>();
+            if (ParameterSetId < 0 || ParameterSetId > 999)
+                failed.Add(new ArgumentOutOfRangeException(nameof(ParameterSetId), "Range: 000-999").Message);
+
+            errors = failed;
+            return errors.Any();
         }
 
         public enum DataFields

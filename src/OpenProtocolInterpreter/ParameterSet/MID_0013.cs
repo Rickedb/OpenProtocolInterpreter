@@ -231,11 +231,5 @@ namespace OpenProtocolInterpreter.ParameterSet
             FIRST_TARGET,
             START_FINAL_TARGET
         }
-
-        public enum RotationDirections
-        {
-            CLOCKWISE = 1,
-            COUNTER_CLOCKWISE = 2
-        }
     }
 }
