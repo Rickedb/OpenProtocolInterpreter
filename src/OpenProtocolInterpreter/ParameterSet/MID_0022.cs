@@ -1,4 +1,6 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Converters;
+using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.ParameterSet
 {
@@ -11,48 +13,37 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// </summary>
     public class MID_0022 : MID, IParameterSet
     {
-        private const int length = 21;
+        private readonly IValueConverter<bool> _boolConverter;
         public const int MID = 22;
-        private const int revision = 1;
+        private const int LAST_REVISION = 1;
 
         public bool RelayStatus { get; set; }
 
-        public MID_0022() : base(length, MID, revision) { }
+        public MID_0022(int? ackFlag) : this(ackFlag, false) { }
 
-        public MID_0022(bool relayStatus) : base(length, MID, revision)
+        public MID_0022(int? ackFlag, bool relayStatus) : base(MID, LAST_REVISION, ackFlag)
         {
-            this.RelayStatus = relayStatus;
+            _boolConverter = new BoolConverter();
+            RelayStatus = relayStatus;
         }
 
-        internal MID_0022(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0022(IMID nextTemplate) : base(MID, LAST_REVISION)
         {
-            this.NextTemplate = nextTemplate;
+            _boolConverter = new BoolConverter();
+            NextTemplate = nextTemplate;
         }
 
-        public override string BuildPackage()
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
-            string package = base.BuildPackage();
-            package += Convert.ToInt32(this.RelayStatus).ToString();
-            return package;
-        }
-
-        public override MID ProcessPackage(string package)
-        {
-            if (base.IsCorrectType(package))
+            return new Dictionary<int, List<DataField>>()
             {
-                this.HeaderData = base.ProcessHeader(package);
-
-                this.RelayStatus = Convert.ToBoolean(Convert.ToInt32(package.Substring(this.RegisteredDataFields[(int)DataFields.RELAY_STATUS].Index,
-                                                                        this.RegisteredDataFields[(int)DataFields.RELAY_STATUS].Size)));
-                return this;
-            }
-
-            return this.NextTemplate.ProcessPackage(package);
-        }
-
-        protected override void RegisterDatafields() 
-        {
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.RELAY_STATUS, 20, 1));
+                {
+                    1, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.RELAY_STATUS, 20, 1, false)
+                            }
+                }
+            };
         }
 
         public enum DataFields

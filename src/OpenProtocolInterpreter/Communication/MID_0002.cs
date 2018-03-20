@@ -21,7 +21,7 @@ namespace OpenProtocolInterpreter.Communication
         private const int LAST_REVISION = 6;
         public const int MID = 2;
 
-        public int CellID
+        public int CellId
         {
             get => RevisionsByFields[1][(int)DataFields.CELL_ID].GetValue(_intConverter.Convert);
             set => RevisionsByFields[1][(int)DataFields.CELL_ID].SetValue(_intConverter.Convert, value);
@@ -253,7 +253,7 @@ namespace OpenProtocolInterpreter.Communication
         /// <param name="controllerName">The controller name is 25 bytes long and specified by 25 ASCII characters.</param>
         public void SetRevision1(int cellId, int channelId, string controllerName)
         {
-            CellID = cellId;
+            CellId = cellId;
             ChannelId = channelId;
             ControllerName = controllerName;
         }
@@ -317,8 +317,8 @@ namespace OpenProtocolInterpreter.Communication
         {
             List<string> failed = new List<string>();
             //Rev 1
-            if (CellID < 0 || CellID > 9999)
-                failed.Add(new ArgumentOutOfRangeException(nameof(CellID), "Range: 0000-9999").Message);
+            if (CellId < 0 || CellId > 9999)
+                failed.Add(new ArgumentOutOfRangeException(nameof(CellId), "Range: 0000-9999").Message);
             if (ChannelId < 0 || ChannelId > 20)
                 failed.Add(new ArgumentOutOfRangeException(nameof(ChannelId), "Range: 00-20").Message);
             if (ControllerName.Length > 25)

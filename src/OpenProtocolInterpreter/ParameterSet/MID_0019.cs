@@ -1,4 +1,7 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Converters;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenProtocolInterpreter.ParameterSet
 {
@@ -11,54 +14,81 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// </summary>
     public class MID_0019 : MID, IParameterSet
     {
-        private const int length = 25;
+        private readonly IValueConverter<int> _intConverter;
+        private const int LAST_REVISION = 1;
         public const int MID = 19;
-        private const int revision = 1;
-
-        public int ParameterSetID { get; set; }
-        public int BatchSize { get; set; }
-
-        public MID_0019() : base(length, MID, revision) { }
-
-        public MID_0019(int parameterSetId, int batchSize) : base(length, MID, revision)
+        
+        public int ParameterSetId
         {
-            this.ParameterSetID = parameterSetId;
-            this.BatchSize = batchSize;
+            get => RevisionsByFields[1][(int)DataFields.PARAMETER_SET_ID].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.PARAMETER_SET_ID].SetValue(_intConverter.Convert, value);
+        }
+        public int BatchSize
+        {
+            get => RevisionsByFields[1][(int)DataFields.BATCH_SIZE].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.BATCH_SIZE].SetValue(_intConverter.Convert, value);
         }
 
-        internal MID_0019(IMID nextTemplate) : base(length, MID, revision)
+        public MID_0019() : base(MID, LAST_REVISION)
         {
-            this.NextTemplate = nextTemplate;
+            _intConverter = new Int32Converter();
         }
 
-        public override string BuildPackage()
+        /// <summary>
+        /// Revision 1 Constructor
+        /// </summary>
+        /// <param name="parameterSetId">Three ASCII digits, range 000-999</param>
+        /// <param name="batchSize">Two ASCII digits, range 01-99</param>
+        public MID_0019(int parameterSetId, int batchSize) : base(MID, LAST_REVISION)
         {
-            string package = base.BuildPackage();
-            package += this.ParameterSetID.ToString().PadLeft(this.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].Size, '0');
-            package += this.BatchSize.ToString().PadLeft(this.RegisteredDataFields[(int)DataFields.BATCH_SIZE].Size, '0');
-            return package;
+            _intConverter = new Int32Converter();
+            SetRevision1(parameterSetId, batchSize);
         }
 
-        public override MID ProcessPackage(string package)
+        internal MID_0019(IMID nextTemplate) : base(MID, LAST_REVISION)
         {
-            if (base.IsCorrectType(package))
+            _intConverter = new Int32Converter();
+            NextTemplate = nextTemplate;
+        }
+
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        {
+            return new Dictionary<int, List<DataField>>()
             {
-                this.HeaderData = base.ProcessHeader(package);
-
-                this.ParameterSetID = Convert.ToInt32(package.Substring(this.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].Index,
-                                                                        this.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].Size));
-                this.BatchSize = Convert.ToInt32(package.Substring(this.RegisteredDataFields[(int)DataFields.BATCH_SIZE].Index,
-                                                                        this.RegisteredDataFields[(int)DataFields.BATCH_SIZE].Size));
-                return this;
-            }
-
-            return this.NextTemplate.ProcessPackage(package);
+                {
+                    1, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.PARAMETER_SET_ID, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
+                                new DataField((int)DataFields.BATCH_SIZE, 23, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
+                            }
+                }
+            };
         }
 
-        protected override void RegisterDatafields() 
+        /// <summary>
+        /// Revision 1 Setter
+        /// </summary>
+        /// <param name="parameterSetId">Three ASCII digits, range 000-999</param>
+        /// <param name="batchSize">Two ASCII digits, range 01-99</param>
+        public void SetRevision1(int parameterSetId, int batchSize)
         {
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.PARAMETER_SET_ID, 20, 3));
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.BATCH_SIZE, 23, 2));
+            ParameterSetId = parameterSetId;
+            BatchSize = batchSize;
+        }
+
+        /// <summary>
+        /// Validate all fields size
+        /// </summary>
+        public bool Validate(out IEnumerable<string> errors)
+        {
+            List<string> failed = new List<string>();
+            if (ParameterSetId < 0 || ParameterSetId > 999)
+                failed.Add(new ArgumentOutOfRangeException(nameof(ParameterSetId), "Range: 000-999").Message);
+            if (BatchSize < 0 || BatchSize > 99)
+                failed.Add(new ArgumentOutOfRangeException(nameof(BatchSize), "Range: 00-99").Message);
+
+            errors = failed;
+            return errors.Any();
         }
 
         public enum DataFields

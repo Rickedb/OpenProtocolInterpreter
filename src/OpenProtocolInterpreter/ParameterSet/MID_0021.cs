@@ -10,25 +10,14 @@
     /// </summary>
     public class MID_0021 : MID, IParameterSet
     {
-        private const int length = 20;
+        private const int LAST_REVISION = 1;
         public const int MID = 21;
-        private const int revision = 1;
 
-        public MID_0021() : base(length, MID, revision) { }
+        public MID_0021(int? ackFlag) : base(MID, LAST_REVISION, ackFlag) { }
 
-        internal MID_0021(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0021(IMID nextTemplate) : base(MID, LAST_REVISION)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
-
-        public override MID ProcessPackage(string package)
-        {
-            if (base.IsCorrectType(package))
-                return (MID_0021)base.ProcessPackage(package);
-
-            return this.NextTemplate.ProcessPackage(package);
-        }
-
-        protected override void RegisterDatafields() { }
     }
 }

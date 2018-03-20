@@ -1,4 +1,8 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Converters;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace OpenProtocolInterpreter.ParameterSet
 {
     /// <summary>
@@ -10,44 +14,53 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// </summary>
     public class MID_0020 : MID, IParameterSet
     {
-        private const int length = 23;
+        private readonly IValueConverter<int> _intConverter;
+        private const int LAST_REVISION = 1;
         public const int MID = 20;
-        private const int revision = 1;
 
-        public int ParameterSetID { get; set; }
-        public int BatchSize { get; set; }
-
-        public MID_0020() : base(length, MID, revision) { }
-
-        internal MID_0020(IMID nextTemplate) : base(length, MID, revision)
+        public int ParameterSetId
         {
-            this.NextTemplate = nextTemplate;
+            get => RevisionsByFields[1][(int)DataFields.PARAMETER_SET_ID].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.PARAMETER_SET_ID].SetValue(_intConverter.Convert, value);
         }
 
-        public override string BuildPackage()
+        public MID_0020() : this(0) { }
+
+        public MID_0020(int parameterSetId) : base(MID, LAST_REVISION)
         {
-            string package = base.BuildPackage();
-            package += this.ParameterSetID.ToString().PadLeft(this.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].Size, '0');
-            return package;
+            _intConverter = new Int32Converter();
         }
 
-        public override MID ProcessPackage(string package)
+        internal MID_0020(IMID nextTemplate) : base(MID, LAST_REVISION)
         {
-            if (base.IsCorrectType(package))
+            _intConverter = new Int32Converter();
+            NextTemplate = nextTemplate;
+        }
+
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        {
+            return new Dictionary<int, List<DataField>>()
             {
-                this.HeaderData = base.ProcessHeader(package);
-
-                this.ParameterSetID = Convert.ToInt32(package.Substring(this.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].Index,
-                                                                        this.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].Size));
-                return this;
-            }
-
-            return this.NextTemplate.ProcessPackage(package);
+                {
+                    1, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.PARAMETER_SET_ID, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                            }
+                }
+            };
         }
 
-        protected override void RegisterDatafields()
+        public void SetRevision1(int parameterSetId) => ParameterSetId = parameterSetId;
+
+        /// <summary>
+        /// Validate all fields size
+        /// </summary>
+        public bool Validate(out IEnumerable<string> errors)
         {
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.PARAMETER_SET_ID, 20, 3));
+            errors = Enumerable.Empty<string>();
+            if (ParameterSetId < 0 || ParameterSetId > 999)
+                errors = new List<string>() { new ArgumentOutOfRangeException(nameof(ParameterSetId), "Range: 000-999").Message };
+            return errors.Any();
         }
 
         public enum DataFields

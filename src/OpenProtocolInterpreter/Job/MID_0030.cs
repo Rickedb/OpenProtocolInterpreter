@@ -10,25 +10,16 @@
     /// </summary>
     public class MID_0030 : MID, IJob
     {
-        private const int length = 20;
+        private const int LAST_REVISION = 2;
         public const int MID = 30;
-        private const int revision = 1;
+        
+        public MID_0030() : this(LAST_REVISION) { }
 
-        public MID_0030() : base(length, MID, revision) { }
+        public MID_0030(int revision = LAST_REVISION) : base(MID, LAST_REVISION) { }
 
-        internal MID_0030(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0030(IMID nextTemplate) : base(MID, LAST_REVISION)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
-
-        public override MID ProcessPackage(string package)
-        {
-            if (base.IsCorrectType(package))
-                return (MID_0030)base.ProcessPackage(package);
-
-            return this.NextTemplate.ProcessPackage(package);
-        }
-
-        protected override void RegisterDatafields() { }
     }
 }
