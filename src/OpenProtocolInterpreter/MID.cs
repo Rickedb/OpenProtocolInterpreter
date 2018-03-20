@@ -126,18 +126,6 @@ namespace OpenProtocolInterpreter
             }
         }
 
-        protected void UpdateRevisionFromPackage(string package)
-        {
-            HeaderData.Revision = (!string.IsNullOrWhiteSpace(package.Substring(8, 3))) ? Convert.ToInt32(package.Substring(8, 3)) : 1;
-            RegisterDatafields();
-        }
-
-        protected void ProcessRevisions(Dictionary<int, Action> actions)
-        {
-            for (int i = 1; i <= HeaderData.Revision; i++)
-                actions[i]();
-        }
-
         public class Header
         {
             public int Length { get; set; }
@@ -169,9 +157,6 @@ namespace OpenProtocolInterpreter
             }
         }
 
-        internal void setNextTemplate(MID mid)
-        {
-            NextTemplate = mid;
-        }
+        internal void SetNextTemplate(MID mid) => NextTemplate = mid;
     }
 }

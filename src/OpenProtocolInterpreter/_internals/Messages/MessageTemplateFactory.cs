@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.Messages
 
             List<MID> midList = selectedMids.ToList();
             for(int i = 1; i < selectedMids.Count(); i++)
-                midList[i - 1].setNextTemplate(midList[i]);
+                midList[i - 1].SetNextTemplate(midList[i]);
                 
             return (IMID)midList.FirstOrDefault();
         }
