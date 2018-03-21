@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OpenProtocolInterpreter.Job
+﻿namespace OpenProtocolInterpreter.Job
 {
     /// <summary>
     /// MID: Job info unsubscribe
@@ -10,25 +8,11 @@ namespace OpenProtocolInterpreter.Job
     /// </summary>
     public class MID_0037 : MID, IJob
     {
-        private const int length = 20;
+        private const int LAST_REVISION = 4;
         public const int MID = 37;
-        private const int revision = 1;
         
-        public MID_0037() : base(length, MID, revision) { }
+        public MID_0037(int revision = LAST_REVISION) : base(MID, revision) { }
 
-        internal MID_0037(IMID nextTemplate) : base(length, MID, revision)
-        {
-            this.NextTemplate = nextTemplate;
-        }
-
-        public override MID ProcessPackage(string package)
-        {
-            if (base.IsCorrectType(package))
-                return (MID_0037)base.ProcessPackage(package);
-
-            return this.NextTemplate.ProcessPackage(package);
-        }
-
-        protected override void RegisterDatafields() { }
+        internal MID_0037(IMID nextTemplate) : base(MID, LAST_REVISION) => NextTemplate = nextTemplate;
     }
 }

@@ -1,8 +1,7 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Converters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenProtocolInterpreter.Job
 {
@@ -16,48 +15,103 @@ namespace OpenProtocolInterpreter.Job
     /// </summary>
     public class MID_0038 : MID, IJob
     {
-        private const int length = 22;
+        private readonly IValueConverter<int> _intConverter;
+        private const int LAST_REVISION = 2;
         public const int MID = 38;
-        private const int revision = 1;
 
-        public int JobID { get; set; }
-
-        public MID_0038() : base(length, MID, revision) { }
-
-        public MID_0038(int jobId) : base(length, MID, revision)
+        public int JobId
         {
-            this.JobID = jobId;
+            get
+            {
+                HandleRevision();
+                return RevisionsByFields[1][(int)DataFields.JOB_ID].GetValue(_intConverter.Convert);
+            }
+            set
+            {
+                HandleRevision();
+                RevisionsByFields[1][(int)DataFields.JOB_ID].SetValue(_intConverter.Convert, value);
+            }
         }
 
-        internal MID_0038(IMID nextTemplate) : base(length, MID, revision)
+        public MID_0038(int revision = LAST_REVISION) : base(MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            _intConverter = new Int32Converter();
         }
 
-        public override string BuildPackage()
+        public MID_0038(int jobId, int revision = LAST_REVISION) : base(MID, revision)
         {
-            if (this.JobID == 0)
-                throw new ArgumentNullException("JobID cannot be null");
+            _intConverter = new Int32Converter();
+            SetRevision1or2(jobId);
+        }
 
-            return base.BuildHeader() + this.JobID.ToString().PadLeft(2, '0');
+        internal MID_0038(IMID nextTemplate) : base(MID, LAST_REVISION)
+        {
+            _intConverter = new Int32Converter();
+            NextTemplate = nextTemplate;
         }
 
         public override MID ProcessPackage(string package)
         {
-            if (base.IsCorrectType(package))
+            if (IsCorrectType(package))
             {
-                base.HeaderData = base.ProcessHeader(package);
-                var dataField = base.RegisteredDataFields[(int)DataFields.JOB_ID];
-                this.JobID = Convert.ToInt32(package.Substring(dataField.Index, dataField.Size));
-                return this;
+                HeaderData = ProcessHeader(package);
+                HandleRevision();
+                return base.ProcessPackage(package);
             }
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
-        protected override void RegisterDatafields() 
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.JOB_ID, 20, 2));
+            return new Dictionary<int, List<DataField>>()
+            {
+                {
+                    1, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.JOB_ID, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
+                            }
+                }
+            };
+        }
+
+        /// <summary>
+        /// Revision 1 or 2 setter
+        /// </summary>
+        /// <param name="jobId">
+        ///     Revision 1 range: 00-99 
+        ///     <para>Revision 2 range: 0000-9999</para>
+        /// </param>
+        public void SetRevision1or2(int jobId) => JobId = jobId;
+
+        /// <summary>
+        /// Validate all fields size
+        /// </summary>
+        public bool Validate(out IEnumerable<string> errors)
+        {
+            List<string> failed = new List<string>();
+
+            if (HeaderData.Revision == 1)
+            {
+                if (JobId < 0 || JobId > 99)
+                    failed.Add(new ArgumentOutOfRangeException(nameof(JobId), "Range: 00-99").Message);
+            }
+            else
+            {
+                if (JobId < 0 || JobId > 9999)
+                    failed.Add(new ArgumentOutOfRangeException(nameof(JobId), "Range: 0000-9999").Message);
+            }
+
+            errors = failed;
+            return errors.Any();
+        }
+
+        private void HandleRevision()
+        {
+            if (HeaderData.Revision == 1)
+                RevisionsByFields[1][(int)DataFields.JOB_ID].Size = 2;
+            else
+                RevisionsByFields[1][(int)DataFields.JOB_ID].Size = 4;
         }
 
         public enum DataFields

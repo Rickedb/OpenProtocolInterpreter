@@ -10,25 +10,16 @@
     /// </summary>
     public class MID_0034 : MID, IJob
     {
-        private const int length = 20;
+        private const int LAST_REVISION = 4;
         public const int MID = 34;
-        private const int revision = 1;
 
-        public MID_0034() : base(length, MID, revision) { }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="noAckFlag">0=Ack needed, 1=No Ack needed</param>
+        /// <param name="revision">Revision number (default = 4)</param>
+        public MID_0034(int? noAckFlag, int revision = LAST_REVISION) : base(MID, revision, noAckFlag) { }
 
-        internal MID_0034(IMID nextTemplate) : base(length, MID, revision)
-        {
-            this.NextTemplate = nextTemplate;
-        }
-
-        public override MID ProcessPackage(string package)
-        {
-            if (base.IsCorrectType(package))
-                return (MID_0034)base.ProcessPackage(package);
-
-            return this.NextTemplate.ProcessPackage(package);
-        }
-
-        protected override void RegisterDatafields() { }
+        internal MID_0034(IMID nextTemplate) : base(MID, LAST_REVISION) => NextTemplate = nextTemplate;
     }
 }

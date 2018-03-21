@@ -28,14 +28,26 @@ namespace OpenProtocolInterpreter.Job
 
         public List<int> JobIds { get; set; }
 
-        public MID_0031() : base(MID, LAST_REVISION)
+        public MID_0031(int revision = LAST_REVISION) : base(MID, revision)
         {
             _intConverter = new Int32Converter();
             _jobListConverter = new JobListConverter(_intConverter);
             JobIds = new List<int>();
         }
 
-        public MID_0031(int totalJobs, IEnumerable<int> jobIds) : base(MID, LAST_REVISION)
+        /// <summary>
+        /// Revision 1 or 2 constructor
+        /// </summary>
+        /// <param name="totalJobs">
+        ///     Revision 1 range: 00-99 
+        ///     <para>Revision 2 range: 0000-9999</para>
+        /// </param>
+        /// <param name="jobIds">
+        ///     Revision 1 - range: 00-99 each
+        ///     <para>Revision 2 - range: 0000-9999 each</para>
+        /// </param>
+        /// /// <param name="revision">Revision number (default = 2)</param>
+        public MID_0031(int totalJobs, IEnumerable<int> jobIds, int revision = LAST_REVISION) : base(MID, revision)
         {
             _intConverter = new Int32Converter();
             _jobListConverter = new JobListConverter(_intConverter);
@@ -103,6 +115,17 @@ namespace OpenProtocolInterpreter.Job
             };
         }
 
+        /// <summary>
+        /// Revision 1 or 2 setter
+        /// </summary>
+        /// <param name="totalJobs">
+        ///     Revision 1 range: 00-99 
+        ///     <para>Revision 2 range: 0000-9999</para>
+        /// </param>
+        /// <param name="jobIds">
+        ///     Revision 1 - range: 00-99 each
+        ///     <para>Revision 2 - range: 0000-9999 each</para>
+        /// </param>
         public void SetRevision1or2(int totalJobs, IEnumerable<int> jobIds)
         {
             TotalJobs = totalJobs;
