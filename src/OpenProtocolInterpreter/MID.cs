@@ -65,7 +65,7 @@ namespace OpenProtocolInterpreter
             if (!RevisionsByFields.Any())
                 return BuildHeader();
 
-            string package = string.Empty;
+            string package = BuildHeader();
             for (int i = 1; i <= HeaderData.Revision; i++)
                 foreach (var dataField in RevisionsByFields[i])
                 {

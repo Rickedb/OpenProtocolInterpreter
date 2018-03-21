@@ -1,5 +1,7 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Converters;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenProtocolInterpreter.Job
 {
@@ -13,73 +15,174 @@ namespace OpenProtocolInterpreter.Job
     /// </summary>
     public class MID_0031 : MID, IJob
     {
-        private const int length = 24;
+        private readonly IValueConverter<int> _intConverter;
+        private readonly JobListConverter _jobListConverter;
+        private const int LAST_REVISION = 1;
         public const int MID = 31;
-        private const int revision = 1;
 
-        public int TotalJobs { get; private set; }
+        public int TotalJobs
+        {
+            get => RevisionsByFields[1][(int)DataFields.NUMBER_OF_JOBS].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.NUMBER_OF_JOBS].SetValue(_intConverter.Convert, value);
+        }
+
         public List<int> JobIds { get; set; }
 
-        public MID_0031() : base(length, MID, revision) { this.JobIds = new List<int>(); }
-
-        internal MID_0031(IMID nextTemplate) : base(length, MID, revision)
+        public MID_0031() : base(MID, LAST_REVISION)
         {
-            this.JobIds = new List<int>();
-            this.NextTemplate = nextTemplate;
+            _intConverter = new Int32Converter();
+            _jobListConverter = new JobListConverter(_intConverter);
+            JobIds = new List<int>();
+        }
+
+        public MID_0031(int totalJobs, IEnumerable<int> jobIds) : base(MID, LAST_REVISION)
+        {
+            _intConverter = new Int32Converter();
+            _jobListConverter = new JobListConverter(_intConverter);
+            JobIds = new List<int>();
+            SetRevision1or2(totalJobs, jobIds);
+        }
+
+        internal MID_0031(IMID nextTemplate) : base(MID, LAST_REVISION)
+        {
+            _intConverter = new Int32Converter();
+            _jobListConverter = new JobListConverter(_intConverter);
+            JobIds = new List<int>();
+            NextTemplate = nextTemplate;
         }
 
         public override string BuildPackage()
         {
-            if (this.JobIds.Count == 0)
-                throw new ArgumentException("Job IDs list cannot be empty!!");
-
-            string package = base.BuildHeader();
-            package += this.JobIds.Count.ToString().PadLeft(this.RegisteredDataFields[(int)DataFields.NUMBER_OF_JOBS].Size, '0');
-
-            var datafield = this.RegisteredDataFields[(int)DataFields.EACH_JOB_ID];
-            foreach (int param in this.JobIds)
-                package += param.ToString().PadLeft(datafield.Size, '0');
-
-            return package;
+            string package = BuildHeader();
+            var eachJobField = RevisionsByFields[1][(int)DataFields.EACH_JOB_ID];
+            if (HeaderData.Revision == 2)
+            {
+                eachJobField.Index = 24;
+                RevisionsByFields[1][(int)DataFields.NUMBER_OF_JOBS].Size = eachJobField.Size = 4;
+            }
+            _jobListConverter.TotalJobs = TotalJobs;
+            _jobListConverter.EachJobSize = eachJobField.Size;
+            eachJobField.Value = _jobListConverter.Convert(JobIds);
+            return base.BuildPackage();
         }
 
         public override MID ProcessPackage(string package)
         {
-            if (base.IsCorrectType(package))
+            if (IsCorrectType(package))
             {
-                this.HeaderData = base.ProcessHeader(package);
+                HeaderData = ProcessHeader(package);
 
-                var datafield = this.RegisteredDataFields[(int)DataFields.NUMBER_OF_JOBS];
-                this.TotalJobs = Convert.ToInt32(package.Substring(datafield.Index, datafield.Size));
-
-                datafield = this.RegisteredDataFields[(int)DataFields.EACH_JOB_ID];
-                int packageIndex = datafield.Index;
-                for (int i = 0; i < this.TotalJobs; i++)
+                var eachJobField = RevisionsByFields[1][(int)DataFields.EACH_JOB_ID];
+                if (HeaderData.Revision == 2)
                 {
-                    this.JobIds.Add(Convert.ToInt32(package.Substring(packageIndex, datafield.Size)));
-                    packageIndex += datafield.Size;
+                    eachJobField.Index = 24;
+                    RevisionsByFields[1][(int)DataFields.NUMBER_OF_JOBS].Size =  4;
                 }
-
+                _jobListConverter.EachJobSize = eachJobField.Size;
+                eachJobField.Size = package.Length - eachJobField.Index;
+                base.ProcessPackage(package);
+                _jobListConverter.TotalJobs = TotalJobs;
+                JobIds = _jobListConverter.Convert(eachJobField.Value).ToList();
                 return this;
             }
 
             return this.NextTemplate.ProcessPackage(package);
         }
 
-        protected override void RegisterDatafields()
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
-            this.RegisteredDataFields.AddRange(
-                new DataField[]
+            return new Dictionary<int, List<DataField>>()
+            {
                 {
-                    new DataField((int)DataFields.NUMBER_OF_JOBS, 20, 2),
-                    new DataField((int)DataFields.EACH_JOB_ID, 22, 2),
-                });
+                    1, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.NUMBER_OF_JOBS, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
+                                new DataField((int)DataFields.EACH_JOB_ID, 22, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                            }
+                }
+            };
+        }
+
+        public void SetRevision1or2(int totalJobs, IEnumerable<int> jobIds)
+        {
+            TotalJobs = totalJobs;
+            JobIds = jobIds.ToList();
+        }
+
+        /// <summary>
+        /// Validate all fields size
+        /// </summary>
+        public bool Validate(out IEnumerable<string> errors)
+        {
+            List<string> failed = new List<string>();
+
+            if(HeaderData.Revision == 1)
+            {
+                if(TotalJobs < 0 || TotalJobs > 99)
+                    failed.Add(new ArgumentOutOfRangeException(nameof(TotalJobs), "Range: 00-99").Message);
+                for (int i = 0; i < JobIds.Count; i++)
+                {
+                    int job = JobIds[i];
+                    if (job < 0 || job > 99)
+                        failed.Add(new ArgumentOutOfRangeException(nameof(JobIds), $"Failed at index[{i}] => Range: 00-99").Message);
+                }
+            }
+            else
+            {
+                if (TotalJobs < 0 || TotalJobs > 9999)
+                    failed.Add(new ArgumentOutOfRangeException(nameof(TotalJobs), "Range: 0000-9999").Message);
+                for (int i = 0; i < JobIds.Count; i++)
+                {
+                    int job = JobIds[i];
+                    if (job < 0 || job > 9999)
+                        failed.Add(new ArgumentOutOfRangeException(nameof(JobIds), $"Failed at index[{i}] => Range: 0000-9999").Message);
+                }
+            }
+
+            errors = failed;
+            return errors.Any();
         }
 
         public enum DataFields
         {
             NUMBER_OF_JOBS,
             EACH_JOB_ID
+        }
+
+        private class JobListConverter : IValueConverter<IEnumerable<int>>
+        {
+            private readonly IValueConverter<int> _intConverter;
+            public int TotalJobs { get; set; }
+            public int EachJobSize { get; set; }
+
+            public JobListConverter(IValueConverter<int> intConverter)
+            {
+                _intConverter = intConverter;
+            }
+
+            public IEnumerable<int> Convert(string value)
+            {
+                int index = 0;
+                for (int i = 0; i < TotalJobs; i++)
+                {
+                    index = i * EachJobSize;
+                    yield return _intConverter.Convert(value.Substring(index, EachJobSize));
+                }
+            }
+
+            public string Convert(IEnumerable<int> value)
+            {
+                string pack = string.Empty;
+                foreach (var v in value)
+                    pack += _intConverter.Convert('0', EachJobSize, DataField.PaddingOrientations.LEFT_PADDED, v);
+
+                return pack;
+            }
+
+            public string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, IEnumerable<int> value)
+            {
+                return Convert(value);
+            }
         }
     }
 }
