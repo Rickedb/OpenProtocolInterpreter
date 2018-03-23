@@ -29,9 +29,9 @@ namespace OpenProtocolInterpreter.ParameterSet
             get => RevisionsByFields[1][(int)DataFields.PARAMETER_SET_NAME].Value;
             set => RevisionsByFields[1][(int)DataFields.PARAMETER_SET_NAME].SetValue(value);
         }
-        public RotationDirections RotationDirection
+        public RotationDirection RotationDirection
         {
-            get => (RotationDirections)RevisionsByFields[1][(int)DataFields.ROTATION_DIRECTION].GetValue(_intConverter.Convert);
+            get => (RotationDirection)RevisionsByFields[1][(int)DataFields.ROTATION_DIRECTION].GetValue(_intConverter.Convert);
             set => RevisionsByFields[1][(int)DataFields.ROTATION_DIRECTION].SetValue(_intConverter.Convert, (int)value);
         }
         public int BatchSize
@@ -101,7 +101,7 @@ namespace OpenProtocolInterpreter.ParameterSet
         /// <param name="maxAngle">The angle max value is five bytes long and is specified by five ASCII digits.Range: 00000-99999.</param>
         /// <param name="angleFinalTarget">The target angle is specified in degrees. 5 ASCII digits. Range: 00000-99999.</param>
         /// <param name="revision">Revision number (default = 1)</param>
-        public MID_0013(int parameterSetId, string parameterSetName, RotationDirections rotationDirection, int batchSize, decimal minTorque, decimal maxTorque, 
+        public MID_0013(int parameterSetId, string parameterSetName, RotationDirection rotationDirection, int batchSize, decimal minTorque, decimal maxTorque, 
             decimal torqueFinalTarget, int minAngle, int maxAngle, int angleFinalTarget, int revision = 1) : base(MID, revision)
         {
             _intConverter = new Int32Converter();
@@ -125,7 +125,7 @@ namespace OpenProtocolInterpreter.ParameterSet
         /// <param name="firstTarget">The torque first target is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
         /// <param name="startFinalAngle">The start final angle is the torque to reach the snug level. The start final angle is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
         /// <param name="revision">Revision number (default = 1)</param>
-        public MID_0013(int parameterSetId, string parameterSetName, RotationDirections rotationDirection, int batchSize, decimal minTorque, decimal maxTorque, 
+        public MID_0013(int parameterSetId, string parameterSetName, RotationDirection rotationDirection, int batchSize, decimal minTorque, decimal maxTorque, 
             decimal torqueFinalTarget, int minAngle, int maxAngle, int angleFinalTarget, decimal firstTarget, decimal startFinalAngle, int revision = 2) : base(MID, revision)
         {
             _intConverter = new Int32Converter();
@@ -141,7 +141,7 @@ namespace OpenProtocolInterpreter.ParameterSet
             _decimalConverter = new DecimalTrucatedConverter(2);
         }
 
-        public void SetRevision1(int parameterSetId, string parameterSetName, RotationDirections rotationDirection, int batchSize, decimal minTorque, decimal maxTorque,
+        public void SetRevision1(int parameterSetId, string parameterSetName, RotationDirection rotationDirection, int batchSize, decimal minTorque, decimal maxTorque,
             decimal torqueFinalTarget, int minAngle, int maxAngle, int angleFinalTarget)
         {
             ParameterSetId = parameterSetId;

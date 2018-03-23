@@ -39,9 +39,9 @@ namespace OpenProtocolInterpreter.ParameterSet
             get => RevisionsByFields[2][(int)DataFields.PARAMETER_SET_NAME].Value;
             set => RevisionsByFields[2][(int)DataFields.PARAMETER_SET_NAME].SetValue(value);
         }
-        public RotationDirections RotationDirection
+        public RotationDirection RotationDirection
         {
-            get => (RotationDirections)RevisionsByFields[2][(int)DataFields.ROTATION_DIRECTION].GetValue(_intConverter.Convert);
+            get => (RotationDirection)RevisionsByFields[2][(int)DataFields.ROTATION_DIRECTION].GetValue(_intConverter.Convert);
             set => RevisionsByFields[2][(int)DataFields.ROTATION_DIRECTION].SetValue(_intConverter.Convert, (int)value);
         }
         public int BatchSize
@@ -135,7 +135,7 @@ namespace OpenProtocolInterpreter.ParameterSet
         /// <param name="startFinalAngle">The start final angle is the torque to reach the snug level.The start final angle is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
         /// <param name="ackFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
         /// <param name="revision">Range: 000-002 (Default = 2)</param>
-        public MID_0015(int parameterSetId, string parameterSetName, DateTime lastChangeInParameterSet, RotationDirections rotationDirection, int batchSize,
+        public MID_0015(int parameterSetId, string parameterSetName, DateTime lastChangeInParameterSet, RotationDirection rotationDirection, int batchSize,
             decimal torqueMin, decimal torqueMax, decimal torqueFinalTarget, int angleMin, int angleMax, int finalAngleTarget, decimal firstTarget, decimal startFinalAngle,
             int? ackFlag = 1, int revision = 2) : base(MID, revision, ackFlag)
         {
@@ -220,7 +220,7 @@ namespace OpenProtocolInterpreter.ParameterSet
             LastChangeInParameterSet = lastChangeInParameterSet;
         }
 
-        public void SetRevision2(string parameterSetName, RotationDirections rotationDirection, int batchSize, decimal torqueMin, decimal torqueMax, decimal torqueFinalTarget, 
+        public void SetRevision2(string parameterSetName, RotationDirection rotationDirection, int batchSize, decimal torqueMin, decimal torqueMax, decimal torqueFinalTarget, 
             int angleMin, int angleMax, int finalAngleTarget, decimal firstTarget, decimal startFinalAngle)
         {
             ParameterSetName = parameterSetName;

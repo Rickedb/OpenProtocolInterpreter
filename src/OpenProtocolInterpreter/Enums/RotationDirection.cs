@@ -1,6 +1,6 @@
 ﻿namespace OpenProtocolInterpreter
 {
-    public enum RotationDirections
+    public enum RotationDirection
     {
         CLOCKWISE = 1,
         COUNTER_CLOCKWISE = 2

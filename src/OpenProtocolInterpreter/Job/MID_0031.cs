@@ -162,6 +162,9 @@ namespace OpenProtocolInterpreter.Job
                 }
             }
 
+            if(TotalJobs != JobIds.Count)
+                failed.Add($"{nameof(TotalJobs)} does not match total of Id inside {nameof(JobIds)} list!");
+
             errors = failed;
             return errors.Any();
         }
