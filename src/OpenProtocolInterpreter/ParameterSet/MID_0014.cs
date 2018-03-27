@@ -18,12 +18,12 @@
         /// Revision 1 Constructor
         /// </summary>
         /// <param name="ackFlag">0=Ack needed, 1=No Ack needed</param>
-        public MID_0014(int? ackFlag = null) : base(MID, LAST_REVISION, ackFlag) 
+        public MID_0014(int? ackFlag = 1) : base(MID, LAST_REVISION, ackFlag) 
         { 
         
         }
 
-        internal MID_0014(IMID nextTemplate) : base(MID, LAST_REVISION)
+        internal MID_0014(IMID nextTemplate) : this()
         {
             NextTemplate = nextTemplate;
         }

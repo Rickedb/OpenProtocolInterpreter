@@ -102,11 +102,18 @@ namespace OpenProtocolInterpreter.ParameterSet
         /// <param name="angleFinalTarget">The target angle is specified in degrees. 5 ASCII digits. Range: 00000-99999.</param>
         /// <param name="revision">Revision number (default = 1)</param>
         public MID_0013(int parameterSetId, string parameterSetName, RotationDirection rotationDirection, int batchSize, decimal minTorque, decimal maxTorque, 
-            decimal torqueFinalTarget, int minAngle, int maxAngle, int angleFinalTarget, int revision = 1) : base(MID, revision)
+            decimal torqueFinalTarget, int minAngle, int maxAngle, int angleFinalTarget, int revision = 1) : this(revision)
         {
-            _intConverter = new Int32Converter();
-            _decimalConverter = new DecimalTrucatedConverter(2);
-            SetRevision1(parameterSetId, parameterSetName, rotationDirection, batchSize, minTorque, maxTorque, torqueFinalTarget, minAngle, maxAngle, angleFinalTarget);
+            ParameterSetId = parameterSetId;
+            ParameterSetName = ParameterSetName;
+            RotationDirection = rotationDirection;
+            BatchSize = batchSize;
+            MinTorque = minTorque;
+            MaxTorque = maxTorque;
+            TorqueFinalTarget = torqueFinalTarget;
+            MinAngle = minAngle;
+            MaxAngle = maxAngle;
+            AngleFinalTarget = angleFinalTarget;
         }
 
         /// <summary>
@@ -126,41 +133,15 @@ namespace OpenProtocolInterpreter.ParameterSet
         /// <param name="startFinalAngle">The start final angle is the torque to reach the snug level. The start final angle is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
         /// <param name="revision">Revision number (default = 1)</param>
         public MID_0013(int parameterSetId, string parameterSetName, RotationDirection rotationDirection, int batchSize, decimal minTorque, decimal maxTorque, 
-            decimal torqueFinalTarget, int minAngle, int maxAngle, int angleFinalTarget, decimal firstTarget, decimal startFinalAngle, int revision = 2) : base(MID, revision)
-        {
-            _intConverter = new Int32Converter();
-            _decimalConverter = new DecimalTrucatedConverter(2);
-            SetRevision1(parameterSetId, parameterSetName, rotationDirection, batchSize, minTorque, maxTorque, torqueFinalTarget, minAngle, maxAngle, angleFinalTarget);
-            SetRevision2(firstTarget, startFinalAngle);
-        }
-
-        internal MID_0013(IMID nextTemplate) : base(MID, LAST_REVISION)
-        {
-            NextTemplate = nextTemplate;
-            _intConverter = new Int32Converter();
-            _decimalConverter = new DecimalTrucatedConverter(2);
-        }
-
-        public void SetRevision1(int parameterSetId, string parameterSetName, RotationDirection rotationDirection, int batchSize, decimal minTorque, decimal maxTorque,
-            decimal torqueFinalTarget, int minAngle, int maxAngle, int angleFinalTarget)
-        {
-            ParameterSetId = parameterSetId;
-            ParameterSetName = ParameterSetName;
-            RotationDirection = rotationDirection;
-            BatchSize = batchSize;
-            MinTorque = minTorque;
-            MaxTorque = maxTorque;
-            TorqueFinalTarget = torqueFinalTarget;
-            MinAngle = minAngle;
-            MaxAngle = maxAngle;
-            AngleFinalTarget = angleFinalTarget;
-        }
-
-        public void SetRevision2(decimal firstTarget, decimal startFinalAngle)
+            decimal torqueFinalTarget, int minAngle, int maxAngle, int angleFinalTarget, decimal firstTarget, decimal startFinalAngle, int revision = 2) 
+            : this(parameterSetId, parameterSetName, rotationDirection, batchSize, minTorque, maxTorque, 
+                  torqueFinalTarget, minAngle, maxAngle, angleFinalTarget, revision)
         {
             FirstTarget = firstTarget;
             StartFinalAngle = startFinalAngle;
         }
+
+        internal MID_0013(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
 
         /// <summary>
         /// Validate all fields size

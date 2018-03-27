@@ -109,12 +109,11 @@ namespace OpenProtocolInterpreter.ParameterSet
         /// <param name="lastChangeInParameterSet">19 ASCII characters. YYYY-MM-DD:HH:MM:SS</param>
         /// <param name="ackFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
         /// <param name="revision">Range: 000-002</param>
-        public MID_0015(int parameterSetId, DateTime lastChangeInParameterSet, int? ackFlag = 1, int revision = 1) : base(MID, revision, ackFlag)
+        public MID_0015(int parameterSetId, DateTime lastChangeInParameterSet, int? ackFlag = 1, int revision = 1) 
+            : this(ackFlag, revision)
         {
-            _intConverter = new Int32Converter();
-            _datetimeConverter = new DateConverter();
-            _decimalConverter = new DecimalTrucatedConverter(2);
-            SetRevision1(parameterSetId, lastChangeInParameterSet);
+            ParameterSetId = parameterSetId;
+            LastChangeInParameterSet = lastChangeInParameterSet;
         }
 
         /// <summary>
@@ -137,22 +136,22 @@ namespace OpenProtocolInterpreter.ParameterSet
         /// <param name="revision">Range: 000-002 (Default = 2)</param>
         public MID_0015(int parameterSetId, string parameterSetName, DateTime lastChangeInParameterSet, RotationDirection rotationDirection, int batchSize,
             decimal torqueMin, decimal torqueMax, decimal torqueFinalTarget, int angleMin, int angleMax, int finalAngleTarget, decimal firstTarget, decimal startFinalAngle,
-            int? ackFlag = 1, int revision = 2) : base(MID, revision, ackFlag)
+            int? ackFlag = 1, int revision = 2) : this(parameterSetId, lastChangeInParameterSet, ackFlag, revision)
         {
-            _intConverter = new Int32Converter();
-            _datetimeConverter = new DateConverter();
-            _decimalConverter = new DecimalTrucatedConverter(2);
-            SetRevision1(parameterSetId, lastChangeInParameterSet);
-            SetRevision2(parameterSetName, rotationDirection, batchSize, torqueMin, torqueMax, torqueFinalTarget, angleMin, angleMax, finalAngleTarget, firstTarget, startFinalAngle);
+            ParameterSetName = parameterSetName;
+            RotationDirection = rotationDirection;
+            BatchSize = batchSize;
+            MinTorque = torqueMin;
+            MaxTorque = torqueMax;
+            TorqueFinalTarget = torqueFinalTarget;
+            MinAngle = angleMin;
+            MaxAngle = angleMax;
+            AngleFinalTarget = finalAngleTarget;
+            FirstTarget = firstTarget;
+            StartFinalAngle = startFinalAngle;
         }
 
-        internal MID_0015(IMID nextTemplate) : base(MID, LAST_REVISION)
-        {
-            _intConverter = new Int32Converter();
-            _datetimeConverter = new DateConverter();
-            _decimalConverter = new DecimalTrucatedConverter(2);
-            NextTemplate = nextTemplate;
-        }
+        internal MID_0015(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
 
         public override string BuildPackage()
         {
@@ -214,28 +213,6 @@ namespace OpenProtocolInterpreter.ParameterSet
             };
         }
         
-        public void SetRevision1(int parameterSetId, DateTime lastChangeInParameterSet)
-        {
-            ParameterSetId = parameterSetId;
-            LastChangeInParameterSet = lastChangeInParameterSet;
-        }
-
-        public void SetRevision2(string parameterSetName, RotationDirection rotationDirection, int batchSize, decimal torqueMin, decimal torqueMax, decimal torqueFinalTarget, 
-            int angleMin, int angleMax, int finalAngleTarget, decimal firstTarget, decimal startFinalAngle)
-        {
-            ParameterSetName = parameterSetName;
-            RotationDirection = rotationDirection;
-            BatchSize = batchSize;
-            MinTorque = torqueMin;
-            MaxTorque = torqueMax;
-            TorqueFinalTarget = torqueFinalTarget;
-            MinAngle = angleMin;
-            MaxAngle = angleMax;
-            AngleFinalTarget = finalAngleTarget;
-            FirstTarget = firstTarget;
-            StartFinalAngle = startFinalAngle;
-        }
-
         /// <summary>
         /// Validate all fields size
         /// </summary>

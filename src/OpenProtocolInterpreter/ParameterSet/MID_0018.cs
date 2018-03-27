@@ -24,26 +24,15 @@ namespace OpenProtocolInterpreter.ParameterSet
             set => RevisionsByFields[1][(int)DataFields.PARAMETER_SET_ID].SetValue(_intConverter.Convert, value);
         }
 
-        public MID_0018() : base(MID, LAST_REVISION)
-        {
-            _intConverter = new Int32Converter();
-        }
+        public MID_0018() : base(MID, LAST_REVISION) => _intConverter = new Int32Converter();
 
         /// <summary>
         /// Revision 1 Constructor
         /// </summary>
         /// <param name="parameterSetId">Three ASCII digits, range 000-999</param>
-        public MID_0018(int parameterSetId) : base(MID, LAST_REVISION)
-        {
-            _intConverter = new Int32Converter();
-            SetRevision1(parameterSetId);
-        }
+        public MID_0018(int parameterSetId) : this() => ParameterSetId = parameterSetId;
 
-        internal MID_0018(IMID nextTemplate) : base(MID, LAST_REVISION)
-        {
-            _intConverter = new Int32Converter();
-            NextTemplate = nextTemplate;
-        }
+        internal MID_0018(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
@@ -56,15 +45,6 @@ namespace OpenProtocolInterpreter.ParameterSet
                             }
                 }
             };
-        }
-
-        /// <summary>
-        /// Revision 1 Setter
-        /// </summary>
-        /// <param name="parameterSetId">Three ASCII digits, range 000-999</param>
-        public void SetRevision1(int parameterSetId)
-        {
-            ParameterSetId = parameterSetId;
         }
 
         /// <summary>

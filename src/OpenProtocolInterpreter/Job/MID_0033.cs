@@ -16,9 +16,10 @@ namespace OpenProtocolInterpreter.Job
     /// </summary>
     public class MID_0033 : MID, IJob
     {
-        private readonly IValueConverter<IEnumerable<Job>> _jobListConverter;
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;
+        private IValueConverter<IEnumerable<Job>> _jobListConverter;
+
         private const int LAST_REVISION = 3;
         public const int MID = 33;
 
@@ -109,8 +110,10 @@ namespace OpenProtocolInterpreter.Job
 
         public override string BuildPackage()
         {
-            string package = base.BuildHeader();
-            package += this.JobData.ToString();
+            _jobListConverter = new JobConverter(_intConverter, (int)HeaderData.Revision);
+            RevisionsByFields[1].RemoveAt((int)DataFields.JOB_LIST);
+            string package = base.BuildPackage();
+            package += _jobListConverter.Convert(JobList);
             return package;
         }
 
@@ -182,77 +185,98 @@ namespace OpenProtocolInterpreter.Job
             JOB_LIST
         }
 
-        public class Job
+        public class Job 
         {
-            internal List<DataField> _datafields;
+            private readonly IValueConverter<int> _intConverter;
+            private readonly IValueConverter<bool> _boolConverter;
+            public Dictionary<int, List<DataField>> RevisionsByFields { get; set; }
 
-            public int ChannelID { get; set; }
-            public int TypeID { get; set; }
-            public bool AutoValue { get; set; }
-            public int BatchSize { get; set; }
-            public int Socket { get; set; }
-            public string JobStepName { get; set; }
-            public int JobStepType { get; set; }
-
+            public int ChannelID
+            {
+                get => RevisionsByFields[1][(int)DataFields.CHANNEL_ID].GetValue(_intConverter.Convert);
+                set => RevisionsByFields[1][(int)DataFields.CHANNEL_ID].SetValue(_intConverter.Convert, value);
+            }
+            public int TypeID
+            {
+                get => RevisionsByFields[1][(int)DataFields.TYPE_ID].GetValue(_intConverter.Convert);
+                set => RevisionsByFields[1][(int)DataFields.TYPE_ID].SetValue(_intConverter.Convert, value);
+            }
+            public bool AutoValue
+            {
+                get => RevisionsByFields[1][(int)DataFields.AUTO_VALUE].GetValue(_boolConverter.Convert);
+                set => RevisionsByFields[1][(int)DataFields.AUTO_VALUE].SetValue(_boolConverter.Convert, value);
+            }
+            public int BatchSize
+            {
+                get => RevisionsByFields[1][(int)DataFields.BATCH_SIZE].GetValue(_intConverter.Convert);
+                set => RevisionsByFields[1][(int)DataFields.BATCH_SIZE].SetValue(_intConverter.Convert, value);
+            }
+            public int Socket
+            {
+                get => RevisionsByFields[3][(int)DataFields.SOCKET].GetValue(_intConverter.Convert);
+                set => RevisionsByFields[3][(int)DataFields.SOCKET].SetValue(_intConverter.Convert, value);
+            }
+            public string JobStepName
+            {
+                get => RevisionsByFields[3][(int)DataFields.JOB_STEP_NAME].Value;
+                set => RevisionsByFields[3][(int)DataFields.JOB_STEP_NAME].Value = value;
+            }
+            public int JobStepType
+            {
+                get => RevisionsByFields[3][(int)DataFields.JOB_STEP_TYPE].GetValue(_intConverter.Convert);
+                set => RevisionsByFields[3][(int)DataFields.JOB_STEP_TYPE].SetValue(_intConverter.Convert, value);
+            }
 
             public Job()
             {
-
+                _intConverter = new Int32Converter();
+                _boolConverter = new BoolConverter();
+                RegisterDataFields();
             }
 
-            public List<Job> getJobsFromPackage(string package)
+            private void RegisterDataFields()
             {
-                List<Job> jobs = new List<Job>();
-
-                var stringJobs = package.Substring(91).Split(';');
-                foreach (string job in stringJobs)
+                RevisionsByFields.Add(1, new List<DataField>()
                 {
-                    var jobParams = job.Split(':');
-                    if (jobParams.Count() == 4)
-                        jobs.Add(new Job()
-                        {
-                            ChannelID = Convert.ToInt32(jobParams[0]),
-                            TypeID = Convert.ToInt32(jobParams[1]),
-                            AutoValue = Convert.ToBoolean(Convert.ToInt32(jobParams[2])),
-                            BatchSize = Convert.ToInt32(jobParams[3])
-                        });
-                }
+                    new DataField((int)DataFields.CHANNEL_ID, 0, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
+                    new DataField((int)DataFields.TYPE_ID, 1, 3, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
+                    new DataField((int)DataFields.AUTO_VALUE, 2, 1, false),
+                    new DataField((int)DataFields.BATCH_SIZE, 3, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                });
 
-                return jobs;
+                RevisionsByFields.Add(3, new List<DataField>()
+                {
+                    new DataField((int)DataFields.SOCKET, 4, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
+                    new DataField((int)DataFields.JOB_STEP_NAME, 5, 25, ' ', DataField.PaddingOrientations.RIGHT_PADDED, false),
+                    new DataField((int)DataFields.JOB_STEP_TYPE, 6, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false )
+                });
             }
 
-            public override string ToString()
+            public enum DataFields
             {
-                return string.Join(":",
-                    new string[]{
-                            ChannelID.ToString().PadLeft(2, '0'),
-                            TypeID.ToString().PadLeft(3, '0'),
-                            Convert.ToInt32(AutoValue).ToString(),
-                            BatchSize.ToString().PadLeft(2, '0')
-                    }) + ";";
+                //Rev 1 and 2
+                CHANNEL_ID,
+                TYPE_ID,
+                AUTO_VALUE,
+                BATCH_SIZE,
+                //Rev 3
+                SOCKET,
+                JOB_STEP_NAME,
+                JOB_STEP_TYPE
             }
         }
 
         private class JobConverter : IValueConverter<IEnumerable<Job>>
         {
-            private readonly IValueConverter<int> _intConverter;
-            private readonly IValueConverter<bool> _boolConverter;
             private readonly int _revision;
-            private readonly int _jobDataSize;
 
             public JobConverter(IValueConverter<int> intConverter, int revision)
             {
-                _intConverter = intConverter;
                 _revision = revision;
-                if(_revision < 3)
-                    _jobDataSize = 12;
-                else
-                    _jobDataSize = 44;
             }
 
             public IEnumerable<Job> Convert(string value)
             {
-
                 string[] jobDatas = value.Substring(2, value.Length - 1).Split(';');
                 foreach(string jobData in jobDatas)
                 {
@@ -266,34 +290,62 @@ namespace OpenProtocolInterpreter.Job
 
             public string Convert(IEnumerable<Job> value)
             {
-                throw new NotImplementedException();
+                List<string> packages = new List<string>();
+                if (_revision < 3)
+                {
+                    foreach (var job in value)
+                        packages.Add(GetRevision1or2(job));
+                }
+                else
+                {
+                    foreach (var job in value)
+                        packages.Add(GetRevision3(job));
+                }
+                return string.Join(";", packages) + ";";
             }
 
             public string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, IEnumerable<Job> value)
             {
-                throw new NotImplementedException();
+                return Convert(value);
             }
 
             private Job GetRevision1or2(string[] fields)
             {
-                
-                return new Job
-                {
-                    ChannelID = _intConverter.Convert(fields[0]),
-                    TypeID = _intConverter.Convert(fields[1]),
-                    AutoValue = _boolConverter.Convert(fields[2]),
-                    BatchSize = _intConverter.Convert(fields[3])
-                };
+                var job = new Job();
+                GetFields(job.RevisionsByFields[1], fields);
+                return job;
             }
+
+            private string GetRevision1or2(Job job) => string.Join(":", GetFields(job.RevisionsByFields[1]));
 
             private Job GetRevision3(string[] fields)
             {
                 var job = GetRevision1or2(fields);
-                job.Socket = _intConverter.Convert(fields[4]);
-                job.JobStepName = fields[5];
-                job.JobStepType = _intConverter.Convert(fields[6]);
+                GetFields(job.RevisionsByFields[3], fields);
                 return job;
             }
+
+            private string GetRevision3(Job job)
+            {
+                List<string> fields = new List<string>(GetFields(job.RevisionsByFields[1]));
+                fields.AddRange(GetFields(job.RevisionsByFields[3]));
+                return string.Join(":", fields);
+            }
+
+            private IEnumerable<string> GetFields(List<DataField> fields)
+            {
+                foreach (var field in fields)
+                    yield return field.Value;
+            }
+
+            private IEnumerable<DataField> GetFields(List<DataField> revisionFields, string[] fields)
+            {
+                foreach (var field in revisionFields)
+                    field.Value = fields[field.Index];
+
+                return revisionFields;
+            }
         }
+
     }
 }

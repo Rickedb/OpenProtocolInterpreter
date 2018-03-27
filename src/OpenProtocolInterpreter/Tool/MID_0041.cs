@@ -11,20 +11,19 @@ namespace OpenProtocolInterpreter.Tool
     /// </summary>
     public class MID_0041 : MID, ITool
     {
-        private const int length = 81;
+        private const int LAST_REVISION = 5;
         public const int MID = 41;
-        private const int revision = 1;
 
         public string ToolSerialNumber { get; set; }
         public int ToolNumberOfTIghtenings { get; set; }
         public DateTime LastCalibrationDate { get; set; }
         public string ControllerSerialNumber { get; set; }
 
-        public MID_0041() : base(length, MID, revision) { }
+        public MID_0041() : base(MID, LAST_REVISION) { }
 
-        internal MID_0041(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0041(IMID nextTemplate) : base(MID, LAST_REVISION)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
         public override string BuildPackage()

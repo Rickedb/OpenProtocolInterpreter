@@ -23,7 +23,7 @@ namespace OpenProtocolInterpreter.Job
         public int TotalJobs
         {
             get => RevisionsByFields[1][(int)DataFields.NUMBER_OF_JOBS].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.NUMBER_OF_JOBS].SetValue(_intConverter.Convert, value);
+            private set => RevisionsByFields[1][(int)DataFields.NUMBER_OF_JOBS].SetValue(_intConverter.Convert, value);
         }
 
         public List<int> JobIds { get; set; }
@@ -66,6 +66,7 @@ namespace OpenProtocolInterpreter.Job
         public override string BuildPackage()
         {
             string package = BuildHeader();
+            TotalJobs = JobIds.Count;
             var eachJobField = RevisionsByFields[1][(int)DataFields.EACH_JOB_ID];
             if (HeaderData.Revision == 2)
             {
@@ -161,9 +162,6 @@ namespace OpenProtocolInterpreter.Job
                         failed.Add(new ArgumentOutOfRangeException(nameof(JobIds), $"Failed at index[{i}] => Range: 0000-9999").Message);
                 }
             }
-
-            if(TotalJobs != JobIds.Count)
-                failed.Add($"{nameof(TotalJobs)} does not match total of Id inside {nameof(JobIds)} list!");
 
             errors = failed;
             return errors.Any();

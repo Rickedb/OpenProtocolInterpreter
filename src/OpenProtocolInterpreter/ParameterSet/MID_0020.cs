@@ -24,18 +24,11 @@ namespace OpenProtocolInterpreter.ParameterSet
             set => RevisionsByFields[1][(int)DataFields.PARAMETER_SET_ID].SetValue(_intConverter.Convert, value);
         }
 
-        public MID_0020() : this(0) { }
+        public MID_0020() : base(MID, LAST_REVISION) => _intConverter = new Int32Converter();
 
-        public MID_0020(int parameterSetId) : base(MID, LAST_REVISION)
-        {
-            _intConverter = new Int32Converter();
-        }
+        public MID_0020(int parameterSetId) : this() => ParameterSetId = parameterSetId;
 
-        internal MID_0020(IMID nextTemplate) : base(MID, LAST_REVISION)
-        {
-            _intConverter = new Int32Converter();
-            NextTemplate = nextTemplate;
-        }
+        internal MID_0020(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
@@ -49,8 +42,6 @@ namespace OpenProtocolInterpreter.ParameterSet
                 }
             };
         }
-
-        public void SetRevision1(int parameterSetId) => ParameterSetId = parameterSetId;
 
         /// <summary>
         /// Validate all fields size

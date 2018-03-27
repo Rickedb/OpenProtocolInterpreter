@@ -45,28 +45,13 @@ namespace OpenProtocolInterpreter.Communication
         /// </summary>
         /// <param name="failedMid">Failed Mid. Range: 0000-9999</param>
         /// <param name="errorCode"></param>
-        public MID_0004(int failedMid, Errors errorCode) : base(MID, LAST_REVISION)
-        {
-            _intConverter = new Int32Converter();
-            SetRevision1(failedMid, errorCode);
-        }
-
-        internal MID_0004(IMID nextTemplate) : base(MID, LAST_REVISION)
-        {
-            _intConverter = new Int32Converter();
-            NextTemplate = nextTemplate;
-        }
-
-        /// <summary>
-        /// Revision 1 Setter
-        /// </summary>
-        /// <param name="failedMid">Failed Mid. Range: 0000-9999</param>
-        /// <param name="errorCode"></param>
-        public void SetRevision1(int failedMid, Errors errorCode)
+        public MID_0004(int failedMid, Errors errorCode) : this()
         {
             FailedMid = failedMid;
             ErrorCode = errorCode;
         }
+
+        internal MID_0004(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
 
         /// <summary>
         /// Validate all fields size

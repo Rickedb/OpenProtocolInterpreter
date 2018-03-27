@@ -39,17 +39,13 @@ namespace OpenProtocolInterpreter.ParameterSet
         /// </summary>
         /// <param name="parameterSetId">Three ASCII digits, range 000-999</param>
         /// <param name="batchSize">Two ASCII digits, range 01-99</param>
-        public MID_0019(int parameterSetId, int batchSize) : base(MID, LAST_REVISION)
+        public MID_0019(int parameterSetId, int batchSize) : this()
         {
-            _intConverter = new Int32Converter();
-            SetRevision1(parameterSetId, batchSize);
+            ParameterSetId = parameterSetId;
+            BatchSize = batchSize;
         }
 
-        internal MID_0019(IMID nextTemplate) : base(MID, LAST_REVISION)
-        {
-            _intConverter = new Int32Converter();
-            NextTemplate = nextTemplate;
-        }
+        internal MID_0019(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
@@ -63,17 +59,6 @@ namespace OpenProtocolInterpreter.ParameterSet
                             }
                 }
             };
-        }
-
-        /// <summary>
-        /// Revision 1 Setter
-        /// </summary>
-        /// <param name="parameterSetId">Three ASCII digits, range 000-999</param>
-        /// <param name="batchSize">Two ASCII digits, range 01-99</param>
-        public void SetRevision1(int parameterSetId, int batchSize)
-        {
-            ParameterSetId = parameterSetId;
-            BatchSize = batchSize;
         }
 
         /// <summary>

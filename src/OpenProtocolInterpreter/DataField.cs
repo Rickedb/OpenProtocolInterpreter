@@ -32,7 +32,7 @@ namespace OpenProtocolInterpreter
             Size = size;
         }
 
-        public T GetValue<T>(Func<string, T> converter)
+        public virtual T GetValue<T>(Func<string, T> converter)
         {
             if (IsValueNotCached<T>())
                 CachedValue = converter(Value);
@@ -40,13 +40,13 @@ namespace OpenProtocolInterpreter
             return (T)CachedValue;
         }
 
-        public void SetValue<T>(Func<char, int, PaddingOrientations, T, string> converter, T value)
+        public virtual void SetValue<T>(Func<char, int, PaddingOrientations, T, string> converter, T value)
         {
             CachedValue = null;
             Value = converter(PaddingChar, Size, PaddingOrientation, value);
         }
 
-        public void SetValue(string value)
+        public virtual void SetValue(string value)
         {
             CachedValue = null;
             Value = new Converters.ValueConverter().GetPadded(PaddingChar, Size, PaddingOrientation, value);

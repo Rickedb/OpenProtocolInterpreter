@@ -16,7 +16,7 @@ namespace OpenProtocolInterpreter.Communication
     public class MID_0006 : MID, ICommunication
     {
         private const int LAST_REVISION = 1;
-        public const int MID = 5;
+        public const int MID = 6;
 
         public int MIDAccepted { get; set; }
 
@@ -25,9 +25,9 @@ namespace OpenProtocolInterpreter.Communication
 
         }
 
-        internal MID_0006(IMID nextTemplate) : base(MID, LAST_REVISION)
+        internal MID_0006(IMID nextTemplate) : this()
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
         public override string BuildPackage()

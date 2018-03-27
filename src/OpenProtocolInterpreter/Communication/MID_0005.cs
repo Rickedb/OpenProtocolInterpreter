@@ -28,35 +28,15 @@ namespace OpenProtocolInterpreter.Communication
 
         public int MidAccepted { get; set; }
 
-        public MID_0005() : base(MID, LAST_REVISION)
-        {
-            _intConverter = new Int32Converter();
-        }
+        public MID_0005() : base(MID, LAST_REVISION) => _intConverter = new Int32Converter();
 
         /// <summary>
         /// Revision 1 Constructor
         /// </summary>
         /// <param name="midAccepted">Mid accepted</param>
-        public MID_0005(int midAccepted) : base(MID, LAST_REVISION)
-        {
-            _intConverter = new Int32Converter();
-            SetRevision1(midAccepted);
-        }
-
-        internal MID_0005(IMID nextTemplate) : base(MID, LAST_REVISION)
-        {
-            _intConverter = new Int32Converter();
-            NextTemplate = nextTemplate;
-        }
-
-        /// <summary>
-        /// Revision 1 Setter
-        /// </summary>
-        /// <param name="midAccepted">Mid accepted</param>
-        public void SetRevision1(int midAccepted)
-        {
-            MidAccepted = midAccepted;
-        }
+        public MID_0005(int midAccepted) : this() => MidAccepted = midAccepted;
+        
+        internal MID_0005(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
 
         /// <summary>
         /// Validate all fields size

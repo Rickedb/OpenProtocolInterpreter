@@ -69,7 +69,10 @@ namespace OpenProtocolInterpreter
             for (int i = 1; i <= HeaderData.Revision; i++)
                 foreach (var dataField in RevisionsByFields[i])
                 {
-                    package += i.ToString().PadLeft(2, '0') + dataField.Value;
+                    if(dataField.HasPrefix)
+                        package += i.ToString().PadLeft(2, '0') + dataField.Value;
+                    else
+                        package += dataField.Value;
                 }
 
             return package;

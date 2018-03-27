@@ -58,10 +58,9 @@ namespace OpenProtocolInterpreter.ParameterSet
         /// </summary>
         /// <param name="parameterSetId">Parameter Set Id. Three ASCII digits. Range: 000-999</param>
         /// <param name="revision">Revision</param>
-        public MID_0012(int parameterSetId, int revision) : base(MID, revision)
+        public MID_0012(int parameterSetId, int revision) : this(revision)
         {
-            _intConverter = new Int32Converter();
-            SetRevision1Or2(parameterSetId);
+            ParameterSetID = parameterSetId;
         }
 
         /// <summary>
@@ -70,36 +69,12 @@ namespace OpenProtocolInterpreter.ParameterSet
         /// <param name="parameterSetId">Parameter Set Id. Three ASCII digits. Range: 000-999</param>
         /// <param name="parameterSetFileVersion">00000000 (special usage see Toyota appendix)</param>
         /// <param name="revision">Revision</param>
-        public MID_0012(int parameterSetId, int parameterSetFileVersion, int revision) : base(MID, revision)
-        {
-            _intConverter = new Int32Converter();
-            SetRevision1Or2(parameterSetId);
-            SetRevision3Or4(parameterSetFileVersion);
-        }
-
-        internal MID_0012(IMID nextTemplate) : base(MID, LAST_REVISION)
-        {
-            _intConverter = new Int32Converter();
-            NextTemplate = nextTemplate;
-        }
-
-        /// <summary>
-        /// Revision 1 and 2 Setter
-        /// </summary>
-        /// <param name="parameterSetId">Parameter Set Id. Three ASCII digits. Range: 000-999</param>
-        public void SetRevision1Or2(int parameterSetId)
-        {
-            ParameterSetID = parameterSetId;
-        }
-
-        /// <summary>
-        /// Revision 3 and 4 Setter
-        /// </summary>
-        /// <param name="parameterSetFileVersion">00000000 (special usage see Toyota appendix)</param>
-        public void SetRevision3Or4(int parameterSetFileVersion)
+        public MID_0012(int parameterSetId, int parameterSetFileVersion, int revision) : this(parameterSetId, revision)
         {
             ParameterSetFileVersion = parameterSetFileVersion;
         }
+
+        internal MID_0012(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
 
         /// <summary>
         /// Validate all fields size
