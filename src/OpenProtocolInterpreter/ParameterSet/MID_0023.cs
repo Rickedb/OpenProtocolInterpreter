@@ -14,7 +14,7 @@
 
         public MID_0023() : base(MID, LAST_REVISION) { }
 
-        internal MID_0023(IMID nextTemplate) : base(MID, LAST_REVISION)
+        internal MID_0023(IMID nextTemplate) : this()
         {
             NextTemplate = nextTemplate;
         }

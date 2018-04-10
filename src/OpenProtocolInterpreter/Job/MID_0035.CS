@@ -1,4 +1,7 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Converters;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenProtocolInterpreter.Job
 {
@@ -13,109 +16,257 @@ namespace OpenProtocolInterpreter.Job
     /// </summary>
     public class MID_0035 : MID, IJob
     {
-        private const int length = 63;
+        private readonly IValueConverter<int> _intConverter;
+        private readonly IValueConverter<DateTime> _datetimeConverter;
         public const int MID = 35;
-        private const int revision = 1;
+        private const int LAST_REVISION = 4;
 
-        public int JobID { get; set; }
-        public JobStatuses JobStatus { get; set; }
-        public JobBatchModes JobBatchMode { get; set; }
-        public int JobBatchSize { get; set; }
-        public int JobBatchCounter { get; set; }
-        public DateTime TimeStamp { get; set; }
-
-        public MID_0035() : base(length, MID, revision) {  }
-
-        public MID_0035(int jobId, int jobStatus, int jobBatchMode, int jobBatchSize, int jobBatchCounter, DateTime timestamp) : base(length, MID, revision)
+        public int JobId
         {
-            this.constructMe(jobId, (JobStatuses)jobStatus, (JobBatchModes)jobBatchMode, jobBatchSize, jobBatchCounter, timestamp);
+            get
+            {
+                UpdateFieldsIndexBasedOnRevision();
+                return RevisionsByFields[1][(int)DataFields.JOB_ID].GetValue(_intConverter.Convert);
+            }
+            set
+            {
+                UpdateFieldsIndexBasedOnRevision();
+                RevisionsByFields[1][(int)DataFields.JOB_ID].SetValue(_intConverter.Convert, value);
+            }
+        }
+        public JobStatus Status
+        {
+            get => (JobStatus)RevisionsByFields[1][(int)DataFields.JOB_STATUS].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.JOB_STATUS].SetValue(_intConverter.Convert, (int)value);
+        }
+        public JobBatchMode BatchMode
+        {
+            get => (JobBatchMode)RevisionsByFields[1][(int)DataFields.JOB_BATCH_MODE].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.JOB_BATCH_MODE].SetValue(_intConverter.Convert, (int)value);
+        }
+        public int BatchSize
+        {
+            get => RevisionsByFields[1][(int)DataFields.JOB_BATCH_SIZE].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.JOB_BATCH_SIZE].SetValue(_intConverter.Convert, value);
+        }
+        public int BatchCounter
+        {
+            get => RevisionsByFields[1][(int)DataFields.JOB_BATCH_COUNTER].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.JOB_BATCH_COUNTER].SetValue(_intConverter.Convert, value);
+        }
+        public DateTime TimeStamp
+        {
+            get => RevisionsByFields[1][(int)DataFields.TIMESTAMP].GetValue(_datetimeConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.TIMESTAMP].SetValue(_datetimeConverter.Convert, value);
+        }
+        //Rev 3
+        public int CurrentStep 
+        {
+            get => RevisionsByFields[3][(int)DataFields.JOB_CURRENT_STEP].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[3][(int)DataFields.JOB_CURRENT_STEP].SetValue(_intConverter.Convert, value);
+        }
+        public int TotalNumberOfSteps
+        {
+            get => RevisionsByFields[3][(int)DataFields.JOB_TOTAL_NUMBER_OF_STEPS].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[3][(int)DataFields.JOB_TOTAL_NUMBER_OF_STEPS].SetValue(_intConverter.Convert, value);
+        }
+        public int StepType
+        {
+            get => RevisionsByFields[3][(int)DataFields.JOB_STEP_TYPE].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[3][(int)DataFields.JOB_STEP_TYPE].SetValue(_intConverter.Convert, value);
+        }
+        //Rev 4
+        public JobTighteningStatus TighteningStatus
+        {
+            get => (JobTighteningStatus)RevisionsByFields[4][(int)DataFields.JOB_TIGHTENING_STATUS].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[4][(int)DataFields.JOB_TIGHTENING_STATUS].SetValue(_intConverter.Convert, (int)value);
         }
 
-        public MID_0035(int jobId, JobStatuses jobStatus, JobBatchModes jobBatchMode, int jobBatchSize, int jobBatchCounter, DateTime timestamp) : base(length, MID, revision)
+        public MID_0035(int? ackFlag = 1, int revision = LAST_REVISION) : base(MID, LAST_REVISION, ackFlag) { }
+
+        /// <summary>
+        /// Revision 1 and 2 Constructor
+        /// </summary>
+        /// <param name="jobId">The Job ID is specified by two/four ASCII characters, range 00-99/0000-9999 <para>*Depend on revision</para></param>
+        /// <param name="jobStatus">The Job batch status is specified by one ASCII character.</param>
+        /// <param name="jobBatchMode">The Job batch mode is the way to count the tightening in a Job only the OK or both OK and NOK.</param>
+        /// <param name="jobBatchSize">This parameter gives the total number of tightening in the Job.The Job batch size is four bytes long. Four ASCII characters, range 0000-9999.</param>
+        /// <param name="jobBatchCounter">This parameter gives the current value of the Job batch counter.The Job is completed when the Job batch counter is equal to the Job batch size. The Job batch counter is four bytes long. Four ASCII characters, range 0000-9999.</param>
+        /// <param name="timestamp">Time stamp for the Job info. The time stamp is 19 bytes long and is specified by 19 ASCII characters</param>
+        /// <param name="ackFlag">0=Ack needed, 1=No Ack needed</param>
+        /// <param name="revision">Revision number (default = 2)</param>
+        public MID_0035(int jobId, JobStatus jobStatus, JobBatchMode jobBatchMode,
+            int jobBatchSize, int jobBatchCounter, DateTime timestamp, int? ackFlag = 1, int revision = 2) : this(ackFlag, revision)
         {
-            this.constructMe(jobId, jobStatus, jobBatchMode, jobBatchSize, jobBatchCounter, timestamp);
+            JobId = jobId;
+            Status = jobStatus;
+            BatchMode = jobBatchMode;
+            BatchSize = jobBatchSize;
+            BatchCounter = jobBatchCounter;
+            TimeStamp = timestamp;
         }
 
-        internal MID_0035(IMID nextTemplate) : base(length, MID, revision)
+        /// <summary>
+        /// Revision 3
+        /// </summary>
+        /// <param name="jobId">The Job ID is specified by two/four ASCII characters, range 00-99/0000-9999 <para>*Depend on revision</para></param>
+        /// <param name="jobStatus">The Job batch status is specified by one ASCII character.</param>
+        /// <param name="jobBatchMode">The Job batch mode is the way to count the tightening in a Job only the OK or both OK and NOK.</param>
+        /// <param name="jobBatchSize">This parameter gives the total number of tightening in the Job.The Job batch size is four bytes long. Four ASCII characters, range 0000-9999.</param>
+        /// <param name="jobBatchCounter">This parameter gives the current value of the Job batch counter.The Job is completed when the Job batch counter is equal to the Job batch size. The Job batch counter is four bytes long. Four ASCII characters, range 0000-9999.</param>
+        /// <param name="timestamp">Time stamp for the Job info. The time stamp is 19 bytes long and is specified by 19 ASCII characters</param>
+        /// <param name="jobCurrentStep">The number of the step currently executed in the job. 3 bytes long, 3 ASCII characters range 000-999. <para>For PF4000, PF3000 is zero reported.</para></param>
+        /// <param name="jobTotalNumberOfSteps">The total number of steps in the job. 3 bytes long, 3 ASCII characters range 000-999. <para>For PF4000, PF3000 is zero reported.</para></param>
+        /// <param name="jobStepType">Job step type = Two ASCII characters, range 00-99 
+        /// <para>Batch step = 1</para>
+        /// <para>Reserved = 2-6</para>
+        /// <para>For PF4000, PF3000 is zero reported.</para>
+        /// </param>
+        /// <param name="ackFlag">0=Ack needed, 1=No Ack needed</param>
+        /// <param name="revision">Revision number (default = 3)</param>
+        public MID_0035(int jobId, JobStatus jobStatus, JobBatchMode jobBatchMode,
+           int jobBatchSize, int jobBatchCounter, DateTime timestamp, int jobCurrentStep, int jobTotalNumberOfSteps,
+           int jobStepType, int? ackFlag = 1, int revision = 3) 
+            : this(jobId, jobStatus, jobBatchMode, jobBatchSize, jobBatchCounter, timestamp, ackFlag, revision)
         {
-            this.NextTemplate = nextTemplate;
+            CurrentStep = jobCurrentStep;
+            TotalNumberOfSteps = jobTotalNumberOfSteps;
+            StepType = jobStepType;
         }
 
-        public override string BuildPackage()
+        /// <summary>
+        /// Revision 4 Constructor
+        /// </summary>
+        /// <param name="jobId">The Job ID is specified by two/four ASCII characters, range 00-99/0000-9999 <para>*Depend on revision</para></param>
+        /// <param name="jobStatus">The Job batch status is specified by one ASCII character.</param>
+        /// <param name="jobBatchMode">The Job batch mode is the way to count the tightening in a Job only the OK or both OK and NOK.</param>
+        /// <param name="jobBatchSize">This parameter gives the total number of tightening in the Job.The Job batch size is four bytes long. Four ASCII characters, range 0000-9999.</param>
+        /// <param name="jobBatchCounter">This parameter gives the current value of the Job batch counter.The Job is completed when the Job batch counter is equal to the Job batch size. The Job batch counter is four bytes long. Four ASCII characters, range 0000-9999.</param>
+        /// <param name="timestamp">Time stamp for the Job info. The time stamp is 19 bytes long and is specified by 19 ASCII characters</param>
+        /// <param name="jobTighteningStatus">The Job tightening status is specified by two ASCII character.</param>
+        /// <param name="ackFlag">0=Ack needed, 1=No Ack needed</param>
+        /// <param name="revision">Revision number (default = 4)</param>
+        public MID_0035(int jobId, JobStatus jobStatus, JobBatchMode jobBatchMode,
+           int jobBatchSize, int jobBatchCounter, DateTime timestamp, JobTighteningStatus jobTighteningStatus, 
+           int? ackFlag = 1, int revision = 4)
+            : this(jobId, jobStatus, jobBatchMode, jobBatchSize, jobBatchCounter, timestamp, ackFlag, revision)
         {
-            this.RegisteredDataFields[(int)DataFields.JOB_ID].Value = this.JobID;
-            this.RegisteredDataFields[(int)DataFields.JOB_STATUS].Value = (int)this.JobStatus;
-            this.RegisteredDataFields[(int)DataFields.JOB_BATCH_MODE].Value = (int)this.JobBatchMode;
-            this.RegisteredDataFields[(int)DataFields.JOB_BATCH_SIZE].Value = this.JobBatchSize;
-            this.RegisteredDataFields[(int)DataFields.JOB_BATCH_COUNTER].Value = this.JobBatchCounter;
-            this.RegisteredDataFields[(int)DataFields.TIMESTAMP].Value = this.TimeStamp.ToString("yyyy-MM-dd:HH:mm:ss");
-            return base.BuildPackage();
+            TighteningStatus = jobTighteningStatus;
         }
+
+        internal MID_0035(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
 
         public override MID ProcessPackage(string package)
         {
-            if (base.IsCorrectType(package))
+            if (IsCorrectType(package))
             {
+                HeaderData = ProcessHeader(package);
+                UpdateFieldsIndexBasedOnRevision();
                 base.ProcessPackage(package);
-
-                this.JobID = base.RegisteredDataFields[(int)DataFields.JOB_ID].ToInt32();
-                this.JobStatus = (JobStatuses)base.RegisteredDataFields[(int)DataFields.JOB_STATUS].ToInt32();
-                this.JobBatchMode = (JobBatchModes)base.RegisteredDataFields[(int)DataFields.JOB_BATCH_MODE].ToInt32();
-                this.JobBatchSize = base.RegisteredDataFields[(int)DataFields.JOB_BATCH_SIZE].ToInt32();
-                this.JobBatchCounter = base.RegisteredDataFields[(int)DataFields.JOB_BATCH_COUNTER].ToInt32();
-                this.TimeStamp = base.RegisteredDataFields[(int)DataFields.TIMESTAMP].ToDateTime();
-
                 return this;
             }
 
-            return this.NextTemplate.ProcessPackage(package);
-        }
-        
-        private void constructMe(int jobId, JobStatuses jobStatus, JobBatchModes jobBatchMode, int jobBatchSize, int jobBatchCounter, DateTime timestamp)
-        {
-            this.JobID = jobId;
-            this.JobStatus = jobStatus;
-            this.JobBatchMode = jobBatchMode;
-            this.JobBatchSize = jobBatchSize;
-            this.JobBatchCounter = jobBatchCounter;
-            this.TimeStamp = timestamp;
+            return NextTemplate.ProcessPackage(package);
         }
 
-        protected override void RegisterDatafields()
+        /// <summary>
+        /// Validate all fields size
+        /// </summary>
+        public bool Validate(out IEnumerable<string> errors)
         {
-            this.RegisteredDataFields.AddRange(
-                new DataField[]
+            List<string> failed = new List<string>();
+
+            if (HeaderData.Revision == 1)
+            {
+                if (JobId < 0 || JobId > 99)
+                    failed.Add(new ArgumentOutOfRangeException(nameof(JobId), "Range: 00-99").Message);
+            }
+            else
+            {
+                if (JobId < 0 || JobId > 9999)
+                    failed.Add(new ArgumentOutOfRangeException(nameof(JobId), "Range: 0000-9999").Message);
+            }
+
+            if(BatchSize < 0 || BatchSize > 9999)
+                failed.Add(new ArgumentOutOfRangeException(nameof(BatchSize), "Range: 0000-9999").Message);
+
+            if (BatchCounter < 0 || BatchCounter > 9999)
+                failed.Add(new ArgumentOutOfRangeException(nameof(BatchCounter), "Range: 0000-9999").Message);
+
+            if(HeaderData.Revision == 3)
+            {
+                if (CurrentStep < 0 || CurrentStep > 999)
+                    failed.Add(new ArgumentOutOfRangeException(nameof(CurrentStep), "Range: 000-999").Message);
+
+                if (TotalNumberOfSteps < 0 || TotalNumberOfSteps > 999)
+                    failed.Add(new ArgumentOutOfRangeException(nameof(TotalNumberOfSteps), "Range: 000-999").Message);
+
+                if (StepType < 0 || StepType > 99)
+                    failed.Add(new ArgumentOutOfRangeException(nameof(StepType), "Range: 00-99").Message);
+            }
+
+            errors = failed;
+            return errors.Any();
+        }
+
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        {
+            return new Dictionary<int, List<DataField>>()
+            {
                 {
-                    new DataField((int)DataFields.JOB_ID, 20, 2),
-                    new DataField((int)DataFields.JOB_STATUS, 24, 1),
-                    new DataField((int)DataFields.JOB_BATCH_MODE, 27, 1),
-                    new DataField((int)DataFields.JOB_BATCH_SIZE, 30, 4),
-                    new DataField((int)DataFields.JOB_BATCH_COUNTER, 36, 4),
-                    new DataField((int)DataFields.TIMESTAMP, 42, 19)
-                });
+                    1, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.JOB_ID, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.JOB_STATUS, 24, 1),
+                                new DataField((int)DataFields.JOB_BATCH_MODE, 27, 1),
+                                new DataField((int)DataFields.JOB_BATCH_SIZE, 30, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.JOB_BATCH_COUNTER, 36, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.TIMESTAMP, 42, 19)
+                            }
+                },
+                {
+                    3, new  List<DataField>()
+                            {
+                                new DataField((int)DataFields.JOB_CURRENT_STEP, 65, 3, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.JOB_TOTAL_NUMBER_OF_STEPS, 70, 3, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.JOB_STEP_TYPE, 75, 2, '0', DataField.PaddingOrientations.LEFT_PADDED)
+                            }
+                },
+                {
+                    4, new  List<DataField>()
+                            {
+                                new DataField((int)DataFields.JOB_TIGHTENING_STATUS, 79, 2, ' ', DataField.PaddingOrientations.LEFT_PADDED)
+                            }
+                }
+            };
         }
 
-        public enum DataFields
+        private void UpdateFieldsIndexBasedOnRevision()
         {
-            JOB_ID,
-            JOB_STATUS,
-            JOB_BATCH_MODE,
-            JOB_BATCH_SIZE,
-            JOB_BATCH_COUNTER,
-            TIMESTAMP
-        }
+            if (HeaderData.Revision > 1 && RevisionsByFields[1][(int)DataFields.JOB_ID].Size == 2)
+            {
 
-        public enum JobStatuses
-        {
-            NOT_COMPLETED = 0,
-            OK = 1,
-            NOK = 2
+                RevisionsByFields[1][(int)DataFields.JOB_ID].Size = 4;
+                for (int i = (int)DataFields.JOB_STATUS; i < RevisionsByFields[1].Count; i++)
+                    RevisionsByFields[1][i].Index += 2;
+            }
         }
+    }
 
-        public enum JobBatchModes
-        {
-            ONLY_OK = 0,
-            BOTH_OK_AND_NOK = 1
-        }
+    public enum DataFields
+    {
+        //rev 1 and 2
+        JOB_ID,
+        JOB_STATUS,
+        JOB_BATCH_MODE,
+        JOB_BATCH_SIZE,
+        JOB_BATCH_COUNTER,
+        TIMESTAMP,
+        //rev 3
+        JOB_CURRENT_STEP,
+        JOB_TOTAL_NUMBER_OF_STEPS,
+        JOB_STEP_TYPE,
+        //rev 4
+        JOB_TIGHTENING_STATUS
     }
 }

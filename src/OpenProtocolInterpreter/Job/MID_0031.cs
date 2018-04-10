@@ -32,7 +32,8 @@ namespace OpenProtocolInterpreter.Job
         {
             _intConverter = new Int32Converter();
             _jobListConverter = new JobListConverter(_intConverter);
-            JobIds = new List<int>();
+            if (JobIds == null)
+                JobIds = new List<int>();
         }
 
         /// <summary>
@@ -47,21 +48,13 @@ namespace OpenProtocolInterpreter.Job
         ///     <para>Revision 2 - range: 0000-9999 each</para>
         /// </param>
         /// /// <param name="revision">Revision number (default = 2)</param>
-        public MID_0031(int totalJobs, IEnumerable<int> jobIds, int revision = LAST_REVISION) : base(MID, revision)
+        public MID_0031(int totalJobs, IEnumerable<int> jobIds, int revision = LAST_REVISION) : this(revision)
         {
-            _intConverter = new Int32Converter();
-            _jobListConverter = new JobListConverter(_intConverter);
-            JobIds = new List<int>();
-            SetRevision1or2(totalJobs, jobIds);
+            TotalJobs = totalJobs;
+            JobIds = jobIds.ToList();
         }
 
-        internal MID_0031(IMID nextTemplate) : base(MID, LAST_REVISION)
-        {
-            _intConverter = new Int32Converter();
-            _jobListConverter = new JobListConverter(_intConverter);
-            JobIds = new List<int>();
-            NextTemplate = nextTemplate;
-        }
+        internal MID_0031(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
 
         public override string BuildPackage()
         {
@@ -89,7 +82,7 @@ namespace OpenProtocolInterpreter.Job
                 if (HeaderData.Revision == 2)
                 {
                     eachJobField.Index = 24;
-                    RevisionsByFields[1][(int)DataFields.NUMBER_OF_JOBS].Size =  4;
+                    RevisionsByFields[1][(int)DataFields.NUMBER_OF_JOBS].Size = 4;
                 }
                 _jobListConverter.EachJobSize = eachJobField.Size;
                 eachJobField.Size = package.Length - eachJobField.Index;
@@ -117,32 +110,15 @@ namespace OpenProtocolInterpreter.Job
         }
 
         /// <summary>
-        /// Revision 1 or 2 setter
-        /// </summary>
-        /// <param name="totalJobs">
-        ///     Revision 1 range: 00-99 
-        ///     <para>Revision 2 range: 0000-9999</para>
-        /// </param>
-        /// <param name="jobIds">
-        ///     Revision 1 - range: 00-99 each
-        ///     <para>Revision 2 - range: 0000-9999 each</para>
-        /// </param>
-        public void SetRevision1or2(int totalJobs, IEnumerable<int> jobIds)
-        {
-            TotalJobs = totalJobs;
-            JobIds = jobIds.ToList();
-        }
-
-        /// <summary>
         /// Validate all fields size
         /// </summary>
         public bool Validate(out IEnumerable<string> errors)
         {
             List<string> failed = new List<string>();
 
-            if(HeaderData.Revision == 1)
+            if (HeaderData.Revision == 1)
             {
-                if(TotalJobs < 0 || TotalJobs > 99)
+                if (TotalJobs < 0 || TotalJobs > 99)
                     failed.Add(new ArgumentOutOfRangeException(nameof(TotalJobs), "Range: 00-99").Message);
                 for (int i = 0; i < JobIds.Count; i++)
                 {

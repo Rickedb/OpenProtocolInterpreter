@@ -14,12 +14,12 @@
         public const int MID = 34;
 
         /// <summary>
-        /// 
+        /// Revision 1 to 4 Constructor
         /// </summary>
         /// <param name="noAckFlag">0=Ack needed, 1=No Ack needed</param>
         /// <param name="revision">Revision number (default = 4)</param>
-        public MID_0034(int? noAckFlag, int revision = LAST_REVISION) : base(MID, revision, noAckFlag) { }
+        public MID_0034(int? noAckFlag = 1, int revision = LAST_REVISION) : base(MID, revision, noAckFlag) { }
 
-        internal MID_0034(IMID nextTemplate) : base(MID, LAST_REVISION) => NextTemplate = nextTemplate;
+        internal MID_0034(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
     }
 }

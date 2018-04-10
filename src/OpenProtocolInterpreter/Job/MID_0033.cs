@@ -19,11 +19,10 @@ namespace OpenProtocolInterpreter.Job
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;
         private IValueConverter<IEnumerable<Job>> _jobListConverter;
-
         private const int LAST_REVISION = 3;
         public const int MID = 33;
 
-        public int JobID
+        public int JobId
         {
             get
             {
@@ -97,16 +96,55 @@ namespace OpenProtocolInterpreter.Job
         {
             _intConverter = new Int32Converter();
             _boolConverter = new BoolConverter();
-            JobList = new List<Job>();
+            if (JobList == null)
+                JobList = new List<Job>();
         }
 
-        internal MID_0033(IMID nextTemplate) : this()
+        /// <summary>
+        /// Revisions 1,2 and 3 constructors
+        /// </summary>
+        /// <param name="jobId">The Job ID is specified by two ASCII characters. Range: 00-99</param>
+        /// <param name="jobName">25 ASCII characters.</param>
+        /// <param name="forcedOrder">0=free order, 1=forced order, 2=free and forced</param>
+        /// <param name="maxTimeForFirstTightening">Four ASCII digits, range 0000-9999, <para>00000=not used</para></param>
+        /// <param name="maxTimeToCompleteJob">Five ASCII digits, range 00000-99999, <para>00000=not used</para></param>
+        /// <param name="jobBatchMode">The Job batch mode is the way to count the tightening in a Job; only the OK or both OK and NOK. 
+        ///     <para>0=only the OK tightenings are counted </para>
+        ///     <para>1=both the OK and NOK tightenings are counted</para>
+        /// </param>
+        /// <param name="lockAtJobDone">False=No, True=Yes</param>
+        /// <param name="useLineControl">False=No, True=Yes</param>
+        /// <param name="repeatJob">False=No, True=Yes</param>
+        /// <param name="toolLoosening">Tool loosening. 
+        ///     <para>0=Enable</para>
+        ///     <para>1=Disable</para>
+        ///     <para>2=Enable only on NOK tightening</para>
+        /// </param>
+        /// <param name="reserved">Reserved for Job repair. 0=E, 1=G</param>
+        /// <param name="numberOfParameterSets">The number of parameter sets in the Job list, defined by two ASCII characters, range 00-99.</param>
+        /// <param name="jobList">A list of parameter sets (N=value from parameter “Number of parameter sets”, max 50).</param>
+        /// <param name="revision">Revision number (Default = 3)</param>
+        public MID_0033(int jobId, string jobName, ForcedOrder forcedOrder, int maxTimeForFirstTightening, 
+            int maxTimeToCompleteJob, JobBatchMode jobBatchMode, bool lockAtJobDone, bool useLineControl, 
+            bool repeatJob, ToolLoosening toolLoosening, Reserved reserved, int numberOfParameterSets, IEnumerable<Job> jobList, int revision = LAST_REVISION) 
+            : this(revision)
         {
-            _intConverter = new Int32Converter();
-            _boolConverter = new BoolConverter();
-            JobList = new List<Job>();
-            NextTemplate = nextTemplate;
+            JobId = jobId;
+            JobName = jobName;
+            ForcedOrder = forcedOrder;
+            MaxTimeForFirstTightening = maxTimeForFirstTightening;
+            MaxTimeToCompleteJob = maxTimeToCompleteJob;
+            JobBatchMode = jobBatchMode;
+            LockAtJobDone = lockAtJobDone;
+            UseLineControl = useLineControl;
+            RepeatJob = repeatJob;
+            ToolLoosening = toolLoosening;
+            Reserved = reserved;
+            NumberOfParameterSets = numberOfParameterSets;
+            JobList = jobList.ToList();
         }
+
+        internal MID_0033(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
 
         public override string BuildPackage()
         {
@@ -160,7 +198,7 @@ namespace OpenProtocolInterpreter.Job
 
         private void UpdateFieldsIndexBasedOnRevision()
         {
-            if (HeaderData.Revision > 1)
+            if (HeaderData.Revision > 1 && RevisionsByFields[1][(int)DataFields.JOB_ID].Size == 2)
             {
                 RevisionsByFields[1][(int)DataFields.JOB_ID].Size = 4;
                 for (int i = (int)DataFields.JOB_NAME; i < RevisionsByFields[1].Count; i++)
@@ -232,6 +270,39 @@ namespace OpenProtocolInterpreter.Job
                 _intConverter = new Int32Converter();
                 _boolConverter = new BoolConverter();
                 RegisterDataFields();
+            }
+
+            /// <summary>
+            /// Revision 1 and 2 Constructor
+            /// </summary>
+            /// <param name="channelId"></param>
+            /// <param name="typeId"></param>
+            /// <param name="autoValue"></param>
+            /// <param name="batchSize"></param>
+            public Job(int channelId, int typeId, bool autoValue, int batchSize) : this()
+            {
+                ChannelID = channelId;
+                TypeID = typeId;
+                AutoValue = autoValue;
+                BatchSize = batchSize;
+            }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="channelId"></param>
+            /// <param name="typeId"></param>
+            /// <param name="autoValue"></param>
+            /// <param name="batchSize"></param>
+            /// <param name="socket"></param>
+            /// <param name="jobStepName"></param>
+            /// <param name="jobStepType"></param>
+            public Job(int channelId, int typeId, bool autoValue, int batchSize, int socket, string jobStepName, int jobStepType) 
+                : this(channelId, typeId, autoValue, batchSize)
+            {
+                Socket = socket;
+                JobStepName = jobStepName;
+                JobStepType = jobStepType;
             }
 
             private void RegisterDataFields()

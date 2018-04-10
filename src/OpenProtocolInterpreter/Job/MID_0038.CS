@@ -38,17 +38,17 @@ namespace OpenProtocolInterpreter.Job
             _intConverter = new Int32Converter();
         }
 
-        public MID_0038(int jobId, int revision = LAST_REVISION) : base(MID, revision)
+        /// <summary>
+        /// Constructor for Revision 1 and 2
+        /// </summary>
+        /// <param name="jobId">The Job ID is specified by two/four ASCII characters, range 00-99/0000-9999 <para>*Depend on revision</para></param>
+        /// <param name="revision">Revision number (default = 2)</param>
+        public MID_0038(int jobId, int revision = LAST_REVISION) : this(revision)
         {
-            _intConverter = new Int32Converter();
-            SetRevision1or2(jobId);
+            JobId = jobId;
         }
 
-        internal MID_0038(IMID nextTemplate) : base(MID, LAST_REVISION)
-        {
-            _intConverter = new Int32Converter();
-            NextTemplate = nextTemplate;
-        }
+        internal MID_0038(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
 
         public override MID ProcessPackage(string package)
         {
@@ -74,15 +74,6 @@ namespace OpenProtocolInterpreter.Job
                 }
             };
         }
-
-        /// <summary>
-        /// Revision 1 or 2 setter
-        /// </summary>
-        /// <param name="jobId">
-        ///     Revision 1 range: 00-99 
-        ///     <para>Revision 2 range: 0000-9999</para>
-        /// </param>
-        public void SetRevision1or2(int jobId) => JobId = jobId;
 
         /// <summary>
         /// Validate all fields size

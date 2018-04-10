@@ -13,11 +13,9 @@
         private const int LAST_REVISION = 2;
         public const int MID = 30;
         
-        public MID_0030() : this(LAST_REVISION) { }
-
         public MID_0030(int revision = LAST_REVISION) : base(MID, LAST_REVISION) { }
 
-        internal MID_0030(IMID nextTemplate) : base(MID, LAST_REVISION)
+        internal MID_0030(IMID nextTemplate) : this(LAST_REVISION)
         {
             NextTemplate = nextTemplate;
         }

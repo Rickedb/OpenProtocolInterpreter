@@ -32,7 +32,7 @@ namespace OpenProtocolInterpreter.Job
             }
         }
 
-        public MID_0032(int revision = LAST_REVISION) : this(MID, revision)
+        public MID_0032(int revision = LAST_REVISION) : base(MID, revision)
         {
             _intConverter = new Int32Converter();
         }
@@ -45,17 +45,9 @@ namespace OpenProtocolInterpreter.Job
         ///     <para>Revision 2 range: 0000-9999</para>
         /// </param>
         /// <param name="revision">Revision number (default = 3)</param>
-        public MID_0032(int jobId, int revision = LAST_REVISION) : base(MID, revision)
-        {
-            _intConverter = new Int32Converter();
-            SetRevision1or2(jobId);
-        }
+        public MID_0032(int jobId, int revision = 2) : this(revision) => JobId = jobId;
 
-        internal MID_0032(IMID nextTemplate) : base(MID, LAST_REVISION)
-        {
-            _intConverter = new Int32Converter();
-            NextTemplate = nextTemplate;
-        }
+        internal MID_0032(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
 
         public override MID ProcessPackage(string package)
         {
@@ -63,12 +55,12 @@ namespace OpenProtocolInterpreter.Job
             {
                 HeaderData = ProcessHeader(package);
                 HandleRevision();
-                return base.ProcessPackage(package);
+                ProcessDataFields(package);
+                return this;
             }
 
             return NextTemplate.ProcessPackage(package);
         }
-
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
@@ -82,15 +74,6 @@ namespace OpenProtocolInterpreter.Job
                 }
             };
         }
-
-        /// <summary>
-        /// Revision 1 or 2 setter
-        /// </summary>
-        /// <param name="jobId">
-        ///     Revision 1 range: 00-99 
-        ///     <para>Revision 2 range: 0000-9999</para>
-        /// </param>
-        public void SetRevision1or2(int jobId) => JobId = jobId;
 
         /// <summary>
         /// Validate all fields size

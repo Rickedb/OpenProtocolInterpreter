@@ -80,8 +80,12 @@
     <Compile Include="DataField.cs" />
     <Compile Include="Enums\ForcedOrder.cs" />
     <Compile Include="Enums\JobBatchMode.cs" />
+    <Compile Include="Enums\JobStatus.cs" />
+    <Compile Include="Enums\JobTighteningStatus.cs" />
     <Compile Include="Enums\Reserved.cs" />
     <Compile Include="Enums\RotationDirection.cs" />
+    <Compile Include="Enums\SystemSubType.cs" />
+    <Compile Include="Enums\SystemType.cs" />
     <Compile Include="Enums\ToolLoosening.cs" />
     <Compile Include="_internals\Converters\BoolConverter.cs" />
     <Compile Include="_internals\Converters\DateConverter.cs" />

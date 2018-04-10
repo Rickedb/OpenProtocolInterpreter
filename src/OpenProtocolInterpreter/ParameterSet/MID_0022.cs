@@ -19,11 +19,18 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public bool RelayStatus { get; set; }
 
-        public MID_0022(int? ackFlag) : this(ackFlag, false) { }
-
-        public MID_0022(int? ackFlag, bool relayStatus) : base(MID, LAST_REVISION, ackFlag)
+        public MID_0022(int? ackFlag) : base(MID, LAST_REVISION, ackFlag)
         {
             _boolConverter = new BoolConverter();
+        }
+
+        /// <summary>
+        /// Revision 1 Constructor
+        /// </summary>
+        /// <param name="relayStatus">Relay Status</param>
+        /// <param name="ackFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
+        public MID_0022(bool relayStatus, int? ackFlag = 1) : this(ackFlag)
+        {
             RelayStatus = relayStatus;
         }
 
