@@ -1,4 +1,7 @@
-﻿namespace OpenProtocolInterpreter.Tool
+﻿using OpenProtocolInterpreter.Converters;
+using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.Tool
 {
     /// <summary>
     /// MID: Tool Pairing handling
@@ -14,48 +17,34 @@
     /// </summary>
     public class MID_0047 : MID, ITool
     {
-        private const int length = 24;
+        private readonly IValueConverter<int> _intConverter;
+        private const int LAST_REVISION = 1;
         public const int MID = 47;
-        private const int revision = 1;
-
-        public PairingHandlingTypes PairingHandlingType { get; set; }
-
-        public MID_0047() : base(length, MID, revision) {  }
-
-        internal MID_0047(IMID nextTemplate) : base(length, MID, revision)
+        
+        public PairingHandlingType PairingHandlingType
         {
-            this.NextTemplate = nextTemplate;
+            get => (PairingHandlingType)RevisionsByFields[1][(int)DataFields.PAIRING_HANDLING_TYPE].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.PAIRING_HANDLING_TYPE].SetValue(_intConverter.Convert, (int)value);
         }
 
-        public override string BuildPackage()
+        public MID_0047() : base(MID, LAST_REVISION)
         {
-            this.RegisteredDataFields[(int)DataFields.PAIRING_HANDLING_TYPE].Value = (int)this.PairingHandlingType;
-            return base.BuildPackage();
+            _intConverter = new Int32Converter();
         }
 
-        public override MID ProcessPackage(string package)
+        internal MID_0047(IMID nextTemplate) : base(MID, LAST_REVISION) => NextTemplate = nextTemplate;
+
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
-            if (base.IsCorrectType(package))
+            return new Dictionary<int, List<DataField>>()
             {
-                base.ProcessPackage(package);
-                this.PairingHandlingType = (PairingHandlingTypes)this.RegisteredDataFields[(int)DataFields.PAIRING_HANDLING_TYPE].ToInt32();
-                return this;
-            }
-
-            return this.NextTemplate.ProcessPackage(package);
-        }
-
-        protected override void RegisterDatafields()
-        {
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.PAIRING_HANDLING_TYPE, 20, 2));
-
-        }
-
-        public enum PairingHandlingTypes
-        {
-            START_PAIRING = 01,
-            PAIRING_ABORT_OR_DISCONNECT = 02,
-            FETCH_LATEST_PAIRING_STATUS = 03
+                {
+                    1, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.PAIRING_HANDLING_TYPE, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED)
+                            }
+                }
+            };
         }
 
         public enum DataFields

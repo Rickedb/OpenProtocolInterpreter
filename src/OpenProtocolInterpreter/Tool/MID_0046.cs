@@ -1,4 +1,7 @@
-﻿namespace OpenProtocolInterpreter.Tool
+﻿using OpenProtocolInterpreter.Converters;
+using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.Tool
 {
     /// <summary>
     /// MID: Set primary tool request
@@ -12,51 +15,43 @@
     /// </summary>
     public class MID_0046 : MID, ITool
     {
-        private const int length = 24;
+        private readonly IValueConverter<int> _intConverter;
+        private const int LAST_REVISION = 1;
         public const int MID = 46;
-        private const int revision = 1;
 
-        public PrimaryTools PrimaryTool { get; set; }
-
-        public MID_0046() : base(length, MID, revision) {  }
-
-        internal MID_0046(IMID nextTemplate) : base(length, MID, revision)
+        public PrimaryTool PrimaryTool
         {
-            this.NextTemplate = nextTemplate;
+            get => (PrimaryTool)RevisionsByFields[1][(int)DataFields.PRIMARY_TOOL].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.PRIMARY_TOOL].SetValue(_intConverter.Convert, (int)value);
         }
 
-        public override string BuildPackage()
+        public MID_0046() : base(MID, LAST_REVISION)
         {
-            this.RegisteredDataFields[(int)DataFields.PRIMARY_TOOL].Value = (int)this.PrimaryTool;
-            return base.BuildPackage();
+            _intConverter = new Int32Converter();
         }
 
-        public override MID ProcessPackage(string package)
+        /// <summary>
+        /// Revision 1 Constructor
+        /// </summary>
+        /// <param name="primaryTool">Primary tool. The primary tool is two byte-long and specified by two ASCII digits.</param>
+        public MID_0046(PrimaryTool primaryTool) : this()
         {
-            if (base.IsCorrectType(package))
+            PrimaryTool = primaryTool;
+        }
+
+        internal MID_0046(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
+
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        {
+            return new Dictionary<int, List<DataField>>()
             {
-                base.ProcessPackage(package);
-                this.PrimaryTool = (PrimaryTools)this.RegisteredDataFields[(int)DataFields.PRIMARY_TOOL].ToInt32();
-                return this;
-            }
-
-            return this.NextTemplate.ProcessPackage(package);
-        }
-
-        protected override void RegisterDatafields() 
-        {
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.PRIMARY_TOOL, 20, 2));
-
-        }
-
-        public enum PrimaryTools
-        {
-            /// <summary>
-            /// Invalid for IRC-Controller
-            /// </summary>
-            CABLE = 01,
-            IRC_B = 02,
-            IRC_W = 03
+                {
+                    1, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.PRIMARY_TOOL, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED)
+                            }
+                }
+            };
         }
 
         public enum DataFields

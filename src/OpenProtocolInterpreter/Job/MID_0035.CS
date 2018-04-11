@@ -34,22 +34,22 @@ namespace OpenProtocolInterpreter.Job
                 RevisionsByFields[1][(int)DataFields.JOB_ID].SetValue(_intConverter.Convert, value);
             }
         }
-        public JobStatus Status
+        public JobStatus JobStatus
         {
             get => (JobStatus)RevisionsByFields[1][(int)DataFields.JOB_STATUS].GetValue(_intConverter.Convert);
             set => RevisionsByFields[1][(int)DataFields.JOB_STATUS].SetValue(_intConverter.Convert, (int)value);
         }
-        public JobBatchMode BatchMode
+        public JobBatchMode JobBatchMode
         {
             get => (JobBatchMode)RevisionsByFields[1][(int)DataFields.JOB_BATCH_MODE].GetValue(_intConverter.Convert);
             set => RevisionsByFields[1][(int)DataFields.JOB_BATCH_MODE].SetValue(_intConverter.Convert, (int)value);
         }
-        public int BatchSize
+        public int JobBatchSize
         {
             get => RevisionsByFields[1][(int)DataFields.JOB_BATCH_SIZE].GetValue(_intConverter.Convert);
             set => RevisionsByFields[1][(int)DataFields.JOB_BATCH_SIZE].SetValue(_intConverter.Convert, value);
         }
-        public int BatchCounter
+        public int JobBatchCounter
         {
             get => RevisionsByFields[1][(int)DataFields.JOB_BATCH_COUNTER].GetValue(_intConverter.Convert);
             set => RevisionsByFields[1][(int)DataFields.JOB_BATCH_COUNTER].SetValue(_intConverter.Convert, value);
@@ -60,23 +60,23 @@ namespace OpenProtocolInterpreter.Job
             set => RevisionsByFields[1][(int)DataFields.TIMESTAMP].SetValue(_datetimeConverter.Convert, value);
         }
         //Rev 3
-        public int CurrentStep 
+        public int JobCurrentStep 
         {
             get => RevisionsByFields[3][(int)DataFields.JOB_CURRENT_STEP].GetValue(_intConverter.Convert);
             set => RevisionsByFields[3][(int)DataFields.JOB_CURRENT_STEP].SetValue(_intConverter.Convert, value);
         }
-        public int TotalNumberOfSteps
+        public int JobTotalNumberOfSteps
         {
             get => RevisionsByFields[3][(int)DataFields.JOB_TOTAL_NUMBER_OF_STEPS].GetValue(_intConverter.Convert);
             set => RevisionsByFields[3][(int)DataFields.JOB_TOTAL_NUMBER_OF_STEPS].SetValue(_intConverter.Convert, value);
         }
-        public int StepType
+        public int JobStepType
         {
             get => RevisionsByFields[3][(int)DataFields.JOB_STEP_TYPE].GetValue(_intConverter.Convert);
             set => RevisionsByFields[3][(int)DataFields.JOB_STEP_TYPE].SetValue(_intConverter.Convert, value);
         }
         //Rev 4
-        public JobTighteningStatus TighteningStatus
+        public JobTighteningStatus JobTighteningStatus
         {
             get => (JobTighteningStatus)RevisionsByFields[4][(int)DataFields.JOB_TIGHTENING_STATUS].GetValue(_intConverter.Convert);
             set => RevisionsByFields[4][(int)DataFields.JOB_TIGHTENING_STATUS].SetValue(_intConverter.Convert, (int)value);
@@ -99,10 +99,10 @@ namespace OpenProtocolInterpreter.Job
             int jobBatchSize, int jobBatchCounter, DateTime timestamp, int? ackFlag = 1, int revision = 2) : this(ackFlag, revision)
         {
             JobId = jobId;
-            Status = jobStatus;
-            BatchMode = jobBatchMode;
-            BatchSize = jobBatchSize;
-            BatchCounter = jobBatchCounter;
+            JobStatus = jobStatus;
+            JobBatchMode = jobBatchMode;
+            JobBatchSize = jobBatchSize;
+            JobBatchCounter = jobBatchCounter;
             TimeStamp = timestamp;
         }
 
@@ -129,9 +129,9 @@ namespace OpenProtocolInterpreter.Job
            int jobStepType, int? ackFlag = 1, int revision = 3) 
             : this(jobId, jobStatus, jobBatchMode, jobBatchSize, jobBatchCounter, timestamp, ackFlag, revision)
         {
-            CurrentStep = jobCurrentStep;
-            TotalNumberOfSteps = jobTotalNumberOfSteps;
-            StepType = jobStepType;
+            JobCurrentStep = jobCurrentStep;
+            JobTotalNumberOfSteps = jobTotalNumberOfSteps;
+            JobStepType = jobStepType;
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace OpenProtocolInterpreter.Job
            int? ackFlag = 1, int revision = 4)
             : this(jobId, jobStatus, jobBatchMode, jobBatchSize, jobBatchCounter, timestamp, ackFlag, revision)
         {
-            TighteningStatus = jobTighteningStatus;
+            JobTighteningStatus = jobTighteningStatus;
         }
 
         internal MID_0035(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
@@ -187,22 +187,22 @@ namespace OpenProtocolInterpreter.Job
                     failed.Add(new ArgumentOutOfRangeException(nameof(JobId), "Range: 0000-9999").Message);
             }
 
-            if(BatchSize < 0 || BatchSize > 9999)
-                failed.Add(new ArgumentOutOfRangeException(nameof(BatchSize), "Range: 0000-9999").Message);
+            if(JobBatchSize < 0 || JobBatchSize > 9999)
+                failed.Add(new ArgumentOutOfRangeException(nameof(JobBatchSize), "Range: 0000-9999").Message);
 
-            if (BatchCounter < 0 || BatchCounter > 9999)
-                failed.Add(new ArgumentOutOfRangeException(nameof(BatchCounter), "Range: 0000-9999").Message);
+            if (JobBatchCounter < 0 || JobBatchCounter > 9999)
+                failed.Add(new ArgumentOutOfRangeException(nameof(JobBatchCounter), "Range: 0000-9999").Message);
 
             if(HeaderData.Revision == 3)
             {
-                if (CurrentStep < 0 || CurrentStep > 999)
-                    failed.Add(new ArgumentOutOfRangeException(nameof(CurrentStep), "Range: 000-999").Message);
+                if (JobCurrentStep < 0 || JobCurrentStep > 999)
+                    failed.Add(new ArgumentOutOfRangeException(nameof(JobCurrentStep), "Range: 000-999").Message);
 
-                if (TotalNumberOfSteps < 0 || TotalNumberOfSteps > 999)
-                    failed.Add(new ArgumentOutOfRangeException(nameof(TotalNumberOfSteps), "Range: 000-999").Message);
+                if (JobTotalNumberOfSteps < 0 || JobTotalNumberOfSteps > 999)
+                    failed.Add(new ArgumentOutOfRangeException(nameof(JobTotalNumberOfSteps), "Range: 000-999").Message);
 
-                if (StepType < 0 || StepType > 99)
-                    failed.Add(new ArgumentOutOfRangeException(nameof(StepType), "Range: 00-99").Message);
+                if (JobStepType < 0 || JobStepType > 99)
+                    failed.Add(new ArgumentOutOfRangeException(nameof(JobStepType), "Range: 00-99").Message);
             }
 
             errors = failed;

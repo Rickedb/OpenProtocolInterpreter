@@ -9,28 +9,14 @@
     /// </summary>
     public class MID_0043 : MID, ITool
     {
-        private const int length = 20;
+        private const int LAST_REVISION = 1;
         public const int MID = 43;
-        private const int revision = 1;
 
-        public MID_0043() : base(length, MID, revision)
+        public MID_0043() : base(MID, LAST_REVISION)
         {
 
         }
 
-        internal MID_0043(IMID nextTemplate) : base(length, MID, revision)
-        {
-            this.NextTemplate = nextTemplate;
-        }
-
-        public override MID ProcessPackage(string package)
-        {
-            if (base.IsCorrectType(package))
-                return base.ProcessPackage(package);
-
-            return this.NextTemplate.ProcessPackage(package);
-        }
-
-        protected override void RegisterDatafields() { }
+        internal MID_0043(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
     }
 }

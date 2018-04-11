@@ -1,4 +1,6 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Converters;
+using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Tool
 {
@@ -11,94 +13,53 @@ namespace OpenProtocolInterpreter.Tool
     /// </summary>
     public class MID_0048 : MID, ITool
     {
-        private const int length = 45;
+        private readonly IValueConverter<int> _intConverter;
+        private readonly IValueConverter<DateTime> _dateConverter;
+        private const int LAST_REVISION = 1;
         public const int MID = 48;
-        private const int revision = 1;
 
-        public PairingStatuses PairingStatus { get; set; }
-        public DateTime TimeStamp { get; set; }
-
-        public MID_0048() : base(length, MID, revision) { }
-
-        internal MID_0048(IMID nextTemplate) : base(length, MID, revision)
+        public PairingStatus PairingStatus
         {
-            this.NextTemplate = nextTemplate;
+            get => (PairingStatus)RevisionsByFields[1][(int)DataFields.PAIRING_STATUS].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.PAIRING_STATUS].SetValue(_intConverter.Convert, (int)value);
+        }
+        public DateTime TimeStamp
+        {
+            get => RevisionsByFields[1][(int)DataFields.TIMESTAMP].GetValue(_dateConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.TIMESTAMP].SetValue(_dateConverter.Convert, value);
         }
 
-        public override string BuildPackage()
+        public MID_0048() : base(MID, LAST_REVISION)
         {
-            this.RegisteredDataFields[(int)DataFields.PAIRING_STATUS].Value = (int)this.PairingStatus;
-            this.RegisteredDataFields[(int)DataFields.TIMESTAMP].Value = this.TimeStamp.ToString("yyyy-MM-dd:HH:mm:ss");
-
-            return base.BuildPackage();
+            _intConverter = new Int32Converter();
+            _dateConverter = new DateConverter();
         }
 
-        public override MID ProcessPackage(string package)
+        /// <summary>
+        /// Revision 1 Constructor
+        /// </summary>
+        /// <param name="pairingStatus">Status of the tool pairing, a two byte-long and specified by two ASCII digits.</param>
+        /// <param name="timeStamp">Time stamp for each status change or time for fetch. It is 19 bytes long and is specified by 19 ASCII characters</param>
+        public MID_0048(PairingStatus pairingStatus, DateTime timeStamp) : this()
         {
-            if (base.IsCorrectType(package))
+            PairingStatus = pairingStatus;
+            TimeStamp = timeStamp;
+        }
+
+        internal MID_0048(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
+
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        {
+            return new Dictionary<int, List<DataField>>()
             {
-                base.ProcessPackage(package);
-
-                this.PairingStatus = (PairingStatuses)this.RegisteredDataFields[(int)DataFields.PAIRING_STATUS].ToInt32();
-                this.TimeStamp = this.RegisteredDataFields[(int)DataFields.TIMESTAMP].ToDateTime();
-
-                return this;
-            }
-
-            return this.NextTemplate.ProcessPackage(package);
-        }
-
-        protected override void RegisterDatafields()
-        {
-            this.RegisteredDataFields.AddRange(new DataField[] {
-                new DataField((int)DataFields.PAIRING_STATUS, 20, 2),
-                new DataField((int)DataFields.TIMESTAMP, 24, 19),
-            });
-
-        }
-
-        public enum PairingStatuses
-        {
-            /// <summary>
-            /// Tool not mounted yet
-            /// </summary>
-            UNDEFINED,
-            /// <summary>
-            /// Pairing allowed and started
-            /// </summary>
-            ACCEPTED,
-            /// <summary>
-            /// Normal pairing sequence as OK
-            /// </summary>
-            INQUIRY,
-            /// <summary>
-            /// Normal pairing sequence as OK
-            /// </summary>
-            SENDPIN,
-            /// <summary>
-            /// Normal pairing sequence as OK
-            /// </summary>
-            PINOK,
-            /// <summary>
-            /// Normal pairing sequence as OK
-            /// </summary>
-            READY,
-            /// <summary>
-            /// Ongoing Pairing Aborted
-            /// </summary>
-            ABORTED,
-            /// <summary>
-            /// Pairing not allowed. Program control.
-            /// </summary>
-            DENIED,
-            /// <summary>
-            /// Pairing attempt failed
-            /// </summary>
-            FAILED,
-            /// <summary>
-            /// Pairing never done before or disconnected
-            /// </summary>
-            UNREADY
+                {
+                    1, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.PAIRING_STATUS, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.TIMESTAMP, 24, 19)
+                            }
+                }
+            };
         }
 
         public enum DataFields

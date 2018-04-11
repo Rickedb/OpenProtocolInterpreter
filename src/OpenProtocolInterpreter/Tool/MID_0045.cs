@@ -1,4 +1,6 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Converters;
+using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Tool
 {
@@ -11,60 +13,53 @@ namespace OpenProtocolInterpreter.Tool
     /// </summary>
     public class MID_0045 : MID, ITool
     {
-        private const int length = 31;
+        private readonly IValueConverter<decimal> _decimalConverter;
+        private readonly IValueConverter<int> _intConverter;
+        private const int LAST_REVISION = 1;
         public const int MID = 45;
-        private const int revision = 1;
 
-        public CalibrationValueUnits CalibrationValueUnit { get; set; }
-        public double CalibrationValue { get; set; }
-
-        public MID_0045() : base(length, MID, revision) { }
-
-        internal MID_0045(IMID nextTemplate) : base(length, MID, revision)
+        public CalibrationUnit CalibrationValueUnit
         {
-            this.NextTemplate = nextTemplate;
+            get => (CalibrationUnit)RevisionsByFields[1][(int)DataFields.CALIBRATION_VALUE_UNIT].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.CALIBRATION_VALUE_UNIT].SetValue(_intConverter.Convert, (int)value);
+        }
+        public decimal CalibrationValue
+        {
+            get => RevisionsByFields[1][(int)DataFields.CALIBRATION_VALUE].GetValue(_decimalConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.CALIBRATION_VALUE].SetValue(_decimalConverter.Convert, value);
         }
 
-        public override string BuildPackage()
+        public MID_0045() : base(MID, LAST_REVISION)
         {
-            this.RegisteredDataFields[(int)DataFields.CALIBRATION_VALUE_UNIT].Value = (int)this.CalibrationValueUnit;
-            this.RegisteredDataFields[(int)DataFields.CALIBRATION_VALUE].Value = Math.Round(this.CalibrationValue * 100, 0);
-
-            return base.BuildPackage();
+            _decimalConverter = new DecimalTrucatedConverter(2);
+            _intConverter = new Int32Converter();
         }
 
-        public override MID ProcessPackage(string package)
+        /// <summary>
+        /// Revision 1 Constructor
+        /// </summary>
+        /// <param name="calibrationValueUnit">The unit in which the calibration value is sent. The calibration value unit is one byte long and specified by one ASCII digit.</param>
+        /// <param name="calibrationValue">The calibration value is multiplied by 100 and sent as an integer (2 decimals truncated). The calibration value is six bytes long and is specified by six ASCII digits.</param>
+        public MID_0045(CalibrationUnit calibrationValueUnit, decimal calibrationValue) : this()
         {
-            if (base.IsCorrectType(package))
+            CalibrationValueUnit = calibrationValueUnit;
+            CalibrationValue = calibrationValue;
+        }
+
+        internal MID_0045(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
+
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        {
+            return new Dictionary<int, List<DataField>>()
             {
-                base.ProcessPackage(package);
-
-                this.CalibrationValueUnit = (CalibrationValueUnits)this.RegisteredDataFields[(int)DataFields.CALIBRATION_VALUE_UNIT].ToInt32();
-                this.CalibrationValue = this.RegisteredDataFields[(int)DataFields.CALIBRATION_VALUE].ToInt32() / 100;
-
-                return this;
-            }
-                
-            return this.NextTemplate.ProcessPackage(package);
-        }
-
-        protected override void RegisterDatafields()
-        {
-            this.RegisteredDataFields.AddRange(new DataField[]
-            {
-                new DataField((int)DataFields.CALIBRATION_VALUE_UNIT, 20, 1),
-                new DataField((int)DataFields.CALIBRATION_VALUE, 23, 6)
-            });
-
-        }
-
-        public enum CalibrationValueUnits
-        {
-            NM = 1,
-            LBF_FT = 2,
-            LBF_LN = 3,
-            KPM = 4,
-            NCM = 5
+                {
+                    1, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.CALIBRATION_VALUE_UNIT, 20, 1),
+                                new DataField((int)DataFields.CALIBRATION_VALUE, 23, 6, '0', DataField.PaddingOrientations.LEFT_PADDED)
+                            }
+                }
+            };
         }
 
         public enum DataFields
