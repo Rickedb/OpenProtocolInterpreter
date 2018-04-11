@@ -145,7 +145,7 @@ namespace OpenProtocolInterpreter.Communication
         /// <param name="controllerSoftwareVersion">The controller software version. 19 ASCII characters.</param>
         /// <param name="toolSoftwareVersion">The tool software version. 19 ASCII characters.</param>
         /// <param name="revision">Revision number (default = 3)</param>
-        public MID_0002(int cellId, int channelId, string controllerName, string supplierCode, string openProtocolVersion, string controllerSoftwareVersion, string toolSoftwareVersion, int revision = 3) 
+        public MID_0002(int cellId, int channelId, string controllerName, string supplierCode, string openProtocolVersion, string controllerSoftwareVersion, string toolSoftwareVersion, int revision = 3)
             : this(cellId, channelId, controllerName, supplierCode, revision)
         {
             OpenProtocolVersion = openProtocolVersion;
@@ -166,9 +166,9 @@ namespace OpenProtocolInterpreter.Communication
         /// <param name="rbuType">The RBU Type. 24 ASCII characters.</param>
         /// <param name="controllerSerialNumber">The Controller Serial Number. 10 ASCII characters.</param>
         /// <param name="revision">Revision number (default = 4)</param>
-        public MID_0002(int cellId, int channelId, string controllerName, string supplierCode, string openProtocolVersion, string controllerSoftwareVersion, string toolSoftwareVersion, string rbuType, 
-            string controllerSerialNumber, int revision = 4) 
-            : this(cellId, channelId, controllerName, supplierCode, openProtocolVersion, controllerSoftwareVersion, 
+        public MID_0002(int cellId, int channelId, string controllerName, string supplierCode, string openProtocolVersion, string controllerSoftwareVersion, string toolSoftwareVersion, string rbuType,
+            string controllerSerialNumber, int revision = 4)
+            : this(cellId, channelId, controllerName, supplierCode, openProtocolVersion, controllerSoftwareVersion,
                   toolSoftwareVersion, revision)
         {
             RBUType = rbuType;
@@ -191,7 +191,7 @@ namespace OpenProtocolInterpreter.Communication
         /// <param name="systemSubType">The system subtype. 3 ASCII digits</param>
         /// <param name="revision">Revision number (default = 5)</param>
         public MID_0002(int cellId, int channelId, string controllerName, string supplierCode, string openProtocolVersion, string controllerSoftwareVersion, string toolSoftwareVersion, string rbuType,
-            string controllerSerialNumber, SystemType systemType, SystemSubType systemSubType, int revision = 5) 
+            string controllerSerialNumber, SystemType systemType, SystemSubType systemSubType, int revision = 5)
             : this(cellId, channelId, controllerName, supplierCode, openProtocolVersion, controllerSoftwareVersion,
                   toolSoftwareVersion, rbuType, controllerSerialNumber, revision)
         {
@@ -240,22 +240,30 @@ namespace OpenProtocolInterpreter.Communication
                 failed.Add(new ArgumentOutOfRangeException(nameof(ChannelId), "Range: 00-20").Message);
             if (ControllerName.Length > 25)
                 failed.Add(new ArgumentOutOfRangeException(nameof(ControllerName), "Max of 20 characters").Message);
-            //Rev 2
-            if (SupplierCode.Length > 3)
-                failed.Add(new ArgumentOutOfRangeException(nameof(SupplierCode), "Max of 3 characters").Message);
-            //Rev 3
-            if (OpenProtocolVersion.Length > 19)
-                failed.Add(new ArgumentOutOfRangeException(nameof(OpenProtocolVersion), "Max of 19 characters").Message);
-            if (ControllerSoftwareVersion.Length > 19)
-                failed.Add(new ArgumentOutOfRangeException(nameof(ControllerSoftwareVersion), "Max of 19 characters").Message);
-            if (ToolSoftwareVersion.Length > 19)
-                failed.Add(new ArgumentOutOfRangeException(nameof(ToolSoftwareVersion), "Max of 19 characters").Message);
-            //Rev 4
-            if (RBUType.Length > 24)
-                failed.Add(new ArgumentOutOfRangeException(nameof(RBUType), "Max of 24 characters").Message);
-            if (ControllerSerialNumber.Length > 10)
-                failed.Add(new ArgumentOutOfRangeException(nameof(ControllerSerialNumber), "Max of 10 characters").Message);
 
+            if (HeaderData.Revision > 1) //Rev 2
+            {
+                if (SupplierCode.Length > 3)
+                    failed.Add(new ArgumentOutOfRangeException(nameof(SupplierCode), "Max of 3 characters").Message);
+
+                if (HeaderData.Revision > 2) //Rev 3
+                {
+                    if (OpenProtocolVersion.Length > 19)
+                        failed.Add(new ArgumentOutOfRangeException(nameof(OpenProtocolVersion), "Max of 19 characters").Message);
+                    if (ControllerSoftwareVersion.Length > 19)
+                        failed.Add(new ArgumentOutOfRangeException(nameof(ControllerSoftwareVersion), "Max of 19 characters").Message);
+                    if (ToolSoftwareVersion.Length > 19)
+                        failed.Add(new ArgumentOutOfRangeException(nameof(ToolSoftwareVersion), "Max of 19 characters").Message);
+
+                    if (HeaderData.Revision == 4) //Rev 4
+                    {
+                        if (RBUType.Length > 24)
+                            failed.Add(new ArgumentOutOfRangeException(nameof(RBUType), "Max of 24 characters").Message);
+                        if (ControllerSerialNumber.Length > 10)
+                            failed.Add(new ArgumentOutOfRangeException(nameof(ControllerSerialNumber), "Max of 10 characters").Message);
+                    }
+                }
+            }
             errors = failed;
             return errors.Any();
         }
