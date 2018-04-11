@@ -19,28 +19,14 @@
     /// </summary>
     public class MID_0051 : MID, IVIN
     {
-        private const int length = 20;
+        private const int LAST_REVISION = 2;
         public const int MID = 51;
-        private const int revision = 1;
 
-        public MID_0051() : base(length, MID, revision)
+        public MID_0051(int? ackFlag = 1, int revision = LAST_REVISION) : base(MID, revision, ackFlag)
         {
 
         }
 
-        internal MID_0051(IMID nextTemplate) : base(length, MID, revision)
-        {
-            this.NextTemplate = nextTemplate;
-        }
-
-        public override MID ProcessPackage(string package)
-        {
-            if (base.IsCorrectType(package))
-                return base.ProcessPackage(package);
-
-            return this.NextTemplate.ProcessPackage(package);
-        }
-
-        protected override void RegisterDatafields() { }
+        internal MID_0051(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.VIN
+﻿using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.VIN
 {
     /// <summary>
     /// MID: Vehicle ID Number download request
@@ -10,40 +12,69 @@
     /// </summary>
     public class MID_0050 : MID, IVIN
     {
-        private const int length = 45;
+        private const int LAST_REVISION = 1;
         public const int MID = 50;
-        private const int revision = 1;
 
-        public string VINNumber{ get; set; }
-
-        public MID_0050() : base(length, MID, revision) { }
-
-        internal MID_0050(IMID nextTemplate) : base(length, MID, revision)
+        public string VinNumber
         {
-            this.NextTemplate = nextTemplate;
+            get => RevisionsByFields[1][(int)DataFields.VIN_NUMBER].Value;
+            set => RevisionsByFields[1][(int)DataFields.VIN_NUMBER].SetValue(value);
         }
+
+        public MID_0050() : base(MID, LAST_REVISION) { }
+
+        /// <summary>
+        /// Revision 1 Constructor
+        /// </summary>
+        /// <param name="vinNumber">Dynamic with max 25 ASCII characters.</param>
+        public MID_0050(string vinNumber) : this()
+        {
+            VinNumber = vinNumber;
+        }
+
+        internal MID_0050(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
 
         public override string BuildPackage()
         {
-            return base.BuildHeader() + VINNumber.PadRight(25,' ');
+            RevisionsByFields[1][(int)DataFields.VIN_NUMBER].Size = VinNumber.Length + 20;
+            return base.BuildPackage();
         }
 
         public override MID ProcessPackage(string package)
         {
-            if (base.IsCorrectType(package))
+            if (IsCorrectType(package))
             {
-                this.HeaderData = base.ProcessHeader(package);
-                var field = this.RegisteredDataFields[(int)DataFields.VIN_NUMBER];
-                this.VINNumber = package.Substring(field.Index, field.Size);
+                HeaderData = ProcessHeader(package);
+                RevisionsByFields[1][(int)DataFields.VIN_NUMBER].Size = HeaderData.Length - 20;
+                ProcessDataFields(package);
                 return this;
             }
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
-        protected override void RegisterDatafields()
+        /// <summary>
+        /// Validate all fields size
+        /// </summary>
+        public bool Validate(out string error)
         {
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.VIN_NUMBER, 20, 25));
+            error = string.Empty;
+            if (VinNumber.Length > 25)
+                error = new System.ArgumentOutOfRangeException(nameof(VinNumber), "Max of 25 characters").Message;
+            return !string.IsNullOrEmpty(error);
+        }
+
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        {
+            return new Dictionary<int, List<DataField>>()
+            {
+                {
+                    1, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.VIN_NUMBER, 20, 0, false), //dynamic
+                            }
+                }
+            };
         }
 
         public enum DataFields

@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.VIN
+﻿using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.VIN
 {
     /// <summary>
     /// MID: Vehicle ID Number
@@ -47,14 +49,33 @@
             return this.NextTemplate.ProcessPackage(package);
         }
 
-        protected override void RegisterDatafields()
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.VIN_NUMBER, 20, 25));
+            return new Dictionary<int, List<DataField>>()
+            {
+                {
+                    1, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.VIN_NUMBER, 20, 25, ' ', DataField.PaddingOrientations.RIGHT_PADDED, false)
+                            }
+                },
+                {
+                    2, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.IDENTIFIER_RESULT_PART2, 47, 25, ' '),
+                                new DataField((int)DataFields.IDENTIFIER_RESULT_PART3, 74, 25, ' '),
+                                new DataField((int)DataFields.IDENTIFIER_RESULT_PART4, 99, 25, ' ')
+                            }
+                }
+            };
         }
 
         public enum DataFields
         {
-            VIN_NUMBER
+            VIN_NUMBER,
+            IDENTIFIER_RESULT_PART2,
+            IDENTIFIER_RESULT_PART3,
+            IDENTIFIER_RESULT_PART4,
         }
     }
 }
