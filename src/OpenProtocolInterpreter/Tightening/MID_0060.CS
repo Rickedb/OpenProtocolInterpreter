@@ -1,5 +1,4 @@
-﻿using System;
-namespace OpenProtocolInterpreter.Tightening
+﻿namespace OpenProtocolInterpreter.Tightening
 {
     /// <summary>
     /// MID: Last tightening result data subscribe
@@ -14,28 +13,14 @@ namespace OpenProtocolInterpreter.Tightening
     /// </summary>
     public class MID_0060 : MID, ITightening
     {
-        private const int length = 20;
+        private const int LAST_REVISION = 7;
         public const int MID = 60;
-        private const int revision = 1;
 
-        public MID_0060() : base(length, MID, revision)
+        public MID_0060(int? ackFlag = 1, int revision = LAST_REVISION) : base(MID, revision)
         {
 
         }
 
-        internal MID_0060(IMID nextTemplate) : base(length, MID, revision)
-        {
-            this.NextTemplate = nextTemplate;
-        }
-
-        public override MID ProcessPackage(string package)
-        {
-            if(base.IsCorrectType(package))
-                return base.ProcessPackage(package);
-
-            throw new NotImplementedException("MID not implemented or doesn't exists");
-        }
-
-        protected override void RegisterDatafields() { }
+        internal MID_0060(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
     }
 }
