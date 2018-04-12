@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OpenProtocolInterpreter.VIN
+﻿namespace OpenProtocolInterpreter.VIN
 {
     /// <summary>
     /// MID: Vehicle ID Number unsubscribe
@@ -15,28 +9,14 @@ namespace OpenProtocolInterpreter.VIN
     /// </summary>
     public class MID_0054 : MID, IVIN
     {
-        private const int length = 20;
+        private const int LAST_REVISION = 1;
         public const int MID = 54;
-        private const int revision = 1;
 
-        public MID_0054() : base(length, MID, revision)
+        public MID_0054(int revision = LAST_REVISION) : base(MID, revision)
         {
 
         }
 
-        internal MID_0054(IMID nextTemplate) : base(length, MID, revision)
-        {
-            this.NextTemplate = nextTemplate;
-        }
-
-        public override MID ProcessPackage(string package)
-        {
-            if (base.IsCorrectType(package))
-                return base.ProcessPackage(package);
-
-            return this.NextTemplate.ProcessPackage(package);
-        }
-
-        protected override void RegisterDatafields() { }
+        internal MID_0054(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
     }
 }
