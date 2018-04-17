@@ -115,9 +115,9 @@ namespace OpenProtocolInterpreter
 
         public class Header
         {
-            public int Length { get; set; }
-            public int Mid { get; set; }
-            public int? Revision { get; set; }
+            public int Length { get; internal set; }
+            public int Mid { get; internal set; }
+            public int? Revision { get; internal set; }
             public int? NoAckFlag { get; set; }
             public int? SpindleID { get; set; }
             public int? StationID { get; set; }
