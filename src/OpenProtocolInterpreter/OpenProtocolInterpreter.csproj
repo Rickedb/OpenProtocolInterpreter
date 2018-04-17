@@ -78,6 +78,7 @@
     <Compile Include="Communication\MID_0008.cs" />
     <Compile Include="Communication\MID_0009.cs" />
     <Compile Include="DataField.cs" />
+    <Compile Include="Enums\BatchStatus.cs" />
     <Compile Include="Enums\CalibrationUnit.cs" />
     <Compile Include="Enums\Error.cs" />
     <Compile Include="Enums\ForcedOrder.cs" />
@@ -90,9 +91,11 @@
     <Compile Include="Enums\PrimaryTool.cs" />
     <Compile Include="Enums\Reserved.cs" />
     <Compile Include="Enums\RotationDirection.cs" />
+    <Compile Include="Enums\Strategy.cs" />
     <Compile Include="Enums\SystemSubType.cs" />
     <Compile Include="Enums\SystemType.cs" />
     <Compile Include="Enums\TighteningDirection.cs" />
+    <Compile Include="Enums\TighteningValueStatus.cs" />
     <Compile Include="Enums\ToolLoosening.cs" />
     <Compile Include="Enums\ToolType.cs" />
     <Compile Include="_internals\Converters\BoolConverter.cs" />
