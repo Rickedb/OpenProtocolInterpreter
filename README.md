@@ -2,6 +2,11 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/op72gr1k1vi04o35/branch/master?svg=true)](https://ci.appveyor.com/project/Rickedb/openprotocolintepreter/branch/master) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/Rickedb/OpenProtocolIntepreter/master/LICENSE)
 > OpenProtocol communication utility
 
+## Work in progress ([AllRevisions](https://github.com/Rickedb/OpenProtocolInterpreter/tree/AllRevisions)):
+
+* Make lib understand all MID's revisions
+* Refactor the way to process the package
+
 ## What is Open Protocol at all?
 
 Open Protocol, as the name says, it's a protocol to communicate with Atlas Copco Tightening Controllers or whatever that implement that protocol.
