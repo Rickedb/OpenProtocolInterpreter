@@ -149,6 +149,183 @@ namespace OpenProtocolInterpreter.Tightening
             get => RevisionsByFields[2][(int)DataFields.STRATEGY_OPTIONS].Value;
             set => RevisionsByFields[2][(int)DataFields.STRATEGY_OPTIONS].SetValue(value);
         }
+        public TighteningValueStatus RundownAngleStatus
+        {
+            get => (TighteningValueStatus)RevisionsByFields[2][(int)DataFields.RUNDOWN_ANGLE_STATUS].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[2][(int)DataFields.RUNDOWN_ANGLE_STATUS].SetValue(_intConverter.Convert, (int)value);
+        }
+        public TighteningValueStatus CurrentMonitoringStatus
+        {
+            get => (TighteningValueStatus)RevisionsByFields[2][(int)DataFields.CURRENT_MONITORING_STATUS].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[2][(int)DataFields.CURRENT_MONITORING_STATUS].SetValue(_intConverter.Convert, (int)value);
+        }
+        public TighteningValueStatus SelftapStatus
+        {
+            get => (TighteningValueStatus)RevisionsByFields[2][(int)DataFields.SELFTAP_STATUS].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[2][(int)DataFields.SELFTAP_STATUS].SetValue(_intConverter.Convert, (int)value);
+        }
+        public TighteningValueStatus PrevailTorqueMonitoringStatus
+        {
+            get => (TighteningValueStatus)RevisionsByFields[2][(int)DataFields.PREVAIL_TORQUE_MONITORING_STATUS].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[2][(int)DataFields.PREVAIL_TORQUE_MONITORING_STATUS].SetValue(_intConverter.Convert, (int)value);
+        }
+        public TighteningValueStatus PrevailTorqueCompensateStatus
+        {
+            get => (TighteningValueStatus)RevisionsByFields[2][(int)DataFields.PREVAIL_TORQUE_COMPENSATE_STATUS].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[2][(int)DataFields.PREVAIL_TORQUE_COMPENSATE_STATUS].SetValue(_intConverter.Convert, (int)value);
+        }
+        /// <summary>
+        /// Still can't use because it has to work with BYTE ARRAY!!!
+        /// </summary>
+        public string TighteningErrorStatus
+        {
+            get => RevisionsByFields[2][(int)DataFields.TIGHTENING_ERROR_STATUS].Value;
+            set => RevisionsByFields[2][(int)DataFields.TIGHTENING_ERROR_STATUS].SetValue(value);
+        }
+        public int RundownAngleMin
+        {
+            get => RevisionsByFields[2][(int)DataFields.RUNDOWN_ANGLE_MIN].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[2][(int)DataFields.RUNDOWN_ANGLE_MIN].SetValue(_intConverter.Convert, value);
+        }
+        public int RundownAngleMax
+        {
+            get => RevisionsByFields[2][(int)DataFields.RUNDOWN_ANGLE_MAX].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[2][(int)DataFields.RUNDOWN_ANGLE_MAX].SetValue(_intConverter.Convert, value);
+        }
+        public int RundownAngle
+        {
+            get => RevisionsByFields[2][(int)DataFields.RUNDOWN_ANGLE].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[2][(int)DataFields.RUNDOWN_ANGLE].SetValue(_intConverter.Convert, value);
+        }
+        public int CurrentMonitoringMin
+        {
+            get => RevisionsByFields[2][(int)DataFields.CURRENT_MONITORING_MIN].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[2][(int)DataFields.CURRENT_MONITORING_MIN].SetValue(_intConverter.Convert, value);
+        }
+        public int CurrentMonitoringMax
+        {
+            get => RevisionsByFields[2][(int)DataFields.CURRENT_MONITORING_MAX].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[2][(int)DataFields.CURRENT_MONITORING_MAX].SetValue(_intConverter.Convert, value);
+        }
+        public decimal SelftapMin
+        {
+            get => RevisionsByFields[2][(int)DataFields.SELFTAP_MIN].GetValue(_decimalConverter.Convert);
+            set => RevisionsByFields[2][(int)DataFields.SELFTAP_MIN].SetValue(_decimalConverter.Convert, value);
+        }
+        public decimal SelftapTorque
+        {
+            get => RevisionsByFields[2][(int)DataFields.SELFTAP_TORQUE].GetValue(_decimalConverter.Convert);
+            set => RevisionsByFields[2][(int)DataFields.SELFTAP_TORQUE].SetValue(_decimalConverter.Convert, value);
+        }
+        public decimal PrevailTorqueMonitoringMin
+        {
+            get => RevisionsByFields[2][(int)DataFields.PREVAIL_TORQUE_MONITORING_MIN].GetValue(_decimalConverter.Convert);
+            set => RevisionsByFields[2][(int)DataFields.PREVAIL_TORQUE_MONITORING_MIN].SetValue(_decimalConverter.Convert, value);
+        }
+        public decimal PrevailTorqueMonitoringMax
+        {
+            get => RevisionsByFields[2][(int)DataFields.PREVAIL_TORQUE_MONITORING_MAX].GetValue(_decimalConverter.Convert);
+            set => RevisionsByFields[2][(int)DataFields.PREVAIL_TORQUE_MONITORING_MAX].SetValue(_decimalConverter.Convert, value);
+        }
+        public decimal PrevailTorque
+        {
+            get => RevisionsByFields[2][(int)DataFields.PREVAIL_TORQUE].GetValue(_decimalConverter.Convert);
+            set => RevisionsByFields[2][(int)DataFields.PREVAIL_TORQUE].SetValue(_decimalConverter.Convert, value);
+        }
+        public int JobSequenceNumber
+        {
+            get => RevisionsByFields[2][(int)DataFields.JOB_SEQUENCE_NUMBER].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[2][(int)DataFields.JOB_SEQUENCE_NUMBER].SetValue(_intConverter.Convert, value);
+        }
+        public int SyncTighteningId
+        {
+            get => RevisionsByFields[2][(int)DataFields.SYNC_TIGHTENING_ID].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[2][(int)DataFields.SYNC_TIGHTENING_ID].SetValue(_intConverter.Convert, value);
+        }
+        public string ToolSerialNumber
+        {
+            get => RevisionsByFields[2][(int)DataFields.TOOL_SERIAL_NUMBER].Value;
+            set => RevisionsByFields[2][(int)DataFields.TOOL_SERIAL_NUMBER].SetValue(value);
+        }
+        //Rev 3 Addition
+        public string ParameterSetName
+        {
+            get => RevisionsByFields[3][(int)DataFields.PARAMETER_SET_NAME].Value;
+            set => RevisionsByFields[3][(int)DataFields.PARAMETER_SET_NAME].SetValue(value);
+        }
+        public TorqueValuesUnit TorqueValuesUnit
+        {
+            get => (TorqueValuesUnit)RevisionsByFields[3][(int)DataFields.TORQUE_VALUES_UNIT].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[3][(int)DataFields.TORQUE_VALUES_UNIT].SetValue(_intConverter.Convert, (int)value);
+        }
+        public ResultType ResultType
+        {
+            get => (ResultType)RevisionsByFields[3][(int)DataFields.RESULT_TYPE].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[3][(int)DataFields.RESULT_TYPE].SetValue(_intConverter.Convert, (int)value);
+        }
+        //Rev 4 addition
+        public string IdentifierResultPart2
+        {
+            get => RevisionsByFields[4][(int)DataFields.IDENTIFIER_RESULT_PART_2].Value;
+            set => RevisionsByFields[4][(int)DataFields.IDENTIFIER_RESULT_PART_2].SetValue(value);
+        }
+        public string IdentifierResultPart3
+        {
+            get => RevisionsByFields[4][(int)DataFields.IDENTIFIER_RESULT_PART_3].Value;
+            set => RevisionsByFields[4][(int)DataFields.IDENTIFIER_RESULT_PART_3].SetValue(value);
+        }
+        public string IdentifierResultPart4
+        {
+            get => RevisionsByFields[4][(int)DataFields.IDENTIFIER_RESULT_PART_4].Value;
+            set => RevisionsByFields[4][(int)DataFields.IDENTIFIER_RESULT_PART_4].SetValue(value);
+        }
+        //Rev 5 addition
+        public string CustomerTighteningErrorCode
+        {
+            get => RevisionsByFields[5][(int)DataFields.CUSTOMER_TIGHTENING_ERROR_CODE].Value;
+            set => RevisionsByFields[5][(int)DataFields.CUSTOMER_TIGHTENING_ERROR_CODE].SetValue(value);
+        }
+        //Rev 6 Addition
+        public decimal PrevailTorqueCompensateValue
+        {
+            get => RevisionsByFields[6][(int)DataFields.PREVAIL_TORQUE_COMPENSATE_VALUE].GetValue(_decimalConverter.Convert);
+            set => RevisionsByFields[6][(int)DataFields.PREVAIL_TORQUE_COMPENSATE_VALUE].SetValue(_decimalConverter.Convert, value);
+        }
+        /// <summary>
+        /// Still can't use because it has to work with BYTE ARRAY!!!
+        /// </summary>
+        public string TighteningErrorStatus2
+        {
+            get => RevisionsByFields[6][(int)DataFields.TIGHTENING_ERROR_STATUS_2].Value;
+            set => RevisionsByFields[6][(int)DataFields.TIGHTENING_ERROR_STATUS_2].SetValue(value);
+        }
+        //Rev 7 addition
+        public decimal CompensatedAngle
+        {
+            get => RevisionsByFields[7][(int)DataFields.COMPENSATED_ANGLE].GetValue(_decimalConverter.Convert);
+            set => RevisionsByFields[7][(int)DataFields.COMPENSATED_ANGLE].SetValue(_decimalConverter.Convert, value);
+        }
+        public decimal FinalAngleDecimal
+        {
+            get => RevisionsByFields[7][(int)DataFields.FINAL_ANGLE_DECIMAL].GetValue(_decimalConverter.Convert);
+            set => RevisionsByFields[7][(int)DataFields.FINAL_ANGLE_DECIMAL].SetValue(_decimalConverter.Convert, value);
+        }
+        //Rev 998 addition
+        public int NumberOfStagesInMultistage
+        {
+            get => RevisionsByFields[998][(int)DataFields.NUMBER_OF_STAGES_IN_MULTISTAGE].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[998][(int)DataFields.NUMBER_OF_STAGES_IN_MULTISTAGE].SetValue(_intConverter.Convert, value);
+        }
+        public int NumberOfStageResults
+        {
+            get => RevisionsByFields[998][(int)DataFields.NUMBER_OF_STAGE_RESULTS].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[998][(int)DataFields.NUMBER_OF_STAGE_RESULTS].SetValue(_intConverter.Convert, value);
+        }
+        public string StageResult
+        {
+            get => RevisionsByFields[998][(int)DataFields.STAGE_RESULT].Value;
+            set => RevisionsByFields[998][(int)DataFields.STAGE_RESULT].SetValue(value);
+        }
 
         public MID_0061(int revision = LAST_REVISION) : base(MID, revision)
         {

@@ -34,7 +34,9 @@ namespace OpenProtocolInterpreter
 
         public virtual T GetValue<T>(Func<string, T> converter)
         {
-            if (IsValueNotCached<T>())
+            if (string.IsNullOrWhiteSpace(Value))
+                CachedValue = default(T);
+            else if (IsValueNotCached<T>())
                 CachedValue = converter(Value);
 
             return (T)CachedValue;

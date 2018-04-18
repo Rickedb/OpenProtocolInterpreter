@@ -90,6 +90,7 @@
     <Compile Include="Enums\PairingStatus.cs" />
     <Compile Include="Enums\PrimaryTool.cs" />
     <Compile Include="Enums\Reserved.cs" />
+    <Compile Include="Enums\ResultType.cs" />
     <Compile Include="Enums\RotationDirection.cs" />
     <Compile Include="Enums\Strategy.cs" />
     <Compile Include="Enums\SystemSubType.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="Enums\TighteningValueStatus.cs" />
     <Compile Include="Enums\ToolLoosening.cs" />
     <Compile Include="Enums\ToolType.cs" />
+    <Compile Include="Enums\TorqueValuesUnit.cs" />
     <Compile Include="_internals\Converters\BoolConverter.cs" />
     <Compile Include="_internals\Converters\DateConverter.cs" />
     <Compile Include="_internals\Converters\DecimalTrucatedConverter.cs" />
