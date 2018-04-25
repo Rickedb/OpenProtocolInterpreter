@@ -8,7 +8,7 @@
     /// Message sent by: Controller
     /// Answer: None
     /// </summary>
-    public class MID_0301 : MID, IStatistic
+    public class MID_0301 : Mid, IStatistic
     {
         private const int length = 107;
         public const int MID = 301;
@@ -31,53 +31,53 @@
 
         public MID_0301() : base(length, MID, revision) { }
 
-        internal MID_0301(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0301(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
         public override string BuildPackage()
         {
-            base.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].Value = this.ParameterSetID.ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].Size);
-            base.RegisteredDataFields[(int)DataFields.HISTOGRAM_TYPE].Value = ((int)this.HistogramType).ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.HISTOGRAM_TYPE].Size);
-            base.RegisteredDataFields[(int)DataFields.SIGMA_HISTOGRAM].Value = this.SigmaHistogram * 100;
-            base.RegisteredDataFields[(int)DataFields.MEAN_VALUE_HISTOGRAM].Value = this.MeanValueHistogram * 100;
-            base.RegisteredDataFields[(int)DataFields.CLASS_RANGE].Value = this.ClassRange * 100;
-            base.RegisteredDataFields[(int)DataFields.BAR_1].Value = this.Bar1;
-            base.RegisteredDataFields[(int)DataFields.BAR_2].Value = this.Bar2;
-            base.RegisteredDataFields[(int)DataFields.BAR_3].Value = this.Bar3;
-            base.RegisteredDataFields[(int)DataFields.BAR_4].Value = this.Bar4;
-            base.RegisteredDataFields[(int)DataFields.BAR_5].Value = this.Bar5;
-            base.RegisteredDataFields[(int)DataFields.BAR_6].Value = this.Bar6;
-            base.RegisteredDataFields[(int)DataFields.BAR_7].Value = this.Bar7;
-            base.RegisteredDataFields[(int)DataFields.BAR_8].Value = this.Bar8;
-            base.RegisteredDataFields[(int)DataFields.BAR_9].Value = this.Bar9;
+            base.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].Value = ParameterSetID.ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].Size);
+            base.RegisteredDataFields[(int)DataFields.HISTOGRAM_TYPE].Value = ((int)HistogramType).ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.HISTOGRAM_TYPE].Size);
+            base.RegisteredDataFields[(int)DataFields.SIGMA_HISTOGRAM].Value = SigmaHistogram * 100;
+            base.RegisteredDataFields[(int)DataFields.MEAN_VALUE_HISTOGRAM].Value = MeanValueHistogram * 100;
+            base.RegisteredDataFields[(int)DataFields.CLASS_RANGE].Value = ClassRange * 100;
+            base.RegisteredDataFields[(int)DataFields.BAR_1].Value = Bar1;
+            base.RegisteredDataFields[(int)DataFields.BAR_2].Value = Bar2;
+            base.RegisteredDataFields[(int)DataFields.BAR_3].Value = Bar3;
+            base.RegisteredDataFields[(int)DataFields.BAR_4].Value = Bar4;
+            base.RegisteredDataFields[(int)DataFields.BAR_5].Value = Bar5;
+            base.RegisteredDataFields[(int)DataFields.BAR_6].Value = Bar6;
+            base.RegisteredDataFields[(int)DataFields.BAR_7].Value = Bar7;
+            base.RegisteredDataFields[(int)DataFields.BAR_8].Value = Bar8;
+            base.RegisteredDataFields[(int)DataFields.BAR_9].Value = Bar9;
             return base.BuildPackage();
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
             {
                 base.ProcessPackage(package);
-                this.ParameterSetID = base.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].ToInt32();
-                this.HistogramType = (HistogramTypes)base.RegisteredDataFields[(int)DataFields.HISTOGRAM_TYPE].ToInt32();
-                this.SigmaHistogram = base.RegisteredDataFields[(int)DataFields.SIGMA_HISTOGRAM].ToInt32() / 100m;
-                this.MeanValueHistogram = base.RegisteredDataFields[(int)DataFields.MEAN_VALUE_HISTOGRAM].ToInt32() / 100m;
-                this.ClassRange = base.RegisteredDataFields[(int)DataFields.CLASS_RANGE].ToInt32() / 100m;
-                this.Bar1 = base.RegisteredDataFields[(int)DataFields.BAR_1].ToInt32();
-                this.Bar2 = base.RegisteredDataFields[(int)DataFields.BAR_2].ToInt32();
-                this.Bar3 = base.RegisteredDataFields[(int)DataFields.BAR_3].ToInt32();
-                this.Bar4 = base.RegisteredDataFields[(int)DataFields.BAR_4].ToInt32();
-                this.Bar5 = base.RegisteredDataFields[(int)DataFields.BAR_5].ToInt32();
-                this.Bar6 = base.RegisteredDataFields[(int)DataFields.BAR_6].ToInt32();
-                this.Bar7 = base.RegisteredDataFields[(int)DataFields.BAR_7].ToInt32();
-                this.Bar8 = base.RegisteredDataFields[(int)DataFields.BAR_8].ToInt32();
-                this.Bar9 = base.RegisteredDataFields[(int)DataFields.BAR_9].ToInt32();
+                ParameterSetID = base.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].ToInt32();
+                HistogramType = (HistogramTypes)base.RegisteredDataFields[(int)DataFields.HISTOGRAM_TYPE].ToInt32();
+                SigmaHistogram = base.RegisteredDataFields[(int)DataFields.SIGMA_HISTOGRAM].ToInt32() / 100m;
+                MeanValueHistogram = base.RegisteredDataFields[(int)DataFields.MEAN_VALUE_HISTOGRAM].ToInt32() / 100m;
+                ClassRange = base.RegisteredDataFields[(int)DataFields.CLASS_RANGE].ToInt32() / 100m;
+                Bar1 = base.RegisteredDataFields[(int)DataFields.BAR_1].ToInt32();
+                Bar2 = base.RegisteredDataFields[(int)DataFields.BAR_2].ToInt32();
+                Bar3 = base.RegisteredDataFields[(int)DataFields.BAR_3].ToInt32();
+                Bar4 = base.RegisteredDataFields[(int)DataFields.BAR_4].ToInt32();
+                Bar5 = base.RegisteredDataFields[(int)DataFields.BAR_5].ToInt32();
+                Bar6 = base.RegisteredDataFields[(int)DataFields.BAR_6].ToInt32();
+                Bar7 = base.RegisteredDataFields[(int)DataFields.BAR_7].ToInt32();
+                Bar8 = base.RegisteredDataFields[(int)DataFields.BAR_8].ToInt32();
+                Bar9 = base.RegisteredDataFields[(int)DataFields.BAR_9].ToInt32();
                 return this;
             }
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields()

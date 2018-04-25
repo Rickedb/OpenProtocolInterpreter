@@ -8,7 +8,7 @@
     /// Answer: MID 0005 Command accepted or 
     ///         MID 0004 Command error, Invalid data, or Controller is not a sync master/station controller
     /// </summary>
-    public class MID_0240 : MID 
+    public class MID_0240 : Mid 
     {
         private const int length = 220;
         public const int MID = 240;
@@ -18,30 +18,30 @@
 
         public MID_0240() : base(length, MID, revision) { }
 
-        internal MID_0240(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0240(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
         public override string BuildPackage()
         {
-            this.HeaderData.Length = 20 + this.UserData.Length;
+            HeaderData.Length = 20 + UserData.Length;
 
-            string package = this.BuildHeader();
-            package += this.UserData;
+            string package = BuildHeader();
+            package += UserData;
 
             return package;
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
             {
-                this.UserData = package.Substring(20);
+                UserData = package.Substring(20);
                 return this;
             }
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields()

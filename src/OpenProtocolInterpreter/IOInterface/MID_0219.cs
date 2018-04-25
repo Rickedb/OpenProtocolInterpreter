@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.IOInterface
     /// Answer: MID 0005 Command accepted or
     ///         MID 0004 Command error, The relay function subscription does not exist
     /// </summary>
-    public class MID_0219 : MID, IIOInterface
+    public class MID_0219 : Mid, IIOInterface
     {
         public const int MID = 219;
         private const int length = 23;
@@ -22,28 +22,28 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public MID_0219() : base(length, MID, revision) { }
 
-        internal MID_0219(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0219(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
         public override string BuildPackage()
         {
-            return base.BuildHeader() + ((int)this.RelayNumber).ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.RELAY_NUMBER].Size, '0');
+            return base.BuildHeader() + ((int)RelayNumber).ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.RELAY_NUMBER].Size, '0');
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
             {
                 base.ProcessHeader(package);
                 var dataField = base.RegisteredDataFields[(int)DataFields.RELAY_NUMBER];
-                this.RelayNumber = (Relay.RelayNumbers)Convert.ToInt32(package.Substring(dataField.Index, dataField.Size));
+                RelayNumber = (Relay.RelayNumbers)Convert.ToInt32(package.Substring(dataField.Index, dataField.Size));
                 return this;
             }
 
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields()

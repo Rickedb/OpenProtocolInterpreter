@@ -14,7 +14,7 @@ namespace OpenProtocolInterpreter.Job
     /// Message sent by: Controller
     /// Answer: MID 0036
     /// </summary>
-    public class MID_0035 : MID, IJob
+    public class MID_0035 : Mid, IJob
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<DateTime> _datetimeConverter;
@@ -154,9 +154,9 @@ namespace OpenProtocolInterpreter.Job
             JobTighteningStatus = jobTighteningStatus;
         }
 
-        internal MID_0035(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
+        internal MID_0035(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (IsCorrectType(package))
             {

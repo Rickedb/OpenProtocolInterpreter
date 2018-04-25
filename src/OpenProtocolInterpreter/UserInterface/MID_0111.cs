@@ -19,7 +19,7 @@ namespace OpenProtocolInterpreter.UserInterface
     /// Answer: MID 0005 Command accepted or 
     ///         MID 0004 Command error, User text could not be displayed
     /// </summary>
-    public class MID_0111 : MID, IUserInterface
+    public class MID_0111 : Mid, IUserInterface
     {
         private const int length = 137;
         public const int MID = 111;
@@ -37,41 +37,41 @@ namespace OpenProtocolInterpreter.UserInterface
 
         }
 
-        internal MID_0111(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0111(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
         public override string BuildPackage()
         {
 
-            base.RegisteredDataFields[(int)DataFields.TEXT_DURATION].Value = this.TextDuration;
-            base.RegisteredDataFields[(int)DataFields.REMOVAL_CONDITION].Value = (int)this.RemovalCondition;
-            base.RegisteredDataFields[(int)DataFields.LINE_1_HEADER].Value = this.Line1.PadLeft(25, ' ');
-            base.RegisteredDataFields[(int)DataFields.LINE_2].Value = this.Line2.PadLeft(25, ' ');
-            base.RegisteredDataFields[(int)DataFields.LINE_3].Value = this.Line3.PadLeft(25, ' ');
-            base.RegisteredDataFields[(int)DataFields.LINE_4].Value = this.Line4.PadLeft(25, ' ');
+            base.RegisteredDataFields[(int)DataFields.TEXT_DURATION].Value = TextDuration;
+            base.RegisteredDataFields[(int)DataFields.REMOVAL_CONDITION].Value = (int)RemovalCondition;
+            base.RegisteredDataFields[(int)DataFields.LINE_1_HEADER].Value = Line1.PadLeft(25, ' ');
+            base.RegisteredDataFields[(int)DataFields.LINE_2].Value = Line2.PadLeft(25, ' ');
+            base.RegisteredDataFields[(int)DataFields.LINE_3].Value = Line3.PadLeft(25, ' ');
+            base.RegisteredDataFields[(int)DataFields.LINE_4].Value = Line4.PadLeft(25, ' ');
 
             return base.BuildPackage();
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
             {
                 base.ProcessPackage(package);
 
-                this.TextDuration = base.RegisteredDataFields[(int)DataFields.TEXT_DURATION].ToInt32();
-                this.RemovalCondition = (RemovalConditions)base.RegisteredDataFields[(int)DataFields.REMOVAL_CONDITION].ToInt32();
-                this.Line1 = base.RegisteredDataFields[(int)DataFields.LINE_1_HEADER].Value.ToString();
-                this.Line2 = base.RegisteredDataFields[(int)DataFields.LINE_2].Value.ToString();
-                this.Line3 = base.RegisteredDataFields[(int)DataFields.LINE_3].Value.ToString();
-                this.Line4 = base.RegisteredDataFields[(int)DataFields.LINE_4].Value.ToString();
+                TextDuration = base.RegisteredDataFields[(int)DataFields.TEXT_DURATION].ToInt32();
+                RemovalCondition = (RemovalConditions)base.RegisteredDataFields[(int)DataFields.REMOVAL_CONDITION].ToInt32();
+                Line1 = base.RegisteredDataFields[(int)DataFields.LINE_1_HEADER].Value.ToString();
+                Line2 = base.RegisteredDataFields[(int)DataFields.LINE_2].Value.ToString();
+                Line3 = base.RegisteredDataFields[(int)DataFields.LINE_3].Value.ToString();
+                Line4 = base.RegisteredDataFields[(int)DataFields.LINE_4].Value.ToString();
 
                 return this;
             }
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields()

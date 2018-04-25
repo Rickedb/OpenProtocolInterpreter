@@ -4,7 +4,7 @@ namespace OpenProtocolInterpreter
 {
     public class DataType
     {
-        private static List<DataType> dataTypesDefinition;
+        private static List<DataType> _dataTypesDefinition;
         private int _valueSent;
 
         public string ValueSentInTelegram
@@ -28,17 +28,16 @@ namespace OpenProtocolInterpreter
         {
             get
             {
-                if (dataTypesDefinition == null)
+                if (_dataTypesDefinition == null)
                     BuildUpDataTypes();
 
-                return dataTypesDefinition;
+                return _dataTypesDefinition;
             }
         }
 
         private static void BuildUpDataTypes()
         {
-            dataTypesDefinition = new List<DataType>();
-            dataTypesDefinition.AddRange(new DataType[]
+            _dataTypesDefinition = new List<DataType>(new DataType[]
             {
                 new DataType(1, "UI", 0),
                 new DataType(2, "I", 0),

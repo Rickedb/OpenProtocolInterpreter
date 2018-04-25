@@ -11,7 +11,7 @@
     /// Message sent by: Integrator
     /// Answer: MID 0004 Command error, Motor Tuning subscription already exists or MID revision not supported
     /// </summary>
-    public class MID_0500 : MID, IMotorTuning
+    public class MID_0500 : Mid, IMotorTuning
     {
         private const int length = 20;
         public const int MID = 500;
@@ -19,17 +19,17 @@
 
         public MID_0500() : base(length, MID, revision) { }
 
-        internal MID_0500(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0500(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
                 return (MID_0500)base.ProcessPackage(package);
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields() { }

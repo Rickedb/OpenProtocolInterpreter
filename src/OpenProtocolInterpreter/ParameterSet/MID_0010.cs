@@ -7,14 +7,14 @@
     /// Message sent by: Integrator
     /// Answer: MID 0011 Parameter set ID upload reply
     /// </summary>
-    public class MID_0010 : MID, IParameterSet
+    public class MID_0010 : Mid, IParameterSet
     {
         private const int LAST_REVISION = 3;
         public const int MID = 10;
 
         public MID_0010(int revision = LAST_REVISION) : base(MID, revision) { }
 
-        internal MID_0010(IMID nextTemplate) : this()
+        internal MID_0010(IMid nextTemplate) : this()
         {
             NextTemplate = nextTemplate;
         }

@@ -11,7 +11,7 @@
     /// Answer: MID 0005 Command accepted or 
     ///         MID 0004 Command error, Automatic/Manual mode subscribe already exists
     /// </summary>
-    public class MID_0400 : MID, IAutomaticManualMode
+    public class MID_0400 : Mid, IAutomaticManualMode
     {
         private const int length = 20;
         public const int MID = 400;
@@ -19,17 +19,17 @@
 
         public MID_0400() : base(length, MID, revision) { }
 
-        internal MID_0400(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0400(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
                 return (MID_0400)base.ProcessPackage(package);
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields() { }

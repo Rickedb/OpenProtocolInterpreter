@@ -5,21 +5,21 @@ namespace OpenProtocolInterpreter.MultiSpindle
 {
     internal class MultiSpindleMessages : IMessagesTemplate
     {
-        private readonly IMID templates;
+        private readonly IMid templates;
 
         public MultiSpindleMessages()
         {
-            this.templates = new MID_0090(new MID_0091(new MID_0092(null)));
+            templates = new MID_0090(new MID_0091(new MID_0092(null)));
         }
 
-        public MultiSpindleMessages(System.Collections.Generic.IEnumerable<MID> selectedMids)
+        public MultiSpindleMessages(System.Collections.Generic.IEnumerable<Mid> selectedMids)
         {
-            this.templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
+            templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
         }
 
-        public MID ProcessPackage(string package)
+        public Mid ProcessPackage(string package)
         {
-            return this.templates.ProcessPackage(package);
+            return templates.ProcessPackage(package);
         }
     }
 }

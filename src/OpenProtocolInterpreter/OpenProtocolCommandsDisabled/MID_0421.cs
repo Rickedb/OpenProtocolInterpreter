@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
     /// Message sent by: Controller
     /// Answer: MID 0422 Open Protocol commands disabled acknowledge
     /// </summary>
-    public class MID_0421 : MID, IOpenProtocolCommandsDisabled
+    public class MID_0421 : Mid, IOpenProtocolCommandsDisabled
     {
         public const int MID = 421;
         private const int length = 21;
@@ -26,28 +26,28 @@ namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
 
         public MID_0421() : base(length, MID, revision) { }
 
-        internal MID_0421(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0421(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
         public override string BuildPackage()
         {
-            return base.BuildHeader() + Convert.ToInt32(this.DigitalInputStatus).ToString();
+            return base.BuildHeader() + Convert.ToInt32(DigitalInputStatus).ToString();
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
             {
-                this.HeaderData = this.ProcessHeader(package);
+                HeaderData = ProcessHeader(package);
                 var dataField = base.RegisteredDataFields[(int)DataFields.DIGITAL_INPUT_STATUS];
                 dataField.Value = package.Substring(dataField.Index, dataField.Size);
-                this.DigitalInputStatus = dataField.ToBoolean();
+                DigitalInputStatus = dataField.ToBoolean();
                 return this;
             }
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields()

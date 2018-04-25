@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// Message sent by: Controller
     /// Answer: None
     /// </summary>
-    public class MID_0013 : MID, IParameterSet
+    public class MID_0013 : Mid, IParameterSet
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<decimal> _decimalConverter;
@@ -141,7 +141,7 @@ namespace OpenProtocolInterpreter.ParameterSet
             StartFinalAngle = startFinalAngle;
         }
 
-        internal MID_0013(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
+        internal MID_0013(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         /// <summary>
         /// Validate all fields size

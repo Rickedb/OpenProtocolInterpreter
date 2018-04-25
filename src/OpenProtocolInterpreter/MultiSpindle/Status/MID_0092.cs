@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.MultiSpindle.Status
     /// Message sent by: Integrator
     /// Answer : None
     /// </summary>
-    public class MID_0092 : MID, IMultiSpindle
+    public class MID_0092 : Mid, IMultiSpindle
     {
         public const int MID = 92;
         private const int length = 20;
@@ -21,17 +21,17 @@ namespace OpenProtocolInterpreter.MultiSpindle.Status
 
         public MID_0092() : base(length, MID, revision) { }
 
-        internal MID_0092(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0092(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
                 return (MID_0092)base.ProcessPackage(package);
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields() { }

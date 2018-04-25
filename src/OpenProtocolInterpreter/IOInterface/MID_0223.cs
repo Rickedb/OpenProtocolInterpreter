@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.IOInterface
     /// Answer: MID 0005 Command accepted or
     ///         MID 0004 Command error, The relay function subscription does not exist
     /// </summary>
-    public class MID_0223 : MID, IIOInterface
+    public class MID_0223 : Mid, IIOInterface
     {
         public const int MID = 223;
         private const int length = 23;
@@ -22,28 +22,28 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public MID_0223() : base(length, MID, revision) { }
 
-        internal MID_0223(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0223(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
         public override string BuildPackage()
         {
-            return base.BuildHeader() + ((int)this.DigitalInputNumber).ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.DIGITAL_INPUT_NUMBER].Size, '0');
+            return base.BuildHeader() + ((int)DigitalInputNumber).ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.DIGITAL_INPUT_NUMBER].Size, '0');
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
             {
                 base.ProcessHeader(package);
                 var dataField = base.RegisteredDataFields[(int)DataFields.DIGITAL_INPUT_NUMBER];
-                this.DigitalInputNumber = (DigitalInput.DigitalInputNumbers)Convert.ToInt32(package.Substring(dataField.Index, dataField.Size));
+                DigitalInputNumber = (DigitalInput.DigitalInputNumbers)Convert.ToInt32(package.Substring(dataField.Index, dataField.Size));
                 return this;
             }
 
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields()

@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.Job
     /// Message sent by: Controller
     /// Answer: None
     /// </summary>
-    public class MID_0031 : MID, IJob
+    public class MID_0031 : Mid, IJob
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly JobListConverter _jobListConverter;
@@ -54,7 +54,7 @@ namespace OpenProtocolInterpreter.Job
             JobIds = jobIds.ToList();
         }
 
-        internal MID_0031(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
+        internal MID_0031(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         public override string BuildPackage()
         {
@@ -72,7 +72,7 @@ namespace OpenProtocolInterpreter.Job
             return base.BuildPackage();
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (IsCorrectType(package))
             {
@@ -92,7 +92,7 @@ namespace OpenProtocolInterpreter.Job
                 return this;
             }
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

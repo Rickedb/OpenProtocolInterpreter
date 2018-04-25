@@ -14,7 +14,7 @@ namespace OpenProtocolInterpreter.UserInterface
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted
     /// </summary>
-    public class MID_0113 : MID, IUserInterface
+    public class MID_0113 : Mid, IUserInterface
     {
         private const int length = 20;
         public const int MID = 113;
@@ -25,17 +25,17 @@ namespace OpenProtocolInterpreter.UserInterface
 
         }
 
-        internal MID_0113(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0113(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
                 return (MID_0113)base.ProcessPackage(package);
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields() { }

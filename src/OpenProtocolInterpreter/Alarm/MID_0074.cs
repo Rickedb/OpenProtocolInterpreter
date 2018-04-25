@@ -11,7 +11,7 @@ namespace OpenProtocolInterpreter.Alarm
     /// Message sent by: Controller
     /// Answer: MID 0075 Alarm acknowledged on controller acknowledge
     /// </summary>
-    public class MID_0074 : MID, IAlarm
+    public class MID_0074 : Mid, IAlarm
     {
         public const int MID = 74;
         private const int length = 24;
@@ -23,33 +23,33 @@ namespace OpenProtocolInterpreter.Alarm
 
         public MID_0074(string errorCode) : base(length, MID, revision)
         {
-            this.ErrorCode = errorCode;
+            ErrorCode = errorCode;
         }
 
-        internal MID_0074(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0074(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
         public override string BuildPackage()
         {
-            if (string.IsNullOrEmpty(this.ErrorCode) || this.ErrorCode.Length != 4)
+            if (string.IsNullOrEmpty(ErrorCode) || ErrorCode.Length != 4)
                 throw new ArgumentNullException("ErrorCode cannot be null and should have 4 characters");
 
-            return base.BuildHeader() + this.ErrorCode.ToString();
+            return base.BuildHeader() + ErrorCode.ToString();
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
             {
-                this.HeaderData = this.ProcessHeader(package);
+                HeaderData = ProcessHeader(package);
                 var dataField = base.RegisteredDataFields[(int)DataFields.ERROR_CODE];
-                this.ErrorCode = package.Substring(dataField.Index, dataField.Size);
+                ErrorCode = package.Substring(dataField.Index, dataField.Size);
                 return this;
             }
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields()

@@ -5,11 +5,11 @@ namespace OpenProtocolInterpreter.Tightening
 {
     internal class TighteningMessages : IMessagesTemplate
     {
-        private readonly IMID templates;
+        private readonly IMid templates;
 
         public TighteningMessages()
         {
-            this.templates = new MID_0061(
+            templates = new MID_0061(
                                     new MID_0065(
                                         new MID_0062(
                                             new MID_0064(
@@ -19,25 +19,25 @@ namespace OpenProtocolInterpreter.Tightening
 
         public TighteningMessages(bool onlyController)
         {
-            this.templates = (onlyController) ? this.initControllerTemplates() : this.initIntegratorTemplates();
+            templates = (onlyController) ? InitControllerTemplates() : InitIntegratorTemplates();
         }
 
-        public TighteningMessages(IEnumerable<MID> selectedMids)
+        public TighteningMessages(IEnumerable<Mid> selectedMids)
         {
-            this.templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
+            templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
         }
 
-        public MID ProcessPackage(string package)
+        public Mid ProcessPackage(string package)
         {
-            return this.templates.ProcessPackage(package);
+            return templates.ProcessPackage(package);
         }
 
-        private IMID initIntegratorTemplates()
+        private IMid InitIntegratorTemplates()
         {
             return new MID_0062(new MID_0064(new MID_0063(new MID_0060(null))));
         }
 
-        private IMID initControllerTemplates()
+        private IMid InitControllerTemplates()
         {
             return new MID_0061(new MID_0065(null));
         }

@@ -8,7 +8,7 @@
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command Accepted or MID 0004 Command error, Job info subscription already exists
     /// </summary>
-    public class MID_0034 : MID, IJob
+    public class MID_0034 : Mid, IJob
     {
         private const int LAST_REVISION = 4;
         public const int MID = 34;
@@ -20,6 +20,6 @@
         /// <param name="revision">Revision number (default = 4)</param>
         public MID_0034(int? noAckFlag = 1, int revision = LAST_REVISION) : base(MID, revision, noAckFlag) { }
 
-        internal MID_0034(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
+        internal MID_0034(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
     }
 }

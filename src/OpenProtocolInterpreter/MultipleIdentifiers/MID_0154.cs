@@ -8,7 +8,7 @@
     /// Answer: MID 0005 Command accepted or MID 0004 Command error,
     /// Multiple identifiers and result parts subscription does not exist
     /// </summary>
-    public class MID_0154 : MID, IMultipleIdentifier
+    public class MID_0154 : Mid, IMultipleIdentifier
     {
         public const int MID = 154;
         private const int length = 20;
@@ -16,17 +16,17 @@
 
         public MID_0154() : base(length, MID, revision) { }
 
-        internal MID_0154(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0154(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
                 return (MID_0154)base.ProcessPackage(package);
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields() { }

@@ -11,15 +11,15 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public Relay()
         {
-            this.fields = new List<DataField>();
-            this.registerDatafields();
+            fields = new List<DataField>();
+            registerDatafields();
         }
 
         public string buildPackage()
         {
             string pkg = string.Empty;
-            pkg += ((int)this.Number).ToString().PadLeft(3, '0');
-            pkg += Convert.ToInt32(this.Status).ToString();
+            pkg += ((int)Number).ToString().PadLeft(3, '0');
+            pkg += Convert.ToInt32(Status).ToString();
             return pkg;
         }
 
@@ -27,21 +27,21 @@ namespace OpenProtocolInterpreter.IOInterface
         {
             List<Relay> relays = new List<Relay>();
             for (int i = 0; i < package.Length; i += 4)
-                relays.Add(this.getRelay(package.Substring(i, i + 4)));
+                relays.Add(getRelay(package.Substring(i, i + 4)));
             return relays;
         }
 
         internal Relay getRelay(string package)
         {
             Relay obj = new Relay();
-            obj.Number = (RelayNumbers)Convert.ToInt32(package.Substring(this.fields[(int)DataFields.RELAY_NUMBER].Index, this.fields[(int)DataFields.RELAY_NUMBER].Size));
-            obj.Status = Convert.ToBoolean(Convert.ToInt32(package.Substring(this.fields[(int)DataFields.RELAY_STATUS].Index, this.fields[(int)DataFields.RELAY_STATUS].Size)));
+            obj.Number = (RelayNumbers)Convert.ToInt32(package.Substring(fields[(int)DataFields.RELAY_NUMBER].Index, fields[(int)DataFields.RELAY_NUMBER].Size));
+            obj.Status = Convert.ToBoolean(Convert.ToInt32(package.Substring(fields[(int)DataFields.RELAY_STATUS].Index, fields[(int)DataFields.RELAY_STATUS].Size)));
             return obj;
         }
 
         private void registerDatafields()
         {
-            this.fields.AddRange(
+            fields.AddRange(
                 new DataField[]
                 {
                             new DataField((int)DataFields.RELAY_NUMBER, 0, 3),

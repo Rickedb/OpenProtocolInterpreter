@@ -7,7 +7,7 @@
     /// Answer: MID 0005 Command accepted or
     /// MID 0004 Command error, Identifier input source not granted
     /// </summary>
-    public class MID_0150 : MID, IMultipleIdentifier
+    public class MID_0150 : Mid, IMultipleIdentifier
     {
         public const int MID = 150;
         private const int length = 9999;
@@ -19,33 +19,33 @@
 
         public MID_0150(string identifierData) : base(length, MID, revision)
         {
-            this.IdentifierData = identifierData;
+            IdentifierData = identifierData;
         }
 
-        internal MID_0150(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0150(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
         public override string BuildPackage()
         {
-            this.IdentifierData = (this.IdentifierData.Length > 100) ? this.IdentifierData.Substring(0, 100) : this.IdentifierData;
-            return base.BuildHeader() + this.IdentifierData;
+            IdentifierData = (IdentifierData.Length > 100) ? IdentifierData.Substring(0, 100) : IdentifierData;
+            return base.BuildHeader() + IdentifierData;
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
             {
-                this.HeaderData = this.ProcessHeader(package);
-                this.HeaderData.Length = package.Length;
+                HeaderData = ProcessHeader(package);
+                HeaderData.Length = package.Length;
 
-                this.IdentifierData = package.Substring(base.RegisteredDataFields[(int)DataFields.IDENTIFIER_DATA].Index);
+                IdentifierData = package.Substring(base.RegisteredDataFields[(int)DataFields.IDENTIFIER_DATA].Index);
 
                 return this;
             }
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields()

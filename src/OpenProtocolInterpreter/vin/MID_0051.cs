@@ -1,4 +1,4 @@
-﻿namespace OpenProtocolInterpreter.VIN
+﻿namespace OpenProtocolInterpreter.Vin
 {
     /// <summary>
     /// MID: Vehicle ID Number subscribe
@@ -17,7 +17,7 @@
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted or MID 0004 Command error, VIN subscription already exists
     /// </summary>
-    public class MID_0051 : MID, IVIN
+    public class MID_0051 : Mid, IVin
     {
         private const int LAST_REVISION = 2;
         public const int MID = 51;
@@ -27,6 +27,6 @@
 
         }
 
-        internal MID_0051(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
+        internal MID_0051(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
     }
 }

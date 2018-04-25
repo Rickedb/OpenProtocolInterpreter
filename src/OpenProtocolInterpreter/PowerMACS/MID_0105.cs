@@ -12,7 +12,7 @@
     /// Answer: MID 0005 Command accepted or 
     ///         MID 0004 Command error, Subscription already exists or MID revision unsupported
     /// </summary>
-    public class MID_0105 : MID, IPowerMACS
+    public class MID_0105 : Mid, IPowerMACS
     {
         public const int MID = 105;
         private const int length = 20;
@@ -20,17 +20,17 @@
 
         public MID_0105() : base(length, MID, revision) { }
 
-        internal MID_0105(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0105(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
                 return (MID_0105)base.ProcessPackage(package);
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields() { }

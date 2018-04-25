@@ -11,7 +11,7 @@
     /// Answer: MID 0301, Histogram upload reply, or 
     ///         MID 0004 Command error, No histogram available or Invalid data
     /// </summary>
-    public class MID_0300 : MID, IStatistic
+    public class MID_0300 : Mid, IStatistic
     {
         private const int length = 30;
         public const int MID = 300;
@@ -22,29 +22,29 @@
 
         public MID_0300() : base(length, MID, revision) { }
 
-        internal MID_0300(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0300(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
         public override string BuildPackage()
         {
-            base.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].Value = this.ParameterSetID.ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].Size);
-            base.RegisteredDataFields[(int)DataFields.HISTOGRAM_TYPE].Value = ((int)this.HistogramType).ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.HISTOGRAM_TYPE].Size);
+            base.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].Value = ParameterSetID.ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].Size);
+            base.RegisteredDataFields[(int)DataFields.HISTOGRAM_TYPE].Value = ((int)HistogramType).ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.HISTOGRAM_TYPE].Size);
             return base.BuildPackage();
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
             {
                 base.ProcessPackage(package);
-                this.ParameterSetID = base.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].ToInt32();
-                this.HistogramType = (HistogramTypes)base.RegisteredDataFields[(int)DataFields.HISTOGRAM_TYPE].ToInt32();
+                ParameterSetID = base.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].ToInt32();
+                HistogramType = (HistogramTypes)base.RegisteredDataFields[(int)DataFields.HISTOGRAM_TYPE].ToInt32();
                 return this;
             }
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields()

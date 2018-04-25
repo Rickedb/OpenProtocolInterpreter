@@ -14,7 +14,7 @@ namespace OpenProtocolInterpreter.LinkCommunication
     ///     This message is sent immediately after the message is received on application link level and if the check of the header is found to be wrong in any way.
     ///     The acknowledge substitute the use of NoAck flag and all subscription data special acknowledging.
     /// </summary>
-    class MID_9998 : MID
+    class MID_9998 : Mid
     {
         private const int length = 27;
         public const int MID = 9998;
@@ -30,31 +30,31 @@ namespace OpenProtocolInterpreter.LinkCommunication
 
         }
 
-        internal MID_9998(IMID nextTemplate) : base(length, MID, revision, null, null, null, new DataField[] 
+        internal MID_9998(IMid nextTemplate) : base(length, MID, revision, null, null, null, new DataField[] 
         {
             new DataField((int)UsedsAs.MESSAGE_NUMBER, 16, 2),
             new DataField((int)UsedsAs.NUMBER_OF_MESSAGES, 18, 1),
             new DataField((int)UsedsAs.SEQUENCE_NUMBER, 19, 1)
         })
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
             
         }
 
         protected override string BuildHeader()
         {
             string header = string.Empty;
-            header += this.HeaderData.Length.ToString().PadLeft(4, '0');
-            header += this.HeaderData.Mid.ToString().PadLeft(4, '0');
-            header += this.HeaderData.Revision.ToString().PadLeft(3, '0');
-            header += this.HeaderData.NoAckFlag.ToString().PadLeft(1, ' ');
-            header += (this.HeaderData.StationID != null) ? this.HeaderData.StationID.ToString().PadLeft(2, '0') : this.HeaderData.StationID.ToString().PadLeft(2, ' ');
-            header += (this.HeaderData.SpindleID != null) ? this.HeaderData.SpindleID.ToString().PadLeft(2, '0') : this.HeaderData.SpindleID.ToString().PadLeft(2, ' ');
+            header += HeaderData.Length.ToString().PadLeft(4, '0');
+            header += HeaderData.Mid.ToString().PadLeft(4, '0');
+            header += HeaderData.Revision.ToString().PadLeft(3, '0');
+            header += HeaderData.NoAckFlag.ToString().PadLeft(1, ' ');
+            header += (HeaderData.StationID != null) ? HeaderData.StationID.ToString().PadLeft(2, '0') : HeaderData.StationID.ToString().PadLeft(2, ' ');
+            header += (HeaderData.SpindleID != null) ? HeaderData.SpindleID.ToString().PadLeft(2, '0') : HeaderData.SpindleID.ToString().PadLeft(2, ' ');
             string usedAs = "    ";
-            if (this.HeaderData.UsedAs != null)
+            if (HeaderData.UsedAs != null)
             {
                 usedAs = string.Empty;
-                foreach (DataField field in this.HeaderData.UsedAs)
+                foreach (DataField field in HeaderData.UsedAs)
                     usedAs += field.Value.ToString().PadLeft(field.Size, ' ');
             }
             header += usedAs;
@@ -77,15 +77,15 @@ namespace OpenProtocolInterpreter.LinkCommunication
             return base.BuildPackage();
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
             {
-                this.ProcessHeader(package);
+                ProcessHeader(package);
 
             }
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields() { }

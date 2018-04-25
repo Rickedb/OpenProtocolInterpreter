@@ -18,7 +18,7 @@ namespace OpenProtocolInterpreter.Communication
     /// Message sent by: Controller
     /// Answer: None
     /// </summary>
-    public class MID_0004 : MID, ICommunication
+    public class MID_0004 : Mid, ICommunication
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 1;
@@ -51,7 +51,7 @@ namespace OpenProtocolInterpreter.Communication
             ErrorCode = errorCode;
         }
 
-        internal MID_0004(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
+        internal MID_0004(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         /// <summary>
         /// Validate all fields size

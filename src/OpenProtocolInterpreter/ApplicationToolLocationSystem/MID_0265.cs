@@ -8,7 +8,7 @@
     /// Answer: MID 0005 Command accepted or
     ///         MID 0004 Command error, MID revision unsupported.
     /// </summary>
-    public class MID_0265 : MID, IApplicationToolLocationSystem
+    public class MID_0265 : Mid, IApplicationToolLocationSystem
     {
         private const int length = 30;
         public const int MID = 265;
@@ -19,9 +19,9 @@
 
         public MID_0265() : base(length, MID, revision) { }
 
-        internal MID_0265(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0265(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
         public override string BuildPackage()
@@ -30,17 +30,17 @@
             return base.BuildPackage();
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
             {
                 base.ProcessPackage(package);
-                this.ToolTagID = base.RegisteredDataFields[(int)DataFields.TOOL_TAG_ID].Value.ToString();
-                this.Status = (Statuses)base.RegisteredDataFields[(int)DataFields.STATUS].ToInt32();
+                ToolTagID = base.RegisteredDataFields[(int)DataFields.TOOL_TAG_ID].Value.ToString();
+                Status = (Statuses)base.RegisteredDataFields[(int)DataFields.STATUS].ToInt32();
                 return this;
             }
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields()

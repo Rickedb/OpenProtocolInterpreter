@@ -8,7 +8,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
     /// Message sent by: Integrator
     /// Answer: MID 0005
     /// </summary>
-    public class MID_0127 : MID, IAdvancedJob
+    public class MID_0127 : Mid, IAdvancedJob
     {
         private const int length = 20;
         public const int MID = 127;
@@ -19,12 +19,12 @@ namespace OpenProtocolInterpreter.Job.Advanced
 
         }
 
-        internal MID_0127(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0127(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
                 return (MID_0127)base.ProcessPackage(package);

@@ -15,7 +15,7 @@ namespace OpenProtocolInterpreter.Tool
     ///         MID 0004 Command error. See error codes. 
     ///         MID 0048 Pairing status during the pairing process
     /// </summary>
-    public class MID_0047 : MID, ITool
+    public class MID_0047 : Mid, ITool
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 1;
@@ -32,7 +32,7 @@ namespace OpenProtocolInterpreter.Tool
             _intConverter = new Int32Converter();
         }
 
-        internal MID_0047(IMID nextTemplate) : base(MID, LAST_REVISION) => NextTemplate = nextTemplate;
+        internal MID_0047(IMid nextTemplate) : base(MID, LAST_REVISION) => NextTemplate = nextTemplate;
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

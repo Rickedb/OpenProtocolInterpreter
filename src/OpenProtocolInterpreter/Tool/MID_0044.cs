@@ -9,7 +9,7 @@
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted or MID 0004 Command error, Tool currently in use
     /// </summary>
-    public class MID_0044 : MID, ITool
+    public class MID_0044 : Mid, ITool
     {
         private const int LAST_REVISION = 1;
         public const int MID = 44;
@@ -19,7 +19,7 @@
 
         }
 
-        internal MID_0044(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
+        internal MID_0044(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
         
 
     }

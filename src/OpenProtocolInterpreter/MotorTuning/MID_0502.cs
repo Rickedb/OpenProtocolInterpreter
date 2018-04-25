@@ -7,7 +7,7 @@
     /// Message sent by: Integrator
     /// Answer: None
     /// </summary>
-    public class MID_0502 : MID, IMotorTuning
+    public class MID_0502 : Mid, IMotorTuning
     {
         private const int length = 20;
         public const int MID = 502;
@@ -15,17 +15,17 @@
 
         public MID_0502() : base(length, MID, revision) { }
 
-        internal MID_0502(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0502(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
                 return (MID_0502)base.ProcessPackage(package);
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields() { }

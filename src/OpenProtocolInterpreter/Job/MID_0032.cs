@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.Job
     /// Message sent by: Integrator
     /// Answer: MID 0033 Job data upload or MID 0004 Command error, Job ID not present
     /// </summary>
-    public class MID_0032 : MID, IJob
+    public class MID_0032 : Mid, IJob
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 3;
@@ -47,9 +47,9 @@ namespace OpenProtocolInterpreter.Job
         /// <param name="revision">Revision number (default = 3)</param>
         public MID_0032(int jobId, int revision = 2) : this(revision) => JobId = jobId;
 
-        internal MID_0032(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
+        internal MID_0032(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (IsCorrectType(package))
             {

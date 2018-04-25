@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.IOInterface
     /// Message sent by: Controller
     /// Answer: MID 0222 Digital input function upload acknowledge
     /// </summary>
-    public class MID_0221 : MID, IIOInterface
+    public class MID_0221 : Mid, IIOInterface
     {
         public const int MID = 221;
         private const int length = 28;
@@ -24,31 +24,31 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public MID_0221() : base(length, MID, revision) { }
 
-        internal MID_0221(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0221(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
         public override string BuildPackage()
         {
             string pkg = base.BuildHeader();
-            pkg += "01" + ((int)this.DigitalInputNumber).ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.DIGITAL_INPUT_NUMBER].Size, '0');
-            pkg += "02" + Convert.ToInt32(this.DigitalInputStatus).ToString();
+            pkg += "01" + ((int)DigitalInputNumber).ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.DIGITAL_INPUT_NUMBER].Size, '0');
+            pkg += "02" + Convert.ToInt32(DigitalInputStatus).ToString();
             return pkg;
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
             {
                 base.ProcessPackage(package);
-                this.DigitalInputNumber = (DigitalInput.DigitalInputNumbers)base.RegisteredDataFields[(int)DataFields.DIGITAL_INPUT_NUMBER].ToInt32();
-                this.DigitalInputStatus = base.RegisteredDataFields[(int)DataFields.DIGITAL_INPUT_STATUS].ToBoolean();
+                DigitalInputNumber = (DigitalInput.DigitalInputNumbers)base.RegisteredDataFields[(int)DataFields.DIGITAL_INPUT_NUMBER].ToInt32();
+                DigitalInputStatus = base.RegisteredDataFields[(int)DataFields.DIGITAL_INPUT_STATUS].ToBoolean();
                 return this;
             }
 
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields()

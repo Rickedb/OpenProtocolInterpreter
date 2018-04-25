@@ -9,7 +9,7 @@
     ///         MID 0004 Command error, Open Protocol commands disabled
     ///         subscription does not exist
     /// </summary>
-    public class MID_0423 : MID, IOpenProtocolCommandsDisabled
+    public class MID_0423 : Mid, IOpenProtocolCommandsDisabled
     {
         private const int length = 20;
         public const int MID = 423;
@@ -17,17 +17,17 @@
 
         public MID_0423() : base(length, MID, revision) { }
 
-        internal MID_0423(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0423(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
                 return (MID_0423)base.ProcessPackage(package);
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields() { }

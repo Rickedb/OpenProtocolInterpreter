@@ -10,7 +10,7 @@ namespace OpenProtocolInterpreter.IOInterface
     /// Message sent by: Controller
     /// Answer: MID 0212 Status externally monitored inputs acknowledge
     /// </summary>
-    public class MID_0211 : MID, IIOInterface
+    public class MID_0211 : Mid, IIOInterface
     {
         public const int MID = 200;
         private const int length = 30;
@@ -30,9 +30,9 @@ namespace OpenProtocolInterpreter.IOInterface
 
         }
 
-        internal MID_0211(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0211(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
         public override string BuildPackage()
@@ -43,7 +43,7 @@ namespace OpenProtocolInterpreter.IOInterface
             return package;
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
             {
@@ -52,19 +52,19 @@ namespace OpenProtocolInterpreter.IOInterface
                 foreach (var field in base.RegisteredDataFields)
                     field.Value = package.Substring(field.Index, field.Size);
 
-                this.StatusDigInOne = base.RegisteredDataFields[(int)DataFields.STATUS_DIG_IN_1].ToBoolean();
-                this.StatusDigInTwo = base.RegisteredDataFields[(int)DataFields.STATUS_DIG_IN_2].ToBoolean();
-                this.StatusDigInThree = base.RegisteredDataFields[(int)DataFields.STATUS_DIG_IN_3].ToBoolean();
-                this.StatusDigInFour = base.RegisteredDataFields[(int)DataFields.STATUS_DIG_IN_4].ToBoolean();
-                this.StatusDigInFive = base.RegisteredDataFields[(int)DataFields.STATUS_DIG_IN_5].ToBoolean();
-                this.StatusDigInSix = base.RegisteredDataFields[(int)DataFields.STATUS_DIG_IN_6].ToBoolean();
-                this.StatusDigInSeven = base.RegisteredDataFields[(int)DataFields.STATUS_DIG_IN_7].ToBoolean();
-                this.StatusDigInEight = base.RegisteredDataFields[(int)DataFields.STATUS_DIG_IN_8].ToBoolean();
+                StatusDigInOne = base.RegisteredDataFields[(int)DataFields.STATUS_DIG_IN_1].ToBoolean();
+                StatusDigInTwo = base.RegisteredDataFields[(int)DataFields.STATUS_DIG_IN_2].ToBoolean();
+                StatusDigInThree = base.RegisteredDataFields[(int)DataFields.STATUS_DIG_IN_3].ToBoolean();
+                StatusDigInFour = base.RegisteredDataFields[(int)DataFields.STATUS_DIG_IN_4].ToBoolean();
+                StatusDigInFive = base.RegisteredDataFields[(int)DataFields.STATUS_DIG_IN_5].ToBoolean();
+                StatusDigInSix = base.RegisteredDataFields[(int)DataFields.STATUS_DIG_IN_6].ToBoolean();
+                StatusDigInSeven = base.RegisteredDataFields[(int)DataFields.STATUS_DIG_IN_7].ToBoolean();
+                StatusDigInEight = base.RegisteredDataFields[(int)DataFields.STATUS_DIG_IN_8].ToBoolean();
 
                 return this;
             }
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields()

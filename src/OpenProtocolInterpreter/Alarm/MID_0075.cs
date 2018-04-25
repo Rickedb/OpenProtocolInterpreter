@@ -7,7 +7,7 @@
     /// Message sent by: Integrator
     /// Answer : None
     /// </summary>
-    public class MID_0075 : MID, IAlarm
+    public class MID_0075 : Mid, IAlarm
     {
         public const int MID = 75;
         private const int length = 20;
@@ -18,17 +18,17 @@
 
         }
 
-        internal MID_0075(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0075(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
                 return base.ProcessPackage(package);
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields() { }

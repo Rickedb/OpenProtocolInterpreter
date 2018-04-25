@@ -7,14 +7,14 @@
     /// Message sent by: Integrator
     /// Answer: None
     /// </summary>
-    public class MID_0016 : MID, IParameterSet
+    public class MID_0016 : Mid, IParameterSet
     {
         private const int LAST_REVISION = 1;
         public const int MID = 16;
 
         public MID_0016() : base(MID, LAST_REVISION) { }
 
-        internal MID_0016(IMID nextTemplate) : this()
+        internal MID_0016(IMid nextTemplate) : this()
         {
             NextTemplate = nextTemplate;
         }

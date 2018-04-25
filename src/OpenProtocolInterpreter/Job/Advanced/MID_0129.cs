@@ -14,7 +14,7 @@
     /// Answer: MID 0005 Command accepted or
     /// MID 0004 Command error, Job batch decrement failed (only for MID revision 2)
     /// </summary>
-    public class MID_0129 : MID, IAdvancedJob
+    public class MID_0129 : Mid, IAdvancedJob
     {
         private const int length = 20;
         public const int MID = 129;
@@ -22,17 +22,17 @@
 
         public MID_0129() : base(length, MID, revision) { }
 
-        internal MID_0129(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0129(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
                 return (MID_0129)base.ProcessPackage(package);
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields() { }

@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// Message sent by: Controller
     /// Answer: None
     /// </summary>
-    public class MID_0011 : MID, IParameterSet
+    public class MID_0011 : Mid, IParameterSet
     {
         private readonly Dictionary<int, Action<string>> revisionsActions;
         private const int length = 23;
@@ -26,43 +26,43 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public MID_0011() : base(length, MID, revision)
         {
-            this.ParameterSets = new List<int>();
+            ParameterSets = new List<int>();
         }
 
         public MID_0011(IEnumerable<int> parameterSets) : base(length, MID, revision)
         {
-            this.ParameterSets = parameterSets.ToList();
+            ParameterSets = parameterSets.ToList();
         }
 
-        internal MID_0011(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0011(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.ParameterSets = new List<int>();
-            this.NextTemplate = nextTemplate;
-            this.revisionsActions = new Dictionary<int, Action<string>>()
+            ParameterSets = new List<int>();
+            NextTemplate = nextTemplate;
+            revisionsActions = new Dictionary<int, Action<string>>()
             {
-                { 1, this.processRevision1 },
-                { 2, this.processRevision2 },
-                { 3, this.processRevision3 }
+                { 1, processRevision1 },
+                { 2, processRevision2 },
+                { 3, processRevision3 }
             };
 
         }
 
         public override string BuildPackage()
         {
-            if (this.ParameterSets.Count == 0)
+            if (ParameterSets.Count == 0)
                 throw new ArgumentException("Parameter Set list cannot be empty!!");
 
             string package = base.BuildHeader();
-            package += this.ParameterSets.Count.ToString().PadLeft(this.RegisteredDataFields[(int)DataFields.TOTAL_PARAMETER_SETS].Size, '0');
+            package += ParameterSets.Count.ToString().PadLeft(this.RegisteredDataFields[(int)DataFields.TOTAL_PARAMETER_SETS].Size, '0');
 
             var datafield = this.RegisteredDataFields[(int)DataFields.EACH_PARAMETER_SET];
-            foreach(int param in this.ParameterSets)
+            foreach(int param in ParameterSets)
                 package += param.ToString().PadLeft(datafield.Size, '0');
 
             return package;
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
             {
@@ -70,20 +70,20 @@ namespace OpenProtocolInterpreter.ParameterSet
                 UpdateRevisionFromPackage
 
                 var datafield = this.RegisteredDataFields[(int)DataFields.TOTAL_PARAMETER_SETS];
-                this.TotalParameterSets = Convert.ToInt32(package.Substring(datafield.Index, datafield.Size));
+                TotalParameterSets = Convert.ToInt32(package.Substring(datafield.Index, datafield.Size));
 
                 datafield = this.RegisteredDataFields[(int)DataFields.EACH_PARAMETER_SET];
                 int packageIndex = datafield.Index;
-                for (int i = 0; i < this.TotalParameterSets; i++)
+                for (int i = 0; i < TotalParameterSets; i++)
                 {
-                    this.ParameterSets.Add(Convert.ToInt32(package.Substring(packageIndex, datafield.Size)));
+                    ParameterSets.Add(Convert.ToInt32(package.Substring(packageIndex, datafield.Size)));
                     packageIndex += datafield.Size;
                 }
 
                 return this;
             }
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields()
@@ -95,13 +95,13 @@ namespace OpenProtocolInterpreter.ParameterSet
         private void processRevision1(string package)
         {
             var datafield = this.RegisteredDataFields[(int)DataFields.TOTAL_PARAMETER_SETS];
-            this.TotalParameterSets = Convert.ToInt32(package.Substring(datafield.Index, datafield.Size));
+            TotalParameterSets = Convert.ToInt32(package.Substring(datafield.Index, datafield.Size));
 
             datafield = this.RegisteredDataFields[(int)DataFields.EACH_PARAMETER_SET];
             int packageIndex = datafield.Index;
-            for (int i = 0; i < this.TotalParameterSets; i++)
+            for (int i = 0; i < TotalParameterSets; i++)
             {
-                this.ParameterSets.Add(Convert.ToInt32(package.Substring(packageIndex, datafield.Size)));
+                ParameterSets.Add(Convert.ToInt32(package.Substring(packageIndex, datafield.Size)));
                 packageIndex += datafield.Size;
             }
         }

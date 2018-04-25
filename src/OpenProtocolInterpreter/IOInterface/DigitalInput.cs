@@ -14,15 +14,15 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public DigitalInput()
         {
-            this.fields = new List<DataField>();
-            this.registerDatafields();
+            fields = new List<DataField>();
+            registerDatafields();
         }
 
         public string buildPackage()
         {
             string pkg = string.Empty;
-            pkg += ((int)this.Number).ToString().PadLeft(3, '0');
-            pkg += Convert.ToInt32(this.Status).ToString();
+            pkg += ((int)Number).ToString().PadLeft(3, '0');
+            pkg += Convert.ToInt32(Status).ToString();
             return pkg;
         }
 
@@ -30,21 +30,21 @@ namespace OpenProtocolInterpreter.IOInterface
         {
             List<DigitalInput> digIns = new List<DigitalInput>();
             for (int i = 0; i < package.Length; i += 4)
-                digIns.Add(this.getDigIn(package.Substring(i, i + 4)));
+                digIns.Add(getDigIn(package.Substring(i, i + 4)));
             return digIns;
         }
 
         private DigitalInput getDigIn(string package)
         {
             DigitalInput obj = new DigitalInput();
-            obj.Number = (DigitalInputNumbers)Convert.ToInt32(package.Substring(this.fields[(int)DataFields.DIGITAL_INPUT_NUMBER].Index, this.fields[(int)DataFields.DIGITAL_INPUT_NUMBER].Size));
-            obj.Status = Convert.ToBoolean(Convert.ToInt32(package.Substring(this.fields[(int)DataFields.DIGITAL_INPUT_STATUS].Index, this.fields[(int)DataFields.DIGITAL_INPUT_STATUS].Size)));
+            obj.Number = (DigitalInputNumbers)Convert.ToInt32(package.Substring(fields[(int)DataFields.DIGITAL_INPUT_NUMBER].Index, fields[(int)DataFields.DIGITAL_INPUT_NUMBER].Size));
+            obj.Status = Convert.ToBoolean(Convert.ToInt32(package.Substring(fields[(int)DataFields.DIGITAL_INPUT_STATUS].Index, fields[(int)DataFields.DIGITAL_INPUT_STATUS].Size)));
             return obj;
         }
 
         private void registerDatafields()
         {
-            this.fields.AddRange(
+            fields.AddRange(
                 new DataField[]
                 {
                             new DataField((int)DataFields.DIGITAL_INPUT_NUMBER, 0, 3),

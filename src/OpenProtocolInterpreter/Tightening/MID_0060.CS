@@ -11,7 +11,7 @@
     /// Answer: MID 0005 Command accepted or MID 0004 Command error, Last tightening subscription already 
     ///         exists or MID revision not supported
     /// </summary>
-    public class MID_0060 : MID, ITightening
+    public class MID_0060 : Mid, ITightening
     {
         private const int LAST_REVISION = 7;
         public const int MID = 60;
@@ -21,6 +21,6 @@
 
         }
 
-        internal MID_0060(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
+        internal MID_0060(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
     }
 }

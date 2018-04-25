@@ -11,7 +11,7 @@ namespace OpenProtocolInterpreter.Alarm
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted or MID 0004 Command error, Alarm subscription already exists
     /// </summary>
-    public class MID_0070 : MID, IAlarm
+    public class MID_0070 : Mid, IAlarm
     {
         public const int MID = 70;
 
@@ -23,17 +23,17 @@ namespace OpenProtocolInterpreter.Alarm
 
         }
 
-        internal MID_0070(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0070(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
                 return base.ProcessPackage(package);
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields() { }

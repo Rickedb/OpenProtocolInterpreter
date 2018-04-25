@@ -9,7 +9,7 @@ namespace OpenProtocolInterpreter.MotorTuning
     /// Message sent by: Controller
     /// Answer: MID 0502 Motor tuning result data acknowledge
     /// </summary>
-    public class MID_0501 : MID, IMotorTuning
+    public class MID_0501 : Mid, IMotorTuning
     {
         public const int MID = 501;
         private const int length = 21;
@@ -25,31 +25,31 @@ namespace OpenProtocolInterpreter.MotorTuning
 
         public MID_0501(bool motorTuneResult) : base(length, MID, revision)
         {
-            this.MotorTuneResult = motorTuneResult;
+            MotorTuneResult = motorTuneResult;
         }
 
-        internal MID_0501(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0501(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
         public override string BuildPackage()
         {
-            return base.BuildHeader() + Convert.ToInt32(this.MotorTuneResult).ToString();
+            return base.BuildHeader() + Convert.ToInt32(MotorTuneResult).ToString();
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
             {
-                this.HeaderData = this.ProcessHeader(package);
+                HeaderData = ProcessHeader(package);
                 var dataField = base.RegisteredDataFields[(int)DataFields.MOTOR_TUNE_RESULT];
                 dataField.Value = package.Substring(dataField.Index, dataField.Size);
-                this.MotorTuneResult = dataField.ToBoolean();
+                MotorTuneResult = dataField.ToBoolean();
                 return this;
             }
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields()

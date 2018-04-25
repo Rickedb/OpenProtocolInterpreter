@@ -16,7 +16,7 @@ namespace OpenProtocolInterpreter.PowerMACS
     /// Message sent by: Integrator
     /// Answer: None
     /// </summary>
-    public class MID_0108 : MID, IPowerMACS
+    public class MID_0108 : Mid, IPowerMACS
     {
         public const int MID = 108;
         private const int length = 21;
@@ -26,27 +26,27 @@ namespace OpenProtocolInterpreter.PowerMACS
 
         public MID_0108() : base(length, MID, revision) { }
 
-        internal MID_0108(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0108(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
         public override string BuildPackage()
         {
-            return base.BuildHeader() + Convert.ToInt32(this.BoltData).ToString();
+            return base.BuildHeader() + Convert.ToInt32(BoltData).ToString();
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
             {
-                this.HeaderData = this.ProcessHeader(package);
+                HeaderData = ProcessHeader(package);
                 var dataField = base.RegisteredDataFields[(int)DataFields.BOLT_DATA];
-                this.BoltData = Convert.ToBoolean(Convert.ToInt32(package.Substring(dataField.Index, dataField.Size)));
+                BoltData = Convert.ToBoolean(Convert.ToInt32(package.Substring(dataField.Index, dataField.Size)));
                 return this;
             }
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields()

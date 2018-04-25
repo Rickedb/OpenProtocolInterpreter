@@ -1,24 +1,24 @@
 ﻿using OpenProtocolInterpreter.Messages;
 
-namespace OpenProtocolInterpreter.VIN
+namespace OpenProtocolInterpreter.Vin
 {
-    internal class VINMessages : IMessagesTemplate
+    internal class VinMessages : IMessagesTemplate
     {
-        private readonly IMID templates;
+        private readonly IMid templates;
 
-        public VINMessages()
+        public VinMessages()
         {
-            this.templates = new MID_0050(new MID_0051(new MID_0052(new MID_0053(new MID_0054(null)))));
+            templates = new MID_0050(new MID_0051(new MID_0052(new MID_0053(new MID_0054(null)))));
         }
 
-        public VINMessages(System.Collections.Generic.IEnumerable<MID> selectedMids)
+        public VinMessages(System.Collections.Generic.IEnumerable<Mid> selectedMids)
         {
-            this.templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
+            templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
         }
 
-        public MID ProcessPackage(string package)
+        public Mid ProcessPackage(string package)
         {
-            return this.templates.ProcessPackage(package);
+            return templates.ProcessPackage(package);
         }
     }
 }

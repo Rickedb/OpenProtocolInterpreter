@@ -7,7 +7,7 @@
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted
     /// </summary>
-    public class MID_0042 : MID, ITool
+    public class MID_0042 : Mid, ITool
     {
         private const int LAST_REVISION = 1;
         public const int MID = 42;
@@ -16,6 +16,6 @@
         {
         }
 
-        internal MID_0042(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
+        internal MID_0042(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
     }
 }

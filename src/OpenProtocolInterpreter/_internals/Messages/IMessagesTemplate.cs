@@ -2,6 +2,6 @@
 {
     internal interface IMessagesTemplate
     {
-        MID ProcessPackage(string package);
+        Mid ProcessPackage(string package);
     }
 }

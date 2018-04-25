@@ -8,14 +8,14 @@
     /// Message sent by: Integrator
     /// Answer: MID 0041 Tool data upload reply
     /// </summary>
-    public class MID_0040 : MID, ITool
+    public class MID_0040 : Mid, ITool
     {
         private const int LAST_REVISION = 5;
         public const int MID = 40;
 
         public MID_0040() : base(MID, LAST_REVISION) { }
 
-        internal MID_0040(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
+        internal MID_0040(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
     }
 }

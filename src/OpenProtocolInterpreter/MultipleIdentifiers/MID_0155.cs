@@ -7,7 +7,7 @@
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted
     /// </summary>
-    public class MID_0155 : MID, IMultipleIdentifier
+    public class MID_0155 : Mid, IMultipleIdentifier
     {
         public const int MID = 155;
         private const int length = 20;
@@ -15,17 +15,17 @@
 
         public MID_0155() : base(length, MID, revision) { }
 
-        internal MID_0155(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0155(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
                 return (MID_0155)base.ProcessPackage(package);
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields() { }

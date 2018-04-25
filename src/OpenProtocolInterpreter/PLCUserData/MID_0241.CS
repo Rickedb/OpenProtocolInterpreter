@@ -10,7 +10,7 @@
     ///         MID 0004 Command error, Subscription already exists, or
     ///         Controller is not a sync master/station controller
     /// </summary>
-    public class MID_0241 : MID, IPLCUserData
+    public class MID_0241 : Mid, IPLCUserData
     {
         private const int length = 20;
         public const int MID = 241;
@@ -18,17 +18,17 @@
 
         public MID_0241() : base(length, MID, revision) { }
 
-        internal MID_0241(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0241(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
                 return (MID_0241)base.ProcessPackage(package);
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields() { }

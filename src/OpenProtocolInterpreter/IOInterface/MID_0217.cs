@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.IOInterface
     /// Message sent by: Controller
     /// Answer: MID 0218 Relay function acknowledge
     /// </summary>
-    public class MID_0217 : MID, IIOInterface
+    public class MID_0217 : Mid, IIOInterface
     {
         public const int MID = 217;
         private const int length = 28;
@@ -23,31 +23,31 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public MID_0217() : base(length, MID, revision) { }
 
-        internal MID_0217(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0217(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
         public override string BuildPackage()
         {
             string pkg = base.BuildHeader();
-            pkg += "01" + ((int)this.RelayNumber).ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.RELAY_NUMBER].Size, '0');
-            pkg += "02" + Convert.ToInt32(this.RelayStatus).ToString();
+            pkg += "01" + ((int)RelayNumber).ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.RELAY_NUMBER].Size, '0');
+            pkg += "02" + Convert.ToInt32(RelayStatus).ToString();
             return pkg;
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
             {
                 base.ProcessPackage(package);
-                this.RelayNumber =(Relay.RelayNumbers) base.RegisteredDataFields[(int)DataFields.RELAY_NUMBER].ToInt32();
-                this.RelayStatus = base.RegisteredDataFields[(int)DataFields.RELAY_STATUS].ToBoolean();
+                RelayNumber = (Relay.RelayNumbers) base.RegisteredDataFields[(int)DataFields.RELAY_NUMBER].ToInt32();
+                RelayStatus = base.RegisteredDataFields[(int)DataFields.RELAY_STATUS].ToBoolean();
                 return this;
             }
 
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields()

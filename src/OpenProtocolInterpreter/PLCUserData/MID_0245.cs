@@ -30,7 +30,7 @@ namespace OpenProtocolInterpreter.PLCUserData
     /// Controller is not a sync master/station controller or
     /// MID revision not supported.
     /// </summary>
-    public class MID_0245 : MID, IPLCUserData
+    public class MID_0245 : Mid, IPLCUserData
     {
         private const int length = 223;
         public const int MID = 255;
@@ -41,32 +41,32 @@ namespace OpenProtocolInterpreter.PLCUserData
 
         public MID_0245() : base(length, MID, revision) { }
 
-        internal MID_0245(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0245(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
         public override string BuildPackage()
         {
-            this.HeaderData.Length = 23 + this.UserData.Length;
+            HeaderData.Length = 23 + UserData.Length;
 
-            string package = this.BuildHeader();
-            package += this.Offset.ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.OFFSET].Size, '0');
-            package += this.UserData;
+            string package = BuildHeader();
+            package += Offset.ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.OFFSET].Size, '0');
+            package += UserData;
 
             return package;
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
             {
-                this.Offset = Convert.ToInt32(package.Substring(base.RegisteredDataFields[(int)DataFields.OFFSET].Index, base.RegisteredDataFields[(int)DataFields.OFFSET].Size));
-                this.UserData = package.Substring(base.RegisteredDataFields[(int)DataFields.USER_DATA].Index);
+                Offset = Convert.ToInt32(package.Substring(base.RegisteredDataFields[(int)DataFields.OFFSET].Index, base.RegisteredDataFields[(int)DataFields.OFFSET].Size));
+                UserData = package.Substring(base.RegisteredDataFields[(int)DataFields.USER_DATA].Index);
                 return this;
             }
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields()

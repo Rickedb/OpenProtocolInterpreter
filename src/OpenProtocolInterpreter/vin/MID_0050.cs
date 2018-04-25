@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace OpenProtocolInterpreter.VIN
+namespace OpenProtocolInterpreter.Vin
 {
     /// <summary>
     /// MID: Vehicle ID Number download request
@@ -10,7 +10,7 @@ namespace OpenProtocolInterpreter.VIN
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted or MID 0004 Command error, VIN input source not granted
     /// </summary>
-    public class MID_0050 : MID, IVIN
+    public class MID_0050 : Mid, IVin
     {
         private const int LAST_REVISION = 1;
         public const int MID = 50;
@@ -32,7 +32,7 @@ namespace OpenProtocolInterpreter.VIN
             VinNumber = vinNumber;
         }
 
-        internal MID_0050(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
+        internal MID_0050(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         public override string BuildPackage()
         {
@@ -40,7 +40,7 @@ namespace OpenProtocolInterpreter.VIN
             return base.BuildPackage();
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (IsCorrectType(package))
             {

@@ -11,7 +11,7 @@
     /// Answer: MID 0005 Command accepted or 
     ///         MID 0004 Command error, Multiple identifier and result parts subscription already exists
     /// </summary>
-    public class MID_0151 : MID, IMultipleIdentifier
+    public class MID_0151 : Mid, IMultipleIdentifier
     {
         public const int MID = 151;
         private const int length = 20;
@@ -19,17 +19,17 @@
 
         public MID_0151() : base(length, MID, revision) { }
 
-        internal MID_0151(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0151(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
                 return (MID_0151)base.ProcessPackage(package);
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields() { }

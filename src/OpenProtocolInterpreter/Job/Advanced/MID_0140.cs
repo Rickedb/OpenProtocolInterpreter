@@ -18,7 +18,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted
     /// </summary>
-    public class MID_0140 : MID, IAdvancedJob
+    public class MID_0140 : Mid, IAdvancedJob
     {
         private const int length = 20;
         public const int MID = 140;
@@ -45,12 +45,12 @@ namespace OpenProtocolInterpreter.Job.Advanced
         public bool ResetAllIdentifiersAtJobDone { get; set; }
         public Reserveds Reserved { get; set; }
 
-        public MID_0140() : base(length, MID, revision) { this.JobList = new List<Job>(); }
+        public MID_0140() : base(length, MID, revision) { JobList = new List<Job>(); }
 
-        internal MID_0140(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0140(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.JobList = new List<Job>();
-            this.NextTemplate = nextTemplate;
+            JobList = new List<Job>();
+            NextTemplate = nextTemplate;
         }
 
         public override string BuildPackage()
@@ -58,38 +58,38 @@ namespace OpenProtocolInterpreter.Job.Advanced
             return base.BuildPackage();
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
             {
-                this.NumberOfParameterSets = Convert.ToInt32(package.Substring(base.RegisteredDataFields[(int)DataFields.NUMBER_OF_PARAMETER_SETS].Index, base.RegisteredDataFields[(int)DataFields.NUMBER_OF_PARAMETER_SETS].Size));
-                base.RegisteredDataFields[(int)DataFields.JOB_LIST].Size = this.NumberOfParameterSets * Job.JobPackageSize;
-                this.adjustDataFieldsIndexes();
+                NumberOfParameterSets = Convert.ToInt32(package.Substring(base.RegisteredDataFields[(int)DataFields.NUMBER_OF_PARAMETER_SETS].Index, base.RegisteredDataFields[(int)DataFields.NUMBER_OF_PARAMETER_SETS].Size));
+                base.RegisteredDataFields[(int)DataFields.JOB_LIST].Size = NumberOfParameterSets * Job.JobPackageSize;
+                adjustDataFieldsIndexes();
                 base.ProcessPackage(package);
 
-                this.JobID = base.RegisteredDataFields[(int)DataFields.JOB_ID].ToInt32();
-                this.JobName = base.RegisteredDataFields[(int)DataFields.JOB_NAME].Value.ToString();
-                this.JobList = new Job().getJobsFromPackage(base.RegisteredDataFields[(int)DataFields.JOB_LIST].Value.ToString()).ToList();
-                this.ForcedOrder = (ForcedOrders)base.RegisteredDataFields[(int)DataFields.FORCED_ORDER].ToInt32();
-                this.LockAtJobDone = base.RegisteredDataFields[(int)DataFields.LOCK_AT_JOB_DONE].ToBoolean();
-                this.ToolLoosening = (ToolLoosenings)base.RegisteredDataFields[(int)DataFields.TOOL_LOOSENING].ToInt32();
-                this.RepeatJob = base.RegisteredDataFields[(int)DataFields.REPEAT_JOB].ToBoolean();
-                this.BatchMode = (BatchModes)base.RegisteredDataFields[(int)DataFields.JOB_BATCH_MODE].ToInt32();
-                this.BatchStatusAtIncrement = base.RegisteredDataFields[(int)DataFields.BATCH_STATUS_AT_INCREMENT].ToBoolean();
-                this.DecrementBatchAtOKLoosening = base.RegisteredDataFields[(int)DataFields.DECREMENT_BATCH_AT_OK_LOOSENING].ToBoolean();
-                this.MaxTimeForFirstTightening = base.RegisteredDataFields[(int)DataFields.MAX_TIME_FOR_FIRST_TIGHTENING].ToInt32();
-                this.MaxTimeToCompleteJob = base.RegisteredDataFields[(int)DataFields.MAX_TIME_TO_COMPLETE_JOB].ToInt32();
-                this.DisplayResultAtAutoSelect = base.RegisteredDataFields[(int)DataFields.DISPLAY_RESULT_AT_AUTO_SELECT].ToInt32();
-                this.UsingLineControl = base.RegisteredDataFields[(int)DataFields.USE_LINE_CONTROL].ToBoolean();
-                this.IdentifierResultPartOne = (IdentifierPart)base.RegisteredDataFields[(int)DataFields.IDENTIFIER_RESULT_PART].ToInt32();
-                this.ResultOfNonTightenings = base.RegisteredDataFields[(int)DataFields.RESULT_OF_NON_TIGHTENINGS].ToBoolean();
-                this.ResetAllIdentifiersAtJobDone = base.RegisteredDataFields[(int)DataFields.RESET_ALL_IDENTIFIERS_AT_JOB_DONE].ToBoolean();
-                this.Reserved = (Reserveds)base.RegisteredDataFields[(int)DataFields.RESERVED].ToInt32();
+                JobID = base.RegisteredDataFields[(int)DataFields.JOB_ID].ToInt32();
+                JobName = base.RegisteredDataFields[(int)DataFields.JOB_NAME].Value.ToString();
+                JobList = new Job().getJobsFromPackage(base.RegisteredDataFields[(int)DataFields.JOB_LIST].Value.ToString()).ToList();
+                ForcedOrder = (ForcedOrders)base.RegisteredDataFields[(int)DataFields.FORCED_ORDER].ToInt32();
+                LockAtJobDone = base.RegisteredDataFields[(int)DataFields.LOCK_AT_JOB_DONE].ToBoolean();
+                ToolLoosening = (ToolLoosenings)base.RegisteredDataFields[(int)DataFields.TOOL_LOOSENING].ToInt32();
+                RepeatJob = base.RegisteredDataFields[(int)DataFields.REPEAT_JOB].ToBoolean();
+                BatchMode = (BatchModes)base.RegisteredDataFields[(int)DataFields.JOB_BATCH_MODE].ToInt32();
+                BatchStatusAtIncrement = base.RegisteredDataFields[(int)DataFields.BATCH_STATUS_AT_INCREMENT].ToBoolean();
+                DecrementBatchAtOKLoosening = base.RegisteredDataFields[(int)DataFields.DECREMENT_BATCH_AT_OK_LOOSENING].ToBoolean();
+                MaxTimeForFirstTightening = base.RegisteredDataFields[(int)DataFields.MAX_TIME_FOR_FIRST_TIGHTENING].ToInt32();
+                MaxTimeToCompleteJob = base.RegisteredDataFields[(int)DataFields.MAX_TIME_TO_COMPLETE_JOB].ToInt32();
+                DisplayResultAtAutoSelect = base.RegisteredDataFields[(int)DataFields.DISPLAY_RESULT_AT_AUTO_SELECT].ToInt32();
+                UsingLineControl = base.RegisteredDataFields[(int)DataFields.USE_LINE_CONTROL].ToBoolean();
+                IdentifierResultPartOne = (IdentifierPart)base.RegisteredDataFields[(int)DataFields.IDENTIFIER_RESULT_PART].ToInt32();
+                ResultOfNonTightenings = base.RegisteredDataFields[(int)DataFields.RESULT_OF_NON_TIGHTENINGS].ToBoolean();
+                ResetAllIdentifiersAtJobDone = base.RegisteredDataFields[(int)DataFields.RESET_ALL_IDENTIFIERS_AT_JOB_DONE].ToBoolean();
+                Reserved = (Reserveds)base.RegisteredDataFields[(int)DataFields.RESERVED].ToInt32();
 
                 return this;
             }
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         private void adjustDataFieldsIndexes()
@@ -195,8 +195,8 @@ namespace OpenProtocolInterpreter.Job.Advanced
 
             public Job()
             {
-                this.fields = new List<DataField>();
-                this.registerDatafields();
+                fields = new List<DataField>();
+                registerDatafields();
             }
 
             public IEnumerable<Job> getJobsFromPackage(string package)
@@ -205,7 +205,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
 
                 var jobs = package.Split(';');
                 foreach (string jobData in jobs)
-                    obj.Add(this.getJobFromPackage(jobData));
+                    obj.Add(getJobFromPackage(jobData));
 
                 return obj;
             }
@@ -226,7 +226,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
 
             private void registerDatafields()
             {
-                this.fields.AddRange(
+                fields.AddRange(
                     new DataField[]
                     {
                             new DataField((int)DataFields.CHANNEL_ID, 0, 2),

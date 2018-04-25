@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.ApplicationSelector
     /// Message sent by: Controller
     /// Answer: MID 0252, Selector socket info acknowledge
     /// </summary>
-    public class MID_0251 : MID, IApplicationSelector
+    public class MID_0251 : Mid, IApplicationSelector
     {
         private const int length = 24;
         public const int MID = 251;
@@ -23,39 +23,39 @@ namespace OpenProtocolInterpreter.ApplicationSelector
         public int NumberOfSockets { get; set; }
         public List<bool> SocketStatuses { get; set; }
 
-        public MID_0251() : base(length, MID, revision) { this.SocketStatuses = new List<bool>(); }
+        public MID_0251() : base(length, MID, revision) { SocketStatuses = new List<bool>(); }
 
-        internal MID_0251(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0251(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.SocketStatuses = new List<bool>();
-            this.NextTemplate = nextTemplate;
+            SocketStatuses = new List<bool>();
+            NextTemplate = nextTemplate;
         }
 
         public override string BuildPackage()
         {
-            if (this.DeviceID > 99)
+            if (DeviceID > 99)
                 throw new ArgumentException("Device ID must be in 00-99 range!!");
 
-            this.RegisteredDataFields[(int)DataFields.DEVICE_ID].Value = this.DeviceID.ToString().PadLeft(this.RegisteredDataFields[(int)DataFields.DEVICE_ID].Size, '0');
-            this.RegisteredDataFields[(int)DataFields.NUMBER_OF_SOCKETS].Value = this.NumberOfSockets.ToString().PadLeft(this.RegisteredDataFields[(int)DataFields.NUMBER_OF_SOCKETS].Size, '0');
+            this.RegisteredDataFields[(int)DataFields.DEVICE_ID].Value = DeviceID.ToString().PadLeft(this.RegisteredDataFields[(int)DataFields.DEVICE_ID].Size, '0');
+            this.RegisteredDataFields[(int)DataFields.NUMBER_OF_SOCKETS].Value = NumberOfSockets.ToString().PadLeft(this.RegisteredDataFields[(int)DataFields.NUMBER_OF_SOCKETS].Size, '0');
             string statuses = string.Empty;
-            this.SocketStatuses.ForEach(x => statuses += Convert.ToInt32(x).ToString());
+            SocketStatuses.ForEach(x => statuses += Convert.ToInt32(x).ToString());
             this.RegisteredDataFields[(int)DataFields.SOCKET_STATUS].Value = statuses;
             return base.BuildPackage();
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
             {
                 base.ProcessPackage(package);
-                this.DeviceID = this.RegisteredDataFields[(int)DataFields.DEVICE_ID].ToInt32();
-                this.NumberOfSockets = this.RegisteredDataFields[(int)DataFields.NUMBER_OF_SOCKETS].ToInt32();
-                this.SocketStatuses = this.getSocketStatus(package.Substring(this.RegisteredDataFields[(int)DataFields.NUMBER_OF_SOCKETS].Index));
+                DeviceID = this.RegisteredDataFields[(int)DataFields.DEVICE_ID].ToInt32();
+                NumberOfSockets = this.RegisteredDataFields[(int)DataFields.NUMBER_OF_SOCKETS].ToInt32();
+                SocketStatuses = getSocketStatus(package.Substring(this.RegisteredDataFields[(int)DataFields.NUMBER_OF_SOCKETS].Index));
                 return this;
             }
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         private List<bool> getSocketStatus(string package)

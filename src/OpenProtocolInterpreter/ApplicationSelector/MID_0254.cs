@@ -16,7 +16,7 @@ namespace OpenProtocolInterpreter.ApplicationSelector
     /// Answer: MID 0005 Command accepted or 
     ///         MID 0004 Command error, Faulty IO device ID
     /// </summary>
-    public class MID_0254 : MID, IApplicationSelector
+    public class MID_0254 : Mid, IApplicationSelector
     {
         private const int length = 34;
         public const int MID = 254;
@@ -25,37 +25,37 @@ namespace OpenProtocolInterpreter.ApplicationSelector
         public int DeviceID { get; set; }
         public List<GreenLightCommand> GreenLights { get; set; }
 
-        public MID_0254() : base(length, MID, revision) { this.GreenLights = new List<GreenLightCommand>(); }
+        public MID_0254() : base(length, MID, revision) { GreenLights = new List<GreenLightCommand>(); }
 
-        internal MID_0254(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0254(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.GreenLights = new List<GreenLightCommand>();
-            this.NextTemplate = nextTemplate;
+            GreenLights = new List<GreenLightCommand>();
+            NextTemplate = nextTemplate;
         }
 
         public override string BuildPackage()
         {
-            if (this.DeviceID > 99)
+            if (DeviceID > 99)
                 throw new ArgumentException("Device ID must be in 00-99 range!!");
 
-            this.RegisteredDataFields[(int)DataFields.DEVICE_ID].Value = this.DeviceID.ToString().PadLeft(this.RegisteredDataFields[(int)DataFields.DEVICE_ID].Size, '0');
+            this.RegisteredDataFields[(int)DataFields.DEVICE_ID].Value = DeviceID.ToString().PadLeft(this.RegisteredDataFields[(int)DataFields.DEVICE_ID].Size, '0');
             string statuses = string.Empty;
-            this.GreenLights.ForEach(x => statuses += ((int)x).ToString());
+            GreenLights.ForEach(x => statuses += ((int)x).ToString());
             this.RegisteredDataFields[(int)DataFields.GREEN_LIGHT_COMMAND].Value = statuses;
             return base.BuildPackage();
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
             {
                 base.ProcessPackage(package);
-                this.DeviceID = this.RegisteredDataFields[(int)DataFields.DEVICE_ID].ToInt32();
-                this.GreenLights = this.getGreenLightCommands(package.Substring(this.RegisteredDataFields[(int)DataFields.GREEN_LIGHT_COMMAND].Index));
+                DeviceID = this.RegisteredDataFields[(int)DataFields.DEVICE_ID].ToInt32();
+                GreenLights = getGreenLightCommands(package.Substring(this.RegisteredDataFields[(int)DataFields.GREEN_LIGHT_COMMAND].Index));
                 return this;
             }
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         private List<GreenLightCommand> getGreenLightCommands(string package)

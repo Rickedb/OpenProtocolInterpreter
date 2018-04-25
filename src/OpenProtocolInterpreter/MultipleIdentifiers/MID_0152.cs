@@ -14,7 +14,7 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
     /// Message sent by: Controller
     /// Answer: MID 0153 Multiple identifiers and result parts acknowledge
     /// </summary>
-    public class MID_0152 : MID, IMultipleIdentifier
+    public class MID_0152 : Mid, IMultipleIdentifier
     {
         public const int MID = 152;
         private const int length = 150;
@@ -27,34 +27,34 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
 
         public MID_0152() : base(length, MID, revision) { }
 
-        internal MID_0152(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0152(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
         public override string BuildPackage()
         {
-            base.RegisteredDataFields[(int)DataFields.FIRST_IDENTIFIER_STATUS].Value = this.FirstIdentifierStatus.buildPackage();
-            base.RegisteredDataFields[(int)DataFields.SECOND_IDENTIFIER_STATUS].Value = this.SecondIdentifierStatus.buildPackage();
-            base.RegisteredDataFields[(int)DataFields.THIRD_IDENTIFIER_STATUS].Value = this.ThirdIdentifierStatus.buildPackage();
-            base.RegisteredDataFields[(int)DataFields.FOURTH_IDENTIFIER_STATUS].Value = this.FourthIdentifierStatus.buildPackage();
+            base.RegisteredDataFields[(int)DataFields.FIRST_IDENTIFIER_STATUS].Value = FirstIdentifierStatus.buildPackage();
+            base.RegisteredDataFields[(int)DataFields.SECOND_IDENTIFIER_STATUS].Value = SecondIdentifierStatus.buildPackage();
+            base.RegisteredDataFields[(int)DataFields.THIRD_IDENTIFIER_STATUS].Value = ThirdIdentifierStatus.buildPackage();
+            base.RegisteredDataFields[(int)DataFields.FOURTH_IDENTIFIER_STATUS].Value = FourthIdentifierStatus.buildPackage();
             return base.BuildPackage();
         }
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
             {
-                this.ProcessPackage(package);
+                ProcessPackage(package);
 
-                this.FirstIdentifierStatus = new IdentifierStatus().getIdentifierStatusFromPackage(base.RegisteredDataFields[(int)DataFields.FIRST_IDENTIFIER_STATUS].Value.ToString());
-                this.SecondIdentifierStatus = new IdentifierStatus().getIdentifierStatusFromPackage(base.RegisteredDataFields[(int)DataFields.SECOND_IDENTIFIER_STATUS].Value.ToString());
-                this.ThirdIdentifierStatus = new IdentifierStatus().getIdentifierStatusFromPackage(base.RegisteredDataFields[(int)DataFields.THIRD_IDENTIFIER_STATUS].Value.ToString());
-                this.FourthIdentifierStatus = new IdentifierStatus().getIdentifierStatusFromPackage(base.RegisteredDataFields[(int)DataFields.FOURTH_IDENTIFIER_STATUS].Value.ToString());
+                FirstIdentifierStatus = new IdentifierStatus().getIdentifierStatusFromPackage(base.RegisteredDataFields[(int)DataFields.FIRST_IDENTIFIER_STATUS].Value.ToString());
+                SecondIdentifierStatus = new IdentifierStatus().getIdentifierStatusFromPackage(base.RegisteredDataFields[(int)DataFields.SECOND_IDENTIFIER_STATUS].Value.ToString());
+                ThirdIdentifierStatus = new IdentifierStatus().getIdentifierStatusFromPackage(base.RegisteredDataFields[(int)DataFields.THIRD_IDENTIFIER_STATUS].Value.ToString());
+                FourthIdentifierStatus = new IdentifierStatus().getIdentifierStatusFromPackage(base.RegisteredDataFields[(int)DataFields.FOURTH_IDENTIFIER_STATUS].Value.ToString());
 
                 return this;
             }
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields()
@@ -86,42 +86,42 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
 
             public IdentifierStatus()
             {
-                this.fields = new List<DataField>();
-                this.registerDatafields();
+                fields = new List<DataField>();
+                registerDatafields();
             }
 
             public string buildPackage()
             {
                 string pkg = string.Empty;
-                pkg += this.IdentifierTypeNumber.ToString();
-                pkg += Convert.ToInt32(this.IncludedInWorkOrder).ToString().PadLeft(2, '0');
-                pkg += ((int)this.StatusInWorkOrder).ToString().PadLeft(2, '0');
-                pkg += this.ResultPart.ToString();
+                pkg += IdentifierTypeNumber.ToString();
+                pkg += Convert.ToInt32(IncludedInWorkOrder).ToString().PadLeft(2, '0');
+                pkg += ((int)StatusInWorkOrder).ToString().PadLeft(2, '0');
+                pkg += ResultPart.ToString();
                 return pkg;
             }
 
             public IdentifierStatus getIdentifierStatusFromPackage(string package)
             {
-                this.processPackage(package);
+                processPackage(package);
                 IdentifierStatus obj = new IdentifierStatus();
 
-                obj.IdentifierTypeNumber = this.fields[(int)DataFields.IDENTIFIER_TYPE_NUMBER].ToInt32();
-                obj.IncludedInWorkOrder = this.fields[(int)DataFields.INCLUDED_IN_WORK_ORDER].ToBoolean();
-                obj.StatusInWorkOrder = (StatusesInWorkOrder)this.fields[(int)DataFields.STATUS_IN_WORK_ORDER].ToInt32();
-                obj.ResultPart = this.fields[(int)DataFields.RESULT_PART].Value.ToString();
+                obj.IdentifierTypeNumber = fields[(int)DataFields.IDENTIFIER_TYPE_NUMBER].ToInt32();
+                obj.IncludedInWorkOrder = fields[(int)DataFields.INCLUDED_IN_WORK_ORDER].ToBoolean();
+                obj.StatusInWorkOrder = (StatusesInWorkOrder)fields[(int)DataFields.STATUS_IN_WORK_ORDER].ToInt32();
+                obj.ResultPart = fields[(int)DataFields.RESULT_PART].Value.ToString();
 
                 return obj;
             }
 
             private void processPackage(string package)
             {
-                foreach (var field in this.fields)
+                foreach (var field in fields)
                     field.Value = package.Substring(field.Index, field.Size);
             }
 
             private void registerDatafields()
             {
-                this.fields.AddRange(
+                fields.AddRange(
                     new DataField[]
                     {
                             new DataField((int)DataFields.IDENTIFIER_TYPE_NUMBER, 0, 1),

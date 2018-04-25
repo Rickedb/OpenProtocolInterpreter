@@ -16,7 +16,7 @@ namespace OpenProtocolInterpreter.IOInterface
     /// Message sent by: Controller
     /// Answer: None
     /// </summary>
-    internal class MID_0215 : MID, IIOInterface
+    internal class MID_0215 : Mid, IIOInterface
     {
         private const int length = 92;
         public const int MID = 215;
@@ -28,38 +28,38 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public MID_0215() : base(length, MID, revision)
         {
-            this.RelayList = new List<Relay>();
-            this.DigitalInputList = new List<DigitalInput>();
+            RelayList = new List<Relay>();
+            DigitalInputList = new List<DigitalInput>();
         }
 
-        internal MID_0215(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0215(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.RelayList = new List<Relay>();
-            this.DigitalInputList = new List<DigitalInput>();
-            this.NextTemplate = nextTemplate;
+            RelayList = new List<Relay>();
+            DigitalInputList = new List<DigitalInput>();
+            NextTemplate = nextTemplate;
         }
 
         public override string BuildPackage()
         {
             string pkg = base.BuildHeader();
-            pkg += this.IODeviceID.ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.IO_DEVICE_ID].Size, '0');
+            pkg += IODeviceID.ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.IO_DEVICE_ID].Size, '0');
             RelayList.ForEach(x => pkg += x.buildPackage());
             DigitalInputList.ForEach(x => pkg += x.buildPackage());
             return pkg;
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
             {
                 base.ProcessPackage(package);
-                this.IODeviceID = base.RegisteredDataFields[(int)DataFields.IO_DEVICE_ID].ToInt32();
-                this.RelayList = new Relay().getRelaysFromPackage(base.RegisteredDataFields[(int)DataFields.RELAY_LIST].Value.ToString()).ToList();
-                this.DigitalInputList = new DigitalInput().getDigitalInputsFromPackage(base.RegisteredDataFields[(int)DataFields.DIGITAL_INPUT_LIST].Value.ToString()).ToList();
+                IODeviceID = base.RegisteredDataFields[(int)DataFields.IO_DEVICE_ID].ToInt32();
+                RelayList = new Relay().getRelaysFromPackage(base.RegisteredDataFields[(int)DataFields.RELAY_LIST].Value.ToString()).ToList();
+                DigitalInputList = new DigitalInput().getDigitalInputsFromPackage(base.RegisteredDataFields[(int)DataFields.DIGITAL_INPUT_LIST].Value.ToString()).ToList();
                 return this;
             }
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields()

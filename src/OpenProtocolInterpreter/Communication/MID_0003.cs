@@ -8,13 +8,13 @@
     /// Message sent by: Controller
     /// Answer: MID 0005 Command accepted
     /// </summary>
-    public class MID_0003 : MID, ICommunication
+    public class MID_0003 : Mid, ICommunication
     {
         private const int LAST_REVISION = 1;
         public const int MID = 3;
 
         public MID_0003() : base(MID, LAST_REVISION) { }
 
-        internal MID_0003(IMID nextTemplate) : base(MID, LAST_REVISION) => NextTemplate = nextTemplate;
+        internal MID_0003(IMid nextTemplate) : base(MID, LAST_REVISION) => NextTemplate = nextTemplate;
     }
 }

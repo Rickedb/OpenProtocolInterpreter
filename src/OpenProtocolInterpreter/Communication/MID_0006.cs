@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.Communication
     /// Message sent by: Integrator
     /// Answer: MID Requested for or MID 0004 Command error. Error described at each MID description.
     /// </summary>
-    public class MID_0006 : MID, ICommunication
+    public class MID_0006 : Mid, ICommunication
     {
         private const int LAST_REVISION = 1;
         public const int MID = 6;
@@ -25,7 +25,7 @@ namespace OpenProtocolInterpreter.Communication
 
         }
 
-        internal MID_0006(IMID nextTemplate) : this()
+        internal MID_0006(IMid nextTemplate) : this()
         {
             NextTemplate = nextTemplate;
         }
@@ -35,7 +35,7 @@ namespace OpenProtocolInterpreter.Communication
             throw new NotImplementedException();
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             throw new NotImplementedException();
         }

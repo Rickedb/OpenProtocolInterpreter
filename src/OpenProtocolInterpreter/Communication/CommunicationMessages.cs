@@ -5,21 +5,21 @@ namespace OpenProtocolInterpreter.Communication
 {
     internal class CommunicationMessages : IMessagesTemplate
     {
-        private readonly IMID templates;
+        private readonly IMid templates;
 
         public CommunicationMessages()
         {
-            this.templates = new MID_0005(new MID_0004(new MID_0001(new MID_0002(new MID_0006(null)))));
+            templates = new MID_0005(new MID_0004(new MID_0001(new MID_0002(new MID_0006(null)))));
         }
 
-        public CommunicationMessages(IEnumerable<MID> selectedMids)
+        public CommunicationMessages(IEnumerable<Mid> selectedMids)
         {
-            this.templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
+            templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
         }
 
-        public MID ProcessPackage(string package)
+        public Mid ProcessPackage(string package)
         {
-            return this.templates.ProcessPackage(package);
+            return templates.ProcessPackage(package);
         }
     }
 }

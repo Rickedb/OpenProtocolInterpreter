@@ -4,21 +4,21 @@ namespace OpenProtocolInterpreter.UserInterface
 {
     internal class UserInterfaceMessages : IMessagesTemplate
     {
-        private readonly IMID templates;
+        private readonly IMid templates;
 
         public UserInterfaceMessages()
         {
-            this.templates = new MID_0110(new MID_0111(new MID_0113(null)));
+            templates = new MID_0110(new MID_0111(new MID_0113(null)));
         }
 
-        public UserInterfaceMessages(System.Collections.Generic.IEnumerable<MID> selectedMids)
+        public UserInterfaceMessages(System.Collections.Generic.IEnumerable<Mid> selectedMids)
         {
-            this.templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
+            templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
         }
 
-        public MID ProcessPackage(string package)
+        public Mid ProcessPackage(string package)
         {
-            return this.templates.ProcessPackage(package);
+            return templates.ProcessPackage(package);
         }
     }
 }

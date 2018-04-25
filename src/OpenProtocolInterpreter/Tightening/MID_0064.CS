@@ -1,4 +1,6 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Converters;
+using System.Collections.Generic;
+
 namespace OpenProtocolInterpreter.Tightening
 {
     /// <summary>
@@ -16,42 +18,37 @@ namespace OpenProtocolInterpreter.Tightening
     /// </summary>
     public class MID_0064 : MID, ITightening
     {
-        private const int length = 30;
+        private readonly IValueConverter<long> _longConverter;
+        private const int LAST_REVISION = 6;
         public const int MID = 64;
-        private const int revision = 1;
-        
-        public int TighteningID { get; set; }
 
-        public MID_0064() : base(length, MID, revision) { }
-
-        public MID_0064(int tighteningId) : base(length, MID, revision)
+        public long TighteningId
         {
-            this.TighteningID = tighteningId;
+            get => RevisionsByFields[1][(int)DataFields.TIGHTENING_ID].GetValue(_longConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.TIGHTENING_ID].SetValue(_longConverter.Convert, value);
         }
 
-        internal MID_0064(IMID nextTemplate) : base(length, MID, revision)
+        public MID_0064(int revision = LAST_REVISION) : base(MID, LAST_REVISION) { }
+
+        public MID_0064(int tighteningId, int revision = LAST_REVISION) : this(revision)
         {
-            this.NextTemplate = nextTemplate;
+            TighteningId = tighteningId;
         }
 
-        public override string BuildPackage() { return base.BuildHeader() + this.TighteningID.ToString().PadRight(10, ' '); }
+        internal MID_0064(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
 
-        public override MID ProcessPackage(string package)
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
-            if (base.IsCorrectType(package))
+            //opted to work with a different approuch (since it would need to modify too much fields)
+            return new Dictionary<int, List<DataField>>()
             {
-                this.HeaderData = this.ProcessHeader(package);
-                var dataField = base.RegisteredDataFields[(int)DataFields.TIGHTENING_ID];
-                this.TighteningID = Convert.ToInt32(package.Substring(dataField.Index, dataField.Size));
-                return this;
-            }
-
-            return this.NextTemplate.ProcessPackage(package);
-        }
-
-        protected override void RegisterDatafields()
-        {
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.TIGHTENING_ID, 20, 10));
+                {
+                    1, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.TIGHTENING_ID, 20, 10, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                            }
+                }
+            };
         }
 
         public enum DataFields

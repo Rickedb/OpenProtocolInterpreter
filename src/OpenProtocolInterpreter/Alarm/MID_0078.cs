@@ -8,7 +8,7 @@
     /// Message sent by: Integrator
     /// Answer : MID 0005 Command accepted or MID 0004 Command error, No alarm present or Invalid data
     /// </summary>
-    public class MID_0078 : MID, IAlarm
+    public class MID_0078 : Mid, IAlarm
     {
         public const int MID = 78;
         private const int length = 20;
@@ -19,17 +19,17 @@
 
         }
 
-        internal MID_0078(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0078(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
                 return base.ProcessPackage(package);
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields() { }

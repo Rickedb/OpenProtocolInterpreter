@@ -6,7 +6,7 @@
     /// Message sent by: Integrator
     /// Answer: None
     /// </summary>
-    public class MID_0125 : MID, IAdvancedJob
+    public class MID_0125 : Mid, IAdvancedJob
     {
         private const int length = 20;
         public const int MID = 125;
@@ -14,17 +14,17 @@
 
         public MID_0125() : base(length, MID, revision) { }
 
-        internal MID_0125(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0125(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
                 return (MID_0125)base.ProcessPackage(package);
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields() { }

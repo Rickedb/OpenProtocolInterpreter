@@ -7,7 +7,7 @@
     /// Message sent by: Controller
     /// Answer: MID 0125 Job line control info acknowledged
     /// </summary>
-    public class MID_0124 : MID, IAdvancedJob
+    public class MID_0124 : Mid, IAdvancedJob
     {
         private const int length = 20;
         public const int MID = 124;
@@ -15,17 +15,17 @@
 
         public MID_0124() : base(length, MID, revision) { }
 
-        internal MID_0124(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0124(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
                 return (MID_0124)base.ProcessPackage(package);
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields() { }

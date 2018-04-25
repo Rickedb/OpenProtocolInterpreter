@@ -10,7 +10,7 @@ namespace OpenProtocolInterpreter.Time
     /// Message sent by: Controller
     /// Answer: None
     /// </summary>
-    public class MID_0081 : MID, ITime
+    public class MID_0081 : Mid, ITime
     {
         private const int length = 39;
         public const int MID = 81;
@@ -20,29 +20,29 @@ namespace OpenProtocolInterpreter.Time
 
         public MID_0081() : base(length, MID, revision) {  }
 
-        internal MID_0081(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0081(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
         public override string BuildPackage()
         {
             string package = base.BuildHeader();
-            package += this.Time.ToString("yyyy-MM-dd:HH:mm:ss");
+            package += Time.ToString("yyyy-MM-dd:HH:mm:ss");
             return base.BuildPackage();
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
             {
                 base.ProcessHeader(package);
                 this.RegisteredDataFields[(int)DataFields.TIME].Value = package.Substring(this.RegisteredDataFields[(int)DataFields.TIME].Index, this.RegisteredDataFields[(int)DataFields.TIME].Size);
-                this.Time = this.RegisteredDataFields[(int)DataFields.TIME].ToDateTime();
+                Time = this.RegisteredDataFields[(int)DataFields.TIME].ToDateTime();
                 return this;
             }
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
 

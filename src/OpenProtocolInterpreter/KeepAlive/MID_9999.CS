@@ -18,7 +18,7 @@ namespace OpenProtocolInterpreter.KeepAlive
     /// Message sent by: Integrator
     /// Answer: The same message mirrored by the controller.
     /// </summary>
-    public class MID_9999 : MID
+    public class MID_9999 : Mid
     {
         private const int length = 20;
         public const int MID = 9999;
@@ -26,9 +26,9 @@ namespace OpenProtocolInterpreter.KeepAlive
 
         public MID_9999() : base(length, MID, revision) { }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
-            if (this.IsCorrectType(package))
+            if (IsCorrectType(package))
                 return base.ProcessPackage(package);
 
             throw new NotImplementedException("MID not implemented or doesn't exists!");

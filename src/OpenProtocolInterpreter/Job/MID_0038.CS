@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.Job
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted or MID 0004 Command error, Job can not be set, or Invalid data
     /// </summary>
-    public class MID_0038 : MID, IJob
+    public class MID_0038 : Mid, IJob
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 2;
@@ -48,9 +48,9 @@ namespace OpenProtocolInterpreter.Job
             JobId = jobId;
         }
 
-        internal MID_0038(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
+        internal MID_0038(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (IsCorrectType(package))
             {

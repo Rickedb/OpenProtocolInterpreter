@@ -21,7 +21,7 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
     /// Message sent by: Controller
     /// Answer: None
     /// </summary>
-    public class MID_0411 : MID, IAutomaticManualMode
+    public class MID_0411 : Mid, IAutomaticManualMode
     {
         public const int MID = 411;
         private const int length = 21;
@@ -32,29 +32,29 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
 
         public MID_0411() : base(length, MID, revision) { }
 
-        internal MID_0411(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0411(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
         public override string BuildPackage()
         {
-            return base.BuildHeader() + 
-                this.AutoDisableSetting.ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.AUTO_DISABLE_SETTING].Size, '0') + 
-                this.CurrentBatch.ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.CURRENT_BATCH].Size, '0');
+            return base.BuildHeader() +
+                AutoDisableSetting.ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.AUTO_DISABLE_SETTING].Size, '0') +
+                CurrentBatch.ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.CURRENT_BATCH].Size, '0');
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
             {
-                this.HeaderData = this.ProcessHeader(package);
-                this.AutoDisableSetting = Convert.ToInt32(package.Substring(base.RegisteredDataFields[(int)DataFields.AUTO_DISABLE_SETTING].Index, base.RegisteredDataFields[(int)DataFields.AUTO_DISABLE_SETTING].Size));
-                this.CurrentBatch = Convert.ToInt32(package.Substring(base.RegisteredDataFields[(int)DataFields.CURRENT_BATCH].Index, base.RegisteredDataFields[(int)DataFields.CURRENT_BATCH].Size));
+                HeaderData = ProcessHeader(package);
+                AutoDisableSetting = Convert.ToInt32(package.Substring(base.RegisteredDataFields[(int)DataFields.AUTO_DISABLE_SETTING].Index, base.RegisteredDataFields[(int)DataFields.AUTO_DISABLE_SETTING].Size));
+                CurrentBatch = Convert.ToInt32(package.Substring(base.RegisteredDataFields[(int)DataFields.CURRENT_BATCH].Index, base.RegisteredDataFields[(int)DataFields.CURRENT_BATCH].Size));
                 return this;
             }
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields()

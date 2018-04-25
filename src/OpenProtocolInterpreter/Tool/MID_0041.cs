@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.Tool
     /// Message sent by: Controller
     /// Answer: None
     /// </summary>
-    public class MID_0041 : MID, ITool
+    public class MID_0041 : Mid, ITool
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<long> _longConverter;
@@ -293,7 +293,7 @@ namespace OpenProtocolInterpreter.Tool
             ToolModel = toolModel;
         }
 
-        internal MID_0041(IMID nextTemplate) : this()
+        internal MID_0041(IMid nextTemplate) : this()
         {
             NextTemplate = nextTemplate;
         }

@@ -11,7 +11,7 @@ namespace OpenProtocolInterpreter.Job
     /// Message sent by: Controller
     /// Answer: None
     /// </summary>
-    public class MID_0033 : MID, IJob
+    public class MID_0033 : Mid, IJob
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;
@@ -141,7 +141,7 @@ namespace OpenProtocolInterpreter.Job
             JobList = jobList.ToList();
         }
 
-        internal MID_0033(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
+        internal MID_0033(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         public override string BuildPackage()
         {
@@ -152,7 +152,7 @@ namespace OpenProtocolInterpreter.Job
             return package;
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (IsCorrectType(package))
             {

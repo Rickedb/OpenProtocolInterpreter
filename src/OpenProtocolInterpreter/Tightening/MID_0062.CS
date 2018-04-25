@@ -16,7 +16,7 @@
 
         }
 
-        internal MID_0062(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
+        internal MID_0062(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
         
     }
 }

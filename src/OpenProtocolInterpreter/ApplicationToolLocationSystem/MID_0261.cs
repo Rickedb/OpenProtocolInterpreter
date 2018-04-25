@@ -8,7 +8,7 @@
     /// Answer: MID 0262 Tool tag ID or
     ///         MID 0004 Command error, Tool tag ID unknown , Tool tag ID subscription already exist or MID revision unsupported.
     /// </summary>
-    public class MID_0261 : MID, IApplicationToolLocationSystem
+    public class MID_0261 : Mid, IApplicationToolLocationSystem
     {
         private const int length = 20;
         public const int MID = 261;
@@ -16,17 +16,17 @@
 
         public MID_0261() : base(length, MID, revision) { }
 
-        internal MID_0261(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0261(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
                 return (MID_0261)base.ProcessPackage(package);
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields() { }

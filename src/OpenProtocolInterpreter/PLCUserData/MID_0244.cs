@@ -8,7 +8,7 @@
     /// Answer: MID 0005 Command accepted or 
     ///         MID 0004 Command error, Subscription already exists
     /// </summary>
-    public class MID_0244 : MID, IPLCUserData
+    public class MID_0244 : Mid, IPLCUserData
     {
         private const int length = 20;
         public const int MID = 244;
@@ -16,17 +16,17 @@
 
         public MID_0244() : base(length, MID, revision) { }
 
-        internal MID_0244(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0244(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
                 return (MID_0244)base.ProcessPackage(package);
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields() { }

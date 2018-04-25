@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.Alarm
     /// Message sent by: Controller
     /// Answer: MID 0072 Alarm acknowledge
     /// </summary>
-    public class MID_0071 : MID, IAlarm
+    public class MID_0071 : Mid, IAlarm
     {
         private const int length = 53;
         public const int MID = 71;
@@ -22,25 +22,25 @@ namespace OpenProtocolInterpreter.Alarm
 
         public MID_0071() : base(length, MID, revision)
         {
-            this.AlarmData = new Alarms();
+            AlarmData = new Alarms();
         }
 
-        internal MID_0071(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0071(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.AlarmData = new Alarms();
-            this.NextTemplate = nextTemplate;
+            AlarmData = new Alarms();
+            NextTemplate = nextTemplate;
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
             {
-                this.AlarmData = new Alarms().getAlarmFromPackage(package);
+                AlarmData = new Alarms().getAlarmFromPackage(package);
                 return this;
             }
                 
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields()
@@ -61,16 +61,16 @@ namespace OpenProtocolInterpreter.Alarm
             public bool ToolReadyStatus { get; set; }
             public DateTime Time { get; set; }
 
-            public Alarms() { this.registerFields(); }
+            public Alarms() { registerFields(); }
 
             public Alarms getAlarmFromPackage(string package)
             {
-                this.processFields(package);
+                processFields(package);
 
-                this.ErrorCode = this.fields[(int)Fields.ERROR_CODE].ToString();
-                this.ControllerReadyStatus = this.fields[(int)Fields.CONTROLLER_READY_STATUS].ToBoolean();
-                this.ToolReadyStatus = this.fields[(int)Fields.TOOL_READY_STATUS].ToBoolean();
-                this.Time = this.fields[(int)Fields.TIME].ToDateTime();
+                ErrorCode = fields[(int)Fields.ERROR_CODE].ToString();
+                ControllerReadyStatus = fields[(int)Fields.CONTROLLER_READY_STATUS].ToBoolean();
+                ToolReadyStatus = fields[(int)Fields.TOOL_READY_STATUS].ToBoolean();
+                Time = fields[(int)Fields.TIME].ToDateTime();
 
                 return this;
             }
@@ -84,14 +84,14 @@ namespace OpenProtocolInterpreter.Alarm
 
             private void processFields(string package)
             {
-                foreach (var field in this.fields)
+                foreach (var field in fields)
                     field.Value = package.Substring(2 + field.Index, field.Size);
             }
 
             private void registerFields()
             {
-                this.fields = new List<DataField>();
-                this.fields.AddRange(new DataField[] {
+                fields = new List<DataField>();
+                fields.AddRange(new DataField[] {
                         new DataField((int)Fields.ERROR_CODE, 20, 4),
                         new DataField((int)Fields.CONTROLLER_READY_STATUS, 26, 1),
                         new DataField((int)Fields.TOOL_READY_STATUS, 29, 1),

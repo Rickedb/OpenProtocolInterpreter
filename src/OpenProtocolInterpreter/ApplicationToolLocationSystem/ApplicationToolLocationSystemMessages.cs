@@ -5,21 +5,21 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
 {
     internal class ApplicationToolLocationSystemMessages : IMessagesTemplate
     {
-        private readonly IMID templates;
+        private readonly IMid templates;
 
         public ApplicationToolLocationSystemMessages()
         {
-            this.templates = new MID_0260(new MID_0261(new MID_0262(new MID_0263(new MID_0264(new MID_0265(null))))));
+            templates = new MID_0260(new MID_0261(new MID_0262(new MID_0263(new MID_0264(new MID_0265(null))))));
         }
 
-        public ApplicationToolLocationSystemMessages(IEnumerable<MID> selectedMids)
+        public ApplicationToolLocationSystemMessages(IEnumerable<Mid> selectedMids)
         {
-            this.templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
+            templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
         }
 
-        public MID ProcessPackage(string package)
+        public Mid ProcessPackage(string package)
         {
-            return this.templates.ProcessPackage(package);
+            return templates.ProcessPackage(package);
         }
     }
 }

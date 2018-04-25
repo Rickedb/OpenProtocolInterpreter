@@ -9,7 +9,7 @@
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted and MID 0015 Parameter set selected
     /// </summary>
-    public class MID_0014 : MID, IParameterSet
+    public class MID_0014 : Mid, IParameterSet
     {
         private const int LAST_REVISION = 1;
         public const int MID = 14;
@@ -23,7 +23,7 @@
         
         }
 
-        internal MID_0014(IMID nextTemplate) : this()
+        internal MID_0014(IMid nextTemplate) : this()
         {
             NextTemplate = nextTemplate;
         }

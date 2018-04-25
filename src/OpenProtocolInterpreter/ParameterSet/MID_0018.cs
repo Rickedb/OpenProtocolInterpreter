@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted or MID 0004 Command error, Parameter set can not be set
     /// </summary>
-    public class MID_0018 : MID, IParameterSet
+    public class MID_0018 : Mid, IParameterSet
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 1;
@@ -32,7 +32,7 @@ namespace OpenProtocolInterpreter.ParameterSet
         /// <param name="parameterSetId">Three ASCII digits, range 000-999</param>
         public MID_0018(int parameterSetId) : this() => ParameterSetId = parameterSetId;
 
-        internal MID_0018(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
+        internal MID_0018(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

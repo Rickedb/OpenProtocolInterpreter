@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.IOInterface
     ///         MID 0004 Command error,
     ///         Faulty IO device ID, or IO device not connected
     /// </summary>
-    public class MID_0214 : MID, IIOInterface
+    public class MID_0214 : Mid, IIOInterface
     {
         public const int MID = 214;
         private const int length = 22;
@@ -24,33 +24,33 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public MID_0214(int deviceNumber) : base(length, MID, revision)
         {
-            this.DeviceNumber = deviceNumber;
+            DeviceNumber = deviceNumber;
         }
 
-        internal MID_0214(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0214(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
         public override string BuildPackage()
         {
-            if (this.DeviceNumber > 15 || this.DeviceNumber < 0)
+            if (DeviceNumber > 15 || DeviceNumber < 0)
                 throw new ArgumentException("Invalid Device Number, Device number range is 00-15 => 00=internal device, 01 - 15 = I/O expanders");
 
-            return base.BuildHeader() + this.DeviceNumber.ToString().PadLeft(2, '0');
+            return base.BuildHeader() + DeviceNumber.ToString().PadLeft(2, '0');
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
             {
-                this.HeaderData = this.ProcessHeader(package);
+                HeaderData = ProcessHeader(package);
                 var dataField = base.RegisteredDataFields[(int)DataFields.DEVICE_NUMBER];
-                this.DeviceNumber = Convert.ToInt32(package.Substring(dataField.Index, dataField.Size));
+                DeviceNumber = Convert.ToInt32(package.Substring(dataField.Index, dataField.Size));
                 return this;
             }
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields()

@@ -4,21 +4,21 @@ namespace OpenProtocolInterpreter.PLCUserData
 {
     internal class PLCUserDataMessages : IMessagesTemplate
     {
-        private readonly IMID templates;
+        private readonly IMid templates;
 
         public PLCUserDataMessages()
         {
-            this.templates = new MID_0240(new MID_0241( new MID_0242( new MID_0243(new MID_0244(new MID_0245(null))))));
+            templates = new MID_0240(new MID_0241( new MID_0242( new MID_0243(new MID_0244(new MID_0245(null))))));
         }
 
-        public PLCUserDataMessages(System.Collections.Generic.IEnumerable<MID> selectedMids)
+        public PLCUserDataMessages(System.Collections.Generic.IEnumerable<Mid> selectedMids)
         {
-            this.templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
+            templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
         }
 
-        public MID ProcessPackage(string package)
+        public Mid ProcessPackage(string package)
         {
-            return this.templates.ProcessPackage(package);
+            return templates.ProcessPackage(package);
         }
     }
 }

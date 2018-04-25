@@ -19,11 +19,11 @@ namespace MIDTesters
         [TestMethod]
         public void TestMIDIdentifier()
         {
-            this.TestCommunicationMessages();
-            this.TestKeepAliveMessages();
-            this.TestJobMessages();
-            this.TestAdvancedJobMessages();
-            this.TestTighteningMessages();
+            TestCommunicationMessages();
+            TestKeepAliveMessages();
+            TestJobMessages();
+            TestAdvancedJobMessages();
+            TestTighteningMessages();
         }
 
         [TestMethod]

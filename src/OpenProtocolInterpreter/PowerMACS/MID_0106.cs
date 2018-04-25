@@ -23,7 +23,7 @@ namespace OpenProtocolInterpreter.PowerMACS
     /// Message sent by: Controller
     /// Answer: MID 0108 Last Power MACS tightening result data acknowledge
     /// </summary>
-    public class MID_0106 : MID, IPowerMACS
+    public class MID_0106 : Mid, IPowerMACS
     {
         public const int MID = 106;
         private const int length = 9999;
@@ -46,15 +46,15 @@ namespace OpenProtocolInterpreter.PowerMACS
 
         public MID_0106() : base(length, MID, revision)
         {
-            this.BoltsData = new List<BoltData>();
-            this.SpecialValues = new List<SpecialValue>();
+            BoltsData = new List<BoltData>();
+            SpecialValues = new List<SpecialValue>();
         }
 
-        internal MID_0106(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0106(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.BoltsData = new List<BoltData>();
-            this.SpecialValues = new List<SpecialValue>();
-            this.NextTemplate = nextTemplate;
+            BoltsData = new List<BoltData>();
+            SpecialValues = new List<SpecialValue>();
+            NextTemplate = nextTemplate;
         }
 
         public override string BuildPackage()
@@ -63,37 +63,37 @@ namespace OpenProtocolInterpreter.PowerMACS
             return base.BuildPackage();
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
             {
                 base.HeaderData.Length = package.Length;
                 base.ProcessPackage(package);
 
-                this.TotalNumberOfMessages = base.RegisteredDataFields[(int)DataFields.TOTAL_NUMBER_OF_MESSAGES].ToInt32();
-                this.MessageNumber = base.RegisteredDataFields[(int)DataFields.MESSAGE_NUMBER].ToInt32();
-                this.DataNumberSystem = base.RegisteredDataFields[(int)DataFields.DATA_NUMBER_SYSTEM].ToInt32();
-                this.StationNumber = base.RegisteredDataFields[(int)DataFields.STATION_NUMBER].ToInt32();
-                this.StationName = base.RegisteredDataFields[(int)DataFields.STATION_NAME].Value.ToString();
-                this.Time = base.RegisteredDataFields[(int)DataFields.TIME].ToDateTime();
-                this.ModeNumber = base.RegisteredDataFields[(int)DataFields.MODE_NUMBER].ToInt32();
-                this.ModeName = base.RegisteredDataFields[(int)DataFields.MODE_NAME].Value.ToString();
-                this.SimpleStatus = base.RegisteredDataFields[(int)DataFields.SIMPLE_STATUS].ToBoolean();
-                this.WpId = base.RegisteredDataFields[(int)DataFields.WP_ID].Value.ToString();
-                this.PMStatus = (PowerMacsStatuses)base.RegisteredDataFields[(int)DataFields.PM_STATUS].ToInt32();
-                this.WpId = base.RegisteredDataFields[(int)DataFields.WP_ID].ToString();
-                this.NumberOfBolts = base.RegisteredDataFields[(int)DataFields.NUMBER_OF_BOLTS].ToInt32();
+                TotalNumberOfMessages = base.RegisteredDataFields[(int)DataFields.TOTAL_NUMBER_OF_MESSAGES].ToInt32();
+                MessageNumber = base.RegisteredDataFields[(int)DataFields.MESSAGE_NUMBER].ToInt32();
+                DataNumberSystem = base.RegisteredDataFields[(int)DataFields.DATA_NUMBER_SYSTEM].ToInt32();
+                StationNumber = base.RegisteredDataFields[(int)DataFields.STATION_NUMBER].ToInt32();
+                StationName = base.RegisteredDataFields[(int)DataFields.STATION_NAME].Value.ToString();
+                Time = base.RegisteredDataFields[(int)DataFields.TIME].ToDateTime();
+                ModeNumber = base.RegisteredDataFields[(int)DataFields.MODE_NUMBER].ToInt32();
+                ModeName = base.RegisteredDataFields[(int)DataFields.MODE_NAME].Value.ToString();
+                SimpleStatus = base.RegisteredDataFields[(int)DataFields.SIMPLE_STATUS].ToBoolean();
+                WpId = base.RegisteredDataFields[(int)DataFields.WP_ID].Value.ToString();
+                PMStatus = (PowerMacsStatuses)base.RegisteredDataFields[(int)DataFields.PM_STATUS].ToInt32();
+                WpId = base.RegisteredDataFields[(int)DataFields.WP_ID].ToString();
+                NumberOfBolts = base.RegisteredDataFields[(int)DataFields.NUMBER_OF_BOLTS].ToInt32();
 
-                base.RegisteredDataFields[(int)DataFields.BOLT_DATA].Size = (this.TotalNumberOfMessages - 1) * 67; //BoltData size
-                this.BoltsData = new BoltData().getBoltDatasFromPackage(this.TotalNumberOfMessages - 1, package.Substring(base.RegisteredDataFields[(int)DataFields.BOLT_DATA].Index, base.RegisteredDataFields[(int)DataFields.BOLT_DATA].Size)).ToList();
+                base.RegisteredDataFields[(int)DataFields.BOLT_DATA].Size = (TotalNumberOfMessages - 1) * 67; //BoltData size
+                BoltsData = new BoltData().getBoltDatasFromPackage(TotalNumberOfMessages - 1, package.Substring(base.RegisteredDataFields[(int)DataFields.BOLT_DATA].Index, base.RegisteredDataFields[(int)DataFields.BOLT_DATA].Size)).ToList();
 
                 base.RegisteredDataFields[(int)DataFields.BOLT_DATA].Index = base.RegisteredDataFields[(int)DataFields.BOLT_DATA].Index + base.RegisteredDataFields[(int)DataFields.BOLT_DATA].Size;
-                this.SpecialValues = new SpecialValue().getSpecialValuesFromPackage(package.Substring(base.RegisteredDataFields[(int)DataFields.BOLT_DATA].Index)).ToList();
+                SpecialValues = new SpecialValue().getSpecialValuesFromPackage(package.Substring(base.RegisteredDataFields[(int)DataFields.BOLT_DATA].Index)).ToList();
 
                 return this;
             }
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields()
@@ -160,8 +160,8 @@ namespace OpenProtocolInterpreter.PowerMACS
 
             public BoltData()
             {
-                this.fields = new List<DataField>();
-                this.registerDatafields();
+                fields = new List<DataField>();
+                registerDatafields();
             }
 
             public IEnumerable<BoltData> getBoltDatasFromPackage(int totalBolts, string package)
@@ -169,7 +169,7 @@ namespace OpenProtocolInterpreter.PowerMACS
                 List<BoltData> obj = new List<BoltData>();
 
                 for (int i = 0; i < totalBolts; i++)
-                    obj.Add(this.getBoltFromPackage(package.Substring(i * 67, 67)));
+                    obj.Add(getBoltFromPackage(package.Substring(i * 67, 67)));
 
                 return obj;
             }
@@ -178,26 +178,26 @@ namespace OpenProtocolInterpreter.PowerMACS
             {
                 BoltData bolt = new BoltData();
 
-                foreach (DataField field in this.fields)
+                foreach (DataField field in fields)
                     field.Value = package.Substring(field.Index + 2, field.Size);
 
-                bolt.OrdinalBoltNumber = this.fields[(int)DataFields.ORDINAL_BOLT_NUMBER].ToInt32();
-                bolt.SimpleBoltStatus = this.fields[(int)DataFields.SIMPLE_BOLT_STATUS].ToBoolean();
-                bolt.TorqueStatus = (TorqueStatuses)this.fields[(int)DataFields.TORQUE_STATUS].ToInt32();
-                bolt.AngleStatus = (AngleStatuses)this.fields[(int)DataFields.ANGLE_STATUS].ToInt32();
-                bolt.BoltTorque = this.fields[(int)DataFields.BOLT_TORQUE].ToFloat();
-                bolt.BoltAngle = this.fields[(int)DataFields.BOLT_ANGLE].ToFloat();
-                bolt.BoltTorqueHighLimit = this.fields[(int)DataFields.BOLT_TORQUE_HIGH_LIMIT].ToFloat();
-                bolt.BoltTorqueLowLimit = this.fields[(int)DataFields.BOLT_TORQUE_LOW_LIMIT].ToFloat();
-                bolt.BoltAngleHighLimit = this.fields[(int)DataFields.BOLT_ANGLE_HIGH_LIMIT].ToFloat();
-                bolt.BoltAngleLowLimit = this.fields[(int)DataFields.BOLT_ANGLE_LOW_LIMIT].ToFloat();
+                bolt.OrdinalBoltNumber = fields[(int)DataFields.ORDINAL_BOLT_NUMBER].ToInt32();
+                bolt.SimpleBoltStatus = fields[(int)DataFields.SIMPLE_BOLT_STATUS].ToBoolean();
+                bolt.TorqueStatus = (TorqueStatuses)fields[(int)DataFields.TORQUE_STATUS].ToInt32();
+                bolt.AngleStatus = (AngleStatuses)fields[(int)DataFields.ANGLE_STATUS].ToInt32();
+                bolt.BoltTorque = fields[(int)DataFields.BOLT_TORQUE].ToFloat();
+                bolt.BoltAngle = fields[(int)DataFields.BOLT_ANGLE].ToFloat();
+                bolt.BoltTorqueHighLimit = fields[(int)DataFields.BOLT_TORQUE_HIGH_LIMIT].ToFloat();
+                bolt.BoltTorqueLowLimit = fields[(int)DataFields.BOLT_TORQUE_LOW_LIMIT].ToFloat();
+                bolt.BoltAngleHighLimit = fields[(int)DataFields.BOLT_ANGLE_HIGH_LIMIT].ToFloat();
+                bolt.BoltAngleLowLimit = fields[(int)DataFields.BOLT_ANGLE_LOW_LIMIT].ToFloat();
 
                 return bolt;
             }
 
             private void registerDatafields()
             {
-                this.fields.AddRange(
+                fields.AddRange(
                     new DataField[]
                     {
                             new DataField((int)DataFields.ORDINAL_BOLT_NUMBER, 0, 2),
@@ -254,8 +254,8 @@ namespace OpenProtocolInterpreter.PowerMACS
 
             public SpecialValue()
             {
-                this.fields = new List<DataField>();
-                this.registerDatafields();
+                fields = new List<DataField>();
+                registerDatafields();
             }
 
             public IEnumerable<SpecialValue> getSpecialValuesFromPackage(string package)
@@ -266,10 +266,10 @@ namespace OpenProtocolInterpreter.PowerMACS
                 int index = 4;
                 for (int i = 0; i < numberOfSpecialValues; i++)
                 {
-                    int valueLength = Convert.ToInt32(package.Substring(index + this.fields[(int)DataFields.LENGTH].Index, this.fields[(int)DataFields.LENGTH].Size));
-                    int totalSpecialValueLength = this.fields[(int)DataFields.LENGTH].Index + this.fields[(int)DataFields.LENGTH].Size + valueLength;
+                    int valueLength = Convert.ToInt32(package.Substring(index + fields[(int)DataFields.LENGTH].Index, fields[(int)DataFields.LENGTH].Size));
+                    int totalSpecialValueLength = fields[(int)DataFields.LENGTH].Index + fields[(int)DataFields.LENGTH].Size + valueLength;
 
-                    obj.Add(this.getSpecialValue(package.Substring(index, totalSpecialValueLength)));
+                    obj.Add(getSpecialValue(package.Substring(index, totalSpecialValueLength)));
                     index += totalSpecialValueLength;
                 }
 
@@ -280,17 +280,17 @@ namespace OpenProtocolInterpreter.PowerMACS
             {
                 SpecialValue val = new SpecialValue();
 
-                val.VariableName = package.Substring(this.fields[(int)DataFields.VARIABLE_NAME].Index, this.fields[(int)DataFields.VARIABLE_NAME].Size);
-                val.Type = DataType.DataTypes.SingleOrDefault(x => x.Type == package.Substring(this.fields[(int)DataFields.TYPE].Index, this.fields[(int)DataFields.TYPE].Size).Trim());
-                val.Length = Convert.ToInt32(package.Substring(this.fields[(int)DataFields.LENGTH].Index, this.fields[(int)DataFields.LENGTH].Size));
-                val.Value = package.Substring(this.fields[(int)DataFields.VALUE].Index, val.Length);
+                val.VariableName = package.Substring(fields[(int)DataFields.VARIABLE_NAME].Index, fields[(int)DataFields.VARIABLE_NAME].Size);
+                val.Type = DataType.DataTypes.SingleOrDefault(x => x.Type == package.Substring(fields[(int)DataFields.TYPE].Index, fields[(int)DataFields.TYPE].Size).Trim());
+                val.Length = Convert.ToInt32(package.Substring(fields[(int)DataFields.LENGTH].Index, fields[(int)DataFields.LENGTH].Size));
+                val.Value = package.Substring(fields[(int)DataFields.VALUE].Index, val.Length);
 
                 return val;
             }
 
             private void registerDatafields()
             {
-                this.fields.AddRange(
+                fields.AddRange(
                     new DataField[]
                     {
                             new DataField((int)DataFields.VARIABLE_NAME, 0, 20),

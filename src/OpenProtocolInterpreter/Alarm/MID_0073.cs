@@ -7,7 +7,7 @@
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted or MID 0004 Command error, Alarm subscription does not exist
     /// </summary>
-    public class MID_0073 : MID, IAlarm
+    public class MID_0073 : Mid, IAlarm
     {
         public const int MID = 73;
         private const int length = 20;
@@ -18,17 +18,17 @@
 
         }
 
-        internal MID_0073(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0073(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
                 return base.ProcessPackage(package);
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields() { }

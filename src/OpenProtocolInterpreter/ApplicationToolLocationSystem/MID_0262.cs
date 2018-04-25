@@ -7,7 +7,7 @@
     /// Message sent by: Controller
     /// Answer: MID 0263 Tool tag ID acknowledge
     /// </summary>
-    public class MID_0262 : MID, IApplicationToolLocationSystem
+    public class MID_0262 : Mid, IApplicationToolLocationSystem
     {
         private const int length = 30;
         public const int MID = 262;
@@ -17,9 +17,9 @@
 
         public MID_0262() : base(length, MID, revision) {  }
 
-        internal MID_0262(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0262(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
         public override string BuildPackage()
@@ -28,16 +28,16 @@
             return base.BuildPackage();
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
             {
                 base.ProcessPackage(package);
-                this.ToolTagID = base.RegisteredDataFields[(int)DataFields.TOOL_TAG_ID].Value.ToString();
+                ToolTagID = base.RegisteredDataFields[(int)DataFields.TOOL_TAG_ID].Value.ToString();
                 return this;
             }
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields()

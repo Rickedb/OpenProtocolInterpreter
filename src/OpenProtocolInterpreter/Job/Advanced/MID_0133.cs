@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted
     /// </summary>
-    public class MID_0133 : MID, IAdvancedJob
+    public class MID_0133 : Mid, IAdvancedJob
     {
         private const int length = 20;
         public const int MID = 133;
@@ -20,17 +20,17 @@ namespace OpenProtocolInterpreter.Job.Advanced
 
         public MID_0133() : base(length, MID, revision) { }
 
-        internal MID_0133(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0133(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
                 return (MID_0133)base.ProcessPackage(package);
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields() { }

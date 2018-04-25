@@ -15,7 +15,7 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// Message sent by: Controller
     /// Answer: MID 0016 New parameter set selected acknowledge
     /// </summary>
-    public class MID_0015 : MID, IParameterSet
+    public class MID_0015 : Mid, IParameterSet
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<decimal> _decimalConverter;
@@ -151,7 +151,7 @@ namespace OpenProtocolInterpreter.ParameterSet
             StartFinalAngle = startFinalAngle;
         }
 
-        internal MID_0015(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
+        internal MID_0015(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         public override string BuildPackage()
         {
@@ -165,7 +165,7 @@ namespace OpenProtocolInterpreter.ParameterSet
             return base.BuildPackage();
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (IsCorrectType(package))
             {

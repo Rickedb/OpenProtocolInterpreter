@@ -11,7 +11,7 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// Message sent by: Controller
     /// Answer: MID 0023 Lock at batch done upload Ack
     /// </summary>
-    public class MID_0022 : MID, IParameterSet
+    public class MID_0022 : Mid, IParameterSet
     {
         private readonly IValueConverter<bool> _boolConverter;
         public const int MID = 22;
@@ -34,7 +34,7 @@ namespace OpenProtocolInterpreter.ParameterSet
             RelayStatus = relayStatus;
         }
 
-        internal MID_0022(IMID nextTemplate) : base(MID, LAST_REVISION)
+        internal MID_0022(IMid nextTemplate) : base(MID, LAST_REVISION)
         {
             _boolConverter = new BoolConverter();
             NextTemplate = nextTemplate;

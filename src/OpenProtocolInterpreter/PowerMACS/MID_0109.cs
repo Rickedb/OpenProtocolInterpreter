@@ -14,7 +14,7 @@ namespace OpenProtocolInterpreter.PowerMACS
     /// Answer: MID 0005 Command accepted or 
     ///         MID 0004 Command error, Subscription does not exist
     /// </summary>
-    public class MID_0109 : MID, IPowerMACS
+    public class MID_0109 : Mid, IPowerMACS
     {
         public const int MID = 109;
         private const int length = 20;
@@ -22,17 +22,17 @@ namespace OpenProtocolInterpreter.PowerMACS
 
         public MID_0109() : base(length, MID, revision) { }
 
-        internal MID_0109(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0109(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
                 return (MID_0109)base.ProcessPackage(package);
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields() { }

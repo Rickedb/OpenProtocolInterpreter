@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace OpenProtocolInterpreter.VIN
+namespace OpenProtocolInterpreter.Vin
 {
     /// <summary>
     /// MID: Vehicle ID Number
@@ -18,7 +18,7 @@ namespace OpenProtocolInterpreter.VIN
     /// Message sent by: Controller
     /// Answer: MID 0053 Vehicle ID Number acknowledge
     /// </summary>
-    public class MID_0052 : MID, IVIN
+    public class MID_0052 : Mid, IVin
     {
         private const int LAST_REVISION = 2;
         public const int MID = 52;
@@ -82,7 +82,7 @@ namespace OpenProtocolInterpreter.VIN
             IdentifierResultPart4 = identifierResultPart4;
         }
 
-        internal MID_0052(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
+        internal MID_0052(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         public override string BuildPackage()
         {
@@ -93,7 +93,7 @@ namespace OpenProtocolInterpreter.VIN
             return base.BuildPackage();
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (IsCorrectType(package))
             {

@@ -5,21 +5,21 @@ namespace OpenProtocolInterpreter.Statistic
 {
     internal class StatisticMessages : IMessagesTemplate
     {
-        private readonly IMID templates;
+        private readonly IMid templates;
 
         public StatisticMessages()
         {
-            this.templates = new MID_0300(new MID_0301(null));
+            templates = new MID_0300(new MID_0301(null));
         }
 
-        public StatisticMessages(System.Collections.Generic.IEnumerable<MID> selectedMids)
+        public StatisticMessages(System.Collections.Generic.IEnumerable<Mid> selectedMids)
         {
-            this.templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
+            templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
         }
 
-        public MID ProcessPackage(string package)
+        public Mid ProcessPackage(string package)
         {
-            return this.templates.ProcessPackage(package);
+            return templates.ProcessPackage(package);
         }
     }
 }

@@ -50,11 +50,15 @@ namespace OpenProtocolInterpreter
                 return BuildHeader();
 
             string package = BuildHeader();
+            int prefixIndex = 1;
             for (int i = 1; i <= HeaderData.Revision; i++)
                 foreach (var dataField in RevisionsByFields[i])
                 {
-                    if(dataField.HasPrefix)
-                        package += i.ToString().PadLeft(2, '0') + dataField.Value;
+                    if (dataField.HasPrefix)
+                    {
+                        package += prefixIndex.ToString().PadLeft(2, '0') + dataField.Value;
+                        prefixIndex++;
+                    }
                     else
                         package += dataField.Value;
                 }
@@ -91,7 +95,7 @@ namespace OpenProtocolInterpreter
             return NextTemplate.ProcessPackage(package);
         }
 
-        protected void ProcessDataFields(string package)
+        protected virtual void ProcessDataFields(string package)
         {
             if (!RevisionsByFields.Any())
                 return;

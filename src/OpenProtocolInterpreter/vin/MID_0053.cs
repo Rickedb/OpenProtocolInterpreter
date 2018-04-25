@@ -1,4 +1,4 @@
-﻿namespace OpenProtocolInterpreter.VIN
+﻿namespace OpenProtocolInterpreter.Vin
 {
     /// <summary>
     /// MID: Vehicle ID Number acknowledge
@@ -7,7 +7,7 @@
     /// Message sent by: Integrator
     /// Answer: None
     /// </summary>
-    public class MID_0053 : MID, IVIN
+    public class MID_0053 : Mid, IVin
     {
         private const int LAST_REVISION = 2;
         public const int MID = 53;
@@ -17,6 +17,6 @@
 
         }
 
-        internal MID_0053(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
+        internal MID_0053(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
     }
 }

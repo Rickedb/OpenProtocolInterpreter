@@ -11,7 +11,7 @@
     /// Answer: MID 0005 Command accepted or 
     ///         MID 0004 Command error, User text could not be displayed
     /// </summary>
-    public class MID_0110 : MID, IUserInterface
+    public class MID_0110 : Mid, IUserInterface
     {
         private const int length = 24;
         public const int MID = 110;
@@ -24,27 +24,27 @@
 
         }
 
-        internal MID_0110(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0110(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
         public override string BuildPackage()
         {
-            return base.BuildHeader() + this.UserText.ToString().PadLeft(4, ' ');
+            return base.BuildHeader() + UserText.ToString().PadLeft(4, ' ');
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
             {
-                this.HeaderData = base.ProcessHeader(package);
+                HeaderData = base.ProcessHeader(package);
                 var dataField = base.RegisteredDataFields[(int)DataFields.USER_TEXT];
-                this.UserText = package.Substring(dataField.Index, dataField.Size);
+                UserText = package.Substring(dataField.Index, dataField.Size);
                 return this;
             }
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields() { }

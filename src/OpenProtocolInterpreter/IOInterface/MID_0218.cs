@@ -7,7 +7,7 @@
     /// Message sent by: Integrator
     /// Answer: None
     /// </summary>
-    public class MID_0218 : MID, IIOInterface
+    public class MID_0218 : Mid, IIOInterface
     {
         public const int MID = 218;
         private const int length = 20;
@@ -15,17 +15,17 @@
 
         public MID_0218() : base(length, MID, revision) { }
 
-        internal MID_0218(IMID nextTemplate) : base(length, MID, revision)
+        internal MID_0218(IMid nextTemplate) : base(length, MID, revision)
         {
-            this.NextTemplate = nextTemplate;
+            NextTemplate = nextTemplate;
         }
 
-        public override MID ProcessPackage(string package)
+        public override Mid ProcessPackage(string package)
         {
             if (base.IsCorrectType(package))
                 return (MID_0218)base.ProcessPackage(package);
 
-            return this.NextTemplate.ProcessPackage(package);
+            return NextTemplate.ProcessPackage(package);
         }
 
         protected override void RegisterDatafields() { }
