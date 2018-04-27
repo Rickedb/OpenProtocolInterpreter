@@ -6,7 +6,7 @@
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted or MID 0004 Command error, Last tightening result subscription does not exist
     /// </summary>
-    public class MID_0063 : MID, ITightening
+    public class MID_0063 : Mid, ITightening
     {
         private const int LAST_REVISION = 6;
         public const int MID = 63;
@@ -16,6 +16,6 @@
 
         }
 
-        internal MID_0063(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
+        internal MID_0063(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
     }
 }

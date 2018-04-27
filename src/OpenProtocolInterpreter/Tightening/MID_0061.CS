@@ -11,7 +11,7 @@ namespace OpenProtocolInterpreter.Tightening
     /// Message sent by: Controller
     /// Answer: MID 0062 Last tightening result data acknowledge
     /// </summary>
-    public class MID_0061 : MID, ITightening
+    public class MID_0061 : Mid, ITightening
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<long> _longConverter;
@@ -337,7 +337,7 @@ namespace OpenProtocolInterpreter.Tightening
             _dateConverter = new DateConverter();
         }
 
-        internal MID_0061(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
+        internal MID_0061(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         public override string BuildPackage()
         {

@@ -255,7 +255,7 @@ namespace OpenProtocolInterpreter.PowerMACS
             public SpecialValue()
             {
                 fields = new List<DataField>();
-                registerDatafields();
+                RegisterDatafields();
             }
 
             public IEnumerable<SpecialValue> getSpecialValuesFromPackage(string package)
@@ -278,17 +278,18 @@ namespace OpenProtocolInterpreter.PowerMACS
 
             private SpecialValue getSpecialValue(string package)
             {
-                SpecialValue val = new SpecialValue();
-
-                val.VariableName = package.Substring(fields[(int)DataFields.VARIABLE_NAME].Index, fields[(int)DataFields.VARIABLE_NAME].Size);
-                val.Type = DataType.DataTypes.SingleOrDefault(x => x.Type == package.Substring(fields[(int)DataFields.TYPE].Index, fields[(int)DataFields.TYPE].Size).Trim());
-                val.Length = Convert.ToInt32(package.Substring(fields[(int)DataFields.LENGTH].Index, fields[(int)DataFields.LENGTH].Size));
+                SpecialValue val = new SpecialValue
+                {
+                    VariableName = package.Substring(fields[(int)DataFields.VARIABLE_NAME].Index, fields[(int)DataFields.VARIABLE_NAME].Size),
+                    Type = DataType.DataTypes.FirstOrDefault(x => x.Type == package.Substring(fields[(int)DataFields.TYPE].Index, fields[(int)DataFields.TYPE].Size).Trim()),
+                    Length = Convert.ToInt32(package.Substring(fields[(int)DataFields.LENGTH].Index, fields[(int)DataFields.LENGTH].Size))
+                };
                 val.Value = package.Substring(fields[(int)DataFields.VALUE].Index, val.Length);
 
                 return val;
             }
 
-            private void registerDatafields()
+            private void RegisterDatafields()
             {
                 fields.AddRange(
                     new DataField[]

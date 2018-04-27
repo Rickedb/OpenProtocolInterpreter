@@ -4,21 +4,21 @@ using System.Linq;
 
 namespace OpenProtocolInterpreter
 {
-    public abstract class MID : IMID
+    public abstract class Mid : IMid
     {
-        protected IMID NextTemplate;
+        protected IMid NextTemplate;
 
         public Dictionary<int, List<DataField>> RevisionsByFields { get; set; }
         public Header HeaderData { get; set; }
 
-        public MID(Header header)
+        public Mid(Header header)
         {
             HeaderData = header;
             RevisionsByFields = new Dictionary<int, List<DataField>>();
             RegisterDatafields();
         }
 
-        public MID(int MID, int revision, int? noAckFlag = null, int? spindleID = null, int? stationID = null, IEnumerable<DataField> usedAs = null)
+        public Mid(int MID, int revision, int? noAckFlag = null, int? spindleID = null, int? stationID = null, IEnumerable<DataField> usedAs = null)
         {
             HeaderData = new Header()
             {
@@ -83,7 +83,7 @@ namespace OpenProtocolInterpreter
             return header;
         }
 
-        public virtual MID ProcessPackage(string package)
+        public virtual Mid ProcessPackage(string package)
         {
             if (IsCorrectType(package))
             {
@@ -148,6 +148,6 @@ namespace OpenProtocolInterpreter
             }
         }
 
-        internal void SetNextTemplate(MID mid) => NextTemplate = mid;
+        internal void SetNextTemplate(Mid mid) => NextTemplate = mid;
     }
 }

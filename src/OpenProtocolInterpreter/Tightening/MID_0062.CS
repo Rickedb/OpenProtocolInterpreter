@@ -6,7 +6,7 @@
     /// Message sent by: Integrator
     /// Answer: None
     /// </summary>
-    public class MID_0062 : MID, ITightening
+    public class MID_0062 : Mid, ITightening
     {
         private const int LAST_REVISION = 6;
         public const int MID = 62;

@@ -2,11 +2,11 @@
 
 namespace OpenProtocolInterpreter
 {
-    public interface IMID
+    public interface IMid
     {
-        MID.Header HeaderData { get; set; }
+        Mid.Header HeaderData { get; set; }
         Dictionary<int, List<DataField>> RevisionsByFields { get; set; }
-        MID ProcessPackage(string package);
+        Mid ProcessPackage(string package);
         
         string BuildPackage();
     }

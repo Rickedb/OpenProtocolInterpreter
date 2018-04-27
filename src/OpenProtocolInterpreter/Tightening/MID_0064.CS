@@ -16,7 +16,7 @@ namespace OpenProtocolInterpreter.Tightening
     ///         or MID 0004 Command error, Tightening ID requested not found,
     ///         or MID revision not supported
     /// </summary>
-    public class MID_0064 : MID, ITightening
+    public class MID_0064 : Mid, ITightening
     {
         private readonly IValueConverter<long> _longConverter;
         private const int LAST_REVISION = 6;
@@ -35,11 +35,10 @@ namespace OpenProtocolInterpreter.Tightening
             TighteningId = tighteningId;
         }
 
-        internal MID_0064(IMID nextTemplate) : this() => NextTemplate = nextTemplate;
+        internal MID_0064(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
-            //opted to work with a different approuch (since it would need to modify too much fields)
             return new Dictionary<int, List<DataField>>()
             {
                 {

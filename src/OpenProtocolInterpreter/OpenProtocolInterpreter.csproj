@@ -109,7 +109,7 @@
     <Compile Include="_internals\Converters\IValueConverter.cs" />
     <Compile Include="_internals\Converters\ValueConverter.cs" />
     <Compile Include="_internals\Messages\IMessagesTemplate.cs" />
-    <Compile Include="IMID.cs" />
+    <Compile Include="IMid.cs" />
     <Compile Include="IOInterface\DigitalInput.cs" />
     <Compile Include="IOInterface\IIOInterface.cs" />
     <Compile Include="IOInterface\IOInterfaceMessages.cs" />
@@ -163,8 +163,8 @@
     <Compile Include="LinkCommunication\MID_9997.cs" />
     <Compile Include="LinkCommunication\MID_9998.cs" />
     <Compile Include="_internals\Messages\MessageTemplateFactory.cs" />
-    <Compile Include="MID.cs" />
-    <Compile Include="MIDIdentifier.cs" />
+    <Compile Include="Mid.cs" />
+    <Compile Include="MidIdentifier.cs" />
     <Compile Include="Communication\MID_0004.cs" />
     <Compile Include="Communication\MID_0005.cs" />
     <Compile Include="Communication\CommunicationMessages.cs" />
@@ -268,13 +268,13 @@
     <Compile Include="UserInterface\MID_0113.cs" />
     <Compile Include="UserInterface\MID_0110.cs" />
     <Compile Include="UserInterface\UserInterfaceMessages.cs" />
-    <Compile Include="VIN\IVIN.cs" />
-    <Compile Include="VIN\MID_0053.cs" />
-    <Compile Include="VIN\MID_0050.cs" />
-    <Compile Include="VIN\MID_0051.cs" />
-    <Compile Include="VIN\MID_0052.cs" />
-    <Compile Include="VIN\MID_0054.cs" />
-    <Compile Include="VIN\VINMessages.cs" />
+    <Compile Include="Vin\IVin.cs" />
+    <Compile Include="Vin\MID_0053.cs" />
+    <Compile Include="Vin\MID_0050.cs" />
+    <Compile Include="Vin\MID_0051.cs" />
+    <Compile Include="Vin\MID_0052.cs" />
+    <Compile Include="Vin\MID_0054.cs" />
+    <Compile Include="Vin\VinMessages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
