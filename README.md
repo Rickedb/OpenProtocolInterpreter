@@ -1,3 +1,4 @@
+
 # OpenProtocolInterpreter  
 [![Build status](https://ci.appveyor.com/api/projects/status/op72gr1k1vi04o35/branch/master?svg=true)](https://ci.appveyor.com/project/Rickedb/openprotocolintepreter/branch/master) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/Rickedb/OpenProtocolIntepreter/master/LICENSE)
 > OpenProtocol communication utility
@@ -5,7 +6,8 @@
 ## Work in progress ([AllRevisions](https://github.com/Rickedb/OpenProtocolInterpreter/tree/AllRevisions)):
 
 * Make lib understand all MID's revisions
-* Refactor the way to process the package
+* Refactoring the way to process the package
+
 
 ## What is Open Protocol at all?
 
@@ -55,7 +57,12 @@ jobUploadRequest.JobID = 1;
 string package = jobUploadRequest.buildPackage();
 //Generated package => 00220032001         01
 ```  
----
+
+## Get it on [NuGet](https://www.nuget.org/packages/OpenProtocolInterpreter)!
+```
+Install-Package OpenProtocolInterpreter
+```
+
 ## Advanced Section!
 
 Now we will get real!
@@ -133,22 +140,22 @@ When a package income:
 ``` csharp
 protected void onPackageReceived(string message)
 {
-    try
-    {
-        var mid = this.DriverManager.IdentifyMidFromPackage(message);
+    try
+    {
+        var mid = this.DriverManager.IdentifyMidFromPackage(message);
 
-        //Get Registered delegate for the MID that was identified
-        var action = this.onReceivedMID.FirstOrDefault(x => x.Key == mid.GetType());
+        //Get Registered delegate for the MID that was identified
+        var action = this.onReceivedMID.FirstOrDefault(x => x.Key == mid.GetType());
         
-        if (action.Equals(default(KeyValuePair<Type, ReceivedCommandActionDelegate>)))
-           return; //Stop if there is no delegate registered for the message that arrived
+        if (action.Equals(default(KeyValuePair<Type, ReceivedCommandActionDelegate>)))
+           return; //Stop if there is no delegate registered for the message that arrived
 
-         action.Value(new ReceivedMIDEventArgs() { ReceivedMID = mid }); //Call delegate
-     }
-     catch (Exception ex)
-     {
-        Console.log(ex.Message);
-     }
+         action.Value(new ReceivedMIDEventArgs() { ReceivedMID = mid }); //Call delegate
+     }
+     catch (Exception ex)
+     {
+        Console.log(ex.Message);
+     }
 }
 ```
 This would call the registered delegate which you're sure what mid it is. 
@@ -157,19 +164,19 @@ For example when a **MID_0061** (last tightening) pop up, the  **onTighteningRec
 ``` csharp
 protected void onTighteningReceived(ReceivedMIDEventArgs e)
 {
-    try
-    {
-        
-        MID_0061 tighteningMid = e.ReceivedMID as MID_0061; //Converting to the right mid
+    try
+    {
+        
+        MID_0061 tighteningMid = e.ReceivedMID as MID_0061; //Converting to the right mid
 
         //This method just send the ack from tightening mid
         this.buildAndSendAcknowledge(tighteningMid); 
         Console.log("TIGHTENING ARRIVED")
-     }
-     catch (Exception ex)
-     {
-         Console.log(ex.Message);
-     }
+     }
+     catch (Exception ex)
+     {
+         Console.log(ex.Message);
+     }
 }
 
 protected void buildAndSendAcknowledge(MID mid)

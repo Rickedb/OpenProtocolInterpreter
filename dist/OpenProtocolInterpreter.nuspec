@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>OpenProtocolInterpreter</id>
+    <version>1.0.0</version>
+    <title>Open Protocol Interpreter</title>
+    <authors>Henrique Dal Bello Batista</authors>
+    <owners>Henrique Dal Bello Batista</owners>
+	<licenseUrl>https://github.com/Rickedb/OpenProtocolInterpreter/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/Rickedb/OpenProtocolInterpreter</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>OpenProtocolInterpreter is a library that converts the ugly package that came from Open Protocol TCP/IP or Serial, which is commonly called MID, to an object</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2018</copyright>
+    <tags>open protocol atlas copco</tags>
+  </metadata>
+</package>
