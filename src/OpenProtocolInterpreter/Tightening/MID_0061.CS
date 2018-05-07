@@ -18,6 +18,7 @@ namespace OpenProtocolInterpreter.Tightening
         private readonly IValueConverter<bool> _boolConverter;
         private readonly IValueConverter<decimal> _decimalConverter;
         private readonly IValueConverter<DateTime> _dateConverter;
+        private readonly IValueConverter<TighteningErrorStatus> _tighteningErrorStatusConverter;
         private const int LAST_REVISION = 7;
         public const int MID = 61;
 
@@ -175,13 +176,10 @@ namespace OpenProtocolInterpreter.Tightening
             get => (TighteningValueStatus)RevisionsByFields[2][(int)DataFields.PREVAIL_TORQUE_COMPENSATE_STATUS].GetValue(_intConverter.Convert);
             set => RevisionsByFields[2][(int)DataFields.PREVAIL_TORQUE_COMPENSATE_STATUS].SetValue(_intConverter.Convert, (int)value);
         }
-        /// <summary>
-        /// Still can't use because it has to work with BYTE ARRAY!!!
-        /// </summary>
-        public string TighteningErrorStatus
+        public TighteningErrorStatus TighteningErrorStatus
         {
-            get => RevisionsByFields[2][(int)DataFields.TIGHTENING_ERROR_STATUS].Value;
-            set => RevisionsByFields[2][(int)DataFields.TIGHTENING_ERROR_STATUS].SetValue(value);
+            get => RevisionsByFields[2][(int)DataFields.TIGHTENING_ERROR_STATUS].GetValue(_tighteningErrorStatusConverter.Convert);
+            set => RevisionsByFields[2][(int)DataFields.TIGHTENING_ERROR_STATUS].SetValue(_tighteningErrorStatusConverter.Convert, value);
         }
         public int RundownAngleMin
         {

@@ -76,10 +76,22 @@ namespace OpenProtocolInterpreter.Tightening
             set => RevisionsByFields[GetCurrentRevisionIndex()][(int)DataFields.BATCH_STATUS].SetValue(_intConverter.Convert, (int)value);
         }
         //Rev 2
-        public int JobId { get; set; }
-        public Strategy Strategy { get; set; }
+        public int JobId
+        {
+            get => RevisionsByFields[2][(int)DataFields.TIGHTENING_ID].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[2][(int)DataFields.TIGHTENING_ID].SetValue(_intConverter.Convert, value);
+        }
+        public Strategy Strategy
+        {
+            get => (Strategy)RevisionsByFields[2][(int)DataFields.TIGHTENING_ID].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[2][(int)DataFields.TIGHTENING_ID].SetValue(_intConverter.Convert, (int)value);
+        }
         public string StrategyOptions { get; set; }
-        public int BatchSize { get; set; }
+        public int BatchSize
+        {
+            get => RevisionsByFields[2][(int)DataFields.TIGHTENING_ID].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[2][(int)DataFields.TIGHTENING_ID].SetValue(_intConverter.Convert, value);
+        }
         public TighteningValueStatus RundownAngleStatus
         {
             get => (TighteningValueStatus)RevisionsByFields[2][(int)DataFields.RUNDOWN_ANGLE_STATUS].GetValue(_intConverter.Convert);
@@ -123,7 +135,69 @@ namespace OpenProtocolInterpreter.Tightening
             get => RevisionsByFields[2][(int)DataFields.CURRENT_MONITORING_VALUE].GetValue(_intConverter.Convert);
             set => RevisionsByFields[2][(int)DataFields.CURRENT_MONITORING_VALUE].SetValue(_intConverter.Convert, value);
         }
-
+        public decimal SelftapTorque
+        {
+            get => RevisionsByFields[2][(int)DataFields.SELFTAP_TORQUE].GetValue(_decimalConverter.Convert);
+            set => RevisionsByFields[2][(int)DataFields.SELFTAP_TORQUE].SetValue(_decimalConverter.Convert, value);
+        }
+        public decimal PrevailTorque
+        {
+            get => RevisionsByFields[2][(int)DataFields.PREVAIL_TORQUE].GetValue(_decimalConverter.Convert);
+            set => RevisionsByFields[2][(int)DataFields.PREVAIL_TORQUE].SetValue(_decimalConverter.Convert, value);
+        }
+        public int JobSequenceNumber
+        {
+            get => RevisionsByFields[2][(int)DataFields.JOB_SEQUENCE_NUMBER].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[2][(int)DataFields.JOB_SEQUENCE_NUMBER].SetValue(_intConverter.Convert, value);
+        }
+        public int SyncTighteningId
+        {
+            get => RevisionsByFields[2][(int)DataFields.SYNC_TIGHTENING_ID].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[2][(int)DataFields.SYNC_TIGHTENING_ID].SetValue(_intConverter.Convert, value);
+        }
+        public string ToolSerialNumber
+        {
+            get => RevisionsByFields[2][(int)DataFields.TOOL_SERIAL_NUMBER].Value;
+            set => RevisionsByFields[2][(int)DataFields.TOOL_SERIAL_NUMBER].SetValue(value);
+        }
+        //Rev 3
+        public TorqueValuesUnit TorqueValuesUnit
+        {
+            get => (TorqueValuesUnit)RevisionsByFields[3][(int)DataFields.TORQUE_VALUES_UNIT].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[3][(int)DataFields.TORQUE_VALUES_UNIT].SetValue(_intConverter.Convert, (int)value);
+        }
+        public ResultType ResultType
+        {
+            get => (ResultType)RevisionsByFields[3][(int)DataFields.RESULT_TYPE].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[3][(int)DataFields.RESULT_TYPE].SetValue(_intConverter.Convert, (int)value);
+        }
+        //Rev 4
+        public string IdentifierResultPart2
+        {
+            get => RevisionsByFields[4][(int)DataFields.IDENTIFIER_RESULT_PART_2].Value;
+            set => RevisionsByFields[4][(int)DataFields.IDENTIFIER_RESULT_PART_2].SetValue(value);
+        }
+        public string IdentifierResultPart3
+        {
+            get => RevisionsByFields[4][(int)DataFields.IDENTIFIER_RESULT_PART_3].Value;
+            set => RevisionsByFields[4][(int)DataFields.IDENTIFIER_RESULT_PART_3].SetValue(value);
+        }
+        public string IdentifierResultPart4
+        {
+            get => RevisionsByFields[4][(int)DataFields.IDENTIFIER_RESULT_PART_4].Value;
+            set => RevisionsByFields[4][(int)DataFields.IDENTIFIER_RESULT_PART_4].SetValue(value);
+        }
+        //Rev 5
+        public decimal PrevailTorqueCompensateValue
+        {
+            get => RevisionsByFields[5][(int)DataFields.PREVAIL_TORQUE_COMPENSATE_VALUE].GetValue(_decimalConverter.Convert);
+            set => RevisionsByFields[5][(int)DataFields.PREVAIL_TORQUE_COMPENSATE_VALUE].SetValue(_decimalConverter.Convert, value);
+        }
+        public string TighteningErrorStatus2
+        {
+            get => RevisionsByFields[5][(int)DataFields.TIGHTENING_ERROR_STATUS_2].Value;
+            set => RevisionsByFields[5][(int)DataFields.TIGHTENING_ERROR_STATUS_2].SetValue(value);
+        }
 
         public MID_0065(int revision = LAST_REVISION) : base(MID, revision) { }
 
@@ -135,17 +209,6 @@ namespace OpenProtocolInterpreter.Tightening
             {
                 base.ProcessPackage(package);
 
-                TighteningId = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.TIGHTENING_ID].Value);
-                VinNumber = base.RegisteredDataFields[(int)DataFields.VIN_NUMBER].Value.ToString();
-                ParameterSetId = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].Value);
-                BatchCounter = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.BATCH_COUNTER].Value);
-                TighteningStatus = Convert.ToBoolean(Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.TIGHTENING_STATUS].Value));
-                TorqueStatus = (TighteningValuesStatuses)Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.TORQUE_STATUS].Value);
-                AngleStatus = (TighteningValuesStatuses)Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.ANGLE_STATUS].Value);
-                Torque = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.TORQUE].Value) / 100m;
-                Angle = Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.ANGLE].Value);
-                TimeStamp = base.RegisteredDataFields[(int)DataFields.TIMESTAMP].ToDateTime();
-                BatchStatus = (BatchStatuses)Convert.ToInt32(base.RegisteredDataFields[(int)DataFields.ANGLE_STATUS].Value);
 
                 return this;
             }
