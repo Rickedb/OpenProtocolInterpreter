@@ -18,7 +18,9 @@ namespace OpenProtocolInterpreter.Tightening
         private readonly IValueConverter<bool> _boolConverter;
         private readonly IValueConverter<decimal> _decimalConverter;
         private readonly IValueConverter<DateTime> _dateConverter;
+        private readonly IValueConverter<StrategyOptions> _strategyOptionsConverter;
         private readonly IValueConverter<TighteningErrorStatus> _tighteningErrorStatusConverter;
+        private readonly IValueConverter<TighteningErrorStatus2> _tighteningErrorStatus2Converter;
         private const int LAST_REVISION = 7;
         public const int MID = 61;
 
@@ -143,13 +145,10 @@ namespace OpenProtocolInterpreter.Tightening
             get => (Strategy)RevisionsByFields[2][(int)DataFields.STRATEGY].GetValue(_intConverter.Convert);
             set => RevisionsByFields[2][(int)DataFields.STRATEGY].SetValue(_intConverter.Convert, (int)value);
         }
-        /// <summary>
-        /// Still can't use because it has to work with BYTE ARRAY!!!
-        /// </summary>
-        public string StrategyOptions
+        public StrategyOptions StrategyOptions
         {
-            get => RevisionsByFields[2][(int)DataFields.STRATEGY_OPTIONS].Value;
-            set => RevisionsByFields[2][(int)DataFields.STRATEGY_OPTIONS].SetValue(value);
+            get => RevisionsByFields[2][(int)DataFields.STRATEGY_OPTIONS].GetValue(_strategyOptionsConverter.Convert);
+            set => RevisionsByFields[2][(int)DataFields.STRATEGY_OPTIONS].SetValue(_strategyOptionsConverter.Convert, value);
         }
         public TighteningValueStatus RundownAngleStatus
         {
@@ -293,10 +292,10 @@ namespace OpenProtocolInterpreter.Tightening
         /// <summary>
         /// Still can't use because it has to work with BYTE ARRAY!!!
         /// </summary>
-        public string TighteningErrorStatus2
+        public TighteningErrorStatus2 TighteningErrorStatus2
         {
-            get => RevisionsByFields[6][(int)DataFields.TIGHTENING_ERROR_STATUS_2].Value;
-            set => RevisionsByFields[6][(int)DataFields.TIGHTENING_ERROR_STATUS_2].SetValue(value);
+            get => RevisionsByFields[6][(int)DataFields.TIGHTENING_ERROR_STATUS_2].GetValue(_tighteningErrorStatus2Converter.Convert);
+            set => RevisionsByFields[6][(int)DataFields.TIGHTENING_ERROR_STATUS_2].SetValue(_tighteningErrorStatus2Converter.Convert, value);
         }
         //Rev 7 addition
         public decimal CompensatedAngle
@@ -333,6 +332,9 @@ namespace OpenProtocolInterpreter.Tightening
             _boolConverter = new BoolConverter();
             _decimalConverter = new DecimalTrucatedConverter(2);
             _dateConverter = new DateConverter();
+            _strategyOptionsConverter = new StrategyOptionsConverter();
+            _tighteningErrorStatusConverter = new TighteningErrorStatusConverter();
+            _tighteningErrorStatus2Converter = new TighteningErrorStatus2Converter();
         }
 
         internal MID_0061(IMid nextTemplate) : this() => NextTemplate = nextTemplate;

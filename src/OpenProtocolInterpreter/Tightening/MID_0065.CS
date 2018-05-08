@@ -17,6 +17,9 @@ namespace OpenProtocolInterpreter.Tightening
         private readonly IValueConverter<bool> _boolConverter;
         private readonly IValueConverter<decimal> _decimalConverter;
         private readonly IValueConverter<DateTime> _dateConverter;
+        private readonly IValueConverter<StrategyOptions> _strategyOptionsConverter;
+        private readonly IValueConverter<TighteningErrorStatus> _tighteningErrorStatusConverter;
+        private readonly IValueConverter<TighteningErrorStatus2> _tighteningErrorStatus2Converter;
         public const int MID = 65;
         private const int LAST_REVISION = 6;
 
@@ -86,7 +89,11 @@ namespace OpenProtocolInterpreter.Tightening
             get => (Strategy)RevisionsByFields[2][(int)DataFields.TIGHTENING_ID].GetValue(_intConverter.Convert);
             set => RevisionsByFields[2][(int)DataFields.TIGHTENING_ID].SetValue(_intConverter.Convert, (int)value);
         }
-        public string StrategyOptions { get; set; }
+        public StrategyOptions StrategyOptions
+        {
+            get => RevisionsByFields[2][(int)DataFields.STRATEGY_OPTIONS].GetValue(_strategyOptionsConverter.Convert);
+            set => RevisionsByFields[2][(int)DataFields.STRATEGY_OPTIONS].SetValue(_strategyOptionsConverter.Convert, value);
+        }
         public int BatchSize
         {
             get => RevisionsByFields[2][(int)DataFields.TIGHTENING_ID].GetValue(_intConverter.Convert);
@@ -117,13 +124,10 @@ namespace OpenProtocolInterpreter.Tightening
             get => (TighteningValueStatus)RevisionsByFields[2][(int)DataFields.PREVAIL_TORQUE_COMPENSATE_STATUS].GetValue(_intConverter.Convert);
             set => RevisionsByFields[2][(int)DataFields.PREVAIL_TORQUE_COMPENSATE_STATUS].SetValue(_intConverter.Convert, (int)value);
         }
-        /// <summary>
-        /// Still can't use because it has to work with BYTE ARRAY!!!
-        /// </summary>
-        public string TighteningErrorStatus
+        public TighteningErrorStatus TighteningErrorStatus
         {
-            get => RevisionsByFields[2][(int)DataFields.TIGHTENING_ERROR_STATUS].Value;
-            set => RevisionsByFields[2][(int)DataFields.TIGHTENING_ERROR_STATUS].SetValue(value);
+            get => RevisionsByFields[2][(int)DataFields.TIGHTENING_ERROR_STATUS].GetValue(_tighteningErrorStatusConverter.Convert);
+            set => RevisionsByFields[2][(int)DataFields.TIGHTENING_ERROR_STATUS].SetValue(_tighteningErrorStatusConverter.Convert, value);
         }
         public int RundownAngle
         {
@@ -193,13 +197,23 @@ namespace OpenProtocolInterpreter.Tightening
             get => RevisionsByFields[5][(int)DataFields.PREVAIL_TORQUE_COMPENSATE_VALUE].GetValue(_decimalConverter.Convert);
             set => RevisionsByFields[5][(int)DataFields.PREVAIL_TORQUE_COMPENSATE_VALUE].SetValue(_decimalConverter.Convert, value);
         }
-        public string TighteningErrorStatus2
+        public TighteningErrorStatus2 TighteningErrorStatus2
         {
-            get => RevisionsByFields[5][(int)DataFields.TIGHTENING_ERROR_STATUS_2].Value;
-            set => RevisionsByFields[5][(int)DataFields.TIGHTENING_ERROR_STATUS_2].SetValue(value);
+            get => RevisionsByFields[5][(int)DataFields.TIGHTENING_ERROR_STATUS_2].GetValue(_tighteningErrorStatus2Converter.Convert);
+            set => RevisionsByFields[5][(int)DataFields.TIGHTENING_ERROR_STATUS_2].SetValue(_tighteningErrorStatus2Converter.Convert, value);
         }
 
-        public MID_0065(int revision = LAST_REVISION) : base(MID, revision) { }
+        public MID_0065(int revision = LAST_REVISION) : base(MID, revision)
+        {
+            _intConverter = new Int32Converter();
+            _longConverter = new Int64Converter();
+            _boolConverter = new BoolConverter();
+            _decimalConverter = new DecimalTrucatedConverter(2);
+            _dateConverter = new DateConverter();
+            _strategyOptionsConverter = new StrategyOptionsConverter();
+            _tighteningErrorStatusConverter = new TighteningErrorStatusConverter();
+            _tighteningErrorStatus2Converter = new TighteningErrorStatus2Converter();
+        }
 
         internal MID_0065(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
