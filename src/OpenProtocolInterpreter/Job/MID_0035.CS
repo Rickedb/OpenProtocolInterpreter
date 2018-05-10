@@ -243,7 +243,12 @@ namespace OpenProtocolInterpreter.Job
 
         private void UpdateFieldsIndexBasedOnRevision()
         {
-            
+            if (HeaderData.Revision > 1 && RevisionsByFields[1][(int)DataFields.JOB_ID].Size == 2)
+            {
+                RevisionsByFields[1][(int)DataFields.JOB_ID].Size = 4;
+                for (int i = (int)DataFields.JOB_STATUS; i < RevisionsByFields[1].Count; i++)
+                    RevisionsByFields[1][i].Index += 2;
+            }
         }
     }
 
