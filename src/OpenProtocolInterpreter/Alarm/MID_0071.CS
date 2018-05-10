@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Converters;
+using System;
 using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Alarm
@@ -14,98 +15,133 @@ namespace OpenProtocolInterpreter.Alarm
     /// </summary>
     public class MID_0071 : Mid, IAlarm
     {
-        private const int length = 53;
+        private IValueConverter<bool> _boolConverter;
+        private IValueConverter<DateTime> _dateConverter;
+        private const int LAST_REVISION = 2;
         public const int MID = 71;
-        private const int revision = 1;
 
-        public Alarms AlarmData { get; set; }
-
-        public MID_0071() : base(length, MID, revision)
+        public string ErrorCode
         {
-            AlarmData = new Alarms();
+            get => RevisionsByFields[1][(int)DataFields.ERROR_CODE].Value;
+            set => RevisionsByFields[1][(int)DataFields.ERROR_CODE].SetValue(value);
+        }
+        public bool ControllerReadyStatus
+        {
+            get => RevisionsByFields[1][(int)DataFields.CONTROLLER_READY_STATUS].GetValue(_boolConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.CONTROLLER_READY_STATUS].SetValue(_boolConverter.Convert, value);
+        }
+        public bool ToolReadyStatus
+        {
+            get => RevisionsByFields[1][(int)DataFields.TOOL_READY_STATUS].GetValue(_boolConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.TOOL_READY_STATUS].SetValue(_boolConverter.Convert, value);
+        }
+        public DateTime Time
+        {
+            get => RevisionsByFields[1][(int)DataFields.TIME].GetValue(_dateConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.TIME].SetValue(_dateConverter.Convert, value);
+        }
+        //Rev 2
+        public string AlarmText
+        {
+            get => RevisionsByFields[2][(int)DataFields.TIME].Value;
+            set => RevisionsByFields[2][(int)DataFields.TIME].SetValue(value);
         }
 
-        internal MID_0071(IMid nextTemplate) : base(length, MID, revision)
+        public MID_0071(int revision = LAST_REVISION, int? ackFlag = 1) : base(MID, revision, ackFlag)
         {
-            AlarmData = new Alarms();
-            NextTemplate = nextTemplate;
+            UpdateFieldsIndexBasedOnRevision(revision);
+            _boolConverter = new BoolConverter();
+            _dateConverter = new DateConverter();
         }
+
+        /// <summary>
+        /// Constructor for Revision 1
+        /// </summary>
+        /// <param name="errorCode">The error code is specified by 4 ASCII characters. The error code begins with E and is followed by three digits. <para>Example E851.</para></param>
+        /// <param name="controllerReadyStatus">Controller ready status</param>
+        /// <param name="toolReadyStatus">Tool ready status</param>
+        /// <param name="time">Time stamp for the alarm</param>
+        /// <param name="revision">Revision (Default revision = 1)</param>
+        /// <param name="ackflag">Acknowledge flag (Default = 1)</param>
+        public MID_0071(string errorCode, bool controllerReadyStatus, bool toolReadyStatus, DateTime time, int revision = 1, int? ackflag = 1) : this(revision, ackflag)
+        {
+            ErrorCode = errorCode;
+            ControllerReadyStatus = controllerReadyStatus;
+            ToolReadyStatus = toolReadyStatus;
+            Time = time;
+        }
+
+        /// <summary>
+        /// Constructor for Revision 2
+        /// </summary>
+        /// <param name="errorCode">The error code is specified by 5 ASCII characters. The error code begins with E and is followed by four digits. <para>Example E1021.</para></param>
+        /// <param name="controllerReadyStatus">Controller ready status</param>
+        /// <param name="toolReadyStatus">Tool ready status</param>
+        /// <param name="time">Time stamp for the alarm</param>
+        /// <param name="alarmText">Alarm text. 50 ASCII characters</param>
+        /// <param name="revision">Revision (Default revision = 1)</param>
+        /// <param name="ackflag">Acknowledge flag (Default = 1)</param>
+        public MID_0071(string errorCode, bool controllerReadyStatus, bool toolReadyStatus, DateTime time, string alarmText, int revision = 2, int? ackflag = 1) 
+            : this(errorCode, controllerReadyStatus, toolReadyStatus, time, revision, ackflag)
+        {
+            AlarmText = alarmText;
+        }
+
+        internal MID_0071(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         public override Mid ProcessPackage(string package)
         {
-            if (base.IsCorrectType(package))
+            if (IsCorrectType(package))
             {
-                AlarmData = new Alarms().getAlarmFromPackage(package);
+                ProcessHeader(package);
+                UpdateFieldsIndexBasedOnRevision(HeaderData.Revision);
+                ProcessDataFields(package);
                 return this;
             }
-                
 
             return NextTemplate.ProcessPackage(package);
         }
 
-        protected override void RegisterDatafields()
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.ALARM_DATA, 20, 33));
+            return new Dictionary<int, List<DataField>>()
+            {
+                {
+                    1, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.ERROR_CODE, 20, 4, ' ', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.CONTROLLER_READY_STATUS, 26, 1),
+                                new DataField((int)DataFields.TOOL_READY_STATUS, 29, 1, ' '),
+                                new DataField((int)DataFields.TIME, 32, 19)
+                            }
+                },
+                {
+                    2, new List<DataField>()
+                    {
+                        new DataField((int)DataFields.ALARM_TEXT, 54, 50, ' '),
+                    }
+                }
+            };
+        }
+
+        private void UpdateFieldsIndexBasedOnRevision(int? revision)
+        {
+            if (revision > 1)
+            {
+                RevisionsByFields[1][(int)DataFields.ERROR_CODE].Size = 5;
+                for (int i = (int)DataFields.CONTROLLER_READY_STATUS; i < (int)DataFields.TIME + 1; i++)
+                    RevisionsByFields[1][i].Index++;
+            }
         }
 
         public enum DataFields
         {
-            ALARM_DATA
-        }
-
-        public class Alarms
-        {
-            private List<DataField> fields;
-            public string ErrorCode { get; set; }
-            public bool ControllerReadyStatus { get; set; }
-            public bool ToolReadyStatus { get; set; }
-            public DateTime Time { get; set; }
-
-            public Alarms() { registerFields(); }
-
-            public Alarms getAlarmFromPackage(string package)
-            {
-                processFields(package);
-
-                ErrorCode = fields[(int)Fields.ERROR_CODE].ToString();
-                ControllerReadyStatus = fields[(int)Fields.CONTROLLER_READY_STATUS].ToBoolean();
-                ToolReadyStatus = fields[(int)Fields.TOOL_READY_STATUS].ToBoolean();
-                Time = fields[(int)Fields.TIME].ToDateTime();
-
-                return this;
-            }
-
-            public override string ToString()
-            {
-                string package = string.Empty;
-
-                return base.ToString();
-            }
-
-            private void processFields(string package)
-            {
-                foreach (var field in fields)
-                    field.Value = package.Substring(2 + field.Index, field.Size);
-            }
-
-            private void registerFields()
-            {
-                fields = new List<DataField>();
-                fields.AddRange(new DataField[] {
-                        new DataField((int)Fields.ERROR_CODE, 20, 4),
-                        new DataField((int)Fields.CONTROLLER_READY_STATUS, 26, 1),
-                        new DataField((int)Fields.TOOL_READY_STATUS, 29, 1),
-                        new DataField((int)Fields.TIME, 32, 19)
-                 });
-            }
-
-            public enum Fields
-            {
-                ERROR_CODE,
-                CONTROLLER_READY_STATUS,
-                TOOL_READY_STATUS,
-                TIME
-            }
+            ERROR_CODE,
+            CONTROLLER_READY_STATUS,
+            TOOL_READY_STATUS,
+            TIME,
+            //Rev 2
+            ALARM_TEXT
         }
     }
 }

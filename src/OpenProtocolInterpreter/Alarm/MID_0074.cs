@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Alarm
 {
@@ -13,48 +13,41 @@ namespace OpenProtocolInterpreter.Alarm
     /// </summary>
     public class MID_0074 : Mid, IAlarm
     {
+        private const int LAST_REVISION = 2;
         public const int MID = 74;
-        private const int length = 24;
-        private const int revision = 1;
 
-        public string ErrorCode { get; set; }
+        public string ErrorCode
+        {
+            get => RevisionsByFields[1][(int)DataFields.ERROR_CODE].Value;
+            set => RevisionsByFields[1][(int)DataFields.ERROR_CODE].SetValue(value);
+        }
 
-        public MID_0074() : base(length, MID, revision) { }
+        public MID_0074(int revision = LAST_REVISION) : base(MID, revision) { }
 
-        public MID_0074(string errorCode) : base(length, MID, revision)
+        public MID_0074(string errorCode, int revision = LAST_REVISION) : this(revision)
         {
             ErrorCode = errorCode;
         }
 
-        internal MID_0074(IMid nextTemplate) : base(length, MID, revision)
-        {
-            NextTemplate = nextTemplate;
-        }
+        internal MID_0074(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
-        public override string BuildPackage()
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
-            if (string.IsNullOrEmpty(ErrorCode) || ErrorCode.Length != 4)
-                throw new ArgumentNullException("ErrorCode cannot be null and should have 4 characters");
-
-            return base.BuildHeader() + ErrorCode.ToString();
-        }
-
-        public override Mid ProcessPackage(string package)
-        {
-            if (base.IsCorrectType(package))
+            return new Dictionary<int, List<DataField>>()
             {
-                HeaderData = ProcessHeader(package);
-                var dataField = base.RegisteredDataFields[(int)DataFields.ERROR_CODE];
-                ErrorCode = package.Substring(dataField.Index, dataField.Size);
-                return this;
-            }
-
-            return NextTemplate.ProcessPackage(package);
-        }
-
-        protected override void RegisterDatafields()
-        {
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.ERROR_CODE, 20, 4));
+                {
+                    1, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.ERROR_CODE, 20, 4, ' ', DataField.PaddingOrientations.LEFT_PADDED, false)
+                            }
+                },
+                {
+                    2, new List<DataField>()
+                    {
+                        //None??
+                    }
+                }
+            };
         }
 
         public enum DataFields

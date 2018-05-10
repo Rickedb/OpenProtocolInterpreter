@@ -1,6 +1,7 @@
 ﻿using OpenProtocolInterpreter.Converters;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenProtocolInterpreter.Tightening
 {
@@ -217,6 +218,60 @@ namespace OpenProtocolInterpreter.Tightening
 
         internal MID_0065(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
+        public override string BuildPackage()
+        {
+            string package = BuildHeader();
+            if (HeaderData.Revision == 1)
+            {
+                package += BuildDataFieldsPackage(1, RevisionsByFields[1]);
+            }
+            else if (HeaderData.Revision == 999)
+            {
+                package += BuildDataFieldsPackage(1, RevisionsByFields[999]);
+            }
+            else if (HeaderData.Revision > 2)
+            {
+                int? processUntil = HeaderData.Revision;
+                bool mid998 = HeaderData.Revision == 998;
+                if (mid998)
+                    processUntil = 6;
+
+                int prefixIndex = 1;
+                for (int i = 2; i <= processUntil; i++)
+                {
+                    package += BuildDataFieldsPackage(prefixIndex, RevisionsByFields[i]);
+                    prefixIndex += RevisionsByFields[i].Count(x => x.HasPrefix);
+                }
+            }
+
+            return package;
+        }
+
+        protected override void ProcessDataFields(string package)
+        {
+            if (HeaderData.Revision == 1)
+            {
+                ProcessDataFields(package, RevisionsByFields[1]);
+            }
+            else if (HeaderData.Revision == 999)
+            {
+                ProcessDataFields(package, RevisionsByFields[999]);
+            }
+            else if (HeaderData.Revision > 2)
+            {
+                int? processUntil = HeaderData.Revision;
+                if (HeaderData.Revision == 998)
+                {
+                    processUntil = 6;
+                    ProcessDataFields(package, RevisionsByFields[998]);
+                }
+
+                for (int i = 2; i <= processUntil; i++)
+                    ProcessDataFields(package, RevisionsByFields[i]);
+            }
+        }
+
+
         public override Mid ProcessPackage(string package)
         {
             if (IsCorrectType(package))
@@ -320,6 +375,37 @@ namespace OpenProtocolInterpreter.Tightening
         }
 
         private int GetCurrentRevisionIndex() => (HeaderData.Revision > 1) ? 2 : 1;
+
+        private void ProcessDataFields(string package, List<DataField> fields)
+        {
+            foreach (var dataField in fields)
+                try
+                {
+                    if (dataField.HasPrefix)
+                        dataField.Value = package.Substring(2 + dataField.Index, dataField.Size);
+                    else
+                        dataField.Value = package.Substring(dataField.Index, dataField.Size);
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    //null value
+                }
+        }
+
+        private string BuildDataFieldsPackage(int prefixIndex, List<DataField> fields)
+        {
+            string package = string.Empty;
+            foreach (var dataField in fields)
+                if (dataField.HasPrefix)
+                {
+                    package += prefixIndex.ToString().PadLeft(2, '0') + dataField.Value;
+                    prefixIndex++;
+                }
+                else
+                    package += dataField.Value;
+
+            return package;
+        }
 
         public enum DataFields
         {
