@@ -100,6 +100,7 @@
     <Compile Include="Enums\ToolLoosening.cs" />
     <Compile Include="Enums\ToolType.cs" />
     <Compile Include="Enums\TorqueValuesUnit.cs" />
+    <Compile Include="MultiSpindle\SpindleStatus.cs" />
     <Compile Include="Tightening\StrategyOptions.cs" />
     <Compile Include="Tightening\TighteningErrorStatus.cs" />
     <Compile Include="_internals\Converters\BitConverter.cs" />
@@ -195,11 +196,11 @@
     <Compile Include="MultipleIdentifiers\MID_0157.cs" />
     <Compile Include="MultipleIdentifiers\MultipleIdentifierMessages.cs" />
     <Compile Include="MultiSpindle\MultiSpindleMessages.cs" />
-    <Compile Include="MultiSpindle\Result\MID_0100.cs" />
+    <Compile Include="MultiSpindle\MID_0100.cs" />
     <Compile Include="MultiSpindle\IMultiSpindle.cs" />
-    <Compile Include="MultiSpindle\Status\MID_0090.cs" />
-    <Compile Include="MultiSpindle\Status\MID_0091.cs" />
-    <Compile Include="MultiSpindle\Status\MID_0092.cs" />
+    <Compile Include="MultiSpindle\MID_0090.cs" />
+    <Compile Include="MultiSpindle\MID_0091.cs" />
+    <Compile Include="MultiSpindle\MID_0092.cs" />
     <Compile Include="OpenProtocolCommandsDisabled\IOpenProtocolCommandsDisabled.cs" />
     <Compile Include="OpenProtocolCommandsDisabled\MID_0420.cs" />
     <Compile Include="OpenProtocolCommandsDisabled\MID_0421.cs" />

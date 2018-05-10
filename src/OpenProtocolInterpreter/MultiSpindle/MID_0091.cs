@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace OpenProtocolInterpreter.MultiSpindle.Status
+namespace OpenProtocolInterpreter.MultiSpindle
 {
     /// <summary>
     /// MID: Multi-spindle status
@@ -13,22 +13,21 @@ namespace OpenProtocolInterpreter.MultiSpindle.Status
     /// </summary>
     public class MID_0091 : Mid, IMultiSpindle
     {
+        private const int LAST_REVISION = 1;
         public const int MID = 91;
 
-        private const int length = 53;
-        private const int revision = 1;
+        public int NumberOfSpindles { get; set; }
+        public int SyncTighteningId { get; set; }
+        public DateTime Time { get; set; }
+        public bool SyncOverallStatus { get; set; }
+        public SpindleStatus SpindleStatus { get; set; }
 
-        public MultiSpindlesData MultiSpindleData { get; set; }
-
-        public MID_0091() : base(length, MID, revision)
+        public MID_0091(int revision = LAST_REVISION, int? ackFlag = 1) : base(MID, revision, ackFlag)
         {
 
         }
 
-        internal MID_0091(IMid nextTemplate) : base(length, MID, revision)
-        {
-            NextTemplate = nextTemplate;
-        }
+        internal MID_0091(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         public override Mid ProcessPackage(string package)
         {
@@ -41,14 +40,30 @@ namespace OpenProtocolInterpreter.MultiSpindle.Status
             return NextTemplate.ProcessPackage(package);
         }
 
-        protected override void RegisterDatafields()
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.MULTI_SPINDLE_DATA, 20, 33));
+            return new Dictionary<int, List<DataField>>()
+            {
+                {
+                    1, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.NUMBER_OF_SPINDLES, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.SYNC_TIGHTENING_ID, 24, 5, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.TIME, 31, 19),
+                                new DataField((int)DataFields.SYNC_OVERALL_STATUS, 52, 1),
+                                new DataField((int)DataFields.SPINDLE_STATUS, 55, 5)
+                            }
+                }
+            };
         }
 
         public enum DataFields
         {
-            MULTI_SPINDLE_DATA
+            NUMBER_OF_SPINDLES,
+            SYNC_TIGHTENING_ID,
+            TIME,
+            SYNC_OVERALL_STATUS,
+            SPINDLE_STATUS
         }
 
         public class MultiSpindlesData

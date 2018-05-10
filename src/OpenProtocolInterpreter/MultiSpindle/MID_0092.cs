@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenProtocolInterpreter.MultiSpindle.Status
+namespace OpenProtocolInterpreter.MultiSpindle
 {
     /// <summary>
     /// MID: Multi-spindle status acknowledge
