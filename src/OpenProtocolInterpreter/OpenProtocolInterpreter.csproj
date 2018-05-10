@@ -100,6 +100,7 @@
     <Compile Include="Enums\ToolLoosening.cs" />
     <Compile Include="Enums\ToolType.cs" />
     <Compile Include="Enums\TorqueValuesUnit.cs" />
+    <Compile Include="MultiSpindle\MID_0093.cs" />
     <Compile Include="MultiSpindle\SpindleStatus.cs" />
     <Compile Include="Tightening\StrategyOptions.cs" />
     <Compile Include="Tightening\TighteningErrorStatus.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="_internals\Converters\JobConverter.cs" />
     <Compile Include="_internals\Converters\JobListConverter.cs" />
     <Compile Include="_internals\Converters\OpenEndDataConverter.cs" />
+    <Compile Include="_internals\Converters\SpindleStatusConverter.cs" />
     <Compile Include="_internals\Converters\StrategyOptionsConverter.cs" />
     <Compile Include="_internals\Converters\TighteningErrorStatusConverter.cs" />
     <Compile Include="_internals\Converters\ValueConverter.cs" />

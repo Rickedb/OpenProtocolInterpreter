@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Converters;
+using System;
 using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.MultiSpindle
@@ -13,32 +14,56 @@ namespace OpenProtocolInterpreter.MultiSpindle
     /// </summary>
     public class MID_0091 : Mid, IMultiSpindle
     {
+        private readonly IValueConverter<int> _intConverter;
+        private readonly IValueConverter<bool> _boolConverter;
+        private readonly IValueConverter<DateTime> _dateConverter;
+        private readonly IValueConverter<SpindleStatus> _spindleStatusConverter;
         private const int LAST_REVISION = 1;
         public const int MID = 91;
 
-        public int NumberOfSpindles { get; set; }
-        public int SyncTighteningId { get; set; }
-        public DateTime Time { get; set; }
-        public bool SyncOverallStatus { get; set; }
-        public SpindleStatus SpindleStatus { get; set; }
-
-        public MID_0091(int revision = LAST_REVISION, int? ackFlag = 1) : base(MID, revision, ackFlag)
+        public int NumberOfSpindles
         {
+            get => RevisionsByFields[1][(int)DataFields.NUMBER_OF_SPINDLES].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.NUMBER_OF_SPINDLES].SetValue(_intConverter.Convert, value);
+        }
+        public int SyncTighteningId
+        {
+            get => RevisionsByFields[1][(int)DataFields.SYNC_TIGHTENING_ID].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.SYNC_TIGHTENING_ID].SetValue(_intConverter.Convert, value);
+        }
+        public DateTime Time
+        {
+            get => RevisionsByFields[1][(int)DataFields.TIME].GetValue(_dateConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.TIME].SetValue(_dateConverter.Convert, value);
+        }
+        public bool SyncOverallStatus
+        {
+            get => RevisionsByFields[1][(int)DataFields.SYNC_OVERALL_STATUS].GetValue(_boolConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.SYNC_OVERALL_STATUS].SetValue(_boolConverter.Convert, value);
+        }
+        public SpindleStatus SpindleStatuses
+        {
+            get => RevisionsByFields[1][(int)DataFields.SPINDLE_STATUS].GetValue(_spindleStatusConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.SPINDLE_STATUS].SetValue(_spindleStatusConverter.Convert, value);
+        }
 
+        public MID_0091(int? ackFlag = 1) : base(MID, LAST_REVISION, ackFlag)
+        {
+            _intConverter = new Int32Converter();
+            _boolConverter = new BoolConverter();
+            _dateConverter = new DateConverter();
+            _spindleStatusConverter = new SpindleStatusConverter();
+        }
+
+        public MID_0091(int numberOfSpindles, int syncTighteningId, DateTime time, bool syncOverallStatus, SpindleStatus spindleStatus, int? ackFlag = 1) : this(ackFlag)
+        {
+            NumberOfSpindles = numberOfSpindles;
+            SyncTighteningId = syncTighteningId;
+            Time = time;
+            SpindleStatuses = spindleStatus;
         }
 
         internal MID_0091(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
-
-        public override Mid ProcessPackage(string package)
-        {
-            if (base.IsCorrectType(package))
-            {
-                MultiSpindleData = new MultiSpindlesData().getMultiSpindleFromPackage(package);
-                return this;
-            }
-
-            return NextTemplate.ProcessPackage(package);
-        }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
@@ -64,110 +89,6 @@ namespace OpenProtocolInterpreter.MultiSpindle
             TIME,
             SYNC_OVERALL_STATUS,
             SPINDLE_STATUS
-        }
-
-        public class MultiSpindlesData
-        {
-            private List<DataField> fields;
-            public int NumberOfSpindles { get; set; }
-            public int SyncTighteningId { get; set; }
-            public DateTime Time { get; set; }
-            public bool SyncOverallStatus { get; set; }
-            public List<SpindleStatuses> SpindleStatus { get; set; }
-
-            public MultiSpindlesData() { registerFields(); }
-
-            public MultiSpindlesData getMultiSpindleFromPackage(string package)
-            {
-                processFields(package);
-                MultiSpindlesData obj = new MultiSpindlesData();
-
-                obj.NumberOfSpindles = fields[(int)Fields.NUMBER_OF_SPINDLES].ToInt32();
-                obj.SyncTighteningId = fields[(int)Fields.SYNC_TIGHTENING_ID].ToInt32();
-                obj.Time = fields[(int)Fields.TIME].ToDateTime();
-                obj.SyncOverallStatus = fields[(int)Fields.SYNC_OVERALL_STATUS].ToBoolean();
-                obj.SpindleStatus = new SpindleStatuses().getSpindleStatuses(package.Substring(fields[(int)Fields.SPINDLE_STATUS].Index));
-
-                return obj;
-            }
-
-            public override string ToString()
-            {
-                string package = string.Empty;
-
-                return base.ToString();
-            }
-
-            private void processFields(string package)
-            {
-                foreach (var field in fields)
-                    field.Value = package.Substring(2 + field.Index, field.Size);
-            }
-
-            private void registerFields()
-            {
-                fields = new List<DataField>();
-                fields.AddRange(new DataField[] {
-                        new DataField((int)Fields.NUMBER_OF_SPINDLES, 20, 2),
-                        new DataField((int)Fields.SYNC_TIGHTENING_ID, 24, 5),
-                        new DataField((int)Fields.TIME, 31, 19),
-                        new DataField((int)Fields.SYNC_OVERALL_STATUS, 52, 1),
-                        new DataField((int)Fields.SPINDLE_STATUS, 55, 5)
-                 });
-            }
-
-            public enum Fields
-            {
-                NUMBER_OF_SPINDLES,
-                SYNC_TIGHTENING_ID,
-                TIME,
-                SYNC_OVERALL_STATUS,
-                SPINDLE_STATUS
-            }
-
-            public class SpindleStatuses
-            {
-                private List<DataField> fields;
-
-                public int SpindleNumber { get; set; }
-                public int ChannelId { get; set; }
-                public bool SpindleStatus { get; set; }
-
-                public SpindleStatuses() { registerFields(); }
-
-                public List<SpindleStatuses> getSpindleStatuses(string package)
-                {
-                    List<SpindleStatuses> obj = new List<SpindleStatuses>();
-                    int totalSpindles = package.Length / 5;
-
-                    for(int i = 0; i < totalSpindles; i++)
-                        obj.Add(new SpindleStatuses()
-                        {
-                            SpindleNumber = Convert.ToInt32(package.Substring(0 + (i * 5), fields[(int)Fields.SPINDLE_NUMBER].Size)),
-                            ChannelId = Convert.ToInt32(package.Substring(2 + (i * 5), fields[(int)Fields.CHANNEL_ID].Size)),
-                            SpindleStatus = Convert.ToBoolean(Convert.ToInt32(package.Substring(4 + (i * 5), fields[(int)Fields.SPINDLE_STATUS].Size)))
-                        });
-
-                    return obj;
-                }
-
-                private void registerFields()
-                {
-                    fields = new List<DataField>();
-                    fields.AddRange(new DataField[] {
-                        new DataField((int)Fields.SPINDLE_NUMBER, 57, 2),
-                        new DataField((int)Fields.CHANNEL_ID, 59, 2),
-                        new DataField((int)Fields.SPINDLE_STATUS, 61, 1)
-                 });
-                }
-
-                public enum Fields
-                {
-                    SPINDLE_NUMBER,
-                    CHANNEL_ID,
-                    SPINDLE_STATUS
-                }
-            }
         }
     }
 }
