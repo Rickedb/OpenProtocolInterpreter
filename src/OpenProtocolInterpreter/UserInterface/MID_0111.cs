@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Converters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,77 +22,75 @@ namespace OpenProtocolInterpreter.UserInterface
     /// </summary>
     public class MID_0111 : Mid, IUserInterface
     {
-        private const int length = 137;
+        private readonly IValueConverter<int> _intConverter;
+        private const int LAST_REVISION = 1;
         public const int MID = 111;
-        private const int revision = 1;
-
-        public int TextDuration { get; set; }
-        public RemovalConditions RemovalCondition { get; set; }
-        public string Line1 { get; set; }
-        public string Line2 { get; set; }
-        public string Line3 { get; set; }
-        public string Line4 { get; set; }
-
-        public MID_0111() : base(length, MID, revision)
+        
+        public int TextDuration
         {
-
+            get => RevisionsByFields[1][(int)DataFields.TEXT_DURATION].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.TEXT_DURATION].SetValue(_intConverter.Convert, value);
+        }
+        public RemovalCondition RemovalCondition
+        {
+            get => (RemovalCondition)RevisionsByFields[1][(int)DataFields.REMOVAL_CONDITION].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.REMOVAL_CONDITION].SetValue(_intConverter.Convert, (int)value);
+        }
+        public string Line1
+        {
+            get => RevisionsByFields[1][(int)DataFields.LINE_1_HEADER].Value;
+            set => RevisionsByFields[1][(int)DataFields.LINE_1_HEADER].SetValue(value);
+        }
+        public string Line2
+        {
+            get => RevisionsByFields[1][(int)DataFields.LINE_2].Value;
+            set => RevisionsByFields[1][(int)DataFields.LINE_2].SetValue(value);
+        }
+        public string Line3
+        {
+            get => RevisionsByFields[1][(int)DataFields.LINE_3].Value;
+            set => RevisionsByFields[1][(int)DataFields.LINE_3].SetValue(value);
+        }
+        public string Line4
+        {
+            get => RevisionsByFields[1][(int)DataFields.LINE_4].Value;
+            set => RevisionsByFields[1][(int)DataFields.LINE_4].SetValue(value);
         }
 
-        internal MID_0111(IMid nextTemplate) : base(length, MID, revision)
+        public MID_0111() : base(MID, LAST_REVISION)
         {
-            NextTemplate = nextTemplate;
+            _intConverter = new Int32Converter();
         }
 
-        public override string BuildPackage()
+        public MID_0111(int textDuration, RemovalCondition removalCondition, string line1, string line2, string line3, string line4) : this()
         {
-
-            base.RegisteredDataFields[(int)DataFields.TEXT_DURATION].Value = TextDuration;
-            base.RegisteredDataFields[(int)DataFields.REMOVAL_CONDITION].Value = (int)RemovalCondition;
-            base.RegisteredDataFields[(int)DataFields.LINE_1_HEADER].Value = Line1.PadLeft(25, ' ');
-            base.RegisteredDataFields[(int)DataFields.LINE_2].Value = Line2.PadLeft(25, ' ');
-            base.RegisteredDataFields[(int)DataFields.LINE_3].Value = Line3.PadLeft(25, ' ');
-            base.RegisteredDataFields[(int)DataFields.LINE_4].Value = Line4.PadLeft(25, ' ');
-
-            return base.BuildPackage();
+            TextDuration = textDuration;
+            RemovalCondition = removalCondition;
+            Line1 = line1;
+            Line2 = line2;
+            Line3 = line3;
+            Line4 = line4;
         }
 
-        public override Mid Parse(string package)
+        internal MID_0111(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
+
+
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
-            if (base.IsCorrectType(package))
+            return new Dictionary<int, List<DataField>>()
             {
-                base.Parse(package);
-
-                TextDuration = base.RegisteredDataFields[(int)DataFields.TEXT_DURATION].ToInt32();
-                RemovalCondition = (RemovalConditions)base.RegisteredDataFields[(int)DataFields.REMOVAL_CONDITION].ToInt32();
-                Line1 = base.RegisteredDataFields[(int)DataFields.LINE_1_HEADER].Value.ToString();
-                Line2 = base.RegisteredDataFields[(int)DataFields.LINE_2].Value.ToString();
-                Line3 = base.RegisteredDataFields[(int)DataFields.LINE_3].Value.ToString();
-                Line4 = base.RegisteredDataFields[(int)DataFields.LINE_4].Value.ToString();
-
-                return this;
-            }
-
-            return NextTemplate.Parse(package);
-        }
-
-        protected override void RegisterDatafields()
-        {
-            this.RegisteredDataFields.AddRange(
-                    new DataField[]
-                    {
-                            new DataField((int)DataFields.TEXT_DURATION, 20, 4),
-                            new DataField((int)DataFields.REMOVAL_CONDITION, 26, 1),
-                            new DataField((int)DataFields.LINE_1_HEADER, 29, 25),
-                            new DataField((int)DataFields.LINE_2, 56, 25),
-                            new DataField((int)DataFields.LINE_3, 83, 25),
-                            new DataField((int)DataFields.LINE_4, 110, 25)
-                    });
-        }
-
-        public enum RemovalConditions
-        {
-            ACKNOWLEDGE_OR_WAIT_EXPIRATION_TIME = 0,
-            ACKNOWLEDGE = 1
+                {
+                    1, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.TEXT_DURATION, 20, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.REMOVAL_CONDITION, 26, 1),
+                                new DataField((int)DataFields.LINE_1_HEADER, 29, 25, ' '),
+                                new DataField((int)DataFields.LINE_2, 56, 25, ' '),
+                                new DataField((int)DataFields.LINE_3, 83, 25, ' '),
+                                new DataField((int)DataFields.LINE_4, 110, 25, ' ')
+                            }
+                }
+            };
         }
 
         public enum DataFields

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OpenProtocolInterpreter.UserInterface
+﻿namespace OpenProtocolInterpreter.UserInterface
 {
     /// <summary>
     /// MID: Flash green light on tool
@@ -16,28 +10,15 @@ namespace OpenProtocolInterpreter.UserInterface
     /// </summary>
     public class MID_0113 : Mid, IUserInterface
     {
-        private const int length = 20;
+        private const int LAST_REVISION = 1;
         public const int MID = 113;
-        private const int revision = 1;
 
-        public MID_0113() : base(length, MID, revision)
+        public MID_0113() : base(MID, LAST_REVISION)
         {
 
         }
 
-        internal MID_0113(IMid nextTemplate) : base(length, MID, revision)
-        {
-            NextTemplate = nextTemplate;
-        }
+        internal MID_0113(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
-        public override Mid Parse(string package)
-        {
-            if (base.IsCorrectType(package))
-                return (MID_0113)base.Parse(package);
-
-            return NextTemplate.Parse(package);
-        }
-
-        protected override void RegisterDatafields() { }
     }
 }

@@ -89,6 +89,7 @@
     <Compile Include="Enums\PairingHandlingType.cs" />
     <Compile Include="Enums\PairingStatus.cs" />
     <Compile Include="Enums\PrimaryTool.cs" />
+    <Compile Include="Enums\RemovalCondition.cs" />
     <Compile Include="Enums\Reserved.cs" />
     <Compile Include="Enums\ResultType.cs" />
     <Compile Include="Enums\RotationDirection.cs" />

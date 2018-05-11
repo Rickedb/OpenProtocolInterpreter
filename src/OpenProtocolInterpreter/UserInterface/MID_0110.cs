@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.UserInterface
+﻿using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.UserInterface
 {
     /// <summary>
     /// MID: Display user text on compact
@@ -13,41 +15,39 @@
     /// </summary>
     public class MID_0110 : Mid, IUserInterface
     {
-        private const int length = 24;
+        private const int LAST_REVISION = 1;
         public const int MID = 110;
-        private const int revision = 1;
 
-        public string UserText { get; set; }
+        public string UserText
+        {
+            get => RevisionsByFields[2][(int)DataFields.USER_TEXT].Value;
+            set => RevisionsByFields[2][(int)DataFields.USER_TEXT].SetValue(value);
+        }
 
-        public MID_0110() : base(length, MID, revision)
+        public MID_0110() : base(MID, LAST_REVISION)
         {
 
         }
 
-        internal MID_0110(IMid nextTemplate) : base(length, MID, revision)
+        public MID_0110(string userText) : this()
         {
-            NextTemplate = nextTemplate;
+            UserText = userText;
         }
 
-        public override string BuildPackage()
-        {
-            return base.BuildHeader() + UserText.ToString().PadLeft(4, ' ');
-        }
+        internal MID_0110(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
-        public override Mid Parse(string package)
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
-            if (base.IsCorrectType(package))
+            return new Dictionary<int, List<DataField>>()
             {
-                HeaderData = base.ProcessHeader(package);
-                var dataField = base.RegisteredDataFields[(int)DataFields.USER_TEXT];
-                UserText = package.Substring(dataField.Index, dataField.Size);
-                return this;
-            }
-
-            return NextTemplate.Parse(package);
+                {
+                    1, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.USER_TEXT, 20, 4, ' ', DataField.PaddingOrientations.RIGHT_PADDED, false),
+                            }
+                }
+            };
         }
-
-        protected override void RegisterDatafields() { }
 
         public enum DataFields
         {
