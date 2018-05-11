@@ -1,4 +1,7 @@
-﻿namespace OpenProtocolInterpreter.Job.Advanced
+﻿using OpenProtocolInterpreter.Converters;
+using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.Job.Advanced
 {
     /// <summary>
     /// MID: Job batch increment
@@ -16,25 +19,52 @@
     /// </summary>
     public class MID_0129 : Mid, IAdvancedJob
     {
-        private const int length = 20;
+        private readonly IValueConverter<int> _intConverter;
+        private const int LAST_REVISION = 2;
         public const int MID = 129;
-        private const int revision = 1;
 
-        public MID_0129() : base(length, MID, revision) { }
-
-        internal MID_0129(IMid nextTemplate) : base(length, MID, revision)
+        public int ChannelId
         {
-            NextTemplate = nextTemplate;
+            get => RevisionsByFields[2][(int)DataFields.CHANNEL_ID].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[2][(int)DataFields.CHANNEL_ID].SetValue(_intConverter.Convert, value);
+        }
+        public int ParameterSetId
+        {
+            get => RevisionsByFields[2][(int)DataFields.PARAMETER_SET_ID].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[2][(int)DataFields.PARAMETER_SET_ID].SetValue(_intConverter.Convert, value);
         }
 
-        public override Mid Parse(string package)
-        {
-            if (base.IsCorrectType(package))
-                return (MID_0129)base.Parse(package);
+        public MID_0129(int revision = LAST_REVISION) : base(MID, LAST_REVISION) { }
 
-            return NextTemplate.Parse(package);
+        public MID_0129(int channelId, int parameterSetId, int revision = 2) : this(revision)
+        {
+            ChannelId = channelId;
+            ParameterSetId = parameterSetId;
         }
 
-        protected override void RegisterDatafields() { }
+        internal MID_0129(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
+
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        {
+            return new Dictionary<int, List<DataField>>()
+            {
+                {
+                    1, new List<DataField>()
+                },
+                {
+                    2, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.CHANNEL_ID, 23, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.PARAMETER_SET_ID, 24, 3, '0', DataField.PaddingOrientations.LEFT_PADDED)
+                            }
+                }
+            };
+        }
+
+        public enum DataFields
+        {
+            CHANNEL_ID,
+            PARAMETER_SET_ID
+        }
     }
 }
