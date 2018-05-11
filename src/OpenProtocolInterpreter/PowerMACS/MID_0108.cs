@@ -1,8 +1,5 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Converters;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenProtocolInterpreter.PowerMACS
 {
@@ -18,40 +15,30 @@ namespace OpenProtocolInterpreter.PowerMACS
     /// </summary>
     public class MID_0108 : Mid, IPowerMACS
     {
+        private readonly IValueConverter<bool> _boolConverter;
+        private const int LAST_REVISION = 4;
         public const int MID = 108;
-        private const int length = 21;
-        private const int revision = 1;
 
         public bool BoltData { get; set; }
 
-        public MID_0108() : base(length, MID, revision) { }
-
-        internal MID_0108(IMid nextTemplate) : base(length, MID, revision)
+        public MID_0108(int revision = LAST_REVISION) : base(MID, revision)
         {
-            NextTemplate = nextTemplate;
+            _boolConverter = new BoolConverter();
         }
 
-        public override string BuildPackage()
-        {
-            return base.BuildHeader() + Convert.ToInt32(BoltData).ToString();
-        }
+        internal MID_0108(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
-        public override Mid Parse(string package)
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
-            if (base.IsCorrectType(package))
+            return new Dictionary<int, List<DataField>>()
             {
-                HeaderData = ProcessHeader(package);
-                var dataField = base.RegisteredDataFields[(int)DataFields.BOLT_DATA];
-                BoltData = Convert.ToBoolean(Convert.ToInt32(package.Substring(dataField.Index, dataField.Size)));
-                return this;
-            }
-
-            return NextTemplate.Parse(package);
-        }
-
-        protected override void RegisterDatafields()
-        {
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.BOLT_DATA, 20, 1));
+                {
+                    1, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.BOLT_DATA, 20, 1, false),
+                            }
+                }
+            };
         }
 
         public enum DataFields

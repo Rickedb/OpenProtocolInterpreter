@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Converters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -25,9 +26,11 @@ namespace OpenProtocolInterpreter.PowerMACS
     /// </summary>
     public class MID_0106 : Mid, IPowerMACS
     {
+        private readonly IValueConverter<int> _intConverter;
+        private readonly IValueConverter<bool> _boolConverter;
+        private readonly IValueConverter<DateTime> _dateConverter;
+        private const int LAST_REVISION = 4;
         public const int MID = 106;
-        private const int length = 9999;
-        private const int revision = 1;
 
         public int TotalNumberOfMessages { get; set; }
         public int MessageNumber { get; set; }
@@ -44,18 +47,13 @@ namespace OpenProtocolInterpreter.PowerMACS
         public List<BoltData> BoltsData { get; set; }
         public List<SpecialValue> SpecialValues { get; set; }
 
-        public MID_0106() : base(length, MID, revision)
+        public MID_0106(int revision = LAST_REVISION, int? ackFlag = 1) : base(MID, LAST_REVISION)
         {
             BoltsData = new List<BoltData>();
             SpecialValues = new List<SpecialValue>();
         }
 
-        internal MID_0106(IMid nextTemplate) : base(length, MID, revision)
-        {
-            BoltsData = new List<BoltData>();
-            SpecialValues = new List<SpecialValue>();
-            NextTemplate = nextTemplate;
-        }
+        internal MID_0106(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         public override string BuildPackage()
         {

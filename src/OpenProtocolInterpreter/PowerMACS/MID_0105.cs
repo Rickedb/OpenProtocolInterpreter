@@ -1,4 +1,7 @@
-﻿namespace OpenProtocolInterpreter.PowerMACS
+﻿using OpenProtocolInterpreter.Converters;
+using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.PowerMACS
 {
     /// <summary>
     /// MID: Last PowerMACS tightening result data subscribe
@@ -14,25 +17,53 @@
     /// </summary>
     public class MID_0105 : Mid, IPowerMACS
     {
+        private readonly IValueConverter<bool> _boolConverter;
+        private readonly IValueConverter<int> _intConverter;
+        private const int LAST_REVISION = 4;
         public const int MID = 105;
-        private const int length = 20;
-        private const int revision = 1;
 
-        public MID_0105() : base(length, MID, revision) { }
-
-        internal MID_0105(IMid nextTemplate) : base(length, MID, revision)
+        public int DataNumberSystem
         {
-            NextTemplate = nextTemplate;
+            get => RevisionsByFields[2][(int)DataFields.DATA_NUMBER_SYSTEM].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[2][(int)DataFields.DATA_NUMBER_SYSTEM].SetValue(_intConverter.Convert, value);
+        }
+        public bool SendOnlyNewData
+        {
+            get => RevisionsByFields[3][(int)DataFields.SEND_ONLY_NEW_DATA].GetValue(_boolConverter.Convert);
+            set => RevisionsByFields[3][(int)DataFields.SEND_ONLY_NEW_DATA].SetValue(_boolConverter.Convert, value);
         }
 
-        public override Mid Parse(string package)
-        {
-            if (base.IsCorrectType(package))
-                return (MID_0105)base.Parse(package);
+        public MID_0105(int revision = LAST_REVISION, int? ackFlag = 1) : base(MID, revision, ackFlag) { }
 
-            return NextTemplate.Parse(package);
+        internal MID_0105(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
+
+
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        {
+            return new Dictionary<int, List<DataField>>()
+            {
+                {
+                    1, new List<DataField>()
+                },
+                {
+                    2, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.DATA_NUMBER_SYSTEM, 20, 10, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
+                            }
+                },
+                {
+                    3, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.SEND_ONLY_NEW_DATA, 30, 1)
+                            }
+                }
+            };
         }
 
-        protected override void RegisterDatafields() { }
+        public enum DataFields
+        {
+            DATA_NUMBER_SYSTEM,
+            SEND_ONLY_NEW_DATA
+        }
     }
 }
