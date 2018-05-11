@@ -72,7 +72,7 @@ namespace OpenProtocolInterpreter.Job
             return base.BuildPackage();
         }
 
-        public override Mid ProcessPackage(string package)
+        public override Mid Parse(string package)
         {
             if (IsCorrectType(package))
             {
@@ -86,13 +86,13 @@ namespace OpenProtocolInterpreter.Job
                 }
                 _jobListConverter.EachJobSize = eachJobField.Size;
                 eachJobField.Size = package.Length - eachJobField.Index;
-                base.ProcessPackage(package);
+                base.Parse(package);
                 _jobListConverter.TotalJobs = TotalJobs;
                 JobIds = _jobListConverter.Convert(eachJobField.Value).ToList();
                 return this;
             }
 
-            return NextTemplate.ProcessPackage(package);
+            return NextTemplate.Parse(package);
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

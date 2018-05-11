@@ -62,7 +62,7 @@ namespace OpenProtocolInterpreter.ParameterSet
             return package;
         }
 
-        public override Mid ProcessPackage(string package)
+        public override Mid Parse(string package)
         {
             if (base.IsCorrectType(package))
             {
@@ -83,7 +83,7 @@ namespace OpenProtocolInterpreter.ParameterSet
                 return this;
             }
 
-            return NextTemplate.ProcessPackage(package);
+            return NextTemplate.Parse(package);
         }
 
         protected override void RegisterDatafields()

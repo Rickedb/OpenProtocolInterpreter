@@ -24,10 +24,10 @@ namespace OpenProtocolInterpreter.Job.Advanced
             NextTemplate = nextTemplate;
         }
 
-        public override Mid ProcessPackage(string package)
+        public override Mid Parse(string package)
         {
             if (base.IsCorrectType(package))
-                return (MID_0127)base.ProcessPackage(package);
+                return (MID_0127)base.Parse(package);
 
             throw new NotImplementedException("MID not implemented or doesn't exists!");
         }

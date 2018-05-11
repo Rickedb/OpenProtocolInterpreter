@@ -33,7 +33,7 @@
             return base.BuildHeader() + IdentifierData;
         }
 
-        public override Mid ProcessPackage(string package)
+        public override Mid Parse(string package)
         {
             if (base.IsCorrectType(package))
             {
@@ -45,7 +45,7 @@
                 return this;
             }
 
-            return NextTemplate.ProcessPackage(package);
+            return NextTemplate.Parse(package);
         }
 
         protected override void RegisterDatafields()

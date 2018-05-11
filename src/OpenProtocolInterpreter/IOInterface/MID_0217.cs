@@ -36,18 +36,18 @@ namespace OpenProtocolInterpreter.IOInterface
             return pkg;
         }
 
-        public override Mid ProcessPackage(string package)
+        public override Mid Parse(string package)
         {
             if (base.IsCorrectType(package))
             {
-                base.ProcessPackage(package);
+                base.Parse(package);
                 RelayNumber = (Relay.RelayNumbers) base.RegisteredDataFields[(int)DataFields.RELAY_NUMBER].ToInt32();
                 RelayStatus = base.RegisteredDataFields[(int)DataFields.RELAY_STATUS].ToBoolean();
                 return this;
             }
 
 
-            return NextTemplate.ProcessPackage(package);
+            return NextTemplate.Parse(package);
         }
 
         protected override void RegisterDatafields()

@@ -24,12 +24,12 @@
             NextTemplate = nextTemplate;
         }
 
-        public override Mid ProcessPackage(string package)
+        public override Mid Parse(string package)
         {
             if (base.IsCorrectType(package))
-                return (MID_0151)base.ProcessPackage(package);
+                return (MID_0151)base.Parse(package);
 
-            return NextTemplate.ProcessPackage(package);
+            return NextTemplate.Parse(package);
         }
 
         protected override void RegisterDatafields() { }

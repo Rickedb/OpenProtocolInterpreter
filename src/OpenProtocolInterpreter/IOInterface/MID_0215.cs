@@ -48,18 +48,18 @@ namespace OpenProtocolInterpreter.IOInterface
             return pkg;
         }
 
-        public override Mid ProcessPackage(string package)
+        public override Mid Parse(string package)
         {
             if (base.IsCorrectType(package))
             {
-                base.ProcessPackage(package);
+                base.Parse(package);
                 IODeviceID = base.RegisteredDataFields[(int)DataFields.IO_DEVICE_ID].ToInt32();
                 RelayList = new Relay().getRelaysFromPackage(base.RegisteredDataFields[(int)DataFields.RELAY_LIST].Value.ToString()).ToList();
                 DigitalInputList = new DigitalInput().getDigitalInputsFromPackage(base.RegisteredDataFields[(int)DataFields.DIGITAL_INPUT_LIST].Value.ToString()).ToList();
                 return this;
             }
 
-            return NextTemplate.ProcessPackage(package);
+            return NextTemplate.Parse(package);
         }
 
         protected override void RegisterDatafields()

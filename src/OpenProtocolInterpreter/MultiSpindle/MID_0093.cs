@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OpenProtocolInterpreter.MultiSpindle
+﻿namespace OpenProtocolInterpreter.MultiSpindle
 {
     /// <summary>
     /// MID: Multi-spindle status acknowledge

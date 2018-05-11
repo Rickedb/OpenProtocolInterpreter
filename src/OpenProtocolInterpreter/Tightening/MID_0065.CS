@@ -272,11 +272,11 @@ namespace OpenProtocolInterpreter.Tightening
         }
 
 
-        public override Mid ProcessPackage(string package)
+        public override Mid Parse(string package)
         {
             if (IsCorrectType(package))
             {
-                base.ProcessPackage(package);
+                base.Parse(package);
 
 
                 return this;
@@ -286,7 +286,7 @@ namespace OpenProtocolInterpreter.Tightening
                 throw new NotImplementedException("MID not implemented or doesn't exists");
 
 
-            return NextTemplate.ProcessPackage(package);
+            return NextTemplate.Parse(package);
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

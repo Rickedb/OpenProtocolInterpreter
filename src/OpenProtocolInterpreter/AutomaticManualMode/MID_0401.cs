@@ -39,7 +39,7 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
             return base.BuildHeader() + Convert.ToInt32(ManualAutomaticMode).ToString();
         }
 
-        public override Mid ProcessPackage(string package)
+        public override Mid Parse(string package)
         {
             if (base.IsCorrectType(package))
             {
@@ -50,7 +50,7 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
                 return this;
             }
 
-            return NextTemplate.ProcessPackage(package);
+            return NextTemplate.Parse(package);
         }
 
         protected override void RegisterDatafields()

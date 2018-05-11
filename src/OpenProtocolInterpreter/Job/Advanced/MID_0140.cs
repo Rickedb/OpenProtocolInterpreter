@@ -58,14 +58,14 @@ namespace OpenProtocolInterpreter.Job.Advanced
             return base.BuildPackage();
         }
 
-        public override Mid ProcessPackage(string package)
+        public override Mid Parse(string package)
         {
             if (base.IsCorrectType(package))
             {
                 NumberOfParameterSets = Convert.ToInt32(package.Substring(base.RegisteredDataFields[(int)DataFields.NUMBER_OF_PARAMETER_SETS].Index, base.RegisteredDataFields[(int)DataFields.NUMBER_OF_PARAMETER_SETS].Size));
                 base.RegisteredDataFields[(int)DataFields.JOB_LIST].Size = NumberOfParameterSets * Job.JobPackageSize;
                 adjustDataFieldsIndexes();
-                base.ProcessPackage(package);
+                base.Parse(package);
 
                 JobID = base.RegisteredDataFields[(int)DataFields.JOB_ID].ToInt32();
                 JobName = base.RegisteredDataFields[(int)DataFields.JOB_NAME].Value.ToString();
@@ -89,7 +89,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
                 return this;
             }
 
-            return NextTemplate.ProcessPackage(package);
+            return NextTemplate.Parse(package);
         }
 
         private void adjustDataFieldsIndexes()

@@ -156,17 +156,17 @@ namespace OpenProtocolInterpreter.Job
 
         internal MID_0035(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
-        public override Mid ProcessPackage(string package)
+        public override Mid Parse(string package)
         {
             if (IsCorrectType(package))
             {
                 HeaderData = ProcessHeader(package);
                 UpdateFieldsIndexBasedOnRevision();
-                base.ProcessPackage(package);
+                base.Parse(package);
                 return this;
             }
 
-            return NextTemplate.ProcessPackage(package);
+            return NextTemplate.Parse(package);
         }
 
         /// <summary>

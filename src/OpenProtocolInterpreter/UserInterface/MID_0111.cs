@@ -55,11 +55,11 @@ namespace OpenProtocolInterpreter.UserInterface
             return base.BuildPackage();
         }
 
-        public override Mid ProcessPackage(string package)
+        public override Mid Parse(string package)
         {
             if (base.IsCorrectType(package))
             {
-                base.ProcessPackage(package);
+                base.Parse(package);
 
                 TextDuration = base.RegisteredDataFields[(int)DataFields.TEXT_DURATION].ToInt32();
                 RemovalCondition = (RemovalConditions)base.RegisteredDataFields[(int)DataFields.REMOVAL_CONDITION].ToInt32();
@@ -71,7 +71,7 @@ namespace OpenProtocolInterpreter.UserInterface
                 return this;
             }
 
-            return NextTemplate.ProcessPackage(package);
+            return NextTemplate.Parse(package);
         }
 
         protected override void RegisterDatafields()

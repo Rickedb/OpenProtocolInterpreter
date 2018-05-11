@@ -40,11 +40,11 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
             base.RegisteredDataFields[(int)DataFields.FOURTH_IDENTIFIER_STATUS].Value = FourthIdentifierStatus.buildPackage();
             return base.BuildPackage();
         }
-        public override Mid ProcessPackage(string package)
+        public override Mid Parse(string package)
         {
             if (base.IsCorrectType(package))
             {
-                ProcessPackage(package);
+                Parse(package);
 
                 FirstIdentifierStatus = new IdentifierStatus().getIdentifierStatusFromPackage(base.RegisteredDataFields[(int)DataFields.FIRST_IDENTIFIER_STATUS].Value.ToString());
                 SecondIdentifierStatus = new IdentifierStatus().getIdentifierStatusFromPackage(base.RegisteredDataFields[(int)DataFields.SECOND_IDENTIFIER_STATUS].Value.ToString());
@@ -54,7 +54,7 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
                 return this;
             }
 
-            return NextTemplate.ProcessPackage(package);
+            return NextTemplate.Parse(package);
         }
 
         protected override void RegisterDatafields()

@@ -35,7 +35,7 @@ namespace OpenProtocolInterpreter.Communication
             throw new NotImplementedException();
         }
 
-        public override Mid ProcessPackage(string package)
+        public override Mid Parse(string package)
         {
             throw new NotImplementedException();
         }

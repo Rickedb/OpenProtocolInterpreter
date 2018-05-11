@@ -49,7 +49,7 @@ namespace OpenProtocolInterpreter.Job
 
         internal MID_0032(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
-        public override Mid ProcessPackage(string package)
+        public override Mid Parse(string package)
         {
             if (IsCorrectType(package))
             {
@@ -59,7 +59,7 @@ namespace OpenProtocolInterpreter.Job
                 return this;
             }
 
-            return NextTemplate.ProcessPackage(package);
+            return NextTemplate.Parse(package);
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

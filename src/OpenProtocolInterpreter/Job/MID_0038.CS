@@ -50,16 +50,16 @@ namespace OpenProtocolInterpreter.Job
 
         internal MID_0038(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
-        public override Mid ProcessPackage(string package)
+        public override Mid Parse(string package)
         {
             if (IsCorrectType(package))
             {
                 HeaderData = ProcessHeader(package);
                 HandleRevision();
-                return base.ProcessPackage(package);
+                return base.Parse(package);
             }
 
-            return NextTemplate.ProcessPackage(package);
+            return NextTemplate.Parse(package);
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

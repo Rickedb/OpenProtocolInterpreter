@@ -18,7 +18,7 @@ namespace OpenProtocolInterpreter.MotorTuning
 
         public Mid ProcessPackage(string package)
         {
-            return templates.ProcessPackage(package);
+            return templates.Parse(package);
         }
     }
 }

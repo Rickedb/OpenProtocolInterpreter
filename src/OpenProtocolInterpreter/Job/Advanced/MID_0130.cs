@@ -32,7 +32,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
             return base.BuildHeader() + Convert.ToInt32(JobOffStatus).ToString();
         }
 
-        public override Mid ProcessPackage(string package)
+        public override Mid Parse(string package)
         {
             if (base.IsCorrectType(package))
             {
@@ -41,7 +41,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
                 return this;
             }
 
-            return NextTemplate.ProcessPackage(package);
+            return NextTemplate.Parse(package);
         }
 
         protected override void RegisterDatafields()

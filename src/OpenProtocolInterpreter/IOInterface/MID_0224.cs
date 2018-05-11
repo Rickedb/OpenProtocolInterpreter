@@ -31,7 +31,7 @@ namespace OpenProtocolInterpreter.IOInterface
             return base.BuildHeader() + ((int)DigitalInputNumber).ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.DIGITAL_INPUT_NUMBER].Size, '0');
         }
 
-        public override Mid ProcessPackage(string package)
+        public override Mid Parse(string package)
         {
             if (base.IsCorrectType(package))
             {
@@ -42,7 +42,7 @@ namespace OpenProtocolInterpreter.IOInterface
             }
 
 
-            return NextTemplate.ProcessPackage(package);
+            return NextTemplate.Parse(package);
         }
 
         protected override void RegisterDatafields()

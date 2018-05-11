@@ -26,10 +26,10 @@ namespace OpenProtocolInterpreter.KeepAlive
 
         public MID_9999() : base(length, MID, revision) { }
 
-        public override Mid ProcessPackage(string package)
+        public override Mid Parse(string package)
         {
             if (IsCorrectType(package))
-                return base.ProcessPackage(package);
+                return base.Parse(package);
 
             throw new NotImplementedException("MID not implemented or doesn't exists!");
         }

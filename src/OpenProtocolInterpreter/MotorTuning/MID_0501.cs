@@ -38,7 +38,7 @@ namespace OpenProtocolInterpreter.MotorTuning
             return base.BuildHeader() + Convert.ToInt32(MotorTuneResult).ToString();
         }
 
-        public override Mid ProcessPackage(string package)
+        public override Mid Parse(string package)
         {
             if (base.IsCorrectType(package))
             {
@@ -49,7 +49,7 @@ namespace OpenProtocolInterpreter.MotorTuning
                 return this;
             }
 
-            return NextTemplate.ProcessPackage(package);
+            return NextTemplate.Parse(package);
         }
 
         protected override void RegisterDatafields()

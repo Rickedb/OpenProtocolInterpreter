@@ -45,17 +45,17 @@ namespace OpenProtocolInterpreter.ApplicationSelector
             return base.BuildPackage();
         }
 
-        public override Mid ProcessPackage(string package)
+        public override Mid Parse(string package)
         {
             if (base.IsCorrectType(package))
             {
-                base.ProcessPackage(package);
+                base.Parse(package);
                 DeviceID = this.RegisteredDataFields[(int)DataFields.DEVICE_ID].ToInt32();
                 RedLights = getGreenLightCommands(package.Substring(this.RegisteredDataFields[(int)DataFields.RED_LIGHT_COMMAND].Index));
                 return this;
             }
 
-            return NextTemplate.ProcessPackage(package);
+            return NextTemplate.Parse(package);
         }
 
         private List<RedLightCommand> getGreenLightCommands(string package)

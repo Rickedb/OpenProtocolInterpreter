@@ -29,7 +29,7 @@ namespace OpenProtocolInterpreter.Tightening
 
         public Mid ProcessPackage(string package)
         {
-            return templates.ProcessPackage(package);
+            return templates.Parse(package);
         }
 
         private IMid InitIntegratorTemplates()

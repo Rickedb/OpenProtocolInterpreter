@@ -40,7 +40,7 @@ namespace OpenProtocolInterpreter.Vin
             return base.BuildPackage();
         }
 
-        public override Mid ProcessPackage(string package)
+        public override Mid Parse(string package)
         {
             if (IsCorrectType(package))
             {
@@ -50,7 +50,7 @@ namespace OpenProtocolInterpreter.Vin
                 return this;
             }
 
-            return NextTemplate.ProcessPackage(package);
+            return NextTemplate.Parse(package);
         }
 
         /// <summary>

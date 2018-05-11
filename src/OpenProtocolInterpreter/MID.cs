@@ -83,7 +83,7 @@ namespace OpenProtocolInterpreter
             return header;
         }
 
-        public virtual Mid ProcessPackage(string package)
+        public virtual Mid Parse(string package)
         {
             if (IsCorrectType(package))
             {
@@ -92,7 +92,7 @@ namespace OpenProtocolInterpreter
                 return this;
             }
 
-            return NextTemplate.ProcessPackage(package);
+            return NextTemplate.Parse(package);
         }
 
         protected virtual void ProcessDataFields(string package)

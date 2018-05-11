@@ -44,7 +44,7 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
                 CurrentBatch.ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.CURRENT_BATCH].Size, '0');
         }
 
-        public override Mid ProcessPackage(string package)
+        public override Mid Parse(string package)
         {
             if (base.IsCorrectType(package))
             {
@@ -54,7 +54,7 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
                 return this;
             }
 
-            return NextTemplate.ProcessPackage(package);
+            return NextTemplate.Parse(package);
         }
 
         protected override void RegisterDatafields()

@@ -152,7 +152,7 @@ namespace OpenProtocolInterpreter.Job
             return package;
         }
 
-        public override Mid ProcessPackage(string package)
+        public override Mid Parse(string package)
         {
             if (IsCorrectType(package))
             {
@@ -160,12 +160,12 @@ namespace OpenProtocolInterpreter.Job
                 UpdateFieldsIndexBasedOnRevision();
                 var jobListField = RevisionsByFields[1][(int)DataFields.JOB_LIST];
                 jobListField.Size = package.Length - jobListField.Index;
-                base.ProcessPackage(package);
+                base.Parse(package);
                 JobList = _jobListConverter.Convert(jobListField.Value).ToList();
                 return this;
             }
 
-            return NextTemplate.ProcessPackage(package);
+            return NextTemplate.Parse(package);
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

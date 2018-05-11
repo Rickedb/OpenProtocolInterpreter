@@ -6,7 +6,7 @@ namespace OpenProtocolInterpreter
     {
         Mid.Header HeaderData { get; set; }
         Dictionary<int, List<DataField>> RevisionsByFields { get; set; }
-        Mid ProcessPackage(string package);
+        Mid Parse(string package);
         
         string BuildPackage();
     }

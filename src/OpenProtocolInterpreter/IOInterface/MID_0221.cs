@@ -37,18 +37,18 @@ namespace OpenProtocolInterpreter.IOInterface
             return pkg;
         }
 
-        public override Mid ProcessPackage(string package)
+        public override Mid Parse(string package)
         {
             if (base.IsCorrectType(package))
             {
-                base.ProcessPackage(package);
+                base.Parse(package);
                 DigitalInputNumber = (DigitalInput.DigitalInputNumbers)base.RegisteredDataFields[(int)DataFields.DIGITAL_INPUT_NUMBER].ToInt32();
                 DigitalInputStatus = base.RegisteredDataFields[(int)DataFields.DIGITAL_INPUT_STATUS].ToBoolean();
                 return this;
             }
 
 
-            return NextTemplate.ProcessPackage(package);
+            return NextTemplate.Parse(package);
         }
 
         protected override void RegisterDatafields()
