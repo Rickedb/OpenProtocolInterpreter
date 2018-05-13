@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.MultipleIdentifiers
+﻿using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.MultipleIdentifiers
 {
     /// <summary>
     /// MID: Identifier download request
@@ -9,48 +11,48 @@
     /// </summary>
     public class MID_0150 : Mid, IMultipleIdentifier
     {
+        private const int LAST_REVISION = 1;
         public const int MID = 150;
-        private const int length = 9999;
-        private const int revision = 1;
 
-        public string IdentifierData { get; set; }
+        public string IdentifierData
+        {
+            get => RevisionsByFields[1][(int)DataFields.IDENTIFIER_DATA].Value;
+            set => RevisionsByFields[1][(int)DataFields.IDENTIFIER_DATA].SetValue(value);
+        }
 
-        public MID_0150() : base(length, MID, revision) { }
+        public MID_0150() : base(MID, LAST_REVISION) { }
 
-        public MID_0150(string identifierData) : base(length, MID, revision)
+        public MID_0150(string identifierData) : this()
         {
             IdentifierData = identifierData;
         }
 
-        internal MID_0150(IMid nextTemplate) : base(length, MID, revision)
-        {
-            NextTemplate = nextTemplate;
-        }
-
-        public override string BuildPackage()
-        {
-            IdentifierData = (IdentifierData.Length > 100) ? IdentifierData.Substring(0, 100) : IdentifierData;
-            return base.BuildHeader() + IdentifierData;
-        }
+        internal MID_0150(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         public override Mid Parse(string package)
         {
-            if (base.IsCorrectType(package))
+            if (IsCorrectType(package))
             {
                 HeaderData = ProcessHeader(package);
-                HeaderData.Length = package.Length;
-
-                IdentifierData = package.Substring(base.RegisteredDataFields[(int)DataFields.IDENTIFIER_DATA].Index);
-
+                RevisionsByFields[1][(int)DataFields.IDENTIFIER_DATA].Size = package.Length - HeaderData.Length;
+                ProcessDataFields(package);
                 return this;
             }
 
             return NextTemplate.Parse(package);
         }
 
-        protected override void RegisterDatafields()
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.IDENTIFIER_DATA, 20, 100));
+            return new Dictionary<int, List<DataField>>()
+            {
+                {
+                    1, new List<DataField>()
+                    {
+                        new DataField((int)DataFields.IDENTIFIER_DATA, 20, 100, false)
+                    }
+                }
+            };
         }
 
         public enum DataFields
