@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Converters;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.IOInterface
 {
@@ -15,46 +16,48 @@ namespace OpenProtocolInterpreter.IOInterface
     /// </summary>
     public class MID_0221 : Mid, IIOInterface
     {
+        private readonly IValueConverter<int> _intConverter;
+        private readonly IValueConverter<bool> _boolConverter;
+        private const int LAST_REVISION = 1;
         public const int MID = 221;
-        private const int length = 28;
-        private const int revision = 1;
 
-        public DigitalInput.DigitalInputNumbers DigitalInputNumber { get; set; }
-        public bool DigitalInputStatus { get; set; }
-
-        public MID_0221() : base(length, MID, revision) { }
-
-        internal MID_0221(IMid nextTemplate) : base(length, MID, revision)
+        public DigitalInputNumber DigitalInputNumber
         {
-            NextTemplate = nextTemplate;
+            get => (DigitalInputNumber)RevisionsByFields[1][(int)DataFields.DIGITAL_INPUT_NUMBER].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.DIGITAL_INPUT_NUMBER].SetValue(_intConverter.Convert, (int)value);
+        }
+        public bool DigitalInputStatus
+        {
+            get => RevisionsByFields[1][(int)DataFields.DIGITAL_INPUT_STATUS].GetValue(_boolConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.DIGITAL_INPUT_STATUS].SetValue(_boolConverter.Convert, value);
         }
 
-        public override string BuildPackage()
+        public MID_0221(int? noAckFlag = 1) : base(MID, LAST_REVISION, noAckFlag)
         {
-            string pkg = base.BuildHeader();
-            pkg += "01" + ((int)DigitalInputNumber).ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.DIGITAL_INPUT_NUMBER].Size, '0');
-            pkg += "02" + Convert.ToInt32(DigitalInputStatus).ToString();
-            return pkg;
+            _intConverter = new Int32Converter();
+            _boolConverter = new BoolConverter();
         }
 
-        public override Mid Parse(string package)
+        public MID_0221(DigitalInputNumber digitalInputNumber, bool digitalInputStatus, int? noAckFlag = 1) : this(noAckFlag)
         {
-            if (base.IsCorrectType(package))
+            DigitalInputNumber = digitalInputNumber;
+            DigitalInputStatus = digitalInputStatus;
+        }
+
+        internal MID_0221(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
+
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        {
+            return new Dictionary<int, List<DataField>>()
             {
-                base.Parse(package);
-                DigitalInputNumber = (DigitalInput.DigitalInputNumbers)base.RegisteredDataFields[(int)DataFields.DIGITAL_INPUT_NUMBER].ToInt32();
-                DigitalInputStatus = base.RegisteredDataFields[(int)DataFields.DIGITAL_INPUT_STATUS].ToBoolean();
-                return this;
-            }
-
-
-            return NextTemplate.Parse(package);
-        }
-
-        protected override void RegisterDatafields()
-        {
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.DIGITAL_INPUT_NUMBER, 20, 3));
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.DIGITAL_INPUT_STATUS, 25, 1));
+                {
+                    1, new List<DataField>()
+                    {
+                        new DataField((int)DataFields.DIGITAL_INPUT_NUMBER, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                        new DataField((int)DataFields.DIGITAL_INPUT_STATUS, 25, 1)
+                    }
+                }
+            };
         }
 
         public enum DataFields

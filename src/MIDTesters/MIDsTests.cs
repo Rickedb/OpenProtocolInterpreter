@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenProtocolInterpreter.MIDs;
+using OpenProtocolInterpreter;
 using OpenProtocolInterpreter.MIDs.KeepAlive;
 using OpenProtocolInterpreter.MIDs.Job;
 using OpenProtocolInterpreter.MIDs.Job.Advanced;

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Converters;
+using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.IOInterface
 {
@@ -14,41 +16,43 @@ namespace OpenProtocolInterpreter.IOInterface
     /// </summary>
     public class MID_0219 : Mid, IIOInterface
     {
+        private readonly IValueConverter<int> _intConverter;
+        private const int LAST_REVISION = 1;
         public const int MID = 219;
-        private const int length = 23;
-        private const int revision = 1;
 
-        public Relay.RelayNumbers RelayNumber { get; set; }
-
-        public MID_0219() : base(length, MID, revision) { }
-
-        internal MID_0219(IMid nextTemplate) : base(length, MID, revision)
+        public RelayNumber RelayNumber
         {
-            NextTemplate = nextTemplate;
+            get => (RelayNumber)RevisionsByFields[1][(int)DataFields.RELAY_NUMBER].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.RELAY_NUMBER].SetValue(_intConverter.Convert, (int)value);
         }
 
-        public override string BuildPackage()
+        public MID_0219() : base(MID, LAST_REVISION)
         {
-            return base.BuildHeader() + ((int)RelayNumber).ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.RELAY_NUMBER].Size, '0');
+            _intConverter = new Int32Converter();
         }
 
-        public override Mid Parse(string package)
+        /// <summary>
+        /// Revision 1 Constructor
+        /// </summary>
+        /// <param name="relayNumber"></param>
+        public MID_0219(RelayNumber relayNumber) : this()
         {
-            if (base.IsCorrectType(package))
+            RelayNumber = relayNumber;
+        }
+
+        internal MID_0219(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
+
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        {
+            return new Dictionary<int, List<DataField>>()
             {
-                base.ProcessHeader(package);
-                var dataField = base.RegisteredDataFields[(int)DataFields.RELAY_NUMBER];
-                RelayNumber = (Relay.RelayNumbers)Convert.ToInt32(package.Substring(dataField.Index, dataField.Size));
-                return this;
-            }
-
-
-            return NextTemplate.Parse(package);
-        }
-
-        protected override void RegisterDatafields()
-        {
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.RELAY_NUMBER, 20, 3));
+                {
+                    1, new List<DataField>()
+                    {
+                        new DataField((int)DataFields.RELAY_NUMBER, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                    }
+                }
+            };
         }
 
         public enum DataFields

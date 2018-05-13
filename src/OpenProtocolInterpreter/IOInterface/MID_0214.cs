@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Converters;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.IOInterface
 {
@@ -14,48 +15,39 @@ namespace OpenProtocolInterpreter.IOInterface
     /// </summary>
     public class MID_0214 : Mid, IIOInterface
     {
+        private readonly IValueConverter<int> _intConverter;
+        private const int LAST_REVISION = 2;
         public const int MID = 214;
-        private const int length = 22;
-        private const int revision = 1;
 
-        public int DeviceNumber { get; set; }
+        public int DeviceNumber
+        {
+            get => RevisionsByFields[1][(int)DataFields.DEVICE_NUMBER].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.DEVICE_NUMBER].SetValue(_intConverter.Convert, value);
+        }
 
-        public MID_0214() : base(length, MID, revision) { }
+        public MID_0214(int revision = LAST_REVISION) : base(MID, LAST_REVISION)
+        {
+            _intConverter = new Int32Converter();
+        }
 
-        public MID_0214(int deviceNumber) : base(length, MID, revision)
+        public MID_0214(int deviceNumber, int revision = LAST_REVISION) : this(revision)
         {
             DeviceNumber = deviceNumber;
         }
 
-        internal MID_0214(IMid nextTemplate) : base(length, MID, revision)
-        {
-            NextTemplate = nextTemplate;
-        }
+        internal MID_0214(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
-        public override string BuildPackage()
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
-            if (DeviceNumber > 15 || DeviceNumber < 0)
-                throw new ArgumentException("Invalid Device Number, Device number range is 00-15 => 00=internal device, 01 - 15 = I/O expanders");
-
-            return base.BuildHeader() + DeviceNumber.ToString().PadLeft(2, '0');
-        }
-
-        public override Mid Parse(string package)
-        {
-            if (base.IsCorrectType(package))
+            return new Dictionary<int, List<DataField>>()
             {
-                HeaderData = ProcessHeader(package);
-                var dataField = base.RegisteredDataFields[(int)DataFields.DEVICE_NUMBER];
-                DeviceNumber = Convert.ToInt32(package.Substring(dataField.Index, dataField.Size));
-                return this;
-            }
-
-            return NextTemplate.Parse(package);
-        }
-
-        protected override void RegisterDatafields()
-        {
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.DEVICE_NUMBER, 20, 2));
+                {
+                    1, new List<DataField>()
+                    {
+                        new DataField((int)DataFields.DEVICE_NUMBER, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                    }
+                }
+            };
         }
 
         public enum DataFields

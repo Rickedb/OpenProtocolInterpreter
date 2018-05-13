@@ -80,6 +80,7 @@
     <Compile Include="DataField.cs" />
     <Compile Include="Enums\BatchStatus.cs" />
     <Compile Include="Enums\CalibrationUnit.cs" />
+    <Compile Include="Enums\DigitalInputNumber.cs" />
     <Compile Include="Enums\Error.cs" />
     <Compile Include="Enums\ForcedOrder.cs" />
     <Compile Include="Enums\JobBatchMode.cs" />
@@ -89,6 +90,8 @@
     <Compile Include="Enums\PairingHandlingType.cs" />
     <Compile Include="Enums\PairingStatus.cs" />
     <Compile Include="Enums\PrimaryTool.cs" />
+    <Compile Include="Enums\RelayNumber.cs" />
+    <Compile Include="Enums\RelayStatus.cs" />
     <Compile Include="Enums\RemovalCondition.cs" />
     <Compile Include="Enums\Reserved.cs" />
     <Compile Include="Enums\ResultType.cs" />

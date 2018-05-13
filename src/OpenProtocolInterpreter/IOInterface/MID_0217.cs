@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Converters;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.IOInterface
 {
@@ -14,46 +15,58 @@ namespace OpenProtocolInterpreter.IOInterface
     /// </summary>
     public class MID_0217 : Mid, IIOInterface
     {
+        private readonly IValueConverter<int> _intConverter;
+        private readonly IValueConverter<bool> _boolConverter;
+        private const int LAST_REVISION = 1;
         public const int MID = 217;
-        private const int length = 28;
-        private const int revision = 1;
 
-        public Relay.RelayNumbers RelayNumber { get; set; }
-        public bool RelayStatus { get; set; }
-
-        public MID_0217() : base(length, MID, revision) { }
-
-        internal MID_0217(IMid nextTemplate) : base(length, MID, revision)
+        public RelayNumber RelayNumber
         {
-            NextTemplate = nextTemplate;
+            get => (RelayNumber)RevisionsByFields[1][(int)DataFields.RELAY_NUMBER].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.RELAY_NUMBER].SetValue(_intConverter.Convert, (int)value);
+        }
+        public bool RelayStatus
+        {
+            get => RevisionsByFields[1][(int)DataFields.RELAY_STATUS].GetValue(_boolConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.RELAY_STATUS].SetValue(_boolConverter.Convert, value);
         }
 
-        public override string BuildPackage()
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
+        /// <param name="ackFlag">0=Ack needed, 1=No Ack needed</param>
+        public MID_0217(int? ackFlag = 1) : base(MID, LAST_REVISION, ackFlag)
         {
-            string pkg = base.BuildHeader();
-            pkg += "01" + ((int)RelayNumber).ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.RELAY_NUMBER].Size, '0');
-            pkg += "02" + Convert.ToInt32(RelayStatus).ToString();
-            return pkg;
+            _intConverter = new Int32Converter();
+            _boolConverter = new BoolConverter();
         }
 
-        public override Mid Parse(string package)
+        /// <summary>
+        /// Revision 1 Constructor
+        /// </summary>
+        /// <param name="relayNumber">Three ASCII digits corresponding to a relay function</param>
+        /// <param name="relayStatus">One ASCII digit representing the relay function status <para>true = Active</para><para>false = Not Active</para></param>
+        /// <param name="ackFlag">0=Ack needed, 1=No Ack needed</param>
+        public MID_0217(RelayNumber relayNumber, bool relayStatus, int? ackFlag = 1) : this(ackFlag)
         {
-            if (base.IsCorrectType(package))
+            RelayNumber = relayNumber;
+            RelayStatus = relayStatus;
+        }
+
+        internal MID_0217(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
+
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        {
+            return new Dictionary<int, List<DataField>>()
             {
-                base.Parse(package);
-                RelayNumber = (Relay.RelayNumbers) base.RegisteredDataFields[(int)DataFields.RELAY_NUMBER].ToInt32();
-                RelayStatus = base.RegisteredDataFields[(int)DataFields.RELAY_STATUS].ToBoolean();
-                return this;
-            }
-
-
-            return NextTemplate.Parse(package);
-        }
-
-        protected override void RegisterDatafields()
-        {
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.RELAY_NUMBER, 20, 3));
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.RELAY_STATUS, 25, 1));
+                {
+                    1, new List<DataField>()
+                    {
+                        new DataField((int)DataFields.RELAY_NUMBER, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                        new DataField((int)DataFields.RELAY_STATUS, 25, 1)
+                    }   
+                }
+            };
         }
 
         public enum DataFields

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Converters;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.IOInterface
 {
@@ -12,75 +13,76 @@ namespace OpenProtocolInterpreter.IOInterface
     /// </summary>
     public class MID_0211 : Mid, IIOInterface
     {
-        public const int MID = 200;
-        private const int length = 30;
-        private const int revision = 1;
-
-        public bool StatusDigInOne { get; set; }
-        public bool StatusDigInTwo { get; set; }
-        public bool StatusDigInThree { get; set; }
-        public bool StatusDigInFour { get; set; }
-        public bool StatusDigInFive { get; set; }
-        public bool StatusDigInSix { get; set; }
-        public bool StatusDigInSeven { get; set; }
-        public bool StatusDigInEight { get; set; }
-
-        public MID_0211() : base(length, MID, revision)
+        private readonly IValueConverter<bool> _boolConverter;
+        private const int LAST_REVISION = 1;
+        public const int MID = 211;
+        
+        public bool StatusDigInOne
         {
-
+            get => RevisionsByFields[1][(int)DataFields.STATUS_DIG_IN_1].GetValue(_boolConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.STATUS_DIG_IN_1].SetValue(_boolConverter.Convert, value);
+        }
+        public bool StatusDigInTwo
+        {
+            get => RevisionsByFields[1][(int)DataFields.STATUS_DIG_IN_2].GetValue(_boolConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.STATUS_DIG_IN_2].SetValue(_boolConverter.Convert, value);
+        }
+        public bool StatusDigInThree
+        {
+            get => RevisionsByFields[1][(int)DataFields.STATUS_DIG_IN_3].GetValue(_boolConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.STATUS_DIG_IN_3].SetValue(_boolConverter.Convert, value);
+        }
+        public bool StatusDigInFour
+        {
+            get => RevisionsByFields[1][(int)DataFields.STATUS_DIG_IN_4].GetValue(_boolConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.STATUS_DIG_IN_4].SetValue(_boolConverter.Convert, value);
+        }
+        public bool StatusDigInFive
+        {
+            get => RevisionsByFields[1][(int)DataFields.STATUS_DIG_IN_5].GetValue(_boolConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.STATUS_DIG_IN_5].SetValue(_boolConverter.Convert, value);
+        }
+        public bool StatusDigInSix
+        {
+            get => RevisionsByFields[1][(int)DataFields.STATUS_DIG_IN_6].GetValue(_boolConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.STATUS_DIG_IN_6].SetValue(_boolConverter.Convert, value);
+        }
+        public bool StatusDigInSeven
+        {
+            get => RevisionsByFields[1][(int)DataFields.STATUS_DIG_IN_7].GetValue(_boolConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.STATUS_DIG_IN_7].SetValue(_boolConverter.Convert, value);
+        }
+        public bool StatusDigInEight
+        {
+            get => RevisionsByFields[1][(int)DataFields.STATUS_DIG_IN_8].GetValue(_boolConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.STATUS_DIG_IN_8].SetValue(_boolConverter.Convert, value);
         }
 
-        internal MID_0211(IMid nextTemplate) : base(length, MID, revision)
+        public MID_0211(int? ackFlag = 1) : base(MID, LAST_REVISION, ackFlag)
         {
-            NextTemplate = nextTemplate;
+            _boolConverter = new BoolConverter();
         }
 
-        public override string BuildPackage()
+        internal MID_0211(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
+        
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
-            string package = base.BuildHeader();
-            package += $"{Convert.ToInt32(StatusDigInOne)}{Convert.ToInt32(StatusDigInTwo)}{Convert.ToInt32(StatusDigInThree)}{Convert.ToInt32(StatusDigInFour)}";
-            package += $"{Convert.ToInt32(StatusDigInFive)}{Convert.ToInt32(StatusDigInSix)}{Convert.ToInt32(StatusDigInSeven)}{Convert.ToInt32(StatusDigInEight)}";
-            return package;
-        }
-
-        public override Mid Parse(string package)
-        {
-            if (base.IsCorrectType(package))
+            return new Dictionary<int, List<DataField>>()
             {
-                base.HeaderData = base.ProcessHeader(package);
-
-                foreach (var field in base.RegisteredDataFields)
-                    field.Value = package.Substring(field.Index, field.Size);
-
-                StatusDigInOne = base.RegisteredDataFields[(int)DataFields.STATUS_DIG_IN_1].ToBoolean();
-                StatusDigInTwo = base.RegisteredDataFields[(int)DataFields.STATUS_DIG_IN_2].ToBoolean();
-                StatusDigInThree = base.RegisteredDataFields[(int)DataFields.STATUS_DIG_IN_3].ToBoolean();
-                StatusDigInFour = base.RegisteredDataFields[(int)DataFields.STATUS_DIG_IN_4].ToBoolean();
-                StatusDigInFive = base.RegisteredDataFields[(int)DataFields.STATUS_DIG_IN_5].ToBoolean();
-                StatusDigInSix = base.RegisteredDataFields[(int)DataFields.STATUS_DIG_IN_6].ToBoolean();
-                StatusDigInSeven = base.RegisteredDataFields[(int)DataFields.STATUS_DIG_IN_7].ToBoolean();
-                StatusDigInEight = base.RegisteredDataFields[(int)DataFields.STATUS_DIG_IN_8].ToBoolean();
-
-                return this;
-            }
-
-            return NextTemplate.Parse(package);
-        }
-
-        protected override void RegisterDatafields()
-        {
-            this.RegisteredDataFields.AddRange(
-                new DataField[]
                 {
-                    new DataField((int)DataFields.STATUS_DIG_IN_1, 20, 1),
-                    new DataField((int)DataFields.STATUS_DIG_IN_2, 21, 1),
-                    new DataField((int)DataFields.STATUS_DIG_IN_3, 22, 1),
-                    new DataField((int)DataFields.STATUS_DIG_IN_4, 23, 1),
-                    new DataField((int)DataFields.STATUS_DIG_IN_5, 24, 1),
-                    new DataField((int)DataFields.STATUS_DIG_IN_6, 25, 1),
-                    new DataField((int)DataFields.STATUS_DIG_IN_7, 26, 1),
-                    new DataField((int)DataFields.STATUS_DIG_IN_8, 27, 1)
-                });
+                    1, new List<DataField>()
+                    {
+                        new DataField((int)DataFields.STATUS_DIG_IN_1, 20, 1, false),
+                        new DataField((int)DataFields.STATUS_DIG_IN_2, 21, 1, false),
+                        new DataField((int)DataFields.STATUS_DIG_IN_3, 22, 1, false),
+                        new DataField((int)DataFields.STATUS_DIG_IN_4, 23, 1, false),
+                        new DataField((int)DataFields.STATUS_DIG_IN_5, 24, 1, false),
+                        new DataField((int)DataFields.STATUS_DIG_IN_6, 25, 1, false),
+                        new DataField((int)DataFields.STATUS_DIG_IN_7, 26, 1, false),
+                        new DataField((int)DataFields.STATUS_DIG_IN_8, 27, 1, false)
+                    }
+                }
+            };
         }
 
         public enum DataFields

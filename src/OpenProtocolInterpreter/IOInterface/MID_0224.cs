@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Converters;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.IOInterface
 {
@@ -13,41 +14,39 @@ namespace OpenProtocolInterpreter.IOInterface
     /// </summary>
     public class MID_0224 : Mid, IIOInterface
     {
+        private readonly IValueConverter<int> _intConverter;
+        private const int LAST_REVISION = 1;
         public const int MID = 224;
-        private const int length = 23;
-        private const int revision = 1;
 
-        public DigitalInput.DigitalInputNumbers DigitalInputNumber { get; set; }
-
-        public MID_0224() : base(length, MID, revision) { }
-
-        internal MID_0224(IMid nextTemplate) : base(length, MID, revision)
+        public DigitalInputNumber DigitalInputNumber
         {
-            NextTemplate = nextTemplate;
+            get => (DigitalInputNumber)RevisionsByFields[1][(int)DataFields.DIGITAL_INPUT_NUMBER].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.DIGITAL_INPUT_NUMBER].SetValue(_intConverter.Convert, (int)value);
         }
 
-        public override string BuildPackage()
+        public MID_0224() : base(MID, LAST_REVISION)
         {
-            return base.BuildHeader() + ((int)DigitalInputNumber).ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.DIGITAL_INPUT_NUMBER].Size, '0');
+            _intConverter = new Int32Converter();
         }
 
-        public override Mid Parse(string package)
+        public MID_0224(DigitalInputNumber digitalInputNumber) : this()
         {
-            if (base.IsCorrectType(package))
+            DigitalInputNumber = digitalInputNumber;
+        }
+
+        internal MID_0224(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
+
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        {
+            return new Dictionary<int, List<DataField>>()
             {
-                base.ProcessHeader(package);
-                var dataField = base.RegisteredDataFields[(int)DataFields.DIGITAL_INPUT_NUMBER];
-                DigitalInputNumber = (DigitalInput.DigitalInputNumbers)Convert.ToInt32(package.Substring(dataField.Index, dataField.Size));
-                return this;
-            }
-
-
-            return NextTemplate.Parse(package);
-        }
-
-        protected override void RegisterDatafields()
-        {
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.DIGITAL_INPUT_NUMBER, 20, 3));
+                {
+                    1, new List<DataField>()
+                    {
+                        new DataField((int)DataFields.DIGITAL_INPUT_NUMBER, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED)
+                    }
+                }
+            };
         }
 
         public enum DataFields

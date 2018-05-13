@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OpenProtocolInterpreter.IOInterface
+﻿namespace OpenProtocolInterpreter.IOInterface
 {
     /// <summary>
     /// MID: Digital input function acknowledge
@@ -15,25 +9,11 @@ namespace OpenProtocolInterpreter.IOInterface
     /// </summary>
     public class MID_0222 : Mid, IIOInterface
     {
+        private const int LAST_REVISION = 1;
         public const int MID = 222;
-        private const int length = 20;
-        private const int revision = 1;
 
-        public MID_0222() : base(length, MID, revision) { }
+        public MID_0222() : base(MID, LAST_REVISION) { }
 
-        internal MID_0222(IMid nextTemplate) : base(length, MID, revision)
-        {
-            NextTemplate = nextTemplate;
-        }
-
-        public override Mid Parse(string package)
-        {
-            if (base.IsCorrectType(package))
-                return (MID_0222)base.Parse(package);
-
-            return NextTemplate.Parse(package);
-        }
-
-        protected override void RegisterDatafields() { }
+        internal MID_0222(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
     }
 }
