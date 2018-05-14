@@ -77,13 +77,6 @@ namespace OpenProtocolInterpreter.ApplicationSelector
                 });
         }
 
-        public enum GreenLightCommand
-        {
-            OFF = 0,
-            STEADY = 1,
-            FLASHING = 2
-        }
-
         public enum DataFields
         {
             DEVICE_ID,

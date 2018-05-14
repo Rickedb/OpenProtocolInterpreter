@@ -12,25 +12,11 @@
     /// </summary>
     public class MID_0250 : Mid, IApplicationSelector
     {
-        private const int length = 20;
+        private const int LAST_REVISION = 1;
         public const int MID = 250;
-        private const int revision = 1;
 
-        public MID_0250() : base(length, MID, revision) { }
+        public MID_0250(int? noAckFlag = 1) : base(MID, LAST_REVISION, noAckFlag) { }
 
-        internal MID_0250(IMid nextTemplate) : base(length, MID, revision)
-        {
-            NextTemplate = nextTemplate;
-        }
-
-        public override Mid Parse(string package)
-        {
-            if (base.IsCorrectType(package))
-                return (MID_0250)base.Parse(package);
-
-            return NextTemplate.Parse(package);
-        }
-
-        protected override void RegisterDatafields() { }
+        internal MID_0250(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
     }
 }

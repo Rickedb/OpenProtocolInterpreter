@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Converters;
+using System;
 using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.ApplicationSelector
@@ -15,21 +16,23 @@ namespace OpenProtocolInterpreter.ApplicationSelector
     /// </summary>
     public class MID_0251 : Mid, IApplicationSelector
     {
-        private const int length = 24;
+        private readonly IValueConverter<int> _intConverter;
+        private readonly IValueConverter<bool> _boolConverter;
+        private const int LAST_REVISION = 1;
         public const int MID = 251;
-        private const int revision = 1;
 
         public int DeviceID { get; set; }
         public int NumberOfSockets { get; set; }
         public List<bool> SocketStatuses { get; set; }
 
-        public MID_0251() : base(length, MID, revision) { SocketStatuses = new List<bool>(); }
-
-        internal MID_0251(IMid nextTemplate) : base(length, MID, revision)
+        public MID_0251(int? noAckFlag = 1) : base(MID, LAST_REVISION, noAckFlag)
         {
             SocketStatuses = new List<bool>();
-            NextTemplate = nextTemplate;
+            _intConverter = new Int32Converter();
+            _boolConverter = new BoolConverter();
         }
+
+        internal MID_0251(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         public override string BuildPackage()
         {
