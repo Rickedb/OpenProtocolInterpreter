@@ -84,6 +84,7 @@
     <Compile Include="Enums\Error.cs" />
     <Compile Include="Enums\ForcedOrder.cs" />
     <Compile Include="Enums\GreenLightCommand.cs" />
+    <Compile Include="Enums\HistogramType.cs" />
     <Compile Include="Enums\JobBatchMode.cs" />
     <Compile Include="Enums\JobStatus.cs" />
     <Compile Include="Enums\JobTighteningStatus.cs" />

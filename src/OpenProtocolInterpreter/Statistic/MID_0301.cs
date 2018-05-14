@@ -1,4 +1,7 @@
-﻿namespace OpenProtocolInterpreter.Statistic
+﻿using OpenProtocolInterpreter.Converters;
+using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.Statistic
 {
     /// <summary>
     /// MID: Histogram upload reply
@@ -10,104 +13,110 @@
     /// </summary>
     public class MID_0301 : Mid, IStatistic
     {
-        private const int length = 107;
+        private readonly IValueConverter<int> _intConverter;
+        private readonly IValueConverter<decimal> _decimalConverter;
+        private const int LAST_REVISION = 1;
         public const int MID = 301;
-        private const int revision = 1;
 
-        public int ParameterSetID { get; set; }
-        public HistogramTypes HistogramType { get; set; }
-        public decimal SigmaHistogram { get; set; }
-        public decimal MeanValueHistogram { get; set; }
-        public decimal ClassRange { get; set; }
-        public int Bar1 { get; set; }
-        public int Bar2 { get; set; }
-        public int Bar3 { get; set; }
-        public int Bar4 { get; set; }
-        public int Bar5 { get; set; }
-        public int Bar6 { get; set; }
-        public int Bar7 { get; set; }
-        public int Bar8 { get; set; }
-        public int Bar9 { get; set; }
-
-        public MID_0301() : base(length, MID, revision) { }
-
-        internal MID_0301(IMid nextTemplate) : base(length, MID, revision)
+        public int ParameterSetID
         {
-            NextTemplate = nextTemplate;
+            get => RevisionsByFields[1][(int)DataFields.PARAMETER_SET_ID].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.PARAMETER_SET_ID].SetValue(_intConverter.Convert, value);
+        }
+        public HistogramType HistogramType
+        {
+            get => (HistogramType)RevisionsByFields[1][(int)DataFields.HISTOGRAM_TYPE].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.HISTOGRAM_TYPE].SetValue(_intConverter.Convert, (int)value);
+        }
+        public decimal SigmaHistogram
+        {
+            get => RevisionsByFields[1][(int)DataFields.SIGMA_HISTOGRAM].GetValue(_decimalConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.SIGMA_HISTOGRAM].SetValue(_decimalConverter.Convert, value);
+        }
+        public decimal MeanValueHistogram
+        {
+            get => RevisionsByFields[1][(int)DataFields.MEAN_VALUE_HISTOGRAM].GetValue(_decimalConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.MEAN_VALUE_HISTOGRAM].SetValue(_decimalConverter.Convert, value);
+        }
+        public decimal ClassRange
+        {
+            get => RevisionsByFields[1][(int)DataFields.CLASS_RANGE].GetValue(_decimalConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.CLASS_RANGE].SetValue(_decimalConverter.Convert, value);
+        }
+        public int FirstBar
+        {
+            get => RevisionsByFields[1][(int)DataFields.BAR_1].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.BAR_1].SetValue(_intConverter.Convert, value);
+        }
+        public int SecondBar
+        {
+            get => RevisionsByFields[1][(int)DataFields.BAR_2].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.BAR_2].SetValue(_intConverter.Convert, value);
+        }
+        public int ThirdBar
+        {
+            get => RevisionsByFields[1][(int)DataFields.BAR_3].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.BAR_3].SetValue(_intConverter.Convert, value);
+        }
+        public int FourthBar
+        {
+            get => RevisionsByFields[1][(int)DataFields.BAR_4].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.BAR_4].SetValue(_intConverter.Convert, value);
+        }
+        public int FifthBar
+        {
+            get => RevisionsByFields[1][(int)DataFields.BAR_5].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.BAR_5].SetValue(_intConverter.Convert, value);
+        }
+        public int SixthBar
+        {
+            get => RevisionsByFields[1][(int)DataFields.BAR_6].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.BAR_6].SetValue(_intConverter.Convert, value);
+        }
+        public int SeventhBar
+        {
+            get => RevisionsByFields[1][(int)DataFields.BAR_7].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.BAR_7].SetValue(_intConverter.Convert, value);
+        }
+        public int EighthBar
+        {
+            get => RevisionsByFields[1][(int)DataFields.BAR_8].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.BAR_8].SetValue(_intConverter.Convert, value);
+        }
+        public int NinethBar
+        {
+            get => RevisionsByFields[1][(int)DataFields.BAR_9].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.BAR_9].SetValue(_intConverter.Convert, value);
         }
 
-        public override string BuildPackage()
-        {
-            base.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].Value = ParameterSetID.ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].Size);
-            base.RegisteredDataFields[(int)DataFields.HISTOGRAM_TYPE].Value = ((int)HistogramType).ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.HISTOGRAM_TYPE].Size);
-            base.RegisteredDataFields[(int)DataFields.SIGMA_HISTOGRAM].Value = SigmaHistogram * 100;
-            base.RegisteredDataFields[(int)DataFields.MEAN_VALUE_HISTOGRAM].Value = MeanValueHistogram * 100;
-            base.RegisteredDataFields[(int)DataFields.CLASS_RANGE].Value = ClassRange * 100;
-            base.RegisteredDataFields[(int)DataFields.BAR_1].Value = Bar1;
-            base.RegisteredDataFields[(int)DataFields.BAR_2].Value = Bar2;
-            base.RegisteredDataFields[(int)DataFields.BAR_3].Value = Bar3;
-            base.RegisteredDataFields[(int)DataFields.BAR_4].Value = Bar4;
-            base.RegisteredDataFields[(int)DataFields.BAR_5].Value = Bar5;
-            base.RegisteredDataFields[(int)DataFields.BAR_6].Value = Bar6;
-            base.RegisteredDataFields[(int)DataFields.BAR_7].Value = Bar7;
-            base.RegisteredDataFields[(int)DataFields.BAR_8].Value = Bar8;
-            base.RegisteredDataFields[(int)DataFields.BAR_9].Value = Bar9;
-            return base.BuildPackage();
-        }
+        public MID_0301() : base(MID, LAST_REVISION) { }
 
-        public override Mid Parse(string package)
+        internal MID_0301(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
+
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
-            if (base.IsCorrectType(package))
+            return new Dictionary<int, List<DataField>>()
             {
-                base.Parse(package);
-                ParameterSetID = base.RegisteredDataFields[(int)DataFields.PARAMETER_SET_ID].ToInt32();
-                HistogramType = (HistogramTypes)base.RegisteredDataFields[(int)DataFields.HISTOGRAM_TYPE].ToInt32();
-                SigmaHistogram = base.RegisteredDataFields[(int)DataFields.SIGMA_HISTOGRAM].ToInt32() / 100m;
-                MeanValueHistogram = base.RegisteredDataFields[(int)DataFields.MEAN_VALUE_HISTOGRAM].ToInt32() / 100m;
-                ClassRange = base.RegisteredDataFields[(int)DataFields.CLASS_RANGE].ToInt32() / 100m;
-                Bar1 = base.RegisteredDataFields[(int)DataFields.BAR_1].ToInt32();
-                Bar2 = base.RegisteredDataFields[(int)DataFields.BAR_2].ToInt32();
-                Bar3 = base.RegisteredDataFields[(int)DataFields.BAR_3].ToInt32();
-                Bar4 = base.RegisteredDataFields[(int)DataFields.BAR_4].ToInt32();
-                Bar5 = base.RegisteredDataFields[(int)DataFields.BAR_5].ToInt32();
-                Bar6 = base.RegisteredDataFields[(int)DataFields.BAR_6].ToInt32();
-                Bar7 = base.RegisteredDataFields[(int)DataFields.BAR_7].ToInt32();
-                Bar8 = base.RegisteredDataFields[(int)DataFields.BAR_8].ToInt32();
-                Bar9 = base.RegisteredDataFields[(int)DataFields.BAR_9].ToInt32();
-                return this;
-            }
-
-            return NextTemplate.Parse(package);
-        }
-
-        protected override void RegisterDatafields()
-        {
-            this.RegisteredDataFields.AddRange(new DataField[] {
-                new DataField((int)DataFields.PARAMETER_SET_ID, 20, 3),
-                new DataField((int)DataFields.HISTOGRAM_TYPE, 25, 2),
-                new DataField((int)DataFields.SIGMA_HISTOGRAM, 29, 6),
-                new DataField((int)DataFields.MEAN_VALUE_HISTOGRAM, 37, 6),
-                new DataField((int)DataFields.CLASS_RANGE, 45, 6),
-                new DataField((int)DataFields.BAR_1, 53, 4),
-                new DataField((int)DataFields.BAR_2, 59, 4),
-                new DataField((int)DataFields.BAR_3, 65, 4),
-                new DataField((int)DataFields.BAR_4, 71, 4),
-                new DataField((int)DataFields.BAR_5, 77, 4),
-                new DataField((int)DataFields.BAR_6, 83, 4),
-                new DataField((int)DataFields.BAR_7, 89, 4),
-                new DataField((int)DataFields.BAR_8, 95, 4),
-                new DataField((int)DataFields.BAR_9, 101, 4)
-            });
-        }
-
-        public enum HistogramTypes
-        {
-            TORQUE = 0,
-            ANGLE = 1,
-            CURRENT = 2,
-            PREVAIL_TORQUE = 3,
-            SELF_TAP = 4,
-            RUNDOWN_ANGLE = 5
+                {
+                    1, new List<DataField>()
+                    {
+                        new DataField((int)DataFields.PARAMETER_SET_ID, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                        new DataField((int)DataFields.HISTOGRAM_TYPE, 25, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                        new DataField((int)DataFields.SIGMA_HISTOGRAM, 29, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                        new DataField((int)DataFields.MEAN_VALUE_HISTOGRAM, 37, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                        new DataField((int)DataFields.CLASS_RANGE, 45, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                        new DataField((int)DataFields.BAR_1, 53, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                        new DataField((int)DataFields.BAR_2, 59, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                        new DataField((int)DataFields.BAR_3, 65, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                        new DataField((int)DataFields.BAR_4, 71, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                        new DataField((int)DataFields.BAR_5, 77, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                        new DataField((int)DataFields.BAR_6, 83, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                        new DataField((int)DataFields.BAR_7, 89, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                        new DataField((int)DataFields.BAR_8, 95, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                        new DataField((int)DataFields.BAR_9, 101, 4, '0', DataField.PaddingOrientations.LEFT_PADDED)
+                    }
+                }
+            };
         }
 
         public enum DataFields
