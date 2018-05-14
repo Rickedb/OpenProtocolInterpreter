@@ -1,4 +1,7 @@
-﻿namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
+﻿using OpenProtocolInterpreter.Converters;
+using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
 {
     /// <summary>
     /// MID: External Tool tag ID and status
@@ -10,57 +13,52 @@
     /// </summary>
     public class MID_0265 : Mid, IApplicationToolLocationSystem
     {
-        private const int length = 30;
+        private readonly IValueConverter<int> _intConverter;
+        private const int LAST_REVISION = 1;
         public const int MID = 265;
-        private const int revision = 1;
 
-        public string ToolTagID { get; set; }
-        public Statuses Status { get; set; }
-
-        public MID_0265() : base(length, MID, revision) { }
-
-        internal MID_0265(IMid nextTemplate) : base(length, MID, revision)
+        public string ToolTagID
         {
-            NextTemplate = nextTemplate;
+            get => RevisionsByFields[1][(int)DataFields.TOOL_TAG_ID].Value;
+            set => RevisionsByFields[1][(int)DataFields.TOOL_TAG_ID].SetValue(value);
+        }
+        public ToolStatus ToolStatus
+        {
+            get => (ToolStatus)RevisionsByFields[1][(int)DataFields.TOOL_STATUS].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.TOOL_STATUS].SetValue(_intConverter.Convert, (int)value);
         }
 
-        public override string BuildPackage()
+        public MID_0265() : base(MID, LAST_REVISION)
         {
-            base.RegisteredDataFields[(int)DataFields.TOOL_TAG_ID].Value = ToolTagID;
-            return base.BuildPackage();
+            _intConverter = new Int32Converter();
         }
 
-        public override Mid Parse(string package)
+        public MID_0265(string toolTagId, ToolStatus toolStatus) : this()
         {
-            if (base.IsCorrectType(package))
+            ToolTagID = toolTagId;
+            ToolStatus = toolStatus;
+        }
+
+        internal MID_0265(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
+
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        {
+            return new Dictionary<int, List<DataField>>()
             {
-                base.Parse(package);
-                ToolTagID = base.RegisteredDataFields[(int)DataFields.TOOL_TAG_ID].Value.ToString();
-                Status = (Statuses)base.RegisteredDataFields[(int)DataFields.STATUS].ToInt32();
-                return this;
-            }
-
-            return NextTemplate.Parse(package);
-        }
-
-        protected override void RegisterDatafields()
-        {
-            this.RegisteredDataFields.AddRange(new DataField[] {
-                                        new DataField((int)DataFields.TOOL_TAG_ID, 20, 8),
-                                        new DataField((int)DataFields.STATUS, 30, 2)
-                                });
-        }
-
-        public enum Statuses
-        {
-            OPERABLE = 1,
-            INOPERABLE = 2
+                {
+                    1, new List<DataField>()
+                    {
+                        new DataField((int)DataFields.TOOL_TAG_ID, 20, 8),
+                        new DataField((int)DataFields.TOOL_STATUS, 30, 2, '0', DataField.PaddingOrientations.LEFT_PADDED)
+                    }
+                }
+            };
         }
 
         public enum DataFields
         {
             TOOL_TAG_ID,
-            STATUS
+            TOOL_STATUS
         }
     }
 }

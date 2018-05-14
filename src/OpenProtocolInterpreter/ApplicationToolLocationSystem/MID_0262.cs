@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
+﻿using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
 {
     /// <summary>
     /// MID: Tool tag ID
@@ -9,40 +11,30 @@
     /// </summary>
     public class MID_0262 : Mid, IApplicationToolLocationSystem
     {
-        private const int length = 30;
+        private const int LAST_REVISION = 1;
         public const int MID = 262;
-        private const int revision = 1;
 
-        public string ToolTagID { get; set; }
-
-        public MID_0262() : base(length, MID, revision) {  }
-
-        internal MID_0262(IMid nextTemplate) : base(length, MID, revision)
+        public string ToolTagID
         {
-            NextTemplate = nextTemplate;
+            get => RevisionsByFields[1][(int)DataFields.TOOL_TAG_ID].Value;
+            set => RevisionsByFields[1][(int)DataFields.TOOL_TAG_ID].SetValue(value);
         }
 
-        public override string BuildPackage()
-        {
-            base.RegisteredDataFields[(int)DataFields.TOOL_TAG_ID].Value = ToolTagID;
-            return base.BuildPackage();
-        }
+        public MID_0262(int? noAckFlag = 1) : base(MID, LAST_REVISION, noAckFlag) {  }
 
-        public override Mid Parse(string package)
+        internal MID_0262(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
+
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
-            if (base.IsCorrectType(package))
+            return new Dictionary<int, List<DataField>>()
             {
-                base.Parse(package);
-                ToolTagID = base.RegisteredDataFields[(int)DataFields.TOOL_TAG_ID].Value.ToString();
-                return this;
-            }
-
-            return NextTemplate.Parse(package);
-        }
-
-        protected override void RegisterDatafields()
-        {
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.TOOL_TAG_ID, 20, 8));
+                {
+                    1, new List<DataField>()
+                    {
+                        new DataField((int)DataFields.TOOL_TAG_ID, 20, 8)
+                    }
+                }
+            };
         }
 
         public enum DataFields

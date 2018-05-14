@@ -104,6 +104,7 @@
     <Compile Include="Enums\TighteningDirection.cs" />
     <Compile Include="Enums\TighteningValueStatus.cs" />
     <Compile Include="Enums\ToolLoosening.cs" />
+    <Compile Include="Enums\ToolStatus.cs" />
     <Compile Include="Enums\ToolType.cs" />
     <Compile Include="Enums\TorqueValuesUnit.cs" />
     <Compile Include="MultiSpindle\MID_0093.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="_internals\Converters\SpindleStatusConverter.cs" />
     <Compile Include="_internals\Converters\StrategyOptionsConverter.cs" />
     <Compile Include="_internals\Converters\TighteningErrorStatusConverter.cs" />
+    <Compile Include="_internals\Converters\ToolTagIdConverter.cs" />
     <Compile Include="_internals\Converters\ValueConverter.cs" />
     <Compile Include="_internals\Messages\IMessagesTemplate.cs" />
     <Compile Include="IMid.cs" />
