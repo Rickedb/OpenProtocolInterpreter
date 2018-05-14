@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.PLCUserData
+﻿using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.PLCUserData
 {
     /// <summary>
     /// MID: User data download
@@ -9,43 +11,54 @@
     /// </summary>
     public class MID_0242 : Mid, IPLCUserData
     {
-        private const int length = 220;
+        private const int LAST_REVISION = 1;
         public const int MID = 242;
-        private const int revision = 1;
 
-        public string UserData { get; set; }
-
-        public MID_0242() : base(length, MID, revision) { }
-
-        internal MID_0242(IMid nextTemplate) : base(length, MID, revision)
+        public string UserData
         {
-            NextTemplate = nextTemplate;
+            get => RevisionsByFields[1][(int)DataFields.USER_DATA].Value;
+            set => RevisionsByFields[1][(int)DataFields.USER_DATA].SetValue(value);
         }
+
+        public MID_0242(int? noAckFlag = 1) : base(MID, LAST_REVISION, noAckFlag) { }
+
+        public MID_0242(string userData, int? noAckFlag = 1) : this(noAckFlag)
+        {
+            UserData = userData;
+        }
+
+        internal MID_0242(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         public override string BuildPackage()
         {
-            HeaderData.Length = 20 + UserData.Length;
-
-            string package = BuildHeader();
-            package += UserData;
-
-            return package;
+            RevisionsByFields[1][(int)DataFields.USER_DATA].Size = 20 + UserData.Length;
+            return base.BuildPackage();
         }
 
         public override Mid Parse(string package)
         {
-            if (base.IsCorrectType(package))
+            if (IsCorrectType(package))
             {
-                UserData = package.Substring(20);
+                HeaderData = ProcessHeader(package);
+                RevisionsByFields[1][(int)DataFields.USER_DATA].Size = HeaderData.Length - 20;
+                ProcessDataFields(package);
                 return this;
             }
 
             return NextTemplate.Parse(package);
         }
 
-        protected override void RegisterDatafields()
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.USER_DATA, 20, 220));
+            return new Dictionary<int, List<DataField>>()
+            {
+                {
+                    1, new List<DataField>()
+                    {
+                        new DataField((int)DataFields.USER_DATA, 20, 200, ' ', DataField.PaddingOrientations.RIGHT_PADDED, false)
+                    }
+                }
+            };
         }
 
         internal enum DataFields

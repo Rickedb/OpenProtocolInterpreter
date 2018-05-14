@@ -10,25 +10,12 @@
     /// </summary>
     public class MID_0244 : Mid, IPLCUserData
     {
-        private const int length = 20;
+        private const int LAST_REVISION = 1;
         public const int MID = 244;
-        private const int revision = 1;
 
-        public MID_0244() : base(length, MID, revision) { }
+        public MID_0244() : base(MID, LAST_REVISION) { }
 
-        internal MID_0244(IMid nextTemplate) : base(length, MID, revision)
-        {
-            NextTemplate = nextTemplate;
-        }
-
-        public override Mid Parse(string package)
-        {
-            if (base.IsCorrectType(package))
-                return (MID_0244)base.Parse(package);
-
-            return NextTemplate.Parse(package);
-        }
-
-        protected override void RegisterDatafields() { }
+        internal MID_0244(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
+        
     }
 }

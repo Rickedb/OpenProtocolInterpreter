@@ -1,8 +1,5 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Converters;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenProtocolInterpreter.PLCUserData
 {
@@ -32,47 +29,66 @@ namespace OpenProtocolInterpreter.PLCUserData
     /// </summary>
     public class MID_0245 : Mid, IPLCUserData
     {
-        private const int length = 223;
-        public const int MID = 255;
-        private const int revision = 1;
+        private readonly IValueConverter<int> _intConverter;
+        private const int LAST_REVISION = 1;
+        public const int MID = 245;
 
-        public int Offset { get; set; }
-        public string UserData { get; set; }
-
-        public MID_0245() : base(length, MID, revision) { }
-
-        internal MID_0245(IMid nextTemplate) : base(length, MID, revision)
+        public int Offset
         {
-            NextTemplate = nextTemplate;
+            get => RevisionsByFields[1][(int)DataFields.USER_DATA].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.USER_DATA].SetValue(_intConverter.Convert, value);
         }
+        public string UserData
+        {
+            get => RevisionsByFields[1][(int)DataFields.USER_DATA].Value;
+            set => RevisionsByFields[1][(int)DataFields.USER_DATA].SetValue(value);
+        }
+
+        public MID_0245() : base(MID, LAST_REVISION)
+        {
+            _intConverter = new Int32Converter();
+        }
+
+        public MID_0245(int offset, string userData) : this()
+        {
+            Offset = offset;
+            UserData = userData;
+        }
+
+        internal MID_0245(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
+        
 
         public override string BuildPackage()
         {
-            HeaderData.Length = 23 + UserData.Length;
-
-            string package = BuildHeader();
-            package += Offset.ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.OFFSET].Size, '0');
-            package += UserData;
-
-            return package;
+            RevisionsByFields[1][(int)DataFields.USER_DATA].Size = 20 + UserData.Length;
+            return base.BuildPackage();
         }
 
         public override Mid Parse(string package)
         {
-            if (base.IsCorrectType(package))
+            if (IsCorrectType(package))
             {
-                Offset = Convert.ToInt32(package.Substring(base.RegisteredDataFields[(int)DataFields.OFFSET].Index, base.RegisteredDataFields[(int)DataFields.OFFSET].Size));
-                UserData = package.Substring(base.RegisteredDataFields[(int)DataFields.USER_DATA].Index);
+                HeaderData = ProcessHeader(package);
+                RevisionsByFields[1][(int)DataFields.USER_DATA].Size = HeaderData.Length - 22;
+                ProcessDataFields(package);
                 return this;
             }
 
             return NextTemplate.Parse(package);
         }
 
-        protected override void RegisterDatafields()
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.OFFSET, 20, 3));
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.USER_DATA, 23, 220));
+            return new Dictionary<int, List<DataField>>()
+            {
+                {
+                    1, new List<DataField>()
+                    {
+                        new DataField((int)DataFields.OFFSET, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
+                        new DataField((int)DataFields.USER_DATA, 23, 200, ' ', DataField.PaddingOrientations.RIGHT_PADDED, false)
+                    }
+                }
+            };
         }
 
         internal enum DataFields
