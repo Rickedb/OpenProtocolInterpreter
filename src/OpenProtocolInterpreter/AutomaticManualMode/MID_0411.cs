@@ -1,4 +1,6 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Converters;
+using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.AutomaticManualMode
 {
@@ -23,44 +25,47 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
     /// </summary>
     public class MID_0411 : Mid, IAutomaticManualMode
     {
+        private readonly IValueConverter<int> _intConverter;
+        private const int LAST_REVISION = 1;
         public const int MID = 411;
-        private const int length = 21;
-        private const int revision = 1;
 
-        public int AutoDisableSetting { get; set; }
-        public int CurrentBatch { get; set; }
-
-        public MID_0411() : base(length, MID, revision) { }
-
-        internal MID_0411(IMid nextTemplate) : base(length, MID, revision)
+        public int AutoDisableSetting
         {
-            NextTemplate = nextTemplate;
+            get => RevisionsByFields[1][(int)DataFields.AUTO_DISABLE_SETTING].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.AUTO_DISABLE_SETTING].SetValue(_intConverter.Convert, value);
+        }
+        public int CurrentBatch
+        {
+            get => RevisionsByFields[1][(int)DataFields.CURRENT_BATCH].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.CURRENT_BATCH].SetValue(_intConverter.Convert, value);
         }
 
-        public override string BuildPackage()
+        public MID_0411() : base(MID, LAST_REVISION)
         {
-            return base.BuildHeader() +
-                AutoDisableSetting.ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.AUTO_DISABLE_SETTING].Size, '0') +
-                CurrentBatch.ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.CURRENT_BATCH].Size, '0');
+            _intConverter = new Int32Converter();
         }
 
-        public override Mid Parse(string package)
+        public MID_0411(int autoDisableSetting, int currentBatch) : this()
         {
-            if (base.IsCorrectType(package))
+            AutoDisableSetting = autoDisableSetting;
+            CurrentBatch = currentBatch;
+        }
+
+        internal MID_0411(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
+        
+
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        {
+            return new Dictionary<int, List<DataField>>()
             {
-                HeaderData = ProcessHeader(package);
-                AutoDisableSetting = Convert.ToInt32(package.Substring(base.RegisteredDataFields[(int)DataFields.AUTO_DISABLE_SETTING].Index, base.RegisteredDataFields[(int)DataFields.AUTO_DISABLE_SETTING].Size));
-                CurrentBatch = Convert.ToInt32(package.Substring(base.RegisteredDataFields[(int)DataFields.CURRENT_BATCH].Index, base.RegisteredDataFields[(int)DataFields.CURRENT_BATCH].Size));
-                return this;
-            }
-
-            return NextTemplate.Parse(package);
-        }
-
-        protected override void RegisterDatafields()
-        {
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.AUTO_DISABLE_SETTING, 20, 2));
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.CURRENT_BATCH, 22, 2));
+                {
+                    1, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.AUTO_DISABLE_SETTING, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
+                                new DataField((int)DataFields.CURRENT_BATCH, 22, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                            }
+                }
+            };
         }
 
         public enum DataFields

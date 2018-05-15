@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Converters;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.AutomaticManualMode
 {
@@ -12,53 +13,44 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
     /// </summary>
     public class MID_0401 : Mid, IAutomaticManualMode
     {
+        private readonly IValueConverter<bool> _boolConverter;
+        private const int LAST_REVISION = 1;
         public const int MID = 401;
-        private const int length = 21;
-        private const int revision = 1;
 
         /// <summary>
         /// <para>Automatic Mode = false (0)</para>
         /// <para>Manual Mode = true (1)</para>
         /// </summary>
-        public bool ManualAutomaticMode{ get; set; }
+        public bool ManualAutomaticMode
+        {
+            get => RevisionsByFields[1][(int)DataFields.MANUAL_AUTOMATIC_MODE].GetValue(_boolConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.MANUAL_AUTOMATIC_MODE].SetValue(_boolConverter.Convert, value);
+        }
 
-        public MID_0401() : base(length, MID, revision) { }
+        public MID_0401(int? noAckFlag = 1) : base(MID, LAST_REVISION, noAckFlag)
+        {
+            _boolConverter = new BoolConverter();
+        }
 
-        public MID_0401(bool manualAutomaticMode) : base(length, MID, revision)
+        public MID_0401(bool manualAutomaticMode, int? noAckFlag = 1) : this(noAckFlag)
         {
             ManualAutomaticMode = manualAutomaticMode;
         }
 
-        internal MID_0401(IMid nextTemplate) : base(length, MID, revision)
-        {
-            NextTemplate = nextTemplate;
-        }
+        internal MID_0401(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
-        public override string BuildPackage()
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
-            return base.BuildHeader() + Convert.ToInt32(ManualAutomaticMode).ToString();
-        }
-
-        public override Mid Parse(string package)
-        {
-            if (base.IsCorrectType(package))
+            return new Dictionary<int, List<DataField>>()
             {
-                HeaderData = ProcessHeader(package);
-                var dataField = base.RegisteredDataFields[(int)DataFields.MANUAL_AUTOMATIC_MODE];
-                dataField.Value = package.Substring(dataField.Index, dataField.Size);
-                ManualAutomaticMode = dataField.ToBoolean();
-                return this;
-            }
-
-            return NextTemplate.Parse(package);
+                {
+                    1, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.MANUAL_AUTOMATIC_MODE, 20, 1, false)
+                            }
+                }
+            };
         }
-
-        protected override void RegisterDatafields()
-        {
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.MANUAL_AUTOMATIC_MODE, 20, 1));
-        }
-
-
 
         public enum DataFields
         {
