@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OpenProtocolInterpreter.KeepAlive
+﻿namespace OpenProtocolInterpreter.KeepAlive
 {
     /// <summary>
     /// MID: Keep alive message
@@ -20,20 +18,9 @@ namespace OpenProtocolInterpreter.KeepAlive
     /// </summary>
     public class MID_9999 : Mid
     {
-        private const int length = 20;
+        private const int LAST_REVISION = 1;
         public const int MID = 9999;
-        private const int revision = 1;
 
-        public MID_9999() : base(length, MID, revision) { }
-
-        public override Mid Parse(string package)
-        {
-            if (IsCorrectType(package))
-                return base.Parse(package);
-
-            throw new NotImplementedException("MID not implemented or doesn't exists!");
-        }
-
-        protected override void RegisterDatafields() { }
+        public MID_9999() : base(MID, LAST_REVISION) { }
     }
 }
