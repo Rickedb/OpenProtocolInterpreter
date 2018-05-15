@@ -1,4 +1,6 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Converters;
+using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
 {
@@ -14,45 +16,39 @@ namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
     /// </summary>
     public class MID_0421 : Mid, IOpenProtocolCommandsDisabled
     {
+        private readonly IValueConverter<bool> _boolConverter;
+        private const int LAST_REVISION = 1;
         public const int MID = 421;
-        private const int length = 21;
-        private const int revision = 1;
-
-        /// <summary>
-        /// <para>Automatic Mode = false (0)</para>
-        /// <para>Manual Mode = true (1)</para>
-        /// </summary>
-        public bool DigitalInputStatus { get; set; }
-
-        public MID_0421() : base(length, MID, revision) { }
-
-        internal MID_0421(IMid nextTemplate) : base(length, MID, revision)
+        
+        public bool DigitalInputStatus
         {
-            NextTemplate = nextTemplate;
+            get => RevisionsByFields[1][(int)DataFields.DIGITAL_INPUT_STATUS].GetValue(_boolConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.DIGITAL_INPUT_STATUS].SetValue(_boolConverter.Convert, value);
         }
 
-        public override string BuildPackage()
+        public MID_0421(int? noAckFlag = 1) : base(MID, LAST_REVISION, noAckFlag)
         {
-            return base.BuildHeader() + Convert.ToInt32(DigitalInputStatus).ToString();
+            _boolConverter = new BoolConverter();
         }
 
-        public override Mid Parse(string package)
+        public MID_0421(bool digitalInputStatus, int? noAckFlag = 1) : this(noAckFlag)
         {
-            if (base.IsCorrectType(package))
+            DigitalInputStatus = digitalInputStatus;
+        }
+
+        internal MID_0421(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
+
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        {
+            return new Dictionary<int, List<DataField>>()
             {
-                HeaderData = ProcessHeader(package);
-                var dataField = base.RegisteredDataFields[(int)DataFields.DIGITAL_INPUT_STATUS];
-                dataField.Value = package.Substring(dataField.Index, dataField.Size);
-                DigitalInputStatus = dataField.ToBoolean();
-                return this;
-            }
-
-            return NextTemplate.Parse(package);
-        }
-
-        protected override void RegisterDatafields()
-        {
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.DIGITAL_INPUT_STATUS, 20, 1));
+                {
+                    1, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.DIGITAL_INPUT_STATUS, 20, 1, false)
+                            }
+                }
+            };
         }
 
         public enum DataFields
