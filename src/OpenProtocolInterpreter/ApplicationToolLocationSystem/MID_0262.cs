@@ -20,7 +20,7 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
             set => RevisionsByFields[1][(int)DataFields.TOOL_TAG_ID].SetValue(value);
         }
 
-        public MID_0262(int? noAckFlag = 1) : base(MID, LAST_REVISION, noAckFlag) {  }
+        public MID_0262(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) {  }
 
         internal MID_0262(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 

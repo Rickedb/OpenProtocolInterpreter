@@ -27,12 +27,12 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
             set => RevisionsByFields[1][(int)DataFields.MANUAL_AUTOMATIC_MODE].SetValue(_boolConverter.Convert, value);
         }
 
-        public MID_0401(int? noAckFlag = 1) : base(MID, LAST_REVISION, noAckFlag)
+        public MID_0401(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
         {
             _boolConverter = new BoolConverter();
         }
 
-        public MID_0401(bool manualAutomaticMode, int? noAckFlag = 1) : this(noAckFlag)
+        public MID_0401(bool manualAutomaticMode, int? noAckFlag = 0) : this(noAckFlag)
         {
             ManualAutomaticMode = manualAutomaticMode;
         }

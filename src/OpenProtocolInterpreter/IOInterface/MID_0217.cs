@@ -35,7 +35,7 @@ namespace OpenProtocolInterpreter.IOInterface
         /// Default Constructor
         /// </summary>
         /// <param name="ackFlag">0=Ack needed, 1=No Ack needed</param>
-        public MID_0217(int? noAckFlag = 1) : base(MID, LAST_REVISION, noAckFlag)
+        public MID_0217(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
         {
             _intConverter = new Int32Converter();
             _boolConverter = new BoolConverter();
@@ -47,7 +47,7 @@ namespace OpenProtocolInterpreter.IOInterface
         /// <param name="relayNumber">Three ASCII digits corresponding to a relay function</param>
         /// <param name="relayStatus">One ASCII digit representing the relay function status <para>true = Active</para><para>false = Not Active</para></param>
         /// <param name="ackFlag">0=Ack needed, 1=No Ack needed</param>
-        public MID_0217(RelayNumber relayNumber, bool relayStatus, int? noAckFlag = 1) : this(noAckFlag)
+        public MID_0217(RelayNumber relayNumber, bool relayStatus, int? noAckFlag = 0) : this(noAckFlag)
         {
             RelayNumber = relayNumber;
             RelayStatus = relayStatus;

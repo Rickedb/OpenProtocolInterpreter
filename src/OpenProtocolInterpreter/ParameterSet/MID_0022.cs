@@ -29,7 +29,7 @@ namespace OpenProtocolInterpreter.ParameterSet
         /// </summary>
         /// <param name="relayStatus">Relay Status</param>
         /// <param name="ackFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
-        public MID_0022(bool relayStatus, int? noAckFlag = 1) : this(noAckFlag)
+        public MID_0022(bool relayStatus, int? noAckFlag = 0) : this(noAckFlag)
         {
             RelayStatus = relayStatus;
         }

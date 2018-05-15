@@ -47,7 +47,7 @@ namespace OpenProtocolInterpreter.Alarm
             set => RevisionsByFields[2][(int)DataFields.TIME].SetValue(value);
         }
 
-        public MID_0071(int revision = LAST_REVISION, int? noAckFlag = 1) : base(MID, revision, noAckFlag)
+        public MID_0071(int revision = LAST_REVISION, int? noAckFlag = 0) : base(MID, revision, noAckFlag)
         {
             UpdateFieldsIndexBasedOnRevision(revision);
             _boolConverter = new BoolConverter();
@@ -63,7 +63,7 @@ namespace OpenProtocolInterpreter.Alarm
         /// <param name="time">Time stamp for the alarm</param>
         /// <param name="revision">Revision (Default revision = 1)</param>
         /// <param name="ackflag">Acknowledge flag (Default = 1)</param>
-        public MID_0071(string errorCode, bool controllerReadyStatus, bool toolReadyStatus, DateTime time, int revision = 1, int? noAckFlag = 1) : this(revision, noAckFlag)
+        public MID_0071(string errorCode, bool controllerReadyStatus, bool toolReadyStatus, DateTime time, int revision = 1, int? noAckFlag = 0) : this(revision, noAckFlag)
         {
             ErrorCode = errorCode;
             ControllerReadyStatus = controllerReadyStatus;
@@ -81,7 +81,7 @@ namespace OpenProtocolInterpreter.Alarm
         /// <param name="alarmText">Alarm text. 50 ASCII characters</param>
         /// <param name="revision">Revision (Default revision = 1)</param>
         /// <param name="ackflag">Acknowledge flag (Default = 1)</param>
-        public MID_0071(string errorCode, bool controllerReadyStatus, bool toolReadyStatus, DateTime time, string alarmText, int revision = 2, int? noAckFlag = 1) 
+        public MID_0071(string errorCode, bool controllerReadyStatus, bool toolReadyStatus, DateTime time, string alarmText, int revision = 2, int? noAckFlag = 0) 
             : this(errorCode, controllerReadyStatus, toolReadyStatus, time, revision, noAckFlag)
         {
             AlarmText = alarmText;

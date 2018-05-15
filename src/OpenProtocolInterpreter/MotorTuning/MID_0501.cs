@@ -22,9 +22,9 @@ namespace OpenProtocolInterpreter.MotorTuning
         /// </summary>
         public bool MotorTuneResult { get; set; }
 
-        public MID_0501(int? noAckFlag = 1) : base(MID, LAST_REVISION, noAckFlag) { }
+        public MID_0501(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) { }
 
-        public MID_0501(bool motorTuneResult, int? noAckFlag = 1) : this(noAckFlag)
+        public MID_0501(bool motorTuneResult, int? noAckFlag = 0) : this(noAckFlag)
         {
             MotorTuneResult = motorTuneResult;
         }

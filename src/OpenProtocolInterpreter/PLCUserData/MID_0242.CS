@@ -20,9 +20,9 @@ namespace OpenProtocolInterpreter.PLCUserData
             set => RevisionsByFields[1][(int)DataFields.USER_DATA].SetValue(value);
         }
 
-        public MID_0242(int? noAckFlag = 1) : base(MID, LAST_REVISION, noAckFlag) { }
+        public MID_0242(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) { }
 
-        public MID_0242(string userData, int? noAckFlag = 1) : this(noAckFlag)
+        public MID_0242(string userData, int? noAckFlag = 0) : this(noAckFlag)
         {
             UserData = userData;
         }

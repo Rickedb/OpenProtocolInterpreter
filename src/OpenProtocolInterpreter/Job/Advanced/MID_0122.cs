@@ -14,7 +14,7 @@
         private const int LAST_REVISION = 1;
         public const int MID = 122;
 
-        public MID_0122(int? noAckFlag = 1) : base(MID, LAST_REVISION, noAckFlag) { }
+        public MID_0122(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) { }
 
         internal MID_0122(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
     }

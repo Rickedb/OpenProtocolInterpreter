@@ -47,7 +47,7 @@ namespace OpenProtocolInterpreter.PowerMACS
         public List<BoltData> BoltsData { get; set; }
         public List<SpecialValue> SpecialValues { get; set; }
 
-        public MID_0106(int revision = LAST_REVISION, int? noAckFlag = 1) : base(MID, LAST_REVISION)
+        public MID_0106(int revision = LAST_REVISION, int? noAckFlag = 0) : base(MID, LAST_REVISION)
         {
             BoltsData = new List<BoltData>();
             SpecialValues = new List<SpecialValue>();

@@ -47,7 +47,7 @@ namespace OpenProtocolInterpreter.MultiSpindle
             set => RevisionsByFields[1][(int)DataFields.SPINDLE_STATUS].SetValue(_spindleStatusConverter.Convert, value);
         }
 
-        public MID_0091(int? noAckFlag = 1) : base(MID, LAST_REVISION, noAckFlag)
+        public MID_0091(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
         {
             _intConverter = new Int32Converter();
             _boolConverter = new BoolConverter();
@@ -55,7 +55,7 @@ namespace OpenProtocolInterpreter.MultiSpindle
             _spindleStatusConverter = new SpindleStatusConverter();
         }
 
-        public MID_0091(int numberOfSpindles, int syncTighteningId, DateTime time, bool syncOverallStatus, SpindleStatus spindleStatus, int? noAckFlag = 1) : this(noAckFlag)
+        public MID_0091(int numberOfSpindles, int syncTighteningId, DateTime time, bool syncOverallStatus, SpindleStatus spindleStatus, int? noAckFlag = 0) : this(noAckFlag)
         {
             NumberOfSpindles = numberOfSpindles;
             SyncTighteningId = syncTighteningId;

@@ -22,7 +22,7 @@
         private const int LAST_REVISION = 2;
         public const int MID = 51;
 
-        public MID_0051(int? noAckFlag = 1, int revision = LAST_REVISION) : base(MID, revision, noAckFlag)
+        public MID_0051(int? noAckFlag = 0, int revision = LAST_REVISION) : base(MID, revision, noAckFlag)
         {
 
         }

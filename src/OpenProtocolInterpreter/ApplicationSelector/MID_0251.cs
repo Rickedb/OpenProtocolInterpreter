@@ -25,7 +25,7 @@ namespace OpenProtocolInterpreter.ApplicationSelector
         public int NumberOfSockets { get; set; }
         public List<bool> SocketStatuses { get; set; }
 
-        public MID_0251(int? noAckFlag = 1) : base(MID, LAST_REVISION, noAckFlag)
+        public MID_0251(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
         {
             SocketStatuses = new List<bool>();
             _intConverter = new Int32Converter();

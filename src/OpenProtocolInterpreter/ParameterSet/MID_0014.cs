@@ -18,7 +18,7 @@
         /// Revision 1 Constructor
         /// </summary>
         /// <param name="ackFlag">0=Ack needed, 1=No Ack needed</param>
-        public MID_0014(int? noAckFlag = 1) : base(MID, LAST_REVISION, noAckFlag) 
+        public MID_0014(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) 
         { 
         
         }

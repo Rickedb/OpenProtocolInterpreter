@@ -32,13 +32,13 @@ namespace OpenProtocolInterpreter.IOInterface
             set => RevisionsByFields[1][(int)DataFields.DIGITAL_INPUT_STATUS].SetValue(_boolConverter.Convert, value);
         }
 
-        public MID_0221(int? noAckFlag = 1) : base(MID, LAST_REVISION, noAckFlag)
+        public MID_0221(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
         {
             _intConverter = new Int32Converter();
             _boolConverter = new BoolConverter();
         }
 
-        public MID_0221(DigitalInputNumber digitalInputNumber, bool digitalInputStatus, int? noAckFlag = 1) : this(noAckFlag)
+        public MID_0221(DigitalInputNumber digitalInputNumber, bool digitalInputStatus, int? noAckFlag = 0) : this(noAckFlag)
         {
             DigitalInputNumber = digitalInputNumber;
             DigitalInputStatus = digitalInputStatus;

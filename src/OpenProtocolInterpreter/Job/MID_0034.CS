@@ -18,7 +18,7 @@
         /// </summary>
         /// <param name="noAckFlag">0=Ack needed, 1=No Ack needed</param>
         /// <param name="revision">Revision number (default = 4)</param>
-        public MID_0034(int? noAckFlag = 1, int revision = LAST_REVISION) : base(MID, revision, noAckFlag) { }
+        public MID_0034(int? noAckFlag = 0, int revision = LAST_REVISION) : base(MID, revision, noAckFlag) { }
 
         internal MID_0034(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
     }
