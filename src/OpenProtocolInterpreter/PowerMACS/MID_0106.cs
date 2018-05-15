@@ -55,10 +55,10 @@ namespace OpenProtocolInterpreter.PowerMACS
 
         internal MID_0106(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
-        public override string BuildPackage()
+        public override string Pack()
         {
             //TODO
-            return base.BuildPackage();
+            return base.Pack();
         }
 
         public override Mid Parse(string package)

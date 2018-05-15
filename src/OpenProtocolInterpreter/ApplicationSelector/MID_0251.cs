@@ -34,7 +34,7 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
         internal MID_0251(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
-        public override string BuildPackage()
+        public override string Pack()
         {
             if (DeviceID > 99)
                 throw new ArgumentException("Device ID must be in 00-99 range!!");
@@ -44,7 +44,7 @@ namespace OpenProtocolInterpreter.ApplicationSelector
             string statuses = string.Empty;
             SocketStatuses.ForEach(x => statuses += Convert.ToInt32(x).ToString());
             this.RegisteredDataFields[(int)DataFields.SOCKET_STATUS].Value = statuses;
-            return base.BuildPackage();
+            return base.Pack();
         }
 
         public override Mid Parse(string package)

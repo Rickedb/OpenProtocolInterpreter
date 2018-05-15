@@ -30,10 +30,10 @@ namespace OpenProtocolInterpreter.PLCUserData
 
         internal MID_0240(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
-        public override string BuildPackage()
+        public override string Pack()
         {
             RevisionsByFields[1][(int)DataFields.USER_DATA].Size = 20 + UserData.Length;
-            return base.BuildPackage();
+            return base.Pack();
         }
 
         public override Mid Parse(string package)

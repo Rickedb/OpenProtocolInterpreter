@@ -33,7 +33,7 @@ namespace OpenProtocolInterpreter.ApplicationSelector
             NextTemplate = nextTemplate;
         }
 
-        public override string BuildPackage()
+        public override string Pack()
         {
             if (DeviceID > 99)
                 throw new ArgumentException("Device ID must be in 00-99 range!!");
@@ -42,7 +42,7 @@ namespace OpenProtocolInterpreter.ApplicationSelector
             string statuses = string.Empty;
             GreenLights.ForEach(x => statuses += ((int)x).ToString());
             this.RegisteredDataFields[(int)DataFields.GREEN_LIGHT_COMMAND].Value = statuses;
-            return base.BuildPackage();
+            return base.Pack();
         }
 
         public override Mid Parse(string package)

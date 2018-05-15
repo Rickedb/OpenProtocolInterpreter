@@ -53,9 +53,9 @@ namespace OpenProtocolInterpreter.Job.Advanced
             NextTemplate = nextTemplate;
         }
 
-        public override string BuildPackage()
+        public override string Pack()
         {
-            return base.BuildPackage();
+            return base.Pack();
         }
 
         public override Mid Parse(string package)

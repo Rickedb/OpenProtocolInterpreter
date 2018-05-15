@@ -8,6 +8,6 @@ namespace OpenProtocolInterpreter
         Dictionary<int, List<DataField>> RevisionsByFields { get; set; }
         Mid Parse(string package);
         
-        string BuildPackage();
+        string Pack();
     }
 }

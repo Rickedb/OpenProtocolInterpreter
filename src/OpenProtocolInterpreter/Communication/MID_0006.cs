@@ -30,7 +30,7 @@ namespace OpenProtocolInterpreter.Communication
             NextTemplate = nextTemplate;
         }
 
-        public override string BuildPackage()
+        public override string Pack()
         {
             throw new NotImplementedException();
         }

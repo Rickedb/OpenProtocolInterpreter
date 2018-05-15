@@ -339,7 +339,7 @@ namespace OpenProtocolInterpreter.Tightening
 
         internal MID_0061(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
-        public override string BuildPackage()
+        public override string Pack()
         {
             string package = BuildHeader();
             if (HeaderData.Revision == 1)

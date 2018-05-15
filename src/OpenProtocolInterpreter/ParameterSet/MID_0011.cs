@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Converters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,26 +16,28 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// </summary>
     public class MID_0011 : Mid, IParameterSet
     {
-        private readonly Dictionary<int, Action<string>> revisionsActions;
-        private const int length = 23;
+        private readonly IValueConverter<int> _intConverter;
+        private const int LAST_REVISION = 1;
         public const int MID = 11;
-        private const int revision = 1;
+        
 
-        public int TotalParameterSets { get; private set; }
+        public int TotalParameterSets
+        {
+        }
 
         public List<int> ParameterSets { get; set; }
 
-        public MID_0011() : base(length, MID, revision)
+        public MID_0011() : base(length, MID, LAST_REVISION)
         {
             ParameterSets = new List<int>();
         }
 
-        public MID_0011(IEnumerable<int> parameterSets) : base(length, MID, revision)
+        public MID_0011(IEnumerable<int> parameterSets) : base(length, MID, LAST_REVISION)
         {
             ParameterSets = parameterSets.ToList();
         }
 
-        internal MID_0011(IMid nextTemplate) : base(length, MID, revision)
+        internal MID_0011(IMid nextTemplate) : base(length, MID, LAST_REVISION)
         {
             ParameterSets = new List<int>();
             NextTemplate = nextTemplate;
@@ -47,7 +50,7 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         }
 
-        public override string BuildPackage()
+        public override string Pack()
         {
             if (ParameterSets.Count == 0)
                 throw new ArgumentException("Parameter Set list cannot be empty!!");

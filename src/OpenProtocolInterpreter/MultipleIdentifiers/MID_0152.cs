@@ -32,13 +32,13 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
             NextTemplate = nextTemplate;
         }
 
-        public override string BuildPackage()
+        public override string Pack()
         {
             base.RegisteredDataFields[(int)DataFields.FIRST_IDENTIFIER_STATUS].Value = FirstIdentifierStatus.buildPackage();
             base.RegisteredDataFields[(int)DataFields.SECOND_IDENTIFIER_STATUS].Value = SecondIdentifierStatus.buildPackage();
             base.RegisteredDataFields[(int)DataFields.THIRD_IDENTIFIER_STATUS].Value = ThirdIdentifierStatus.buildPackage();
             base.RegisteredDataFields[(int)DataFields.FOURTH_IDENTIFIER_STATUS].Value = FourthIdentifierStatus.buildPackage();
-            return base.BuildPackage();
+            return base.Pack();
         }
         public override Mid Parse(string package)
         {

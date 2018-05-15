@@ -34,10 +34,10 @@ namespace OpenProtocolInterpreter.Vin
 
         internal MID_0050(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
-        public override string BuildPackage()
+        public override string Pack()
         {
             RevisionsByFields[1][(int)DataFields.VIN_NUMBER].Size = VinNumber.Length + 20;
-            return base.BuildPackage();
+            return base.Pack();
         }
 
         public override Mid Parse(string package)

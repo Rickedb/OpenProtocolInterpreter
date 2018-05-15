@@ -143,11 +143,11 @@ namespace OpenProtocolInterpreter.Job
 
         internal MID_0033(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
-        public override string BuildPackage()
+        public override string Pack()
         {
             _jobListConverter = new JobConverter(_intConverter, (int)HeaderData.Revision);
             RevisionsByFields[1].RemoveAt((int)DataFields.JOB_LIST);
-            string package = base.BuildPackage();
+            string package = base.Pack();
             package += _jobListConverter.Convert(JobList);
             return package;
         }

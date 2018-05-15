@@ -84,13 +84,13 @@ namespace OpenProtocolInterpreter.Vin
 
         internal MID_0052(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
-        public override string BuildPackage()
+        public override string Pack()
         {
             if (HeaderData.Revision > 1)
                 RevisionsByFields[1][(int)DataFields.VIN_NUMBER].HasPrefix = true;
             else //Can be up to 40 bytes long
                 RevisionsByFields[1][(int)DataFields.VIN_NUMBER].Size = (VinNumber.Length > 25) ? VinNumber.Length : 25;
-            return base.BuildPackage();
+            return base.Pack();
         }
 
         public override Mid Parse(string package)

@@ -39,7 +39,7 @@ namespace OpenProtocolInterpreter.IOInterface
             NextTemplate = nextTemplate;
         }
 
-        public override string BuildPackage()
+        public override string Pack()
         {
             string pkg = base.BuildHeader();
             pkg += IODeviceID.ToString().PadLeft(base.RegisteredDataFields[(int)DataFields.IO_DEVICE_ID].Size, '0');

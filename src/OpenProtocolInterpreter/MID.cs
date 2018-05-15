@@ -44,7 +44,7 @@ namespace OpenProtocolInterpreter
 
         protected virtual string BuildHeader() { return HeaderData.ToString(); }
 
-        public virtual string BuildPackage()
+        public virtual string Pack()
         {
             if (!RevisionsByFields.Any())
                 return BuildHeader();

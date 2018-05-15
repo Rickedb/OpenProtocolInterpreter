@@ -56,7 +56,7 @@ namespace OpenProtocolInterpreter.Job
 
         internal MID_0031(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
-        public override string BuildPackage()
+        public override string Pack()
         {
             string package = BuildHeader();
             TotalJobs = JobIds.Count;
@@ -69,7 +69,7 @@ namespace OpenProtocolInterpreter.Job
             _jobListConverter.TotalJobs = TotalJobs;
             _jobListConverter.EachJobSize = eachJobField.Size;
             eachJobField.Value = _jobListConverter.Convert(JobIds);
-            return base.BuildPackage();
+            return base.Pack();
         }
 
         public override Mid Parse(string package)

@@ -59,10 +59,10 @@ namespace OpenProtocolInterpreter.PowerMACS
             NextTemplate = nextTemplate;
         }
 
-        public override string BuildPackage()
+        public override string Pack()
         {
             //TODO
-            return base.BuildPackage();
+            return base.Pack();
         }
 
         public override Mid Parse(string package)

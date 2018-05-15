@@ -153,7 +153,7 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         internal MID_0015(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
-        public override string BuildPackage()
+        public override string Pack()
         {
             if (HeaderData.Revision == 2)
             {
@@ -162,7 +162,7 @@ namespace OpenProtocolInterpreter.ParameterSet
                 RevisionsByFields[1][(int)DataFields.PARAMETER_SET_ID].HasPrefix = RevisionsByFields[1][(int)DataFields.LAST_CHANGE_IN_PARAMETER_SET].HasPrefix = true;
             }
 
-            return base.BuildPackage();
+            return base.Pack();
         }
 
         public override Mid Parse(string package)
