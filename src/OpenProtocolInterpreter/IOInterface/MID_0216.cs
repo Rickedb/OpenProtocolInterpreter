@@ -28,12 +28,12 @@ namespace OpenProtocolInterpreter.IOInterface
             set => RevisionsByFields[1][(int)DataFields.RELAY_NUMBER].SetValue(_intConverter.Convert, (int)value);
         }
 
-        public MID_0216(int? ackFlag = 1) : base(MID, LAST_REVISION, ackFlag)
+        public MID_0216(int? noAckFlag = 1) : base(MID, LAST_REVISION, noAckFlag)
         {
             _intConverter = new Int32Converter();
         }
 
-        public MID_0216(RelayNumber relayNumber, int? ackFlag = 1) : this(ackFlag)
+        public MID_0216(RelayNumber relayNumber, int? noAckFlag = 1) : this(noAckFlag)
         {
             RelayNumber = relayNumber;
         }

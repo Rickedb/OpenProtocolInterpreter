@@ -14,7 +14,7 @@
         private const int LAST_REVISION = 1;
         public const int MID = 90;
 
-        public MID_0090(int? ackFlag = 1) : base(MID, LAST_REVISION, ackFlag)
+        public MID_0090(int? noAckFlag = 1) : base(MID, LAST_REVISION, noAckFlag)
         {
 
         }

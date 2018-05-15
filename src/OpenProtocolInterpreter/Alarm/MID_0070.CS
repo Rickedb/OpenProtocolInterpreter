@@ -16,7 +16,7 @@ namespace OpenProtocolInterpreter.Alarm
         private const int LAST_REVISION = 2;
         public const int MID = 70;
 
-        public MID_0070(int revision = LAST_REVISION, int? ackFlag = 1) : base(MID, revision, ackFlag)
+        public MID_0070(int revision = LAST_REVISION, int? noAckFlag = 1) : base(MID, revision, noAckFlag)
         {
 
         }

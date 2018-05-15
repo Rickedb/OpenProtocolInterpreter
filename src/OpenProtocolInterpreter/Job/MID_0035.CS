@@ -82,7 +82,7 @@ namespace OpenProtocolInterpreter.Job
             set => RevisionsByFields[4][(int)DataFields.JOB_TIGHTENING_STATUS].SetValue(_intConverter.Convert, (int)value);
         }
 
-        public MID_0035(int? ackFlag = 1, int revision = LAST_REVISION) : base(MID, LAST_REVISION, ackFlag) { }
+        public MID_0035(int? noAckFlag = 1, int revision = LAST_REVISION) : base(MID, LAST_REVISION, noAckFlag) { }
 
         /// <summary>
         /// Revision 1 and 2 Constructor
@@ -96,7 +96,7 @@ namespace OpenProtocolInterpreter.Job
         /// <param name="ackFlag">0=Ack needed, 1=No Ack needed</param>
         /// <param name="revision">Revision number (default = 2)</param>
         public MID_0035(int jobId, JobStatus jobStatus, JobBatchMode jobBatchMode,
-            int jobBatchSize, int jobBatchCounter, DateTime timestamp, int? ackFlag = 1, int revision = 2) : this(ackFlag, revision)
+            int jobBatchSize, int jobBatchCounter, DateTime timestamp, int? noAckFlag = 1, int revision = 2) : this(noAckFlag, revision)
         {
             JobId = jobId;
             JobStatus = jobStatus;
@@ -126,8 +126,8 @@ namespace OpenProtocolInterpreter.Job
         /// <param name="revision">Revision number (default = 3)</param>
         public MID_0035(int jobId, JobStatus jobStatus, JobBatchMode jobBatchMode,
            int jobBatchSize, int jobBatchCounter, DateTime timestamp, int jobCurrentStep, int jobTotalNumberOfSteps,
-           int jobStepType, int? ackFlag = 1, int revision = 3) 
-            : this(jobId, jobStatus, jobBatchMode, jobBatchSize, jobBatchCounter, timestamp, ackFlag, revision)
+           int jobStepType, int? noAckFlag = 1, int revision = 3) 
+            : this(jobId, jobStatus, jobBatchMode, jobBatchSize, jobBatchCounter, timestamp, noAckFlag, revision)
         {
             JobCurrentStep = jobCurrentStep;
             JobTotalNumberOfSteps = jobTotalNumberOfSteps;
@@ -148,8 +148,8 @@ namespace OpenProtocolInterpreter.Job
         /// <param name="revision">Revision number (default = 4)</param>
         public MID_0035(int jobId, JobStatus jobStatus, JobBatchMode jobBatchMode,
            int jobBatchSize, int jobBatchCounter, DateTime timestamp, JobTighteningStatus jobTighteningStatus, 
-           int? ackFlag = 1, int revision = 4)
-            : this(jobId, jobStatus, jobBatchMode, jobBatchSize, jobBatchCounter, timestamp, ackFlag, revision)
+           int? noAckFlag = 1, int revision = 4)
+            : this(jobId, jobStatus, jobBatchMode, jobBatchSize, jobBatchCounter, timestamp, noAckFlag, revision)
         {
             JobTighteningStatus = jobTighteningStatus;
         }

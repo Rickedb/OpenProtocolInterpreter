@@ -33,7 +33,7 @@ namespace OpenProtocolInterpreter.PowerMACS
             set => RevisionsByFields[3][(int)DataFields.SEND_ONLY_NEW_DATA].SetValue(_boolConverter.Convert, value);
         }
 
-        public MID_0105(int revision = LAST_REVISION, int? ackFlag = 1) : base(MID, revision, ackFlag) { }
+        public MID_0105(int revision = LAST_REVISION, int? noAckFlag = 1) : base(MID, revision, noAckFlag) { }
 
         internal MID_0105(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 

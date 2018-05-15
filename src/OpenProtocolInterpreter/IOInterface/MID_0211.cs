@@ -58,7 +58,7 @@ namespace OpenProtocolInterpreter.IOInterface
             set => RevisionsByFields[1][(int)DataFields.STATUS_DIG_IN_8].SetValue(_boolConverter.Convert, value);
         }
 
-        public MID_0211(int? ackFlag = 1) : base(MID, LAST_REVISION, ackFlag)
+        public MID_0211(int? noAckFlag = 1) : base(MID, LAST_REVISION, noAckFlag)
         {
             _boolConverter = new BoolConverter();
         }

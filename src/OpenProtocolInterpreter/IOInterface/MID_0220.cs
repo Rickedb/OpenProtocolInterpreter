@@ -29,12 +29,12 @@ namespace OpenProtocolInterpreter.IOInterface
             set => RevisionsByFields[1][(int)DataFields.DIGITAL_INPUT_NUMBER].SetValue(_intConverter.Convert, (int)value);
         }
 
-        public MID_0220(int? ackFlag = 1) : base(MID, LAST_REVISION, ackFlag)
+        public MID_0220(int? noAckFlag = 1) : base(MID, LAST_REVISION, noAckFlag)
         {
             _intConverter = new Int32Converter();
         }
 
-        public MID_0220(DigitalInputNumber digitalInputNumber, int? ackFlag = 1) : this(ackFlag)
+        public MID_0220(DigitalInputNumber digitalInputNumber, int? noAckFlag = 1) : this(noAckFlag)
         {
             DigitalInputNumber = digitalInputNumber;
         }
