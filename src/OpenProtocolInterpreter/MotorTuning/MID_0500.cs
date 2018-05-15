@@ -13,25 +13,12 @@
     /// </summary>
     public class MID_0500 : Mid, IMotorTuning
     {
-        private const int length = 20;
+        private const int LAST_REVISION = 1;
         public const int MID = 500;
-        private const int revision = 1;
 
-        public MID_0500() : base(length, MID, revision) { }
+        public MID_0500() : base(MID, LAST_REVISION) { }
 
-        internal MID_0500(IMid nextTemplate) : base(length, MID, revision)
-        {
-            NextTemplate = nextTemplate;
-        }
-
-        public override Mid Parse(string package)
-        {
-            if (base.IsCorrectType(package))
-                return (MID_0500)base.Parse(package);
-
-            return NextTemplate.Parse(package);
-        }
-
-        protected override void RegisterDatafields() { }
+        internal MID_0500(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
+        
     }
 }

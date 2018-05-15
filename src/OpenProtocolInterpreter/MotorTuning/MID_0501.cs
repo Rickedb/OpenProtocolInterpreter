@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Converters;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.MotorTuning
 {
@@ -11,9 +12,9 @@ namespace OpenProtocolInterpreter.MotorTuning
     /// </summary>
     public class MID_0501 : Mid, IMotorTuning
     {
+        private readonly IValueConverter<bool> _boolConverter;
+        private const int LAST_REVISION = 1;
         public const int MID = 501;
-        private const int length = 21;
-        private const int revision = 1;
 
         /// <summary>
         /// <para>Motor Tune Failed = false (0)</para>
@@ -21,43 +22,27 @@ namespace OpenProtocolInterpreter.MotorTuning
         /// </summary>
         public bool MotorTuneResult { get; set; }
 
-        public MID_0501() : base(length, MID, revision) { }
+        public MID_0501(int? noAckFlag = 1) : base(MID, LAST_REVISION, noAckFlag) { }
 
-        public MID_0501(bool motorTuneResult) : base(length, MID, revision)
+        public MID_0501(bool motorTuneResult, int? noAckFlag = 1) : this(noAckFlag)
         {
             MotorTuneResult = motorTuneResult;
         }
 
-        internal MID_0501(IMid nextTemplate) : base(length, MID, revision)
-        {
-            NextTemplate = nextTemplate;
-        }
+        internal MID_0501(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
-        public override string BuildPackage()
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
-            return base.BuildHeader() + Convert.ToInt32(MotorTuneResult).ToString();
-        }
-
-        public override Mid Parse(string package)
-        {
-            if (base.IsCorrectType(package))
+            return new Dictionary<int, List<DataField>>()
             {
-                HeaderData = ProcessHeader(package);
-                var dataField = base.RegisteredDataFields[(int)DataFields.MOTOR_TUNE_RESULT];
-                dataField.Value = package.Substring(dataField.Index, dataField.Size);
-                MotorTuneResult = dataField.ToBoolean();
-                return this;
-            }
-
-            return NextTemplate.Parse(package);
+                {
+                    1, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.MOTOR_TUNE_RESULT, 20, 1, false)
+                            }
+                }
+            };
         }
-
-        protected override void RegisterDatafields()
-        {
-            this.RegisteredDataFields.Add(new DataField((int)DataFields.MOTOR_TUNE_RESULT, 20, 1));
-        }
-
-
 
         public enum DataFields
         {
