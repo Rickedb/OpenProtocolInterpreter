@@ -1,6 +1,7 @@
 ﻿using OpenProtocolInterpreter.Converters;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenProtocolInterpreter.ApplicationSelector
 {
@@ -17,68 +18,75 @@ namespace OpenProtocolInterpreter.ApplicationSelector
     public class MID_0251 : Mid, IApplicationSelector
     {
         private readonly IValueConverter<int> _intConverter;
-        private readonly IValueConverter<bool> _boolConverter;
+        private IValueConverter<IEnumerable<bool>> _boolListConverter;
         private const int LAST_REVISION = 1;
         public const int MID = 251;
 
-        public int DeviceID { get; set; }
-        public int NumberOfSockets { get; set; }
-        public List<bool> SocketStatuses { get; set; }
+        public int DeviceId
+        {
+            get => RevisionsByFields[1][(int)DataFields.DEVICE_ID].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.DEVICE_ID].SetValue(_intConverter.Convert, value);
+        }
+        public int NumberOfSockets
+        {
+            get => RevisionsByFields[1][(int)DataFields.NUMBER_OF_SOCKETS].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.NUMBER_OF_SOCKETS].SetValue(_intConverter.Convert, value);
+        }
+        public List<bool> SocketStatus { get; set; }
 
         public MID_0251(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
         {
-            SocketStatuses = new List<bool>();
+            SocketStatus = new List<bool>();
             _intConverter = new Int32Converter();
-            _boolConverter = new BoolConverter();
+            _boolListConverter = new SocketStatusConverter();
+        }
+
+        public MID_0251(int deviceId, int numberOfSockets, IEnumerable<bool> socketStatus, int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
+        {
+            _intConverter = new Int32Converter();
+            _boolListConverter = new SocketStatusConverter();
+            DeviceId = deviceId;
+            NumberOfSockets = numberOfSockets;
+            SocketStatus = socketStatus.ToList();
         }
 
         internal MID_0251(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         public override string Pack()
         {
-            if (DeviceID > 99)
-                throw new ArgumentException("Device ID must be in 00-99 range!!");
-
-            this.RegisteredDataFields[(int)DataFields.DEVICE_ID].Value = DeviceID.ToString().PadLeft(this.RegisteredDataFields[(int)DataFields.DEVICE_ID].Size, '0');
-            this.RegisteredDataFields[(int)DataFields.NUMBER_OF_SOCKETS].Value = NumberOfSockets.ToString().PadLeft(this.RegisteredDataFields[(int)DataFields.NUMBER_OF_SOCKETS].Size, '0');
-            string statuses = string.Empty;
-            SocketStatuses.ForEach(x => statuses += Convert.ToInt32(x).ToString());
-            this.RegisteredDataFields[(int)DataFields.SOCKET_STATUS].Value = statuses;
+            RevisionsByFields[1][(int)DataFields.SOCKET_STATUS].Size = NumberOfSockets;
+            RevisionsByFields[1][(int)DataFields.SOCKET_STATUS].Value = _boolListConverter.Convert(SocketStatus);
             return base.Pack();
         }
 
         public override Mid Parse(string package)
         {
-            if (base.IsCorrectType(package))
+            if (IsCorrectType(package))
             {
-                base.Parse(package);
-                DeviceID = this.RegisteredDataFields[(int)DataFields.DEVICE_ID].ToInt32();
-                NumberOfSockets = this.RegisteredDataFields[(int)DataFields.NUMBER_OF_SOCKETS].ToInt32();
-                SocketStatuses = getSocketStatus(package.Substring(this.RegisteredDataFields[(int)DataFields.NUMBER_OF_SOCKETS].Index));
+                HeaderData = ProcessHeader(package);
+
+                RevisionsByFields[1][(int)DataFields.SOCKET_STATUS].Size = HeaderData.Length - RevisionsByFields[1][(int)DataFields.NUMBER_OF_SOCKETS].Size - 20;
+                ProcessDataFields(package);
+                SocketStatus = _boolListConverter.Convert(RevisionsByFields[1][(int)DataFields.SOCKET_STATUS].Value).ToList();
                 return this;
             }
 
             return NextTemplate.Parse(package);
         }
 
-        private List<bool> getSocketStatus(string package)
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
-            List<bool> statuses = new List<bool>();
-            foreach(var status in package)
-                statuses.Add(status == '1');
-
-            return statuses;
-        }
-
-        protected override void RegisterDatafields()
-        {
-            this.RegisteredDataFields.AddRange(
-                new DataField[]
+            return new Dictionary<int, List<DataField>>()
+            {
                 {
-                    new DataField((int)DataFields.DEVICE_ID, 20, 2),
-                    new DataField((int)DataFields.NUMBER_OF_SOCKETS, 24, 2),
-                    new DataField((int)DataFields.SOCKET_STATUS, 28, 0)
-                });
+                    1, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.DEVICE_ID, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.NUMBER_OF_SOCKETS, 24, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.SOCKET_STATUS, 28, 0)
+                            }
+                }
+            };
         }
 
         public enum DataFields

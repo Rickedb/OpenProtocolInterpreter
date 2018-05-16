@@ -1,5 +1,7 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Converters;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenProtocolInterpreter.ApplicationSelector
 {
@@ -18,63 +20,65 @@ namespace OpenProtocolInterpreter.ApplicationSelector
     /// </summary>
     public class MID_0254 : Mid, IApplicationSelector
     {
-        private const int length = 34;
+        private readonly IValueConverter<IEnumerable<LightCommand>> _lightsConverter;
+        private readonly IValueConverter<int> _intConverter;
+        private const int LAST_REVISION = 1;
         public const int MID = 254;
-        private const int revision = 1;
 
-        public int DeviceID { get; set; }
-        public List<GreenLightCommand> GreenLights { get; set; }
-
-        public MID_0254() : base(length, MID, revision) { GreenLights = new List<GreenLightCommand>(); }
-
-        internal MID_0254(IMid nextTemplate) : base(length, MID, revision)
+        public int DeviceId
         {
-            GreenLights = new List<GreenLightCommand>();
-            NextTemplate = nextTemplate;
+            get => RevisionsByFields[1][(int)DataFields.DEVICE_ID].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.DEVICE_ID].SetValue(_intConverter.Convert, value);
         }
+        public List<LightCommand> GreenLights { get; set; }
+
+        public MID_0254() : base(MID, LAST_REVISION)
+        {
+            GreenLights = new List<LightCommand>();
+            _intConverter = new Int32Converter();
+            _lightsConverter = new LightCommandListConverter();
+        }
+
+        public MID_0254(int deviceId, IEnumerable<LightCommand> greenLights) : base(MID, LAST_REVISION)
+        {
+            _intConverter = new Int32Converter();
+            _lightsConverter = new LightCommandListConverter();
+            DeviceId = deviceId;
+            GreenLights = greenLights.ToList();
+        }
+
+        internal MID_0254(IMid nextTemplate) : base( MID, LAST_REVISION) => NextTemplate = nextTemplate;
 
         public override string Pack()
         {
-            if (DeviceID > 99)
-                throw new ArgumentException("Device ID must be in 00-99 range!!");
-
-            this.RegisteredDataFields[(int)DataFields.DEVICE_ID].Value = DeviceID.ToString().PadLeft(this.RegisteredDataFields[(int)DataFields.DEVICE_ID].Size, '0');
-            string statuses = string.Empty;
-            GreenLights.ForEach(x => statuses += ((int)x).ToString());
-            this.RegisteredDataFields[(int)DataFields.GREEN_LIGHT_COMMAND].Value = statuses;
+            RevisionsByFields[1][(int)DataFields.GREEN_LIGHT_COMMAND].Value = _lightsConverter.Convert(GreenLights);
             return base.Pack();
         }
 
         public override Mid Parse(string package)
         {
-            if (base.IsCorrectType(package))
+            if (IsCorrectType(package))
             {
                 base.Parse(package);
-                DeviceID = this.RegisteredDataFields[(int)DataFields.DEVICE_ID].ToInt32();
-                GreenLights = getGreenLightCommands(package.Substring(this.RegisteredDataFields[(int)DataFields.GREEN_LIGHT_COMMAND].Index));
+                GreenLights = _lightsConverter.Convert(RevisionsByFields[1][(int)DataFields.GREEN_LIGHT_COMMAND].Value).ToList();
                 return this;
             }
 
             return NextTemplate.Parse(package);
         }
 
-        private List<GreenLightCommand> getGreenLightCommands(string package)
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
-            List<GreenLightCommand> statuses = new List<GreenLightCommand>();
-            foreach (var status in package)
-                statuses.Add((GreenLightCommand)Convert.ToInt32(status));
-
-            return statuses;
-        }
-
-        protected override void RegisterDatafields()
-        {
-            this.RegisteredDataFields.AddRange(
-                new DataField[]
+            return new Dictionary<int, List<DataField>>()
+            {
                 {
-                    new DataField((int)DataFields.DEVICE_ID, 20, 2),
-                    new DataField((int)DataFields.GREEN_LIGHT_COMMAND, 24, 2)
-                });
+                    1, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.DEVICE_ID, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.GREEN_LIGHT_COMMAND, 24, 8)
+                            }
+                }
+            };
         }
 
         public enum DataFields

@@ -42,7 +42,13 @@ namespace OpenProtocolInterpreter
             return false;
         }
 
-        protected virtual string BuildHeader() { return HeaderData.ToString(); }
+        protected virtual string BuildHeader()
+        {
+            for (int i = 1; i <= HeaderData.Revision; i++)
+                foreach (var dataField in RevisionsByFields[i])
+                    HeaderData.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
+            return HeaderData.ToString();
+        }
 
         public virtual string Pack()
         {
@@ -74,7 +80,7 @@ namespace OpenProtocolInterpreter
             {
                 Length = Convert.ToInt32(package.Substring(0, 4)),
                 Mid = Convert.ToInt32(package.Substring(4, 4)),
-                Revision = (package.Length >= 11 && !string.IsNullOrWhiteSpace(package.Substring(8, 3))) ? (int?)Convert.ToInt32(package.Substring(8, 3)) : null,
+                Revision = (package.Length >= 11 && !string.IsNullOrWhiteSpace(package.Substring(8, 3))) ? Convert.ToInt32(package.Substring(8, 3)) : 0,
                 NoAckFlag = (package.Length >= 12 && !string.IsNullOrWhiteSpace(package.Substring(11, 1))) ? (int?)Convert.ToInt32(package.Substring(11, 1)) : null,
                 StationID = (package.Length >= 14 && !string.IsNullOrWhiteSpace(package.Substring(12, 2))) ? (int?)Convert.ToInt32(package.Substring(12, 2)) : null,
                 SpindleID = (package.Length >= 16 && !string.IsNullOrWhiteSpace(package.Substring(14, 2))) ? (int?)Convert.ToInt32(package.Substring(14, 2)) : null
@@ -105,10 +111,7 @@ namespace OpenProtocolInterpreter
                 foreach (var dataField in RevisionsByFields[i])
                     try
                     {
-                        if (dataField.HasPrefix)
-                            dataField.Value = package.Substring(2 + dataField.Index, dataField.Size);
-                        else
-                            dataField.Value = package.Substring(dataField.Index, dataField.Size);
+                        dataField.Value = GetValue(dataField, package);
                     }
                     catch (ArgumentOutOfRangeException)
                     {
@@ -117,11 +120,16 @@ namespace OpenProtocolInterpreter
             }
         }
 
+        protected string GetValue(DataField field, string package)
+        {
+            return field.HasPrefix ? package.Substring(2 + field.Index, field.Size) : package.Substring(field.Index, field.Size);
+        }
+
         public class Header
         {
             public int Length { get; internal set; }
             public int Mid { get; internal set; }
-            public int? Revision { get; internal set; }
+            public int Revision { get; internal set; }
             public int? NoAckFlag { get; set; }
             public int? SpindleID { get; set; }
             public int? StationID { get; set; }
@@ -132,7 +140,7 @@ namespace OpenProtocolInterpreter
                 string header = string.Empty;
                 header += Length.ToString().PadLeft(4, '0');
                 header += Mid.ToString().PadLeft(4, '0');
-                header += (Revision != null) ? Revision.ToString().PadLeft(3, '0') : Revision.ToString().PadLeft(3, ' ');
+                header += (Revision > 0) ? Revision.ToString().PadLeft(3, '0') : Revision.ToString().PadLeft(3, ' ');
                 header += NoAckFlag.ToString().PadLeft(1, ' ');
                 header += (StationID != null) ? StationID.ToString().PadLeft(2, '0') : StationID.ToString().PadLeft(2, ' ');
                 header += (SpindleID != null) ? SpindleID.ToString().PadLeft(2, '0') : SpindleID.ToString().PadLeft(2, ' ');

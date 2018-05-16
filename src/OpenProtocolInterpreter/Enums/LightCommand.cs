@@ -1,6 +1,6 @@
 ﻿namespace OpenProtocolInterpreter
 {
-    public enum RedLightCommand
+    public enum LightCommand
     {
         OFF = 0,
         STEADY = 1,
