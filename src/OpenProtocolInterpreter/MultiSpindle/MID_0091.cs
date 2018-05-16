@@ -1,6 +1,7 @@
 ﻿using OpenProtocolInterpreter.Converters;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenProtocolInterpreter.MultiSpindle
 {
@@ -17,7 +18,7 @@ namespace OpenProtocolInterpreter.MultiSpindle
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;
         private readonly IValueConverter<DateTime> _dateConverter;
-        private readonly IValueConverter<SpindleStatus> _spindleStatusConverter;
+        private readonly IValueConverter<IEnumerable<SpindleStatus>> _spindlesStatusConverter;
         private const int LAST_REVISION = 1;
         public const int MID = 91;
 
@@ -41,29 +42,52 @@ namespace OpenProtocolInterpreter.MultiSpindle
             get => RevisionsByFields[1][(int)DataFields.SYNC_OVERALL_STATUS].GetValue(_boolConverter.Convert);
             set => RevisionsByFields[1][(int)DataFields.SYNC_OVERALL_STATUS].SetValue(_boolConverter.Convert, value);
         }
-        public SpindleStatus SpindleStatuses
-        {
-            get => RevisionsByFields[1][(int)DataFields.SPINDLE_STATUS].GetValue(_spindleStatusConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.SPINDLE_STATUS].SetValue(_spindleStatusConverter.Convert, value);
-        }
+        public List<SpindleStatus> SpindlesStatus { get; set; }
+        
 
         public MID_0091(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
         {
             _intConverter = new Int32Converter();
             _boolConverter = new BoolConverter();
             _dateConverter = new DateConverter();
-            _spindleStatusConverter = new SpindleStatusConverter();
+            _spindlesStatusConverter = new SpindleStatusConverter();
+            SpindlesStatus = new List<SpindleStatus>();
         }
 
-        public MID_0091(int numberOfSpindles, int syncTighteningId, DateTime time, bool syncOverallStatus, SpindleStatus spindleStatus, int? noAckFlag = 0) : this(noAckFlag)
+        public MID_0091(int numberOfSpindles, int syncTighteningId, DateTime time, bool syncOverallStatus, IEnumerable<SpindleStatus> spindleStatus, int? noAckFlag = 0) : this(noAckFlag)
         {
+            _intConverter = new Int32Converter();
+            _boolConverter = new BoolConverter();
+            _dateConverter = new DateConverter();
+            _spindlesStatusConverter = new SpindleStatusConverter();
             NumberOfSpindles = numberOfSpindles;
             SyncTighteningId = syncTighteningId;
             Time = time;
-            SpindleStatuses = spindleStatus;
+            SpindlesStatus = spindleStatus.ToList();
         }
 
         internal MID_0091(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
+
+        public override string Pack()
+        {
+            RevisionsByFields[1][(int)DataFields.SPINDLE_STATUS].Value = _spindlesStatusConverter.Convert(SpindlesStatus);
+            return base.Pack();
+        }
+
+        public override Mid Parse(string package)
+        {
+            if (IsCorrectType(package))
+            {
+                HeaderData = ProcessHeader(package);
+                var spindleField = RevisionsByFields[1][(int)DataFields.SPINDLE_STATUS];
+                spindleField.Size = package.Length - spindleField.Index - 2;
+                base.Parse(package);
+                SpindlesStatus = _spindlesStatusConverter.Convert(spindleField.Value).ToList();
+                return this;
+            }
+
+            return NextTemplate.Parse(package);
+        }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
