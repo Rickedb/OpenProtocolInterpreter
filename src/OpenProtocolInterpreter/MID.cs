@@ -30,14 +30,13 @@ namespace OpenProtocolInterpreter
                 StationID = stationID,
                 UsedAs = usedAs
             };
-            RevisionsByFields = new Dictionary<int, List<DataField>>();
-            RegisterDatafields();
+            RevisionsByFields = RegisterDatafields();
         }
 
         protected bool IsCorrectType(string package)
         {
             if (int.TryParse(package.Substring(4, 4), out int mid))
-                return (mid == HeaderData.Mid);
+                return mid == HeaderData.Mid;
 
             return false;
         }

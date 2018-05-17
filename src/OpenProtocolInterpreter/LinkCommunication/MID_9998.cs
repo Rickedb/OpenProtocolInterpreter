@@ -20,7 +20,7 @@ namespace OpenProtocolInterpreter.LinkCommunication
         public const int MID = 9998;
         private const int revision = 1;
 
-        public MID_9998() : base(length, MID, revision, null, null, null, new DataField[]
+        public MID_9998() : base(MID, revision, null, null, null, new DataField[]
         {
             new DataField((int)UsedsAs.MESSAGE_NUMBER, 16, 2),
             new DataField((int)UsedsAs.NUMBER_OF_MESSAGES, 18, 1),
@@ -30,7 +30,7 @@ namespace OpenProtocolInterpreter.LinkCommunication
 
         }
 
-        internal MID_9998(IMid nextTemplate) : base(length, MID, revision, null, null, null, new DataField[] 
+        internal MID_9998(IMid nextTemplate) : base(MID, revision, null, null, null, new DataField[] 
         {
             new DataField((int)UsedsAs.MESSAGE_NUMBER, 16, 2),
             new DataField((int)UsedsAs.NUMBER_OF_MESSAGES, 18, 1),
@@ -88,7 +88,6 @@ namespace OpenProtocolInterpreter.LinkCommunication
             return NextTemplate.Parse(package);
         }
 
-        protected override void RegisterDatafields() { }
 
         public enum UsedsAs
         {

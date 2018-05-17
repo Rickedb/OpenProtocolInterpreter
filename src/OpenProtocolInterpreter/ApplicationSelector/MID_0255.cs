@@ -34,15 +34,14 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
         public MID_0255() : base(MID, LAST_REVISION)
         {
-            RedLights = new List<LightCommand>();
             _intConverter = new Int32Converter();
             _lightsConverter = new LightCommandListConverter();
+            if (RedLights == null)
+                RedLights = new List<LightCommand>();
         }
 
-        public MID_0255(int deviceId, IEnumerable<LightCommand> redLights) : base(MID, LAST_REVISION)
+        public MID_0255(int deviceId, IEnumerable<LightCommand> redLights) : this()
         {
-            _intConverter = new Int32Converter();
-            _lightsConverter = new LightCommandListConverter();
             DeviceId = deviceId;
             RedLights = redLights.ToList();
         }

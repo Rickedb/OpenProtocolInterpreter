@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Converters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -20,20 +21,21 @@ namespace OpenProtocolInterpreter.Job.Advanced
     /// </summary>
     public class MID_0140 : Mid, IAdvancedJob
     {
-        private const int length = 20;
+        private readonly IValueConverter<int> _intConverter;
+        private readonly IValueConverter<bool> _boolConverter;
+        private readonly IValueConverter<IEnumerable<Job>> _jobListConverter;
+        private const int LAST_REVISION = 1;
         public const int MID = 140;
-        private const int revision = 1;
         
-
         public int JobID { get; set; }
         public string JobName { get; set; }
         public int NumberOfParameterSets { get; set; }
         public List<Job> JobList { get; set; }
-        public ForcedOrders ForcedOrder { get; set; }
+        public ForcedOrder ForcedOrder { get; set; }
         public bool LockAtJobDone { get; set; }
-        public ToolLoosenings ToolLoosening { get; set; }
+        public ToolLoosening ToolLoosening { get; set; }
         public bool RepeatJob { get; set; }
-        public BatchModes BatchMode { get; set; }
+        public BatchMode BatchMode { get; set; }
         public bool BatchStatusAtIncrement { get; set; }
         public bool DecrementBatchAtOKLoosening { get; set; }
         public int MaxTimeForFirstTightening { get; set; }
@@ -43,11 +45,17 @@ namespace OpenProtocolInterpreter.Job.Advanced
         public IdentifierPart IdentifierResultPartOne { get; set; }
         public bool ResultOfNonTightenings { get; set; }
         public bool ResetAllIdentifiersAtJobDone { get; set; }
-        public Reserveds Reserved { get; set; }
+        public Reserved Reserved { get; set; }
 
-        public MID_0140() : base(length, MID, revision) { JobList = new List<Job>(); }
+        public MID_0140(int revision = LAST_REVISION) : base(MID, revision)
+        {
+            JobList = new List<Job>();
+            _intConverter = new Int32Converter();
+            _boolConverter = new BoolConverter();
+            _jobListConverter = new JobListConverter();
+        }
 
-        internal MID_0140(IMid nextTemplate) : base(length, MID, revision)
+        internal MID_0140(IMid nextTemplate) : base(length, MID, LAST_REVISION)
         {
             JobList = new List<Job>();
             NextTemplate = nextTemplate;
@@ -126,38 +134,6 @@ namespace OpenProtocolInterpreter.Job.Advanced
                     new DataField((int)DataFields.RESET_ALL_IDENTIFIERS_AT_JOB_DONE, 0, 1),
                     new DataField((int)DataFields.RESERVED, 0, 1)
                 });
-        }
-
-        public enum ForcedOrders
-        {
-            FREE_ORDER = 0,
-            FORCED_ORDER = 1,
-            FREE_AND_FORCED = 2
-        }
-
-        public enum ToolLoosenings
-        {
-            ENABLED = 0,
-            DISABLED = 1,
-            ENABLE_ONLY_ON_NOK_TIGHTENING = 2
-        }
-
-        public enum BatchModes
-        {
-            ONLY_OK = 0,
-            BOTH_OK_AND_NOK = 1
-        }
-
-        public enum IdentifierPart
-        {
-            JOB_VIN_NUMBER = 0,
-            OTHER = 1
-        }
-
-        public enum Reserveds
-        {
-            E = 0,
-            G = 1
         }
 
         public enum DataFields

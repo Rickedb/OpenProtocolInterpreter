@@ -34,20 +34,19 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
         public MID_0254() : base(MID, LAST_REVISION)
         {
-            GreenLights = new List<LightCommand>();
             _intConverter = new Int32Converter();
             _lightsConverter = new LightCommandListConverter();
+            if (GreenLights == null)
+                GreenLights = new List<LightCommand>();
         }
 
-        public MID_0254(int deviceId, IEnumerable<LightCommand> greenLights) : base(MID, LAST_REVISION)
+        public MID_0254(int deviceId, IEnumerable<LightCommand> greenLights) : this()
         {
-            _intConverter = new Int32Converter();
-            _lightsConverter = new LightCommandListConverter();
             DeviceId = deviceId;
             GreenLights = greenLights.ToList();
         }
 
-        internal MID_0254(IMid nextTemplate) : base( MID, LAST_REVISION) => NextTemplate = nextTemplate;
+        internal MID_0254(IMid nextTemplate) : base(MID, LAST_REVISION) => NextTemplate = nextTemplate;
 
         public override string Pack()
         {

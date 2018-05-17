@@ -30,15 +30,15 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public MID_0011() : base(MID, LAST_REVISION)
         {
-            ParameterSets = new List<int>();
             _intConverter = new Int32Converter();
-            _intListConverter = new JobListConverter(_intConverter);
+            _intListConverter = new ParameterSetIdListConverter();
+            if (ParameterSets == null)
+                ParameterSets = new List<int>();
         }
 
         public MID_0011(IEnumerable<int> parameterSets) : this()
         {
             ParameterSets = parameterSets.ToList();
-            TotalParameterSets = ParameterSets.Count;
         }
 
         internal MID_0011(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
@@ -57,7 +57,7 @@ namespace OpenProtocolInterpreter.ParameterSet
             {
                 HeaderData = ProcessHeader(package);
 
-                RevisionsByFields[1][(int)DataFields.EACH_PARAMETER_SET].Size = package.Length - RevisionsByFields[1][(int)DataFields.TOTAL_PARAMETER_SETS].Size - 20;
+                RevisionsByFields[1][(int)DataFields.EACH_PARAMETER_SET].Size = package.Length - RevisionsByFields[1][(int)DataFields.EACH_PARAMETER_SET].Index;
                 ProcessDataFields(package);
                 ParameterSets = _intListConverter.Convert(RevisionsByFields[1][(int)DataFields.EACH_PARAMETER_SET].Value).ToList();
                 return this;

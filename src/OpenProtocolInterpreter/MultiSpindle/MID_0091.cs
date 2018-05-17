@@ -43,7 +43,7 @@ namespace OpenProtocolInterpreter.MultiSpindle
             set => RevisionsByFields[1][(int)DataFields.SYNC_OVERALL_STATUS].SetValue(_boolConverter.Convert, value);
         }
         public List<SpindleStatus> SpindlesStatus { get; set; }
-        
+
 
         public MID_0091(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
         {
@@ -51,15 +51,12 @@ namespace OpenProtocolInterpreter.MultiSpindle
             _boolConverter = new BoolConverter();
             _dateConverter = new DateConverter();
             _spindlesStatusConverter = new SpindleStatusConverter();
-            SpindlesStatus = new List<SpindleStatus>();
+            if (SpindlesStatus == null)
+                SpindlesStatus = new List<SpindleStatus>();
         }
 
         public MID_0091(int numberOfSpindles, int syncTighteningId, DateTime time, bool syncOverallStatus, IEnumerable<SpindleStatus> spindleStatus, int? noAckFlag = 0) : this(noAckFlag)
         {
-            _intConverter = new Int32Converter();
-            _boolConverter = new BoolConverter();
-            _dateConverter = new DateConverter();
-            _spindlesStatusConverter = new SpindleStatusConverter();
             NumberOfSpindles = numberOfSpindles;
             SyncTighteningId = syncTighteningId;
             Time = time;

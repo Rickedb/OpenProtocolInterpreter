@@ -1,5 +1,4 @@
 ﻿using OpenProtocolInterpreter.Messages;
-using OpenProtocolInterpreter.MultiSpindle.Status;
 
 namespace OpenProtocolInterpreter.MultiSpindle
 {

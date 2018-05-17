@@ -36,15 +36,14 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
         public MID_0251(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
         {
-            SocketStatus = new List<bool>();
             _intConverter = new Int32Converter();
             _boolListConverter = new SocketStatusConverter();
+            if (SocketStatus == null)
+                SocketStatus = new List<bool>();
         }
 
-        public MID_0251(int deviceId, int numberOfSockets, IEnumerable<bool> socketStatus, int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
+        public MID_0251(int deviceId, int numberOfSockets, IEnumerable<bool> socketStatus, int? noAckFlag = 0) : this(noAckFlag)
         {
-            _intConverter = new Int32Converter();
-            _boolListConverter = new SocketStatusConverter();
             DeviceId = deviceId;
             NumberOfSockets = numberOfSockets;
             SocketStatus = socketStatus.ToList();

@@ -16,7 +16,7 @@ namespace OpenProtocolInterpreter.Job
     public class MID_0031 : Mid, IJob
     {
         private readonly IValueConverter<int> _intConverter;
-        private readonly JobListConverter _jobListConverter;
+        private JobListConverter _jobListConverter;
         private const int LAST_REVISION = 1;
         public const int MID = 31;
 
@@ -31,7 +31,6 @@ namespace OpenProtocolInterpreter.Job
         public MID_0031(int revision = LAST_REVISION) : base(MID, revision)
         {
             _intConverter = new Int32Converter();
-            _jobListConverter = new JobListConverter(_intConverter);
             if (JobIds == null)
                 JobIds = new List<int>();
         }
@@ -58,16 +57,15 @@ namespace OpenProtocolInterpreter.Job
 
         public override string Pack()
         {
+            _jobListConverter = new JobListConverter(HeaderData.Revision);
             string package = BuildHeader();
             TotalJobs = JobIds.Count;
             var eachJobField = RevisionsByFields[1][(int)DataFields.EACH_JOB_ID];
-            if (HeaderData.Revision == 2)
+            if (HeaderData.Revision > 1)
             {
                 eachJobField.Index = 24;
                 RevisionsByFields[1][(int)DataFields.NUMBER_OF_JOBS].Size = eachJobField.Size = 4;
             }
-            _jobListConverter.TotalJobs = TotalJobs;
-            _jobListConverter.EachJobSize = eachJobField.Size;
             eachJobField.Value = _jobListConverter.Convert(JobIds);
             return base.Pack();
         }
@@ -77,17 +75,16 @@ namespace OpenProtocolInterpreter.Job
             if (IsCorrectType(package))
             {
                 HeaderData = ProcessHeader(package);
+                _jobListConverter = new JobListConverter(HeaderData.Revision);
 
                 var eachJobField = RevisionsByFields[1][(int)DataFields.EACH_JOB_ID];
-                if (HeaderData.Revision == 2)
+                if (HeaderData.Revision > 1)
                 {
                     eachJobField.Index = 24;
                     RevisionsByFields[1][(int)DataFields.NUMBER_OF_JOBS].Size = 4;
                 }
-                _jobListConverter.EachJobSize = eachJobField.Size;
                 eachJobField.Size = package.Length - eachJobField.Index;
                 base.Parse(package);
-                _jobListConverter.TotalJobs = TotalJobs;
                 JobIds = _jobListConverter.Convert(eachJobField.Value).ToList();
                 return this;
             }
@@ -116,18 +113,7 @@ namespace OpenProtocolInterpreter.Job
         {
             List<string> failed = new List<string>();
 
-            if (HeaderData.Revision == 1)
-            {
-                if (TotalJobs < 0 || TotalJobs > 99)
-                    failed.Add(new ArgumentOutOfRangeException(nameof(TotalJobs), "Range: 00-99").Message);
-                for (int i = 0; i < JobIds.Count; i++)
-                {
-                    int job = JobIds[i];
-                    if (job < 0 || job > 99)
-                        failed.Add(new ArgumentOutOfRangeException(nameof(JobIds), $"Failed at index[{i}] => Range: 00-99").Message);
-                }
-            }
-            else
+            if (HeaderData.Revision > 1)
             {
                 if (TotalJobs < 0 || TotalJobs > 9999)
                     failed.Add(new ArgumentOutOfRangeException(nameof(TotalJobs), "Range: 0000-9999").Message);
@@ -136,6 +122,18 @@ namespace OpenProtocolInterpreter.Job
                     int job = JobIds[i];
                     if (job < 0 || job > 9999)
                         failed.Add(new ArgumentOutOfRangeException(nameof(JobIds), $"Failed at index[{i}] => Range: 0000-9999").Message);
+                }
+                
+            }
+            else
+            {
+                if (TotalJobs < 0 || TotalJobs > 99)
+                    failed.Add(new ArgumentOutOfRangeException(nameof(TotalJobs), "Range: 00-99").Message);
+                for (int i = 0; i < JobIds.Count; i++)
+                {
+                    int job = JobIds[i];
+                    if (job < 0 || job > 99)
+                        failed.Add(new ArgumentOutOfRangeException(nameof(JobIds), $"Failed at index[{i}] => Range: 00-99").Message);
                 }
             }
 

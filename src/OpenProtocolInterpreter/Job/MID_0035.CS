@@ -23,16 +23,8 @@ namespace OpenProtocolInterpreter.Job
 
         public int JobId
         {
-            get
-            {
-                UpdateFieldsIndexBasedOnRevision();
-                return RevisionsByFields[1][(int)DataFields.JOB_ID].GetValue(_intConverter.Convert);
-            }
-            set
-            {
-                UpdateFieldsIndexBasedOnRevision();
-                RevisionsByFields[1][(int)DataFields.JOB_ID].SetValue(_intConverter.Convert, value);
-            }
+            get => RevisionsByFields[1][(int)DataFields.JOB_ID].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.JOB_ID].SetValue(_intConverter.Convert, value);
         }
         public JobStatus JobStatus
         {
@@ -82,7 +74,12 @@ namespace OpenProtocolInterpreter.Job
             set => RevisionsByFields[4][(int)DataFields.JOB_TIGHTENING_STATUS].SetValue(_intConverter.Convert, (int)value);
         }
 
-        public MID_0035(int? noAckFlag = 0, int revision = LAST_REVISION) : base(MID, LAST_REVISION, noAckFlag) { }
+        public MID_0035(int revision = LAST_REVISION, int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
+        {
+            UpdateFieldsIndexBasedOnRevision();
+            _intConverter = new Int32Converter();
+            _datetimeConverter = new DateConverter();
+        }
 
         /// <summary>
         /// Revision 1 and 2 Constructor
@@ -96,7 +93,7 @@ namespace OpenProtocolInterpreter.Job
         /// <param name="ackFlag">0=Ack needed, 1=No Ack needed</param>
         /// <param name="revision">Revision number (default = 2)</param>
         public MID_0035(int jobId, JobStatus jobStatus, JobBatchMode jobBatchMode,
-            int jobBatchSize, int jobBatchCounter, DateTime timestamp, int? noAckFlag = 0, int revision = 2) : this(noAckFlag, revision)
+            int jobBatchSize, int jobBatchCounter, DateTime timestamp, int revision = 2, int? noAckFlag = 0) : this(revision, noAckFlag)
         {
             JobId = jobId;
             JobStatus = jobStatus;
@@ -126,8 +123,8 @@ namespace OpenProtocolInterpreter.Job
         /// <param name="revision">Revision number (default = 3)</param>
         public MID_0035(int jobId, JobStatus jobStatus, JobBatchMode jobBatchMode,
            int jobBatchSize, int jobBatchCounter, DateTime timestamp, int jobCurrentStep, int jobTotalNumberOfSteps,
-           int jobStepType, int? noAckFlag = 0, int revision = 3) 
-            : this(jobId, jobStatus, jobBatchMode, jobBatchSize, jobBatchCounter, timestamp, noAckFlag, revision)
+           int jobStepType, int revision = 3, int? noAckFlag = 0) 
+            : this(jobId, jobStatus, jobBatchMode, jobBatchSize, jobBatchCounter, timestamp, revision, noAckFlag)
         {
             JobCurrentStep = jobCurrentStep;
             JobTotalNumberOfSteps = jobTotalNumberOfSteps;
@@ -148,8 +145,8 @@ namespace OpenProtocolInterpreter.Job
         /// <param name="revision">Revision number (default = 4)</param>
         public MID_0035(int jobId, JobStatus jobStatus, JobBatchMode jobBatchMode,
            int jobBatchSize, int jobBatchCounter, DateTime timestamp, JobTighteningStatus jobTighteningStatus, 
-           int? noAckFlag = 0, int revision = 4)
-            : this(jobId, jobStatus, jobBatchMode, jobBatchSize, jobBatchCounter, timestamp, noAckFlag, revision)
+           int revision = 4, int? noAckFlag = 0)
+            : this(jobId, jobStatus, jobBatchMode, jobBatchSize, jobBatchCounter, timestamp, revision, noAckFlag)
         {
             JobTighteningStatus = jobTighteningStatus;
         }
@@ -243,7 +240,7 @@ namespace OpenProtocolInterpreter.Job
 
         private void UpdateFieldsIndexBasedOnRevision()
         {
-            if (HeaderData.Revision > 1 && RevisionsByFields[1][(int)DataFields.JOB_ID].Size == 2)
+            if (HeaderData.Revision > 1)
             {
                 RevisionsByFields[1][(int)DataFields.JOB_ID].Size = 4;
                 for (int i = (int)DataFields.JOB_STATUS; i < RevisionsByFields[1].Count; i++)
