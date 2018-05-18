@@ -2,12 +2,12 @@
 
 namespace OpenProtocolInterpreter.Converters
 {
-    internal class JobListConverter : IValueConverter<IEnumerable<int>>
+    internal class JobIdListConverter : IValueConverter<IEnumerable<int>>
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly int _jobSize;
 
-        public JobListConverter(int revision)
+        public JobIdListConverter(int revision)
         {
             _intConverter = new Int32Converter();
             _jobSize = (revision > 1) ? 4 : 2;

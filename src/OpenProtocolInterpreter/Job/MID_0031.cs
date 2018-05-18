@@ -16,7 +16,7 @@ namespace OpenProtocolInterpreter.Job
     public class MID_0031 : Mid, IJob
     {
         private readonly IValueConverter<int> _intConverter;
-        private JobListConverter _jobListConverter;
+        private JobIdListConverter _jobListConverter;
         private const int LAST_REVISION = 1;
         public const int MID = 31;
 
@@ -57,7 +57,7 @@ namespace OpenProtocolInterpreter.Job
 
         public override string Pack()
         {
-            _jobListConverter = new JobListConverter(HeaderData.Revision);
+            _jobListConverter = new JobIdListConverter(HeaderData.Revision);
             string package = BuildHeader();
             TotalJobs = JobIds.Count;
             var eachJobField = RevisionsByFields[1][(int)DataFields.EACH_JOB_ID];
@@ -75,7 +75,7 @@ namespace OpenProtocolInterpreter.Job
             if (IsCorrectType(package))
             {
                 HeaderData = ProcessHeader(package);
-                _jobListConverter = new JobListConverter(HeaderData.Revision);
+                _jobListConverter = new JobIdListConverter(HeaderData.Revision);
 
                 var eachJobField = RevisionsByFields[1][(int)DataFields.EACH_JOB_ID];
                 if (HeaderData.Revision > 1)

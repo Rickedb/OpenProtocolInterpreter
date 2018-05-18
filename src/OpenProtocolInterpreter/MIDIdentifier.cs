@@ -83,7 +83,7 @@ namespace OpenProtocolInterpreter
             }
         }
 
-        public Mid IdentifyMid(string package)
+        public Mid Parse(string package)
         {
             int mid = int.Parse(package.Substring(4, 4));
 
@@ -94,9 +94,9 @@ namespace OpenProtocolInterpreter
             return func.Value(package);
         }
 
-        public ExpectedMid IdentifyMid<ExpectedMid>(string package) where ExpectedMid : Mid
+        public ExpectedMid Parse<ExpectedMid>(string package) where ExpectedMid : Mid
         {
-            Mid mid = IdentifyMid(package);
+            Mid mid = Parse(package);
             if (mid.GetType().Equals(typeof(ExpectedMid)))
                 return (ExpectedMid)mid;
 
