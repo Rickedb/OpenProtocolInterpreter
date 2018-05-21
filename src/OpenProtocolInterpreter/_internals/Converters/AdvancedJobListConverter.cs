@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Converters
 {
-    public class AdvancedJobListConverter : IValueConverter<IEnumerable<AdvancedJob>>
+    internal class AdvancedJobListConverter : IValueConverter<IEnumerable<AdvancedJob>>
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;

@@ -17,7 +17,7 @@ namespace OpenProtocolInterpreter
         public string Type { get; set; }
         public int Length { get; set; }
 
-        public DataType(int valueSent, string type, int length)
+        private DataType(int valueSent, string type, int length)
         {
             _valueSent = valueSent;
             Type = type;

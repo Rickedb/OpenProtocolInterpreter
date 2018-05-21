@@ -2,7 +2,7 @@
 
 namespace OpenProtocolInterpreter.Converters
 {
-    public class LightCommandListConverter : IValueConverter<IEnumerable<LightCommand>> 
+    internal class LightCommandListConverter : IValueConverter<IEnumerable<LightCommand>> 
     {
         private readonly IValueConverter<int> _intConverter;
 

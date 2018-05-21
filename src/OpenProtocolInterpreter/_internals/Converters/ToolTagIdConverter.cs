@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenProtocolInterpreter.Converters
 {
-    public class ToolTagIdConverter : IValueConverter<string>
+    internal class ToolTagIdConverter : IValueConverter<string>
     {
         public string Convert(string value)
         {

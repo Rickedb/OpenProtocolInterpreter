@@ -22,7 +22,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;
-        private readonly IValueConverter<IEnumerable<AdvancedJob>> _jobListConverter;
+        private IValueConverter<IEnumerable<AdvancedJob>> _jobListConverter;
         private const int LAST_REVISION = 1;
         public const int MID = 140;
 
@@ -141,6 +141,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
             if (IsCorrectType(package))
             {
                 HeaderData = ProcessHeader(package);
+                _jobListConverter = new AdvancedJobListConverter(HeaderData.Revision);
                 int length = HeaderData.Length;
                 foreach (var rev in RevisionsByFields[1])
                     length -= rev.Size;

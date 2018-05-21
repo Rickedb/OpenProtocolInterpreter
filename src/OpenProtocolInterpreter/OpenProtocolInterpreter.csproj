@@ -78,6 +78,7 @@
     <Compile Include="Communication\MID_0008.cs" />
     <Compile Include="Communication\MID_0009.cs" />
     <Compile Include="DataField.cs" />
+    <Compile Include="Enums\AngleStatus.cs" />
     <Compile Include="Enums\BatchMode.cs" />
     <Compile Include="Enums\BatchStatus.cs" />
     <Compile Include="Enums\CalibrationUnit.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="Enums\MotorRotation.cs" />
     <Compile Include="Enums\PairingHandlingType.cs" />
     <Compile Include="Enums\PairingStatus.cs" />
+    <Compile Include="Enums\PowerMacsStatus.cs" />
     <Compile Include="Enums\PrimaryTool.cs" />
     <Compile Include="Enums\LightCommand.cs" />
     <Compile Include="Enums\RelayNumber.cs" />
@@ -109,14 +111,18 @@
     <Compile Include="Enums\ToolLoosening.cs" />
     <Compile Include="Enums\ToolStatus.cs" />
     <Compile Include="Enums\ToolType.cs" />
+    <Compile Include="Enums\TorqueStatus.cs" />
     <Compile Include="Enums\TorqueValuesUnit.cs" />
     <Compile Include="Job\Advanced\AdvancedJob.cs" />
     <Compile Include="MultipleIdentifiers\IdentifierStatus.cs" />
     <Compile Include="MultiSpindle\MID_0093.cs" />
     <Compile Include="MultiSpindle\SpindleStatus.cs" />
+    <Compile Include="PowerMACS\BoltData.cs" />
+    <Compile Include="PowerMACS\SpecialValue.cs" />
     <Compile Include="Tightening\StrategyOptions.cs" />
     <Compile Include="Tightening\TighteningErrorStatus.cs" />
     <Compile Include="_internals\Converters\BitConverter.cs" />
+    <Compile Include="_internals\Converters\BoltDataListConverter.cs" />
     <Compile Include="_internals\Converters\BoolConverter.cs" />
     <Compile Include="_internals\Converters\ByteArrayConverter.cs" />
     <Compile Include="_internals\Converters\DateConverter.cs" />
@@ -134,6 +140,7 @@
     <Compile Include="_internals\Converters\ParameterSetIdListConverter.cs" />
     <Compile Include="_internals\Converters\RelayListConverter.cs" />
     <Compile Include="_internals\Converters\SocketStatusConverter.cs" />
+    <Compile Include="_internals\Converters\SpecialValueListConverter.cs" />
     <Compile Include="_internals\Converters\SpindleStatusConverter.cs" />
     <Compile Include="_internals\Converters\StrategyOptionsConverter.cs" />
     <Compile Include="_internals\Converters\TighteningErrorStatusConverter.cs" />
