@@ -74,7 +74,7 @@ namespace OpenProtocolInterpreter.Communication
                     1, new List<DataField>()
                             {
                                 new DataField((int)DataFields.MID, 20, 4, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
-                                new DataField((int)DataFields.ERROR_CODE, 26, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                                new DataField((int)DataFields.ERROR_CODE, 24, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
                             }
                 }
             };

@@ -4,12 +4,12 @@ using System.Linq;
 
 namespace OpenProtocolInterpreter
 {
-    public class MidIdentifier
+    public class MidInterpreter
     {
         private readonly Dictionary<Func<int, bool>, Func<string, Mid>> _messageInterpreterTemplates;
         private readonly IEnumerable<Mid> _selectedMids;
 
-        public MidIdentifier()
+        public MidInterpreter()
         {
             _messageInterpreterTemplates = new Dictionary<Func<int, bool>, Func<string, Mid>>()
             {
@@ -43,7 +43,7 @@ namespace OpenProtocolInterpreter
         /// Build up Identifier with only specified mids
         /// </summary>
         /// <param name="selection">Selected Mids to use in library</param>
-        public MidIdentifier(IEnumerable<Mid> selection)
+        public MidInterpreter(IEnumerable<Mid> selection)
         {
             _selectedMids = selection;
             var fullDictionary = new Dictionary<Func<int, bool>, Func<string, Mid>>()

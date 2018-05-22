@@ -43,9 +43,13 @@ namespace OpenProtocolInterpreter
 
         protected virtual string BuildHeader()
         {
-            for (int i = 1; i <= HeaderData.Revision; i++)
-                foreach (var dataField in RevisionsByFields[i])
-                    HeaderData.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
+            if (RevisionsByFields.Any())
+            {
+                HeaderData.Length = 20;
+                for (int i = 1; i <= HeaderData.Revision; i++)
+                    foreach (var dataField in RevisionsByFields[i])
+                        HeaderData.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
+            }
             return HeaderData.ToString();
         }
 

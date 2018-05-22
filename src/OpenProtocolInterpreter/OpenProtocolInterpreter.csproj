@@ -202,7 +202,7 @@
     <Compile Include="LinkCommunication\MID_9998.cs" />
     <Compile Include="_internals\Messages\MessageTemplateFactory.cs" />
     <Compile Include="Mid.cs" />
-    <Compile Include="MidIdentifier.cs" />
+    <Compile Include="MidInterpreter.cs" />
     <Compile Include="Communication\MID_0004.cs" />
     <Compile Include="Communication\MID_0005.cs" />
     <Compile Include="Communication\CommunicationMessages.cs" />

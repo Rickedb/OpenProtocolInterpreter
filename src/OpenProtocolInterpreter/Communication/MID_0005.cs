@@ -26,7 +26,11 @@ namespace OpenProtocolInterpreter.Communication
         public const int MID = 5;
         private const int LAST_REVISION = 1;
 
-        public int MidAccepted { get; set; }
+        public int MidAccepted
+        {
+            get => RevisionsByFields[1][(int)DataFields.MID_ACCEPTED].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.MID_ACCEPTED].SetValue(_intConverter.Convert, value);
+        }
 
         public MID_0005() : base(MID, LAST_REVISION) => _intConverter = new Int32Converter();
 
