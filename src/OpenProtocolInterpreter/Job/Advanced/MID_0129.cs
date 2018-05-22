@@ -34,7 +34,10 @@ namespace OpenProtocolInterpreter.Job.Advanced
             set => RevisionsByFields[2][(int)DataFields.PARAMETER_SET_ID].SetValue(_intConverter.Convert, value);
         }
 
-        public MID_0129(int revision = LAST_REVISION) : base(MID, LAST_REVISION) { }
+        public MID_0129(int revision = LAST_REVISION) : base(MID, LAST_REVISION)
+        {
+            _intConverter = new Int32Converter();
+        }
 
         public MID_0129(int channelId, int parameterSetId, int revision = 2) : this(revision)
         {

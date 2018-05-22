@@ -9,19 +9,20 @@ namespace OpenProtocolInterpreter.Converters
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;
         private readonly IValueConverter<decimal> _decimalConverter;
+        private readonly int _totalBolts;
 
-        public BoltDataListConverter()
+        public BoltDataListConverter(int totalBolts)
         {
             _intConverter = new Int32Converter();
             _boolConverter = new BoolConverter();
             _decimalConverter = new DecimalTrucatedConverter(2);
+            _totalBolts = totalBolts;
         }
 
         public IEnumerable<BoltData> Convert(string value)
         {
-            int totalBolts = _intConverter.Convert(value.Substring(0, 2));
             List<string> bolts = new List<string>();
-            for (int i = 0; i < totalBolts; i++)
+            for (int i = 0; i < _totalBolts; i++)
                 bolts.Add(value.Substring(2 + (i * 67), 67));
 
             foreach (var bolt in bolts)

@@ -7,13 +7,17 @@ namespace OpenProtocolInterpreter.Converters
     internal class SpecialValueListConverter : IValueConverter<IEnumerable<SpecialValue>>
     {
         private readonly IValueConverter<int> _intConverter;
+        private readonly int _totalSpecialValues;
 
-        public SpecialValueListConverter() => _intConverter = new Int32Converter();
+        public SpecialValueListConverter(int totalSpecialValues)
+        {
+            _intConverter = new Int32Converter();
+            _totalSpecialValues = totalSpecialValues;
+        }
 
         public IEnumerable<SpecialValue> Convert(string value)
         {
-            int totalSpecialValues = _intConverter.Convert(value.Substring(2, 2));
-            for (int i = 0; i < totalSpecialValues; i++)
+            for (int i = 0; i < _totalSpecialValues; i++)
             {
                 SpecialValue obj = new SpecialValue
                 {

@@ -29,29 +29,89 @@ namespace OpenProtocolInterpreter.PowerMACS
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;
         private readonly IValueConverter<DateTime> _dateConverter;
-        private readonly IValueConverter<IEnumerable<BoltData>> _boltDataListConverter;
-        private readonly IValueConverter<IEnumerable<SpecialValue>> _specialValueListConverter;
+        private IValueConverter<IEnumerable<BoltData>> _boltDataListConverter;
+        private IValueConverter<IEnumerable<SpecialValue>> _specialValueListConverter;
         private const int LAST_REVISION = 4;
         public const int MID = 106;
 
-        public int TotalNumberOfMessages { get; set; }
-        public int MessageNumber { get; set; }
-        public int DataNumberSystem { get; set; }
-        public int StationNumber { get; set; }
-        public string StationName { get; set; }
-        public DateTime Time { get; set; }
-        public int ModeNumber { get; set; }
-        public string ModeName { get; set; }
-        public bool SimpleStatus { get; set; }
-        public PowerMacsStatus PMStatus { get; set; }
-        public string WpId { get; set; }
-        public int NumberOfBolts { get; set; }
+        public int TotalNumberOfMessages
+        {
+            get => RevisionsByFields[1][(int)DataFields.TOTAL_NUMBER_OF_MESSAGES].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.TOTAL_NUMBER_OF_MESSAGES].SetValue(_intConverter.Convert, value);
+        }
+        public int MessageNumber
+        {
+            get => RevisionsByFields[1][(int)DataFields.MESSAGE_NUMBER].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.MESSAGE_NUMBER].SetValue(_intConverter.Convert, value);
+        }
+        public int DataNumberSystem
+        {
+            get => RevisionsByFields[1][(int)DataFields.DATA_NUMBER_SYSTEM].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.DATA_NUMBER_SYSTEM].SetValue(_intConverter.Convert, value);
+        }
+        public int StationNumber
+        {
+            get => RevisionsByFields[1][(int)DataFields.STATION_NUMBER].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.STATION_NUMBER].SetValue(_intConverter.Convert, value);
+        }
+        public string StationName
+        {
+            get => RevisionsByFields[1][(int)DataFields.STATION_NAME].Value;
+            set => RevisionsByFields[1][(int)DataFields.STATION_NAME].SetValue(value);
+        }
+        public DateTime Time
+        {
+            get => RevisionsByFields[1][(int)DataFields.TIME].GetValue(_dateConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.TIME].SetValue(_dateConverter.Convert, value);
+        }
+        public int ModeNumber
+        {
+            get => RevisionsByFields[1][(int)DataFields.MODE_NUMBER].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.MODE_NUMBER].SetValue(_intConverter.Convert, value);
+        }
+        public string ModeName
+        {
+            get => RevisionsByFields[1][(int)DataFields.MODE_NAME].Value;
+            set => RevisionsByFields[1][(int)DataFields.MODE_NAME].SetValue(value);
+        }
+        public bool SimpleStatus
+        {
+            get => RevisionsByFields[1][(int)DataFields.MODE_NUMBER].GetValue(_boolConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.MODE_NUMBER].SetValue(_boolConverter.Convert, value);
+        }
+        public PowerMacsStatus PMStatus
+        {
+            get => (PowerMacsStatus)RevisionsByFields[1][(int)DataFields.PM_STATUS].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.PM_STATUS].SetValue(_intConverter.Convert, (int)value);
+        }
+        public string WpId
+        {
+            get => RevisionsByFields[1][(int)DataFields.WP_ID].Value;
+            set => RevisionsByFields[1][(int)DataFields.WP_ID].SetValue(value);
+        }
+        public int NumberOfBolts
+        {
+            get => RevisionsByFields[1][(int)DataFields.NUMBER_OF_BOLTS].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.NUMBER_OF_BOLTS].SetValue(_intConverter.Convert, value);
+        }
         public List<BoltData> BoltsData { get; set; }
+        public int TotalSpecialValues
+        {
+            get => RevisionsByFields[1][(int)DataFields.NUMBER_OF_SPECIAL_VALUES].GetValue(_intConverter.Convert);
+            private set => RevisionsByFields[1][(int)DataFields.NUMBER_OF_SPECIAL_VALUES].SetValue(_intConverter.Convert, value);
+        }
         public List<SpecialValue> SpecialValues { get; set; }
-        public SystemSubType SystemSubType { get; set; }
+        public SystemSubType SystemSubType
+        {
+            get => (SystemSubType)RevisionsByFields[4][(int)DataFields.SYSTEM_SUB_TYPE].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[4][(int)DataFields.SYSTEM_SUB_TYPE].SetValue(_intConverter.Convert, (int)value);
+        }
 
         public MID_0106(int revision = LAST_REVISION, int? noAckFlag = 0) : base(MID, LAST_REVISION)
         {
+            _intConverter = new Int32Converter();
+            _boolConverter = new BoolConverter();
+            _dateConverter = new DateConverter();
             BoltsData = new List<BoltData>();
             SpecialValues = new List<SpecialValue>();
         }
@@ -60,7 +120,7 @@ namespace OpenProtocolInterpreter.PowerMACS
 
         public override string Pack()
         {
-            //TODO
+
             return base.Pack();
         }
 
@@ -68,29 +128,21 @@ namespace OpenProtocolInterpreter.PowerMACS
         {
             if (IsCorrectType(package))
             {
-                base.HeaderData.Length = package.Length;
-                base.Parse(package);
+                ProcessHeader(package);
+                
 
-                TotalNumberOfMessages = base.RegisteredDataFields[(int)DataFields.TOTAL_NUMBER_OF_MESSAGES].ToInt32();
-                MessageNumber = base.RegisteredDataFields[(int)DataFields.MESSAGE_NUMBER].ToInt32();
-                DataNumberSystem = base.RegisteredDataFields[(int)DataFields.DATA_NUMBER_SYSTEM].ToInt32();
-                StationNumber = base.RegisteredDataFields[(int)DataFields.STATION_NUMBER].ToInt32();
-                StationName = base.RegisteredDataFields[(int)DataFields.STATION_NAME].Value.ToString();
-                Time = base.RegisteredDataFields[(int)DataFields.TIME].ToDateTime();
-                ModeNumber = base.RegisteredDataFields[(int)DataFields.MODE_NUMBER].ToInt32();
-                ModeName = base.RegisteredDataFields[(int)DataFields.MODE_NAME].Value.ToString();
-                SimpleStatus = base.RegisteredDataFields[(int)DataFields.SIMPLE_STATUS].ToBoolean();
-                WpId = base.RegisteredDataFields[(int)DataFields.WP_ID].Value.ToString();
-                PMStatus = (PowerMacsStatuses)base.RegisteredDataFields[(int)DataFields.PM_STATUS].ToInt32();
-                WpId = base.RegisteredDataFields[(int)DataFields.WP_ID].ToString();
-                NumberOfBolts = base.RegisteredDataFields[(int)DataFields.NUMBER_OF_BOLTS].ToInt32();
+                int numberOfBolts = _intConverter.Convert(package.Substring(RevisionsByFields[1][(int)DataFields.NUMBER_OF_BOLTS].Index, RevisionsByFields[1][(int)DataFields.NUMBER_OF_BOLTS].Size));
+                RevisionsByFields[1][(int)DataFields.BOLT_DATA].Size *= numberOfBolts;
+                RevisionsByFields[1][(int)DataFields.NUMBER_OF_SPECIAL_VALUES].Index = RevisionsByFields[1][(int)DataFields.BOLT_DATA].Index + RevisionsByFields[1][(int)DataFields.BOLT_DATA].Size;
+                RevisionsByFields[1][(int)DataFields.SPECIAL_VALUES].Index =  package.Length - RevisionsByFields[1][(int)DataFields.NUMBER_OF_SPECIAL_VALUES].Index;
+                if(HeaderData.Revision > 3)
+                    RevisionsByFields[4][(int)DataFields.SYSTEM_SUB_TYPE].Index = RevisionsByFields[1][(int)DataFields.SPECIAL_VALUES].Index + RevisionsByFields[1][(int)DataFields.SPECIAL_VALUES].Size;
+                ProcessDataFields(package);
 
-                base.RegisteredDataFields[(int)DataFields.BOLT_DATA].Size = (TotalNumberOfMessages - 1) * 67; //BoltData size
-                BoltsData = new BoltData().getBoltDatasFromPackage(TotalNumberOfMessages - 1, package.Substring(base.RegisteredDataFields[(int)DataFields.BOLT_DATA].Index, base.RegisteredDataFields[(int)DataFields.BOLT_DATA].Size)).ToList();
-
-                base.RegisteredDataFields[(int)DataFields.BOLT_DATA].Index = base.RegisteredDataFields[(int)DataFields.BOLT_DATA].Index + base.RegisteredDataFields[(int)DataFields.BOLT_DATA].Size;
-                SpecialValues = new SpecialValue().getSpecialValuesFromPackage(package.Substring(base.RegisteredDataFields[(int)DataFields.BOLT_DATA].Index)).ToList();
-
+                _boltDataListConverter = new BoltDataListConverter(numberOfBolts);
+                _specialValueListConverter = new SpecialValueListConverter(TotalSpecialValues);
+                BoltsData = _boltDataListConverter.Convert(RevisionsByFields[1][(int)DataFields.BOLT_DATA].Value).ToList();
+                SpecialValues = _specialValueListConverter.Convert(RevisionsByFields[1][(int)DataFields.SPECIAL_VALUES].Value).ToList();
                 return this;
             }
 
@@ -116,8 +168,9 @@ namespace OpenProtocolInterpreter.PowerMACS
                                         new DataField((int)DataFields.PM_STATUS, 116, 1),
                                         new DataField((int)DataFields.WP_ID, 119, 40, ' '),
                                         new DataField((int)DataFields.NUMBER_OF_BOLTS, 161, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                        new DataField((int)DataFields.BOLT_DATA, 165, 0),
-                                        new DataField((int)DataFields.NUMBER_OF_SPECIAL_VALUES, 0, 0)
+                                        new DataField((int)DataFields.BOLT_DATA, 165, 67),
+                                        new DataField((int)DataFields.NUMBER_OF_SPECIAL_VALUES, 0, 0),
+                                        new DataField((int)DataFields.SPECIAL_VALUES, 0, 0)
                                 }
                     },
                     {
@@ -145,6 +198,7 @@ namespace OpenProtocolInterpreter.PowerMACS
             NUMBER_OF_BOLTS,
             BOLT_DATA,
             NUMBER_OF_SPECIAL_VALUES,
+            SPECIAL_VALUES,
             //Rev 4
             SYSTEM_SUB_TYPE
         }

@@ -89,7 +89,11 @@ namespace OpenProtocolInterpreter.Statistic
             set => RevisionsByFields[1][(int)DataFields.BAR_9].SetValue(_intConverter.Convert, value);
         }
 
-        public MID_0301() : base(MID, LAST_REVISION) { }
+        public MID_0301() : base(MID, LAST_REVISION)
+        {
+            _intConverter = new Int32Converter();
+            _decimalConverter = new DecimalTrucatedConverter(2);
+        }
 
         internal MID_0301(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 

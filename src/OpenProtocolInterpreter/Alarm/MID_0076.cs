@@ -47,7 +47,8 @@ namespace OpenProtocolInterpreter.Alarm
 
         public MID_0076() : base(MID, LAST_REVISION)
         {
-
+            _boolConverter = new BoolConverter();
+            _dateConverter = new DateConverter();
         }
 
         /// <summary>

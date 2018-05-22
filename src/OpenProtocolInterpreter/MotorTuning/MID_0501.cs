@@ -20,9 +20,16 @@ namespace OpenProtocolInterpreter.MotorTuning
         /// <para>Motor Tune Failed = false (0)</para>
         /// <para>Motor Tune Success = true (1)</para>
         /// </summary>
-        public bool MotorTuneResult { get; set; }
+        public bool MotorTuneResult
+        {
+            get => RevisionsByFields[1][(int)DataFields.MOTOR_TUNE_RESULT].GetValue(_boolConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.MOTOR_TUNE_RESULT].SetValue(_boolConverter.Convert, value);
+        }
 
-        public MID_0501(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) { }
+        public MID_0501(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
+        {
+            _boolConverter = new BoolConverter();
+        }
 
         public MID_0501(bool motorTuneResult, int? noAckFlag = 0) : this(noAckFlag)
         {

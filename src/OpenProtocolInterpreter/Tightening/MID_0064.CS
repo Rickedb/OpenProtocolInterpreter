@@ -28,7 +28,10 @@ namespace OpenProtocolInterpreter.Tightening
             set => RevisionsByFields[1][(int)DataFields.TIGHTENING_ID].SetValue(_longConverter.Convert, value);
         }
 
-        public MID_0064(int revision = LAST_REVISION) : base(MID, LAST_REVISION) { }
+        public MID_0064(int revision = LAST_REVISION) : base(MID, LAST_REVISION)
+        {
+            _longConverter = new Int64Converter();
+        }
 
         public MID_0064(int tighteningId, int revision = LAST_REVISION) : this(revision)
         {

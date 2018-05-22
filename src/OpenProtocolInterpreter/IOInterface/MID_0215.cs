@@ -46,6 +46,9 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public MID_0215(int revision = LAST_REVISION) : base(MID, revision)
         {
+            _intConverter = new Int32Converter();
+            _relayListConverter = new RelayListConverter();
+            //_digitalInputListConverter = new DigitalInputList
             Relays = new List<Relay>();
             DigitalInputs = new List<DigitalInput>();
         }
