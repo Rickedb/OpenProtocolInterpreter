@@ -1,13 +1,14 @@
 
+  
 # OpenProtocolInterpreter  
 [![Build status](https://ci.appveyor.com/api/projects/status/op72gr1k1vi04o35/branch/master?svg=true)](https://ci.appveyor.com/project/Rickedb/openprotocolintepreter/branch/master) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/Rickedb/OpenProtocolIntepreter/master/LICENSE)
 > OpenProtocol communication utility
 
-## Work in progress ([AllRevisions](https://github.com/Rickedb/OpenProtocolInterpreter/tree/AllRevisions)):
+## Work in progress:
 
-* Make lib understand all MID's revisions
-* Refactoring the way to process the package
+* Testing up Version 2.0.0
 
+> Missing version OpenProtocolInterpreter v1.0.0 ? [It's here!](https://github.com/Rickedb/OpenProtocolInterpreter/releases/tag/1.0.0)
 
 ## What is Open Protocol at all?
 
