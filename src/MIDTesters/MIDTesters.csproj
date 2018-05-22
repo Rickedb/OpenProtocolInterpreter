@@ -61,6 +61,29 @@
       <Name>OpenProtocolInterpreter</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Alarm\" />
+    <Folder Include="ApplicationController\" />
+    <Folder Include="ApplicationSelector\" />
+    <Folder Include="ApplicationToolLocationSystem\" />
+    <Folder Include="AutomaticManualMode\" />
+    <Folder Include="IOInterface\" />
+    <Folder Include="Job\Advanced\" />
+    <Folder Include="KeepAlive\" />
+    <Folder Include="LinkCommunication\" />
+    <Folder Include="MotorTuning\" />
+    <Folder Include="MultipleIdentifiers\" />
+    <Folder Include="MultiSpindle\" />
+    <Folder Include="OpenProtocolCommandsDisabled\" />
+    <Folder Include="PLCUserData\" />
+    <Folder Include="PowerMACS\" />
+    <Folder Include="Statistic\" />
+    <Folder Include="Tightening\" />
+    <Folder Include="Time\" />
+    <Folder Include="Tool\" />
+    <Folder Include="UserInterface\" />
+    <Folder Include="Vin\" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
