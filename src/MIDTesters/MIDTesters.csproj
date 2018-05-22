@@ -50,7 +50,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Communication\Mid0002Packs.cs" />
     <Compile Include="MIDsTests.cs" />
+    <Compile Include="ParameterSet\Package_MID_0013.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,114 @@
+﻿using OpenProtocolInterpreter.Converters;
+using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.IOInterface
+{
+    /// <summary>
+    /// MID: Set externally controlled relays
+    /// Description: 
+    ///     By using this message the integrator can control 10 relays (externally control relays). The station can
+    ///     set, reset the relays or make them flashing.
+    /// Message sent by: Integrator
+    /// Answer: MID 0005 Command accepted
+    /// </summary>
+    public class MID_0200 : Mid, IIOInterface
+    {
+        private readonly IValueConverter<int> _intConverter;
+        private const int LAST_REVISION = 1;
+        public const int MID = 200;
+
+        public RelayStatus StatusRelayOne
+        {
+            get => (RelayStatus)RevisionsByFields[1][(int)DataFields.STATUS_RELAY_1].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.STATUS_RELAY_1].SetValue(_intConverter.Convert, (int)value);
+        }
+        public RelayStatus StatusRelayTwo
+        {
+            get => (RelayStatus)RevisionsByFields[1][(int)DataFields.STATUS_RELAY_2].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.STATUS_RELAY_2].SetValue(_intConverter.Convert, (int)value);
+        }
+        public RelayStatus StatusRelayThree
+        {
+            get => (RelayStatus)RevisionsByFields[1][(int)DataFields.STATUS_RELAY_3].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.STATUS_RELAY_3].SetValue(_intConverter.Convert, (int)value);
+        }
+        public RelayStatus StatusRelayFour
+        {
+            get => (RelayStatus)RevisionsByFields[1][(int)DataFields.STATUS_RELAY_4].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.STATUS_RELAY_4].SetValue(_intConverter.Convert, (int)value);
+        }
+        public RelayStatus StatusRelayFive
+        {
+            get => (RelayStatus)RevisionsByFields[1][(int)DataFields.STATUS_RELAY_5].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.STATUS_RELAY_5].SetValue(_intConverter.Convert, (int)value);
+        }
+        public RelayStatus StatusRelaySix
+        {
+            get => (RelayStatus)RevisionsByFields[1][(int)DataFields.STATUS_RELAY_6].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.STATUS_RELAY_6].SetValue(_intConverter.Convert, (int)value);
+        }
+        public RelayStatus StatusRelaySeven
+        {
+            get => (RelayStatus)RevisionsByFields[1][(int)DataFields.STATUS_RELAY_7].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.STATUS_RELAY_7].SetValue(_intConverter.Convert, (int)value);
+        }
+        public RelayStatus StatusRelayEight
+        {
+            get => (RelayStatus)RevisionsByFields[1][(int)DataFields.STATUS_RELAY_8].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.STATUS_RELAY_8].SetValue(_intConverter.Convert, (int)value);
+        }
+        public RelayStatus StatusRelayNine
+        {
+            get => (RelayStatus)RevisionsByFields[1][(int)DataFields.STATUS_RELAY_9].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.STATUS_RELAY_9].SetValue(_intConverter.Convert, (int)value);
+        }
+        public RelayStatus StatusRelayTen
+        {
+            get => (RelayStatus)RevisionsByFields[1][(int)DataFields.STATUS_RELAY_10].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.STATUS_RELAY_10].SetValue(_intConverter.Convert, (int)value);
+        }
+
+        public MID_0200() : base(MID, LAST_REVISION)
+        {
+            _intConverter = new Int32Converter();
+        }
+
+        internal MID_0200(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
+        
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        {
+            return new Dictionary<int, List<DataField>>()
+            {
+                {
+                    1, new List<DataField>()
+                    {
+                        new DataField((int)DataFields.STATUS_RELAY_1, 20, 1, false),
+                        new DataField((int)DataFields.STATUS_RELAY_2, 21, 1, false),
+                        new DataField((int)DataFields.STATUS_RELAY_3, 22, 1, false),
+                        new DataField((int)DataFields.STATUS_RELAY_4, 23, 1, false),
+                        new DataField((int)DataFields.STATUS_RELAY_5, 24, 1, false),
+                        new DataField((int)DataFields.STATUS_RELAY_6, 25, 1, false),
+                        new DataField((int)DataFields.STATUS_RELAY_7, 26, 1, false),
+                        new DataField((int)DataFields.STATUS_RELAY_8, 27, 1, false),
+                        new DataField((int)DataFields.STATUS_RELAY_9, 28, 1, false),
+                        new DataField((int)DataFields.STATUS_RELAY_10, 29, 1, false)
+                    }
+                }
+            };
+        }
+
+        public enum DataFields
+        {
+            STATUS_RELAY_1,
+            STATUS_RELAY_2,
+            STATUS_RELAY_3,
+            STATUS_RELAY_4,
+            STATUS_RELAY_5,
+            STATUS_RELAY_6,
+            STATUS_RELAY_7,
+            STATUS_RELAY_8,
+            STATUS_RELAY_9,
+            STATUS_RELAY_10
+        }
+    }
+}

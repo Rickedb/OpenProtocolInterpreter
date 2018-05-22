@@ -1,0 +1,77 @@
+﻿using OpenProtocolInterpreter.Converters;
+using System;
+using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.AutomaticManualMode
+{
+    /// <summary>
+    /// MID: AutoDisable settings reply
+    /// Description: 
+    ///     Information about the setting of AutoDisable tightening in the controller. Also contains information about the currently running batch.
+    ///     The settings are reserved for single parameter sets with batch and are not available while running Job.
+    ///     Power Macs use:
+    ///     “OKs to disable station” is a parameter in Tools Talk PowerMACS and specifies the number of cycles with status OK or OKR that may be run while in Automatic mode before the station is automatically disabled. It is sent as two ASCII digits, a 0 means the function is not in use.
+    ///     “Current Batch” is two ASCII digits representing the number of OK cycles that have been run in the current batch.If the value is 0 no batch is running at the moment.
+    ///     Power Focus use:
+    ///     The “Current Batch” contains at which batch counter value/tightening the parameter set batch was
+    ///     locked/finished if “batch count” and “lock at batch ok” parameters in Tools Talk PF was used,
+    ///     otherwise it will contain 0 indicating function not used.If “lock at batch ok” parameter was not used
+    ///     the “Current Batch” is just current.
+    ///     The “Auto Disable” contains the parameter sets batch size if “batch count” and “lock at batch ok”
+    ///     parameters was used indicating that Auto Disable function is used.If “batch count” or “lock at batch
+    ///     ok” was not used the “Auto Disable” is 0.
+    /// Message sent by: Controller
+    /// Answer: None
+    /// </summary>
+    public class MID_0411 : Mid, IAutomaticManualMode
+    {
+        private readonly IValueConverter<int> _intConverter;
+        private const int LAST_REVISION = 1;
+        public const int MID = 411;
+
+        public int AutoDisableSetting
+        {
+            get => RevisionsByFields[1][(int)DataFields.AUTO_DISABLE_SETTING].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.AUTO_DISABLE_SETTING].SetValue(_intConverter.Convert, value);
+        }
+        public int CurrentBatch
+        {
+            get => RevisionsByFields[1][(int)DataFields.CURRENT_BATCH].GetValue(_intConverter.Convert);
+            set => RevisionsByFields[1][(int)DataFields.CURRENT_BATCH].SetValue(_intConverter.Convert, value);
+        }
+
+        public MID_0411() : base(MID, LAST_REVISION)
+        {
+            _intConverter = new Int32Converter();
+        }
+
+        public MID_0411(int autoDisableSetting, int currentBatch) : this()
+        {
+            AutoDisableSetting = autoDisableSetting;
+            CurrentBatch = currentBatch;
+        }
+
+        internal MID_0411(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
+        
+
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        {
+            return new Dictionary<int, List<DataField>>()
+            {
+                {
+                    1, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.AUTO_DISABLE_SETTING, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
+                                new DataField((int)DataFields.CURRENT_BATCH, 22, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                            }
+                }
+            };
+        }
+
+        public enum DataFields
+        {
+            AUTO_DISABLE_SETTING,
+            CURRENT_BATCH
+        }
+    }
+}

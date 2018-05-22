@@ -1,0 +1,164 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace OpenProtocolInterpreter
+{
+    public abstract class Mid : IMid
+    {
+        protected IMid NextTemplate;
+
+        public Dictionary<int, List<DataField>> RevisionsByFields { get; set; }
+        public Header HeaderData { get; set; }
+
+        public Mid(Header header)
+        {
+            HeaderData = header;
+            RevisionsByFields = new Dictionary<int, List<DataField>>();
+            RegisterDatafields();
+        }
+
+        public Mid(int MID, int revision, int? noAckFlag = null, int? spindleID = null, int? stationID = null, IEnumerable<DataField> usedAs = null)
+        {
+            HeaderData = new Header()
+            {
+                Length = 20,
+                Mid = MID,
+                Revision = revision,
+                NoAckFlag = noAckFlag,
+                SpindleID = spindleID,
+                StationID = stationID,
+                UsedAs = usedAs
+            };
+            RevisionsByFields = RegisterDatafields();
+        }
+
+        protected bool IsCorrectType(string package)
+        {
+            if (int.TryParse(package.Substring(4, 4), out int mid))
+                return mid == HeaderData.Mid;
+
+            return false;
+        }
+
+        protected virtual string BuildHeader()
+        {
+            if (RevisionsByFields.Any())
+            {
+                HeaderData.Length = 20;
+                for (int i = 1; i <= HeaderData.Revision; i++)
+                    foreach (var dataField in RevisionsByFields[i])
+                        HeaderData.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
+            }
+            return HeaderData.ToString();
+        }
+
+        public virtual string Pack()
+        {
+            if (!RevisionsByFields.Any())
+                return BuildHeader();
+
+            string package = BuildHeader();
+            int prefixIndex = 1;
+            for (int i = 1; i <= HeaderData.Revision; i++)
+                foreach (var dataField in RevisionsByFields[i])
+                {
+                    if (dataField.HasPrefix)
+                    {
+                        package += prefixIndex.ToString().PadLeft(2, '0') + dataField.Value;
+                        prefixIndex++;
+                    }
+                    else
+                        package += dataField.Value;
+                }
+
+            return package;
+        }
+
+        protected virtual Dictionary<int, List<DataField>> RegisterDatafields() => new Dictionary<int, List<DataField>>();
+
+        protected virtual Header ProcessHeader(string package)
+        {
+            Header header = new Header
+            {
+                Length = Convert.ToInt32(package.Substring(0, 4)),
+                Mid = Convert.ToInt32(package.Substring(4, 4)),
+                Revision = (package.Length >= 11 && !string.IsNullOrWhiteSpace(package.Substring(8, 3))) ? Convert.ToInt32(package.Substring(8, 3)) : 0,
+                NoAckFlag = (package.Length >= 12 && !string.IsNullOrWhiteSpace(package.Substring(11, 1))) ? (int?)Convert.ToInt32(package.Substring(11, 1)) : null,
+                StationID = (package.Length >= 14 && !string.IsNullOrWhiteSpace(package.Substring(12, 2))) ? (int?)Convert.ToInt32(package.Substring(12, 2)) : null,
+                SpindleID = (package.Length >= 16 && !string.IsNullOrWhiteSpace(package.Substring(14, 2))) ? (int?)Convert.ToInt32(package.Substring(14, 2)) : null
+            };
+
+            return header;
+        }
+
+        public virtual Mid Parse(string package)
+        {
+            if (IsCorrectType(package))
+            {
+                HeaderData = ProcessHeader(package);
+                ProcessDataFields(package);
+                return this;
+            }
+
+            return NextTemplate.Parse(package);
+        }
+
+        protected virtual void ProcessDataFields(string package)
+        {
+            if (!RevisionsByFields.Any())
+                return;
+
+            for (int i = 1; i <= HeaderData.Revision; i++)
+            {
+                foreach (var dataField in RevisionsByFields[i])
+                    try
+                    {
+                        dataField.Value = GetValue(dataField, package);
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+                        //null value
+                    }
+            }
+        }
+
+        protected string GetValue(DataField field, string package)
+        {
+            return field.HasPrefix ? package.Substring(2 + field.Index, field.Size) : package.Substring(field.Index, field.Size);
+        }
+
+        public class Header
+        {
+            public int Length { get; internal set; }
+            public int Mid { get; internal set; }
+            public int Revision { get; internal set; }
+            public int? NoAckFlag { get; set; }
+            public int? SpindleID { get; set; }
+            public int? StationID { get; set; }
+            public IEnumerable<DataField> UsedAs { get; set; }
+
+            public override string ToString()
+            {
+                string header = string.Empty;
+                header += Length.ToString().PadLeft(4, '0');
+                header += Mid.ToString().PadLeft(4, '0');
+                header += (Revision > 0) ? Revision.ToString().PadLeft(3, '0') : Revision.ToString().PadLeft(3, ' ');
+                header += NoAckFlag.ToString().PadLeft(1, ' ');
+                header += (StationID != null) ? StationID.ToString().PadLeft(2, '0') : StationID.ToString().PadLeft(2, ' ');
+                header += (SpindleID != null) ? SpindleID.ToString().PadLeft(2, '0') : SpindleID.ToString().PadLeft(2, ' ');
+                string usedAs = "    ";
+                if (UsedAs != null)
+                {
+                    usedAs = string.Empty;
+                    foreach (DataField field in UsedAs)
+                        usedAs += field.Value.ToString();
+                }
+                header += usedAs;
+                return header;
+            }
+        }
+
+        internal void SetNextTemplate(Mid mid) => NextTemplate = mid;
+    }
+}
