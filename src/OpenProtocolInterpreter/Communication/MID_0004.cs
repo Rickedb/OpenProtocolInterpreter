@@ -26,13 +26,13 @@ namespace OpenProtocolInterpreter.Communication
 
         public int FailedMid
         {
-            get => RevisionsByFields[1][(int)DataFields.MID].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.MID].SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.MID).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.MID).SetValue(_intConverter.Convert, value);
         }
         public Error ErrorCode
         {
-            get => (Error)RevisionsByFields[1][(int)DataFields.ERROR_CODE].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.ERROR_CODE].SetValue(_intConverter.Convert, (int)value);
+            get => (Error)GetField(1, (int)DataFields.ERROR_CODE).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.ERROR_CODE).SetValue(_intConverter.Convert, (int)value);
         }
 
         public MID_0004() : base(MID, LAST_REVISION)

@@ -8,8 +8,7 @@
             if (value != null)
                 int.TryParse(value.ToString(), out intValue);
 
-            bool.TryParse(intValue.ToString(), out bool convertedValue);
-            return convertedValue;
+            return System.Convert.ToBoolean(intValue);
         }
 
         public string Convert(bool value)

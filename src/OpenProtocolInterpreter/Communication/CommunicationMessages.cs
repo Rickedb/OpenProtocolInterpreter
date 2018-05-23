@@ -9,7 +9,7 @@ namespace OpenProtocolInterpreter.Communication
 
         public CommunicationMessages()
         {
-            templates = new MID_0005(new MID_0004(new MID_0001(new MID_0002(new MID_0006(null)))));
+            templates = new MID_0005(new MID_0004(new MID_0001(new MID_0002(new MID_0003(null)))));
         }
 
         public CommunicationMessages(IEnumerable<Mid> selectedMids)

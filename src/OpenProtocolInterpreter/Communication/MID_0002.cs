@@ -23,57 +23,57 @@ namespace OpenProtocolInterpreter.Communication
 
         public int CellId
         {
-            get => RevisionsByFields[1][(int)DataFields.CELL_ID].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.CELL_ID].SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.CELL_ID).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.CELL_ID).SetValue(_intConverter.Convert, value);
         }
         public int ChannelId
         {
-            get => RevisionsByFields[1][(int)DataFields.CHANNEL_ID].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.CHANNEL_ID].SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.CHANNEL_ID).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.CHANNEL_ID).SetValue(_intConverter.Convert, value);
         }
         public string ControllerName
         {
-            get => RevisionsByFields[1][(int)DataFields.CONTROLLER_NAME].Value;
-            set => RevisionsByFields[1][(int)DataFields.CONTROLLER_NAME].SetValue(value);
+            get => GetField(1, (int)DataFields.CONTROLLER_NAME).Value;
+            set => GetField(1, (int)DataFields.CONTROLLER_NAME).SetValue(value);
         }
         //Rev 2
         public string SupplierCode
         {
-            get => RevisionsByFields[2][(int)DataFields.SUPPLIER_CODE].Value;
-            set => RevisionsByFields[2][(int)DataFields.SUPPLIER_CODE].SetValue(value);
+            get => GetField(2, (int)DataFields.SUPPLIER_CODE).Value;
+            set => GetField(2, (int)DataFields.SUPPLIER_CODE).SetValue(value);
         }
         //Rev 3
         public string OpenProtocolVersion
         {
-            get => RevisionsByFields[3][(int)DataFields.OPEN_PROTOCOL_VERSION].Value;
-            set => RevisionsByFields[3][(int)DataFields.OPEN_PROTOCOL_VERSION].SetValue(value);
+            get => GetField(3, (int)DataFields.OPEN_PROTOCOL_VERSION).Value;
+            set => GetField(3, (int)DataFields.OPEN_PROTOCOL_VERSION).SetValue(value);
         }
         public string ControllerSoftwareVersion
         {
-            get => RevisionsByFields[3][(int)DataFields.CONTROLLER_SOFTWARE_VERSION].Value;
-            set => RevisionsByFields[3][(int)DataFields.CONTROLLER_SOFTWARE_VERSION].SetValue(value);
+            get => GetField(3, (int)DataFields.CONTROLLER_SOFTWARE_VERSION).Value;
+            set => GetField(3, (int)DataFields.CONTROLLER_SOFTWARE_VERSION).SetValue(value);
         }
         public string ToolSoftwareVersion
         {
-            get => RevisionsByFields[3][(int)DataFields.TOOL_SOFTWARE_VERSION].Value;
-            set => RevisionsByFields[3][(int)DataFields.TOOL_SOFTWARE_VERSION].SetValue(value);
+            get => GetField(3, (int)DataFields.TOOL_SOFTWARE_VERSION).Value;
+            set => GetField(3, (int)DataFields.TOOL_SOFTWARE_VERSION).SetValue(value);
         }
         //Rev 4
         public string RBUType
         {
-            get => RevisionsByFields[4][(int)DataFields.RBU_TYPE].Value;
-            set => RevisionsByFields[4][(int)DataFields.RBU_TYPE].SetValue(value);
+            get => GetField(4, (int)DataFields.RBU_TYPE).Value;
+            set => GetField(4, (int)DataFields.RBU_TYPE).SetValue(value);
         }
         public string ControllerSerialNumber
         {
-            get => RevisionsByFields[4][(int)DataFields.CONTROLLER_SERIAL_NUMBER].Value;
-            set => RevisionsByFields[4][(int)DataFields.CONTROLLER_SERIAL_NUMBER].SetValue(value);
+            get => GetField(4, (int)DataFields.CONTROLLER_SERIAL_NUMBER).Value;
+            set => GetField(4, (int)DataFields.CONTROLLER_SERIAL_NUMBER).SetValue(value);
         }
         //Rev 5 
         public SystemType SystemType
         {
-            get => (SystemType)RevisionsByFields[5][(int)DataFields.SYSTEM_TYPE].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[5][(int)DataFields.SYSTEM_TYPE].SetValue(_intConverter.Convert, (int)value);
+            get => (SystemType)GetField(5, (int)DataFields.SYSTEM_TYPE).GetValue(_intConverter.Convert);
+            set => GetField(5, (int)DataFields.SYSTEM_TYPE).SetValue(_intConverter.Convert, (int)value);
         }
         /// <summary>
         /// <para>If no subtype exists it will be set to 000</para>
@@ -85,19 +85,19 @@ namespace OpenProtocolInterpreter.Communication
         /// </summary>
         public SystemSubType SystemSubType
         {
-            get => (SystemSubType)RevisionsByFields[5][(int)DataFields.SYSTEM_SUBTYPE].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[5][(int)DataFields.SYSTEM_SUBTYPE].SetValue(_intConverter.Convert, (int)value);
+            get => (SystemSubType)GetField(5, (int)DataFields.SYSTEM_SUBTYPE).GetValue(_intConverter.Convert);
+            set => GetField(5, (int)DataFields.SYSTEM_SUBTYPE).SetValue(_intConverter.Convert, (int)value);
         }
         //Rev 6
         public bool SequenceNumberSupport
         {
-            get => RevisionsByFields[6][(int)DataFields.SEQUENCE_NUMBER_SUPPORT].GetValue(_boolConverter.Convert);
-            set => RevisionsByFields[6][(int)DataFields.SEQUENCE_NUMBER_SUPPORT].SetValue(_boolConverter.Convert, value);
+            get => GetField(6, (int)DataFields.SEQUENCE_NUMBER_SUPPORT).GetValue(_boolConverter.Convert);
+            set => GetField(6, (int)DataFields.SEQUENCE_NUMBER_SUPPORT).SetValue(_boolConverter.Convert, value);
         }
         public bool LinkingHandlingSupport
         {
-            get => RevisionsByFields[6][(int)DataFields.LINKING_HANDLING_SUPPORT].GetValue(_boolConverter.Convert);
-            set => RevisionsByFields[6][(int)DataFields.LINKING_HANDLING_SUPPORT].SetValue(_boolConverter.Convert, value);
+            get => GetField(6, (int)DataFields.LINKING_HANDLING_SUPPORT).GetValue(_boolConverter.Convert);
+            set => GetField(6, (int)DataFields.LINKING_HANDLING_SUPPORT).SetValue(_boolConverter.Convert, value);
         }
 
         public MID_0002(int revision = LAST_REVISION) : base(MID, revision)

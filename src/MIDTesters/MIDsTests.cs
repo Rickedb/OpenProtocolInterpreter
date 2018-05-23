@@ -19,7 +19,6 @@ namespace MIDTesters
         [TestMethod]
         public void TestMidInterpreter()
         {
-            TestCommunicationMessages();
             TestKeepAliveMessages();
             TestJobMessages();
             TestAdvancedJobMessages();
@@ -55,26 +54,6 @@ namespace MIDTesters
                 total += watch.ElapsedTicks;
             }
             Debug.WriteLine($"Total Elapsed: " + new TimeSpan(total));
-        }
-
-        [TestMethod]
-        public void TestCommunicationMessages()
-        {
-            MidInterpreter identifier = new MidInterpreter();
-
-            string mid04 = @"00260004001         001802";
-            var myMid04 = identifier.Parse<MID_0004>(mid04);
-            var package4 = myMid04.Pack();
-
-            if (mid04 != package4)
-                throw new Exception("Failed to build mid 0004 package");
-
-            string mid05 = @"00240005001         0018";
-            var myMid05 = identifier.Parse<MID_0005>(mid05);
-            var package5 = myMid05.Pack();
-
-            if (mid05 != package5)
-                throw new Exception("Failed to build mid 0005 package");
         }
 
         [TestMethod]

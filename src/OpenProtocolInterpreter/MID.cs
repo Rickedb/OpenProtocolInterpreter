@@ -46,7 +46,7 @@ namespace OpenProtocolInterpreter
             if (RevisionsByFields.Any())
             {
                 HeaderData.Length = 20;
-                for (int i = 1; i <= HeaderData.Revision; i++)
+                for (int i = 1; i <= (HeaderData.Revision > 0 ? HeaderData.Revision : 1); i++)
                     foreach (var dataField in RevisionsByFields[i])
                         HeaderData.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
             }
@@ -60,7 +60,7 @@ namespace OpenProtocolInterpreter
 
             string package = BuildHeader();
             int prefixIndex = 1;
-            for (int i = 1; i <= HeaderData.Revision; i++)
+            for (int i = 1; i <= (HeaderData.Revision > 0 ? HeaderData.Revision : 1); i++)
                 foreach (var dataField in RevisionsByFields[i])
                 {
                     if (dataField.HasPrefix)
@@ -109,7 +109,8 @@ namespace OpenProtocolInterpreter
             if (!RevisionsByFields.Any())
                 return;
 
-            for (int i = 1; i <= HeaderData.Revision; i++)
+            int revision = HeaderData.Revision > 0 ? HeaderData.Revision : 1;
+            for (int i = 1; i <= revision; i++)
             {
                 foreach (var dataField in RevisionsByFields[i])
                     try
@@ -128,6 +129,8 @@ namespace OpenProtocolInterpreter
             return field.HasPrefix ? package.Substring(2 + field.Index, field.Size) : package.Substring(field.Index, field.Size);
         }
 
+        protected DataField GetField(int revision, int field) => RevisionsByFields[revision].FirstOrDefault(x => x.Field == field);
+
         public class Header
         {
             public int Length { get; internal set; }
@@ -143,7 +146,7 @@ namespace OpenProtocolInterpreter
                 string header = string.Empty;
                 header += Length.ToString().PadLeft(4, '0');
                 header += Mid.ToString().PadLeft(4, '0');
-                header += (Revision > 0) ? Revision.ToString().PadLeft(3, '0') : Revision.ToString().PadLeft(3, ' ');
+                header += (Revision > 0) ? Revision.ToString().PadLeft(3, '0') : string.Empty.PadLeft(3, ' ');
                 header += NoAckFlag.ToString().PadLeft(1, ' ');
                 header += (StationID != null) ? StationID.ToString().PadLeft(2, '0') : StationID.ToString().PadLeft(2, ' ');
                 header += (SpindleID != null) ? SpindleID.ToString().PadLeft(2, '0') : SpindleID.ToString().PadLeft(2, ' ');
