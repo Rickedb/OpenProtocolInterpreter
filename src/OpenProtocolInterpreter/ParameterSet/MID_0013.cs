@@ -21,64 +21,64 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public int ParameterSetId
         {
-            get => RevisionsByFields[1][(int)DataFields.PARAMETER_SET_ID].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.PARAMETER_SET_ID].SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.PARAMETER_SET_ID).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.PARAMETER_SET_ID).SetValue(_intConverter.Convert, value);
         }
         public string ParameterSetName
         {
-            get => RevisionsByFields[1][(int)DataFields.PARAMETER_SET_NAME].Value;
-            set => RevisionsByFields[1][(int)DataFields.PARAMETER_SET_NAME].SetValue(value);
+            get => GetField(1,(int)DataFields.PARAMETER_SET_NAME).Value;
+            set => GetField(1,(int)DataFields.PARAMETER_SET_NAME).SetValue(value);
         }
         public RotationDirection RotationDirection
         {
-            get => (RotationDirection)RevisionsByFields[1][(int)DataFields.ROTATION_DIRECTION].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.ROTATION_DIRECTION].SetValue(_intConverter.Convert, (int)value);
+            get => (RotationDirection)GetField(1,(int)DataFields.ROTATION_DIRECTION).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.ROTATION_DIRECTION).SetValue(_intConverter.Convert, (int)value);
         }
         public int BatchSize
         {
-            get => RevisionsByFields[1][(int)DataFields.BATCH_SIZE].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.BATCH_SIZE].SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.BATCH_SIZE).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.BATCH_SIZE).SetValue(_intConverter.Convert, value);
         }
         public decimal MinTorque
         {
-            get => RevisionsByFields[1][(int)DataFields.MIN_TORQUE].GetValue(_decimalConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.MIN_TORQUE].SetValue(_decimalConverter.Convert, value);
+            get => GetField(1,(int)DataFields.MIN_TORQUE).GetValue(_decimalConverter.Convert);
+            set => GetField(1,(int)DataFields.MIN_TORQUE).SetValue(_decimalConverter.Convert, value);
         }
         public decimal MaxTorque
         {
-            get => RevisionsByFields[1][(int)DataFields.MAX_TORQUE].GetValue(_decimalConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.MAX_TORQUE].SetValue(_decimalConverter.Convert, value);
+            get => GetField(1,(int)DataFields.MAX_TORQUE).GetValue(_decimalConverter.Convert);
+            set => GetField(1,(int)DataFields.MAX_TORQUE).SetValue(_decimalConverter.Convert, value);
         }
         public decimal TorqueFinalTarget
         {
-            get => RevisionsByFields[1][(int)DataFields.TORQUE_FINAL_TARGET].GetValue(_decimalConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.TORQUE_FINAL_TARGET].SetValue(_decimalConverter.Convert, value);
+            get => GetField(1,(int)DataFields.TORQUE_FINAL_TARGET).GetValue(_decimalConverter.Convert);
+            set => GetField(1,(int)DataFields.TORQUE_FINAL_TARGET).SetValue(_decimalConverter.Convert, value);
         }
         public int MinAngle
         {
-            get => RevisionsByFields[1][(int)DataFields.MIN_ANGLE].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.MIN_ANGLE].SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.MIN_ANGLE).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.MIN_ANGLE).SetValue(_intConverter.Convert, value);
         }
         public int MaxAngle
         {
-            get => RevisionsByFields[1][(int)DataFields.MAX_ANGLE].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.MAX_ANGLE].SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.MAX_ANGLE).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.MAX_ANGLE).SetValue(_intConverter.Convert, value);
         }
         public int AngleFinalTarget
         {
-            get => RevisionsByFields[1][(int)DataFields.ANGLE_FINAL_TARGET].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.ANGLE_FINAL_TARGET].SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.ANGLE_FINAL_TARGET).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.ANGLE_FINAL_TARGET).SetValue(_intConverter.Convert, value);
         }
         //Rev 2
         public decimal FirstTarget
         {
-            get => RevisionsByFields[2][(int)DataFields.FIRST_TARGET].GetValue(_decimalConverter.Convert);
-            set => RevisionsByFields[2][(int)DataFields.FIRST_TARGET].SetValue(_decimalConverter.Convert, value);
+            get => GetField(2,(int)DataFields.FIRST_TARGET).GetValue(_decimalConverter.Convert);
+            set => GetField(2,(int)DataFields.FIRST_TARGET).SetValue(_decimalConverter.Convert, value);
         }
         public decimal StartFinalAngle
         {
-            get => RevisionsByFields[2][(int)DataFields.START_FINAL_TARGET].GetValue(_decimalConverter.Convert);
-            set => RevisionsByFields[2][(int)DataFields.START_FINAL_TARGET].SetValue(_decimalConverter.Convert, value);
+            get => GetField(2,(int)DataFields.START_FINAL_TARGET).GetValue(_decimalConverter.Convert);
+            set => GetField(2,(int)DataFields.START_FINAL_TARGET).SetValue(_decimalConverter.Convert, value);
         }
 
         public MID_0013(int revision = LAST_REVISION) : base(MID, revision)

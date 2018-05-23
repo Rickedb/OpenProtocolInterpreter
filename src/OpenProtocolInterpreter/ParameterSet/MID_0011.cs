@@ -22,8 +22,8 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public int TotalParameterSets
         {
-            get => RevisionsByFields[1][(int)DataFields.TOTAL_PARAMETER_SETS].GetValue(_intConverter.Convert);
-            private set => RevisionsByFields[1][(int)DataFields.TOTAL_PARAMETER_SETS].SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.TOTAL_PARAMETER_SETS).GetValue(_intConverter.Convert);
+            private set => GetField(1, (int)DataFields.TOTAL_PARAMETER_SETS).SetValue(_intConverter.Convert, value);
         }
 
         public List<int> ParameterSets { get; set; }
@@ -46,8 +46,8 @@ namespace OpenProtocolInterpreter.ParameterSet
         public override string Pack()
         {
             TotalParameterSets = ParameterSets.Count;
-            RevisionsByFields[1][(int)DataFields.EACH_PARAMETER_SET].Value = _intListConverter.Convert(ParameterSets);
-            RevisionsByFields[1][(int)DataFields.TOTAL_PARAMETER_SETS].Size = RevisionsByFields[1][(int)DataFields.EACH_PARAMETER_SET].Value.Length;
+            GetField(1, (int)DataFields.EACH_PARAMETER_SET).Value = _intListConverter.Convert(ParameterSets);
+            GetField(1, (int)DataFields.EACH_PARAMETER_SET).Size = GetField(1, (int)DataFields.EACH_PARAMETER_SET).Value.Length;
             return base.Pack();
         }
 
@@ -57,9 +57,9 @@ namespace OpenProtocolInterpreter.ParameterSet
             {
                 HeaderData = ProcessHeader(package);
 
-                RevisionsByFields[1][(int)DataFields.EACH_PARAMETER_SET].Size = package.Length - RevisionsByFields[1][(int)DataFields.EACH_PARAMETER_SET].Index;
+                GetField(1, (int)DataFields.EACH_PARAMETER_SET).Size = package.Length - GetField(1, (int)DataFields.EACH_PARAMETER_SET).Index;
                 ProcessDataFields(package);
-                ParameterSets = _intListConverter.Convert(RevisionsByFields[1][(int)DataFields.EACH_PARAMETER_SET].Value).ToList();
+                ParameterSets = _intListConverter.Convert(GetField(1, (int)DataFields.EACH_PARAMETER_SET).Value).ToList();
                 return this;
             }
 

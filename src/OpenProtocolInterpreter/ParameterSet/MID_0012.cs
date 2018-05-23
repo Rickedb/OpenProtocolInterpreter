@@ -17,35 +17,15 @@ namespace OpenProtocolInterpreter.ParameterSet
         private const int LAST_REVISION = 4;
         public const int MID = 12;
 
-        public int ParameterSetID
+        public int ParameterSetId
         {
-            get
-            {
-                if (HeaderData.Revision < 3)
-                    return RevisionsByFields[1][(int)DataFields.PARAMETER_SET_ID].GetValue(_intConverter.Convert);
-
-                return default(int);
-            }
-            set
-            {
-                if (HeaderData.Revision < 3)
-                    RevisionsByFields[1][(int)DataFields.PARAMETER_SET_ID].SetValue(_intConverter.Convert, value);
-            }
+            get => GetField(1, (int)DataFields.PARAMETER_SET_ID).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.PARAMETER_SET_ID).SetValue(_intConverter.Convert, value);
         }
         public int ParameterSetFileVersion
         {
-            get
-            {
-                if (HeaderData.Revision > 2)
-                    return RevisionsByFields[2][(int)DataFields.PSET_FILE_VERSION].GetValue(_intConverter.Convert);
-
-                return default(int);
-            }
-            set
-            {
-                if (HeaderData.Revision > 2)
-                    RevisionsByFields[2][(int)DataFields.PSET_FILE_VERSION].SetValue(_intConverter.Convert, value);
-            }
+            get => GetField(3, (int)DataFields.PSET_FILE_VERSION).GetValue(_intConverter.Convert);
+            set => GetField(3, (int)DataFields.PSET_FILE_VERSION).SetValue(_intConverter.Convert, value);
         }
 
         public MID_0012(int revision = LAST_REVISION) : base(MID, revision)
@@ -60,7 +40,7 @@ namespace OpenProtocolInterpreter.ParameterSet
         /// <param name="revision">Revision</param>
         public MID_0012(int parameterSetId, int revision) : this(revision)
         {
-            ParameterSetID = parameterSetId;
+            ParameterSetId = parameterSetId;
         }
 
         /// <summary>
@@ -82,10 +62,12 @@ namespace OpenProtocolInterpreter.ParameterSet
         public bool Validate(out IEnumerable<string> errors)
         {
             List<string> failed = new List<string>();
-            if (ParameterSetID < 1 || ParameterSetID > 999)
-                failed.Add(new ArgumentOutOfRangeException(nameof(ParameterSetID), "Range: 000-999").Message);
-            if (ParameterSetFileVersion < 0 || ParameterSetID > 99999999)
-                failed.Add(new ArgumentOutOfRangeException(nameof(ParameterSetFileVersion), "Range: 00000000-99999999").Message);
+            if (ParameterSetId < 1 || ParameterSetId > 999)
+                failed.Add(new ArgumentOutOfRangeException(nameof(ParameterSetId), "Range: 000-999").Message);
+
+            if (HeaderData.Revision > 2)
+                if (ParameterSetFileVersion < 0 || ParameterSetFileVersion > 99999999)
+                    failed.Add(new ArgumentOutOfRangeException(nameof(ParameterSetFileVersion), "Range: 00000000-99999999").Message);
 
             errors = failed;
             return failed.Count > 0;
@@ -101,12 +83,14 @@ namespace OpenProtocolInterpreter.ParameterSet
                                 new DataField((int)DataFields.PARAMETER_SET_ID, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
                             }
                 },
+                { 2, new List<DataField>() },
                 {
-                    2, new  List<DataField>()
+                    3, new  List<DataField>()
                             {
                                 new DataField((int)DataFields.PSET_FILE_VERSION, 23, 8, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
                             }
-                }
+                },
+                { 4, new List<DataField>() }
             };
         }
 
