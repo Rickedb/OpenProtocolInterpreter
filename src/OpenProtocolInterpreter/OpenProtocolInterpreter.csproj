@@ -126,6 +126,7 @@
     <Compile Include="_internals\Converters\BoolConverter.cs" />
     <Compile Include="_internals\Converters\ByteArrayConverter.cs" />
     <Compile Include="_internals\Converters\DateConverter.cs" />
+    <Compile Include="_internals\Converters\DecimalConverter.cs" />
     <Compile Include="_internals\Converters\DecimalTrucatedConverter.cs" />
     <Compile Include="_internals\Converters\IdentifierStatusConverter.cs" />
     <Compile Include="_internals\Converters\AdvancedJobListConverter.cs" />

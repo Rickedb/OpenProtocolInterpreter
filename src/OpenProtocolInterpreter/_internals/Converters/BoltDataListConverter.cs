@@ -15,7 +15,7 @@ namespace OpenProtocolInterpreter.Converters
         {
             _intConverter = new Int32Converter();
             _boolConverter = new BoolConverter();
-            _decimalConverter = new DecimalTrucatedConverter(2);
+            _decimalConverter = new DecimalConverter();
             _totalBolts = totalBolts;
         }
 
@@ -23,7 +23,7 @@ namespace OpenProtocolInterpreter.Converters
         {
             List<string> bolts = new List<string>();
             for (int i = 0; i < _totalBolts; i++)
-                bolts.Add(value.Substring(2 + (i * 67), 67));
+                bolts.Add(value.Substring(i * 67, 67));
 
             foreach (var bolt in bolts)
                 yield return new BoltData()

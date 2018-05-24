@@ -61,6 +61,7 @@
     <Compile Include="ParameterSet\TestMid0011.cs" />
     <Compile Include="ParameterSet\TestMid0012.cs" />
     <Compile Include="ParameterSet\TestMid0013.cs" />
+    <Compile Include="PowerMACS\TestMid0106.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -84,7 +85,6 @@
     <Folder Include="MultiSpindle\" />
     <Folder Include="OpenProtocolCommandsDisabled\" />
     <Folder Include="PLCUserData\" />
-    <Folder Include="PowerMACS\" />
     <Folder Include="Statistic\" />
     <Folder Include="Tightening\" />
     <Folder Include="Time\" />
