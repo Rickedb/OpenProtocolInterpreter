@@ -43,19 +43,19 @@ namespace OpenProtocolInterpreter.Converters
 
         public string Convert(IEnumerable<BoltData> value)
         {
-            string package = $"12{_intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, value.Count())}";
+            string package = string.Empty;
             foreach(var bolt in value)
             {
                 package += $"13{_intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, bolt.OrdinalBoltNumber)}";
                 package += $"14{_boolConverter.Convert(bolt.SimpleBoltStatus)}";
                 package += $"15{_intConverter.Convert((int)bolt.TorqueStatus)}";
                 package += $"16{_intConverter.Convert((int)bolt.AngleStatus)}";
-                package += $"17{_decimalConverter.Convert('0', 7, DataField.PaddingOrientations.LEFT_PADDED, bolt.BoltTorque)}";
-                package += $"18{_decimalConverter.Convert('0', 7, DataField.PaddingOrientations.LEFT_PADDED, bolt.BoltAngle)}";
-                package += $"19{_decimalConverter.Convert('0', 7, DataField.PaddingOrientations.LEFT_PADDED, bolt.BoltTorqueHighLimit)}";
-                package += $"20{_decimalConverter.Convert('0', 7, DataField.PaddingOrientations.LEFT_PADDED, bolt.BoltTorqueLowLimit)}";
-                package += $"21{_decimalConverter.Convert('0', 7, DataField.PaddingOrientations.LEFT_PADDED, bolt.BoltAngleHighLimit)}";
-                package += $"22{_decimalConverter.Convert('0', 7, DataField.PaddingOrientations.LEFT_PADDED, bolt.BoltAngleLowLimit)}";
+                package += $"17{_decimalConverter.Convert('0', 7, DataField.PaddingOrientations.RIGHT_PADDED, bolt.BoltTorque)}";
+                package += $"18{_decimalConverter.Convert('0', 7, DataField.PaddingOrientations.RIGHT_PADDED, bolt.BoltAngle)}";
+                package += $"19{_decimalConverter.Convert('0', 7, DataField.PaddingOrientations.RIGHT_PADDED, bolt.BoltTorqueHighLimit)}";
+                package += $"20{_decimalConverter.Convert('0', 7, DataField.PaddingOrientations.RIGHT_PADDED, bolt.BoltTorqueLowLimit)}";
+                package += $"21{_decimalConverter.Convert('0', 7, DataField.PaddingOrientations.RIGHT_PADDED, bolt.BoltAngleHighLimit)}";
+                package += $"22{_decimalConverter.Convert('0', 7, DataField.PaddingOrientations.RIGHT_PADDED, bolt.BoltAngleLowLimit)}";
             }
 
             return package;

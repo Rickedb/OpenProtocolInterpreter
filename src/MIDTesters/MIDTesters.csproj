@@ -55,6 +55,12 @@
     <Compile Include="Communication\TestMid0003.cs" />
     <Compile Include="Communication\TestMid0004.cs" />
     <Compile Include="Communication\TestMid0005.cs" />
+    <Compile Include="Job\TestMid0034.cs" />
+    <Compile Include="Job\TestMid0035.cs" />
+    <Compile Include="Job\TestMid0036.cs" />
+    <Compile Include="Job\TestMid0037.cs" />
+    <Compile Include="Job\TestMid0038.cs" />
+    <Compile Include="KeepAlive\TestMid9999.cs" />
     <Compile Include="MIDsTests.cs" />
     <Compile Include="MidTester.cs" />
     <Compile Include="ParameterSet\TestMid0010.cs" />
@@ -78,7 +84,6 @@
     <Folder Include="AutomaticManualMode\" />
     <Folder Include="IOInterface\" />
     <Folder Include="Job\Advanced\" />
-    <Folder Include="KeepAlive\" />
     <Folder Include="LinkCommunication\" />
     <Folder Include="MotorTuning\" />
     <Folder Include="MultipleIdentifiers\" />

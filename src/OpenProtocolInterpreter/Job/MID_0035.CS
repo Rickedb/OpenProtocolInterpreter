@@ -23,60 +23,59 @@ namespace OpenProtocolInterpreter.Job
 
         public int JobId
         {
-            get => RevisionsByFields[1][(int)DataFields.JOB_ID].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.JOB_ID].SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.JOB_ID).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.JOB_ID).SetValue(_intConverter.Convert, value);
         }
         public JobStatus JobStatus
         {
-            get => (JobStatus)RevisionsByFields[1][(int)DataFields.JOB_STATUS].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.JOB_STATUS].SetValue(_intConverter.Convert, (int)value);
+            get => (JobStatus)GetField(1, (int)DataFields.JOB_STATUS).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.JOB_STATUS).SetValue(_intConverter.Convert, (int)value);
         }
         public JobBatchMode JobBatchMode
         {
-            get => (JobBatchMode)RevisionsByFields[1][(int)DataFields.JOB_BATCH_MODE].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.JOB_BATCH_MODE].SetValue(_intConverter.Convert, (int)value);
+            get => (JobBatchMode)GetField(1, (int)DataFields.JOB_BATCH_MODE).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.JOB_BATCH_MODE).SetValue(_intConverter.Convert, (int)value);
         }
         public int JobBatchSize
         {
-            get => RevisionsByFields[1][(int)DataFields.JOB_BATCH_SIZE].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.JOB_BATCH_SIZE].SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.JOB_BATCH_SIZE).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.JOB_BATCH_SIZE).SetValue(_intConverter.Convert, value);
         }
         public int JobBatchCounter
         {
-            get => RevisionsByFields[1][(int)DataFields.JOB_BATCH_COUNTER].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.JOB_BATCH_COUNTER].SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.JOB_BATCH_COUNTER).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.JOB_BATCH_COUNTER).SetValue(_intConverter.Convert, value);
         }
         public DateTime TimeStamp
         {
-            get => RevisionsByFields[1][(int)DataFields.TIMESTAMP].GetValue(_datetimeConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.TIMESTAMP].SetValue(_datetimeConverter.Convert, value);
+            get => GetField(1, (int)DataFields.TIMESTAMP).GetValue(_datetimeConverter.Convert);
+            set => GetField(1, (int)DataFields.TIMESTAMP).SetValue(_datetimeConverter.Convert, value);
         }
         //Rev 3
-        public int JobCurrentStep 
+        public int JobCurrentStep
         {
-            get => RevisionsByFields[3][(int)DataFields.JOB_CURRENT_STEP].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[3][(int)DataFields.JOB_CURRENT_STEP].SetValue(_intConverter.Convert, value);
+            get => GetField(3, (int)DataFields.JOB_CURRENT_STEP).GetValue(_intConverter.Convert);
+            set => GetField(3, (int)DataFields.JOB_CURRENT_STEP).SetValue(_intConverter.Convert, value);
         }
         public int JobTotalNumberOfSteps
         {
-            get => RevisionsByFields[3][(int)DataFields.JOB_TOTAL_NUMBER_OF_STEPS].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[3][(int)DataFields.JOB_TOTAL_NUMBER_OF_STEPS].SetValue(_intConverter.Convert, value);
+            get => GetField(3, (int)DataFields.JOB_TOTAL_NUMBER_OF_STEPS).GetValue(_intConverter.Convert);
+            set => GetField(3, (int)DataFields.JOB_TOTAL_NUMBER_OF_STEPS).SetValue(_intConverter.Convert, value);
         }
         public int JobStepType
         {
-            get => RevisionsByFields[3][(int)DataFields.JOB_STEP_TYPE].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[3][(int)DataFields.JOB_STEP_TYPE].SetValue(_intConverter.Convert, value);
+            get => GetField(3, (int)DataFields.JOB_STEP_TYPE).GetValue(_intConverter.Convert);
+            set => GetField(3, (int)DataFields.JOB_STEP_TYPE).SetValue(_intConverter.Convert, value);
         }
         //Rev 4
         public JobTighteningStatus JobTighteningStatus
         {
-            get => (JobTighteningStatus)RevisionsByFields[4][(int)DataFields.JOB_TIGHTENING_STATUS].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[4][(int)DataFields.JOB_TIGHTENING_STATUS].SetValue(_intConverter.Convert, (int)value);
+            get => (JobTighteningStatus)GetField(4, (int)DataFields.JOB_TIGHTENING_STATUS).GetValue(_intConverter.Convert);
+            set => GetField(4, (int)DataFields.JOB_TIGHTENING_STATUS).SetValue(_intConverter.Convert, (int)value);
         }
 
         public MID_0035(int revision = LAST_REVISION, int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
         {
-            UpdateFieldsIndexBasedOnRevision();
             _intConverter = new Int32Converter();
             _datetimeConverter = new DateConverter();
         }
@@ -123,7 +122,7 @@ namespace OpenProtocolInterpreter.Job
         /// <param name="revision">Revision number (default = 3)</param>
         public MID_0035(int jobId, JobStatus jobStatus, JobBatchMode jobBatchMode,
            int jobBatchSize, int jobBatchCounter, DateTime timestamp, int jobCurrentStep, int jobTotalNumberOfSteps,
-           int jobStepType, int revision = 3, int? noAckFlag = 0) 
+           int jobStepType, int revision = 3, int? noAckFlag = 0)
             : this(jobId, jobStatus, jobBatchMode, jobBatchSize, jobBatchCounter, timestamp, revision, noAckFlag)
         {
             JobCurrentStep = jobCurrentStep;
@@ -144,7 +143,7 @@ namespace OpenProtocolInterpreter.Job
         /// <param name="ackFlag">0=Ack needed, 1=No Ack needed</param>
         /// <param name="revision">Revision number (default = 4)</param>
         public MID_0035(int jobId, JobStatus jobStatus, JobBatchMode jobBatchMode,
-           int jobBatchSize, int jobBatchCounter, DateTime timestamp, JobTighteningStatus jobTighteningStatus, 
+           int jobBatchSize, int jobBatchCounter, DateTime timestamp, JobTighteningStatus jobTighteningStatus,
            int revision = 4, int? noAckFlag = 0)
             : this(jobId, jobStatus, jobBatchMode, jobBatchSize, jobBatchCounter, timestamp, revision, noAckFlag)
         {
@@ -159,7 +158,7 @@ namespace OpenProtocolInterpreter.Job
             {
                 HeaderData = ProcessHeader(package);
                 UpdateFieldsIndexBasedOnRevision();
-                base.Parse(package);
+                ProcessDataFields(package);
                 return this;
             }
 
@@ -184,13 +183,13 @@ namespace OpenProtocolInterpreter.Job
                     failed.Add(new ArgumentOutOfRangeException(nameof(JobId), "Range: 0000-9999").Message);
             }
 
-            if(JobBatchSize < 0 || JobBatchSize > 9999)
+            if (JobBatchSize < 0 || JobBatchSize > 9999)
                 failed.Add(new ArgumentOutOfRangeException(nameof(JobBatchSize), "Range: 0000-9999").Message);
 
             if (JobBatchCounter < 0 || JobBatchCounter > 9999)
                 failed.Add(new ArgumentOutOfRangeException(nameof(JobBatchCounter), "Range: 0000-9999").Message);
 
-            if(HeaderData.Revision == 3)
+            if (HeaderData.Revision == 3)
             {
                 if (JobCurrentStep < 0 || JobCurrentStep > 999)
                     failed.Add(new ArgumentOutOfRangeException(nameof(JobCurrentStep), "Range: 000-999").Message);
@@ -221,6 +220,7 @@ namespace OpenProtocolInterpreter.Job
                                 new DataField((int)DataFields.TIMESTAMP, 42, 19)
                             }
                 },
+                { 2, new List<DataField>() },
                 {
                     3, new  List<DataField>()
                             {
@@ -242,9 +242,9 @@ namespace OpenProtocolInterpreter.Job
         {
             if (HeaderData.Revision > 1)
             {
-                RevisionsByFields[1][(int)DataFields.JOB_ID].Size = 4;
+                GetField(1, (int)DataFields.JOB_ID).Size = 4;
                 for (int i = (int)DataFields.JOB_STATUS; i < RevisionsByFields[1].Count; i++)
-                    RevisionsByFields[1][i].Index += 2;
+                    GetField(1, i).Index += 2;
             }
         }
     }

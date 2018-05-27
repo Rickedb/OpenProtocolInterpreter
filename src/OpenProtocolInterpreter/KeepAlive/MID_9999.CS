@@ -18,7 +18,7 @@
     /// </summary>
     public class MID_9999 : Mid
     {
-        private const int LAST_REVISION = 1;
+        private const int LAST_REVISION = 0;
         public const int MID = 9999;
 
         public MID_9999() : base(MID, LAST_REVISION) { }

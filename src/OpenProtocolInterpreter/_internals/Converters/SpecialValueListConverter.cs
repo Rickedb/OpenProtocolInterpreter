@@ -34,13 +34,13 @@ namespace OpenProtocolInterpreter.Converters
 
         public string Convert(IEnumerable<SpecialValue> value)
         {
-            string package = _intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, value.Count());
+            string package = string.Empty;
             foreach (var v in value)
             {
-                package += v.VariableName.PadRight(20);
-                package += v.Type.Type;
-                package += _intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, v.Length);
-                package += v.VariableName.PadRight(v.Length);
+                package += v.VariableName.PadRight(20) + 
+                            v.Type.Type.PadRight(2) + 
+                            _intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, v.Length) + 
+                            v.Value.ToString().PadRight(v.Length);
             }
 
             return package;

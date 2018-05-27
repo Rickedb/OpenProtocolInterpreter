@@ -13,7 +13,11 @@ namespace OpenProtocolInterpreter.Converters
             return decimalValue;
         }
 
-        public string Convert(decimal value) => value.ToString("0.00", new CultureInfo("en-US"));
+        public string Convert(decimal value)
+        {
+            var q = value.ToString("00.0###", new CultureInfo("en-US")).PadRight(7,'0');
+            return value.ToString("00.0###", new CultureInfo("en-US")).PadRight(7, '0');
+        }
 
 
         public string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, decimal value)

@@ -21,16 +21,8 @@ namespace OpenProtocolInterpreter.Job
 
         public int JobId
         {
-            get
-            {
-                HandleRevision();
-                return RevisionsByFields[1][(int)DataFields.JOB_ID].GetValue(_intConverter.Convert);
-            }
-            set
-            {
-                HandleRevision();
-                RevisionsByFields[1][(int)DataFields.JOB_ID].SetValue(_intConverter.Convert, value);
-            }
+            get => GetField(1, (int)DataFields.JOB_ID).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.JOB_ID).SetValue(_intConverter.Convert, value);
         }
 
         public MID_0038(int revision = LAST_REVISION) : base(MID, revision)
@@ -56,7 +48,8 @@ namespace OpenProtocolInterpreter.Job
             {
                 HeaderData = ProcessHeader(package);
                 HandleRevision();
-                return base.Parse(package);
+                ProcessDataFields(package);
+                return this;
             }
 
             return NextTemplate.Parse(package);

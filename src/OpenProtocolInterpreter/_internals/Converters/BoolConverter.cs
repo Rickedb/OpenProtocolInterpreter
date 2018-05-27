@@ -11,11 +11,7 @@
             return System.Convert.ToBoolean(intValue);
         }
 
-        public string Convert(bool value)
-        {
-            int.TryParse(value.ToString(), out int convertedValue);
-            return convertedValue.ToString();
-        }
+        public string Convert(bool value) => value ? "1" : "0";
 
         public string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, bool value) => Convert(value);
     }

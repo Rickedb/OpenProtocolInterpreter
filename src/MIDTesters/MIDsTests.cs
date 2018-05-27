@@ -19,7 +19,6 @@ namespace MIDTesters
         [TestMethod]
         public void TestMidInterpreter()
         {
-            TestKeepAliveMessages();
             TestJobMessages();
             TestAdvancedJobMessages();
             TestTighteningMessages();
@@ -28,72 +27,38 @@ namespace MIDTesters
         [TestMethod]
         public void Test()
         {
-            var myTEmplate = new MidInterpreter(new Mid[]
-            {
-                new MID_0001(),
-                new MID_0002(),
-                new MID_0003(),
-                new MID_0004(),
-                new MID_0106(),
-                new MID_0500(),
-                new MID_0501(),
-                new MID_0502(),
-                new MID_0503(),
-                new MID_0504()
-            });
+            //var myTEmplate = new MidInterpreter(new Mid[]
+            //{
+            //    new MID_0001(),
+            //    new MID_0002(),
+            //    new MID_0003(),
+            //    new MID_0004(),
+            //    new MID_0106(),
+            //    new MID_0500(),
+            //    new MID_0501(),
+            //    new MID_0502(),
+            //    new MID_0503(),
+            //    new MID_0504()
+            //});
 
-            long total = 0;
-            string mid106 = @"05050106            010502010300000381270401050231                062017-05-25:09:51:38071108Ap.320Nm Diant.P11  091101119BM384069HB066171                       1204130114115116117329.9091835.854019360.00020310.000219999.002200.0000130214115116117328.7361836.102219360.00020310.000219999.002200.0000130314115116117356.04518763.97619370.00020304.000219999.002200.0000130414115116117355.40718380.87219370.00020304.000219999.002200.00002302Data No Station     I 100000027897Free No 1           I 100000000002";
-            for (int i = 0; i < 1000000; i++)
-            {
-                Stopwatch watch = new Stopwatch();
-                watch.Start();
-                var myMid106 = myTEmplate.Parse<MID_0504>(new MID_0504().Pack());
-                watch.Stop();
-                Debug.WriteLine($"Elapsed: " + watch.ElapsedTicks);
-                total += watch.ElapsedTicks;
-            }
-            Debug.WriteLine($"Total Elapsed: " + new TimeSpan(total));
-        }
-
-        [TestMethod]
-        public void TestKeepAliveMessages()
-        {
-            MidInterpreter identifier = new MidInterpreter();
-
-            string mid9999 = @"00209999001         ";
-            var myMid9999 = identifier.Parse<MID_9999>(mid9999);
-            var package = myMid9999.Pack();
-
-            if (mid9999 != package)
-                throw new Exception("Failed to build mid 9999 package");
+            //long total = 0;
+            //string mid106 = @"05050106            010502010300000381270401050231                062017-05-25:09:51:38071108Ap.320Nm Diant.P11  091101119BM384069HB066171                       1204130114115116117329.9091835.854019360.00020310.000219999.002200.0000130214115116117328.7361836.102219360.00020310.000219999.002200.0000130314115116117356.04518763.97619370.00020304.000219999.002200.0000130414115116117355.40718380.87219370.00020304.000219999.002200.00002302Data No Station     I 100000027897Free No 1           I 100000000002";
+            //for (int i = 0; i < 1000000; i++)
+            //{
+            //    Stopwatch watch = new Stopwatch();
+            //    watch.Start();
+            //    var myMid106 = myTEmplate.Parse<MID_0504>(new MID_0504().Pack());
+            //    watch.Stop();
+            //    Debug.WriteLine($"Elapsed: " + watch.ElapsedTicks);
+            //    total += watch.ElapsedTicks;
+            //}
+            //Debug.WriteLine($"Total Elapsed: " + new TimeSpan(total));
         }
 
         [TestMethod]
         public void TestJobMessages()
         {
             MidInterpreter identifier = new MidInterpreter();
-
-            string mid34 = @"00200034001         ";
-            var myMid34 = identifier.Parse<MID_0034>(mid34);
-            var package34 = myMid34.Pack();
-
-            if (mid34 != package34)
-                throw new Exception("Failed to build mid 34 package");
-
-            string mid35 = @"00630035001         0101020030040008050003062001-12-01:20:12:45";
-            var myMid35 = identifier.Parse<MID_0035>(mid35);
-            var package35 = myMid35.Pack();
-
-            if (mid35 != package35)
-                throw new Exception("Failed to build mid 35 package");
-
-            string mid36 = @"00200036001         ";
-            var myMid36 = identifier.Parse<MID_0036>(mid36);
-            var package36 = myMid36.Pack();
-
-            if (mid36 != package36)
-                throw new Exception("Failed to build mid 36 package");
 
             string mid37 = @"00200037001         ";
             var myMid37 = identifier.Parse<MID_0037>(mid37);

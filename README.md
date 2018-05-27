@@ -8,7 +8,7 @@
 
 * Testing up Version 2.0.0
 
-> Missing version OpenProtocolInterpreter v1.0.0 ? [It's here!](https://github.com/Rickedb/OpenProtocolInterpreter/releases/tag/1.0.0)
+> Missing OpenProtocolInterpreter v1.0.0 ? [>It's here!<](https://github.com/Rickedb/OpenProtocolInterpreter/releases/tag/1.0.0)
 
 ## What is Open Protocol at all?
 
