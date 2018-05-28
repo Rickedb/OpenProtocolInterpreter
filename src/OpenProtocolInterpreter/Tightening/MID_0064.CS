@@ -24,8 +24,8 @@ namespace OpenProtocolInterpreter.Tightening
 
         public long TighteningId
         {
-            get => RevisionsByFields[1][(int)DataFields.TIGHTENING_ID].GetValue(_longConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.TIGHTENING_ID].SetValue(_longConverter.Convert, value);
+            get => GetField(1,(int)DataFields.TIGHTENING_ID).GetValue(_longConverter.Convert);
+            set => GetField(1,(int)DataFields.TIGHTENING_ID).SetValue(_longConverter.Convert, value);
         }
 
         public MID_0064(int revision = LAST_REVISION) : base(MID, LAST_REVISION)
@@ -49,7 +49,12 @@ namespace OpenProtocolInterpreter.Tightening
                             {
                                 new DataField((int)DataFields.TIGHTENING_ID, 20, 10, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
                             }
-                }
+                },
+                { 2, new List<DataField>() },
+                { 3, new List<DataField>() },
+                { 4, new List<DataField>() },
+                { 5, new List<DataField>() },
+                { 6, new List<DataField>() }
             };
         }
 

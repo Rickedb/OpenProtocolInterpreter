@@ -16,15 +16,7 @@ namespace MIDTesters
     [TestClass]
     public class MIDsTests
     {
-        [TestMethod]
-        public void TestMidInterpreter()
-        {
-            TestJobMessages();
-            TestAdvancedJobMessages();
-            TestTighteningMessages();
-        }
-
-        [TestMethod]
+        //[TestMethod]
         public void Test()
         {
             //var myTEmplate = new MidInterpreter(new Mid[]
@@ -55,115 +47,25 @@ namespace MIDTesters
             //Debug.WriteLine($"Total Elapsed: " + new TimeSpan(total));
         }
 
-        [TestMethod]
-        public void TestJobMessages()
-        {
-            MidInterpreter identifier = new MidInterpreter();
-
-            string mid37 = @"00200037001         ";
-            var myMid37 = identifier.Parse<MID_0037>(mid37);
-            var package37 = myMid37.Pack();
-
-            if (mid37 != package37)
-                throw new Exception("Failed to build mid 37 package");
-
-            string mid38 = @"00200038001         01";
-            var myMid38 = identifier.Parse<MID_0038>(mid38);
-            var package38 = myMid38.Pack();
-
-            if (mid38 != package38)
-                throw new Exception("Failed to build mid 38 package");
-        }
-
-        [TestMethod]
-        public void TestAdvancedJobMessages()
-        {
-            MidInterpreter identifier = new MidInterpreter();
-
-            string mid127 = @"00200127001         ";
-            var myMid127 = identifier.Parse<MID_0127>(mid127);
-            var package = myMid127.Pack();
-
-            if (mid127 != package)
-                throw new Exception("Failed to build mid 127 package");
-        }
-
-        [TestMethod]
-        public void TestTighteningMessages()
-        {
-            MidInterpreter identifier = new MidInterpreter();
-
-            //MID 60
-            string mid60 = @"00200060001         ";
-            var myMid60 = identifier.Parse<MID_0060>(mid60);
-            var package60 = myMid60.Pack();
-
-            if (mid60 != package60)
-                throw new Exception("Failed to build mid 60 package");
-
-            //MID 61
-            string mid61 = "02310061001         010001020103airbag7                  04KPOL3456JKLO897          " +
-                           "05000600307000008000009010011112000840130014001400120015000739160000017099991800000" +
-                           "1900000202001-06-02:09:54:09212001-05-29:12:34:3322123345675    ";
-            var myMid61 = identifier.Parse<MID_0061>(mid61);
-            var package61 = myMid61.Pack();
-
-            if (mid61 != package61)
-                throw new Exception("Failed to build mid 61 package");
-
-            //MID 62
-            string mid62 = @"00200062001         ";
-            var myMid62 = identifier.Parse<MID_0062>(mid62);
-            var package62 = myMid62.Pack();
-
-            if (mid62 != package62)
-                throw new Exception("Failed to build mid 62 package");
-
-            //MID 63
-            string mid63 = @"00200063001         ";
-            var myMid63 = identifier.Parse<MID_0063>(mid63);
-            var package63 = myMid63.Pack();
-
-            if (mid63 != package63)
-                throw new Exception("Failed to build mid 63 package");
-
-            //MID 64
-            string mid64 = @"00300064001         0         ";
-            var myMid64 = identifier.Parse<MID_0064>(mid64);
-            var package64 = myMid64.Pack();
-
-            if (mid64 != package64)
-                throw new Exception("Failed to build mid 64 package");
-
-            //MID 65
-            string mid65 = @"01180065001         01456789    02AIRBAG                   " +
-                            "03001040002050060070080014670900046102001-04-22:14:54:34112";
-            var myMid65 = identifier.Parse<MID_0065>(mid65);
-            var package65 = myMid65.Pack();
-
-            if (mid65 != package65)
-                throw new Exception("Failed to build mid 65 package");
-        }
-
-        [TestMethod]
+        //[TestMethod]
         public void TestMotorTuningMessages()
         {
-            MidInterpreter identifier = new MidInterpreter();
-            long total = 0;
-            for (int i = 0; i < 1000000; i++)
-            {
-                Stopwatch watch = new Stopwatch();
-                watch.Start();
-                var myMid500 = identifier.Parse<MID_0500>(new MID_0500().Pack());
-                watch.Stop();
-                Debug.WriteLine($"Elapsed: " + watch.ElapsedTicks);
-                total += watch.ElapsedTicks;
-            }
-            Debug.WriteLine($"Total Elapsed: " + new TimeSpan(total));
+            //MidInterpreter identifier = new MidInterpreter();
+            //long total = 0;
+            //for (int i = 0; i < 1000000; i++)
+            //{
+            //    Stopwatch watch = new Stopwatch();
+            //    watch.Start();
+            //    var myMid500 = identifier.Parse<MID_0500>(new MID_0500().Pack());
+            //    watch.Stop();
+            //    Debug.WriteLine($"Elapsed: " + watch.ElapsedTicks);
+            //    total += watch.ElapsedTicks;
+            //}
+            //Debug.WriteLine($"Total Elapsed: " + new TimeSpan(total));
             
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void TestProcessingTime()
         {
             Stopwatch watch = new Stopwatch();

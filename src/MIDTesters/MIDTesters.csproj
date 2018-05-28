@@ -55,6 +55,7 @@
     <Compile Include="Communication\TestMid0003.cs" />
     <Compile Include="Communication\TestMid0004.cs" />
     <Compile Include="Communication\TestMid0005.cs" />
+    <Compile Include="Job\Advanced\TestMid0127.cs" />
     <Compile Include="Job\TestMid0034.cs" />
     <Compile Include="Job\TestMid0035.cs" />
     <Compile Include="Job\TestMid0036.cs" />
@@ -69,6 +70,12 @@
     <Compile Include="ParameterSet\TestMid0013.cs" />
     <Compile Include="PowerMACS\TestMid0106.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tightening\TestMid0060.cs" />
+    <Compile Include="Tightening\TestMid0061.cs" />
+    <Compile Include="Tightening\TestMid0062.cs" />
+    <Compile Include="Tightening\TestMid0063.cs" />
+    <Compile Include="Tightening\TestMid0064.cs" />
+    <Compile Include="Tightening\TestMid0065.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenProtocolInterpreter\OpenProtocolInterpreter.csproj">
@@ -83,7 +90,6 @@
     <Folder Include="ApplicationToolLocationSystem\" />
     <Folder Include="AutomaticManualMode\" />
     <Folder Include="IOInterface\" />
-    <Folder Include="Job\Advanced\" />
     <Folder Include="LinkCommunication\" />
     <Folder Include="MotorTuning\" />
     <Folder Include="MultipleIdentifiers\" />
@@ -91,7 +97,6 @@
     <Folder Include="OpenProtocolCommandsDisabled\" />
     <Folder Include="PLCUserData\" />
     <Folder Include="Statistic\" />
-    <Folder Include="Tightening\" />
     <Folder Include="Time\" />
     <Folder Include="Tool\" />
     <Folder Include="UserInterface\" />
