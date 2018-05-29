@@ -20,16 +20,8 @@ namespace OpenProtocolInterpreter.Job
         
         public int JobId
         {
-            get
-            {
-                HandleRevision();
-                return RevisionsByFields[1][(int)DataFields.JOB_ID].GetValue(_intConverter.Convert);
-            }
-            set
-            {
-                HandleRevision();
-                RevisionsByFields[1][(int)DataFields.JOB_ID].SetValue(_intConverter.Convert, value);
-            }
+            get => GetField(1,(int)DataFields.JOB_ID).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.JOB_ID).SetValue(_intConverter.Convert, value);
         }
 
         public MID_0032(int revision = LAST_REVISION) : base(MID, revision)
@@ -49,6 +41,12 @@ namespace OpenProtocolInterpreter.Job
 
         internal MID_0032(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
+        public override string Pack()
+        {
+            HandleRevision();
+            return base.Pack();
+        }
+
         public override Mid Parse(string package)
         {
             if (IsCorrectType(package))
@@ -62,6 +60,7 @@ namespace OpenProtocolInterpreter.Job
             return NextTemplate.Parse(package);
         }
 
+
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()
@@ -71,7 +70,9 @@ namespace OpenProtocolInterpreter.Job
                             {
                                 new DataField((int)DataFields.JOB_ID, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
                             }
-                }
+                },
+                { 2, new List<DataField>() },
+                { 3, new List<DataField>() }
             };
         }
 
@@ -100,9 +101,9 @@ namespace OpenProtocolInterpreter.Job
         private void HandleRevision()
         {
             if (HeaderData.Revision == 1)
-                RevisionsByFields[1][(int)DataFields.JOB_ID].Size = 2;
+                GetField(1,(int)DataFields.JOB_ID).Size = 2;
             else
-                RevisionsByFields[1][(int)DataFields.JOB_ID].Size = 4;
+                GetField(1,(int)DataFields.JOB_ID).Size = 4;
         }
 
         public enum DataFields

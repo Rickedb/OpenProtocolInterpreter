@@ -22,7 +22,6 @@ namespace MIDTesters.Job
             Assert.AreEqual(package, mid.Pack());
         }
 
-
         [TestMethod]
         public void Mid0035Revision2()
         {

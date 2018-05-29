@@ -22,8 +22,8 @@ namespace OpenProtocolInterpreter.Job
 
         public int TotalJobs
         {
-            get => RevisionsByFields[1][(int)DataFields.NUMBER_OF_JOBS].GetValue(_intConverter.Convert);
-            private set => RevisionsByFields[1][(int)DataFields.NUMBER_OF_JOBS].SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.NUMBER_OF_JOBS).GetValue(_intConverter.Convert);
+            private set => GetField(1, (int)DataFields.NUMBER_OF_JOBS).SetValue(_intConverter.Convert, value);
         }
 
         public List<int> JobIds { get; set; }
@@ -60,12 +60,16 @@ namespace OpenProtocolInterpreter.Job
             _jobListConverter = new JobIdListConverter(HeaderData.Revision);
             string package = BuildHeader();
             TotalJobs = JobIds.Count;
-            var eachJobField = RevisionsByFields[1][(int)DataFields.EACH_JOB_ID];
+            var eachJobField = GetField(1, (int)DataFields.EACH_JOB_ID);
             if (HeaderData.Revision > 1)
             {
                 eachJobField.Index = 24;
-                RevisionsByFields[1][(int)DataFields.NUMBER_OF_JOBS].Size = eachJobField.Size = 4;
+                GetField(1, (int)DataFields.NUMBER_OF_JOBS).Size = eachJobField.Size = 4;
             }
+            else
+                GetField(1, (int)DataFields.NUMBER_OF_JOBS).Size = eachJobField.Size = 2;
+
+            eachJobField.Size = eachJobField.Size * TotalJobs;
             eachJobField.Value = _jobListConverter.Convert(JobIds);
             return base.Pack();
         }
@@ -77,11 +81,11 @@ namespace OpenProtocolInterpreter.Job
                 HeaderData = ProcessHeader(package);
                 _jobListConverter = new JobIdListConverter(HeaderData.Revision);
 
-                var eachJobField = RevisionsByFields[1][(int)DataFields.EACH_JOB_ID];
+                var eachJobField = GetField(1, (int)DataFields.EACH_JOB_ID);
                 if (HeaderData.Revision > 1)
                 {
                     eachJobField.Index = 24;
-                    RevisionsByFields[1][(int)DataFields.NUMBER_OF_JOBS].Size = 4;
+                    GetField(1, (int)DataFields.NUMBER_OF_JOBS).Size = 4;
                 }
                 eachJobField.Size = package.Length - eachJobField.Index;
                 base.Parse(package);
@@ -102,7 +106,8 @@ namespace OpenProtocolInterpreter.Job
                                 new DataField((int)DataFields.NUMBER_OF_JOBS, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
                                 new DataField((int)DataFields.EACH_JOB_ID, 22, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
                             }
-                }
+                },
+                { 2, new List<DataField>() }
             };
         }
 
@@ -123,7 +128,7 @@ namespace OpenProtocolInterpreter.Job
                     if (job < 0 || job > 9999)
                         failed.Add(new ArgumentOutOfRangeException(nameof(JobIds), $"Failed at index[{i}] => Range: 0000-9999").Message);
                 }
-                
+
             }
             else
             {
@@ -147,6 +152,6 @@ namespace OpenProtocolInterpreter.Job
             EACH_JOB_ID
         }
 
-        
+
     }
 }

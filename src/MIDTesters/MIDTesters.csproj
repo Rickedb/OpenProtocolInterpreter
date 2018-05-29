@@ -56,6 +56,10 @@
     <Compile Include="Communication\TestMid0004.cs" />
     <Compile Include="Communication\TestMid0005.cs" />
     <Compile Include="Job\Advanced\TestMid0127.cs" />
+    <Compile Include="Job\TestMid0030.cs" />
+    <Compile Include="Job\TestMid0031.cs" />
+    <Compile Include="Job\TestMid0032.cs" />
+    <Compile Include="Job\TestMid0033.cs" />
     <Compile Include="Job\TestMid0034.cs" />
     <Compile Include="Job\TestMid0035.cs" />
     <Compile Include="Job\TestMid0036.cs" />
