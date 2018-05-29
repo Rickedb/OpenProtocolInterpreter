@@ -17,9 +17,13 @@ namespace OpenProtocolInterpreter.ParameterSet
         public const int MID = 22;
         private const int LAST_REVISION = 1;
 
-        public bool RelayStatus { get; set; }
+        public bool RelayStatus
+        {
+            get => GetField(1, (int)DataFields.RELAY_STATUS).GetValue(_boolConverter.Convert);
+            set => GetField(1, (int)DataFields.RELAY_STATUS).SetValue(_boolConverter.Convert, value);
+        }
 
-        public MID_0022(int? noAckFlag) : base(MID, LAST_REVISION, noAckFlag)
+        public MID_0022(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
         {
             _boolConverter = new BoolConverter();
         }
@@ -34,11 +38,7 @@ namespace OpenProtocolInterpreter.ParameterSet
             RelayStatus = relayStatus;
         }
 
-        internal MID_0022(IMid nextTemplate) : base(MID, LAST_REVISION)
-        {
-            _boolConverter = new BoolConverter();
-            NextTemplate = nextTemplate;
-        }
+        internal MID_0022(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

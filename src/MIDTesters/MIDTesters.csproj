@@ -74,6 +74,11 @@
     <Compile Include="ParameterSet\TestMid0017.cs" />
     <Compile Include="ParameterSet\TestMid0018.cs" />
     <Compile Include="ParameterSet\TestMid0019.cs" />
+    <Compile Include="ParameterSet\TestMid0020.cs" />
+    <Compile Include="ParameterSet\TestMid0021.cs" />
+    <Compile Include="ParameterSet\TestMid0022.cs" />
+    <Compile Include="ParameterSet\TestMid0023.cs" />
+    <Compile Include="ParameterSet\TestMid0024.cs" />
     <Compile Include="ParameterSet\TestMid2504.cs" />
     <Compile Include="PowerMACS\TestMid0106.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
