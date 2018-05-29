@@ -4,15 +4,15 @@ using OpenProtocolInterpreter.ParameterSet;
 namespace MIDTesters.ParameterSet
 {
     [TestClass]
-    public class TestMid0010 : MidTester
+    public class TestMid0016 :MidTester
     {
         [TestMethod]
-        public void Mid0010AllRevisions()
+        public void Mid0016Revision1()
         {
-            string package = "00200010002         ";
+            string package = "00200016            ";
             var mid = _midInterpreter.Parse(package);
 
-            Assert.AreEqual(typeof(MID_0010), mid.GetType());
+            Assert.AreEqual(typeof(MID_0016), mid.GetType());
             Assert.AreEqual(package, mid.Pack());
         }
     }

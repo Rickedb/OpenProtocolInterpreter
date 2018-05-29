@@ -8,7 +8,7 @@ namespace MIDTesters.Tightening
     public class TestMid0065 : MidTester
     {
         [TestMethod]
-        public void Revision1()
+        public void Mid0065Revision1()
         {
             string package = @"01180065001         01012345678902AIRBAG                   03001040002050060070080014670900046102001-04-22:14:54:34112";
             var mid = _midInterpreter.Parse<MID_0065>(package);

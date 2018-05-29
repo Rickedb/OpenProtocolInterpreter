@@ -20,13 +20,13 @@ namespace OpenProtocolInterpreter.ParameterSet
         
         public int ParameterSetId
         {
-            get => RevisionsByFields[1][(int)DataFields.PARAMETER_SET_ID].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.PARAMETER_SET_ID].SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.PARAMETER_SET_ID).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.PARAMETER_SET_ID).SetValue(_intConverter.Convert, value);
         }
         public int BatchSize
         {
-            get => RevisionsByFields[1][(int)DataFields.BATCH_SIZE].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.BATCH_SIZE].SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.BATCH_SIZE).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.BATCH_SIZE).SetValue(_intConverter.Convert, value);
         }
 
         public MID_0019() : base(MID, LAST_REVISION)

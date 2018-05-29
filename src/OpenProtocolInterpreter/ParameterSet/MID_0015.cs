@@ -25,69 +25,69 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public int ParameterSetId
         {
-            get => RevisionsByFields[1][(int)DataFields.PARAMETER_SET_ID].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.PARAMETER_SET_ID].SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.PARAMETER_SET_ID).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.PARAMETER_SET_ID).SetValue(_intConverter.Convert, value);
         }
         public DateTime LastChangeInParameterSet
         {
-            get => RevisionsByFields[1][(int)DataFields.LAST_CHANGE_IN_PARAMETER_SET].GetValue(_datetimeConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.LAST_CHANGE_IN_PARAMETER_SET].SetValue(_datetimeConverter.Convert, value);
+            get => GetField(HeaderData.Revision, (int)DataFields.LAST_CHANGE_IN_PARAMETER_SET).GetValue(_datetimeConverter.Convert);
+            set => GetField(HeaderData.Revision, (int)DataFields.LAST_CHANGE_IN_PARAMETER_SET).SetValue(_datetimeConverter.Convert, value);
         }
         //Rev 2
         public string ParameterSetName
         {
-            get => RevisionsByFields[2][(int)DataFields.PARAMETER_SET_NAME].Value;
-            set => RevisionsByFields[2][(int)DataFields.PARAMETER_SET_NAME].SetValue(value);
+            get => GetField(2, (int)DataFields.PARAMETER_SET_NAME).Value;
+            set => GetField(2, (int)DataFields.PARAMETER_SET_NAME).SetValue(value);
         }
         public RotationDirection RotationDirection
         {
-            get => (RotationDirection)RevisionsByFields[2][(int)DataFields.ROTATION_DIRECTION].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[2][(int)DataFields.ROTATION_DIRECTION].SetValue(_intConverter.Convert, (int)value);
+            get => (RotationDirection)GetField(2, (int)DataFields.ROTATION_DIRECTION).GetValue(_intConverter.Convert);
+            set => GetField(2, (int)DataFields.ROTATION_DIRECTION).SetValue(_intConverter.Convert, (int)value);
         }
         public int BatchSize
         {
-            get => RevisionsByFields[2][(int)DataFields.BATCH_SIZE].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[2][(int)DataFields.BATCH_SIZE].SetValue(_intConverter.Convert, value);
+            get => GetField(2, (int)DataFields.BATCH_SIZE).GetValue(_intConverter.Convert);
+            set => GetField(2, (int)DataFields.BATCH_SIZE).SetValue(_intConverter.Convert, value);
         }
         public decimal MinTorque
         {
-            get => RevisionsByFields[2][(int)DataFields.TORQUE_MIN].GetValue(_decimalConverter.Convert);
-            set => RevisionsByFields[2][(int)DataFields.TORQUE_MIN].SetValue(_decimalConverter.Convert, value);
+            get => GetField(2, (int)DataFields.TORQUE_MIN).GetValue(_decimalConverter.Convert);
+            set => GetField(2, (int)DataFields.TORQUE_MIN).SetValue(_decimalConverter.Convert, value);
         }
         public decimal MaxTorque
         {
-            get => RevisionsByFields[2][(int)DataFields.TORQUE_MAX].GetValue(_decimalConverter.Convert);
-            set => RevisionsByFields[2][(int)DataFields.TORQUE_MAX].SetValue(_decimalConverter.Convert, value);
+            get => GetField(2, (int)DataFields.TORQUE_MAX).GetValue(_decimalConverter.Convert);
+            set => GetField(2, (int)DataFields.TORQUE_MAX).SetValue(_decimalConverter.Convert, value);
         }
         public decimal TorqueFinalTarget
         {
-            get => RevisionsByFields[2][(int)DataFields.TORQUE_FINAL_TARGET].GetValue(_decimalConverter.Convert);
-            set => RevisionsByFields[2][(int)DataFields.TORQUE_FINAL_TARGET].SetValue(_decimalConverter.Convert, value);
+            get => GetField(2, (int)DataFields.TORQUE_FINAL_TARGET).GetValue(_decimalConverter.Convert);
+            set => GetField(2, (int)DataFields.TORQUE_FINAL_TARGET).SetValue(_decimalConverter.Convert, value);
         }
         public int MinAngle
         {
-            get => RevisionsByFields[2][(int)DataFields.ANGLE_MIN].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[2][(int)DataFields.ANGLE_MIN].SetValue(_intConverter.Convert, value);
+            get => GetField(2, (int)DataFields.ANGLE_MIN).GetValue(_intConverter.Convert);
+            set => GetField(2, (int)DataFields.ANGLE_MIN).SetValue(_intConverter.Convert, value);
         }
         public int MaxAngle
         {
-            get => RevisionsByFields[2][(int)DataFields.ANGLE_MAX].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[2][(int)DataFields.ANGLE_MAX].SetValue(_intConverter.Convert, value);
+            get => GetField(2, (int)DataFields.ANGLE_MAX).GetValue(_intConverter.Convert);
+            set => GetField(2, (int)DataFields.ANGLE_MAX).SetValue(_intConverter.Convert, value);
         }
         public int AngleFinalTarget
         {
-            get => RevisionsByFields[2][(int)DataFields.FINAL_ANGLE_TARGET].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[2][(int)DataFields.FINAL_ANGLE_TARGET].SetValue(_intConverter.Convert, value);
+            get => GetField(2, (int)DataFields.FINAL_ANGLE_TARGET).GetValue(_intConverter.Convert);
+            set => GetField(2, (int)DataFields.FINAL_ANGLE_TARGET).SetValue(_intConverter.Convert, value);
         }
         public decimal FirstTarget
         {
-            get => RevisionsByFields[2][(int)DataFields.FIRST_TARGET].GetValue(_decimalConverter.Convert);
-            set => RevisionsByFields[2][(int)DataFields.FIRST_TARGET].SetValue(_decimalConverter.Convert, value);
+            get => GetField(2, (int)DataFields.FIRST_TARGET).GetValue(_decimalConverter.Convert);
+            set => GetField(2, (int)DataFields.FIRST_TARGET).SetValue(_decimalConverter.Convert, value);
         }
         public decimal StartFinalAngle
         {
-            get => RevisionsByFields[2][(int)DataFields.START_FINAL_ANGLE].GetValue(_decimalConverter.Convert);
-            set => RevisionsByFields[2][(int)DataFields.START_FINAL_ANGLE].SetValue(_decimalConverter.Convert, value);
+            get => GetField(2, (int)DataFields.START_FINAL_ANGLE).GetValue(_decimalConverter.Convert);
+            set => GetField(2, (int)DataFields.START_FINAL_ANGLE).SetValue(_decimalConverter.Convert, value);
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace OpenProtocolInterpreter.ParameterSet
         /// <param name="lastChangeInParameterSet">19 ASCII characters. YYYY-MM-DD:HH:MM:SS</param>
         /// <param name="ackFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
         /// <param name="revision">Range: 000-002</param>
-        public MID_0015(int parameterSetId, DateTime lastChangeInParameterSet, int? noAckFlag = 0, int revision = 1) 
+        public MID_0015(int parameterSetId, DateTime lastChangeInParameterSet, int? noAckFlag = 0, int revision = 1)
             : this(noAckFlag, revision)
         {
             ParameterSetId = parameterSetId;
@@ -153,16 +153,19 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         internal MID_0015(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
+        protected override string BuildHeader()
+        {
+            HeaderData.Length = 20;
+            foreach (var dataField in RevisionsByFields[HeaderData.Revision])
+                HeaderData.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
+
+            return HeaderData.ToString();
+        }
+
         public override string Pack()
         {
-            if (HeaderData.Revision == 2)
-            {
-                RevisionsByFields[1][(int)DataFields.PARAMETER_SET_ID].Index = 20;
-                RevisionsByFields[1][(int)DataFields.LAST_CHANGE_IN_PARAMETER_SET].Index = 52;
-                RevisionsByFields[1][(int)DataFields.PARAMETER_SET_ID].HasPrefix = RevisionsByFields[1][(int)DataFields.LAST_CHANGE_IN_PARAMETER_SET].HasPrefix = true;
-            }
-
-            return base.Pack();
+            int index = 1;
+            return BuildHeader() + base.Pack(RevisionsByFields[HeaderData.Revision], ref index);
         }
 
         public override Mid Parse(string package)
@@ -170,13 +173,7 @@ namespace OpenProtocolInterpreter.ParameterSet
             if (IsCorrectType(package))
             {
                 HeaderData = ProcessHeader(package);
-                if(HeaderData.Revision == 2)
-                {
-                    RevisionsByFields[1][(int)DataFields.PARAMETER_SET_ID].Index = 20;
-                    RevisionsByFields[1][(int)DataFields.LAST_CHANGE_IN_PARAMETER_SET].Index = 52;
-                    RevisionsByFields[1][(int)DataFields.PARAMETER_SET_ID].HasPrefix = RevisionsByFields[1][(int)DataFields.LAST_CHANGE_IN_PARAMETER_SET].HasPrefix = true;
-                }
-                ProcessDataFields(package);
+                ProcessDataFields(RevisionsByFields[HeaderData.Revision], package);
                 return this;
             }
 
@@ -197,22 +194,24 @@ namespace OpenProtocolInterpreter.ParameterSet
                 {
                     2, new  List<DataField>()
                             {
+                                new DataField((int)DataFields.PARAMETER_SET_ID, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED),
                                 new DataField((int)DataFields.PARAMETER_SET_NAME, 25, 25, ' '),
+                                new DataField((int)DataFields.LAST_CHANGE_IN_PARAMETER_SET, 52, 19),
                                 new DataField((int)DataFields.ROTATION_DIRECTION, 73, 1),
                                 new DataField((int)DataFields.BATCH_SIZE, 76, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
                                 new DataField((int)DataFields.TORQUE_MIN, 80, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
                                 new DataField((int)DataFields.TORQUE_MAX, 88, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
                                 new DataField((int)DataFields.TORQUE_FINAL_TARGET, 96, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
                                 new DataField((int)DataFields.ANGLE_MIN, 104, 5, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.ANGLE_MAX, 110, 5, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.FINAL_ANGLE_TARGET, 117, 5, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.FIRST_TARGET, 124, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.START_FINAL_ANGLE, 132, 6, '0', DataField.PaddingOrientations.LEFT_PADDED)
+                                new DataField((int)DataFields.ANGLE_MAX, 111, 5, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.FINAL_ANGLE_TARGET, 118, 5, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.FIRST_TARGET, 125, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.START_FINAL_ANGLE, 133, 6, '0', DataField.PaddingOrientations.LEFT_PADDED)
                             }
                 }
             };
         }
-        
+
         /// <summary>
         /// Validate all fields size
         /// </summary>

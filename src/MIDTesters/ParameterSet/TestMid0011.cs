@@ -7,7 +7,7 @@ namespace MIDTesters.ParameterSet
     public class TestMid0011 : MidTester
     {
         [TestMethod]
-        public void Revision1()
+        public void Mid0011Revision1()
         {
             string pack = @"00290011            002001002";
             var mid = _midInterpreter.Parse<MID_0011>(pack);

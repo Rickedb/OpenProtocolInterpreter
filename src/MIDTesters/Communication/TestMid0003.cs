@@ -7,7 +7,7 @@ namespace MIDTesters.Communication
     public class TestMid0003 : MidTester
     {
         [TestMethod]
-        public void Revision1()
+        public void Mid0003Revision1()
         {
             string pack = @"00200003001         ";
             var mid = _midInterpreter.Parse<MID_0003>(pack);

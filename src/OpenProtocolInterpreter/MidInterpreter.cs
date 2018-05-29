@@ -107,7 +107,7 @@ namespace OpenProtocolInterpreter
 
         private bool IsCommunicationMessage(int mid) => (mid > 0 && mid < 10);
 
-        private bool IsParameterSetMessage(int mid) => (mid > 9 && mid < 26);
+        private bool IsParameterSetMessage(int mid) => (mid > 9 && mid < 26 || mid > 2499 && mid < 2506);
 
         private bool IsJobMessage(int mid) => (mid > 29 && mid < 40);
 

@@ -61,16 +61,24 @@ namespace OpenProtocolInterpreter
             string package = BuildHeader();
             int prefixIndex = 1;
             for (int i = 1; i <= (HeaderData.Revision > 0 ? HeaderData.Revision : 1); i++)
-                foreach (var dataField in RevisionsByFields[i])
+                package += Pack(RevisionsByFields[i], ref prefixIndex);
+
+            return package;
+        }
+
+        protected virtual string Pack(List<DataField> dataFields, ref int prefixIndex)
+        {
+            string package = string.Empty;
+            foreach (var dataField in dataFields)
+            {
+                if (dataField.HasPrefix)
                 {
-                    if (dataField.HasPrefix)
-                    {
-                        package += prefixIndex.ToString().PadLeft(2, '0') + dataField.Value;
-                        prefixIndex++;
-                    }
-                    else
-                        package += dataField.Value;
+                    package += prefixIndex.ToString().PadLeft(2, '0') + dataField.Value;
+                    prefixIndex++;
                 }
+                else
+                    package += dataField.Value;
+            }
 
             return package;
         }
@@ -111,17 +119,20 @@ namespace OpenProtocolInterpreter
 
             int revision = HeaderData.Revision > 0 ? HeaderData.Revision : 1;
             for (int i = 1; i <= revision; i++)
-            {
-                foreach (var dataField in RevisionsByFields[i])
-                    try
-                    {
-                        dataField.Value = GetValue(dataField, package);
-                    }
-                    catch (ArgumentOutOfRangeException)
-                    {
-                        //null value
-                    }
-            }
+                ProcessDataFields(RevisionsByFields[i], package);
+        }
+
+        protected virtual void ProcessDataFields(List<DataField> dataFields, string package)
+        {
+            foreach (var dataField in dataFields)
+                try
+                {
+                    dataField.Value = GetValue(dataField, package);
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    //null value
+                }
         }
 
         protected string GetValue(DataField field, string package)

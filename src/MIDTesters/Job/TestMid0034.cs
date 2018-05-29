@@ -7,7 +7,7 @@ namespace MIDTesters.Job
     public class TestMid0034 : MidTester
     {
         [TestMethod]
-        public void AllRevisions()
+        public void Mid0034AllRevisions()
         {
             string package = "00200034001         ";
             var mid = _midInterpreter.Parse(package);

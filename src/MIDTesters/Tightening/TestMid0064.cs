@@ -7,7 +7,7 @@ namespace MIDTesters.Tightening
     public class TestMid0064 : MidTester
     {
         [TestMethod]
-        public void Revision1()
+        public void Mid0064Revision1()
         {
             string package = "00300064001         0123456789";
             var mid = _midInterpreter.Parse<MID_0064>(package);

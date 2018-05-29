@@ -8,7 +8,7 @@ namespace MIDTesters.Communication
     public class TestMid0001 : MidTester
     {
         [TestMethod]
-        public void AllRevisions()
+        public void Mid0001AllRevisions()
         {
             string package = "00200001003         ";
             var mid = _midInterpreter.Parse(package);

@@ -8,7 +8,7 @@ namespace MIDTesters.ParameterSet
     public class TestMid0012 : MidTester
     {
         [TestMethod]
-        public void Revision1()
+        public void Mid0012Revision1()
         {
             string pack = @"00230012            002";
             var mid = _midInterpreter.Parse<MID_0012>(pack);
@@ -19,7 +19,7 @@ namespace MIDTesters.ParameterSet
         }
 
         [TestMethod]
-        public void Revision2()
+        public void Mid0012Revision2()
         {
             string pack = @"00230012002         002";
             var mid = _midInterpreter.Parse<MID_0012>(pack);
@@ -30,7 +30,7 @@ namespace MIDTesters.ParameterSet
         }
 
         [TestMethod]
-        public void Revision3()
+        public void Mid0012Revision3()
         {
             string pack = @"00310012003         00212345678";
             var mid = _midInterpreter.Parse<MID_0012>(pack);
@@ -42,7 +42,7 @@ namespace MIDTesters.ParameterSet
         }
 
         [TestMethod]
-        public void Revision4()
+        public void Mid0012Revision4()
         {
             string pack = @"00310012004         00212345678";
             var mid = _midInterpreter.Parse<MID_0012>(pack);

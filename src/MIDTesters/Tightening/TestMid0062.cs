@@ -12,7 +12,7 @@ namespace MIDTesters.Tightening
     public class TestMid0062 : MidTester
     {
         [TestMethod]
-        public void AllRevisions()
+        public void Mid0062AllRevisions()
         {
             string package = "00200062005         ";
             var mid = _midInterpreter.Parse(package);

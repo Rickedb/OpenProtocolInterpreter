@@ -7,7 +7,7 @@ namespace MIDTesters.KeepAlive
     public class TestMid9999 : MidTester
     {
         [TestMethod]
-        public void Revision1()
+        public void Mid9999Revision1()
         {
             string package = "00209999            ";
             var mid = _midInterpreter.Parse(package);
