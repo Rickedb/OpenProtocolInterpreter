@@ -114,6 +114,7 @@
     <Compile Include="Enums\TorqueStatus.cs" />
     <Compile Include="Enums\TorqueValuesUnit.cs" />
     <Compile Include="Job\Advanced\AdvancedJob.cs" />
+    <Compile Include="Job\ParameterSet.cs" />
     <Compile Include="MultipleIdentifiers\IdentifierStatus.cs" />
     <Compile Include="MultiSpindle\MID_0093.cs" />
     <Compile Include="MultiSpindle\SpindleStatus.cs" />
@@ -135,7 +136,7 @@
     <Compile Include="_internals\Converters\Int32Converter.cs" />
     <Compile Include="_internals\Converters\Int64Converter.cs" />
     <Compile Include="_internals\Converters\IValueConverter.cs" />
-    <Compile Include="_internals\Converters\JobConverter.cs" />
+    <Compile Include="_internals\Converters\ParameterSetListConverter.cs" />
     <Compile Include="_internals\Converters\JobIdListConverter.cs" />
     <Compile Include="_internals\Converters\OpenEndDataConverter.cs" />
     <Compile Include="_internals\Converters\ParameterSetIdListConverter.cs" />
