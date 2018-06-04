@@ -8,8 +8,8 @@ namespace OpenProtocolInterpreter.Job
 
         public JobMessages()
         {
-            templates = new MID_0035(new MID_0036(new MID_0038(new MID_0034(new MID_0037(new MID_0030(
-                             new MID_0031(new MID_0032(new MID_0033(null)))))))));
+            templates = new MID_0035(new MID_0036(new MID_0038(new MID_0034(new MID_0037(new MID_0039(new MID_0030(
+                             new MID_0031(new MID_0032(new MID_0033(null))))))))));
         }
 
         public JobMessages(System.Collections.Generic.IEnumerable<Mid> selectedMids)

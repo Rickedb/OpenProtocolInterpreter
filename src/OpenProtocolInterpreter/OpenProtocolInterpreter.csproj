@@ -114,6 +114,7 @@
     <Compile Include="Enums\TorqueStatus.cs" />
     <Compile Include="Enums\TorqueValuesUnit.cs" />
     <Compile Include="Job\Advanced\AdvancedJob.cs" />
+    <Compile Include="Job\MID_0039.cs" />
     <Compile Include="Job\ParameterSet.cs" />
     <Compile Include="MultipleIdentifiers\IdentifierStatus.cs" />
     <Compile Include="MultiSpindle\MID_0093.cs" />

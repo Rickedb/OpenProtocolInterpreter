@@ -15,6 +15,18 @@ namespace MIDTesters.Job
 
             Assert.AreEqual(typeof(MID_0033), mid.GetType());
             Assert.IsNotNull(mid.JobId);
+            Assert.IsNotNull(mid.JobName);
+            Assert.IsNotNull(mid.ForcedOrder);
+            Assert.IsNotNull(mid.MaxTimeForFirstTightening);
+            Assert.IsNotNull(mid.MaxTimeToCompleteJob);
+            Assert.IsNotNull(mid.JobBatchMode);
+            Assert.IsNotNull(mid.LockAtJobDone);
+            Assert.IsNotNull(mid.UseLineControl);
+            Assert.IsNotNull(mid.RepeatJob);
+            Assert.IsNotNull(mid.ToolLoosening);
+            Assert.IsNotNull(mid.Reserved);
+            Assert.IsNotNull(mid.NumberOfParameterSets);
+            Assert.IsNotNull(mid.ParameterSetList);
             Assert.AreEqual(package, mid.Pack());
         }
     }

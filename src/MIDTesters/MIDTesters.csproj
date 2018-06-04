@@ -65,6 +65,7 @@
     <Compile Include="Job\TestMid0036.cs" />
     <Compile Include="Job\TestMid0037.cs" />
     <Compile Include="Job\TestMid0038.cs" />
+    <Compile Include="Job\TestMid0039.cs" />
     <Compile Include="KeepAlive\TestMid9999.cs" />
     <Compile Include="MIDsTests.cs" />
     <Compile Include="MidTester.cs" />
