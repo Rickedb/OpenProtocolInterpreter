@@ -22,13 +22,13 @@ namespace OpenProtocolInterpreter.Statistic
 
         public int ParameterSetID
         {
-            get => RevisionsByFields[1][(int)DataFields.PARAMETER_SET_ID].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.PARAMETER_SET_ID].SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.PARAMETER_SET_ID).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.PARAMETER_SET_ID).SetValue(_intConverter.Convert, value);
         }
         public HistogramType HistogramType
         {
-            get => (HistogramType)RevisionsByFields[1][(int)DataFields.HISTOGRAM_TYPE].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.HISTOGRAM_TYPE].SetValue(_intConverter.Convert, (int)value);
+            get => (HistogramType)GetField(1,(int)DataFields.HISTOGRAM_TYPE).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.HISTOGRAM_TYPE).SetValue(_intConverter.Convert, (int)value);
         }
 
         public MID_0300() : base(MID, LAST_REVISION)

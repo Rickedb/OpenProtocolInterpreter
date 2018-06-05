@@ -19,53 +19,53 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public RelayStatus StatusRelayOne
         {
-            get => (RelayStatus)RevisionsByFields[1][(int)DataFields.STATUS_RELAY_1].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.STATUS_RELAY_1].SetValue(_intConverter.Convert, (int)value);
+            get => (RelayStatus)GetField(1,(int)DataFields.STATUS_RELAY_1).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.STATUS_RELAY_1).SetValue(_intConverter.Convert, (int)value);
         }
         public RelayStatus StatusRelayTwo
         {
-            get => (RelayStatus)RevisionsByFields[1][(int)DataFields.STATUS_RELAY_2].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.STATUS_RELAY_2].SetValue(_intConverter.Convert, (int)value);
+            get => (RelayStatus)GetField(1,(int)DataFields.STATUS_RELAY_2).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.STATUS_RELAY_2).SetValue(_intConverter.Convert, (int)value);
         }
         public RelayStatus StatusRelayThree
         {
-            get => (RelayStatus)RevisionsByFields[1][(int)DataFields.STATUS_RELAY_3].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.STATUS_RELAY_3].SetValue(_intConverter.Convert, (int)value);
+            get => (RelayStatus)GetField(1,(int)DataFields.STATUS_RELAY_3).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.STATUS_RELAY_3).SetValue(_intConverter.Convert, (int)value);
         }
         public RelayStatus StatusRelayFour
         {
-            get => (RelayStatus)RevisionsByFields[1][(int)DataFields.STATUS_RELAY_4].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.STATUS_RELAY_4].SetValue(_intConverter.Convert, (int)value);
+            get => (RelayStatus)GetField(1,(int)DataFields.STATUS_RELAY_4).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.STATUS_RELAY_4).SetValue(_intConverter.Convert, (int)value);
         }
         public RelayStatus StatusRelayFive
         {
-            get => (RelayStatus)RevisionsByFields[1][(int)DataFields.STATUS_RELAY_5].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.STATUS_RELAY_5].SetValue(_intConverter.Convert, (int)value);
+            get => (RelayStatus)GetField(1,(int)DataFields.STATUS_RELAY_5).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.STATUS_RELAY_5).SetValue(_intConverter.Convert, (int)value);
         }
         public RelayStatus StatusRelaySix
         {
-            get => (RelayStatus)RevisionsByFields[1][(int)DataFields.STATUS_RELAY_6].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.STATUS_RELAY_6].SetValue(_intConverter.Convert, (int)value);
+            get => (RelayStatus)GetField(1,(int)DataFields.STATUS_RELAY_6).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.STATUS_RELAY_6).SetValue(_intConverter.Convert, (int)value);
         }
         public RelayStatus StatusRelaySeven
         {
-            get => (RelayStatus)RevisionsByFields[1][(int)DataFields.STATUS_RELAY_7].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.STATUS_RELAY_7].SetValue(_intConverter.Convert, (int)value);
+            get => (RelayStatus)GetField(1,(int)DataFields.STATUS_RELAY_7).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.STATUS_RELAY_7).SetValue(_intConverter.Convert, (int)value);
         }
         public RelayStatus StatusRelayEight
         {
-            get => (RelayStatus)RevisionsByFields[1][(int)DataFields.STATUS_RELAY_8].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.STATUS_RELAY_8].SetValue(_intConverter.Convert, (int)value);
+            get => (RelayStatus)GetField(1,(int)DataFields.STATUS_RELAY_8).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.STATUS_RELAY_8).SetValue(_intConverter.Convert, (int)value);
         }
         public RelayStatus StatusRelayNine
         {
-            get => (RelayStatus)RevisionsByFields[1][(int)DataFields.STATUS_RELAY_9].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.STATUS_RELAY_9].SetValue(_intConverter.Convert, (int)value);
+            get => (RelayStatus)GetField(1,(int)DataFields.STATUS_RELAY_9).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.STATUS_RELAY_9).SetValue(_intConverter.Convert, (int)value);
         }
         public RelayStatus StatusRelayTen
         {
-            get => (RelayStatus)RevisionsByFields[1][(int)DataFields.STATUS_RELAY_10].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.STATUS_RELAY_10].SetValue(_intConverter.Convert, (int)value);
+            get => (RelayStatus)GetField(1,(int)DataFields.STATUS_RELAY_10).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.STATUS_RELAY_10).SetValue(_intConverter.Convert, (int)value);
         }
 
         public MID_0200() : base(MID, LAST_REVISION)

@@ -31,13 +31,13 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
 
         public int AutoDisableSetting
         {
-            get => RevisionsByFields[1][(int)DataFields.AUTO_DISABLE_SETTING].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.AUTO_DISABLE_SETTING].SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.AUTO_DISABLE_SETTING).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.AUTO_DISABLE_SETTING).SetValue(_intConverter.Convert, value);
         }
         public int CurrentBatch
         {
-            get => RevisionsByFields[1][(int)DataFields.CURRENT_BATCH].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.CURRENT_BATCH].SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.CURRENT_BATCH).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.CURRENT_BATCH).SetValue(_intConverter.Convert, value);
         }
 
         public MID_0411() : base(MID, LAST_REVISION)

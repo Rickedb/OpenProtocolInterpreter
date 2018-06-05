@@ -21,28 +21,28 @@ namespace OpenProtocolInterpreter.Alarm
 
         public bool AlarmStatus
         {
-            get => RevisionsByFields[1][(int)DataFields.ALARM_STATUS].GetValue(_boolConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.ALARM_STATUS].SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.ALARM_STATUS).GetValue(_boolConverter.Convert);
+            set => GetField(1,(int)DataFields.ALARM_STATUS).SetValue(_boolConverter.Convert, value);
         }
         public string ErrorCode
         {
-            get => RevisionsByFields[1][(int)DataFields.ERROR_CODE].Value;
-            set => RevisionsByFields[1][(int)DataFields.ERROR_CODE].SetValue(value);
+            get => GetField(1,(int)DataFields.ERROR_CODE).Value;
+            set => GetField(1,(int)DataFields.ERROR_CODE).SetValue(value);
         }
         public bool ControllerReadyStatus
         {
-            get => RevisionsByFields[1][(int)DataFields.CONTROLLER_READY_STATUS].GetValue(_boolConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.CONTROLLER_READY_STATUS].SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.CONTROLLER_READY_STATUS).GetValue(_boolConverter.Convert);
+            set => GetField(1,(int)DataFields.CONTROLLER_READY_STATUS).SetValue(_boolConverter.Convert, value);
         }
         public bool ToolReadyStatus
         {
-            get => RevisionsByFields[1][(int)DataFields.TOOL_READY_STATUS].GetValue(_boolConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.TOOL_READY_STATUS].SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.TOOL_READY_STATUS).GetValue(_boolConverter.Convert);
+            set => GetField(1,(int)DataFields.TOOL_READY_STATUS).SetValue(_boolConverter.Convert, value);
         }
         public DateTime Time
         {
-            get => RevisionsByFields[1][(int)DataFields.TIME].GetValue(_dateConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.TIME].SetValue(_dateConverter.Convert, value);
+            get => GetField(1,(int)DataFields.TIME).GetValue(_dateConverter.Convert);
+            set => GetField(1,(int)DataFields.TIME).SetValue(_dateConverter.Convert, value);
         }
 
         public MID_0076() : base(MID, LAST_REVISION)

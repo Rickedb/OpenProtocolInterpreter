@@ -21,8 +21,8 @@ namespace OpenProtocolInterpreter.PowerMACS
 
         public bool BoltData
         {
-            get => RevisionsByFields[1][(int)DataFields.BOLT_DATA].GetValue(_boolConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.BOLT_DATA].SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.BOLT_DATA).GetValue(_boolConverter.Convert);
+            set => GetField(1,(int)DataFields.BOLT_DATA).SetValue(_boolConverter.Convert, value);
         }
 
         public MID_0108(int revision = LAST_REVISION) : base(MID, revision)

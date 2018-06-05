@@ -93,9 +93,9 @@ namespace OpenProtocolInterpreter.Job
         private void HandleRevision()
         {
             if (HeaderData.Revision == 1)
-                RevisionsByFields[1][(int)DataFields.JOB_ID].Size = 2;
+                GetField(1,(int)DataFields.JOB_ID).Size = 2;
             else
-                RevisionsByFields[1][(int)DataFields.JOB_ID].Size = 4;
+                GetField(1,(int)DataFields.JOB_ID).Size = 4;
         }
 
         public enum DataFields

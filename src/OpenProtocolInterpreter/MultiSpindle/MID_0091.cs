@@ -24,23 +24,23 @@ namespace OpenProtocolInterpreter.MultiSpindle
 
         public int NumberOfSpindles
         {
-            get => RevisionsByFields[1][(int)DataFields.NUMBER_OF_SPINDLES].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.NUMBER_OF_SPINDLES].SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.NUMBER_OF_SPINDLES).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.NUMBER_OF_SPINDLES).SetValue(_intConverter.Convert, value);
         }
         public int SyncTighteningId
         {
-            get => RevisionsByFields[1][(int)DataFields.SYNC_TIGHTENING_ID].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.SYNC_TIGHTENING_ID].SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.SYNC_TIGHTENING_ID).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.SYNC_TIGHTENING_ID).SetValue(_intConverter.Convert, value);
         }
         public DateTime Time
         {
-            get => RevisionsByFields[1][(int)DataFields.TIME].GetValue(_dateConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.TIME].SetValue(_dateConverter.Convert, value);
+            get => GetField(1,(int)DataFields.TIME).GetValue(_dateConverter.Convert);
+            set => GetField(1,(int)DataFields.TIME).SetValue(_dateConverter.Convert, value);
         }
         public bool SyncOverallStatus
         {
-            get => RevisionsByFields[1][(int)DataFields.SYNC_OVERALL_STATUS].GetValue(_boolConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.SYNC_OVERALL_STATUS].SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.SYNC_OVERALL_STATUS).GetValue(_boolConverter.Convert);
+            set => GetField(1,(int)DataFields.SYNC_OVERALL_STATUS).SetValue(_boolConverter.Convert, value);
         }
         public List<SpindleStatus> SpindlesStatus { get; set; }
 
@@ -67,7 +67,7 @@ namespace OpenProtocolInterpreter.MultiSpindle
 
         public override string Pack()
         {
-            RevisionsByFields[1][(int)DataFields.SPINDLE_STATUS].Value = _spindlesStatusConverter.Convert(SpindlesStatus);
+            GetField(1,(int)DataFields.SPINDLE_STATUS).Value = _spindlesStatusConverter.Convert(SpindlesStatus);
             return base.Pack();
         }
 
@@ -76,7 +76,7 @@ namespace OpenProtocolInterpreter.MultiSpindle
             if (IsCorrectType(package))
             {
                 HeaderData = ProcessHeader(package);
-                var spindleField = RevisionsByFields[1][(int)DataFields.SPINDLE_STATUS];
+                var spindleField = GetField(1,(int)DataFields.SPINDLE_STATUS);
                 spindleField.Size = package.Length - spindleField.Index - 2;
                 base.Parse(package);
                 SpindlesStatus = _spindlesStatusConverter.Convert(spindleField.Value).ToList();

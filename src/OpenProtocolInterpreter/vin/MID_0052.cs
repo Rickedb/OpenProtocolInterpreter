@@ -25,23 +25,23 @@ namespace OpenProtocolInterpreter.Vin
 
         public string VinNumber
         {
-            get => RevisionsByFields[1][(int)DataFields.VIN_NUMBER].Value;
-            set => RevisionsByFields[1][(int)DataFields.VIN_NUMBER].SetValue(value);
+            get => GetField(1,(int)DataFields.VIN_NUMBER).Value;
+            set => GetField(1,(int)DataFields.VIN_NUMBER).SetValue(value);
         }
         public string IdentifierResultPart2
         {
-            get => RevisionsByFields[2][(int)DataFields.IDENTIFIER_RESULT_PART2].Value;
-            set => RevisionsByFields[2][(int)DataFields.IDENTIFIER_RESULT_PART2].SetValue(value);
+            get => GetField(2,(int)DataFields.IDENTIFIER_RESULT_PART2).Value;
+            set => GetField(2,(int)DataFields.IDENTIFIER_RESULT_PART2).SetValue(value);
         }
         public string IdentifierResultPart3
         {
-            get => RevisionsByFields[2][(int)DataFields.IDENTIFIER_RESULT_PART3].Value;
-            set => RevisionsByFields[2][(int)DataFields.IDENTIFIER_RESULT_PART3].SetValue(value);
+            get => GetField(2,(int)DataFields.IDENTIFIER_RESULT_PART3).Value;
+            set => GetField(2,(int)DataFields.IDENTIFIER_RESULT_PART3).SetValue(value);
         }
         public string IdentifierResultPart4
         {
-            get => RevisionsByFields[2][(int)DataFields.IDENTIFIER_RESULT_PART4].Value;
-            set => RevisionsByFields[2][(int)DataFields.IDENTIFIER_RESULT_PART4].SetValue(value);
+            get => GetField(2,(int)DataFields.IDENTIFIER_RESULT_PART4).Value;
+            set => GetField(2,(int)DataFields.IDENTIFIER_RESULT_PART4).SetValue(value);
         }
 
         public MID_0052(int revision = LAST_REVISION) : base(MID, revision) { }
@@ -87,9 +87,9 @@ namespace OpenProtocolInterpreter.Vin
         public override string Pack()
         {
             if (HeaderData.Revision > 1)
-                RevisionsByFields[1][(int)DataFields.VIN_NUMBER].HasPrefix = true;
+                GetField(1,(int)DataFields.VIN_NUMBER).HasPrefix = true;
             else //Can be up to 40 bytes long
-                RevisionsByFields[1][(int)DataFields.VIN_NUMBER].Size = (VinNumber.Length > 25) ? VinNumber.Length : 25;
+                GetField(1,(int)DataFields.VIN_NUMBER).Size = (VinNumber.Length > 25) ? VinNumber.Length : 25;
             return base.Pack();
         }
 
@@ -99,9 +99,9 @@ namespace OpenProtocolInterpreter.Vin
             {
                 HeaderData = ProcessHeader(package);
                 if (HeaderData.Revision > 1)
-                    RevisionsByFields[1][(int)DataFields.VIN_NUMBER].HasPrefix = true;
+                    GetField(1,(int)DataFields.VIN_NUMBER).HasPrefix = true;
                 else
-                    RevisionsByFields[1][(int)DataFields.VIN_NUMBER].Size = package.Length - 20;
+                    GetField(1,(int)DataFields.VIN_NUMBER).Size = package.Length - 20;
                 ProcessDataFields(package);
                 return this;
             }

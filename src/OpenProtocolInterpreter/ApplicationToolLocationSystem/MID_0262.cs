@@ -16,8 +16,8 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
 
         public string ToolTagID
         {
-            get => RevisionsByFields[1][(int)DataFields.TOOL_TAG_ID].Value;
-            set => RevisionsByFields[1][(int)DataFields.TOOL_TAG_ID].SetValue(value);
+            get => GetField(1,(int)DataFields.TOOL_TAG_ID).Value;
+            set => GetField(1,(int)DataFields.TOOL_TAG_ID).SetValue(value);
         }
 
         public MID_0262(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) {  }

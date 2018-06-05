@@ -19,43 +19,43 @@ namespace OpenProtocolInterpreter.IOInterface
         
         public bool StatusDigInOne
         {
-            get => RevisionsByFields[1][(int)DataFields.STATUS_DIG_IN_1].GetValue(_boolConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.STATUS_DIG_IN_1].SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.STATUS_DIG_IN_1).GetValue(_boolConverter.Convert);
+            set => GetField(1,(int)DataFields.STATUS_DIG_IN_1).SetValue(_boolConverter.Convert, value);
         }
         public bool StatusDigInTwo
         {
-            get => RevisionsByFields[1][(int)DataFields.STATUS_DIG_IN_2].GetValue(_boolConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.STATUS_DIG_IN_2].SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.STATUS_DIG_IN_2).GetValue(_boolConverter.Convert);
+            set => GetField(1,(int)DataFields.STATUS_DIG_IN_2).SetValue(_boolConverter.Convert, value);
         }
         public bool StatusDigInThree
         {
-            get => RevisionsByFields[1][(int)DataFields.STATUS_DIG_IN_3].GetValue(_boolConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.STATUS_DIG_IN_3].SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.STATUS_DIG_IN_3).GetValue(_boolConverter.Convert);
+            set => GetField(1,(int)DataFields.STATUS_DIG_IN_3).SetValue(_boolConverter.Convert, value);
         }
         public bool StatusDigInFour
         {
-            get => RevisionsByFields[1][(int)DataFields.STATUS_DIG_IN_4].GetValue(_boolConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.STATUS_DIG_IN_4].SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.STATUS_DIG_IN_4).GetValue(_boolConverter.Convert);
+            set => GetField(1,(int)DataFields.STATUS_DIG_IN_4).SetValue(_boolConverter.Convert, value);
         }
         public bool StatusDigInFive
         {
-            get => RevisionsByFields[1][(int)DataFields.STATUS_DIG_IN_5].GetValue(_boolConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.STATUS_DIG_IN_5].SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.STATUS_DIG_IN_5).GetValue(_boolConverter.Convert);
+            set => GetField(1,(int)DataFields.STATUS_DIG_IN_5).SetValue(_boolConverter.Convert, value);
         }
         public bool StatusDigInSix
         {
-            get => RevisionsByFields[1][(int)DataFields.STATUS_DIG_IN_6].GetValue(_boolConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.STATUS_DIG_IN_6].SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.STATUS_DIG_IN_6).GetValue(_boolConverter.Convert);
+            set => GetField(1,(int)DataFields.STATUS_DIG_IN_6).SetValue(_boolConverter.Convert, value);
         }
         public bool StatusDigInSeven
         {
-            get => RevisionsByFields[1][(int)DataFields.STATUS_DIG_IN_7].GetValue(_boolConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.STATUS_DIG_IN_7].SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.STATUS_DIG_IN_7).GetValue(_boolConverter.Convert);
+            set => GetField(1,(int)DataFields.STATUS_DIG_IN_7).SetValue(_boolConverter.Convert, value);
         }
         public bool StatusDigInEight
         {
-            get => RevisionsByFields[1][(int)DataFields.STATUS_DIG_IN_8].GetValue(_boolConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.STATUS_DIG_IN_8].SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.STATUS_DIG_IN_8).GetValue(_boolConverter.Convert);
+            set => GetField(1,(int)DataFields.STATUS_DIG_IN_8).SetValue(_boolConverter.Convert, value);
         }
 
         public MID_0211(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)

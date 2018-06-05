@@ -27,21 +27,21 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public int IODeviceId
         {
-            get => RevisionsByFields[HeaderData.Revision][(int)DataFields.IO_DEVICE_ID].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[HeaderData.Revision][(int)DataFields.IO_DEVICE_ID].SetValue(_intConverter.Convert, value);
+            get => GetField(HeaderData.Revision, (int)DataFields.IO_DEVICE_ID).GetValue(_intConverter.Convert);
+            set => GetField(HeaderData.Revision, (int)DataFields.IO_DEVICE_ID).SetValue(_intConverter.Convert, value);
         }
         public List<Relay> Relays { get; set; }
         public List<DigitalInput> DigitalInputs { get; set; }
         //rev 2
         public int NumberOfRelays
         {
-            get => RevisionsByFields[2][(int)DataFields.NUMBER_OF_RELAYS].GetValue(_intConverter.Convert);
-            private set => RevisionsByFields[2][(int)DataFields.NUMBER_OF_RELAYS].SetValue(_intConverter.Convert, value);
+            get => GetField(2,(int)DataFields.NUMBER_OF_RELAYS).GetValue(_intConverter.Convert);
+            private set => GetField(2,(int)DataFields.NUMBER_OF_RELAYS).SetValue(_intConverter.Convert, value);
         }
         public int NumberOfDigitalInputs
         {
-            get => RevisionsByFields[2][(int)DataFields.NUMBER_OF_DIGITAL_INPUTS].GetValue(_intConverter.Convert);
-            private set => RevisionsByFields[2][(int)DataFields.NUMBER_OF_DIGITAL_INPUTS].SetValue(_intConverter.Convert, value);
+            get => GetField(2,(int)DataFields.NUMBER_OF_DIGITAL_INPUTS).GetValue(_intConverter.Convert);
+            private set => GetField(2,(int)DataFields.NUMBER_OF_DIGITAL_INPUTS).SetValue(_intConverter.Convert, value);
         }
 
         public MID_0215(int revision = LAST_REVISION) : base(MID, revision)
@@ -62,20 +62,20 @@ namespace OpenProtocolInterpreter.IOInterface
                 NumberOfRelays = Relays.Count;
                 NumberOfDigitalInputs = DigitalInputs.Count;
 
-                var relayListField = RevisionsByFields[2][(int)DataFields.RELAY_LIST];
+                var relayListField = GetField(2,(int)DataFields.RELAY_LIST);
                 relayListField.Size = NumberOfRelays * 4;
                 relayListField.Value = _relayListConverter.Convert(Relays);
-                RevisionsByFields[2][(int)DataFields.NUMBER_OF_DIGITAL_INPUTS].Index = relayListField.Index + relayListField.Size;
+                GetField(2,(int)DataFields.NUMBER_OF_DIGITAL_INPUTS).Index = relayListField.Index + relayListField.Size;
 
-                RevisionsByFields[2][(int)DataFields.DIGITAL_INPUT_LIST].Index = RevisionsByFields[2][(int)DataFields.NUMBER_OF_DIGITAL_INPUTS].Index + 2;
-                RevisionsByFields[2][(int)DataFields.DIGITAL_INPUT_LIST].Size = NumberOfDigitalInputs * 4;
-                RevisionsByFields[2][(int)DataFields.DIGITAL_INPUT_LIST].Value = _digitalInputListConverter.Convert(DigitalInputs);
+                GetField(2,(int)DataFields.DIGITAL_INPUT_LIST).Index = GetField(2,(int)DataFields.NUMBER_OF_DIGITAL_INPUTS).Index + 2;
+                GetField(2,(int)DataFields.DIGITAL_INPUT_LIST).Size = NumberOfDigitalInputs * 4;
+                GetField(2,(int)DataFields.DIGITAL_INPUT_LIST).Value = _digitalInputListConverter.Convert(DigitalInputs);
             }
             else
             {
                 HeaderData.Revision = 1;
-                RevisionsByFields[1][(int)DataFields.RELAY_LIST].Value = _relayListConverter.Convert(Relays);
-                RevisionsByFields[1][(int)DataFields.DIGITAL_INPUT_LIST].Value = _digitalInputListConverter.Convert(DigitalInputs);
+                GetField(1,(int)DataFields.RELAY_LIST).Value = _relayListConverter.Convert(Relays);
+                GetField(1,(int)DataFields.DIGITAL_INPUT_LIST).Value = _digitalInputListConverter.Convert(DigitalInputs);
             }
 
             string pkg = BuildHeader();
@@ -93,15 +93,15 @@ namespace OpenProtocolInterpreter.IOInterface
             if (IsCorrectType(package))
             {
                 ProcessHeader(package);
-                var relayListField = RevisionsByFields[2][(int)DataFields.RELAY_LIST];
-                var digitalListField = RevisionsByFields[2][(int)DataFields.DIGITAL_INPUT_LIST];
+                var relayListField = GetField(2,(int)DataFields.RELAY_LIST);
+                var digitalListField = GetField(2,(int)DataFields.DIGITAL_INPUT_LIST);
 
                 if (HeaderData.Revision > 1)
                 {
-                    int numberOfRelays = _intConverter.Convert(GetValue(RevisionsByFields[2][(int)DataFields.NUMBER_OF_RELAYS], package));
+                    int numberOfRelays = _intConverter.Convert(GetValue(GetField(2,(int)DataFields.NUMBER_OF_RELAYS), package));
                     relayListField.Size = numberOfRelays * 4;
 
-                    RevisionsByFields[2][(int)DataFields.NUMBER_OF_DIGITAL_INPUTS].Index = relayListField.Index + relayListField.Size;
+                    GetField(2,(int)DataFields.NUMBER_OF_DIGITAL_INPUTS).Index = relayListField.Index + relayListField.Size;
 
                     digitalListField.Index = digitalListField.Index + 2;
                     digitalListField.Size = package.Length - digitalListField.Index;

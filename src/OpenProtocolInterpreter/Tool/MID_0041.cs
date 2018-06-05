@@ -24,87 +24,87 @@ namespace OpenProtocolInterpreter.Tool
 
         public string ToolSerialNumber
         {
-            get => RevisionsByFields[1][(int)DataFields.TOOL_SERIAL_NUMBER].Value;
-            set => RevisionsByFields[1][(int)DataFields.TOOL_SERIAL_NUMBER].SetValue(value);
+            get => GetField(1,(int)DataFields.TOOL_SERIAL_NUMBER).Value;
+            set => GetField(1,(int)DataFields.TOOL_SERIAL_NUMBER).SetValue(value);
         }
         public long ToolNumberOfTightenings
         {
-            get => RevisionsByFields[1][(int)DataFields.TOOL_NUMBER_OF_TIGHTENINGS].GetValue(_longConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.TOOL_NUMBER_OF_TIGHTENINGS].SetValue(_longConverter.Convert, value);
+            get => GetField(1,(int)DataFields.TOOL_NUMBER_OF_TIGHTENINGS).GetValue(_longConverter.Convert);
+            set => GetField(1,(int)DataFields.TOOL_NUMBER_OF_TIGHTENINGS).SetValue(_longConverter.Convert, value);
         }
         public DateTime LastCalibrationDate
         {
-            get => RevisionsByFields[1][(int)DataFields.LAST_CALIBRATION_DATE].GetValue(_dateConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.LAST_CALIBRATION_DATE].SetValue(_dateConverter.Convert, value);
+            get => GetField(1,(int)DataFields.LAST_CALIBRATION_DATE).GetValue(_dateConverter.Convert);
+            set => GetField(1,(int)DataFields.LAST_CALIBRATION_DATE).SetValue(_dateConverter.Convert, value);
         }
         public string ControllerSerialNumber
         {
-            get => RevisionsByFields[1][(int)DataFields.CONTROLLER_SERIAL_NUMBER].Value;
-            set => RevisionsByFields[1][(int)DataFields.CONTROLLER_SERIAL_NUMBER].SetValue(value);
+            get => GetField(1,(int)DataFields.CONTROLLER_SERIAL_NUMBER).Value;
+            set => GetField(1,(int)DataFields.CONTROLLER_SERIAL_NUMBER).SetValue(value);
         }
         //Rev 2
         public decimal CalibrationValue
         {
-            get => RevisionsByFields[2][(int)DataFields.CALIBRATION_VALUE].GetValue(_decimalConverter.Convert);
-            set => RevisionsByFields[2][(int)DataFields.CALIBRATION_VALUE].SetValue(_decimalConverter.Convert, value);
+            get => GetField(2,(int)DataFields.CALIBRATION_VALUE).GetValue(_decimalConverter.Convert);
+            set => GetField(2,(int)DataFields.CALIBRATION_VALUE).SetValue(_decimalConverter.Convert, value);
         }
         public DateTime LastServiceDate
         {
-            get => RevisionsByFields[2][(int)DataFields.LAST_SERVICE_DATE].GetValue(_dateConverter.Convert);
-            set => RevisionsByFields[2][(int)DataFields.LAST_SERVICE_DATE].SetValue(_dateConverter.Convert, value);
+            get => GetField(2,(int)DataFields.LAST_SERVICE_DATE).GetValue(_dateConverter.Convert);
+            set => GetField(2,(int)DataFields.LAST_SERVICE_DATE).SetValue(_dateConverter.Convert, value);
         }
         public long TighteningsSinceService
         {
-            get => RevisionsByFields[2][(int)DataFields.TIGHTENINGS_SINCE_SERVICE].GetValue(_longConverter.Convert);
-            set => RevisionsByFields[2][(int)DataFields.TIGHTENINGS_SINCE_SERVICE].SetValue(_longConverter.Convert, value);
+            get => GetField(2,(int)DataFields.TIGHTENINGS_SINCE_SERVICE).GetValue(_longConverter.Convert);
+            set => GetField(2,(int)DataFields.TIGHTENINGS_SINCE_SERVICE).SetValue(_longConverter.Convert, value);
         }
         public ToolType ToolType
         {
-            get => (ToolType)RevisionsByFields[2][(int)DataFields.TOOL_TYPE].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[2][(int)DataFields.TOOL_TYPE].SetValue(_intConverter.Convert, (int)value);
+            get => (ToolType)GetField(2,(int)DataFields.TOOL_TYPE).GetValue(_intConverter.Convert);
+            set => GetField(2,(int)DataFields.TOOL_TYPE).SetValue(_intConverter.Convert, (int)value);
         }
         public int MotorSize
         {
-            get => RevisionsByFields[2][(int)DataFields.MOTOR_SIZE].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[2][(int)DataFields.MOTOR_SIZE].SetValue(_intConverter.Convert, value);
+            get => GetField(2,(int)DataFields.MOTOR_SIZE).GetValue(_intConverter.Convert);
+            set => GetField(2,(int)DataFields.MOTOR_SIZE).SetValue(_intConverter.Convert, value);
         }
         public OpenEndDatas OpenEndData
         {
-            get => RevisionsByFields[2][(int)DataFields.OPEN_END_DATA].GetValue(_openEndDataConverter.Convert);
-            set => RevisionsByFields[2][(int)DataFields.OPEN_END_DATA].SetValue(_openEndDataConverter.Convert, value);
+            get => GetField(2,(int)DataFields.OPEN_END_DATA).GetValue(_openEndDataConverter.Convert);
+            set => GetField(2,(int)DataFields.OPEN_END_DATA).SetValue(_openEndDataConverter.Convert, value);
         }
         public string ControllerSoftwareVersion
         {
-            get => RevisionsByFields[2][(int)DataFields.CONTROLLER_SOFTWARE_VERSION].Value;
-            set => RevisionsByFields[2][(int)DataFields.CONTROLLER_SOFTWARE_VERSION].SetValue(value);
+            get => GetField(2,(int)DataFields.CONTROLLER_SOFTWARE_VERSION).Value;
+            set => GetField(2,(int)DataFields.CONTROLLER_SOFTWARE_VERSION).SetValue(value);
         }
         //Rev 3
         public decimal ToolMaxTorque
         {
-            get => RevisionsByFields[3][(int)DataFields.TOOL_MAX_TORQUE].GetValue(_decimalConverter.Convert);
-            set => RevisionsByFields[3][(int)DataFields.TOOL_MAX_TORQUE].SetValue(_decimalConverter.Convert, value);
+            get => GetField(3,(int)DataFields.TOOL_MAX_TORQUE).GetValue(_decimalConverter.Convert);
+            set => GetField(3,(int)DataFields.TOOL_MAX_TORQUE).SetValue(_decimalConverter.Convert, value);
         }
         public decimal GearRatio
         {
-            get => RevisionsByFields[3][(int)DataFields.GEAR_RATIO].GetValue(_decimalConverter.Convert);
-            set => RevisionsByFields[3][(int)DataFields.GEAR_RATIO].SetValue(_decimalConverter.Convert, value);
+            get => GetField(3,(int)DataFields.GEAR_RATIO).GetValue(_decimalConverter.Convert);
+            set => GetField(3,(int)DataFields.GEAR_RATIO).SetValue(_decimalConverter.Convert, value);
         }
         public decimal ToolFullSpeed
         {
-            get => RevisionsByFields[3][(int)DataFields.TOOL_FULL_SPEED].GetValue(_decimalConverter.Convert);
-            set => RevisionsByFields[3][(int)DataFields.TOOL_FULL_SPEED].SetValue(_decimalConverter.Convert, value);
+            get => GetField(3,(int)DataFields.TOOL_FULL_SPEED).GetValue(_decimalConverter.Convert);
+            set => GetField(3,(int)DataFields.TOOL_FULL_SPEED).SetValue(_decimalConverter.Convert, value);
         }
         //Rev 4
         public PrimaryTool PrimaryTool
         {
-            get => (PrimaryTool)RevisionsByFields[4][(int)DataFields.PRIMARY_TOOL].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[4][(int)DataFields.PRIMARY_TOOL].SetValue(_intConverter.Convert, (int)value);
+            get => (PrimaryTool)GetField(4,(int)DataFields.PRIMARY_TOOL).GetValue(_intConverter.Convert);
+            set => GetField(4,(int)DataFields.PRIMARY_TOOL).SetValue(_intConverter.Convert, (int)value);
         }
         //Rev 5
         public string ToolModel
         {
-            get => RevisionsByFields[5][(int)DataFields.TOOL_MODEL].Value;
-            set => RevisionsByFields[5][(int)DataFields.TOOL_MODEL].SetValue(value);
+            get => GetField(5,(int)DataFields.TOOL_MODEL).Value;
+            set => GetField(5,(int)DataFields.TOOL_MODEL).SetValue(value);
         }
 
         public MID_0041(int revision = LAST_REVISION) : base(MID, revision)

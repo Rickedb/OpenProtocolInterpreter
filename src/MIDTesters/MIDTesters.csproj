@@ -93,6 +93,15 @@
     <Compile Include="Tightening\TestMid0063.cs" />
     <Compile Include="Tightening\TestMid0064.cs" />
     <Compile Include="Tightening\TestMid0065.cs" />
+    <Compile Include="Tool\TestMid0040.cs" />
+    <Compile Include="Tool\TestMid0041.cs" />
+    <Compile Include="Tool\TestMid0042.cs" />
+    <Compile Include="Tool\TestMid0043.cs" />
+    <Compile Include="Tool\TestMid0044.cs" />
+    <Compile Include="Tool\TestMid0045.cs" />
+    <Compile Include="Tool\TestMid0046.cs" />
+    <Compile Include="Tool\TestMid0047.cs" />
+    <Compile Include="Tool\TestMid0048.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenProtocolInterpreter\OpenProtocolInterpreter.csproj">
@@ -115,7 +124,6 @@
     <Folder Include="PLCUserData\" />
     <Folder Include="Statistic\" />
     <Folder Include="Time\" />
-    <Folder Include="Tool\" />
     <Folder Include="UserInterface\" />
     <Folder Include="Vin\" />
   </ItemGroup>

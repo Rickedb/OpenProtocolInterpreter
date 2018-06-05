@@ -72,33 +72,33 @@ namespace OpenProtocolInterpreter.PowerMACS
                 base.HeaderData.Length = package.Length;
                 base.Parse(package);
 
-                //TotalNumberOfMessages = base.RegisteredDataFields[(int)DataFields.TOTAL_NUMBER_OF_MESSAGES].ToInt32();
-                //MessageNumber = base.RegisteredDataFields[(int)DataFields.MESSAGE_NUMBER].ToInt32();
-                //DataNumberSystem = base.RegisteredDataFields[(int)DataFields.DATA_NUMBER_SYSTEM].ToInt32();
-                //StationNumber = base.RegisteredDataFields[(int)DataFields.STATION_NUMBER].ToInt32();
-                //Time = base.RegisteredDataFields[(int)DataFields.TIME].ToDateTime();
-                //BoltNumber = base.RegisteredDataFields[(int)DataFields.BOLT_NUMBER].ToInt32();
-                //BoltName = base.RegisteredDataFields[(int)DataFields.BOLT_NAME].Value.ToString();
-                //ProgramName = base.RegisteredDataFields[(int)DataFields.PROGRAM_NAME].Value.ToString();
-                //PMStatus = (PowerMacsStatuses)base.RegisteredDataFields[(int)DataFields.PM_STATUS].ToInt32();
-                //Errors = base.RegisteredDataFields[(int)DataFields.ERRORS].Value.ToString();
-                //CustomerErrorCode = base.RegisteredDataFields[(int)DataFields.CUSTOMER_ERROR_CODE].Value.ToString();
+                //TotalNumberOfMessages = base.RegisteredDataFields[(int)DataFields.TOTAL_NUMBER_OF_MESSAGES).ToInt32();
+                //MessageNumber = base.RegisteredDataFields[(int)DataFields.MESSAGE_NUMBER).ToInt32();
+                //DataNumberSystem = base.RegisteredDataFields[(int)DataFields.DATA_NUMBER_SYSTEM).ToInt32();
+                //StationNumber = base.RegisteredDataFields[(int)DataFields.STATION_NUMBER).ToInt32();
+                //Time = base.RegisteredDataFields[(int)DataFields.TIME).ToDateTime();
+                //BoltNumber = base.RegisteredDataFields[(int)DataFields.BOLT_NUMBER).ToInt32();
+                //BoltName = base.RegisteredDataFields[(int)DataFields.BOLT_NAME).Value.ToString();
+                //ProgramName = base.RegisteredDataFields[(int)DataFields.PROGRAM_NAME).Value.ToString();
+                //PMStatus = (PowerMacsStatuses)base.RegisteredDataFields[(int)DataFields.PM_STATUS).ToInt32();
+                //Errors = base.RegisteredDataFields[(int)DataFields.ERRORS).Value.ToString();
+                //CustomerErrorCode = base.RegisteredDataFields[(int)DataFields.CUSTOMER_ERROR_CODE).Value.ToString();
 
                 ////BoltResults full size
-                //int totalBoltResults = base.RegisteredDataFields[(int)DataFields.NUMBER_OF_BOLT_RESULTS].ToInt32();
-                //base.RegisteredDataFields[(int)DataFields.NUMBER_OF_BOLT_RESULTS].Size = totalBoltResults * 29;
-                //BoltResults = new BoltResult().getBoltResultsFromPackage(package.Substring(base.RegisteredDataFields[(int)DataFields.NUMBER_OF_BOLT_RESULTS].Index, base.RegisteredDataFields[(int)DataFields.NUMBER_OF_BOLT_RESULTS].Size)).ToList();
+                //int totalBoltResults = base.RegisteredDataFields[(int)DataFields.NUMBER_OF_BOLT_RESULTS).ToInt32();
+                //base.RegisteredDataFields[(int)DataFields.NUMBER_OF_BOLT_RESULTS).Size = totalBoltResults * 29;
+                //BoltResults = new BoltResult().getBoltResultsFromPackage(package.Substring(base.RegisteredDataFields[(int)DataFields.NUMBER_OF_BOLT_RESULTS).Index, base.RegisteredDataFields[(int)DataFields.NUMBER_OF_BOLT_RESULTS).Size)).ToList();
 
                 ////Step Results full size (index + size)
-                //AllStepDataSent = Convert.ToBoolean(Convert.ToInt32(package.Substring(base.RegisteredDataFields[(int)DataFields.NUMBER_OF_STEP_RESULTS].Index + 7, 1)));
-                //base.RegisteredDataFields[(int)DataFields.NUMBER_OF_STEP_RESULTS].Index = base.RegisteredDataFields[(int)DataFields.NUMBER_OF_BOLT_RESULTS].Index + base.RegisteredDataFields[(int)DataFields.NUMBER_OF_BOLT_RESULTS].Size;
-                //base.RegisteredDataFields[(int)DataFields.NUMBER_OF_STEP_RESULTS].Size = Convert.ToInt32(package.Substring(base.RegisteredDataFields[(int)DataFields.NUMBER_OF_STEP_RESULTS].Index, 3)) * 29;
-                //StepResults = new StepResult().getStepResultsFromPackage(package.Substring(base.RegisteredDataFields[(int)DataFields.NUMBER_OF_STEP_RESULTS].Index, base.RegisteredDataFields[(int)DataFields.NUMBER_OF_STEP_RESULTS].Size)).ToList();
+                //AllStepDataSent = Convert.ToBoolean(Convert.ToInt32(package.Substring(base.RegisteredDataFields[(int)DataFields.NUMBER_OF_STEP_RESULTS).Index + 7, 1)));
+                //base.RegisteredDataFields[(int)DataFields.NUMBER_OF_STEP_RESULTS).Index = base.RegisteredDataFields[(int)DataFields.NUMBER_OF_BOLT_RESULTS).Index + base.RegisteredDataFields[(int)DataFields.NUMBER_OF_BOLT_RESULTS).Size;
+                //base.RegisteredDataFields[(int)DataFields.NUMBER_OF_STEP_RESULTS).Size = Convert.ToInt32(package.Substring(base.RegisteredDataFields[(int)DataFields.NUMBER_OF_STEP_RESULTS).Index, 3)) * 29;
+                //StepResults = new StepResult().getStepResultsFromPackage(package.Substring(base.RegisteredDataFields[(int)DataFields.NUMBER_OF_STEP_RESULTS).Index, base.RegisteredDataFields[(int)DataFields.NUMBER_OF_STEP_RESULTS).Size)).ToList();
 
                 ////Special Values full size (index + size)
-                //base.RegisteredDataFields[(int)DataFields.NUMBER_OF_SPECIAL_VALUES].Index = base.RegisteredDataFields[(int)DataFields.NUMBER_OF_STEP_RESULTS].Index + base.RegisteredDataFields[(int)DataFields.NUMBER_OF_STEP_RESULTS].Size;
-                //base.RegisteredDataFields[(int)DataFields.NUMBER_OF_STEP_RESULTS].Size = package.Length - Convert.ToInt32(package.Substring(base.RegisteredDataFields[(int)DataFields.NUMBER_OF_STEP_RESULTS].Index, 2));
-                //SpecialValues = new SpecialValue().getSpecialValuesFromPackage(package.Substring(base.RegisteredDataFields[(int)DataFields.NUMBER_OF_STEP_RESULTS].Index)).ToList();
+                //base.RegisteredDataFields[(int)DataFields.NUMBER_OF_SPECIAL_VALUES).Index = base.RegisteredDataFields[(int)DataFields.NUMBER_OF_STEP_RESULTS).Index + base.RegisteredDataFields[(int)DataFields.NUMBER_OF_STEP_RESULTS).Size;
+                //base.RegisteredDataFields[(int)DataFields.NUMBER_OF_STEP_RESULTS).Size = package.Length - Convert.ToInt32(package.Substring(base.RegisteredDataFields[(int)DataFields.NUMBER_OF_STEP_RESULTS).Index, 2));
+                //SpecialValues = new SpecialValue().getSpecialValuesFromPackage(package.Substring(base.RegisteredDataFields[(int)DataFields.NUMBER_OF_STEP_RESULTS).Index)).ToList();
 
                 return this;
             }
@@ -196,9 +196,9 @@ namespace OpenProtocolInterpreter.PowerMACS
                 //foreach (DataField field in fields)
                 //    field.Value = package.Substring(field.Index, field.Size);
 
-                //result.VariableName = fields[(int)DataFields.VARIABLE_NAME].Value.ToString();
-                //result.Type = DataType.DataTypes.SingleOrDefault(x => x.Type == fields[(int)DataFields.TYPE].Value.ToString().Trim());
-                //result.Value = (result.Type.Type == "I") ? fields[(int)DataFields.VALUE].ToInt32() : fields[(int)DataFields.VALUE].ToFloat();
+                //result.VariableName = fields[(int)DataFields.VARIABLE_NAME).Value.ToString();
+                //result.Type = DataType.DataTypes.SingleOrDefault(x => x.Type == fields[(int)DataFields.TYPE).Value.ToString().Trim());
+                //result.Value = (result.Type.Type == "I") ? fields[(int)DataFields.VALUE).ToInt32() : fields[(int)DataFields.VALUE).ToFloat();
 
                 return result;
             }
@@ -253,10 +253,10 @@ namespace OpenProtocolInterpreter.PowerMACS
                 //foreach (DataField field in fields)
                 //    field.Value = package.Substring(field.Index, field.Size);
 
-                //result.VariableName = fields[(int)DataFields.VARIABLE_NAME].Value.ToString();
-                //result.Type = DataType.DataTypes.SingleOrDefault(x => x.Type == fields[(int)DataFields.TYPE].Value.ToString().Trim());
-                //result.Value = (result.Type.Type == "I") ? fields[(int)DataFields.VALUE].ToInt32() : fields[(int)DataFields.VALUE].ToFloat();
-                //result.StepNumber = fields[(int)DataFields.STEP_NUMBER].ToInt32();
+                //result.VariableName = fields[(int)DataFields.VARIABLE_NAME).Value.ToString();
+                //result.Type = DataType.DataTypes.SingleOrDefault(x => x.Type == fields[(int)DataFields.TYPE).Value.ToString().Trim());
+                //result.Value = (result.Type.Type == "I") ? fields[(int)DataFields.VALUE).ToInt32() : fields[(int)DataFields.VALUE).ToFloat();
+                //result.StepNumber = fields[(int)DataFields.STEP_NUMBER).ToInt32();
 
                 return result;
             }

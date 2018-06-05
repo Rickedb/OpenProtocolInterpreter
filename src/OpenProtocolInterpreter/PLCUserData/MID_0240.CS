@@ -17,8 +17,8 @@ namespace OpenProtocolInterpreter.PLCUserData
 
         public string UserData
         {
-            get => RevisionsByFields[1][(int)DataFields.USER_DATA].Value;
-            set => RevisionsByFields[1][(int)DataFields.USER_DATA].SetValue(value);
+            get => GetField(1,(int)DataFields.USER_DATA).Value;
+            set => GetField(1,(int)DataFields.USER_DATA).SetValue(value);
         }
 
         public MID_0240() : base(MID, LAST_REVISION) { }
@@ -32,7 +32,7 @@ namespace OpenProtocolInterpreter.PLCUserData
 
         public override string Pack()
         {
-            RevisionsByFields[1][(int)DataFields.USER_DATA].Size = 20 + UserData.Length;
+            GetField(1,(int)DataFields.USER_DATA).Size = 20 + UserData.Length;
             return base.Pack();
         }
 
@@ -41,7 +41,7 @@ namespace OpenProtocolInterpreter.PLCUserData
             if (IsCorrectType(package))
             {
                 HeaderData = ProcessHeader(package);
-                RevisionsByFields[1][(int)DataFields.USER_DATA].Size = HeaderData.Length - 20;
+                GetField(1,(int)DataFields.USER_DATA).Size = HeaderData.Length - 20;
                 ProcessDataFields(package);
                 return this;
             }

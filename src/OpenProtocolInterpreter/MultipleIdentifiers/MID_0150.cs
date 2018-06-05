@@ -16,8 +16,8 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
 
         public string IdentifierData
         {
-            get => RevisionsByFields[1][(int)DataFields.IDENTIFIER_DATA].Value;
-            set => RevisionsByFields[1][(int)DataFields.IDENTIFIER_DATA].SetValue(value);
+            get => GetField(1,(int)DataFields.IDENTIFIER_DATA).Value;
+            set => GetField(1,(int)DataFields.IDENTIFIER_DATA).SetValue(value);
         }
 
         public MID_0150() : base(MID, LAST_REVISION) { }
@@ -34,7 +34,7 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
             if (IsCorrectType(package))
             {
                 HeaderData = ProcessHeader(package);
-                RevisionsByFields[1][(int)DataFields.IDENTIFIER_DATA].Size = package.Length - HeaderData.Length;
+                GetField(1,(int)DataFields.IDENTIFIER_DATA).Size = package.Length - HeaderData.Length;
                 ProcessDataFields(package);
                 return this;
             }

@@ -18,8 +18,8 @@ namespace OpenProtocolInterpreter.Alarm
 
         public string ErrorCode
         {
-            get => RevisionsByFields[1][(int)DataFields.ERROR_CODE].Value;
-            set => RevisionsByFields[1][(int)DataFields.ERROR_CODE].SetValue(value);
+            get => GetField(1,(int)DataFields.ERROR_CODE).Value;
+            set => GetField(1,(int)DataFields.ERROR_CODE).SetValue(value);
         }
 
         public MID_0074(int revision = LAST_REVISION) : base(MID, revision) { }

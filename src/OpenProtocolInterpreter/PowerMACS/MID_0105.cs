@@ -24,13 +24,13 @@ namespace OpenProtocolInterpreter.PowerMACS
 
         public int DataNumberSystem
         {
-            get => RevisionsByFields[2][(int)DataFields.DATA_NUMBER_SYSTEM].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[2][(int)DataFields.DATA_NUMBER_SYSTEM].SetValue(_intConverter.Convert, value);
+            get => GetField(2,(int)DataFields.DATA_NUMBER_SYSTEM).GetValue(_intConverter.Convert);
+            set => GetField(2,(int)DataFields.DATA_NUMBER_SYSTEM).SetValue(_intConverter.Convert, value);
         }
         public bool SendOnlyNewData
         {
-            get => RevisionsByFields[3][(int)DataFields.SEND_ONLY_NEW_DATA].GetValue(_boolConverter.Convert);
-            set => RevisionsByFields[3][(int)DataFields.SEND_ONLY_NEW_DATA].SetValue(_boolConverter.Convert, value);
+            get => GetField(3,(int)DataFields.SEND_ONLY_NEW_DATA).GetValue(_boolConverter.Convert);
+            set => GetField(3,(int)DataFields.SEND_ONLY_NEW_DATA).SetValue(_boolConverter.Convert, value);
         }
 
         public MID_0105(int revision = LAST_REVISION, int? noAckFlag = 0) : base(MID, revision, noAckFlag)

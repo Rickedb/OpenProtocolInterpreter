@@ -20,13 +20,13 @@ namespace OpenProtocolInterpreter.Tool
 
         public CalibrationUnit CalibrationValueUnit
         {
-            get => (CalibrationUnit)RevisionsByFields[1][(int)DataFields.CALIBRATION_VALUE_UNIT].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.CALIBRATION_VALUE_UNIT].SetValue(_intConverter.Convert, (int)value);
+            get => (CalibrationUnit)GetField(1,(int)DataFields.CALIBRATION_VALUE_UNIT).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.CALIBRATION_VALUE_UNIT).SetValue(_intConverter.Convert, (int)value);
         }
         public decimal CalibrationValue
         {
-            get => RevisionsByFields[1][(int)DataFields.CALIBRATION_VALUE].GetValue(_decimalConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.CALIBRATION_VALUE].SetValue(_decimalConverter.Convert, value);
+            get => GetField(1,(int)DataFields.CALIBRATION_VALUE).GetValue(_decimalConverter.Convert);
+            set => GetField(1,(int)DataFields.CALIBRATION_VALUE).SetValue(_decimalConverter.Convert, value);
         }
 
         public MID_0045() : base(MID, LAST_REVISION)

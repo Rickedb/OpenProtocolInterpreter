@@ -22,29 +22,29 @@ namespace OpenProtocolInterpreter.Alarm
 
         public string ErrorCode
         {
-            get => RevisionsByFields[1][(int)DataFields.ERROR_CODE].Value;
-            set => RevisionsByFields[1][(int)DataFields.ERROR_CODE].SetValue(value);
+            get => GetField(1,(int)DataFields.ERROR_CODE).Value;
+            set => GetField(1,(int)DataFields.ERROR_CODE).SetValue(value);
         }
         public bool ControllerReadyStatus
         {
-            get => RevisionsByFields[1][(int)DataFields.CONTROLLER_READY_STATUS].GetValue(_boolConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.CONTROLLER_READY_STATUS].SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.CONTROLLER_READY_STATUS).GetValue(_boolConverter.Convert);
+            set => GetField(1,(int)DataFields.CONTROLLER_READY_STATUS).SetValue(_boolConverter.Convert, value);
         }
         public bool ToolReadyStatus
         {
-            get => RevisionsByFields[1][(int)DataFields.TOOL_READY_STATUS].GetValue(_boolConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.TOOL_READY_STATUS].SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.TOOL_READY_STATUS).GetValue(_boolConverter.Convert);
+            set => GetField(1,(int)DataFields.TOOL_READY_STATUS).SetValue(_boolConverter.Convert, value);
         }
         public DateTime Time
         {
-            get => RevisionsByFields[1][(int)DataFields.TIME].GetValue(_dateConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.TIME].SetValue(_dateConverter.Convert, value);
+            get => GetField(1,(int)DataFields.TIME).GetValue(_dateConverter.Convert);
+            set => GetField(1,(int)DataFields.TIME).SetValue(_dateConverter.Convert, value);
         }
         //Rev 2
         public string AlarmText
         {
-            get => RevisionsByFields[2][(int)DataFields.TIME].Value;
-            set => RevisionsByFields[2][(int)DataFields.TIME].SetValue(value);
+            get => GetField(2,(int)DataFields.TIME).Value;
+            set => GetField(2,(int)DataFields.TIME).SetValue(value);
         }
 
         public MID_0071(int revision = LAST_REVISION, int? noAckFlag = 0) : base(MID, revision, noAckFlag)
@@ -128,9 +128,9 @@ namespace OpenProtocolInterpreter.Alarm
         {
             if (revision > 1)
             {
-                RevisionsByFields[1][(int)DataFields.ERROR_CODE].Size = 5;
+                GetField(1,(int)DataFields.ERROR_CODE).Size = 5;
                 for (int i = (int)DataFields.CONTROLLER_READY_STATUS; i < (int)DataFields.TIME + 1; i++)
-                    RevisionsByFields[1][i].Index++;
+                    GetField(1,i).Index++;
             }
         }
 

@@ -28,8 +28,8 @@ namespace OpenProtocolInterpreter.Communication
 
         public int MidAccepted
         {
-            get => RevisionsByFields[1][(int)DataFields.MID_ACCEPTED].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.MID_ACCEPTED].SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.MID_ACCEPTED).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.MID_ACCEPTED).SetValue(_intConverter.Convert, value);
         }
 
         public MID_0005() : base(MID, LAST_REVISION) => _intConverter = new Int32Converter();

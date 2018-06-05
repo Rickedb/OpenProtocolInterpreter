@@ -22,8 +22,8 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public RelayNumber RelayNumber
         {
-            get => (RelayNumber)RevisionsByFields[1][(int)DataFields.RELAY_NUMBER].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.RELAY_NUMBER].SetValue(_intConverter.Convert, (int)value);
+            get => (RelayNumber)GetField(1,(int)DataFields.RELAY_NUMBER).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.RELAY_NUMBER).SetValue(_intConverter.Convert, (int)value);
         }
 
         public MID_0219() : base(MID, LAST_REVISION)

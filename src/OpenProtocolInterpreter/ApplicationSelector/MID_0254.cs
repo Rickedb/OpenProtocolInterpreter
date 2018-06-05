@@ -27,8 +27,8 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
         public int DeviceId
         {
-            get => RevisionsByFields[1][(int)DataFields.DEVICE_ID].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.DEVICE_ID].SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.DEVICE_ID).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.DEVICE_ID).SetValue(_intConverter.Convert, value);
         }
         public List<LightCommand> GreenLights { get; set; }
 
@@ -50,7 +50,7 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
         public override string Pack()
         {
-            RevisionsByFields[1][(int)DataFields.GREEN_LIGHT_COMMAND].Value = _lightsConverter.Convert(GreenLights);
+            GetField(1,(int)DataFields.GREEN_LIGHT_COMMAND).Value = _lightsConverter.Convert(GreenLights);
             return base.Pack();
         }
 
@@ -59,7 +59,7 @@ namespace OpenProtocolInterpreter.ApplicationSelector
             if (IsCorrectType(package))
             {
                 base.Parse(package);
-                GreenLights = _lightsConverter.Convert(RevisionsByFields[1][(int)DataFields.GREEN_LIGHT_COMMAND].Value).ToList();
+                GreenLights = _lightsConverter.Convert(GetField(1,(int)DataFields.GREEN_LIGHT_COMMAND).Value).ToList();
                 return this;
             }
 

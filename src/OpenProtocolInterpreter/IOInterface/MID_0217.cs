@@ -22,13 +22,13 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public RelayNumber RelayNumber
         {
-            get => (RelayNumber)RevisionsByFields[1][(int)DataFields.RELAY_NUMBER].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.RELAY_NUMBER].SetValue(_intConverter.Convert, (int)value);
+            get => (RelayNumber)GetField(1,(int)DataFields.RELAY_NUMBER).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.RELAY_NUMBER).SetValue(_intConverter.Convert, (int)value);
         }
         public bool RelayStatus
         {
-            get => RevisionsByFields[1][(int)DataFields.RELAY_STATUS].GetValue(_boolConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.RELAY_STATUS].SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.RELAY_STATUS).GetValue(_boolConverter.Convert);
+            set => GetField(1,(int)DataFields.RELAY_STATUS).SetValue(_boolConverter.Convert, value);
         }
 
         /// <summary>

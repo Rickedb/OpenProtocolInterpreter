@@ -21,8 +21,8 @@ namespace OpenProtocolInterpreter.Tool
 
         public PrimaryTool PrimaryTool
         {
-            get => (PrimaryTool)RevisionsByFields[1][(int)DataFields.PRIMARY_TOOL].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.PRIMARY_TOOL].SetValue(_intConverter.Convert, (int)value);
+            get => (PrimaryTool)GetField(1,(int)DataFields.PRIMARY_TOOL).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.PRIMARY_TOOL).SetValue(_intConverter.Convert, (int)value);
         }
 
         public MID_0046() : base(MID, LAST_REVISION)

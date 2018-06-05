@@ -28,33 +28,33 @@ namespace OpenProtocolInterpreter.UserInterface
         
         public int TextDuration
         {
-            get => RevisionsByFields[1][(int)DataFields.TEXT_DURATION].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.TEXT_DURATION].SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.TEXT_DURATION).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.TEXT_DURATION).SetValue(_intConverter.Convert, value);
         }
         public RemovalCondition RemovalCondition
         {
-            get => (RemovalCondition)RevisionsByFields[1][(int)DataFields.REMOVAL_CONDITION].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.REMOVAL_CONDITION].SetValue(_intConverter.Convert, (int)value);
+            get => (RemovalCondition)GetField(1,(int)DataFields.REMOVAL_CONDITION).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.REMOVAL_CONDITION).SetValue(_intConverter.Convert, (int)value);
         }
         public string Line1
         {
-            get => RevisionsByFields[1][(int)DataFields.LINE_1_HEADER].Value;
-            set => RevisionsByFields[1][(int)DataFields.LINE_1_HEADER].SetValue(value);
+            get => GetField(1,(int)DataFields.LINE_1_HEADER).Value;
+            set => GetField(1,(int)DataFields.LINE_1_HEADER).SetValue(value);
         }
         public string Line2
         {
-            get => RevisionsByFields[1][(int)DataFields.LINE_2].Value;
-            set => RevisionsByFields[1][(int)DataFields.LINE_2].SetValue(value);
+            get => GetField(1,(int)DataFields.LINE_2).Value;
+            set => GetField(1,(int)DataFields.LINE_2).SetValue(value);
         }
         public string Line3
         {
-            get => RevisionsByFields[1][(int)DataFields.LINE_3].Value;
-            set => RevisionsByFields[1][(int)DataFields.LINE_3].SetValue(value);
+            get => GetField(1,(int)DataFields.LINE_3).Value;
+            set => GetField(1,(int)DataFields.LINE_3).SetValue(value);
         }
         public string Line4
         {
-            get => RevisionsByFields[1][(int)DataFields.LINE_4].Value;
-            set => RevisionsByFields[1][(int)DataFields.LINE_4].SetValue(value);
+            get => GetField(1,(int)DataFields.LINE_4).Value;
+            set => GetField(1,(int)DataFields.LINE_4).SetValue(value);
         }
 
         public MID_0111() : base(MID, LAST_REVISION)

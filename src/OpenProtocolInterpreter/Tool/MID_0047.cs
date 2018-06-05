@@ -23,8 +23,8 @@ namespace OpenProtocolInterpreter.Tool
         
         public PairingHandlingType PairingHandlingType
         {
-            get => (PairingHandlingType)RevisionsByFields[1][(int)DataFields.PAIRING_HANDLING_TYPE].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.PAIRING_HANDLING_TYPE].SetValue(_intConverter.Convert, (int)value);
+            get => (PairingHandlingType)GetField(1,(int)DataFields.PAIRING_HANDLING_TYPE).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.PAIRING_HANDLING_TYPE).SetValue(_intConverter.Convert, (int)value);
         }
 
         public MID_0047() : base(MID, LAST_REVISION)
@@ -32,7 +32,7 @@ namespace OpenProtocolInterpreter.Tool
             _intConverter = new Int32Converter();
         }
 
-        internal MID_0047(IMid nextTemplate) : base(MID, LAST_REVISION) => NextTemplate = nextTemplate;
+        internal MID_0047(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

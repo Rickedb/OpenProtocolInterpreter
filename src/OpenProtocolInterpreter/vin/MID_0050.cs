@@ -17,8 +17,8 @@ namespace OpenProtocolInterpreter.Vin
 
         public string VinNumber
         {
-            get => RevisionsByFields[1][(int)DataFields.VIN_NUMBER].Value;
-            set => RevisionsByFields[1][(int)DataFields.VIN_NUMBER].SetValue(value);
+            get => GetField(1,(int)DataFields.VIN_NUMBER).Value;
+            set => GetField(1,(int)DataFields.VIN_NUMBER).SetValue(value);
         }
 
         public MID_0050() : base(MID, LAST_REVISION) { }
@@ -36,7 +36,7 @@ namespace OpenProtocolInterpreter.Vin
 
         public override string Pack()
         {
-            RevisionsByFields[1][(int)DataFields.VIN_NUMBER].Size = VinNumber.Length + 20;
+            GetField(1,(int)DataFields.VIN_NUMBER).Size = VinNumber.Length + 20;
             return base.Pack();
         }
 
@@ -45,7 +45,7 @@ namespace OpenProtocolInterpreter.Vin
             if (IsCorrectType(package))
             {
                 HeaderData = ProcessHeader(package);
-                RevisionsByFields[1][(int)DataFields.VIN_NUMBER].Size = HeaderData.Length - 20;
+                GetField(1,(int)DataFields.VIN_NUMBER).Size = HeaderData.Length - 20;
                 ProcessDataFields(package);
                 return this;
             }

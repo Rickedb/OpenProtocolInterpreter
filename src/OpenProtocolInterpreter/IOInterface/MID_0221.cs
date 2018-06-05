@@ -23,13 +23,13 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public DigitalInputNumber DigitalInputNumber
         {
-            get => (DigitalInputNumber)RevisionsByFields[1][(int)DataFields.DIGITAL_INPUT_NUMBER].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.DIGITAL_INPUT_NUMBER].SetValue(_intConverter.Convert, (int)value);
+            get => (DigitalInputNumber)GetField(1,(int)DataFields.DIGITAL_INPUT_NUMBER).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.DIGITAL_INPUT_NUMBER).SetValue(_intConverter.Convert, (int)value);
         }
         public bool DigitalInputStatus
         {
-            get => RevisionsByFields[1][(int)DataFields.DIGITAL_INPUT_STATUS].GetValue(_boolConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.DIGITAL_INPUT_STATUS].SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.DIGITAL_INPUT_STATUS).GetValue(_boolConverter.Convert);
+            set => GetField(1,(int)DataFields.DIGITAL_INPUT_STATUS).SetValue(_boolConverter.Convert, value);
         }
 
         public MID_0221(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)

@@ -24,13 +24,13 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
         public int DeviceId
         {
-            get => RevisionsByFields[1][(int)DataFields.DEVICE_ID].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.DEVICE_ID].SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.DEVICE_ID).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.DEVICE_ID).SetValue(_intConverter.Convert, value);
         }
         public int NumberOfSockets
         {
-            get => RevisionsByFields[1][(int)DataFields.NUMBER_OF_SOCKETS].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.NUMBER_OF_SOCKETS].SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.NUMBER_OF_SOCKETS).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.NUMBER_OF_SOCKETS).SetValue(_intConverter.Convert, value);
         }
         public List<bool> SocketStatus { get; set; }
 
@@ -53,8 +53,8 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
         public override string Pack()
         {
-            RevisionsByFields[1][(int)DataFields.SOCKET_STATUS].Size = NumberOfSockets;
-            RevisionsByFields[1][(int)DataFields.SOCKET_STATUS].Value = _boolListConverter.Convert(SocketStatus);
+            GetField(1,(int)DataFields.SOCKET_STATUS).Size = NumberOfSockets;
+            GetField(1,(int)DataFields.SOCKET_STATUS).Value = _boolListConverter.Convert(SocketStatus);
             return base.Pack();
         }
 
@@ -64,9 +64,9 @@ namespace OpenProtocolInterpreter.ApplicationSelector
             {
                 HeaderData = ProcessHeader(package);
 
-                RevisionsByFields[1][(int)DataFields.SOCKET_STATUS].Size = HeaderData.Length - RevisionsByFields[1][(int)DataFields.NUMBER_OF_SOCKETS].Size - 20;
+                GetField(1,(int)DataFields.SOCKET_STATUS).Size = HeaderData.Length - GetField(1,(int)DataFields.NUMBER_OF_SOCKETS).Size - 20;
                 ProcessDataFields(package);
-                SocketStatus = _boolListConverter.Convert(RevisionsByFields[1][(int)DataFields.SOCKET_STATUS].Value).ToList();
+                SocketStatus = _boolListConverter.Convert(GetField(1,(int)DataFields.SOCKET_STATUS).Value).ToList();
                 return this;
             }
 

@@ -20,8 +20,8 @@ namespace OpenProtocolInterpreter.Time
 
         public DateTime Time
         {
-            get => RevisionsByFields[1][(int)DataFields.TIME].GetValue(_dateConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.TIME].SetValue(_dateConverter.Convert, value);
+            get => GetField(1,(int)DataFields.TIME).GetValue(_dateConverter.Convert);
+            set => GetField(1,(int)DataFields.TIME).SetValue(_dateConverter.Convert, value);
         }
 
         public MID_0081() : base(MID, LAST_REVISION)

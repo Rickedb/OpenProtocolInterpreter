@@ -20,13 +20,13 @@ namespace OpenProtocolInterpreter.Tool
 
         public PairingStatus PairingStatus
         {
-            get => (PairingStatus)RevisionsByFields[1][(int)DataFields.PAIRING_STATUS].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.PAIRING_STATUS].SetValue(_intConverter.Convert, (int)value);
+            get => (PairingStatus)GetField(1,(int)DataFields.PAIRING_STATUS).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.PAIRING_STATUS).SetValue(_intConverter.Convert, (int)value);
         }
         public DateTime TimeStamp
         {
-            get => RevisionsByFields[1][(int)DataFields.TIMESTAMP].GetValue(_dateConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.TIMESTAMP].SetValue(_dateConverter.Convert, value);
+            get => GetField(1,(int)DataFields.TIMESTAMP).GetValue(_dateConverter.Convert);
+            set => GetField(1,(int)DataFields.TIMESTAMP).SetValue(_dateConverter.Convert, value);
         }
 
         public MID_0048() : base(MID, LAST_REVISION)

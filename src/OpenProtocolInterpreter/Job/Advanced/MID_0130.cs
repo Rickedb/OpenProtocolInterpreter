@@ -21,8 +21,8 @@ namespace OpenProtocolInterpreter.Job.Advanced
         /// </summary>
         public bool JobOffStatus
         {
-            get => RevisionsByFields[2][(int)DataFields.JOB_OFF_STATUS].GetValue(_boolConverter.Convert);
-            set => RevisionsByFields[2][(int)DataFields.JOB_OFF_STATUS].SetValue(_boolConverter.Convert, value);
+            get => GetField(2,(int)DataFields.JOB_OFF_STATUS).GetValue(_boolConverter.Convert);
+            set => GetField(2,(int)DataFields.JOB_OFF_STATUS).SetValue(_boolConverter.Convert, value);
         }
 
         public MID_0130() : base(MID, LAST_REVISION)

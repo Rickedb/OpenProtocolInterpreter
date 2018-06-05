@@ -21,8 +21,8 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public int DeviceNumber
         {
-            get => RevisionsByFields[1][(int)DataFields.DEVICE_NUMBER].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.DEVICE_NUMBER].SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.DEVICE_NUMBER).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.DEVICE_NUMBER).SetValue(_intConverter.Convert, value);
         }
 
         public MID_0214(int revision = LAST_REVISION) : base(MID, LAST_REVISION)

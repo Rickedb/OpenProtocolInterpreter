@@ -19,13 +19,13 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
 
         public string ToolTagID
         {
-            get => RevisionsByFields[1][(int)DataFields.TOOL_TAG_ID].Value;
-            set => RevisionsByFields[1][(int)DataFields.TOOL_TAG_ID].SetValue(value);
+            get => GetField(1,(int)DataFields.TOOL_TAG_ID).Value;
+            set => GetField(1,(int)DataFields.TOOL_TAG_ID).SetValue(value);
         }
         public ToolStatus ToolStatus
         {
-            get => (ToolStatus)RevisionsByFields[1][(int)DataFields.TOOL_STATUS].GetValue(_intConverter.Convert);
-            set => RevisionsByFields[1][(int)DataFields.TOOL_STATUS].SetValue(_intConverter.Convert, (int)value);
+            get => (ToolStatus)GetField(1,(int)DataFields.TOOL_STATUS).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.TOOL_STATUS).SetValue(_intConverter.Convert, (int)value);
         }
 
         public MID_0265() : base(MID, LAST_REVISION)
