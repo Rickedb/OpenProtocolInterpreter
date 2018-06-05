@@ -102,6 +102,11 @@
     <Compile Include="Tool\TestMid0046.cs" />
     <Compile Include="Tool\TestMid0047.cs" />
     <Compile Include="Tool\TestMid0048.cs" />
+    <Compile Include="Vin\TestMid0050.cs" />
+    <Compile Include="Vin\TestMid0051.cs" />
+    <Compile Include="Vin\TestMid0052.cs" />
+    <Compile Include="Vin\TestMid0053.cs" />
+    <Compile Include="Vin\TestMid0054.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenProtocolInterpreter\OpenProtocolInterpreter.csproj">
@@ -125,7 +130,6 @@
     <Folder Include="Statistic\" />
     <Folder Include="Time\" />
     <Folder Include="UserInterface\" />
-    <Folder Include="Vin\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

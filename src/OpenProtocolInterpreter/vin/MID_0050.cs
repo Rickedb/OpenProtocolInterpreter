@@ -36,7 +36,7 @@ namespace OpenProtocolInterpreter.Vin
 
         public override string Pack()
         {
-            GetField(1,(int)DataFields.VIN_NUMBER).Size = VinNumber.Length + 20;
+            GetField(1,(int)DataFields.VIN_NUMBER).Size = VinNumber.Length;
             return base.Pack();
         }
 
