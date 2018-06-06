@@ -50,6 +50,15 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Alarm\TestMid0070.cs" />
+    <Compile Include="Alarm\TestMid0071.cs" />
+    <Compile Include="Alarm\TestMid0072.cs" />
+    <Compile Include="Alarm\TestMid0073.cs" />
+    <Compile Include="Alarm\TestMid0074.cs" />
+    <Compile Include="Alarm\TestMid0075.cs" />
+    <Compile Include="Alarm\TestMid0076.cs" />
+    <Compile Include="Alarm\TestMid0077.cs" />
+    <Compile Include="Alarm\TestMid0078.cs" />
     <Compile Include="Communication\TestMid0001.cs" />
     <Compile Include="Communication\TestMid0002.cs" />
     <Compile Include="Communication\TestMid0003.cs" />
@@ -115,7 +124,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Alarm\" />
     <Folder Include="ApplicationController\" />
     <Folder Include="ApplicationSelector\" />
     <Folder Include="ApplicationToolLocationSystem\" />

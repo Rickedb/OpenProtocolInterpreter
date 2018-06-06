@@ -22,34 +22,33 @@ namespace OpenProtocolInterpreter.Alarm
 
         public string ErrorCode
         {
-            get => GetField(1,(int)DataFields.ERROR_CODE).Value;
-            set => GetField(1,(int)DataFields.ERROR_CODE).SetValue(value);
+            get => GetField(1, (int)DataFields.ERROR_CODE).Value;
+            set => GetField(1, (int)DataFields.ERROR_CODE).SetValue(value);
         }
         public bool ControllerReadyStatus
         {
-            get => GetField(1,(int)DataFields.CONTROLLER_READY_STATUS).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.CONTROLLER_READY_STATUS).SetValue(_boolConverter.Convert, value);
+            get => GetField(1, (int)DataFields.CONTROLLER_READY_STATUS).GetValue(_boolConverter.Convert);
+            set => GetField(1, (int)DataFields.CONTROLLER_READY_STATUS).SetValue(_boolConverter.Convert, value);
         }
         public bool ToolReadyStatus
         {
-            get => GetField(1,(int)DataFields.TOOL_READY_STATUS).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.TOOL_READY_STATUS).SetValue(_boolConverter.Convert, value);
+            get => GetField(1, (int)DataFields.TOOL_READY_STATUS).GetValue(_boolConverter.Convert);
+            set => GetField(1, (int)DataFields.TOOL_READY_STATUS).SetValue(_boolConverter.Convert, value);
         }
         public DateTime Time
         {
-            get => GetField(1,(int)DataFields.TIME).GetValue(_dateConverter.Convert);
-            set => GetField(1,(int)DataFields.TIME).SetValue(_dateConverter.Convert, value);
+            get => GetField(1, (int)DataFields.TIME).GetValue(_dateConverter.Convert);
+            set => GetField(1, (int)DataFields.TIME).SetValue(_dateConverter.Convert, value);
         }
         //Rev 2
         public string AlarmText
         {
-            get => GetField(2,(int)DataFields.TIME).Value;
-            set => GetField(2,(int)DataFields.TIME).SetValue(value);
+            get => GetField(2, (int)DataFields.ALARM_TEXT).Value;
+            set => GetField(2, (int)DataFields.ALARM_TEXT).SetValue(value);
         }
 
         public MID_0071(int revision = LAST_REVISION, int? noAckFlag = 0) : base(MID, revision, noAckFlag)
         {
-            UpdateFieldsIndexBasedOnRevision(revision);
             _boolConverter = new BoolConverter();
             _dateConverter = new DateConverter();
         }
@@ -81,7 +80,7 @@ namespace OpenProtocolInterpreter.Alarm
         /// <param name="alarmText">Alarm text. 50 ASCII characters</param>
         /// <param name="revision">Revision (Default revision = 1)</param>
         /// <param name="ackflag">Acknowledge flag (Default = 1)</param>
-        public MID_0071(string errorCode, bool controllerReadyStatus, bool toolReadyStatus, DateTime time, string alarmText, int revision = 2, int? noAckFlag = 0) 
+        public MID_0071(string errorCode, bool controllerReadyStatus, bool toolReadyStatus, DateTime time, string alarmText, int revision = 2, int? noAckFlag = 0)
             : this(errorCode, controllerReadyStatus, toolReadyStatus, time, revision, noAckFlag)
         {
             AlarmText = alarmText;
@@ -89,11 +88,17 @@ namespace OpenProtocolInterpreter.Alarm
 
         internal MID_0071(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
+        public override string Pack()
+        {
+            UpdateFieldsIndexBasedOnRevision(HeaderData.Revision);
+            return base.Pack();
+        }
+
         public override Mid Parse(string package)
         {
             if (IsCorrectType(package))
             {
-                ProcessHeader(package);
+                HeaderData = ProcessHeader(package);
                 UpdateFieldsIndexBasedOnRevision(HeaderData.Revision);
                 ProcessDataFields(package);
                 return this;
@@ -128,9 +133,9 @@ namespace OpenProtocolInterpreter.Alarm
         {
             if (revision > 1)
             {
-                GetField(1,(int)DataFields.ERROR_CODE).Size = 5;
-                for (int i = (int)DataFields.CONTROLLER_READY_STATUS; i < (int)DataFields.TIME + 1; i++)
-                    GetField(1,i).Index++;
+                GetField(1, (int)DataFields.ERROR_CODE).Size = 5;
+                for (int i = (int)DataFields.CONTROLLER_READY_STATUS; i <= (int)DataFields.TIME; i++)
+                    GetField(1, i).Index++;
             }
         }
 
