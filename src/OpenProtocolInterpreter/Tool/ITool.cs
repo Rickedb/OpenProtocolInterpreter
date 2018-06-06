@@ -1,6 +1,6 @@
 ﻿namespace OpenProtocolInterpreter.Tool
 {
-    internal interface ITool
+    public interface ITool
     {
     }
 }

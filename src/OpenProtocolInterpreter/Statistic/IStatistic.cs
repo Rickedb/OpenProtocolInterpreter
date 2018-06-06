@@ -1,6 +1,6 @@
 ﻿namespace OpenProtocolInterpreter.Statistic
 {
-    internal interface IStatistic
+    public interface IStatistic
     {
     }
 }

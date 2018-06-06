@@ -1,6 +1,6 @@
 ﻿namespace OpenProtocolInterpreter.Tightening
 {
-    internal interface ITightening
+    public interface ITightening
     {
     }
 }

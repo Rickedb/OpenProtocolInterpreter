@@ -1,6 +1,6 @@
 ﻿namespace OpenProtocolInterpreter.PLCUserData
 {
-    internal interface IPLCUserData
+    public interface IPLCUserData
     {
     }
 }

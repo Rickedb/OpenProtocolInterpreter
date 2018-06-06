@@ -1,6 +1,6 @@
 ﻿namespace OpenProtocolInterpreter.Alarm
 {
-    internal interface IAlarm
+    public interface IAlarm
     {
     }
 }

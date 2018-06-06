@@ -1,6 +1,6 @@
 ﻿namespace OpenProtocolInterpreter.Time
 {
-    internal interface ITime
+    public interface ITime
     {
     }
 }

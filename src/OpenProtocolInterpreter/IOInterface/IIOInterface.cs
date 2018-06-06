@@ -1,6 +1,6 @@
 ﻿namespace OpenProtocolInterpreter.IOInterface
 {
-    internal interface IIOInterface
+    public interface IIOInterface
     {
     }
 }

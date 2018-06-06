@@ -1,6 +1,6 @@
 ﻿namespace OpenProtocolInterpreter.ApplicationSelector
 {
-    internal interface IApplicationSelector
+    public interface IApplicationSelector
     {
     }
 }

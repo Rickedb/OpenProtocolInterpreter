@@ -1,4 +1,6 @@
 ﻿namespace OpenProtocolInterpreter.UserInterface
 {
-    internal interface IUserInterface { }
+    public interface IUserInterface
+    {
+    }
 }

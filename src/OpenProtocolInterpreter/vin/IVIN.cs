@@ -1,6 +1,6 @@
 ﻿namespace OpenProtocolInterpreter.Vin
 {
-    internal interface IVin
+    public interface IVin
     {
     }
 }

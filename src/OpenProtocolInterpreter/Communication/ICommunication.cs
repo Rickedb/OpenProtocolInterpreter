@@ -1,6 +1,6 @@
 ﻿namespace OpenProtocolInterpreter.Communication
 {
-    internal interface ICommunication
+    public interface ICommunication
     {
     }
 }

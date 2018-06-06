@@ -1,6 +1,6 @@
 ﻿namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
 {
-    internal interface IApplicationToolLocationSystem
+    public interface IApplicationToolLocationSystem
     {
     }
 }

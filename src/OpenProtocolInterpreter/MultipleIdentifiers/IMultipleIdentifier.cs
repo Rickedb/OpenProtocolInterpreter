@@ -1,6 +1,6 @@
 ﻿namespace OpenProtocolInterpreter.MultipleIdentifiers
 {
-    internal interface IMultipleIdentifier
+    public interface IMultipleIdentifier
     {
     }
 }

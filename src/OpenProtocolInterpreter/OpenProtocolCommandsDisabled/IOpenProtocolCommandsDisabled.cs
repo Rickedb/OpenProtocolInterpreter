@@ -1,6 +1,6 @@
 ﻿namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
 {
-    internal interface IOpenProtocolCommandsDisabled
+    public interface IOpenProtocolCommandsDisabled
     {
     }
 }

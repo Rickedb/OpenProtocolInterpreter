@@ -1,6 +1,6 @@
 ﻿namespace OpenProtocolInterpreter.AutomaticManualMode
 {
-    internal interface IAutomaticManualMode
+    public interface IAutomaticManualMode
     {
     }
 }

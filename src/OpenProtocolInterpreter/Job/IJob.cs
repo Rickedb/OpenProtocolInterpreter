@@ -1,6 +1,6 @@
 ﻿namespace OpenProtocolInterpreter.Job
 {
-    internal interface IJob
+    public interface IJob
     {
     }
 }

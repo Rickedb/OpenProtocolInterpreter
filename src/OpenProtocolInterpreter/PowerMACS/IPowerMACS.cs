@@ -1,4 +1,6 @@
 ﻿namespace OpenProtocolInterpreter.PowerMACS
 {
-    internal interface IPowerMACS { }
+    public interface IPowerMACS
+    {
+    }
 }

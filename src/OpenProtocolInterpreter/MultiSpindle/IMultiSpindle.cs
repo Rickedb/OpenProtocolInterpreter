@@ -1,6 +1,6 @@
 ﻿namespace OpenProtocolInterpreter.MultiSpindle
 {
-    internal interface IMultiSpindle
+    public interface IMultiSpindle
     {
     }
 }
