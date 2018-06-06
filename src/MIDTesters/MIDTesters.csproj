@@ -78,6 +78,10 @@
     <Compile Include="KeepAlive\TestMid9999.cs" />
     <Compile Include="MIDsTests.cs" />
     <Compile Include="MidTester.cs" />
+    <Compile Include="MultiSpindle\TestMid0090.cs" />
+    <Compile Include="MultiSpindle\TestMid0091.cs" />
+    <Compile Include="MultiSpindle\TestMid0092.cs" />
+    <Compile Include="MultiSpindle\TestMid0093.cs" />
     <Compile Include="ParameterSet\TestMid0010.cs" />
     <Compile Include="ParameterSet\TestMid0011.cs" />
     <Compile Include="ParameterSet\TestMid0012.cs" />
@@ -135,7 +139,6 @@
     <Folder Include="LinkCommunication\" />
     <Folder Include="MotorTuning\" />
     <Folder Include="MultipleIdentifiers\" />
-    <Folder Include="MultiSpindle\" />
     <Folder Include="OpenProtocolCommandsDisabled\" />
     <Folder Include="PLCUserData\" />
     <Folder Include="Statistic\" />
