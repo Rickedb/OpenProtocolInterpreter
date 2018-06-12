@@ -98,7 +98,11 @@
     <Compile Include="ParameterSet\TestMid0023.cs" />
     <Compile Include="ParameterSet\TestMid0024.cs" />
     <Compile Include="ParameterSet\TestMid2504.cs" />
+    <Compile Include="PowerMACS\TestMid0105.cs" />
     <Compile Include="PowerMACS\TestMid0106.cs" />
+    <Compile Include="PowerMACS\TestMid0107.cs" />
+    <Compile Include="PowerMACS\TestMid0108.cs" />
+    <Compile Include="PowerMACS\TestMid0109.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tightening\TestMid0060.cs" />
     <Compile Include="Tightening\TestMid0061.cs" />

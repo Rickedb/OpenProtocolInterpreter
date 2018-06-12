@@ -23,7 +23,7 @@ namespace OpenProtocolInterpreter.Converters
                 SpecialValue obj = new SpecialValue
                 {
                     VariableName = value.Substring(0 + index, 20),
-                    Type = DataType.DataTypes.First(x => x.Type == value.Substring(20 + index, 2).Trim()),
+                    Type = DataType.DataTypes.First(x => x.Type.Trim() == value.Substring(20 + index, 2).Trim()),
                     Length = _intConverter.Convert(value.Substring(22 + index, 2))
                 };
                 obj.Value = value.Substring(24 + index, obj.Length);

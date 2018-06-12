@@ -112,8 +112,10 @@ namespace OpenProtocolInterpreter.PowerMACS
             _intConverter = new Int32Converter();
             _boolConverter = new BoolConverter();
             _dateConverter = new DateConverter();
-            BoltsData = new List<BoltData>();
-            SpecialValues = new List<SpecialValue>();
+            if (BoltsData == null)
+                BoltsData = new List<BoltData>();
+            if (SpecialValues == null)
+                SpecialValues = new List<SpecialValue>();
         }
 
         internal MID_0106(IMid nextTemplate) : this() => NextTemplate = nextTemplate;

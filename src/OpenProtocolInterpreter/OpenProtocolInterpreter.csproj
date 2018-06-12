@@ -120,11 +120,14 @@
     <Compile Include="MultiSpindle\MID_0093.cs" />
     <Compile Include="MultiSpindle\SpindleStatus.cs" />
     <Compile Include="PowerMACS\BoltData.cs" />
+    <Compile Include="PowerMACS\BoltResult.cs" />
     <Compile Include="PowerMACS\SpecialValue.cs" />
+    <Compile Include="PowerMACS\StepResult.cs" />
     <Compile Include="Tightening\StrategyOptions.cs" />
     <Compile Include="Tightening\TighteningErrorStatus.cs" />
     <Compile Include="_internals\Converters\BitConverter.cs" />
     <Compile Include="_internals\Converters\BoltDataListConverter.cs" />
+    <Compile Include="_internals\Converters\BoltResultConverter.cs" />
     <Compile Include="_internals\Converters\BoolConverter.cs" />
     <Compile Include="_internals\Converters\ByteArrayConverter.cs" />
     <Compile Include="_internals\Converters\DateConverter.cs" />
@@ -145,6 +148,7 @@
     <Compile Include="_internals\Converters\SocketStatusConverter.cs" />
     <Compile Include="_internals\Converters\SpecialValueListConverter.cs" />
     <Compile Include="_internals\Converters\SpindleStatusConverter.cs" />
+    <Compile Include="_internals\Converters\StepResultConverter.cs" />
     <Compile Include="_internals\Converters\StrategyOptionsConverter.cs" />
     <Compile Include="_internals\Converters\TighteningErrorStatusConverter.cs" />
     <Compile Include="_internals\Converters\ToolTagIdConverter.cs" />

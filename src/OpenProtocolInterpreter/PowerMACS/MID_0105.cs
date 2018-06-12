@@ -58,9 +58,12 @@ namespace OpenProtocolInterpreter.PowerMACS
                 {
                     3, new List<DataField>()
                             {
-                                new DataField((int)DataFields.SEND_ONLY_NEW_DATA, 30, 1)
+                                new DataField((int)DataFields.SEND_ONLY_NEW_DATA, 30, 1, false)
                             }
-                }
+                },
+                {
+                    4, new List<DataField>()
+                },
             };
         }
 

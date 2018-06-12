@@ -15,8 +15,7 @@ namespace OpenProtocolInterpreter.Converters
 
         public string Convert(decimal value)
         {
-            var q = value.ToString("00.0###", new CultureInfo("en-US")).PadRight(7,'0');
-            return value.ToString("00.0###", new CultureInfo("en-US")).PadRight(7, '0');
+            return value.ToString("00.0###", new CultureInfo("en-US"));
         }
 
 
