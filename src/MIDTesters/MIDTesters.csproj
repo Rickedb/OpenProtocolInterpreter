@@ -122,6 +122,9 @@
     <Compile Include="Tool\TestMid0046.cs" />
     <Compile Include="Tool\TestMid0047.cs" />
     <Compile Include="Tool\TestMid0048.cs" />
+    <Compile Include="UserInterface\TestMid0110.cs" />
+    <Compile Include="UserInterface\TestMid0111.cs" />
+    <Compile Include="UserInterface\TestMid0113.cs" />
     <Compile Include="Vin\TestMid0050.cs" />
     <Compile Include="Vin\TestMid0051.cs" />
     <Compile Include="Vin\TestMid0052.cs" />
@@ -146,7 +149,6 @@
     <Folder Include="OpenProtocolCommandsDisabled\" />
     <Folder Include="PLCUserData\" />
     <Folder Include="Statistic\" />
-    <Folder Include="UserInterface\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
