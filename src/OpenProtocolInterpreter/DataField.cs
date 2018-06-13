@@ -20,6 +20,7 @@ namespace OpenProtocolInterpreter
             Field = field;
             Index = index;
             Size = size;
+            PaddingChar = ' ';
         }
 
         public DataField(int field, int index, int size, char paddingChar, PaddingOrientations paddingOrientation = PaddingOrientations.RIGHT_PADDED, bool hasPrefix = true)

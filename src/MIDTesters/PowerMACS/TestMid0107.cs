@@ -29,7 +29,7 @@ namespace MIDTesters.PowerMACS
             Assert.IsNotNull(mid.StepResults);
             Assert.IsNotNull(mid.AllStepDataSent);
             Assert.IsNotNull(mid.SpecialValues);
-            //Assert.AreEqual(pack, mid.Pack());
+            Assert.AreEqual(pack, mid.Pack());
         }
     }
 }

@@ -60,6 +60,7 @@ namespace OpenProtocolInterpreter.Converters
                     _decimalConverter = new DecimalConverter();
                     package += _decimalConverter.Convert('0', 7, DataField.PaddingOrientations.LEFT_PADDED, (decimal)step.Value);
                 }
+                package += _intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, step.StepNumber);
             }
 
             return package;

@@ -8,11 +8,13 @@ namespace OpenProtocolInterpreter.Converters
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly int _totalSpecialValues;
+        private bool _stepNumber;
 
-        public SpecialValueListConverter(int totalSpecialValues)
+        public SpecialValueListConverter(int totalSpecialValues, bool stepNumber = false)
         {
             _intConverter = new Int32Converter();
             _totalSpecialValues = totalSpecialValues;
+            _stepNumber = stepNumber;
         }
 
         public IEnumerable<SpecialValue> Convert(string value)
@@ -28,6 +30,11 @@ namespace OpenProtocolInterpreter.Converters
                 };
                 obj.Value = value.Substring(24 + index, obj.Length);
                 index += 24 + obj.Length;
+                if (_stepNumber)
+                {
+                    obj.StepNumber = _intConverter.Convert(value.Substring(index, 2));
+                    index += 2;
+                }
                 yield return obj;
             }
         }
@@ -37,10 +44,12 @@ namespace OpenProtocolInterpreter.Converters
             string package = string.Empty;
             foreach (var v in value)
             {
-                package += v.VariableName.PadRight(20) + 
-                            v.Type.Type.PadRight(2) + 
-                            _intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, v.Length) + 
-                            v.Value.ToString().PadRight(v.Length);
+                package += v.VariableName.PadRight(20, ' ') +
+                            v.Type.Type.PadRight(2, ' ') +
+                            _intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, v.Length) +
+                            v.Value.ToString().PadRight(v.Length, ' ');
+                if (_stepNumber)
+                    package += _intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, v.StepNumber);
             }
 
             return package;

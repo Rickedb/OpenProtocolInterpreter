@@ -136,11 +136,11 @@ namespace OpenProtocolInterpreter.PowerMACS
             NumberOfBoltResults = BoltResults.Count;
             NumberOfStepResults = StepResults.Count;
             NumberOfSpecialValues = SpecialValues.Count;
-            _specialValueConverter = new SpecialValueListConverter(NumberOfSpecialValues);
+            _specialValueConverter = new SpecialValueListConverter(NumberOfSpecialValues, true);
 
-            GetField(1, (int)DataFields.BOLT_RESULTS).Value = _boltResultConverter.Convert(BoltResults);
-            GetField(1, (int)DataFields.STEP_RESULTS).Value = _stepResultConverter.Convert(StepResults);
-            GetField(1, (int)DataFields.SPECIAL_VALUES).Value = _specialValueConverter.Convert(SpecialValues);
+            GetField(1, (int)DataFields.BOLT_RESULTS).SetValue(_boltResultConverter.Convert(BoltResults));
+            GetField(1, (int)DataFields.STEP_RESULTS).SetValue(_stepResultConverter.Convert(StepResults));
+            GetField(1, (int)DataFields.SPECIAL_VALUES).SetValue(_specialValueConverter.Convert(SpecialValues));
 
             return base.Pack();
         }
@@ -168,14 +168,14 @@ namespace OpenProtocolInterpreter.PowerMACS
                 stepResultsField.Size = 31 * numberOfStepResults;
 
                 var numberOfSpecialValuesField = GetField(1, (int)DataFields.NUMBER_OF_SPECIAL_VALUES);
-                numberOfSpecialValuesField.Index = 2 + stepResultsField.Index + stepResultsField.Size;
+                numberOfSpecialValuesField.Index = stepResultsField.Index + stepResultsField.Size;
 
                 var specialValuesField = GetField(1, (int)DataFields.SPECIAL_VALUES);
-                specialValuesField.Index = numberOfSpecialValuesField.Index + numberOfSpecialValuesField.Size;
+                specialValuesField.Index = 2 + numberOfSpecialValuesField.Index + numberOfSpecialValuesField.Size;
                 specialValuesField.Size = package.Length - specialValuesField.Index;
 
                 ProcessDataFields(package);
-                _specialValueConverter = new SpecialValueListConverter(NumberOfSpecialValues);
+                _specialValueConverter = new SpecialValueListConverter(NumberOfSpecialValues, true);
 
                 BoltResults = _boltResultConverter.Convert(boltResultField.Value).ToList();
                 StepResults = _stepResultConverter.Convert(stepResultsField.Value).ToList();
@@ -193,23 +193,23 @@ namespace OpenProtocolInterpreter.PowerMACS
                     {
                         1, new List<DataField>()
                                 {
-                                        new DataField((int)DataFields.TOTAL_NUMBER_OF_MESSAGES, 20, 2),
-                                        new DataField((int)DataFields.MESSAGE_NUMBER, 24, 2),
-                                        new DataField((int)DataFields.DATA_NUMBER_SYSTEM,28, 10),
+                                        new DataField((int)DataFields.TOTAL_NUMBER_OF_MESSAGES, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                        new DataField((int)DataFields.MESSAGE_NUMBER, 24, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                        new DataField((int)DataFields.DATA_NUMBER_SYSTEM, 28, 10, '0', DataField.PaddingOrientations.LEFT_PADDED),
                                         new DataField((int)DataFields.STATION_NUMBER, 40, 2),
                                         new DataField((int)DataFields.TIME, 44, 19),
-                                        new DataField((int)DataFields.BOLT_NUMBER, 65, 4),
+                                        new DataField((int)DataFields.BOLT_NUMBER, 65, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
                                         new DataField((int)DataFields.BOLT_NAME, 71, 20),
                                         new DataField((int)DataFields.PROGRAM_NAME, 93, 20),
                                         new DataField((int)DataFields.PM_STATUS, 115, 1),
                                         new DataField((int)DataFields.ERRORS, 118, 50),
                                         new DataField((int)DataFields.CUSTOMER_ERROR_CODE, 170, 4),
-                                        new DataField((int)DataFields.NUMBER_OF_BOLT_RESULTS, 176, 2),
+                                        new DataField((int)DataFields.NUMBER_OF_BOLT_RESULTS, 176, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
                                         new DataField((int)DataFields.BOLT_RESULTS, 180, 0, false),
-                                        new DataField((int)DataFields.NUMBER_OF_STEP_RESULTS, 0, 3),
+                                        new DataField((int)DataFields.NUMBER_OF_STEP_RESULTS, 0, 3, '0', DataField.PaddingOrientations.LEFT_PADDED),
                                         new DataField((int)DataFields.ALL_STEP_DATA_SENT, 0, 1),
                                         new DataField((int)DataFields.STEP_RESULTS, 0, 0, false),
-                                        new DataField((int)DataFields.NUMBER_OF_SPECIAL_VALUES, 0, 2),
+                                        new DataField((int)DataFields.NUMBER_OF_SPECIAL_VALUES, 0, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
                                         new DataField((int)DataFields.SPECIAL_VALUES, 0, 0, false)
                                 }
                     },
@@ -254,78 +254,5 @@ namespace OpenProtocolInterpreter.PowerMACS
             NOK = 2,
             TERMNOK = 3
         }
-
-       
-
-
-
-        //public class SpecialValue
-        //{
-        //    private List<DataField> fields;
-        //    public string VariableName { get; set; }
-        //    public DataType Type { get; set; }
-        //    public int Length { get; set; }
-        //    public object Value { get; set; }
-        //    public int StepNumber { get; set; }
-
-        //    public SpecialValue()
-        //    {
-        //        fields = new List<DataField>();
-        //        registerDatafields();
-        //    }
-
-        //    public IEnumerable<SpecialValue> getSpecialValuesFromPackage(string package)
-        //    {
-        //        List<SpecialValue> obj = new List<SpecialValue>();
-        //        int numberOfSpecialValues = Convert.ToInt32(package.Substring(2, 2));
-
-        //        int index = 4;
-        //        for (int i = 0; i < numberOfSpecialValues; i++)
-        //        {
-        //            int valueLength = Convert.ToInt32(package.Substring(index + fields[(int)DataFields.LENGTH].Index, fields[(int)DataFields.LENGTH].Size));
-        //            int totalSpecialValueLength = fields[(int)DataFields.LENGTH].Index + fields[(int)DataFields.LENGTH].Size + valueLength;
-
-        //            obj.Add(getSpecialValue(package.Substring(index, totalSpecialValueLength)));
-        //            index += totalSpecialValueLength;
-        //        }
-
-        //        return obj;
-        //    }
-
-        //    private SpecialValue getSpecialValue(string package)
-        //    {
-        //        SpecialValue val = new SpecialValue();
-
-        //        val.VariableName = package.Substring(fields[(int)DataFields.VARIABLE_NAME].Index, fields[(int)DataFields.VARIABLE_NAME].Size);
-        //        val.Type = DataType.DataTypes.SingleOrDefault(x => x.Type == package.Substring(fields[(int)DataFields.TYPE].Index, fields[(int)DataFields.TYPE].Size).Trim());
-        //        val.Length = Convert.ToInt32(package.Substring(fields[(int)DataFields.LENGTH].Index, fields[(int)DataFields.LENGTH].Size));
-        //        val.Value = package.Substring(fields[(int)DataFields.VALUE].Index, val.Length);
-        //        val.StepNumber = Convert.ToInt32(package.Substring(fields[(int)DataFields.VALUE].Index + val.Length, fields[(int)DataFields.STEP_NUMBER].Size));
-
-        //        return val;
-        //    }
-
-        //    private void registerDatafields()
-        //    {
-        //        fields.AddRange(
-        //            new DataField[]
-        //            {
-        //                    new DataField((int)DataFields.VARIABLE_NAME, 0, 20),
-        //                    new DataField((int)DataFields.TYPE, 20, 2),
-        //                    new DataField((int)DataFields.LENGTH, 22, 2),
-        //                    new DataField((int)DataFields.VALUE, 24, 0),
-        //                    new DataField((int)DataFields.STEP_NUMBER, 0, 2),
-        //            });
-        //    }
-
-        //    public enum DataFields
-        //    {
-        //        VARIABLE_NAME,
-        //        TYPE,
-        //        LENGTH,
-        //        VALUE,
-        //        STEP_NUMBER
-        //    }
-        //}
     }
 }
