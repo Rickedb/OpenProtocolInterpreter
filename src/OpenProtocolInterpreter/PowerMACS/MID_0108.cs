@@ -41,7 +41,10 @@ namespace OpenProtocolInterpreter.PowerMACS
                             {
                                 new DataField((int)DataFields.BOLT_DATA, 20, 1, false),
                             }
-                }
+                },
+                { 2, new List<DataField>() },
+                { 3, new List<DataField>() },
+                { 4, new List<DataField>() }
             };
         }
 

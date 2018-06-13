@@ -3,12 +3,13 @@ using OpenProtocolInterpreter.PowerMACS;
 
 namespace MIDTesters.PowerMACS
 {
+    [TestClass]
     public class TestMid0108 : MidTester
     {
         [TestMethod]
         public void Mid0108AllRevisions()
         {
-            string package = "00200108002         1";
+            string package = "00210108002         1";
             var mid = _midInterpreter.Parse<MID_0108>(package);
 
             Assert.AreEqual(typeof(MID_0108), mid.GetType());
