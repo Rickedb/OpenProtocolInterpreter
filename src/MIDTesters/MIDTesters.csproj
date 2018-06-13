@@ -64,7 +64,20 @@
     <Compile Include="Communication\TestMid0003.cs" />
     <Compile Include="Communication\TestMid0004.cs" />
     <Compile Include="Communication\TestMid0005.cs" />
+    <Compile Include="Job\Advanced\TestMid0120.cs" />
+    <Compile Include="Job\Advanced\TestMid0121.cs" />
+    <Compile Include="Job\Advanced\TestMid0122.cs" />
+    <Compile Include="Job\Advanced\TestMid0123.cs" />
+    <Compile Include="Job\Advanced\TestMid0124.cs" />
+    <Compile Include="Job\Advanced\TestMid0125.cs" />
+    <Compile Include="Job\Advanced\TestMid0126.cs" />
     <Compile Include="Job\Advanced\TestMid0127.cs" />
+    <Compile Include="Job\Advanced\TestMid0128.cs" />
+    <Compile Include="Job\Advanced\TestMid0129.cs" />
+    <Compile Include="Job\Advanced\TestMid0130.cs" />
+    <Compile Include="Job\Advanced\TestMid0131.cs" />
+    <Compile Include="Job\Advanced\TestMid0132.cs" />
+    <Compile Include="Job\Advanced\TestMid0133.cs" />
     <Compile Include="Job\TestMid0030.cs" />
     <Compile Include="Job\TestMid0031.cs" />
     <Compile Include="Job\TestMid0032.cs" />
@@ -122,6 +135,9 @@
     <Compile Include="Tool\TestMid0046.cs" />
     <Compile Include="Tool\TestMid0047.cs" />
     <Compile Include="Tool\TestMid0048.cs" />
+    <Compile Include="UserInterface\TestMid0110.cs" />
+    <Compile Include="UserInterface\TestMid0111.cs" />
+    <Compile Include="UserInterface\TestMid0113.cs" />
     <Compile Include="Vin\TestMid0050.cs" />
     <Compile Include="Vin\TestMid0051.cs" />
     <Compile Include="Vin\TestMid0052.cs" />
@@ -146,7 +162,6 @@
     <Folder Include="OpenProtocolCommandsDisabled\" />
     <Folder Include="PLCUserData\" />
     <Folder Include="Statistic\" />
-    <Folder Include="UserInterface\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

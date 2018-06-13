@@ -57,7 +57,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
                 {
                     2, new List<DataField>()
                             {
-                                new DataField((int)DataFields.CHANNEL_ID, 23, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.CHANNEL_ID, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
                                 new DataField((int)DataFields.PARAMETER_SET_ID, 24, 3, '0', DataField.PaddingOrientations.LEFT_PADDED)
                             }
                 }

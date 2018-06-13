@@ -20,8 +20,8 @@ namespace OpenProtocolInterpreter.UserInterface
 
         public string UserText
         {
-            get => GetField(2,(int)DataFields.USER_TEXT).Value;
-            set => GetField(2,(int)DataFields.USER_TEXT).SetValue(value);
+            get => GetField(1,(int)DataFields.USER_TEXT).Value;
+            set => GetField(1,(int)DataFields.USER_TEXT).SetValue(value);
         }
 
         public MID_0110() : base(MID, LAST_REVISION)
