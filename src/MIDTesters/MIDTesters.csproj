@@ -59,6 +59,12 @@
     <Compile Include="Alarm\TestMid0076.cs" />
     <Compile Include="Alarm\TestMid0077.cs" />
     <Compile Include="Alarm\TestMid0078.cs" />
+    <Compile Include="ApplicationSelector\TestMid0250.cs" />
+    <Compile Include="ApplicationSelector\TestMid0251.cs" />
+    <Compile Include="ApplicationSelector\TestMid0252.cs" />
+    <Compile Include="ApplicationSelector\TestMid0253.cs" />
+    <Compile Include="ApplicationSelector\TestMid0254.cs" />
+    <Compile Include="ApplicationSelector\TestMid0255.cs" />
     <Compile Include="Communication\TestMid0001.cs" />
     <Compile Include="Communication\TestMid0002.cs" />
     <Compile Include="Communication\TestMid0003.cs" />
@@ -181,7 +187,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ApplicationController\" />
-    <Folder Include="ApplicationSelector\" />
     <Folder Include="ApplicationToolLocationSystem\" />
     <Folder Include="AutomaticManualMode\" />
     <Folder Include="LinkCommunication\" />

@@ -46,7 +46,7 @@ namespace OpenProtocolInterpreter.ApplicationSelector
             GreenLights = greenLights.ToList();
         }
 
-        internal MID_0254(IMid nextTemplate) : base(MID, LAST_REVISION) => NextTemplate = nextTemplate;
+        internal MID_0254(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         public override string Pack()
         {
