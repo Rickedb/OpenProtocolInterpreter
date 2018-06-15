@@ -46,7 +46,8 @@ namespace OpenProtocolInterpreter.IOInterface
                     {
                         new DataField((int)DataFields.DEVICE_NUMBER, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
                     }
-                }
+                },
+                { 2, new List<DataField>() }
             };
         }
 
