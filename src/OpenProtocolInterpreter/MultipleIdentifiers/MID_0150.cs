@@ -34,7 +34,7 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
             if (IsCorrectType(package))
             {
                 HeaderData = ProcessHeader(package);
-                GetField(1,(int)DataFields.IDENTIFIER_DATA).Size = package.Length - HeaderData.Length;
+                GetField(1,(int)DataFields.IDENTIFIER_DATA).Size = package.Length - 20;
                 ProcessDataFields(package);
                 return this;
             }

@@ -20,7 +20,7 @@ namespace OpenProtocolInterpreter.Converters
                 IdentifierTypeNumber = _intConverter.Convert(value.Substring(0, 1)),
                 IncludedInWorkOrder = _boolConverter.Convert(value.Substring(1, 2)),
                 StatusInWorkOrder = (StatusInWorkOrder)_intConverter.Convert(value.Substring(3, 2)),
-                ResultPart = value.Substring(5, 24)
+                ResultPart = value.Substring(5, 25)
             };
         }
 
@@ -29,7 +29,7 @@ namespace OpenProtocolInterpreter.Converters
             return _intConverter.Convert('0', 1, DataField.PaddingOrientations.LEFT_PADDED, value.IdentifierTypeNumber) +
                    _intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, System.Convert.ToInt32(value.IncludedInWorkOrder)) +
                    _intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, (int)value.StatusInWorkOrder) +
-                   value.ResultPart.PadRight(24, ' ');
+                   value.ResultPart.PadRight(25, ' ');
         }
 
         public string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, IdentifierStatus value) => Convert(value);
