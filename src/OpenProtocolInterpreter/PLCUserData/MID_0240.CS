@@ -32,7 +32,7 @@ namespace OpenProtocolInterpreter.PLCUserData
 
         public override string Pack()
         {
-            GetField(1,(int)DataFields.USER_DATA).Size = 20 + UserData.Length;
+            GetField(1,(int)DataFields.USER_DATA).Size = UserData.Length;
             return base.Pack();
         }
 
@@ -41,7 +41,7 @@ namespace OpenProtocolInterpreter.PLCUserData
             if (IsCorrectType(package))
             {
                 HeaderData = ProcessHeader(package);
-                GetField(1,(int)DataFields.USER_DATA).Size = HeaderData.Length - 20;
+                GetField(1,(int)DataFields.USER_DATA).Size = package.Length - 20;
                 ProcessDataFields(package);
                 return this;
             }

@@ -35,13 +35,13 @@ namespace OpenProtocolInterpreter.PLCUserData
 
         public int Offset
         {
-            get => GetField(1,(int)DataFields.USER_DATA).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.USER_DATA).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.USER_DATA).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.USER_DATA).SetValue(_intConverter.Convert, value);
         }
         public string UserData
         {
-            get => GetField(1,(int)DataFields.USER_DATA).Value;
-            set => GetField(1,(int)DataFields.USER_DATA).SetValue(value);
+            get => GetField(1, (int)DataFields.USER_DATA).Value;
+            set => GetField(1, (int)DataFields.USER_DATA).SetValue(value);
         }
 
         public MID_0245() : base(MID, LAST_REVISION)
@@ -60,7 +60,7 @@ namespace OpenProtocolInterpreter.PLCUserData
 
         public override string Pack()
         {
-            GetField(1,(int)DataFields.USER_DATA).Size = 20 + UserData.Length;
+            GetField(1, (int)DataFields.USER_DATA).Size = UserData.Length;
             return base.Pack();
         }
 
@@ -69,7 +69,7 @@ namespace OpenProtocolInterpreter.PLCUserData
             if (IsCorrectType(package))
             {
                 HeaderData = ProcessHeader(package);
-                GetField(1,(int)DataFields.USER_DATA).Size = HeaderData.Length - 22;
+                GetField(1,(int)DataFields.USER_DATA).Size = package.Length - 23;
                 ProcessDataFields(package);
                 return this;
             }

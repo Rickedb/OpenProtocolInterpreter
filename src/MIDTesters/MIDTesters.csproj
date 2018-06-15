@@ -134,6 +134,12 @@
     <Compile Include="ParameterSet\TestMid0023.cs" />
     <Compile Include="ParameterSet\TestMid0024.cs" />
     <Compile Include="ParameterSet\TestMid2504.cs" />
+    <Compile Include="PLCUserData\TestMid0240.cs" />
+    <Compile Include="PLCUserData\TestMid0241.cs" />
+    <Compile Include="PLCUserData\TestMid0242.cs" />
+    <Compile Include="PLCUserData\TestMid0243.cs" />
+    <Compile Include="PLCUserData\TestMid0244.cs" />
+    <Compile Include="PLCUserData\TestMid0245.cs" />
     <Compile Include="PowerMACS\TestMid0105.cs" />
     <Compile Include="PowerMACS\TestMid0106.cs" />
     <Compile Include="PowerMACS\TestMid0107.cs" />
@@ -181,7 +187,6 @@
     <Folder Include="LinkCommunication\" />
     <Folder Include="MotorTuning\" />
     <Folder Include="OpenProtocolCommandsDisabled\" />
-    <Folder Include="PLCUserData\" />
     <Folder Include="Statistic\" />
   </ItemGroup>
   <Choose>

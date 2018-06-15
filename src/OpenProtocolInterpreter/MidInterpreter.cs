@@ -133,7 +133,7 @@ namespace OpenProtocolInterpreter
 
         private bool IsIOInterfaceMessage(int mid) => (mid > 199 && mid < 226);
 
-        private bool IsPLCUserDataMessage(int mid) => (mid > 239 && mid < 245);
+        private bool IsPLCUserDataMessage(int mid) => (mid > 239 && mid < 246);
 
         private bool IsSelectorMessage(int mid) => (mid > 249 && mid < 256);
 
