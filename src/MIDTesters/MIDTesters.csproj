@@ -72,6 +72,12 @@
     <Compile Include="ApplicationToolLocationSystem\TestMid0263.cs" />
     <Compile Include="ApplicationToolLocationSystem\TestMid0264.cs" />
     <Compile Include="ApplicationToolLocationSystem\TestMid0265.cs" />
+    <Compile Include="AutomaticManualMode\TestMid0400.cs" />
+    <Compile Include="AutomaticManualMode\TestMid0401.cs" />
+    <Compile Include="AutomaticManualMode\TestMid0402.cs" />
+    <Compile Include="AutomaticManualMode\TestMid0403.cs" />
+    <Compile Include="AutomaticManualMode\TestMid0410.cs" />
+    <Compile Include="AutomaticManualMode\TestMid0411.cs" />
     <Compile Include="Communication\TestMid0001.cs" />
     <Compile Include="Communication\TestMid0002.cs" />
     <Compile Include="Communication\TestMid0003.cs" />
@@ -195,7 +201,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="AutomaticManualMode\" />
     <Folder Include="LinkCommunication\" />
     <Folder Include="MotorTuning\" />
     <Folder Include="OpenProtocolCommandsDisabled\" />
