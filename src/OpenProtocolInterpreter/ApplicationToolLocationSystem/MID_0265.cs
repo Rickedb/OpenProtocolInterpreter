@@ -17,7 +17,7 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
         private const int LAST_REVISION = 1;
         public const int MID = 265;
 
-        public string ToolTagID
+        public string ToolTagId
         {
             get => GetField(1,(int)DataFields.TOOL_TAG_ID).Value;
             set => GetField(1,(int)DataFields.TOOL_TAG_ID).SetValue(value);
@@ -35,7 +35,7 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
 
         public MID_0265(string toolTagId, ToolStatus toolStatus) : this()
         {
-            ToolTagID = toolTagId;
+            ToolTagId = toolTagId;
             ToolStatus = toolStatus;
         }
 

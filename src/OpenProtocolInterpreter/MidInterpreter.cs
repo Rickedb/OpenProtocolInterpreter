@@ -137,7 +137,7 @@ namespace OpenProtocolInterpreter
 
         private bool IsSelectorMessage(int mid) => (mid > 249 && mid < 256);
 
-        private bool IsToolLocationSystemMessage(int mid) => (mid > 259 && mid < 265);
+        private bool IsToolLocationSystemMessage(int mid) => (mid > 259 && mid < 266);
 
         private bool IsControllerMessage(int mid) => (mid == 270);
 

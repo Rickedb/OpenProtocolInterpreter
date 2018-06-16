@@ -65,6 +65,12 @@
     <Compile Include="ApplicationSelector\TestMid0253.cs" />
     <Compile Include="ApplicationSelector\TestMid0254.cs" />
     <Compile Include="ApplicationSelector\TestMid0255.cs" />
+    <Compile Include="ApplicationToolLocationSystem\TestMid0260.cs" />
+    <Compile Include="ApplicationToolLocationSystem\TestMid0261.cs" />
+    <Compile Include="ApplicationToolLocationSystem\TestMid0262.cs" />
+    <Compile Include="ApplicationToolLocationSystem\TestMid0263.cs" />
+    <Compile Include="ApplicationToolLocationSystem\TestMid0264.cs" />
+    <Compile Include="ApplicationToolLocationSystem\TestMid0265.cs" />
     <Compile Include="Communication\TestMid0001.cs" />
     <Compile Include="Communication\TestMid0002.cs" />
     <Compile Include="Communication\TestMid0003.cs" />
@@ -187,7 +193,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ApplicationController\" />
-    <Folder Include="ApplicationToolLocationSystem\" />
     <Folder Include="AutomaticManualMode\" />
     <Folder Include="LinkCommunication\" />
     <Folder Include="MotorTuning\" />
