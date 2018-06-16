@@ -59,6 +59,7 @@
     <Compile Include="Alarm\TestMid0076.cs" />
     <Compile Include="Alarm\TestMid0077.cs" />
     <Compile Include="Alarm\TestMid0078.cs" />
+    <Compile Include="ApplicationController\TestMid0270.cs" />
     <Compile Include="ApplicationSelector\TestMid0250.cs" />
     <Compile Include="ApplicationSelector\TestMid0251.cs" />
     <Compile Include="ApplicationSelector\TestMid0252.cs" />
@@ -158,6 +159,8 @@
     <Compile Include="PowerMACS\TestMid0108.cs" />
     <Compile Include="PowerMACS\TestMid0109.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Statistic\TestMid0300.cs" />
+    <Compile Include="Statistic\TestMid0301.cs" />
     <Compile Include="Tightening\TestMid0060.cs" />
     <Compile Include="Tightening\TestMid0061.cs" />
     <Compile Include="Tightening\TestMid0062.cs" />
@@ -192,12 +195,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ApplicationController\" />
     <Folder Include="AutomaticManualMode\" />
     <Folder Include="LinkCommunication\" />
     <Folder Include="MotorTuning\" />
     <Folder Include="OpenProtocolCommandsDisabled\" />
-    <Folder Include="Statistic\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

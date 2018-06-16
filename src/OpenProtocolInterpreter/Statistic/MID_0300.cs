@@ -20,7 +20,7 @@ namespace OpenProtocolInterpreter.Statistic
         private const int LAST_REVISION = 1;
         public const int MID = 300;
 
-        public int ParameterSetID
+        public int ParameterSetId
         {
             get => GetField(1,(int)DataFields.PARAMETER_SET_ID).GetValue(_intConverter.Convert);
             set => GetField(1,(int)DataFields.PARAMETER_SET_ID).SetValue(_intConverter.Convert, value);
