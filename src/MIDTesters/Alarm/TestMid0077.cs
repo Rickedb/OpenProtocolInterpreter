@@ -13,7 +13,7 @@ namespace MIDTesters.Alarm
             string pack = @"00200077            ";
             var mid = _midInterpreter.Parse(pack);
 
-            Assert.AreEqual(typeof(MID_0077), mid.GetType());
+            Assert.AreEqual(typeof(Mid0077), mid.GetType());
             Assert.AreEqual(pack, mid.Pack());
         }
     }

@@ -8,7 +8,7 @@ namespace OpenProtocolInterpreter.MotorTuning
 
         public MotorTuningMessages()
         {
-            templates = new MID_0500(new MID_0501(new MID_0502(new MID_0503(new MID_0504(null)))));
+            templates = new Mid0500(new Mid0501(new Mid0502(new Mid0503(new Mid0504(null)))));
         }
 
         public MotorTuningMessages(System.Collections.Generic.IEnumerable<Mid> selectedMids)

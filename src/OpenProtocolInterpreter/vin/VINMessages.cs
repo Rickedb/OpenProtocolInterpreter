@@ -8,7 +8,7 @@ namespace OpenProtocolInterpreter.Vin
 
         public VinMessages()
         {
-            templates = new MID_0050(new MID_0051(new MID_0052(new MID_0053(new MID_0054(null)))));
+            templates = new Mid0050(new Mid0051(new Mid0052(new Mid0053(new Mid0054(null)))));
         }
 
         public VinMessages(System.Collections.Generic.IEnumerable<Mid> selectedMids)

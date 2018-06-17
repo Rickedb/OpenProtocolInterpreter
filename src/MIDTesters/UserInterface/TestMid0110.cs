@@ -11,9 +11,9 @@ namespace MIDTesters.UserInterface
         public void Mid0110Revision1()
         {
             string package = "00240110001         TEST";
-            var mid = _midInterpreter.Parse<MID_0110>(package);
+            var mid = _midInterpreter.Parse<Mid0110>(package);
 
-            Assert.AreEqual(typeof(MID_0110), mid.GetType());
+            Assert.AreEqual(typeof(Mid0110), mid.GetType());
             Assert.IsNotNull(mid.UserText);
             Assert.AreEqual(package, mid.Pack());
         }

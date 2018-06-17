@@ -11,9 +11,9 @@ namespace MIDTesters.PLCUserData
         public void Mid0243Revision1()
         {
             string package = "00200243            ";
-            var mid = _midInterpreter.Parse<MID_0243>(package);
+            var mid = _midInterpreter.Parse<Mid0243>(package);
 
-            Assert.AreEqual(typeof(MID_0243), mid.GetType());
+            Assert.AreEqual(typeof(Mid0243), mid.GetType());
             Assert.AreEqual(package, mid.Pack());
         }
     }

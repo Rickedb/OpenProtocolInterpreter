@@ -13,7 +13,7 @@ namespace MIDTesters.MultiSpindle
             string pack = @"00200090   1        ";
             var mid = _midInterpreter.Parse(pack);
 
-            Assert.AreEqual(typeof(MID_0090), mid.GetType());
+            Assert.AreEqual(typeof(Mid0090), mid.GetType());
             Assert.IsNotNull(mid.HeaderData.NoAckFlag);
             Assert.AreEqual(pack, mid.Pack());
         }

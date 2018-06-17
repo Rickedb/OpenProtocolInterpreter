@@ -8,7 +8,7 @@ namespace OpenProtocolInterpreter.MultiSpindle
 
         public MultiSpindleMessages()
         {
-            templates = new MID_0090(new MID_0091(new MID_0092(new MID_0093(null))));
+            templates = new Mid0090(new Mid0091(new Mid0092(new Mid0093(null))));
         }
 
         public MultiSpindleMessages(System.Collections.Generic.IEnumerable<Mid> selectedMids)

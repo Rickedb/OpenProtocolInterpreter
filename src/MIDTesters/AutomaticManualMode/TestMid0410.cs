@@ -13,7 +13,7 @@ namespace MIDTesters.AutomaticManualMode
             string package = "00200410            ";
             var mid = _midInterpreter.Parse(package);
 
-            Assert.AreEqual(typeof(MID_0410), mid.GetType());
+            Assert.AreEqual(typeof(Mid0410), mid.GetType());
             Assert.AreEqual(package, mid.Pack());
         }
     }

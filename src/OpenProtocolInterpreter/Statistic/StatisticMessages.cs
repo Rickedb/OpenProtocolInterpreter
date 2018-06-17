@@ -9,7 +9,7 @@ namespace OpenProtocolInterpreter.Statistic
 
         public StatisticMessages()
         {
-            templates = new MID_0300(new MID_0301(null));
+            templates = new Mid0300(new Mid0301(null));
         }
 
         public StatisticMessages(System.Collections.Generic.IEnumerable<Mid> selectedMids)

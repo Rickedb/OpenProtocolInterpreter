@@ -10,9 +10,9 @@ namespace MIDTesters.Job
         public void Mid0038Revision1()
         {
             string package = "00220038001         01";
-            var mid = _midInterpreter.Parse<MID_0038>(package);
+            var mid = _midInterpreter.Parse<Mid0038>(package);
 
-            Assert.AreEqual(typeof(MID_0038), mid.GetType());
+            Assert.AreEqual(typeof(Mid0038), mid.GetType());
             Assert.IsNotNull(mid.JobId);
             Assert.AreEqual(package, mid.Pack());
         }

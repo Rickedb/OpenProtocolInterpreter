@@ -11,9 +11,9 @@ namespace MIDTesters.Tool
         public void Mid0048Revision1()
         {
             string package = "00450048001         0107022017-12-01:20:12:45";
-            var mid = _midInterpreter.Parse<MID_0048>(package);
+            var mid = _midInterpreter.Parse<Mid0048>(package);
 
-            Assert.AreEqual(typeof(MID_0048), mid.GetType());
+            Assert.AreEqual(typeof(Mid0048), mid.GetType());
             Assert.IsNotNull(mid.PairingStatus);
             Assert.IsNotNull(mid.TimeStamp);
             Assert.AreEqual(package, mid.Pack());

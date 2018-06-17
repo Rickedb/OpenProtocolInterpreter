@@ -8,7 +8,7 @@ namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
 
         public OpenProtocolCommandsDisabledMessages()
         {
-            templates = new MID_0420(new MID_0421(new MID_0422(new MID_0423(null))));
+            templates = new Mid0420(new Mid0421(new Mid0422(new Mid0423(null))));
         }
 
         public OpenProtocolCommandsDisabledMessages(System.Collections.Generic.IEnumerable<Mid> selectedMids)

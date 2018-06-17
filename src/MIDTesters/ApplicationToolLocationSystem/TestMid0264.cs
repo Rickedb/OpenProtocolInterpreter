@@ -13,7 +13,7 @@ namespace MIDTesters.ApplicationToolLocationSystem
             string package = "00200264            ";
             var mid = _midInterpreter.Parse(package);
 
-            Assert.AreEqual(typeof(MID_0264), mid.GetType());
+            Assert.AreEqual(typeof(Mid0264), mid.GetType());
             Assert.AreEqual(package, mid.Pack());
         }
     }

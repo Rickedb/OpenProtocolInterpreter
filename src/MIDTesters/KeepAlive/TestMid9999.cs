@@ -12,7 +12,7 @@ namespace MIDTesters.KeepAlive
             string package = "00209999            ";
             var mid = _midInterpreter.Parse(package);
 
-            Assert.AreEqual(typeof(MID_9999), mid.GetType());
+            Assert.AreEqual(typeof(Mid9999), mid.GetType());
             Assert.AreEqual(package, mid.Pack());
         }
     }

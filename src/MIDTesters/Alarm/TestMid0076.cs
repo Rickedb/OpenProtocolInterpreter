@@ -11,9 +11,9 @@ namespace MIDTesters.Alarm
         public void Mid0076AllRevisions()
         {
             string pack = @"00560076            01102E851031041052017-01-25:10:20:20";
-            var mid = _midInterpreter.Parse<MID_0076>(pack);
+            var mid = _midInterpreter.Parse<Mid0076>(pack);
 
-            Assert.AreEqual(typeof(MID_0076), mid.GetType());
+            Assert.AreEqual(typeof(Mid0076), mid.GetType());
             Assert.IsNotNull(mid.AlarmStatus);
             Assert.IsNotNull(mid.ErrorCode);
             Assert.IsNotNull(mid.ControllerReadyStatus);

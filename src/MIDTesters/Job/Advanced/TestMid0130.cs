@@ -11,9 +11,9 @@ namespace MIDTesters.Job.Advanced
         public void Mid0130Revision1()
         {
             string package = "00210130            1";
-            var mid = _midInterpreter.Parse<MID_0130>(package);
+            var mid = _midInterpreter.Parse<Mid0130>(package);
 
-            Assert.AreEqual(typeof(MID_0130), mid.GetType());
+            Assert.AreEqual(typeof(Mid0130), mid.GetType());
             Assert.IsNotNull(mid.JobOffStatus);
             Assert.AreEqual(package, mid.Pack());
         }

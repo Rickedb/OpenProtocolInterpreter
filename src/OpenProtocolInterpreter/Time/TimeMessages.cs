@@ -8,7 +8,7 @@ namespace OpenProtocolInterpreter.Time
 
         public TimeMessages()
         {
-            templates = new MID_0080(new MID_0081(new MID_0082(null)));
+            templates = new Mid0080(new Mid0081(new Mid0082(null)));
         }
 
         public TimeMessages(System.Collections.Generic.IEnumerable<Mid> selectedMids)

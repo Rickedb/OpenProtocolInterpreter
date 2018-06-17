@@ -11,9 +11,9 @@ namespace MIDTesters.Tool
         public void Mid0045AllRevisions()
         {
             string package = "00310045            01402003000";
-            var mid = _midInterpreter.Parse<MID_0045>(package);
+            var mid = _midInterpreter.Parse<Mid0045>(package);
 
-            Assert.AreEqual(typeof(MID_0045), mid.GetType());
+            Assert.AreEqual(typeof(Mid0045), mid.GetType());
             Assert.IsNotNull(mid.CalibrationValueUnit);
             Assert.IsNotNull(mid.CalibrationValue);
             Assert.AreEqual(package, mid.Pack());

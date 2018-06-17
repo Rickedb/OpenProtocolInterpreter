@@ -11,9 +11,9 @@ namespace MIDTesters.MultiSpindle
         public void Mid0091AllRevisions()
         {
             string pack = @"00670091   1        01020265535032017-01-25:10:20:20041050101102031";
-            var mid = _midInterpreter.Parse<MID_0091>(pack);
+            var mid = _midInterpreter.Parse<Mid0091>(pack);
 
-            Assert.AreEqual(typeof(MID_0091), mid.GetType());
+            Assert.AreEqual(typeof(Mid0091), mid.GetType());
             Assert.IsNotNull(mid.NumberOfSpindles);
             Assert.IsNotNull(mid.SyncTighteningId);
             Assert.IsNotNull(mid.Time);

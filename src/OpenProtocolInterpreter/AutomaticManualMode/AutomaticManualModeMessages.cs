@@ -8,7 +8,7 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
 
         public AutomaticManualModeMessages()
         {
-            templates = new MID_0400(new MID_0401(new MID_0402(new MID_0403(new MID_0410(new MID_0411(null))))));
+            templates = new Mid0400(new Mid0401(new Mid0402(new Mid0403(new Mid0410(new Mid0411(null))))));
         }
 
         public AutomaticManualModeMessages(System.Collections.Generic.IEnumerable<Mid> selectedMids)

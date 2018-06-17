@@ -11,9 +11,9 @@ namespace MIDTesters.MotorTuning
         public void Mid0501Revision1()
         {
             string package = "00230501            011";
-            var mid = _midInterpreter.Parse<MID_0501>(package);
+            var mid = _midInterpreter.Parse<Mid0501>(package);
 
-            Assert.AreEqual(typeof(MID_0501), mid.GetType());
+            Assert.AreEqual(typeof(Mid0501), mid.GetType());
             Assert.IsNotNull(mid.MotorTuneResult);
             Assert.AreEqual(package, mid.Pack());
         }

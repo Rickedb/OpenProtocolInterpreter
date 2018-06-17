@@ -11,9 +11,9 @@ namespace MIDTesters.ApplicationToolLocationSystem
         public void Mid0265Revision1()
         {
             string package = "003402650011        013200078D0202";
-            var mid = _midInterpreter.Parse<MID_0265>(package);
+            var mid = _midInterpreter.Parse<Mid0265>(package);
 
-            Assert.AreEqual(typeof(MID_0265), mid.GetType());
+            Assert.AreEqual(typeof(Mid0265), mid.GetType());
             Assert.IsNotNull(mid.ToolTagId);
             Assert.IsNotNull(mid.ToolStatus);
             Assert.AreEqual(package, mid.Pack());

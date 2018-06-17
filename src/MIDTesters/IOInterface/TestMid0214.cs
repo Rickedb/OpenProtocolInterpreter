@@ -11,9 +11,9 @@ namespace MIDTesters.IOInterface
         public void Mid0214AllRevisions()
         {
             string package = "00220214002         10";
-            var mid = _midInterpreter.Parse<MID_0214>(package);
+            var mid = _midInterpreter.Parse<Mid0214>(package);
 
-            Assert.AreEqual(typeof(MID_0214), mid.GetType());
+            Assert.AreEqual(typeof(Mid0214), mid.GetType());
             Assert.IsNotNull(mid.DeviceNumber);
             Assert.AreEqual(package, mid.Pack());
         }

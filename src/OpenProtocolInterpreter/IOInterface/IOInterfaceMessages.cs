@@ -9,9 +9,9 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public IOInterfaceMessages()
         {
-            templates = new MID_0200(new MID_0210(new MID_0211(new MID_0212(new MID_0213( new MID_0214(
-                             new MID_0215(new MID_0216(new MID_0217(new MID_0218( new MID_0219(new MID_0220(
-                             new MID_0221(new MID_0222(new MID_0223(new MID_0224(new MID_0225(null)))))))))))))))));
+            templates = new Mid0200(new Mid0210(new Mid0211(new Mid0212(new Mid0213( new Mid0214(
+                             new Mid0215(new Mid0216(new Mid0217(new Mid0218( new Mid0219(new Mid0220(
+                             new Mid0221(new Mid0222(new Mid0223(new Mid0224(new Mid0225(null)))))))))))))))));
         }
 
         public IOInterfaceMessages(IEnumerable<Mid> selectedMids)

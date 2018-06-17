@@ -9,12 +9,12 @@ namespace OpenProtocolInterpreter.Tightening
 
         public TighteningMessages()
         {
-            templates = new MID_0061(
-                                    new MID_0065(
-                                        new MID_0062(
-                                            new MID_0064(
-                                                new MID_0063(
-                                                    new MID_0060(null))))));
+            templates = new Mid0061(
+                                    new Mid0065(
+                                        new Mid0062(
+                                            new Mid0064(
+                                                new Mid0063(
+                                                    new Mid0060(null))))));
         }
 
         public TighteningMessages(bool onlyController)
@@ -34,12 +34,12 @@ namespace OpenProtocolInterpreter.Tightening
 
         private IMid InitIntegratorTemplates()
         {
-            return new MID_0062(new MID_0064(new MID_0063(new MID_0060(null))));
+            return new Mid0062(new Mid0064(new Mid0063(new Mid0060(null))));
         }
 
         private IMid InitControllerTemplates()
         {
-            return new MID_0061(new MID_0065(null));
+            return new Mid0061(new Mid0065(null));
         }
     }
 }

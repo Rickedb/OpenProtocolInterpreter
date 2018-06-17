@@ -13,7 +13,7 @@ namespace MIDTesters.Tool
             string package = "00200043            ";
             var mid = _midInterpreter.Parse(package);
 
-            Assert.AreEqual(typeof(MID_0043), mid.GetType());
+            Assert.AreEqual(typeof(Mid0043), mid.GetType());
             Assert.AreEqual(package, mid.Pack());
         }
     }

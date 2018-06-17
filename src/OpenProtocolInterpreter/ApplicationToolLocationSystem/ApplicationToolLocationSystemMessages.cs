@@ -9,7 +9,7 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
 
         public ApplicationToolLocationSystemMessages()
         {
-            templates = new MID_0260(new MID_0261(new MID_0262(new MID_0263(new MID_0264(new MID_0265(null))))));
+            templates = new Mid0260(new Mid0261(new Mid0262(new Mid0263(new Mid0264(new Mid0265(null))))));
         }
 
         public ApplicationToolLocationSystemMessages(IEnumerable<Mid> selectedMids)

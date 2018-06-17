@@ -77,16 +77,16 @@ namespace MIDTesters
             watch.Start();
             var myTEmplate = new MidInterpreter(new Mid[]
             {
-                new MID_0001(),
-                new MID_0002(),
-                new MID_0003(),
-                new MID_0004(),
-                new MID_0061(),
-                new MID_0500(),
-                new MID_0501(),
-                new MID_0502(),
-                new MID_0503(),
-                new MID_0504()
+                new Mid0001(),
+                new Mid0002(),
+                new Mid0003(),
+                new Mid0004(),
+                new Mid0061(),
+                new Mid0500(),
+                new Mid0501(),
+                new Mid0502(),
+                new Mid0503(),
+                new Mid0504()
             });
             watch.Stop();
             Debug.WriteLine("[CustomMIDs] Elapsed time to construct MidInterpreter: " + new TimeSpan(watch.ElapsedTicks));
@@ -95,7 +95,7 @@ namespace MIDTesters
             {
                 
                 watch.Start();
-                var myMid106 = myTEmplate.Parse<MID_0061>(mid61);
+                var myMid106 = myTEmplate.Parse<Mid0061>(mid61);
                 watch.Stop();
                 total += watch.ElapsedTicks;
             }
@@ -112,7 +112,7 @@ namespace MIDTesters
             for (int i = 0; i < 1000000; i++)
             {
                 watch.Start();
-                var myMid500 = myTEmplate.Parse<MID_0061>(mid61);
+                var myMid500 = myTEmplate.Parse<Mid0061>(mid61);
                 watch.Stop();
                 total += watch.ElapsedTicks;
             }

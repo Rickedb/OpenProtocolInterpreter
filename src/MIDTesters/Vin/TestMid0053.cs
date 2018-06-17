@@ -11,9 +11,9 @@ namespace MIDTesters.Vin
         public void Mid0053AllRevisions()
         {
             string package = "00200053001         ";
-            var mid = _midInterpreter.Parse<MID_0053>(package);
+            var mid = _midInterpreter.Parse<Mid0053>(package);
 
-            Assert.AreEqual(typeof(MID_0053), mid.GetType());
+            Assert.AreEqual(typeof(Mid0053), mid.GetType());
             Assert.AreEqual(package, mid.Pack());
         }
     }

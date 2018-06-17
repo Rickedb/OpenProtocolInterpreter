@@ -11,9 +11,9 @@ namespace MIDTesters.ParameterSet
         public void Mid0020Revision1()
         {
             string package = "00230020            054";
-            var mid = _midInterpreter.Parse<MID_0020>(package);
+            var mid = _midInterpreter.Parse<Mid0020>(package);
 
-            Assert.AreEqual(typeof(MID_0020), mid.GetType());
+            Assert.AreEqual(typeof(Mid0020), mid.GetType());
             Assert.IsNotNull(mid.ParameterSetId);
             Assert.AreEqual(package, mid.Pack());
         }

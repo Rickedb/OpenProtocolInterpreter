@@ -13,7 +13,7 @@ namespace MIDTesters.Time
             string pack = @"00200080            ";
             var mid = _midInterpreter.Parse(pack);
 
-            Assert.AreEqual(typeof(MID_0080), mid.GetType());
+            Assert.AreEqual(typeof(Mid0080), mid.GetType());
             Assert.AreEqual(pack, mid.Pack());
         }
     }

@@ -13,7 +13,7 @@ namespace MIDTesters.Tightening
             string package = "00200060998         ";
             var mid = _midInterpreter.Parse(package);
 
-            Assert.AreEqual(typeof(MID_0060), mid.GetType());
+            Assert.AreEqual(typeof(Mid0060), mid.GetType());
             Assert.AreEqual(package, mid.Pack());
         }
     }

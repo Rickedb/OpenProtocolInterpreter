@@ -13,7 +13,7 @@ namespace MIDTesters.MotorTuning
             string package = "00200504            ";
             var mid = _midInterpreter.Parse(package);
 
-            Assert.AreEqual(typeof(MID_0504), mid.GetType());
+            Assert.AreEqual(typeof(Mid0504), mid.GetType());
             Assert.AreEqual(package, mid.Pack());
         }
     }

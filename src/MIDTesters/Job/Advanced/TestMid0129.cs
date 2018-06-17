@@ -13,7 +13,7 @@ namespace MIDTesters.Job.Advanced
             string package = "00200129            ";
             var mid = _midInterpreter.Parse(package);
 
-            Assert.AreEqual(typeof(MID_0129), mid.GetType());
+            Assert.AreEqual(typeof(Mid0129), mid.GetType());
             Assert.AreEqual(package, mid.Pack());
         }
 
@@ -21,9 +21,9 @@ namespace MIDTesters.Job.Advanced
         public void Mid0129Revision2()
         {
             string package = "00290129002         010302123";
-            var mid = _midInterpreter.Parse<MID_0129>(package);
+            var mid = _midInterpreter.Parse<Mid0129>(package);
 
-            Assert.AreEqual(typeof(MID_0129), mid.GetType());
+            Assert.AreEqual(typeof(Mid0129), mid.GetType());
             Assert.IsNotNull(mid.ChannelId);
             Assert.IsNotNull(mid.ParameterSetId);
             Assert.AreEqual(package, mid.Pack());

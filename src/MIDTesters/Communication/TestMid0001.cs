@@ -14,7 +14,7 @@ namespace MIDTesters.Communication
             var mid = _midInterpreter.Parse(package);
             
 
-            Assert.AreEqual(typeof(MID_0001), mid.GetType());
+            Assert.AreEqual(typeof(Mid0001), mid.GetType());
             Assert.AreEqual(package, mid.Pack());
         }
     }

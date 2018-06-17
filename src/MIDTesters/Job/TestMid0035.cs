@@ -10,9 +10,9 @@ namespace MIDTesters.Job
         public void Mid0035Revision1()
         {
             string package = "00630035001         0101020030040008050003062001-12-01:20:12:45";
-            var mid = _midInterpreter.Parse< MID_0035>(package);
+            var mid = _midInterpreter.Parse< Mid0035>(package);
 
-            Assert.AreEqual(typeof(MID_0035), mid.GetType());
+            Assert.AreEqual(typeof(Mid0035), mid.GetType());
             Assert.IsNotNull(mid.JobId);
             Assert.IsNotNull(mid.JobStatus);
             Assert.IsNotNull(mid.JobBatchMode);
@@ -26,9 +26,9 @@ namespace MIDTesters.Job
         public void Mid0035Revision2()
         {
             string package = "00650035002         010001020030040008050003062001-12-01:20:12:45";
-            var mid = _midInterpreter.Parse<MID_0035>(package);
+            var mid = _midInterpreter.Parse<Mid0035>(package);
 
-            Assert.AreEqual(typeof(MID_0035), mid.GetType());
+            Assert.AreEqual(typeof(Mid0035), mid.GetType());
             Assert.IsNotNull(mid.JobId);
             Assert.IsNotNull(mid.JobStatus);
             Assert.IsNotNull(mid.JobBatchMode);

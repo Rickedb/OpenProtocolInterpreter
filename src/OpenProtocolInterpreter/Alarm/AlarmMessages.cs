@@ -9,8 +9,8 @@ namespace OpenProtocolInterpreter.Alarm
 
         public AlarmMessages()
         {
-            templates = new MID_0070(new MID_0071(new MID_0072(new MID_0073(new MID_0074(new MID_0075(
-                             new MID_0076(new MID_0077(new MID_0078(null)))))))));
+            templates = new Mid0070(new Mid0071(new Mid0072(new Mid0073(new Mid0074(new Mid0075(
+                             new Mid0076(new Mid0077(new Mid0078(null)))))))));
         }
 
         public AlarmMessages(IEnumerable<Mid> selectedMids)

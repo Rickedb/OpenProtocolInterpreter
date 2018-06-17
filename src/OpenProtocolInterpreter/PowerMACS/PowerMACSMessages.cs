@@ -8,7 +8,7 @@ namespace OpenProtocolInterpreter.PowerMACS
 
         public PowerMACSMessages()
         {
-            templates = new MID_0105(new MID_0106(new MID_0107(new MID_0108(new MID_0109(null)))));
+            templates = new Mid0105(new Mid0106(new Mid0107(new Mid0108(new Mid0109(null)))));
         }
 
         public PowerMACSMessages(System.Collections.Generic.IEnumerable<Mid> selectedMids)

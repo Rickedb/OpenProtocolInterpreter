@@ -10,9 +10,9 @@ namespace MIDTesters.Alarm
         public void Mid0075AllRevisions()
         {
             string pack = @"00200075001         ";
-            var mid = _midInterpreter.Parse<MID_0075>(pack);
+            var mid = _midInterpreter.Parse<Mid0075>(pack);
 
-            Assert.AreEqual(typeof(MID_0075), mid.GetType());
+            Assert.AreEqual(typeof(Mid0075), mid.GetType());
             Assert.AreEqual(pack, mid.Pack());
         }
     }

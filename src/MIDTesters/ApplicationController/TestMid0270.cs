@@ -13,7 +13,7 @@ namespace MIDTesters.ApplicationController
             string package = "00200270001         ";
             var mid = _midInterpreter.Parse(package);
 
-            Assert.AreEqual(typeof(MID_0270), mid.GetType());
+            Assert.AreEqual(typeof(Mid0270), mid.GetType());
             Assert.AreEqual(package, mid.Pack());
         }
     }

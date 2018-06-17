@@ -11,9 +11,9 @@ namespace MIDTesters.Tightening
         public void Mid0061Revision1()
         {
             string pack = "02310061001         010001020103airbag7                  04KPOL3456JKLO897          050006003070000080000090100111120008401300140014001200150007391600000170999918000001900000202001-06-02:09:54:09212001-05-29:12:34:33221230000345675";
-            var mid = _midInterpreter.Parse<MID_0061>(pack);
+            var mid = _midInterpreter.Parse<Mid0061>(pack);
 
-            Assert.AreEqual(typeof(MID_0061), mid.GetType());
+            Assert.AreEqual(typeof(Mid0061), mid.GetType());
             Assert.IsNotNull(mid.CellId);
             Assert.IsNotNull(mid.ChannelId);
             Assert.IsNotNull(mid.TorqueControllerName);

@@ -13,7 +13,7 @@ namespace MIDTesters.OpenProtocolCommandsDisabled
             string package = "00200420   1        ";
             var mid = _midInterpreter.Parse(package);
 
-            Assert.AreEqual(typeof(MID_0420), mid.GetType());
+            Assert.AreEqual(typeof(Mid0420), mid.GetType());
             Assert.IsNotNull(mid.HeaderData.NoAckFlag);
             Assert.AreEqual(package, mid.Pack());
         }

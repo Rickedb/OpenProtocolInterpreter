@@ -11,9 +11,9 @@ namespace MIDTesters.ApplicationSelector
         public void Mid0251Revision1()
         {
             string package = "00400251   1        01500210030101101110";
-            var mid = _midInterpreter.Parse<MID_0251>(package);
+            var mid = _midInterpreter.Parse<Mid0251>(package);
 
-            Assert.AreEqual(typeof(MID_0251), mid.GetType());
+            Assert.AreEqual(typeof(Mid0251), mid.GetType());
             Assert.IsNotNull(mid.HeaderData.NoAckFlag);
             Assert.IsNotNull(mid.DeviceId);
             Assert.IsNotNull(mid.NumberOfSockets);

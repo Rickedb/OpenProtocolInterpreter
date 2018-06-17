@@ -11,9 +11,9 @@ namespace MIDTesters.Tightening
         public void Mid0065Revision1()
         {
             string package = @"01180065001         01012345678902AIRBAG                   03001040002050060070080014670900046102001-04-22:14:54:34112";
-            var mid = _midInterpreter.Parse<MID_0065>(package);
+            var mid = _midInterpreter.Parse<Mid0065>(package);
 
-            Assert.AreEqual(typeof(MID_0065), mid.GetType());
+            Assert.AreEqual(typeof(Mid0065), mid.GetType());
             Assert.IsNotNull(mid.TighteningId);
             Assert.IsNotNull(mid.VinNumber);
             Assert.IsNotNull(mid.ParameterSetId);

@@ -8,8 +8,8 @@ namespace OpenProtocolInterpreter.Tool
 
         public ToolMessages()
         {
-            templates = new MID_0040(new MID_0041(new MID_0042(new MID_0043(new MID_0044(new MID_0045(new MID_0046(
-                             new MID_0047(new MID_0048(null)))))))));
+            templates = new Mid0040(new Mid0041(new Mid0042(new Mid0043(new Mid0044(new Mid0045(new Mid0046(
+                             new Mid0047(new Mid0048(null)))))))));
         }
 
         public ToolMessages(System.Collections.Generic.IEnumerable<Mid> selectedMids)

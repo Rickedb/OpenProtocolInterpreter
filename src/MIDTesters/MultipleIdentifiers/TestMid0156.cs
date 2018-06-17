@@ -13,7 +13,7 @@ namespace MIDTesters.MultipleIdentifiers
             string package = "00200156            ";
             var mid = _midInterpreter.Parse(package);
 
-            Assert.AreEqual(typeof(MID_0156), mid.GetType());
+            Assert.AreEqual(typeof(Mid0156), mid.GetType());
             Assert.AreEqual(package, mid.Pack());
         }
     }

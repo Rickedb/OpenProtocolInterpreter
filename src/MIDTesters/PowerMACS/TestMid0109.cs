@@ -13,7 +13,7 @@ namespace MIDTesters.PowerMACS
             string package = "00200109002         ";
             var mid = _midInterpreter.Parse(package);
 
-            Assert.AreEqual(typeof(MID_0109), mid.GetType());
+            Assert.AreEqual(typeof(Mid0109), mid.GetType());
             Assert.AreEqual(package, mid.Pack());
         }
     }

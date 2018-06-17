@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter
         {
             _messageInterpreterTemplates = new Dictionary<Func<int, bool>, Func<string, Mid>>()
             {
-                { mid => IsKeepAliveMessage(mid), package => new KeepAlive.MID_9999() },
+                { mid => IsKeepAliveMessage(mid), package => new KeepAlive.Mid9999() },
                 { mid => IsCommunicationMessage(mid), package => new Communication.CommunicationMessages().ProcessPackage(package) },
 				{ mid => IsParameterSetMessage(mid), package => new ParameterSet.ParameterSetMessages().ProcessPackage(package) },
                 { mid => IsJobMessage(mid), package => new Job.JobMessages().ProcessPackage(package) },
@@ -31,7 +31,7 @@ namespace OpenProtocolInterpreter
                 { mid => IsPLCUserDataMessage(mid), package => new PLCUserData.PLCUserDataMessages().ProcessPackage(package) },
                 { mid => IsSelectorMessage(mid), package => new ApplicationSelector.ApplicationSelectorMessages().ProcessPackage(package) },
                 { mid => IsToolLocationSystemMessage(mid), package => new ApplicationToolLocationSystem.ApplicationToolLocationSystemMessages().ProcessPackage(package) },
-                { mid => IsControllerMessage(mid), package => new ApplicationController.MID_0270() },
+                { mid => IsControllerMessage(mid), package => new ApplicationController.Mid0270() },
                 { mid => IsStatisticMessage(mid), package => new Statistic.StatisticMessages().ProcessPackage(package) },
                 { mid => IsAutomaticManualModeMessage(mid), package => new AutomaticManualMode.AutomaticManualModeMessages().ProcessPackage(package) },
                 { mid => IsOpenProtocolCommandsDisabledModeMessage(mid), package => new OpenProtocolCommandsDisabled.OpenProtocolCommandsDisabledMessages().ProcessPackage(package) },
@@ -48,7 +48,7 @@ namespace OpenProtocolInterpreter
             _selectedMids = selection;
             var fullDictionary = new Dictionary<Func<int, bool>, Func<string, Mid>>()
             {
-                { mid => IsKeepAliveMessage(mid), package => new KeepAlive.MID_9999() },
+                { mid => IsKeepAliveMessage(mid), package => new KeepAlive.Mid9999() },
                 { mid => IsCommunicationMessage(mid), package => new Communication.CommunicationMessages(_selectedMids.Where(x=> typeof(Communication.ICommunication).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
 				{ mid => IsParameterSetMessage(mid), package => new ParameterSet.ParameterSetMessages(_selectedMids.Where(x=> typeof(ParameterSet.IParameterSet).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
                 { mid => IsJobMessage(mid), package => new Job.JobMessages(_selectedMids.Where(x=> typeof(Job.IJob).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
@@ -66,7 +66,7 @@ namespace OpenProtocolInterpreter
                 { mid => IsPLCUserDataMessage(mid), package => new PLCUserData.PLCUserDataMessages(_selectedMids.Where(x=> typeof(PLCUserData.IPLCUserData).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
                 { mid => IsSelectorMessage(mid), package => new ApplicationSelector.ApplicationSelectorMessages(_selectedMids.Where(x=> typeof(ApplicationSelector.IApplicationSelector).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
                 { mid => IsToolLocationSystemMessage(mid), package => new ApplicationToolLocationSystem.ApplicationToolLocationSystemMessages(_selectedMids.Where(x=> typeof(ApplicationToolLocationSystem.IApplicationToolLocationSystem).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
-                { mid => IsControllerMessage(mid), package => new ApplicationController.MID_0270()  },
+                { mid => IsControllerMessage(mid), package => new ApplicationController.Mid0270()  },
                 { mid => IsStatisticMessage(mid), package => new Statistic.StatisticMessages(_selectedMids.Where(x=> typeof(Statistic.IStatistic).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
                 { mid => IsAutomaticManualModeMessage(mid), package => new AutomaticManualMode.AutomaticManualModeMessages(_selectedMids.Where(x=> typeof(AutomaticManualMode.IAutomaticManualMode).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
                 { mid => IsOpenProtocolCommandsDisabledModeMessage(mid), package => new OpenProtocolCommandsDisabled.OpenProtocolCommandsDisabledMessages(_selectedMids.Where(x=> typeof(OpenProtocolCommandsDisabled.IOpenProtocolCommandsDisabled).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },

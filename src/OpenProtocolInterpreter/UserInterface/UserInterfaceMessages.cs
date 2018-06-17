@@ -8,7 +8,7 @@ namespace OpenProtocolInterpreter.UserInterface
 
         public UserInterfaceMessages()
         {
-            templates = new MID_0110(new MID_0111(new MID_0113(null)));
+            templates = new Mid0110(new Mid0111(new Mid0113(null)));
         }
 
         public UserInterfaceMessages(System.Collections.Generic.IEnumerable<Mid> selectedMids)

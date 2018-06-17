@@ -11,9 +11,9 @@ namespace MIDTesters.Statistic
         public void Mid0301Revision1()
         {
             string package = "01070301            010020205031234560465432105999999061111072222083333094444105555116666127777138888149999";
-            var mid = _midInterpreter.Parse<MID_0301>(package);
+            var mid = _midInterpreter.Parse<Mid0301>(package);
 
-            Assert.AreEqual(typeof(MID_0301), mid.GetType());
+            Assert.AreEqual(typeof(Mid0301), mid.GetType());
             Assert.IsNotNull(mid.ParameterSetId);
             Assert.IsNotNull(mid.HistogramType);
             Assert.IsNotNull(mid.SigmaHistogram);

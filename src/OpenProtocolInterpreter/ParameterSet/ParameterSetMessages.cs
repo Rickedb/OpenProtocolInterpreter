@@ -8,9 +8,9 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public ParameterSetMessages()
         {
-            templates = new MID_0010(new MID_0011(new MID_0012(new MID_0013(new MID_0014(new MID_0015(new MID_0016(
-                             new MID_0017(new MID_0018(new MID_0019(new MID_0020(new MID_0021(new MID_0022(new MID_0023(
-                             new MID_0024(new MID_2504(null))))))))))))))));
+            templates = new Mid0010(new Mid0011(new Mid0012(new Mid0013(new Mid0014(new Mid0015(new Mid0016(
+                             new Mid0017(new Mid0018(new Mid0019(new Mid0020(new Mid0021(new Mid0022(new Mid0023(
+                             new Mid0024(new Mid2504(null))))))))))))))));
         }
 
         public ParameterSetMessages(System.Collections.Generic.IEnumerable<Mid> selectedMids)

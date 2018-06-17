@@ -10,9 +10,9 @@ namespace MIDTesters.Communication
         public void Mid0003Revision1()
         {
             string pack = @"00200003001         ";
-            var mid = _midInterpreter.Parse<MID_0003>(pack);
+            var mid = _midInterpreter.Parse<Mid0003>(pack);
 
-            Assert.AreEqual(typeof(MID_0003), mid.GetType());
+            Assert.AreEqual(typeof(Mid0003), mid.GetType());
             Assert.AreEqual(pack, mid.Pack());
         }
     }

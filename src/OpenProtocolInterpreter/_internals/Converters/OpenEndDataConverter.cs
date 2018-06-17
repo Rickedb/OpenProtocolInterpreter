@@ -1,4 +1,4 @@
-﻿using static OpenProtocolInterpreter.Tool.MID_0041;
+﻿using static OpenProtocolInterpreter.Tool.Mid0041;
 
 namespace OpenProtocolInterpreter.Converters
 {

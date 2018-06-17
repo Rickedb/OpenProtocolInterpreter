@@ -9,7 +9,7 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
         public ApplicationSelectorMessages()
         {
-            templates = new MID_0250(new MID_0251(new MID_0252(new MID_0253(new MID_0254(new MID_0255(null))))));
+            templates = new Mid0250(new Mid0251(new Mid0252(new Mid0253(new Mid0254(new Mid0255(null))))));
         }
 
         public ApplicationSelectorMessages(IEnumerable<Mid> selectedMids)
