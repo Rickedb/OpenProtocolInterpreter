@@ -45,7 +45,7 @@ namespace OpenProtocolInterpreter.MotorTuning
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.MOTOR_TUNE_RESULT, 20, 1, false)
+                                new DataField((int)DataFields.MOTOR_TUNE_RESULT, 20, 1)
                             }
                 }
             };

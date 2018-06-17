@@ -126,6 +126,11 @@
     <Compile Include="KeepAlive\TestMid9999.cs" />
     <Compile Include="MIDsTests.cs" />
     <Compile Include="MidTester.cs" />
+    <Compile Include="MotorTuning\TestMid0500.cs" />
+    <Compile Include="MotorTuning\TestMid0501.cs" />
+    <Compile Include="MotorTuning\TestMid0502.cs" />
+    <Compile Include="MotorTuning\TestMid0503.cs" />
+    <Compile Include="MotorTuning\TestMid0504.cs" />
     <Compile Include="MultipleIdentifiers\TestMid0150.cs" />
     <Compile Include="MultipleIdentifiers\TestMid0152.cs" />
     <Compile Include="MultipleIdentifiers\TestMid0153.cs" />
@@ -206,7 +211,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="LinkCommunication\" />
-    <Folder Include="MotorTuning\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
