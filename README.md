@@ -1,12 +1,9 @@
 
+
   
 # OpenProtocolInterpreter  
 [![Build status](https://ci.appveyor.com/api/projects/status/op72gr1k1vi04o35/branch/master?svg=true)](https://ci.appveyor.com/project/Rickedb/openprotocolintepreter/branch/master) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/Rickedb/OpenProtocolIntepreter/master/LICENSE)
 > OpenProtocol communication utility
-
-## Work in progress:
-
-* Testing up Version 2.0.0
 
 > Missing OpenProtocolInterpreter v1.0.0 ? [>It's here!<](https://github.com/Rickedb/OpenProtocolInterpreter/releases/tag/1.0.0)
 
@@ -24,6 +21,18 @@ OpenProtocolInterpreter is a **library that converts the ugly string** that came
 
 **[If you're curious, just take a look at their documentation.](https://github.com/Rickedb/OpenProtocolIntepreter/blob/master/docs/OpenProtocol_Specification.pdf)**
 
+## Changelog for version 2.0.0
+
+ 1. Namespace "MIDs" removed, for more clean usings;
+ 2. Classes, methods and properties names changed (For example: MidIdentifier => MidInterpreter);
+ 3. All revisions added to all current Mids;
+ 4. Mid classes names changed from "MID_{number}" to "Mid{number}";
+ 5. All interfaces from Mids were made public, so now anyone can inject a custom mid to MidInterpreter;
+ 6. Enums moved to root namespace instead of each class having his own enum correspondent to their values;
+ 7. Converting does not work as before, it will convert it's value only when you trigger get, parsing became faster;
+ 8. DataValues cache get values for better performance;
+ 9. Parsing almost 50% faster than version 1.0.0.
+
 ## How does it work?
 
 It's simple, you give us your string package and we deliver you an object, simple as that!
@@ -40,23 +49,21 @@ It's **MID 5**, so OpenProtocolIntepreter will return a **MID_0005** class for y
 A simple usage:
 
 ``` csharp
-MIDIdentifier identifier = new MIDIdentifier();
+MidInterpreter interpreter = new MidInterpreter();
 string midPackage = @"00260004001         001802";
-var myMid04 = identifier.IdentifyMid<MID_0004>(midPackage);
+var myMid04 = interpreter.Parse<Mid0004>(midPackage);
 //MID 0004 is an error mid which contains which MID Failed and its error code
 //Int value of the Failed Mid
-int myFailedMid = myMid04.FailedMid; 
+int myFailedMid = myMid04.FailedMid;
 //An enum with Error Code
-MID_0004.ErrorCode errorCode = myMid04.ErrorCode;
+Error errorCode = myMid04.ErrorCode;
 ```   
 
 It can generate an object from a string, but can it make it to the other way?? FOR SURE!
 ``` csharp
-MID_0032 jobUploadRequest = new MID_0032();
-jobUploadRequest.JobID = 1;
-
-string package = jobUploadRequest.buildPackage();
-//Generated package => 00220032001         01
+Mid0032 jobUploadRequest = new Mid0032(1, 2); //Job id 1, revision 2
+string package = jobUploadRequest.Pack();
+//Generated package => 00240032002         0001
 ```  
 
 ## Get it on [NuGet](https://www.nuget.org/packages/OpenProtocolInterpreter)!
@@ -90,20 +97,23 @@ You will probably need only to use a range of MIDs, with this in mind, we did so
 
 Here is an example:
 ``` csharp
-var myMidIdentifier = new MIDIdentifier(new MID[]
+string package = "00260004001         001802";
+var myCustomInterpreter = new MidInterpreter(new Mid[]
                         {
-                            new MID_0001(),
-                            new MID_0002(),
-                            new MID_0003(),
-                            new MID_0004(),
-                            new MID_0106()
+                            new Mid0001(),
+                            new Mid0002(),
+                            new Mid0003(),
+                            new Mid0004(),
+                            new Mid0106()
                         });
 //Will work:
-MID_0004 myMid04 = myMidIdentifier.IdentifyMid<MID_0004>(package);  
-//Won't work:
-MID_0030 myMid30 = myMidIdentifier.IdentifyMid<MID_0030>(package);          
+Mid0004 myMid04 = myCustomInterpreter.Parse<Mid0004>(package);
+//Won't work, will throw NotImplementedException:
+Mid0030 myMid30 = myCustomInterpreter.Parse<Mid0030>(package);        
+//Won't work, will throw InvalidCastException:
+Mid0001 myMid01 = myCustomInterpreter.Parse<Mid0001>(package);
 ```
-
+When you don't know which package will come, use ``` Parse ``` overload, not ``` Parse<DesiredMid> ```. If you want, take a look at the sample on this repository.
 > In my conception you should always register used MIDs when you are the **Integrator**
 
 #### Advanced Example
@@ -115,22 +125,22 @@ protected delegate void ReceivedCommandActionDelegate(ReceivedMIDEventArgs e);
 ```
 **ReceivedMIDEventArgs class**:
 ``` csharp
-public class ReceivedMIDEventArgs : EventArgs
+public class ReceivedMidEventArgs : EventArgs
 {
-    public MID ReceivedMID { get; set; }
+    public Mid ReceivedMid { get; set; }
 }
 ```
 Created a method to register all those MID types by delegates:
 
 ``` csharp
-protected Dictionary<Type, ReceivedCommandActionDelegate> RegisterOnAsyncReceivedMIDs()
+protected Dictionary<Type, ReceivedCommandActionDelegate> RegisterOnAsyncReceivedMids()
 {
     var receivedMids = new Dictionary<Type, ReceivedCommandActionDelegate>();
-    receivedMids.Add(typeof(MID_0005), new ReceivedCommandActionDelegate(this.onCommandAcceptedReceived));
-    receivedMids.Add(typeof(MID_0004), new ReceivedCommandActionDelegate(this.onErrorReceived));
-    receivedMids.Add(typeof(MID_0071), new ReceivedCommandActionDelegate(this.onAlarmReceived));
-    receivedMids.Add(typeof(MID_0061), new ReceivedCommandActionDelegate(this.onTighteningReceived));
-    receivedMids.Add(typeof(MID_0035), new ReceivedCommandActionDelegate(this.onJobInfoReceived));
+    receivedMids.Add(typeof(Mid0005), new ReceivedCommandActionDelegate(OnCommandAcceptedReceived));
+    receivedMids.Add(typeof(Mid0004), new ReceivedCommandActionDelegate(OnErrorReceived));
+    receivedMids.Add(typeof(Mid0071), new ReceivedCommandActionDelegate(OnAlarmReceived));
+    receivedMids.Add(typeof(Mid0061), new ReceivedCommandActionDelegate(OnTighteningReceived));
+    receivedMids.Add(typeof(Mid0035), new ReceivedCommandActionDelegate(OnJobInfoReceived));
     return receivedMids;
 }
 ```
@@ -139,19 +149,20 @@ What was done is registering in a dictionary the correspondent delegate for a de
 When a package income:
 
 ``` csharp
-protected void onPackageReceived(string message)
+protected void OnPackageReceived(string message)
 {
     try
     {
-        var mid = this.DriverManager.IdentifyMidFromPackage(message);
+        //Parse to mid class
+        var mid = Interpreter.Parse(message);
 
         //Get Registered delegate for the MID that was identified
-        var action = this.onReceivedMID.FirstOrDefault(x => x.Key == mid.GetType());
+        var action = OnReceivedMid.FirstOrDefault(x => x.Key == mid.GetType());
         
         if (action.Equals(default(KeyValuePair<Type, ReceivedCommandActionDelegate>)))
            return; //Stop if there is no delegate registered for the message that arrived
 
-         action.Value(new ReceivedMIDEventArgs() { ReceivedMID = mid }); //Call delegate
+         action.Value(new ReceivedMidEventArgs() { ReceivedMid = mid }); //Call delegate
      }
      catch (Exception ex)
      {
@@ -163,15 +174,14 @@ This would call the registered delegate which you're sure what mid it is.
 For example when a **MID_0061** (last tightening) pop up, the  **onTighteningReceived** delegate will be called:
 
 ``` csharp
-protected void onTighteningReceived(ReceivedMIDEventArgs e)
+protected void OnTighteningReceived(ReceivedMidEventArgs e)
 {
     try
     {
-        
-        MID_0061 tighteningMid = e.ReceivedMID as MID_0061; //Converting to the right mid
+        Mid0061 tighteningMid = e.ReceivedMID as Mid0061; //Casting to the right mid
 
         //This method just send the ack from tightening mid
-        this.buildAndSendAcknowledge(tighteningMid); 
+        BuildAndSendAcknowledge(tighteningMid); 
         Console.log("TIGHTENING ARRIVED")
      }
      catch (Exception ex)
@@ -180,9 +190,9 @@ protected void onTighteningReceived(ReceivedMIDEventArgs e)
      }
 }
 
-protected void buildAndSendAcknowledge(MID mid)
+protected void BuildAndSendAcknowledge(Mid mid)
 {
-     this.tcpClient.GetStream().Write(new MID_0062().buildPackage()); //Send acknowledge to controller
+     TcpClient.GetStream().Write(new Mid0062().Pack()); //Send acknowledge to controller
 }
 ```
 
@@ -193,3 +203,37 @@ protected void buildAndSendAcknowledge(MID mid)
 > **Controller Implementation Tip:** Always **TRY** to register used MIDs, not all Tightening Controllers use every available MID.
 
 > **Integrator Implementation Tip:** Always **DO** register used MIDs, I'm pretty sure you won't need all of them to your application.
+
+
+### List of still unavailable Mids
+
+ - Mid 0006;
+ - Mid 0008;
+ - Mid 0009;
+ - Mid 0700;
+ - Mid 0900;
+ - Mid 0901;
+ - Mid 1201;
+ - Mid 1202;
+ - Mid 1203;
+ - Mid 2500;
+ - Mid 2501;
+ - Mid 2504;
+ - Mid 2505;
+ - Mid 2600;
+ - Mid 2601;
+ - Mid 2602;
+ - Mid 2603;
+ - Mid 2604;
+ - Mid 2605;
+ - Mid 2606;
+ - Mid 9997;
+ - Mid 9998.
+
+Feel free to fork and contribute to add any of those mids.
+
+### Next Steps
+
+ 1. Add overload method to parse that uses byte[] instead of string;
+ 2. Add missing mids;
+ 3. Create wiki.
