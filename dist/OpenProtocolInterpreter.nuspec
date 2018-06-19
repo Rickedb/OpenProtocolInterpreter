@@ -2,16 +2,27 @@
 <package >
   <metadata>
     <id>OpenProtocolInterpreter</id>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
     <title>Open Protocol Interpreter</title>
     <authors>Henrique Dal Bello Batista</authors>
     <owners>Henrique Dal Bello Batista</owners>
 	<licenseUrl>https://github.com/Rickedb/OpenProtocolInterpreter/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/Rickedb/OpenProtocolInterpreter</projectUrl>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <language>C#</language>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>OpenProtocolInterpreter is a library that converts the ugly package that came from Open Protocol TCP/IP or Serial, which is commonly called MID, to an object</description>
-    <releaseNotes></releaseNotes>
+    <releaseNotes>
+        1. Namespace "MIDs" removed, for more clean usings;
+        2. Classes, methods and properties names changed (For example: MidIdentifier => MidInterpreter);
+        3. All revisions added to all current Mids;
+        4. Mid classes names changed from "MID_{number}" to "Mid{number}";
+        5. All interfaces from Mids were made public, so now anyone can inject a custom mid to MidInterpreter;
+        6. Enums moved to root namespace instead of each class having his own enum correspondent to their values;
+        7. Converting does not work as before, it will convert it's value only when you trigger get, parsing became faster;
+        8. DataValues cache get values for better performance;
+        9. Parsing almost 50% faster than version 1.0.0.
+    </releaseNotes>
     <copyright>Copyright 2018</copyright>
-    <tags>open protocol atlas copco</tags>
+    <tags>open protocol interpreter atlas copco</tags>
   </metadata>
 </package>

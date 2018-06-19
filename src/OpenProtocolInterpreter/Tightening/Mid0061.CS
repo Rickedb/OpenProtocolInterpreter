@@ -205,10 +205,20 @@ namespace OpenProtocolInterpreter.Tightening
             get => GetField(2,(int)DataFields.CURRENT_MONITORING_MAX).GetValue(_intConverter.Convert);
             set => GetField(2,(int)DataFields.CURRENT_MONITORING_MAX).SetValue(_intConverter.Convert, value);
         }
+        public int CurrentMonitoringValue
+        {
+            get => GetField(2, (int)DataFields.CURRENT_MONITORING_VALUE).GetValue(_intConverter.Convert);
+            set => GetField(2, (int)DataFields.CURRENT_MONITORING_VALUE).SetValue(_intConverter.Convert, value);
+        }
         public decimal SelftapMin
         {
             get => GetField(2,(int)DataFields.SELFTAP_MIN).GetValue(_decimalConverter.Convert);
             set => GetField(2,(int)DataFields.SELFTAP_MIN).SetValue(_decimalConverter.Convert, value);
+        }
+        public decimal SelftapMax
+        {
+            get => GetField(2, (int)DataFields.SELFTAP_MAX).GetValue(_decimalConverter.Convert);
+            set => GetField(2, (int)DataFields.SELFTAP_MAX).SetValue(_decimalConverter.Convert, value);
         }
         public decimal SelftapTorque
         {

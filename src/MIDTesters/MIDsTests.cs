@@ -68,19 +68,6 @@ namespace MIDTesters
                 total += watch.ElapsedTicks;
             }
 
-            var myCustomInterpreter = new MidInterpreter(new Mid[]
-                        {
-                            new Mid0001(),
-                            new Mid0002(),
-                            new Mid0003(),
-                            new Mid0004(),
-                            new Mid0106()
-                        });
-            //Will work:
-            Mid0004 myMid04 = myCustomInterpreter.Parse<Mid0004>(package);
-            //Won't work:
-            Mid0030 myMid30 = myCustomInterpreter.Parse<Mid0030>(package);
-
             Debug.WriteLine($"[AllMIDs] Total Elapsed: " + new TimeSpan(total));
             Debug.WriteLine($"[AllMIDs] Average Elapsed Time: " + new TimeSpan(total / 1000000));
         }
