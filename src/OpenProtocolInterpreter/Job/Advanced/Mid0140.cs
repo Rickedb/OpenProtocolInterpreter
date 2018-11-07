@@ -123,7 +123,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
             JobList = new List<AdvancedJob>();
             _intConverter = new Int32Converter();
             _boolConverter = new BoolConverter();
-            _jobListConverter = new AdvancedJobListConverter(revision);
+            _jobListConverter = new AdvancedJobListConverter(_intConverter, _boolConverter, revision);
         }
 
         internal Mid0140(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
@@ -141,7 +141,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
             if (IsCorrectType(package))
             {
                 HeaderData = ProcessHeader(package);
-                _jobListConverter = new AdvancedJobListConverter(HeaderData.Revision);
+                _jobListConverter = new AdvancedJobListConverter(_intConverter, _boolConverter, HeaderData.Revision);
                 int length = HeaderData.Length;
                 foreach (var rev in RevisionsByFields[1])
                     length -= rev.Size;

@@ -113,7 +113,7 @@ namespace OpenProtocolInterpreter.Tool
             _longConverter = new Int64Converter();
             _dateConverter = new DateConverter();
             _decimalConverter = new DecimalTrucatedConverter(2);
-            _openEndDataConverter = new OpenEndDataConverter();
+            _openEndDataConverter = new OpenEndDataConverter(_intConverter, new BoolConverter());
         }
 
         /// <summary>

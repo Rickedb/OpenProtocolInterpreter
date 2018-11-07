@@ -7,10 +7,10 @@ namespace OpenProtocolInterpreter.Converters
         private readonly IValueConverter<int> _intConverter;
         private readonly int _jobSize;
 
-        public JobIdListConverter(int revision)
+        public JobIdListConverter(IValueConverter<int> intConverter, int revision)
         {
-            _intConverter = new Int32Converter();
-            _jobSize = (revision > 1) ? 4 : 2;
+            _intConverter = intConverter;
+            _jobSize = revision > 1 ? 4 : 2;
         }
 
         public IEnumerable<int> Convert(string value)

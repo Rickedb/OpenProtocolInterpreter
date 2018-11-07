@@ -6,9 +6,9 @@ namespace OpenProtocolInterpreter.Converters
     {
         private readonly IValueConverter<byte[]> _byteArrayConverter;
 
-        public StrategyOptionsConverter()
+        public StrategyOptionsConverter(IValueConverter<byte[]> byteArrayConverter)
         {
-            _byteArrayConverter = new ByteArrayConverter();
+            _byteArrayConverter = byteArrayConverter;
         }
 
         public StrategyOptions Convert(string value)

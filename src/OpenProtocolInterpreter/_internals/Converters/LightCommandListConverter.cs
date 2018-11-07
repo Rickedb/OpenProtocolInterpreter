@@ -6,9 +6,9 @@ namespace OpenProtocolInterpreter.Converters
     {
         private readonly IValueConverter<int> _intConverter;
 
-        public LightCommandListConverter()
+        public LightCommandListConverter(IValueConverter<int> intConverter)
         {
-            _intConverter = new Int32Converter();
+            _intConverter = intConverter;
         }
 
         public IEnumerable<LightCommand> Convert(string value)

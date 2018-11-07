@@ -6,9 +6,9 @@ namespace OpenProtocolInterpreter.Converters
     {
         private readonly IValueConverter<bool> _boolConverter;
 
-        public SocketStatusConverter()
+        public SocketStatusConverter(IValueConverter<bool> boolConverter)
         {
-            _boolConverter = new BoolConverter();
+            _boolConverter = boolConverter;
         }
 
         public IEnumerable<bool> Convert(string value)

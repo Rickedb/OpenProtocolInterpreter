@@ -9,10 +9,10 @@ namespace OpenProtocolInterpreter.Converters
         private readonly IValueConverter<bool> _boolConverter;
         private readonly int _revision;
 
-        public AdvancedJobListConverter(int revision)
+        public AdvancedJobListConverter(IValueConverter<int> intConverter, IValueConverter<bool> boolConverter, int revision)
         {
-            _intConverter = new Int32Converter();
-            _boolConverter = new BoolConverter();
+            _intConverter = intConverter;
+            _boolConverter = boolConverter;
             _revision = revision;
         }
 

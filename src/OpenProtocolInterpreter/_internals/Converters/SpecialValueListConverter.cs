@@ -10,9 +10,9 @@ namespace OpenProtocolInterpreter.Converters
         private readonly int _totalSpecialValues;
         private bool _stepNumber;
 
-        public SpecialValueListConverter(int totalSpecialValues, bool stepNumber = false)
+        public SpecialValueListConverter(IValueConverter<int> intConverter, int totalSpecialValues, bool stepNumber = false)
         {
-            _intConverter = new Int32Converter();
+            _intConverter = intConverter;
             _totalSpecialValues = totalSpecialValues;
             _stepNumber = stepNumber;
         }

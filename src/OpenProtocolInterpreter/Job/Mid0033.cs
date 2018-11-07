@@ -15,7 +15,7 @@ namespace OpenProtocolInterpreter.Job
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;
-        private IValueConverter<IEnumerable<ParameterSet>> _jobListConverter;
+        private IValueConverter<IEnumerable<ParameterSet>> _parameterSetListConverter;
         private const int LAST_REVISION = 3;
         public const int MID = 33;
 
@@ -111,11 +111,11 @@ namespace OpenProtocolInterpreter.Job
         /// </param>
         /// <param name="reserved">Reserved for Job repair. 0=E, 1=G</param>
         /// <param name="numberOfParameterSets">The number of parameter sets in the Job list, defined by two ASCII characters, range 00-99.</param>
-        /// <param name="jobList">A list of parameter sets (N=value from parameter “Number of parameter sets”, max 50).</param>
+        /// <param name="parameterSetList">A list of parameter sets (N=value from parameter “Number of parameter sets”, max 50).</param>
         /// <param name="revision">Revision number (Default = 3)</param>
         public Mid0033(int jobId, string jobName, ForcedOrder forcedOrder, int maxTimeForFirstTightening, 
             int maxTimeToCompleteJob, JobBatchMode jobBatchMode, bool lockAtJobDone, bool useLineControl, 
-            bool repeatJob, ToolLoosening toolLoosening, Reserved reserved, int numberOfParameterSets, IEnumerable<ParameterSet> jobList, int revision = LAST_REVISION) 
+            bool repeatJob, ToolLoosening toolLoosening, Reserved reserved, int numberOfParameterSets, IEnumerable<ParameterSet> parameterSetList, int revision = LAST_REVISION) 
             : this(revision)
         {
             JobId = jobId;
@@ -130,17 +130,17 @@ namespace OpenProtocolInterpreter.Job
             ToolLoosening = toolLoosening;
             Reserved = reserved;
             NumberOfParameterSets = numberOfParameterSets;
-            ParameterSetList = jobList.ToList();
+            ParameterSetList = parameterSetList.ToList();
         }
 
         internal Mid0033(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         public override string Pack()
         {
-            _jobListConverter = new ParameterSetListConverter(HeaderData.Revision);
+            _parameterSetListConverter = new ParameterSetListConverter(_intConverter, _boolConverter, HeaderData.Revision);
             var psetListField = GetField(1, (int)DataFields.PARAMETER_SET_LIST);
             psetListField.Size = ParameterSetList.Count * ((HeaderData.Revision < 3) ? 12 : 44);
-            psetListField.Value = _jobListConverter.Convert(ParameterSetList);
+            psetListField.Value = _parameterSetListConverter.Convert(ParameterSetList);
             return base.Pack();
         }
 
@@ -149,11 +149,11 @@ namespace OpenProtocolInterpreter.Job
             if (IsCorrectType(package))
             {
                 HeaderData = ProcessHeader(package);
-                _jobListConverter = new ParameterSetListConverter(HeaderData.Revision);
+                _parameterSetListConverter = new ParameterSetListConverter(_intConverter, _boolConverter, HeaderData.Revision);
                 var jobListField = GetField(1, (int)DataFields.PARAMETER_SET_LIST);
                 jobListField.Size = package.Length - jobListField.Index - 2;
                 base.Parse(package);
-                ParameterSetList = _jobListConverter.Convert(jobListField.Value).ToList();
+                ParameterSetList = _parameterSetListConverter.Convert(jobListField.Value).ToList();
                 return this;
             }
 

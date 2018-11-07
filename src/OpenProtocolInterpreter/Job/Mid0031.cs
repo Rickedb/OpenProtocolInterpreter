@@ -57,7 +57,7 @@ namespace OpenProtocolInterpreter.Job
 
         public override string Pack()
         {
-            _jobListConverter = new JobIdListConverter(HeaderData.Revision);
+            _jobListConverter = new JobIdListConverter(_intConverter, HeaderData.Revision);
             string package = BuildHeader();
             TotalJobs = JobIds.Count;
             var eachJobField = GetField(1, (int)DataFields.EACH_JOB_ID);
@@ -79,7 +79,7 @@ namespace OpenProtocolInterpreter.Job
             if (IsCorrectType(package))
             {
                 HeaderData = ProcessHeader(package);
-                _jobListConverter = new JobIdListConverter(HeaderData.Revision);
+                _jobListConverter = new JobIdListConverter(_intConverter, HeaderData.Revision);
 
                 var eachJobField = GetField(1, (int)DataFields.EACH_JOB_ID);
                 if (HeaderData.Revision > 1)

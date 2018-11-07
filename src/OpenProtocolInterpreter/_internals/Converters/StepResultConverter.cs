@@ -1,9 +1,6 @@
 ﻿using OpenProtocolInterpreter.PowerMACS;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenProtocolInterpreter.Converters
 {
@@ -12,9 +9,9 @@ namespace OpenProtocolInterpreter.Converters
         private readonly IValueConverter<int> _intConverter;
         private IValueConverter<decimal> _decimalConverter;
 
-        public StepResultConverter()
+        public StepResultConverter(IValueConverter<int> intConverter)
         {
-            _intConverter = new Int32Converter();
+            _intConverter = intConverter;
         }
 
         public IEnumerable<StepResult> Convert(string value)

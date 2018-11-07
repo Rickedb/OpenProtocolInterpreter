@@ -1,6 +1,5 @@
 ﻿using OpenProtocolInterpreter.PowerMACS;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace OpenProtocolInterpreter.Converters
 {
@@ -11,11 +10,11 @@ namespace OpenProtocolInterpreter.Converters
         private readonly IValueConverter<decimal> _decimalConverter;
         private readonly int _totalBolts;
 
-        public BoltDataListConverter(int totalBolts)
+        public BoltDataListConverter(IValueConverter<int> intConverter, IValueConverter<bool> boolConverter, IValueConverter<decimal> decimalConverter, int totalBolts)
         {
-            _intConverter = new Int32Converter();
-            _boolConverter = new BoolConverter();
-            _decimalConverter = new DecimalConverter();
+            _intConverter = intConverter;
+            _boolConverter = boolConverter;
+            _decimalConverter = decimalConverter;
             _totalBolts = totalBolts;
         }
 

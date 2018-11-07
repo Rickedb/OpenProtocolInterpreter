@@ -7,10 +7,10 @@ namespace OpenProtocolInterpreter.Converters
         private readonly IValueConverter<bool> _boolConverter;
         private readonly IValueConverter<int> _intConverter;
 
-        public OpenEndDataConverter()
+        public OpenEndDataConverter(IValueConverter<int> intConverter, IValueConverter<bool> boolConverter)
         {
-            _boolConverter = new BoolConverter();
-            _intConverter = new Int32Converter();
+            _boolConverter = boolConverter;
+            _intConverter = intConverter;
         }
 
         public OpenEndDatas Convert(string value)

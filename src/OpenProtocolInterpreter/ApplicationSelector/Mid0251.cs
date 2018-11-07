@@ -37,7 +37,7 @@ namespace OpenProtocolInterpreter.ApplicationSelector
         public Mid0251(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
         {
             _intConverter = new Int32Converter();
-            _boolListConverter = new SocketStatusConverter();
+            _boolListConverter = new SocketStatusConverter(new BoolConverter());
             if (SocketStatus == null)
                 SocketStatus = new List<bool>();
         }

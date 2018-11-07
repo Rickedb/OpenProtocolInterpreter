@@ -1,0 +1,41 @@
+﻿using OpenProtocolInterpreter.Result;
+using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.Converters
+{
+    internal class ObjectDataListConverter : IValueConverter<IEnumerable<ObjectData>>
+    {
+        private readonly IValueConverter<int> _intConverter;
+        private readonly IValueConverter<bool> _boolConverter;
+
+        public ObjectDataListConverter(IValueConverter<int> intConverter, IValueConverter<bool> boolConverter)
+        {
+            _intConverter = intConverter;
+            _boolConverter = boolConverter;
+        }
+
+        public IEnumerable<ObjectData> Convert(string value)
+        {
+            for (int i = 0; i < value.Length; i += 5)
+                yield return new ObjectData()
+                {
+                    Id = _intConverter.Convert(value.Substring(i, 4)),
+                    Status = _boolConverter.Convert(value.Substring(i + 4, 1))
+                };
+        }
+
+        public string Convert(IEnumerable<ObjectData> value)
+        {
+            string pack = string.Empty;
+            foreach(var v in value)
+            {
+                pack += _intConverter.Convert('0', 4, DataField.PaddingOrientations.LEFT_PADDED, v.Id);
+                pack += _boolConverter.Convert(v.Status);
+            }
+
+            return pack;
+        }
+
+        public string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, IEnumerable<ObjectData> value) => Convert(value);
+    }
+}

@@ -31,7 +31,7 @@ namespace OpenProtocolInterpreter.ParameterSet
         public Mid0011() : base(MID, LAST_REVISION)
         {
             _intConverter = new Int32Converter();
-            _intListConverter = new ParameterSetIdListConverter();
+            _intListConverter = new ParameterSetIdListConverter(_intConverter);
             if (ParameterSets == null)
                 ParameterSets = new List<int>();
         }
@@ -46,8 +46,9 @@ namespace OpenProtocolInterpreter.ParameterSet
         public override string Pack()
         {
             TotalParameterSets = ParameterSets.Count;
-            GetField(1, (int)DataFields.EACH_PARAMETER_SET).Value = _intListConverter.Convert(ParameterSets);
-            GetField(1, (int)DataFields.EACH_PARAMETER_SET).Size = GetField(1, (int)DataFields.EACH_PARAMETER_SET).Value.Length;
+            var eachParameterField = GetField(1, (int)DataFields.EACH_PARAMETER_SET);
+            eachParameterField.Value = _intListConverter.Convert(ParameterSets);
+            eachParameterField.Size = eachParameterField.Value.Length;
             return base.Pack();
         }
 

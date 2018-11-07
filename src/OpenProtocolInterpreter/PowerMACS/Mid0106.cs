@@ -28,6 +28,7 @@ namespace OpenProtocolInterpreter.PowerMACS
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;
+        private readonly IValueConverter<decimal> _decimalConverter;
         private readonly IValueConverter<DateTime> _dateConverter;
         private IValueConverter<IEnumerable<BoltData>> _boltDataListConverter;
         private IValueConverter<IEnumerable<SpecialValue>> _specialValueListConverter;
@@ -112,6 +113,7 @@ namespace OpenProtocolInterpreter.PowerMACS
             _intConverter = new Int32Converter();
             _boolConverter = new BoolConverter();
             _dateConverter = new DateConverter();
+            _decimalConverter = new DecimalConverter();
             if (BoltsData == null)
                 BoltsData = new List<BoltData>();
             if (SpecialValues == null)
@@ -124,8 +126,8 @@ namespace OpenProtocolInterpreter.PowerMACS
         {
             NumberOfBolts = BoltsData.Count;
             TotalSpecialValues = SpecialValues.Count;
-            _boltDataListConverter = new BoltDataListConverter(NumberOfBolts);
-            _specialValueListConverter = new SpecialValueListConverter(TotalSpecialValues);
+            _boltDataListConverter = new BoltDataListConverter(_intConverter, _boolConverter, _decimalConverter, NumberOfBolts);
+            _specialValueListConverter = new SpecialValueListConverter(_intConverter, TotalSpecialValues);
             GetField(1, (int)DataFields.BOLT_DATA).Value = _boltDataListConverter.Convert(BoltsData);
             GetField(1, (int)DataFields.SPECIAL_VALUES).Value = _specialValueListConverter.Convert(SpecialValues);
 
@@ -172,8 +174,8 @@ namespace OpenProtocolInterpreter.PowerMACS
                     specialValues.Size = package.Length - specialValues.Index;
                 ProcessDataFields(package);
 
-                _boltDataListConverter = new BoltDataListConverter(numberOfBolts);
-                _specialValueListConverter = new SpecialValueListConverter(TotalSpecialValues);
+                _boltDataListConverter = new BoltDataListConverter(_intConverter, _boolConverter, _decimalConverter, numberOfBolts);
+                _specialValueListConverter = new SpecialValueListConverter(_intConverter, TotalSpecialValues);
                 BoltsData = _boltDataListConverter.Convert(GetField(1, (int)DataFields.BOLT_DATA).Value).ToList();
                 SpecialValues = _specialValueListConverter.Convert(GetField(1, (int)DataFields.SPECIAL_VALUES).Value).ToList();
                 return this;

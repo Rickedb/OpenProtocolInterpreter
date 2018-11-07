@@ -337,14 +337,15 @@ namespace OpenProtocolInterpreter.Tightening
 
         public Mid0061(int revision = LAST_REVISION) : base(MID, revision)
         {
+            var byteArrayConverter = new ByteArrayConverter();
             _intConverter = new Int32Converter();
             _longConverter = new Int64Converter();
             _boolConverter = new BoolConverter();
             _decimalConverter = new DecimalTrucatedConverter(2);
             _dateConverter = new DateConverter();
-            _strategyOptionsConverter = new StrategyOptionsConverter();
-            _tighteningErrorStatusConverter = new TighteningErrorStatusConverter();
-            _tighteningErrorStatus2Converter = new TighteningErrorStatus2Converter();
+            _strategyOptionsConverter = new StrategyOptionsConverter(byteArrayConverter);
+            _tighteningErrorStatusConverter = new TighteningErrorStatusConverter(byteArrayConverter);
+            _tighteningErrorStatus2Converter = new TighteningErrorStatus2Converter(byteArrayConverter);
         }
 
         internal Mid0061(IMid nextTemplate) : this() => NextTemplate = nextTemplate;

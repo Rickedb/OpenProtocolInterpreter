@@ -9,11 +9,11 @@ namespace OpenProtocolInterpreter.Converters
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;
 
-        public ParameterSetListConverter(int revision)
+        public ParameterSetListConverter(IValueConverter<int> intConverter, IValueConverter<bool> boolConverter, int revision)
         {
             _revision = revision;
-            _intConverter = new Int32Converter();
-            _boolConverter = new BoolConverter();
+            _intConverter = intConverter;
+            _boolConverter = boolConverter;
         }
 
         public IEnumerable<Job.ParameterSet> Convert(string value)

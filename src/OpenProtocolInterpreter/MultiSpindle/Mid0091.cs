@@ -50,7 +50,7 @@ namespace OpenProtocolInterpreter.MultiSpindle
             _intConverter = new Int32Converter();
             _boolConverter = new BoolConverter();
             _dateConverter = new DateConverter();
-            _spindlesStatusConverter = new SpindleStatusConverter();
+            _spindlesStatusConverter = new SpindleStatusConverter(_intConverter, _boolConverter);
             if (SpindlesStatus == null)
                 SpindlesStatus = new List<SpindleStatus>();
         }

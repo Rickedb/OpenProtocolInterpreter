@@ -28,7 +28,7 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
 
         public Mid0152() : base(MID, LAST_REVISION)
         {
-            _identifierStatusConverter = new IdentifierStatusConverter();
+            _identifierStatusConverter = new IdentifierStatusConverter(new Int32Converter(), new BoolConverter());
         }
 
         internal Mid0152(IMid nextTemplate) : this() => NextTemplate = nextTemplate;

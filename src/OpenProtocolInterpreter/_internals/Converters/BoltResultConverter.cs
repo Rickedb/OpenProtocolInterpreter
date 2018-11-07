@@ -9,9 +9,9 @@ namespace OpenProtocolInterpreter.Converters
         private readonly IValueConverter<int> _intConverter;
         private IValueConverter<decimal> _decimalConverter;
 
-        public BoltResultConverter()
+        public BoltResultConverter(IValueConverter<int> intConverter)
         {
-            _intConverter = new Int32Converter();
+            _intConverter = intConverter;
         }
 
         public IEnumerable<BoltResult> Convert(string value)

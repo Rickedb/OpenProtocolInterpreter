@@ -4,9 +4,9 @@ namespace OpenProtocolInterpreter
 {
     public class DataField
     {
+        private readonly char _paddingChar;
+        private readonly PaddingOrientations _paddingOrientation;
         private object CachedValue;
-        private char PaddingChar;
-        private PaddingOrientations PaddingOrientation;
 
         public bool HasPrefix { get; set; }
         public int Field { get; set; }
@@ -20,13 +20,13 @@ namespace OpenProtocolInterpreter
             Field = field;
             Index = index;
             Size = size;
-            PaddingChar = ' ';
+            _paddingChar = ' ';
         }
 
         public DataField(int field, int index, int size, char paddingChar, PaddingOrientations paddingOrientation = PaddingOrientations.RIGHT_PADDED, bool hasPrefix = true)
         {
-            PaddingChar = paddingChar;
-            PaddingOrientation = paddingOrientation;
+            _paddingChar = paddingChar;
+            _paddingOrientation = paddingOrientation;
             HasPrefix = hasPrefix;
             Field = field;
             Index = index;
@@ -46,13 +46,13 @@ namespace OpenProtocolInterpreter
         public virtual void SetValue<T>(Func<char, int, PaddingOrientations, T, string> converter, T value)
         {
             CachedValue = null;
-            Value = converter(PaddingChar, Size, PaddingOrientation, value);
+            Value = converter(_paddingChar, Size, _paddingOrientation, value);
         }
 
         public virtual void SetValue(string value)
         {
             CachedValue = null;
-            Value = new Converters.ValueConverter().GetPadded(PaddingChar, Size, PaddingOrientation, value);
+            Value = new Converters.ValueConverter().GetPadded(_paddingChar, Size, _paddingOrientation, value);
         }
 
         public virtual void SetValue<T>(T value)

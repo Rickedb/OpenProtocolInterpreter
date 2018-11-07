@@ -8,10 +8,10 @@ namespace OpenProtocolInterpreter.Converters
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;
 
-        public SpindleStatusConverter()
+        public SpindleStatusConverter(IValueConverter<int> intConverter, IValueConverter<bool> boolConverter)
         {
-            _intConverter = new Int32Converter();
-            _boolConverter = new BoolConverter();
+            _intConverter = intConverter;
+            _boolConverter = boolConverter;
         }
 
         public IEnumerable<SpindleStatus> Convert(string value)

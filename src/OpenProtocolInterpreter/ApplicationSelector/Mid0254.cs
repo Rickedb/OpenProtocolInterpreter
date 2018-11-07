@@ -35,7 +35,7 @@ namespace OpenProtocolInterpreter.ApplicationSelector
         public Mid0254() : base(MID, LAST_REVISION)
         {
             _intConverter = new Int32Converter();
-            _lightsConverter = new LightCommandListConverter();
+            _lightsConverter = new LightCommandListConverter(_intConverter);
             if (GreenLights == null)
                 GreenLights = new List<LightCommand>();
         }

@@ -118,8 +118,8 @@ namespace OpenProtocolInterpreter.PowerMACS
             _boolConverter = new BoolConverter();
             _intConverter = new Int32Converter();
             _dateConverter = new DateConverter();
-            _boltResultConverter = new BoltResultConverter();
-            _stepResultConverter = new StepResultConverter();
+            _boltResultConverter = new BoltResultConverter(_intConverter);
+            _stepResultConverter = new StepResultConverter(_intConverter);
 
             if (BoltResults == null)
                 BoltResults = new List<BoltResult>();
@@ -136,7 +136,7 @@ namespace OpenProtocolInterpreter.PowerMACS
             NumberOfBoltResults = BoltResults.Count;
             NumberOfStepResults = StepResults.Count;
             NumberOfSpecialValues = SpecialValues.Count;
-            _specialValueConverter = new SpecialValueListConverter(NumberOfSpecialValues, true);
+            _specialValueConverter = new SpecialValueListConverter(_intConverter, NumberOfSpecialValues, true);
 
             GetField(1, (int)DataFields.BOLT_RESULTS).SetValue(_boltResultConverter.Convert(BoltResults));
             GetField(1, (int)DataFields.STEP_RESULTS).SetValue(_stepResultConverter.Convert(StepResults));
@@ -175,7 +175,7 @@ namespace OpenProtocolInterpreter.PowerMACS
                 specialValuesField.Size = package.Length - specialValuesField.Index;
 
                 ProcessDataFields(package);
-                _specialValueConverter = new SpecialValueListConverter(NumberOfSpecialValues, true);
+                _specialValueConverter = new SpecialValueListConverter(_intConverter, NumberOfSpecialValues, true);
 
                 BoltResults = _boltResultConverter.Convert(boltResultField.Value).ToList();
                 StepResults = _stepResultConverter.Convert(stepResultsField.Value).ToList();

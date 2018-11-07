@@ -6,9 +6,9 @@ namespace OpenProtocolInterpreter.Converters
     {
         private readonly IValueConverter<byte[]> _byteArrayConverter;
 
-        public TighteningErrorStatusConverter()
+        public TighteningErrorStatusConverter(IValueConverter<byte[]> byteArrayConverter)
         {
-            _byteArrayConverter = new ByteArrayConverter();
+            _byteArrayConverter = byteArrayConverter;
         }
 
         public TighteningErrorStatus Convert(string value)
@@ -113,9 +113,9 @@ namespace OpenProtocolInterpreter.Converters
     {
         private readonly IValueConverter<byte[]> _byteArrayConverter;
 
-        public TighteningErrorStatus2Converter()
+        public TighteningErrorStatus2Converter(IValueConverter<byte[]> byteArrayConverter)
         {
-            _byteArrayConverter = new ByteArrayConverter();
+            _byteArrayConverter = byteArrayConverter;
         }
 
         public TighteningErrorStatus2 Convert(string value)
