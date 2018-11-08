@@ -1,4 +1,4 @@
-version: 1.0.{build}
+version: 2.0.{build}
 image: Visual Studio 2017
 configuration: Release
 build:
@@ -7,10 +7,10 @@ build:
   include_nuget_references: true
   verbosity: minimal
 before_deploy:
-- ps: nuget pack src\OpenProtocolInterpreter\OpenProtocolInterpreter.csproj -Properties Configuration=Release
+- ps: nuget pack src\OpenProtocolInterpreter\OpenProtocolInterpreter.csproj
 deploy:
 - provider: NuGet
   api_key:
-    secure: erKpcJ0tSesz5t1D3O+yey+bzVHvg9nsnIkcG2P4j8Kjr4reZ595/fmODipnwJLr
+    secure: IbuXe05ZqOytMAmop7c4Xq0Vd9OFl5gVib/hs6nfJc++vG7tnoyYxUm4nS/CQGaS
   skip_symbols: true
-  artifact: 'C:\projects\openprotocolintepreter\OpenProtocolInterpreter.2.1.0.nupkg'
+  artifact: '**\*.nupkg'
