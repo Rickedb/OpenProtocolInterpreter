@@ -35,7 +35,8 @@ namespace OpenProtocolInterpreter
                 { mid => IsStatisticMessage(mid), package => new Statistic.StatisticMessages().ProcessPackage(package) },
                 { mid => IsAutomaticManualModeMessage(mid), package => new AutomaticManualMode.AutomaticManualModeMessages().ProcessPackage(package) },
                 { mid => IsOpenProtocolCommandsDisabledModeMessage(mid), package => new OpenProtocolCommandsDisabled.OpenProtocolCommandsDisabledMessages().ProcessPackage(package) },
-                { mid => IsMotorTuningMessage(mid), package => new MotorTuning.MotorTuningMessages().ProcessPackage(package) }
+                { mid => IsMotorTuningMessage(mid), package => new MotorTuning.MotorTuningMessages().ProcessPackage(package) },
+                { mid => IsResultMessage(mid), package => new Result.ResultMessages().ProcessPackage(package) }
             };
         }
 
@@ -70,7 +71,8 @@ namespace OpenProtocolInterpreter
                 { mid => IsStatisticMessage(mid), package => new Statistic.StatisticMessages(_selectedMids.Where(x=> typeof(Statistic.IStatistic).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
                 { mid => IsAutomaticManualModeMessage(mid), package => new AutomaticManualMode.AutomaticManualModeMessages(_selectedMids.Where(x=> typeof(AutomaticManualMode.IAutomaticManualMode).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
                 { mid => IsOpenProtocolCommandsDisabledModeMessage(mid), package => new OpenProtocolCommandsDisabled.OpenProtocolCommandsDisabledMessages(_selectedMids.Where(x=> typeof(OpenProtocolCommandsDisabled.IOpenProtocolCommandsDisabled).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
-                { mid => IsMotorTuningMessage(mid), package => new MotorTuning.MotorTuningMessages(_selectedMids.Where(x=> typeof(MotorTuning.IMotorTuning).IsAssignableFrom(x.GetType()))).ProcessPackage(package) }
+                { mid => IsMotorTuningMessage(mid), package => new MotorTuning.MotorTuningMessages(_selectedMids.Where(x=> typeof(MotorTuning.IMotorTuning).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
+                { mid => IsResultMessage(mid), package => new Result.ResultMessages(_selectedMids.Where(x=> typeof(Result.IResult).IsAssignableFrom(x.GetType()))).ProcessPackage(package) }
             };
 
             _messageInterpreterTemplates = new Dictionary<Func<int, bool>, Func<string, Mid>>();
@@ -103,51 +105,52 @@ namespace OpenProtocolInterpreter
             throw new InvalidCastException($"Package is MID {mid.GetType().Name}, cannot be casted to {typeof(ExpectedMid).Name}");
         }
 
-        private bool IsKeepAliveMessage(int mid) => (mid == 9999);
+        private bool IsKeepAliveMessage(int mid) => mid == 9999;
 
-        private bool IsCommunicationMessage(int mid) => (mid > 0 && mid < 10);
+        private bool IsCommunicationMessage(int mid) => mid > 0 && mid < 10;
 
-        private bool IsParameterSetMessage(int mid) => (mid > 9 && mid < 26 || mid > 2499 && mid < 2506);
+        private bool IsParameterSetMessage(int mid) => mid > 9 && mid < 26 || mid > 2499 && mid < 2506;
 
-        private bool IsJobMessage(int mid) => (mid > 29 && mid < 40);
+        private bool IsJobMessage(int mid) => mid > 29 && mid < 40;
 
-        private bool IsToolMessage(int mid) => (mid > 39 && mid < 49);
+        private bool IsToolMessage(int mid) => mid > 39 && mid < 49;
 
-        private bool IsVINMessage(int mid) => (mid > 49 && mid < 55);
+        private bool IsVINMessage(int mid) => mid > 49 && mid < 55;
 
-        private bool IsTighteningMessage(int mid) => (mid > 59 && mid < 66);
+        private bool IsTighteningMessage(int mid) => mid > 59 && mid < 66;
 
-        private bool IsAlarmMessage(int mid) => (mid > 69 && mid < 79);
+        private bool IsAlarmMessage(int mid) => mid > 69 && mid < 79;
 
-        private bool IsTimeMessage(int mid) => (mid > 79 && mid < 83);
+        private bool IsTimeMessage(int mid) => mid > 79 && mid < 83;
 
-        private bool IsMultiSpindleMessage(int mid) => (mid > 89 && mid < 104);
+        private bool IsMultiSpindleMessage(int mid) => mid > 89 && mid < 104;
 
-        private bool IsPowerMACSMessage(int mid) => (mid > 104 && mid < 110);
+        private bool IsPowerMACSMessage(int mid) => mid > 104 && mid < 110;
 
-        private bool IsUserInterfaceMessage(int mid) => (mid > 109 && mid < 114);
+        private bool IsUserInterfaceMessage(int mid) => mid > 109 && mid < 114;
 
-        private bool IsAdvancedJobMessage(int mid) => (mid > 119 && mid < 141);
+        private bool IsAdvancedJobMessage(int mid) => mid > 119 && mid < 141;
 
-        private bool IsMultipleIdentifiersMessage(int mid) => (mid > 149 && mid < 158);
+        private bool IsMultipleIdentifiersMessage(int mid) => mid > 149 && mid < 158;
 
-        private bool IsIOInterfaceMessage(int mid) => (mid > 199 && mid < 226);
+        private bool IsIOInterfaceMessage(int mid) => mid > 199 && mid < 226;
 
-        private bool IsPLCUserDataMessage(int mid) => (mid > 239 && mid < 246);
+        private bool IsPLCUserDataMessage(int mid) => mid > 239 && mid < 246;
 
-        private bool IsSelectorMessage(int mid) => (mid > 249 && mid < 256);
+        private bool IsSelectorMessage(int mid) => mid > 249 && mid < 256;
 
-        private bool IsToolLocationSystemMessage(int mid) => (mid > 259 && mid < 266);
+        private bool IsToolLocationSystemMessage(int mid) => mid > 259 && mid < 266;
 
-        private bool IsControllerMessage(int mid) => (mid == 270);
+        private bool IsControllerMessage(int mid) => mid == 270;
 
-        private bool IsStatisticMessage(int mid) => (mid > 299 && mid < 302);
+        private bool IsStatisticMessage(int mid) => mid > 299 && mid < 302;
 
-        private bool IsAutomaticManualModeMessage(int mid) => (mid > 399 && mid < 412);
+        private bool IsAutomaticManualModeMessage(int mid) => mid > 399 && mid < 412;
 
-        private bool IsOpenProtocolCommandsDisabledModeMessage(int mid) => (mid > 419 && mid < 424);
+        private bool IsOpenProtocolCommandsDisabledModeMessage(int mid) => mid > 419 && mid < 424;
 
-        private bool IsMotorTuningMessage(int mid) => (mid > 499 && mid < 505);
+        private bool IsMotorTuningMessage(int mid) => mid > 499 && mid < 505;
 
+        private bool IsResultMessage(int mid) => mid > 1200 && mid < 1204;
     }
 }

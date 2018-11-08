@@ -47,17 +47,13 @@ namespace OpenProtocolInterpreter
         {
             CachedValue = null;
             Value = converter(_paddingChar, Size, _paddingOrientation, value);
+            Size = Value.Length;
         }
 
         public virtual void SetValue(string value)
         {
             CachedValue = null;
-            Value = new Converters.ValueConverter().GetPadded(_paddingChar, Size, _paddingOrientation, value);
-        }
-
-        public virtual void SetValue<T>(T value)
-        {
-            CachedValue = value;
+            SetValue(new Converters.ValueConverter().GetPadded, value);
         }
 
         private bool IsValueNotCached<T>() => CachedValue == null || IsNotTypeOf<T>();

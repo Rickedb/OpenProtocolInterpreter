@@ -2,12 +2,22 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenProtocolInterpreter.Result
 {
-    public class MID_1201 : Mid, IResult
+    /// <summary>
+    /// MID: Operation result Overall data
+    /// Description: 
+    ///     This MID contains the overall result data and some of the object data of the last tightening. 
+    ///     In the subscription of this message it can be chosen to also start subscription of MID 1202 Operation result object data. 
+    ///     The user defined values is preconfigured in the controller via the configuration tool.
+    /// 
+    /// Message sent by: Controller
+    /// Answer: MID 1203 Operation result data acknowledge or MID 0005 with MID 1201 in the data field.
+    ///         
+    ///         If the sequence number acknowledge functionality is used there is no need for these acknowledges.
+    /// </summary>
+    public class Mid1201 : Mid, IResult
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<DateTime> _dateConverter;
@@ -18,7 +28,7 @@ namespace OpenProtocolInterpreter.Result
         private const int LAST_REVISION = 1;
         public const int MID = 1201;
 
-        public MID_1201() : base(MID, LAST_REVISION)
+        public Mid1201() : base(MID, LAST_REVISION)
         {
             _intConverter = new Int32Converter();
             _dateConverter = new DateConverter();
@@ -29,7 +39,7 @@ namespace OpenProtocolInterpreter.Result
             VariableDataFields = new List<VariableDataField>();
         }
 
-        internal MID_1201(IMid nextTemplate) : this()
+        internal Mid1201(IMid nextTemplate) : this()
         {
             NextTemplate = nextTemplate;
         }
