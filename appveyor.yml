@@ -13,4 +13,4 @@ deploy:
   api_key:
     secure: erKpcJ0tSesz5t1D3O+yey+bzVHvg9nsnIkcG2P4j8Kjr4reZ595/fmODipnwJLr
   skip_symbols: true
-  artifact: '**\*.nupkg'
+  artifact: 'openprotocolintepreter\OpenProtocolInterpreter.2.1.0.nupkg'
