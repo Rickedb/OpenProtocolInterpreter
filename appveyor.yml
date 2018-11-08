@@ -3,4 +3,8 @@ image: Visual Studio 2017
 build:
   verbosity: minimal
   project: OpenProtocolInterpreter.sln
-  
+deploy:
+  provider: NuGet
+  api_key:
+    secure: UN/FgQm/OHYyuCKYbKY9Dx7d22qtJh/O6Y1lEMFybAJ9smjpGsyYGYa4X0DU26Ux
+  artifact: /.*\.nupkg/
