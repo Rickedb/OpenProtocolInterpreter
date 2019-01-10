@@ -83,6 +83,8 @@
     <Compile Include="Communication\TestMid0003.cs" />
     <Compile Include="Communication\TestMid0004.cs" />
     <Compile Include="Communication\TestMid0005.cs" />
+    <Compile Include="Communication\TestMid0006.cs" />
+    <Compile Include="Communication\TestMid0008.cs" />
     <Compile Include="IOInterface\TestMid0200.cs" />
     <Compile Include="IOInterface\TestMid0210.cs" />
     <Compile Include="IOInterface\TestMid0211.cs" />
