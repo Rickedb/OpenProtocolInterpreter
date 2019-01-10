@@ -207,8 +207,6 @@ protected void BuildAndSendAcknowledge(Mid mid)
 
 ### List of still unavailable Mids
 
- - Mid 0006;
- - Mid 0008;
  - Mid 0009;
  - Mid 0700;
  - Mid 0900;
