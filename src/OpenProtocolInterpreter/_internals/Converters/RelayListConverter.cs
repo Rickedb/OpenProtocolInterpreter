@@ -19,7 +19,7 @@ namespace OpenProtocolInterpreter.Converters
             for (int i = 0; i < value.Length; i += 4)
                 yield return new Relay()
                 {
-                    Number = (RelayNumber)_intConverter.Convert(value.Substring(i, i + 3)),
+                    Number = (RelayNumber)_intConverter.Convert(value.Substring(i, 3)),
                     Status = _boolConverter.Convert(value.Substring(i + 3, 1))
                 };
         }

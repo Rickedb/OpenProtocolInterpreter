@@ -91,6 +91,7 @@
     <Compile Include="IOInterface\TestMid0212.cs" />
     <Compile Include="IOInterface\TestMid0213.cs" />
     <Compile Include="IOInterface\TestMid0214.cs" />
+    <Compile Include="IOInterface\TestMid0215.cs" />
     <Compile Include="IOInterface\TestMid0225.cs" />
     <Compile Include="IOInterface\TestMid0216.cs" />
     <Compile Include="IOInterface\TestMid0217.cs" />

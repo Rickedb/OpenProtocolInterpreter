@@ -141,6 +141,7 @@
     <Compile Include="_internals\Converters\DateConverter.cs" />
     <Compile Include="_internals\Converters\DecimalConverter.cs" />
     <Compile Include="_internals\Converters\DecimalTrucatedConverter.cs" />
+    <Compile Include="_internals\Converters\DigitalInputListConverter.cs" />
     <Compile Include="_internals\Converters\IdentifierStatusConverter.cs" />
     <Compile Include="_internals\Converters\AdvancedJobListConverter.cs" />
     <Compile Include="_internals\Converters\LightCommandListConverter.cs" />

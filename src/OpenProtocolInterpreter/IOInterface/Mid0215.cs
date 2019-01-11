@@ -17,7 +17,7 @@ namespace OpenProtocolInterpreter.IOInterface
     /// Message sent by: Controller
     /// Answer: None
     /// </summary>
-    internal class Mid0215 : Mid, IIOInterface
+    public class Mid0215 : Mid, IIOInterface
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<IEnumerable<Relay>> _relayListConverter;
@@ -35,20 +35,21 @@ namespace OpenProtocolInterpreter.IOInterface
         //rev 2
         public int NumberOfRelays
         {
-            get => GetField(2,(int)DataFields.NUMBER_OF_RELAYS).GetValue(_intConverter.Convert);
-            private set => GetField(2,(int)DataFields.NUMBER_OF_RELAYS).SetValue(_intConverter.Convert, value);
+            get => GetField(2, (int)DataFields.NUMBER_OF_RELAYS).GetValue(_intConverter.Convert);
+            private set => GetField(2, (int)DataFields.NUMBER_OF_RELAYS).SetValue(_intConverter.Convert, value);
         }
         public int NumberOfDigitalInputs
         {
-            get => GetField(2,(int)DataFields.NUMBER_OF_DIGITAL_INPUTS).GetValue(_intConverter.Convert);
-            private set => GetField(2,(int)DataFields.NUMBER_OF_DIGITAL_INPUTS).SetValue(_intConverter.Convert, value);
+            get => GetField(2, (int)DataFields.NUMBER_OF_DIGITAL_INPUTS).GetValue(_intConverter.Convert);
+            private set => GetField(2, (int)DataFields.NUMBER_OF_DIGITAL_INPUTS).SetValue(_intConverter.Convert, value);
         }
 
         public Mid0215(int revision = LAST_REVISION) : base(MID, revision)
         {
+            var boolConverter = new BoolConverter();
             _intConverter = new Int32Converter();
-            _relayListConverter = new RelayListConverter(_intConverter, new BoolConverter());
-            //_digitalInputListConverter = new DigitalInputList
+            _relayListConverter = new RelayListConverter(_intConverter, boolConverter);
+            _digitalInputListConverter = new DigitalInputListConverter(_intConverter, boolConverter);
             Relays = new List<Relay>();
             DigitalInputs = new List<DigitalInput>();
         }
@@ -62,20 +63,20 @@ namespace OpenProtocolInterpreter.IOInterface
                 NumberOfRelays = Relays.Count;
                 NumberOfDigitalInputs = DigitalInputs.Count;
 
-                var relayListField = GetField(2,(int)DataFields.RELAY_LIST);
+                var relayListField = GetField(2, (int)DataFields.RELAY_LIST);
                 relayListField.Size = NumberOfRelays * 4;
                 relayListField.Value = _relayListConverter.Convert(Relays);
-                GetField(2,(int)DataFields.NUMBER_OF_DIGITAL_INPUTS).Index = relayListField.Index + relayListField.Size;
+                GetField(2, (int)DataFields.NUMBER_OF_DIGITAL_INPUTS).Index = relayListField.Index + relayListField.Size;
 
-                GetField(2,(int)DataFields.DIGITAL_INPUT_LIST).Index = GetField(2,(int)DataFields.NUMBER_OF_DIGITAL_INPUTS).Index + 2;
-                GetField(2,(int)DataFields.DIGITAL_INPUT_LIST).Size = NumberOfDigitalInputs * 4;
-                GetField(2,(int)DataFields.DIGITAL_INPUT_LIST).Value = _digitalInputListConverter.Convert(DigitalInputs);
+                GetField(2, (int)DataFields.DIGITAL_INPUT_LIST).Index = GetField(2, (int)DataFields.NUMBER_OF_DIGITAL_INPUTS).Index + 2;
+                GetField(2, (int)DataFields.DIGITAL_INPUT_LIST).Size = NumberOfDigitalInputs * 4;
+                GetField(2, (int)DataFields.DIGITAL_INPUT_LIST).Value = _digitalInputListConverter.Convert(DigitalInputs);
             }
             else
             {
                 HeaderData.Revision = 1;
-                GetField(1,(int)DataFields.RELAY_LIST).Value = _relayListConverter.Convert(Relays);
-                GetField(1,(int)DataFields.DIGITAL_INPUT_LIST).Value = _digitalInputListConverter.Convert(DigitalInputs);
+                GetField(1, (int)DataFields.RELAY_LIST).Value = _relayListConverter.Convert(Relays);
+                GetField(1, (int)DataFields.DIGITAL_INPUT_LIST).Value = _digitalInputListConverter.Convert(DigitalInputs);
             }
 
             string pkg = BuildHeader();
@@ -92,23 +93,30 @@ namespace OpenProtocolInterpreter.IOInterface
         {
             if (IsCorrectType(package))
             {
-                ProcessHeader(package);
-                var relayListField = GetField(2,(int)DataFields.RELAY_LIST);
-                var digitalListField = GetField(2,(int)DataFields.DIGITAL_INPUT_LIST);
+                HeaderData = ProcessHeader(package);
+                DataField relayListField;
+                DataField digitalListField;
 
                 if (HeaderData.Revision > 1)
                 {
-                    int numberOfRelays = _intConverter.Convert(GetValue(GetField(2,(int)DataFields.NUMBER_OF_RELAYS), package));
+                    relayListField = GetField(2, (int)DataFields.RELAY_LIST);
+                    digitalListField = GetField(2, (int)DataFields.DIGITAL_INPUT_LIST);
+                    int numberOfRelays = _intConverter.Convert(GetValue(GetField(2, (int)DataFields.NUMBER_OF_RELAYS), package));
                     relayListField.Size = numberOfRelays * 4;
 
-                    GetField(2,(int)DataFields.NUMBER_OF_DIGITAL_INPUTS).Index = relayListField.Index + relayListField.Size;
+                    var numberOfDigitalInputsField = GetField(2, (int)DataFields.NUMBER_OF_DIGITAL_INPUTS);
+                    numberOfDigitalInputsField.Index = relayListField.Index + 2 + relayListField.Size;
 
-                    digitalListField.Index = digitalListField.Index + 2;
-                    digitalListField.Size = package.Length - digitalListField.Index;
+                    digitalListField.Index = numberOfDigitalInputsField.Index + 2 + numberOfDigitalInputsField.Size;
+                    digitalListField.Size = package.Length - 2 - digitalListField.Index;
+                }
+                else
+                {
+                    relayListField = GetField(1, (int)DataFields.RELAY_LIST);
+                    digitalListField = GetField(1, (int)DataFields.DIGITAL_INPUT_LIST);
                 }
 
-                foreach (var field in RevisionsByFields[HeaderData.Revision])
-                    field.Value = GetValue(field, package);
+                ProcessDataFields(package);
 
                 Relays = _relayListConverter.Convert(relayListField.Value).ToList();
                 DigitalInputs = _digitalInputListConverter.Convert(digitalListField.Value).ToList();
