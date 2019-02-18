@@ -17,5 +17,16 @@ namespace MIDTesters.Communication
             Assert.AreEqual(typeof(Mid0001), mid.GetType());
             Assert.AreEqual(package, mid.Pack());
         }
+
+        [TestMethod]
+        public void Mid0001AllByteRevisions()
+        {
+            string package = "00200001003         ";
+            byte[] bytes = GetAsciiBytes(package);
+            var mid = _midInterpreter.Parse(bytes);
+
+            Assert.AreEqual(typeof(Mid0001), mid.GetType());
+            Assert.AreEqual(package, mid.Pack());
+        }
     }
 }

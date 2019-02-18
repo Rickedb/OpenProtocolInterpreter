@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace OpenProtocolInterpreter
 {
@@ -112,6 +113,12 @@ namespace OpenProtocolInterpreter
             return NextTemplate.Parse(package);
         }
 
+        public Mid Parse(byte[] package)
+        {
+            var pack = Encoding.ASCII.GetString(package); //Mostly ASCII encoding
+            return Parse(pack);
+        }
+
         protected virtual void ProcessDataFields(string package)
         {
             if (!RevisionsByFields.Any())
@@ -174,5 +181,6 @@ namespace OpenProtocolInterpreter
         }
 
         internal void SetNextTemplate(Mid mid) => NextTemplate = mid;
+
     }
 }

@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace OpenProtocolInterpreter
 {
     public class MidInterpreter
     {
-        private readonly Dictionary<Func<int, bool>, Func<string, Mid>> _messageInterpreterTemplates;
+        private readonly Dictionary<Func<int, bool>, Func<object, Mid>> _messageInterpreterTemplates;
         private readonly IEnumerable<Mid> _selectedMids;
 
         public MidInterpreter()
         {
-            _messageInterpreterTemplates = new Dictionary<Func<int, bool>, Func<string, Mid>>()
+            _messageInterpreterTemplates = new Dictionary<Func<int, bool>, Func<object, Mid>>()
             {
                 { mid => IsKeepAliveMessage(mid), package => new KeepAlive.Mid9999() },
                 { mid => IsCommunicationMessage(mid), package => new Communication.CommunicationMessages().ProcessPackage(package) },
@@ -47,10 +48,10 @@ namespace OpenProtocolInterpreter
         public MidInterpreter(IEnumerable<Mid> selection)
         {
             _selectedMids = selection;
-            var fullDictionary = new Dictionary<Func<int, bool>, Func<string, Mid>>()
+            var fullDictionary = new Dictionary<Func<int, bool>, Func<object, Mid>>()
             {
                 { mid => IsKeepAliveMessage(mid), package => new KeepAlive.Mid9999() },
-                { mid => IsCommunicationMessage(mid), package => new Communication.CommunicationMessages(_selectedMids.Where(x=> typeof(Communication.ICommunication).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
+                { mid => IsCommunicationMessage(mid), package => new Communication.CommunicationMessages(_selectedMids.Where(x=> typeof(Communication.ICommunication).IsAssignableFrom(x.GetType()))).ProcessPackage(package as string) },
 				{ mid => IsParameterSetMessage(mid), package => new ParameterSet.ParameterSetMessages(_selectedMids.Where(x=> typeof(ParameterSet.IParameterSet).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
                 { mid => IsJobMessage(mid), package => new Job.JobMessages(_selectedMids.Where(x=> typeof(Job.IJob).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
                 { mid => IsToolMessage(mid), package => new Tool.ToolMessages(_selectedMids.Where(x=> typeof(Tool.ITool).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
@@ -97,6 +98,26 @@ namespace OpenProtocolInterpreter
         }
 
         public ExpectedMid Parse<ExpectedMid>(string package) where ExpectedMid : Mid
+        {
+            Mid mid = Parse(package);
+            if (mid.GetType().Equals(typeof(ExpectedMid)))
+                return (ExpectedMid)mid;
+
+            throw new InvalidCastException($"Package is MID {mid.GetType().Name}, cannot be casted to {typeof(ExpectedMid).Name}");
+        }
+
+        public Mid Parse(byte[] package)
+        {
+            int mid = int.Parse(Encoding.ASCII.GetString(package, 4, 4));
+
+            var func = _messageInterpreterTemplates.FirstOrDefault(x => x.Key(mid));
+            if (func.Equals(default(KeyValuePair<Func<int, bool>, Func<string, Mid>>)))
+                throw new NotImplementedException($"MID {mid} was not implemented, please register it on MidIntepreter constructor!");
+
+            return func.Value(package);
+        }
+
+        public ExpectedMid Parse<ExpectedMid>(byte[] package) where ExpectedMid : Mid
         {
             Mid mid = Parse(package);
             if (mid.GetType().Equals(typeof(ExpectedMid)))

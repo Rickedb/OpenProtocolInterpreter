@@ -7,7 +7,8 @@ namespace OpenProtocolInterpreter
         Mid.Header HeaderData { get; set; }
         Dictionary<int, List<DataField>> RevisionsByFields { get; set; }
         Mid Parse(string package);
-        
+        Mid Parse(byte[] package);
+
         string Pack();
     }
 }

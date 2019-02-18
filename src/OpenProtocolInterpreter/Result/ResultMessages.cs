@@ -22,14 +22,12 @@ namespace OpenProtocolInterpreter.Result
             _templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
         }
 
-        public Mid ProcessPackage(string package)
-        {
-            return _templates.Parse(package);
-        }
+        public Mid ProcessPackage(string package) => _templates.Parse(package);
+
+        public Mid ProcessPackage(byte[] package) => _templates.Parse(package);
 
         private IMid InitIntegratorTemplates() => new Mid1203();
         
-
         private IMid InitControllerTemplates()
         {
             return new Mid1201(new Mid1202(null));
