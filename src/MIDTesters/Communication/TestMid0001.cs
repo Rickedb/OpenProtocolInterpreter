@@ -1,32 +1,36 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Communication;
-
+using System.Linq;
 
 namespace MIDTesters.Communication
 {
     [TestClass]
     public class TestMid0001 : MidTester
     {
+        private readonly string _package;
+
+        public TestMid0001()
+        {
+            _package = "00200001003         ";
+        }
+
         [TestMethod]
         public void Mid0001AllRevisions()
         {
-            string package = "00200001003         ";
-            var mid = _midInterpreter.Parse(package);
-            
+            var mid = _midInterpreter.Parse(_package);
 
             Assert.AreEqual(typeof(Mid0001), mid.GetType());
-            Assert.AreEqual(package, mid.Pack());
+            Assert.AreEqual(_package, mid.Pack());
         }
 
         [TestMethod]
         public void Mid0001AllByteRevisions()
         {
-            string package = "00200001003         ";
-            byte[] bytes = GetAsciiBytes(package);
+            byte[] bytes = GetAsciiBytes(_package);
             var mid = _midInterpreter.Parse(bytes);
 
             Assert.AreEqual(typeof(Mid0001), mid.GetType());
-            Assert.AreEqual(package, mid.Pack());
+            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
         }
     }
 }

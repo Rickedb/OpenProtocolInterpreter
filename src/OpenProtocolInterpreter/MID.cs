@@ -67,6 +67,8 @@ namespace OpenProtocolInterpreter
             return package;
         }
 
+        public virtual byte[] PackBytes() => Encoding.ASCII.GetBytes(Pack());
+
         protected virtual string Pack(List<DataField> dataFields, ref int prefixIndex)
         {
             string package = string.Empty;

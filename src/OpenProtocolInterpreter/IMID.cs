@@ -10,5 +10,6 @@ namespace OpenProtocolInterpreter
         Mid Parse(byte[] package);
 
         string Pack();
+        byte[] PackBytes();
     }
 }
