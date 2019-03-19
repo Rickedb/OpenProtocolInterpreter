@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.ApplicationToolLocationSystem;
 
@@ -17,6 +18,19 @@ namespace MIDTesters.ApplicationToolLocationSystem
             Assert.IsNotNull(mid.ToolTagId);
             Assert.IsNotNull(mid.ToolStatus);
             Assert.AreEqual(package, mid.Pack());
+        }
+
+        [TestMethod]
+        public void Mid0265ByteRevision1()
+        {
+            string package = "003402650011        013200078D0202";
+            byte[] bytes = GetAsciiBytes(package);
+            var mid = _midInterpreter.Parse<Mid0265>(bytes);
+
+            Assert.AreEqual(typeof(Mid0265), mid.GetType());
+            Assert.IsNotNull(mid.ToolTagId);
+            Assert.IsNotNull(mid.ToolStatus);
+            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
         }
     }
 }
