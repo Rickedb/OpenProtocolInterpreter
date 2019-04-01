@@ -66,6 +66,7 @@ namespace OpenProtocolInterpreter
             return package;
         }
 
+        
         protected virtual string Pack(List<DataField> dataFields, ref int prefixIndex)
         {
             string package = string.Empty;
