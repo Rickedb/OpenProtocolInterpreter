@@ -1,5 +1,5 @@
-﻿using OpenProtocolInterpreter.MIDs;
-using OpenProtocolInterpreter.MIDs.Communication;
+﻿using OpenProtocolInterpreter;
+using OpenProtocolInterpreter.Communication;
 using OpenProtocolInterpreter.Sample.Driver.Events;
 using OpenProtocolInterpreter.Sample.Ethernet;
 using System;
@@ -11,7 +11,7 @@ namespace OpenProtocolInterpreter.Sample.Driver
 {
     public class OpenProtocolDriver
     {
-        private readonly MIDIdentifier midIdentifier;
+        private readonly MidInterpreter midIdentifier;
         private SimpleTcpClient simpleTcpClient;
         public Stopwatch keepAlive;
         public Dictionary<Type, ReceivedCommandActionDelegate> OnReceivedMID;
@@ -25,16 +25,16 @@ namespace OpenProtocolInterpreter.Sample.Driver
         public OpenProtocolDriver()
         {
             this.OnReceivedMID = new Dictionary<Type, ReceivedCommandActionDelegate>();
-            this.midIdentifier = new MIDIdentifier();
+            this.midIdentifier = new MidInterpreter();
         }
 
         /// <summary>
         /// Custom MIDs that will be used on OpenProtocol lib (Filtering my used mids)
         /// </summary>
-        public OpenProtocolDriver(IEnumerable<MID> usedMids)
+        public OpenProtocolDriver(IEnumerable<Mid> usedMids)
         {
             this.OnReceivedMID = new Dictionary<Type, ReceivedCommandActionDelegate>();
-            this.midIdentifier = new MIDIdentifier(usedMids);
+            this.midIdentifier = new MidInterpreter(usedMids);
         }
 
         public bool BeginCommunication(SimpleTcpClient client)
@@ -42,7 +42,7 @@ namespace OpenProtocolInterpreter.Sample.Driver
             this.simpleTcpClient = client;
             this.simpleTcpClient.DataReceived += this.onPackageReceived;
             this.simpleTcpClient.DelimiterDataReceived += this.onPackageReceived;
-            return this.startCommunication();
+            return this.StartCommunication();
         }
 
         /// <summary>
@@ -84,12 +84,12 @@ namespace OpenProtocolInterpreter.Sample.Driver
         /// <param name="message">Message to be sent</param>
         /// <param name="timeout">Max time to wait</param>
         /// <returns>Controller's message</returns>
-        public MID sendAndWaitForResponse(string message, TimeSpan timeout)
+        public Mid sendAndWaitForResponse(string message, TimeSpan timeout)
         {
             try
             {
                 System.Threading.Thread.Sleep(500);
-                MID midResponse = null;
+                Mid midResponse = null;
 
                 Console.WriteLine($"Sending message: {message}");
                 Message response = this.simpleTcpClient.WriteLineAndGetReply(message, timeout);
@@ -99,7 +99,7 @@ namespace OpenProtocolInterpreter.Sample.Driver
                 if (response != null)
                 {
                     this.communicationAlive();
-                    midResponse = this.midIdentifier.IdentifyMid(response.MessageString);
+                    midResponse = this.midIdentifier.Parse(response.MessageString);
                 }
 
                 return midResponse;
@@ -123,7 +123,7 @@ namespace OpenProtocolInterpreter.Sample.Driver
             {
                 Console.WriteLine($"Message arrived: {message.MessageString}");
 
-                var mid = this.midIdentifier.IdentifyMid(message.MessageString);
+                var mid = this.midIdentifier.Parse(message.MessageString);
                 var action = this.OnReceivedMID.FirstOrDefault(x => x.Key == mid.GetType());
 
                 if (action.Equals(default(KeyValuePair<Type, ReceivedCommandActionDelegate>)))
@@ -143,19 +143,19 @@ namespace OpenProtocolInterpreter.Sample.Driver
         /// <summary>
         /// Start TCP/IP connection and initiates an OpenProtocol conversation with controller, send start communication to controller (MID 0001)
         /// </summary>
-        protected virtual bool startCommunication()
+        protected virtual bool StartCommunication()
         {
             try
             {
-                var message = this.sendAndWaitForResponse(new MID_0001(1).buildPackage(), TimeSpan.FromSeconds(10));
+                var message = this.sendAndWaitForResponse(new Mid0001(1).Pack(), TimeSpan.FromSeconds(10));
                 if (message != null)
                     switch (message.HeaderData.Mid)
                     {
-                        case MID_0002.MID:
-                            this.OnCommunicationStartAccepted(message as MID_0002);
+                        case Mid0002.MID:
+                            this.OnCommunicationStartAccepted(message as Mid0002);
                             break;
-                        case MID_0004.MID:
-                            this.OnCommunicationStartError(message as MID_0004);
+                        case Mid0004.MID:
+                            this.OnCommunicationStartError(message as Mid0004);
                             break;
                     }
                 return true;
@@ -172,19 +172,19 @@ namespace OpenProtocolInterpreter.Sample.Driver
         /// When controller accept comunication start accordingly with OpenProtocol telegrams (MID 0002)
         /// </summary>
         /// <param name="e"></param>
-        protected virtual void OnCommunicationStartAccepted(MID_0002 mid)
+        protected virtual void OnCommunicationStartAccepted(Mid0002 mid)
         {
             this.Connected = true;
             Console.WriteLine($"Communication Start Accepted (MID 0002)");
         }
 
-        protected virtual void OnCommunicationStartError(MID_0004 mid)
+        protected virtual void OnCommunicationStartError(Mid0004 mid)
         {
             this.Connected = false;
-            if (mid.ErrorCode == MID_0004.Errors.CLIENT_ALREADY_CONNECTED)
+            if (mid.ErrorCode == Error.CLIENT_ALREADY_CONNECTED)
                 Console.WriteLine("Client is already connected!!");
-            else if (mid.ErrorCode == MID_0004.Errors.MID_REVISION_UNSUPPORTED)
-                Console.WriteLine(MID_0004.Errors.MID_REVISION_UNSUPPORTED.ToString());
+            else if (mid.ErrorCode == Error.MID_REVISION_UNSUPPORTED)
+                Console.WriteLine(Error.MID_REVISION_UNSUPPORTED.ToString());
         }
 
         private void communicationAlive()
