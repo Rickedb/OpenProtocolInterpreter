@@ -1,10 +1,10 @@
-﻿using OpenProtocolInterpreter;
+﻿using OpenProtocolInterpreter.MIDs;
 using System;
 
 namespace OpenProtocolInterpreter.Sample.Driver.Events
 {
     public class MIDIncome : EventArgs
     {
-        public Mid Mid { get; set; }
+        public MID Mid { get; set; }
     }
 }

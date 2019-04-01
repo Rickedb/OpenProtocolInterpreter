@@ -1,5 +1,5 @@
-﻿using OpenProtocolInterpreter.Communication;
-using OpenProtocolInterpreter.Job;
+﻿using OpenProtocolInterpreter.MIDs.Communication;
+using OpenProtocolInterpreter.MIDs.Job;
 using System;
 
 namespace OpenProtocolInterpreter.Sample.Driver.Commands
@@ -16,24 +16,24 @@ namespace OpenProtocolInterpreter.Sample.Driver.Commands
         public bool Execute(int jobId)
         {
             Console.WriteLine($"Sending job <{jobId}> to controller!");
-            var mid = driver.sendAndWaitForResponse(new Mid0038(jobId).Pack(), new TimeSpan(0, 0, 10));
+            var mid = driver.sendAndWaitForResponse(new MID_0038(jobId).buildPackage(), new TimeSpan(0, 0, 10));
 
-            if (mid.HeaderData.Mid == Mid0004.MID)
+            if (mid.HeaderData.Mid == MID_0004.MID)
             {
-                this.onJobRefused(mid as Mid0004);
+                this.onJobRefused(mid as MID_0004);
                 return false;
             }
 
-            this.onJobAccepted(mid as Mid0005);
+            this.onJobAccepted(mid as MID_0005);
             return true;
         }
 
-        private void onJobAccepted(Mid0005 mid)
+        private void onJobAccepted(MID_0005 mid)
         {
             Console.WriteLine("Job Accepted by controller!");
         }
 
-        private void onJobRefused(Mid0004 mid)
+        private void onJobRefused(MID_0004 mid)
         {
             Console.WriteLine($"Job refused by controller under error code <{(int)mid.ErrorCode}> ({mid.ErrorCode.ToString()})!");
         }

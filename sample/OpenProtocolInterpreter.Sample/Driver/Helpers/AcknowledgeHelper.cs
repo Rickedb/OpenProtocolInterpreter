@@ -1,7 +1,7 @@
-﻿using OpenProtocolInterpreter.Alarm;
-using OpenProtocolInterpreter.Job;
-using OpenProtocolInterpreter.Tightening;
-using OpenProtocolInterpreter.Vin;
+﻿using OpenProtocolInterpreter.MIDs.Alarm;
+using OpenProtocolInterpreter.MIDs.Job;
+using OpenProtocolInterpreter.MIDs.Tightening;
+using OpenProtocolInterpreter.MIDs.VIN;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,14 +12,14 @@ namespace OpenProtocolInterpreter.Sample.Driver.Helpers
     {
         public static Dictionary<Type, Func<string>> acknowledges = new Dictionary<Type, Func<string>>()
         {
-            { typeof(Mid0061), new Mid0062().Pack },
-            { typeof(Mid0035), new Mid0036().Pack },
-            { typeof(Mid0052), new Mid0053().Pack },
-            { typeof(Mid0071), new Mid0072().Pack },
-            { typeof(Mid0076), new Mid0077().Pack }
+            { typeof(MID_0061), new MID_0062().buildPackage },
+            { typeof(MID_0035), new MID_0036().buildPackage },
+            { typeof(MID_0052), new MID_0053().buildPackage },
+            { typeof(MID_0071), new MID_0072().buildPackage},
+            { typeof(MID_0076), new MID_0077().buildPackage}
         };
 
-        public static string BuildAckPackage(this Mid receivedMid)
+        public static string BuildAckPackage(this MIDs.MID receivedMid)
         {
             var action = acknowledges.SingleOrDefault(x => x.Key == receivedMid.GetType());
             if (action.Equals(default(KeyValuePair<Type, Func<string>>)))

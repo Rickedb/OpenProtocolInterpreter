@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenProtocolInterpreter", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MIDTesters", "src\MIDTesters\MIDTesters.csproj", "{7F6BC1BD-8472-4EA8-A28E-873037B298CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenProtocolInterpreter.Sample", "sample\OpenProtocolInterpreter.Sample\OpenProtocolInterpreter.Sample.csproj", "{0BBED7B4-BC63-49E5-B44F-4D17351C625A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{7F6BC1BD-8472-4EA8-A28E-873037B298CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F6BC1BD-8472-4EA8-A28E-873037B298CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F6BC1BD-8472-4EA8-A28E-873037B298CE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0BBED7B4-BC63-49E5-B44F-4D17351C625A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0BBED7B4-BC63-49E5-B44F-4D17351C625A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0BBED7B4-BC63-49E5-B44F-4D17351C625A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0BBED7B4-BC63-49E5-B44F-4D17351C625A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
