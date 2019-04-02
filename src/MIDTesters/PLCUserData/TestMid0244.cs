@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.PLCUserData;
 
@@ -15,6 +16,17 @@ namespace MIDTesters.PLCUserData
 
             Assert.AreEqual(typeof(Mid0244), mid.GetType());
             Assert.AreEqual(package, mid.Pack());
+        }
+
+        [TestMethod]
+        public void Mid0244ByteRevision1()
+        {
+            string package = "00200244            ";
+            byte[] bytes = GetAsciiBytes(package);
+            var mid = _midInterpreter.Parse(bytes);
+
+            Assert.AreEqual(typeof(Mid0244), mid.GetType());
+            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
         }
     }
 }
