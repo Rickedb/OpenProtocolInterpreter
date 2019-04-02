@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.MultipleIdentifiers;
 
@@ -15,6 +16,17 @@ namespace MIDTesters.MultipleIdentifiers
 
             Assert.AreEqual(typeof(Mid0153), mid.GetType());
             Assert.AreEqual(package, mid.Pack());
+        }
+
+        [TestMethod]
+        public void Mid0153ByteRevision1()
+        {
+            string package = "00200153            ";
+            byte[] bytes = GetAsciiBytes(package);
+            var mid = _midInterpreter.Parse(bytes);
+
+            Assert.AreEqual(typeof(Mid0153), mid.GetType());
+            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
         }
     }
 }
