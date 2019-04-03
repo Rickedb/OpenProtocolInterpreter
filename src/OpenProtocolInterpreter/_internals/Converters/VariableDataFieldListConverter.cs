@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Converters
 {
-    internal class VariableDataFieldListConverter : ValueConverter, IValueConverter<IEnumerable<VariableDataField>>
+    internal class VariableDataFieldListConverter : AsciiConverter<IEnumerable<VariableDataField>>
     {
         private readonly IValueConverter<int> _intConverter;
 
@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.Converters
             _intConverter = intConverter;
         }
 
-        public IEnumerable<VariableDataField> Convert(string value)
+        public override IEnumerable<VariableDataField> Convert(string value)
         {
             for (int i = 0; i < value.Length; i += 18)
                 yield return new VariableDataField()
@@ -26,7 +26,7 @@ namespace OpenProtocolInterpreter.Converters
                 };
         }
 
-        public string Convert(IEnumerable<VariableDataField> value)
+        public override string Convert(IEnumerable<VariableDataField> value)
         {
             string pack = string.Empty;
             foreach (var v in value)
@@ -41,6 +41,6 @@ namespace OpenProtocolInterpreter.Converters
             return pack;
         }
 
-        public string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, IEnumerable<VariableDataField> value) => Convert(value);
+        public override string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, IEnumerable<VariableDataField> value) => Convert(value);
     }
 }

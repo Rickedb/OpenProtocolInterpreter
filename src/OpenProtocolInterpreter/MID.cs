@@ -42,6 +42,8 @@ namespace OpenProtocolInterpreter
             return false;
         }
 
+        protected virtual byte[] BuildRawHeader() => ToBytes(BuildHeader());
+
         protected virtual string BuildHeader()
         {
             if (RevisionsByFields.Any())
@@ -115,9 +117,9 @@ namespace OpenProtocolInterpreter
             return NextTemplate.Parse(package);
         }
 
-        public Mid Parse(byte[] package)
+        public virtual Mid Parse(byte[] package)
         {
-            var pack = Encoding.ASCII.GetString(package); //Mostly ASCII encoding
+            var pack = ToAscii(package); //Mostly ASCII encoding
             return Parse(pack);
         }
 
@@ -134,22 +136,38 @@ namespace OpenProtocolInterpreter
         protected virtual void ProcessDataFields(List<DataField> dataFields, string package)
         {
             foreach (var dataField in dataFields)
-                try
-                {
-                    dataField.Value = GetValue(dataField, package);
-                }
-                catch (ArgumentOutOfRangeException)
-                {
-                    //null value
-                }
+                dataField.Value = GetValue(dataField, package);
         }
 
         protected string GetValue(DataField field, string package)
         {
-            return field.HasPrefix ? package.Substring(2 + field.Index, field.Size) : package.Substring(field.Index, field.Size);
+            try
+            {
+                return field.HasPrefix ? package.Substring(2 + field.Index, field.Size) : package.Substring(field.Index, field.Size);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return null;
+            }
+        }
+
+        protected byte[] GetValue(DataField field, byte[] package)
+        {
+            try
+            {
+                return (field.HasPrefix ? package.Skip(2 + field.Index).Take(field.Size) : package.Skip(field.Index).Take(field.Size)).ToArray();
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return null;
+            }
         }
 
         protected DataField GetField(int revision, int field) => RevisionsByFields[revision].FirstOrDefault(x => x.Field == field);
+
+        protected string ToAscii(byte[] bytes) => Encoding.ASCII.GetString(bytes);
+
+        protected byte[] ToBytes(string value) => Encoding.ASCII.GetBytes(value);
 
         public class Header
         {

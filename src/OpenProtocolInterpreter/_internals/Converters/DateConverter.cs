@@ -2,9 +2,9 @@
 
 namespace OpenProtocolInterpreter.Converters
 {
-    internal class DateConverter : IValueConverter<DateTime>
+    internal class DateConverter : AsciiConverter<DateTime>
     {
-        public DateTime Convert(string value)
+        public override DateTime Convert(string value)
         {
             DateTime convertedValue = DateTime.Now;
             if (!string.IsNullOrWhiteSpace(value.ToString()))
@@ -16,8 +16,8 @@ namespace OpenProtocolInterpreter.Converters
             return convertedValue;
         }
 
-        public string Convert(DateTime value) => value.ToString("yyyy-MM-dd:HH:mm:ss");
+        public override string Convert(DateTime value) => value.ToString("yyyy-MM-dd:HH:mm:ss");
 
-        public string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, DateTime value) => Convert(value);
+        public override string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, DateTime value) => Convert(value);
     }
 }

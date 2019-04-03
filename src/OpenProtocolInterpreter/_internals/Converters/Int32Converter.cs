@@ -1,8 +1,8 @@
 ﻿namespace OpenProtocolInterpreter.Converters
 {
-    internal class Int32Converter : ValueConverter, IValueConverter<int>
+    internal class Int32Converter : AsciiConverter<int>
     {
-        public int Convert(string value)
+        public override int Convert(string value)
         {
             int convertedValue = 0;
             if (value != null)
@@ -11,9 +11,9 @@
             return convertedValue;
         }
 
-        public string Convert(int value) => value.ToString();
+        public override string Convert(int value) => value.ToString();
 
-        public string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, int value)
+        public override string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, int value)
         {
             return GetPadded(paddingChar, size, orientation, Convert(value));
         }

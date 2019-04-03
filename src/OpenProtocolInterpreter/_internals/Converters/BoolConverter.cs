@@ -1,8 +1,8 @@
 ﻿namespace OpenProtocolInterpreter.Converters
 {
-    internal class BoolConverter : IValueConverter<bool>
+    internal class BoolConverter : AsciiConverter<bool>
     {
-        public bool Convert(string value)
+        public override bool Convert(string value)
         {
             int intValue = 0;
             if (value != null)
@@ -11,8 +11,8 @@
             return System.Convert.ToBoolean(intValue);
         }
 
-        public string Convert(bool value) => value ? "1" : "0";
+        public override string Convert(bool value) => value ? "1" : "0";
 
-        public string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, bool value) => Convert(value);
+        public override string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, bool value) => Convert(value);
     }
 }

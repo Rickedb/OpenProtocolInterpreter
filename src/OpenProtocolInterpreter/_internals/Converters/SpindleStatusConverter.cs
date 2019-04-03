@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Converters
 {
-    internal class SpindleStatusConverter : IValueConverter<IEnumerable<SpindleStatus>>
+    internal class SpindleStatusConverter : AsciiConverter<IEnumerable<SpindleStatus>>
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;
@@ -14,7 +14,7 @@ namespace OpenProtocolInterpreter.Converters
             _boolConverter = boolConverter;
         }
 
-        public IEnumerable<SpindleStatus> Convert(string value)
+        public override IEnumerable<SpindleStatus> Convert(string value)
         {
             for (int i = 0; i < value.Length; i += 5)
                 yield return new SpindleStatus()
@@ -25,7 +25,7 @@ namespace OpenProtocolInterpreter.Converters
                 };
         }
 
-        public string Convert(IEnumerable<SpindleStatus> value)
+        public override string Convert(IEnumerable<SpindleStatus> value)
         {
             string pack = string.Empty;
             foreach(var spindle in value)
@@ -36,6 +36,6 @@ namespace OpenProtocolInterpreter.Converters
             return pack;
         }
 
-        public string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, IEnumerable<SpindleStatus> value) => Convert(value);
+        public override string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, IEnumerable<SpindleStatus> value) => Convert(value);
     }
 }

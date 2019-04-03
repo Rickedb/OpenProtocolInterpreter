@@ -2,7 +2,7 @@
 
 namespace OpenProtocolInterpreter.Converters
 {
-    internal class SocketStatusConverter : IValueConverter<IEnumerable<bool>>
+    internal class SocketStatusConverter : AsciiConverter<IEnumerable<bool>>
     {
         private readonly IValueConverter<bool> _boolConverter;
 
@@ -11,13 +11,13 @@ namespace OpenProtocolInterpreter.Converters
             _boolConverter = boolConverter;
         }
 
-        public IEnumerable<bool> Convert(string value)
+        public override IEnumerable<bool> Convert(string value)
         {
             foreach (var c in value)
                 yield return _boolConverter.Convert(c.ToString());
         }
 
-        public string Convert(IEnumerable<bool> value)
+        public override string Convert(IEnumerable<bool> value)
         {
             string pack = string.Empty;
             foreach (var v in value)
@@ -26,6 +26,6 @@ namespace OpenProtocolInterpreter.Converters
             return pack;
         }
 
-        public string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, IEnumerable<bool> value) => Convert(value);
+        public override string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, IEnumerable<bool> value) => Convert(value);
     }
 }

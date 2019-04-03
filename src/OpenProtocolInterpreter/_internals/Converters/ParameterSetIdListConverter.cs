@@ -2,7 +2,7 @@
 
 namespace OpenProtocolInterpreter.Converters
 {
-    internal class ParameterSetIdListConverter : IValueConverter<IEnumerable<int>>
+    internal class ParameterSetIdListConverter : AsciiConverter<IEnumerable<int>>
     {
         private readonly IValueConverter<int> _intConverter;
 
@@ -11,13 +11,13 @@ namespace OpenProtocolInterpreter.Converters
             _intConverter = intConverter;
         }
 
-        public IEnumerable<int> Convert(string value)
+        public override IEnumerable<int> Convert(string value)
         {
             for (int i = 0; i < value.Length; i += 3)
                 yield return _intConverter.Convert(value.Substring(i, 3));
         }
 
-        public string Convert(IEnumerable<int> value)
+        public override string Convert(IEnumerable<int> value)
         {
             string pack = string.Empty;
             foreach (var v in value)
@@ -25,6 +25,6 @@ namespace OpenProtocolInterpreter.Converters
             return pack;
         }
 
-        public string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, IEnumerable<int> value) => Convert(value);
+        public override string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, IEnumerable<int> value) => Convert(value);
     }
 }

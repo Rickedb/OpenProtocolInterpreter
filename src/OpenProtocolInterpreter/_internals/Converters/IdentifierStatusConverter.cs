@@ -2,7 +2,7 @@
 
 namespace OpenProtocolInterpreter.Converters
 {
-    internal class IdentifierStatusConverter : IValueConverter<IdentifierStatus>
+    internal class IdentifierStatusConverter : AsciiConverter<IdentifierStatus>
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;
@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.Converters
             _boolConverter = boolConverter;
         }
 
-        public IdentifierStatus Convert(string value)
+        public override IdentifierStatus Convert(string value)
         {
             return new IdentifierStatus()
             {
@@ -24,7 +24,7 @@ namespace OpenProtocolInterpreter.Converters
             };
         }
 
-        public string Convert(IdentifierStatus value)
+        public override string Convert(IdentifierStatus value)
         {
             return _intConverter.Convert('0', 1, DataField.PaddingOrientations.LEFT_PADDED, value.IdentifierTypeNumber) +
                    _intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, System.Convert.ToInt32(value.IncludedInWorkOrder)) +
@@ -32,6 +32,6 @@ namespace OpenProtocolInterpreter.Converters
                    value.ResultPart.PadRight(25, ' ');
         }
 
-        public string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, IdentifierStatus value) => Convert(value);
+        public override string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, IdentifierStatus value) => Convert(value);
     }
 }

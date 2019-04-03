@@ -2,7 +2,7 @@
 
 namespace OpenProtocolInterpreter.Converters
 {
-    internal class JobIdListConverter : IValueConverter<IEnumerable<int>>
+    internal class JobIdListConverter : AsciiConverter<IEnumerable<int>>
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly int _jobSize;
@@ -13,13 +13,13 @@ namespace OpenProtocolInterpreter.Converters
             _jobSize = revision > 1 ? 4 : 2;
         }
 
-        public IEnumerable<int> Convert(string value)
+        public override IEnumerable<int> Convert(string value)
         {
             for (int i = 0; i < value.Length; i+= _jobSize)
                 yield return _intConverter.Convert(value.Substring(i, _jobSize));
         }
 
-        public string Convert(IEnumerable<int> value)
+        public override string Convert(IEnumerable<int> value)
         {
             string pack = string.Empty;
             foreach (var v in value)
@@ -28,6 +28,6 @@ namespace OpenProtocolInterpreter.Converters
             return pack;
         }
 
-        public string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, IEnumerable<int> value) => Convert(value);
+        public override string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, IEnumerable<int> value) => Convert(value);
     }
 }

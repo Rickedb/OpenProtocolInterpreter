@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace OpenProtocolInterpreter
 {
@@ -13,6 +14,7 @@ namespace OpenProtocolInterpreter
         public int Index { get; set; }
         public int Size { get; set; }
         public string Value { get; set; }
+        public byte[] RawValue { get; set; }
 
         public DataField(int field, int index, int size, bool hasPrefix = true)
         {
@@ -43,10 +45,27 @@ namespace OpenProtocolInterpreter
             return (T)CachedValue;
         }
 
+        public virtual T GetValue<T>(Func<byte[], T> converter)
+        {
+            if (!RawValue.Any())
+                CachedValue = default(T);
+            else if (IsValueNotCached<T>())
+                CachedValue = converter(RawValue);
+
+            return (T)CachedValue;
+        }
+
         public virtual void SetValue<T>(Func<char, int, PaddingOrientations, T, string> converter, T value)
         {
             CachedValue = null;
             Value = converter(_paddingChar, Size, _paddingOrientation, value);
+            Size = Value.Length;
+        }
+
+        public virtual void SetRawValue<T>(Func<char, int, PaddingOrientations, T, byte[]> converter, T value)
+        {
+            CachedValue = null;
+            RawValue = converter(_paddingChar, Size, _paddingOrientation, value);
             Size = Value.Length;
         }
 
