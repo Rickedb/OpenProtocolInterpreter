@@ -22,6 +22,7 @@ namespace OpenProtocolInterpreter.Tightening
         private readonly IValueConverter<StrategyOptions> _strategyOptionsConverter;
         private readonly IValueConverter<TighteningErrorStatus> _tighteningErrorStatusConverter;
         private readonly IValueConverter<TighteningErrorStatus2> _tighteningErrorStatus2Converter;
+        private readonly IValueConverter<IEnumerable<StageResult>> _stageResultListConverter;
         private const int LAST_REVISION = 7;
         public const int MID = 61;
 
@@ -330,11 +331,7 @@ namespace OpenProtocolInterpreter.Tightening
             get => GetField(998, (int)DataFields.NUMBER_OF_STAGE_RESULTS).GetValue(_intConverter.Convert);
             set => GetField(998, (int)DataFields.NUMBER_OF_STAGE_RESULTS).SetValue(_intConverter.Convert, value);
         }
-        public string StageResult
-        {
-            get => GetField(998, (int)DataFields.STAGE_RESULT).Value;
-            set => GetField(998, (int)DataFields.STAGE_RESULT).SetValue(value);
-        }
+        public List<StageResult> StageResults { get; set; }
 
         public Mid0061(int revision = LAST_REVISION) : base(MID, revision)
         {
@@ -347,6 +344,7 @@ namespace OpenProtocolInterpreter.Tightening
             _strategyOptionsConverter = new StrategyOptionsConverter(byteArrayConverter);
             _tighteningErrorStatusConverter = new TighteningErrorStatusConverter(byteArrayConverter);
             _tighteningErrorStatus2Converter = new TighteningErrorStatus2Converter(byteArrayConverter);
+            _stageResultListConverter = new StageResultListConverter(_intConverter, _decimalConverter);
         }
 
         internal Mid0061(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
@@ -365,15 +363,23 @@ namespace OpenProtocolInterpreter.Tightening
                 else
                 {
                     int processUntil = HeaderData.Revision != 998 ? HeaderData.Revision : 6;
+
                     for (int i = 2; i <= processUntil; i++)
                         foreach (var dataField in RevisionsByFields[i])
                             HeaderData.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
+
+                    if (HeaderData.Revision == 998)
+                    {
+                        GetField(998, (int)DataFields.STAGE_RESULT).Size = StageResults.Count * 11;
+                        foreach (var dataField in RevisionsByFields[998])
+                            HeaderData.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
+                    }
                 }
             }
             return HeaderData.ToString();
         }
 
-        [Obsolete("Use PackBytes(), this method should convert everything to ASCII, which will break packages above revision 1 because of byte fields")]
+        [Obsolete("Use PackBytes(), this method will convert everything to ASCII, which will break packages above revision 1 because of byte fields")]
 #pragma warning disable CS0809 // Obsolete member overrides non-obsolete member
         public override string Pack()
 #pragma warning restore CS0809 // Obsolete member overrides non-obsolete member
@@ -391,6 +397,13 @@ namespace OpenProtocolInterpreter.Tightening
                 {
                     package += BuildDataFieldsPackage(prefixIndex, RevisionsByFields[i]);
                     prefixIndex += RevisionsByFields[i].Count(x => x.HasPrefix);
+                }
+
+                if (HeaderData.Revision == 998)
+                {
+                    NumberOfStageResults = StageResults.Count;
+                    GetField(998, (int)DataFields.STAGE_RESULT).SetValue(_stageResultListConverter.Convert(StageResults));
+                    package += BuildDataFieldsPackage(56, RevisionsByFields[998]);
                 }
             }
 
@@ -417,12 +430,20 @@ namespace OpenProtocolInterpreter.Tightening
                     bytes.AddRange(fieldBytes);
                     prefixIndex += RevisionsByFields[i].Count(x => x.HasPrefix);
                 }
+
+                if(HeaderData.Revision == 998)
+                {
+                    NumberOfStageResults = StageResults.Count;
+                    GetField(998, (int)DataFields.STAGE_RESULT).SetValue(_stageResultListConverter.Convert(StageResults));
+                    var fieldBytes = BuildDataFieldsRawPackage(prefixIndex, RevisionsByFields[998]);
+                    bytes.AddRange(fieldBytes);
+                }
             }
 
             return bytes.ToArray();
         }
 
-        [Obsolete("Use Parse(byte[] package), this method should convert everything to ASCII, which will break packages above revision 1 because of byte fields")]
+        [Obsolete("Use Parse(byte[] package), this method will parse everything as ASCII, which will break packages above revision 1 because of byte fields")]
 #pragma warning disable CS0809 // Obsolete member overrides non-obsolete member
         public override Mid Parse(string package) => base.Parse(package);
 #pragma warning restore CS0809 // Obsolete member overrides non-obsolete member
@@ -443,7 +464,10 @@ namespace OpenProtocolInterpreter.Tightening
                     if (HeaderData.Revision == 998)
                     {
                         processUntil = 6;
+                        var stageResultField = GetField(998, (int)DataFields.STAGE_RESULT);
+                        stageResultField.Size = package.Length - stageResultField.Index;
                         ProcessDataFields(package, RevisionsByFields[998]);
+                        StageResults = _stageResultListConverter.Convert(stageResultField.Value).ToList();
                     }
 
                     for (int i = 2; i <= processUntil; i++)
@@ -593,7 +617,7 @@ namespace OpenProtocolInterpreter.Tightening
                     7, new List<DataField>()
                             {
                                 new DataField((int)DataFields.COMPENSATED_ANGLE, 526, 7, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.FINAL_ANGLE_DECIMAL, 535, 8, '0', DataField.PaddingOrientations.LEFT_PADDED)
+                                new DataField((int)DataFields.FINAL_ANGLE_DECIMAL, 535, 7, '0', DataField.PaddingOrientations.LEFT_PADDED)
                             }
                 },
                 {
@@ -619,8 +643,8 @@ namespace OpenProtocolInterpreter.Tightening
                                 new DataField((int)DataFields.TORQUE, 62, 6, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
                                 new DataField((int)DataFields.ANGLE, 68, 5, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
                                 new DataField((int)DataFields.TIMESTAMP, 73, 19, false),
-                                new DataField((int)DataFields.LAST_CHANGE_IN_PARAMETER_SET, 92, 19,false),
-                                new DataField((int)DataFields.TIGHTENING_ID, 112, 10, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                                new DataField((int)DataFields.LAST_CHANGE_IN_PARAMETER_SET, 92, 19, false),
+                                new DataField((int)DataFields.TIGHTENING_ID, 111, 10, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
                             }
                 }
             };

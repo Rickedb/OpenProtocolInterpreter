@@ -156,30 +156,40 @@ namespace OpenProtocolInterpreter.Converters
                 GradientMonitoringHigh = GetBit(value[0], 4),
                 GradientMonitoringLow = GetBit(value[0], 5),
                 ReactionBarFailed = GetBit(value[0], 6),
-                Reserved = value
+                Reserved = new byte[10]
             };
 
             //set only 7 and 8 bytes to reserved
-            obj.Reserved[0] = SetByte(new bool[] { false, false, false, false, false, false, GetBit(value[0], 7), GetBit(value[0], 8) });
+            obj.Reserved[0] = SetByte(new bool[] { GetBit(value[0], 7), GetBit(value[0], 8), false, false, false, false, false, false });
 
             return obj;
         }
 
         public byte[] ConvertToBytes(TighteningErrorStatus2 value)
         {
-            byte[] bytes = new byte[10];
-            bytes[0] = SetByte(new bool[]
+            byte[] bytes = new byte[]
             {
-                value.DriveDeactivated,
-                value.ToolStall,
-                value.DriveHot,
-                value.GradientMonitoringHigh,
-                value.GradientMonitoringLow,
-                value.ReactionBarFailed,
-                GetBit(value.Reserved[0], 7),
-                GetBit(value.Reserved[0], 8)
-            });
-            bytes[1] = bytes[2] = bytes[3] = bytes[4] = bytes[5] = bytes[6] = bytes[7] = bytes[8] = bytes[9] = 0;
+                SetByte(new bool[]
+                {
+                    value.DriveDeactivated,
+                    value.ToolStall,
+                    value.DriveHot,
+                    value.GradientMonitoringHigh,
+                    value.GradientMonitoringLow,
+                    value.ReactionBarFailed,
+                    GetBit(value.Reserved[0], 7),
+                    GetBit(value.Reserved[0], 8)
+                }),
+                value.Reserved[1],
+                value.Reserved[2],
+                value.Reserved[3],
+                value.Reserved[4],
+                value.Reserved[5],
+                value.Reserved[6],
+                value.Reserved[7],
+                value.Reserved[8],
+                value.Reserved[9]
+            };
 
             return bytes;
         }

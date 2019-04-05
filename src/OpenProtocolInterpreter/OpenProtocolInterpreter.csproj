@@ -131,6 +131,7 @@
     <Compile Include="Enums\OperationType.cs" />
     <Compile Include="Result\ResultMessages.cs" />
     <Compile Include="Result\VariableDataField.cs" />
+    <Compile Include="Tightening\StageResult.cs" />
     <Compile Include="Tightening\StrategyOptions.cs" />
     <Compile Include="Tightening\TighteningErrorStatus.cs" />
     <Compile Include="_internals\Converters\AsciiConverter.cs" />
@@ -158,6 +159,7 @@
     <Compile Include="_internals\Converters\SocketStatusConverter.cs" />
     <Compile Include="_internals\Converters\SpecialValueListConverter.cs" />
     <Compile Include="_internals\Converters\SpindleStatusConverter.cs" />
+    <Compile Include="_internals\Converters\StageResultListConverter.cs" />
     <Compile Include="_internals\Converters\StepResultConverter.cs" />
     <Compile Include="_internals\Converters\StrategyOptionsConverter.cs" />
     <Compile Include="_internals\Converters\TighteningErrorStatusConverter.cs" />
