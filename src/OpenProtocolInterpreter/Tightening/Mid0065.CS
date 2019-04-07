@@ -231,10 +231,17 @@ namespace OpenProtocolInterpreter.Tightening
             {
                 HeaderData.Length = 20;
                 HeaderData.Revision = HeaderData.Revision > 0 ? HeaderData.Revision : 1;
-                int processUntil = HeaderData.Revision > 1 ? HeaderData.Revision : 1;
-                for (int i = 2; i <= processUntil; i++)
-                    foreach (var dataField in RevisionsByFields[i])
+                if (HeaderData.Revision > 1)
+                {
+                    for (int i = 2; i <= HeaderData.Revision; i++)
+                        foreach (var dataField in RevisionsByFields[i])
+                            HeaderData.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
+                }
+                else
+                {
+                    foreach (var dataField in RevisionsByFields[1])
                         HeaderData.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
+                }
             }
             return HeaderData.ToString();
         }
