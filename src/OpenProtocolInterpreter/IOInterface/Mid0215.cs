@@ -56,6 +56,18 @@ namespace OpenProtocolInterpreter.IOInterface
 
         internal Mid0215(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
+        protected override string BuildHeader()
+        {
+            if (RevisionsByFields.Any())
+            {
+                HeaderData.Length = 20;
+                var revision = HeaderData.Revision > 0 ? HeaderData.Revision : 1;
+                foreach (var dataField in RevisionsByFields[revision])
+                    HeaderData.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
+            }
+            return HeaderData.ToString();
+        }
+
         public override string Pack()
         {
             if (HeaderData.Revision > 1)

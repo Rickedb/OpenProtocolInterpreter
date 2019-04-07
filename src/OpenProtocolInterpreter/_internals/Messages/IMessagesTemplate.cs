@@ -3,5 +3,6 @@
     internal interface IMessagesTemplate
     {
         Mid ProcessPackage(string package);
+        Mid ProcessPackage(byte[] package);
     }
 }

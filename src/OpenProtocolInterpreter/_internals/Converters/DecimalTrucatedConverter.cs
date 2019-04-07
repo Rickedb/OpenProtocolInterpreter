@@ -2,7 +2,7 @@
 
 namespace OpenProtocolInterpreter.Converters
 {
-    internal class DecimalTrucatedConverter : ValueConverter, IValueConverter<decimal>
+    internal class DecimalTrucatedConverter : AsciiConverter<decimal>
     {
         private readonly decimal _decimalPointsMultiplier;
         private readonly int _decimalPoints;
@@ -15,7 +15,7 @@ namespace OpenProtocolInterpreter.Converters
             _decimalPoints = decimalPoints;
         }
 
-        public decimal Convert(string value)
+        public override decimal Convert(string value)
         {
             int intValue = 0;
             if (value != null)
@@ -24,13 +24,13 @@ namespace OpenProtocolInterpreter.Converters
             return intValue / _decimalPointsMultiplier;
         }
 
-        public string Convert(decimal value)
+        public override string Convert(decimal value)
         {
-            int convertedValue = ((int)(Math.Round(value, _decimalPoints) * _decimalPointsMultiplier));
+            int convertedValue = (int)(Math.Round(value, _decimalPoints) * _decimalPointsMultiplier);
             return convertedValue.ToString();
         }
 
-        public string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, decimal value)
+        public override string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, decimal value)
         {
             return GetPadded(paddingChar, size, orientation, Convert(value));
         }

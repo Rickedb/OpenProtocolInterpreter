@@ -4,21 +4,20 @@ namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
 {
     internal class OpenProtocolCommandsDisabledMessages :  IMessagesTemplate
     {
-        private readonly IMid templates;
+        private readonly IMid _templates;
 
         public OpenProtocolCommandsDisabledMessages()
         {
-            templates = new Mid0420(new Mid0421(new Mid0422(new Mid0423(null))));
+            _templates = new Mid0420(new Mid0421(new Mid0422(new Mid0423(null))));
         }
 
         public OpenProtocolCommandsDisabledMessages(System.Collections.Generic.IEnumerable<Mid> selectedMids)
         {
-            templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
+            _templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
         }
 
-        public Mid ProcessPackage(string package)
-        {
-            return templates.Parse(package);
-        }
+        public Mid ProcessPackage(string package) => _templates.Parse(package);
+
+        public Mid ProcessPackage(byte[] package) => _templates.Parse(package);
     }
 }

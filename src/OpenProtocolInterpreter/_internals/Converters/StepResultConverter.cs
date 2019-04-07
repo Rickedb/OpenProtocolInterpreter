@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace OpenProtocolInterpreter.Converters
 {
-    internal class StepResultConverter : ValueConverter, IValueConverter<IEnumerable<StepResult>>
+    internal class StepResultConverter : AsciiConverter<IEnumerable<StepResult>>
     {
         private readonly IValueConverter<int> _intConverter;
         private IValueConverter<decimal> _decimalConverter;
@@ -14,7 +14,7 @@ namespace OpenProtocolInterpreter.Converters
             _intConverter = intConverter;
         }
 
-        public IEnumerable<StepResult> Convert(string value)
+        public override IEnumerable<StepResult> Convert(string value)
         {
             for (int i = 0; i < value.Length; i += 31)
             {
@@ -41,7 +41,7 @@ namespace OpenProtocolInterpreter.Converters
             }
         }
 
-        public string Convert(IEnumerable<StepResult> value)
+        public override string Convert(IEnumerable<StepResult> value)
         {
             string package = string.Empty;
             foreach (var step in value)
@@ -63,7 +63,7 @@ namespace OpenProtocolInterpreter.Converters
             return package;
         }
 
-        public string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, IEnumerable<StepResult> value)
+        public override string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, IEnumerable<StepResult> value)
         {
             return Convert(value);
         }

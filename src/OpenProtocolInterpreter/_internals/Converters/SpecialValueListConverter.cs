@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace OpenProtocolInterpreter.Converters
 {
-    internal class SpecialValueListConverter : IValueConverter<IEnumerable<SpecialValue>>
+    internal class SpecialValueListConverter : AsciiConverter<IEnumerable<SpecialValue>>
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly int _totalSpecialValues;
@@ -17,7 +17,7 @@ namespace OpenProtocolInterpreter.Converters
             _stepNumber = stepNumber;
         }
 
-        public IEnumerable<SpecialValue> Convert(string value)
+        public override IEnumerable<SpecialValue> Convert(string value)
         {
             int index = 0;
             for (int i = 0; i < _totalSpecialValues; i++)
@@ -39,7 +39,7 @@ namespace OpenProtocolInterpreter.Converters
             }
         }
 
-        public string Convert(IEnumerable<SpecialValue> value)
+        public override string Convert(IEnumerable<SpecialValue> value)
         {
             string package = string.Empty;
             foreach (var v in value)
@@ -55,6 +55,6 @@ namespace OpenProtocolInterpreter.Converters
             return package;
         }
 
-        public string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, IEnumerable<SpecialValue> value) => Convert(value);
+        public override string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, IEnumerable<SpecialValue> value) => Convert(value);
     }
 }

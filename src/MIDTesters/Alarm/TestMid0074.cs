@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Alarm;
 
@@ -16,6 +17,18 @@ namespace MIDTesters.Alarm
             Assert.AreEqual(typeof(Mid0074), mid.GetType());
             Assert.IsNotNull(mid.ErrorCode);
             Assert.AreEqual(pack, mid.Pack());
+        }
+
+        [TestMethod]
+        public void Mid0074ByteAllRevisions()
+        {
+            string pack = @"00240074001         E851";
+            byte[] bytes = GetAsciiBytes(pack);
+            var mid = _midInterpreter.Parse<Mid0074>(bytes);
+
+            Assert.AreEqual(typeof(Mid0074), mid.GetType());
+            Assert.IsNotNull(mid.ErrorCode);
+            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
         }
     }
 }

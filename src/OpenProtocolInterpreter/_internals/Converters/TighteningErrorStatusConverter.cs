@@ -14,48 +14,61 @@ namespace OpenProtocolInterpreter.Converters
         public TighteningErrorStatus Convert(string value)
         {
             var bytes = _byteArrayConverter.Convert(value);
-            return new TighteningErrorStatus
-            {
-                //byte 0
-                RundownAngleMaxShutOff = GetBit(bytes[0], 1),
-                RundownAngleMinShutOff = GetBit(bytes[0], 2),
-                TorqueMaxShutOff = GetBit(bytes[0], 3),
-                AngleMaxShutOff = GetBit(bytes[0], 4),
-                SelftapTorqueMaxShutOff = GetBit(bytes[0], 5),
-                SelftapTorqueMinShutOff = GetBit(bytes[0], 6),
-                PrevailTorqueMaxShutOff = GetBit(bytes[0], 7),
-                PrevailTorqueMinShutOff = GetBit(bytes[0], 8),
-                //byte 1
-                PrevailTorqueCompensateOverflow = GetBit(bytes[1], 1),
-                CurrentMonitoringMaxShutOff = GetBit(bytes[1], 2),
-                PostViewTorqueMinTorqueShutOff = GetBit(bytes[1], 3),
-                PostViewTorqueMaxTorqueShutOff = GetBit(bytes[1], 4),
-                PostViewTorqueAngleTooSmall = GetBit(bytes[1], 5),
-                TriggerLost = GetBit(bytes[1], 6),
-                TorqueLessThanTarget = GetBit(bytes[1], 7),
-                ToolHot = GetBit(bytes[1], 8),
-                //byte 2
-                MultistageAbort = GetBit(bytes[2], 1),
-                Rehit = GetBit(bytes[2], 2),
-                DsMeasureFailed = GetBit(bytes[2], 3),
-                CurrentLimitReached = GetBit(bytes[2], 4),
-                EndTimeOutShutOff = GetBit(bytes[2], 5),
-                RemoveFastenerLimitExceeded = GetBit(bytes[2], 6),
-                DisableDrive = GetBit(bytes[2], 7),
-                TransducerLost = GetBit(bytes[2], 8),
-                //byte 3
-                TransducerShorted = GetBit(bytes[3], 1),
-                TransducerCorrupt = GetBit(bytes[3], 2),
-                SyncTimeout = GetBit(bytes[3], 3),
-                DynamicCurrentMonitoringMin = GetBit(bytes[3], 4),
-                DynamicCurrentMonitoringMax = GetBit(bytes[3], 5),
-                AngleMaxMonitor = GetBit(bytes[3], 6),
-                YieldNutOff = GetBit(bytes[3], 7),
-                YieldTooFewSamples = GetBit(bytes[3], 8)
-            };
+            return ConvertFromBytes(bytes);
         }
 
         public string Convert(TighteningErrorStatus value)
+        {
+            byte[] bytes = ConvertToBytes(value);
+            return _byteArrayConverter.Convert(bytes);
+        }
+
+        public string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, TighteningErrorStatus value) => Convert(value);
+
+        public TighteningErrorStatus ConvertFromBytes(byte[] value)
+        {
+            return new TighteningErrorStatus
+            {
+                //byte 0
+                RundownAngleMaxShutOff = GetBit(value[0], 1),
+                RundownAngleMinShutOff = GetBit(value[0], 2),
+                TorqueMaxShutOff = GetBit(value[0], 3),
+                AngleMaxShutOff = GetBit(value[0], 4),
+                SelftapTorqueMaxShutOff = GetBit(value[0], 5),
+                SelftapTorqueMinShutOff = GetBit(value[0], 6),
+                PrevailTorqueMaxShutOff = GetBit(value[0], 7),
+                PrevailTorqueMinShutOff = GetBit(value[0], 8),
+                //byte 1
+                PrevailTorqueCompensateOverflow = GetBit(value[1], 1),
+                CurrentMonitoringMaxShutOff = GetBit(value[1], 2),
+                PostViewTorqueMinTorqueShutOff = GetBit(value[1], 3),
+                PostViewTorqueMaxTorqueShutOff = GetBit(value[1], 4),
+                PostViewTorqueAngleTooSmall = GetBit(value[1], 5),
+                TriggerLost = GetBit(value[1], 6),
+                TorqueLessThanTarget = GetBit(value[1], 7),
+                ToolHot = GetBit(value[1], 8),
+                //byte 2
+                MultistageAbort = GetBit(value[2], 1),
+                Rehit = GetBit(value[2], 2),
+                DsMeasureFailed = GetBit(value[2], 3),
+                CurrentLimitReached = GetBit(value[2], 4),
+                EndTimeOutShutOff = GetBit(value[2], 5),
+                RemoveFastenerLimitExceeded = GetBit(value[2], 6),
+                DisableDrive = GetBit(value[2], 7),
+                TransducerLost = GetBit(value[2], 8),
+                //byte 3
+                TransducerShorted = GetBit(value[3], 1),
+                TransducerCorrupt = GetBit(value[3], 2),
+                SyncTimeout = GetBit(value[3], 3),
+                DynamicCurrentMonitoringMin = GetBit(value[3], 4),
+                DynamicCurrentMonitoringMax = GetBit(value[3], 5),
+                AngleMaxMonitor = GetBit(value[3], 6),
+                YieldNutOff = GetBit(value[3], 7),
+                YieldTooFewSamples = GetBit(value[3], 8)
+            };
+        }
+
+        public byte[] ConvertToBytes(TighteningErrorStatus value)
         {
             byte[] bytes = new byte[10];
             bytes[0] = SetByte(new bool[]
@@ -104,11 +117,12 @@ namespace OpenProtocolInterpreter.Converters
             });
             bytes[4] = bytes[5] = bytes[6] = bytes[7] = bytes[8] = bytes[9] = 0;
 
-            return _byteArrayConverter.Convert(bytes);
+            return bytes;
         }
 
-        public string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, TighteningErrorStatus value) => Convert(value);
+        public byte[] ConvertToBytes(char paddingChar, int size, DataField.PaddingOrientations orientation, TighteningErrorStatus value) => ConvertToBytes(value);
     }
+
     internal class TighteningErrorStatus2Converter : BitConverter, IValueConverter<TighteningErrorStatus2>
     {
         private readonly IValueConverter<byte[]> _byteArrayConverter;
@@ -121,42 +135,65 @@ namespace OpenProtocolInterpreter.Converters
         public TighteningErrorStatus2 Convert(string value)
         {
             var bytes = _byteArrayConverter.Convert(value);
-            var obj = new TighteningErrorStatus2()
-            {
-                DriveDeactivated = GetBit(bytes[0], 1),
-                ToolStall = GetBit(bytes[0], 2),
-                DriveHot = GetBit(bytes[0], 3),
-                GradientMonitoringHigh = GetBit(bytes[0], 4),
-                GradientMonitoringLow = GetBit(bytes[0], 5),
-                ReactionBarFailed = GetBit(bytes[0], 6),
-                Reserved = bytes
-            };
-
-            //set only 7 and 8 bytes to reserved
-            obj.Reserved[0] = SetByte(new bool[] { false, false, false, false, false, false, GetBit(bytes[0], 7), GetBit(bytes[0], 8) });
-
-            return obj;
+            return ConvertFromBytes(bytes);
         }
 
         public string Convert(TighteningErrorStatus2 value)
         {
-            byte[] bytes = new byte[10];
-            bytes[0] = SetByte(new bool[]
-            {
-                value.DriveDeactivated,
-                value.ToolStall,
-                value.DriveHot,
-                value.GradientMonitoringHigh,
-                value.GradientMonitoringLow,
-                value.ReactionBarFailed,
-                GetBit(value.Reserved[0], 7),
-                GetBit(value.Reserved[0], 8)
-            });
-            bytes[1] = bytes[2] = bytes[3] = bytes[4] = bytes[5] = bytes[6] = bytes[7] = bytes[8] = bytes[9] = 0;
-
+            byte[] bytes = ConvertToBytes(value);
             return _byteArrayConverter.Convert(bytes);
         }
 
         public string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, TighteningErrorStatus2 value) => Convert(value);
+
+        public TighteningErrorStatus2 ConvertFromBytes(byte[] value)
+        {
+            var obj = new TighteningErrorStatus2()
+            {
+                DriveDeactivated = GetBit(value[0], 1),
+                ToolStall = GetBit(value[0], 2),
+                DriveHot = GetBit(value[0], 3),
+                GradientMonitoringHigh = GetBit(value[0], 4),
+                GradientMonitoringLow = GetBit(value[0], 5),
+                ReactionBarFailed = GetBit(value[0], 6),
+                Reserved = new byte[10]
+            };
+
+            //set only 7 and 8 bytes to reserved
+            obj.Reserved[0] = SetByte(new bool[] { GetBit(value[0], 7), GetBit(value[0], 8), false, false, false, false, false, false });
+
+            return obj;
+        }
+
+        public byte[] ConvertToBytes(TighteningErrorStatus2 value)
+        {
+            byte[] bytes = new byte[]
+            {
+                SetByte(new bool[]
+                {
+                    value.DriveDeactivated,
+                    value.ToolStall,
+                    value.DriveHot,
+                    value.GradientMonitoringHigh,
+                    value.GradientMonitoringLow,
+                    value.ReactionBarFailed,
+                    GetBit(value.Reserved[0], 7),
+                    GetBit(value.Reserved[0], 8)
+                }),
+                value.Reserved[1],
+                value.Reserved[2],
+                value.Reserved[3],
+                value.Reserved[4],
+                value.Reserved[5],
+                value.Reserved[6],
+                value.Reserved[7],
+                value.Reserved[8],
+                value.Reserved[9]
+            };
+
+            return bytes;
+        }
+
+        public byte[] ConvertToBytes(char paddingChar, int size, DataField.PaddingOrientations orientation, TighteningErrorStatus2 value) => ConvertToBytes(value);
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace OpenProtocolInterpreter.Converters
 {
-    internal class BoltResultConverter : ValueConverter, IValueConverter<IEnumerable<BoltResult>>
+    internal class BoltResultConverter : AsciiConverter<IEnumerable<BoltResult>>
     {
         private readonly IValueConverter<int> _intConverter;
         private IValueConverter<decimal> _decimalConverter;
@@ -14,7 +14,7 @@ namespace OpenProtocolInterpreter.Converters
             _intConverter = intConverter;
         }
 
-        public IEnumerable<BoltResult> Convert(string value)
+        public override IEnumerable<BoltResult> Convert(string value)
         {
             for (int i = 0; i < value.Length; i += 29)
             {
@@ -39,7 +39,7 @@ namespace OpenProtocolInterpreter.Converters
             }
         }
 
-        public string Convert(IEnumerable<BoltResult> value)
+        public override string Convert(IEnumerable<BoltResult> value)
         {
             string package = string.Empty;
             foreach (var bolt in value)
@@ -61,7 +61,7 @@ namespace OpenProtocolInterpreter.Converters
             return package;
         }
 
-        public string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, IEnumerable<BoltResult> value)
+        public override string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, IEnumerable<BoltResult> value)
         {
             return Convert(value);
         }

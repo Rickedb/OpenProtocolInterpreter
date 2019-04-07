@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Job;
 
@@ -19,6 +20,18 @@ namespace MIDTesters.Job
         }
 
         [TestMethod]
+        public void Mid0039ByteRevision1()
+        {
+            string package = "00220039001         01";
+            byte[] bytes = GetAsciiBytes(package);
+            var mid = _midInterpreter.Parse<Mid0039>(bytes);
+
+            Assert.AreEqual(typeof(Mid0039), mid.GetType());
+            Assert.IsNotNull(mid.JobId);
+            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+        }
+
+        [TestMethod]
         public void Mid0039Revision2()
         {
             string package = "00240039002         0003";
@@ -27,6 +40,18 @@ namespace MIDTesters.Job
             Assert.AreEqual(typeof(Mid0039), mid.GetType());
             Assert.IsNotNull(mid.JobId);
             Assert.AreEqual(package, mid.Pack());
+        }
+
+        [TestMethod]
+        public void Mid0039ByteRevision2()
+        {
+            string package = "00240039002         0003";
+            byte[] bytes = GetAsciiBytes(package);
+            var mid = _midInterpreter.Parse<Mid0039>(bytes);
+
+            Assert.AreEqual(typeof(Mid0039), mid.GetType());
+            Assert.IsNotNull(mid.JobId);
+            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
         }
     }
 }

@@ -1,42 +1,46 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Messages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace OpenProtocolInterpreter
 {
     public class MidInterpreter
     {
-        private readonly Dictionary<Func<int, bool>, Func<string, Mid>> _messageInterpreterTemplates;
+        private readonly Dictionary<Func<int, bool>, Func<object, Mid>> _messageInterpreterTemplates;
+        private readonly List<IMessagesTemplate> _messagesTemplates;
         private readonly IEnumerable<Mid> _selectedMids;
 
         public MidInterpreter()
         {
-            _messageInterpreterTemplates = new Dictionary<Func<int, bool>, Func<string, Mid>>()
+            _messagesTemplates = new List<IMessagesTemplate>();
+            _messageInterpreterTemplates = new Dictionary<Func<int, bool>, Func<object, Mid>>()
             {
                 { mid => IsKeepAliveMessage(mid), package => new KeepAlive.Mid9999() },
-                { mid => IsCommunicationMessage(mid), package => new Communication.CommunicationMessages().ProcessPackage(package) },
-				{ mid => IsParameterSetMessage(mid), package => new ParameterSet.ParameterSetMessages().ProcessPackage(package) },
-                { mid => IsJobMessage(mid), package => new Job.JobMessages().ProcessPackage(package) },
-                { mid => IsToolMessage(mid), package => new Tool.ToolMessages().ProcessPackage(package) },
-                { mid => IsVINMessage(mid), package => new Vin.VinMessages().ProcessPackage(package) },
-                { mid => IsTighteningMessage(mid), package => new Tightening.TighteningMessages().ProcessPackage(package) },
-                { mid => IsAlarmMessage(mid), package => new Alarm.AlarmMessages().ProcessPackage(package) },
-                { mid => IsTimeMessage(mid), package => new Time.TimeMessages().ProcessPackage(package) },
-                { mid => IsMultiSpindleMessage(mid), package => new MultiSpindle.MultiSpindleMessages().ProcessPackage(package) },
-                { mid => IsPowerMACSMessage(mid), package => new PowerMACS.PowerMACSMessages().ProcessPackage(package) },
-                { mid => IsUserInterfaceMessage(mid), package => new UserInterface.UserInterfaceMessages().ProcessPackage(package) },
-                { mid => IsAdvancedJobMessage(mid), package => new Job.Advanced.AdvancedJobMessages().ProcessPackage(package) },
-                { mid => IsMultipleIdentifiersMessage(mid), package => new MultipleIdentifiers.MultipleIdentifierMessages().ProcessPackage(package) },
-                { mid => IsIOInterfaceMessage(mid), package => new IOInterface.IOInterfaceMessages().ProcessPackage(package) },
-                { mid => IsPLCUserDataMessage(mid), package => new PLCUserData.PLCUserDataMessages().ProcessPackage(package) },
-                { mid => IsSelectorMessage(mid), package => new ApplicationSelector.ApplicationSelectorMessages().ProcessPackage(package) },
-                { mid => IsToolLocationSystemMessage(mid), package => new ApplicationToolLocationSystem.ApplicationToolLocationSystemMessages().ProcessPackage(package) },
+                { mid => IsCommunicationMessage(mid), package => ProcessPackage(typeof(Communication.CommunicationMessages), package) },
+                { mid => IsParameterSetMessage(mid), package => ProcessPackage(typeof(ParameterSet.ParameterSetMessages), package) },
+                { mid => IsJobMessage(mid), package => ProcessPackage(typeof(Job.JobMessages), package) },
+                { mid => IsToolMessage(mid), package => ProcessPackage(typeof(Tool.ToolMessages), package) },
+                { mid => IsVINMessage(mid), package => ProcessPackage(typeof(Vin.VinMessages), package) },
+                { mid => IsTighteningMessage(mid), package => ProcessPackage(typeof(Tightening.TighteningMessages), package) },
+                { mid => IsAlarmMessage(mid), package => ProcessPackage(typeof(Alarm.AlarmMessages), package) },
+                { mid => IsTimeMessage(mid), package => ProcessPackage(typeof(Time.TimeMessages), package) },
+                { mid => IsMultiSpindleMessage(mid), package => ProcessPackage(typeof(MultiSpindle.MultiSpindleMessages), package) },
+                { mid => IsPowerMACSMessage(mid), package => ProcessPackage(typeof(PowerMACS.PowerMACSMessages), package) },
+                { mid => IsUserInterfaceMessage(mid), package => ProcessPackage(typeof(UserInterface.UserInterfaceMessages), package) },
+                { mid => IsAdvancedJobMessage(mid), package => ProcessPackage(typeof(Job.Advanced.AdvancedJobMessages), package) },
+                { mid => IsMultipleIdentifiersMessage(mid), package => ProcessPackage(typeof(MultipleIdentifiers.MultipleIdentifierMessages), package) },
+                { mid => IsIOInterfaceMessage(mid), package => ProcessPackage(typeof(IOInterface.IOInterfaceMessages), package) },
+                { mid => IsPLCUserDataMessage(mid), package => ProcessPackage(typeof(PLCUserData.PLCUserDataMessages), package) },
+                { mid => IsSelectorMessage(mid), package => ProcessPackage(typeof(ApplicationSelector.ApplicationSelectorMessages), package) },
+                { mid => IsToolLocationSystemMessage(mid), package => ProcessPackage(typeof(ApplicationToolLocationSystem.ApplicationToolLocationSystemMessages), package) },
                 { mid => IsControllerMessage(mid), package => new ApplicationController.Mid0270() },
-                { mid => IsStatisticMessage(mid), package => new Statistic.StatisticMessages().ProcessPackage(package) },
-                { mid => IsAutomaticManualModeMessage(mid), package => new AutomaticManualMode.AutomaticManualModeMessages().ProcessPackage(package) },
-                { mid => IsOpenProtocolCommandsDisabledModeMessage(mid), package => new OpenProtocolCommandsDisabled.OpenProtocolCommandsDisabledMessages().ProcessPackage(package) },
-                { mid => IsMotorTuningMessage(mid), package => new MotorTuning.MotorTuningMessages().ProcessPackage(package) },
-                { mid => IsResultMessage(mid), package => new Result.ResultMessages().ProcessPackage(package) }
+                { mid => IsStatisticMessage(mid), package => ProcessPackage(typeof(Statistic.StatisticMessages), package) },
+                { mid => IsAutomaticManualModeMessage(mid), package => ProcessPackage(typeof(AutomaticManualMode.AutomaticManualModeMessages), package) },
+                { mid => IsOpenProtocolCommandsDisabledModeMessage(mid), package => ProcessPackage(typeof(OpenProtocolCommandsDisabled.OpenProtocolCommandsDisabledMessages), package) },
+                { mid => IsMotorTuningMessage(mid), package => ProcessPackage(typeof(MotorTuning.MotorTuningMessages), package) },
+                { mid => IsResultMessage(mid), package => ProcessPackage(typeof(Result.ResultMessages), package) }
             };
         }
 
@@ -46,37 +50,38 @@ namespace OpenProtocolInterpreter
         /// <param name="selection">Selected Mids to use in library</param>
         public MidInterpreter(IEnumerable<Mid> selection)
         {
+            _messageInterpreterTemplates = new Dictionary<Func<int, bool>, Func<object, Mid>>();
+            _messagesTemplates = new List<IMessagesTemplate>();
             _selectedMids = selection;
-            var fullDictionary = new Dictionary<Func<int, bool>, Func<string, Mid>>()
+            var fullDictionary = new Dictionary<Func<int, bool>, Func<object, Mid>>()
             {
                 { mid => IsKeepAliveMessage(mid), package => new KeepAlive.Mid9999() },
-                { mid => IsCommunicationMessage(mid), package => new Communication.CommunicationMessages(_selectedMids.Where(x=> typeof(Communication.ICommunication).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
-				{ mid => IsParameterSetMessage(mid), package => new ParameterSet.ParameterSetMessages(_selectedMids.Where(x=> typeof(ParameterSet.IParameterSet).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
-                { mid => IsJobMessage(mid), package => new Job.JobMessages(_selectedMids.Where(x=> typeof(Job.IJob).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
-                { mid => IsToolMessage(mid), package => new Tool.ToolMessages(_selectedMids.Where(x=> typeof(Tool.ITool).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
-                { mid => IsVINMessage(mid), package => new Vin.VinMessages(_selectedMids.Where(x=> typeof(Vin.IVin).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
-                { mid => IsTighteningMessage(mid), package => new Tightening.TighteningMessages(_selectedMids.Where(x=> typeof(Tightening.ITightening).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
-                { mid => IsAlarmMessage(mid), package => new Alarm.AlarmMessages(_selectedMids.Where(x=> typeof(Alarm.IAlarm).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
-                { mid => IsTimeMessage(mid), package => new Time.TimeMessages(_selectedMids.Where(x=> typeof(Time.ITime).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
-                { mid => IsMultiSpindleMessage(mid), package => new MultiSpindle.MultiSpindleMessages(_selectedMids.Where(x=> typeof(MultiSpindle.IMultiSpindle).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
-                { mid => IsPowerMACSMessage(mid), package => new PowerMACS.PowerMACSMessages(_selectedMids.Where(x=> typeof(PowerMACS.IPowerMACS).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
-                { mid => IsUserInterfaceMessage(mid), package => new UserInterface.UserInterfaceMessages(_selectedMids.Where(x=> typeof(UserInterface.IUserInterface).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
-                { mid => IsAdvancedJobMessage(mid), package => new Job.Advanced.AdvancedJobMessages(_selectedMids.Where(x=> typeof(Job.Advanced.IAdvancedJob).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
-                { mid => IsMultipleIdentifiersMessage(mid), package => new MultipleIdentifiers.MultipleIdentifierMessages(_selectedMids.Where(x=> typeof(MultipleIdentifiers.IMultipleIdentifier).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
-                { mid => IsIOInterfaceMessage(mid), package => new IOInterface.IOInterfaceMessages(_selectedMids.Where(x=> typeof(IOInterface.IIOInterface).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
-                { mid => IsPLCUserDataMessage(mid), package => new PLCUserData.PLCUserDataMessages(_selectedMids.Where(x=> typeof(PLCUserData.IPLCUserData).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
-                { mid => IsSelectorMessage(mid), package => new ApplicationSelector.ApplicationSelectorMessages(_selectedMids.Where(x=> typeof(ApplicationSelector.IApplicationSelector).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
-                { mid => IsToolLocationSystemMessage(mid), package => new ApplicationToolLocationSystem.ApplicationToolLocationSystemMessages(_selectedMids.Where(x=> typeof(ApplicationToolLocationSystem.IApplicationToolLocationSystem).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
+                { mid => IsCommunicationMessage(mid), package => ProcessPackage(typeof(Communication.CommunicationMessages), typeof(Communication.ICommunication), package) },
+                { mid => IsParameterSetMessage(mid), package => ProcessPackage(typeof(ParameterSet.ParameterSetMessages), typeof(ParameterSet.IParameterSet), package) },
+                { mid => IsJobMessage(mid), package =>  ProcessPackage(typeof(Job.JobMessages), typeof(Job.IJob), package) },
+                { mid => IsToolMessage(mid), package => ProcessPackage(typeof(Tool.ToolMessages), typeof(Tool.ITool), package) },
+                { mid => IsVINMessage(mid), package => ProcessPackage(typeof(Vin.VinMessages), typeof(Vin.IVin), package) },
+                { mid => IsTighteningMessage(mid), package => ProcessPackage(typeof(Tightening.TighteningMessages), typeof(Tightening.ITightening), package) },
+                { mid => IsAlarmMessage(mid), package => ProcessPackage(typeof(Alarm.AlarmMessages), typeof(Alarm.IAlarm), package) },
+                { mid => IsTimeMessage(mid), package => ProcessPackage(typeof(Time.TimeMessages), typeof(Time.ITime), package) },
+                { mid => IsMultiSpindleMessage(mid), package => ProcessPackage(typeof(MultiSpindle.MultiSpindleMessages), typeof(MultiSpindle.IMultiSpindle), package) },
+                { mid => IsPowerMACSMessage(mid), package => ProcessPackage(typeof(PowerMACS.PowerMACSMessages), typeof(PowerMACS.IPowerMACS), package) },
+                { mid => IsUserInterfaceMessage(mid), package => ProcessPackage(typeof(UserInterface.UserInterfaceMessages), typeof(UserInterface.IUserInterface), package) },
+                { mid => IsAdvancedJobMessage(mid), package => ProcessPackage(typeof(Job.Advanced.AdvancedJobMessages), typeof(Job.Advanced.IAdvancedJob), package) },
+                { mid => IsMultipleIdentifiersMessage(mid), package => ProcessPackage(typeof(MultipleIdentifiers.MultipleIdentifierMessages), typeof(MultipleIdentifiers.IMultipleIdentifier), package) },
+                { mid => IsIOInterfaceMessage(mid), package => ProcessPackage(typeof(IOInterface.IOInterfaceMessages), typeof(IOInterface.IIOInterface), package) },
+                { mid => IsPLCUserDataMessage(mid), package => ProcessPackage(typeof(PLCUserData.PLCUserDataMessages), typeof(PLCUserData.IPLCUserData), package) },
+                { mid => IsSelectorMessage(mid), package => ProcessPackage(typeof(ApplicationSelector.ApplicationSelectorMessages), typeof(ApplicationSelector.IApplicationSelector), package) },
+                { mid => IsToolLocationSystemMessage(mid), package => ProcessPackage(typeof(ApplicationToolLocationSystem.ApplicationToolLocationSystemMessages), typeof(ApplicationToolLocationSystem.IApplicationToolLocationSystem), package) },
                 { mid => IsControllerMessage(mid), package => new ApplicationController.Mid0270()  },
-                { mid => IsStatisticMessage(mid), package => new Statistic.StatisticMessages(_selectedMids.Where(x=> typeof(Statistic.IStatistic).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
-                { mid => IsAutomaticManualModeMessage(mid), package => new AutomaticManualMode.AutomaticManualModeMessages(_selectedMids.Where(x=> typeof(AutomaticManualMode.IAutomaticManualMode).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
-                { mid => IsOpenProtocolCommandsDisabledModeMessage(mid), package => new OpenProtocolCommandsDisabled.OpenProtocolCommandsDisabledMessages(_selectedMids.Where(x=> typeof(OpenProtocolCommandsDisabled.IOpenProtocolCommandsDisabled).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
-                { mid => IsMotorTuningMessage(mid), package => new MotorTuning.MotorTuningMessages(_selectedMids.Where(x=> typeof(MotorTuning.IMotorTuning).IsAssignableFrom(x.GetType()))).ProcessPackage(package) },
-                { mid => IsResultMessage(mid), package => new Result.ResultMessages(_selectedMids.Where(x=> typeof(Result.IResult).IsAssignableFrom(x.GetType()))).ProcessPackage(package) }
+                { mid => IsStatisticMessage(mid), package => ProcessPackage(typeof(Statistic.StatisticMessages), typeof(Statistic.IStatistic), package) },
+                { mid => IsAutomaticManualModeMessage(mid), package => ProcessPackage(typeof(AutomaticManualMode.AutomaticManualModeMessages), typeof(AutomaticManualMode.IAutomaticManualMode), package) },
+                { mid => IsOpenProtocolCommandsDisabledModeMessage(mid), package => ProcessPackage(typeof(OpenProtocolCommandsDisabled.OpenProtocolCommandsDisabledMessages), typeof(OpenProtocolCommandsDisabled.IOpenProtocolCommandsDisabled), package) },
+                { mid => IsMotorTuningMessage(mid), package => ProcessPackage(typeof(MotorTuning.MotorTuningMessages), typeof(MotorTuning.IMotorTuning), package) },
+                { mid => IsResultMessage(mid), package => ProcessPackage(typeof(Result.ResultMessages), typeof(Result.IResult), package) }
             };
-
-            _messageInterpreterTemplates = new Dictionary<Func<int, bool>, Func<string, Mid>>();
-            foreach(Mid mid in selection)
+            
+            foreach (Mid mid in selection)
             {
                 var template = fullDictionary.FirstOrDefault(x => x.Key(mid.HeaderData.Mid));
                 if (!template.Equals(default(KeyValuePair<Func<int, bool>, Func<string, Mid>>))
@@ -96,6 +101,17 @@ namespace OpenProtocolInterpreter
             return func.Value(package);
         }
 
+        public Mid Parse(byte[] package)
+        {
+            int mid = int.Parse(Encoding.ASCII.GetString(package, 4, 4));
+
+            var func = _messageInterpreterTemplates.FirstOrDefault(x => x.Key(mid));
+            if (func.Equals(default(KeyValuePair<Func<int, bool>, Func<string, Mid>>)))
+                throw new NotImplementedException($"MID {mid} was not implemented, please register it on MidIntepreter constructor!");
+
+            return func.Value(package);
+        }
+
         public ExpectedMid Parse<ExpectedMid>(string package) where ExpectedMid : Mid
         {
             Mid mid = Parse(package);
@@ -103,6 +119,48 @@ namespace OpenProtocolInterpreter
                 return (ExpectedMid)mid;
 
             throw new InvalidCastException($"Package is MID {mid.GetType().Name}, cannot be casted to {typeof(ExpectedMid).Name}");
+        }
+
+        public ExpectedMid Parse<ExpectedMid>(byte[] package) where ExpectedMid : Mid
+        {
+            Mid mid = Parse(package);
+            if (mid.GetType().Equals(typeof(ExpectedMid)))
+                return (ExpectedMid)mid;
+
+            throw new InvalidCastException($"Package is MID {mid.GetType().Name}, cannot be casted to {typeof(ExpectedMid).Name}");
+        }
+
+        private Mid ProcessPackage(Type templateType, object package)
+        {
+            var template = _messagesTemplates.FirstOrDefault(x => x.GetType().Equals(templateType));
+            if (template == null)
+            {
+                template = (IMessagesTemplate)Activator.CreateInstance(templateType);
+                _messagesTemplates.Add(template);
+            }
+
+            return ProcessPackage(template, package);
+        }
+
+        private Mid ProcessPackage(Type templateType, Type midType, object package)
+        {
+            var template = _messagesTemplates.FirstOrDefault(x => templateType.IsAssignableFrom(x.GetType()));
+            if (template == null)
+            {
+                var mids = _selectedMids.Where(x => midType.IsAssignableFrom(x.GetType()));
+                template = (IMessagesTemplate)Activator.CreateInstance(templateType, new object[] { mids });
+                _messagesTemplates.Add(template);
+            }
+
+            return ProcessPackage(template, package);
+        }
+
+        private Mid ProcessPackage(IMessagesTemplate template, object package)
+        {
+            if (package.GetType().Equals(typeof(byte[])))
+                return template.ProcessPackage(package as byte[]);
+
+            return template.ProcessPackage(package as string);
         }
 
         private bool IsKeepAliveMessage(int mid) => mid == 9999;

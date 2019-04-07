@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Converters
 {
-    internal class BoltDataListConverter : IValueConverter<IEnumerable<BoltData>>
+    internal class BoltDataListConverter : AsciiConverter<IEnumerable<BoltData>>
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;
@@ -18,7 +18,7 @@ namespace OpenProtocolInterpreter.Converters
             _totalBolts = totalBolts;
         }
 
-        public IEnumerable<BoltData> Convert(string value)
+        public override IEnumerable<BoltData> Convert(string value)
         {
             List<string> bolts = new List<string>();
             for (int i = 0; i < _totalBolts; i++)
@@ -40,7 +40,7 @@ namespace OpenProtocolInterpreter.Converters
                 };
         }
 
-        public string Convert(IEnumerable<BoltData> value)
+        public override string Convert(IEnumerable<BoltData> value)
         {
             string package = string.Empty;
             foreach(var bolt in value)
@@ -60,6 +60,6 @@ namespace OpenProtocolInterpreter.Converters
             return package;
         }
 
-        public string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, IEnumerable<BoltData> value) => Convert(value);
+        public override string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, IEnumerable<BoltData> value) => Convert(value);
     }
 }

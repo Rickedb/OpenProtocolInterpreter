@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Converters
 {
-    internal class ObjectDataListConverter : IValueConverter<IEnumerable<ObjectData>>
+    internal class ObjectDataListConverter : AsciiConverter<IEnumerable<ObjectData>>
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;
@@ -14,7 +14,7 @@ namespace OpenProtocolInterpreter.Converters
             _boolConverter = boolConverter;
         }
 
-        public IEnumerable<ObjectData> Convert(string value)
+        public override IEnumerable<ObjectData> Convert(string value)
         {
             for (int i = 0; i < value.Length; i += 5)
                 yield return new ObjectData()
@@ -24,7 +24,7 @@ namespace OpenProtocolInterpreter.Converters
                 };
         }
 
-        public string Convert(IEnumerable<ObjectData> value)
+        public override string Convert(IEnumerable<ObjectData> value)
         {
             string pack = string.Empty;
             foreach(var v in value)
@@ -36,6 +36,6 @@ namespace OpenProtocolInterpreter.Converters
             return pack;
         }
 
-        public string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, IEnumerable<ObjectData> value) => Convert(value);
+        public override string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, IEnumerable<ObjectData> value) => Convert(value);
     }
 }

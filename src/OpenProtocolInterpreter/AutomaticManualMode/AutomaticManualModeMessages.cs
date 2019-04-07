@@ -2,23 +2,22 @@
 
 namespace OpenProtocolInterpreter.AutomaticManualMode
 {
-    internal class AutomaticManualModeMessages :  IMessagesTemplate
+    internal class AutomaticManualModeMessages : IMessagesTemplate
     {
-        private readonly IMid templates;
+        private readonly IMid _templates;
 
         public AutomaticManualModeMessages()
         {
-            templates = new Mid0400(new Mid0401(new Mid0402(new Mid0403(new Mid0410(new Mid0411(null))))));
+            _templates = new Mid0400(new Mid0401(new Mid0402(new Mid0403(new Mid0410(new Mid0411(null))))));
         }
 
         public AutomaticManualModeMessages(System.Collections.Generic.IEnumerable<Mid> selectedMids)
         {
-            templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
+            _templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
         }
 
-        public Mid ProcessPackage(string package)
-        {
-            return templates.Parse(package);
-        }
+        public Mid ProcessPackage(string package) => _templates.Parse(package);
+
+        public Mid ProcessPackage(byte[] package) => _templates.Parse(package);
     }
 }

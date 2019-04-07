@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace OpenProtocolInterpreter
 {
@@ -41,6 +43,8 @@ namespace OpenProtocolInterpreter
             return false;
         }
 
+        protected virtual byte[] BuildRawHeader() => ToBytes(BuildHeader());
+
         protected virtual string BuildHeader()
         {
             if (RevisionsByFields.Any())
@@ -65,6 +69,8 @@ namespace OpenProtocolInterpreter
 
             return package;
         }
+
+        public virtual byte[] PackBytes() => Encoding.ASCII.GetBytes(Pack());
 
         protected virtual string Pack(List<DataField> dataFields, ref int prefixIndex)
         {
@@ -112,6 +118,12 @@ namespace OpenProtocolInterpreter
             return NextTemplate.Parse(package);
         }
 
+        public virtual Mid Parse(byte[] package)
+        {
+            var pack = ToAscii(package); //Mostly ASCII encoding
+            return Parse(pack);
+        }
+
         protected virtual void ProcessDataFields(string package)
         {
             if (!RevisionsByFields.Any())
@@ -125,22 +137,47 @@ namespace OpenProtocolInterpreter
         protected virtual void ProcessDataFields(List<DataField> dataFields, string package)
         {
             foreach (var dataField in dataFields)
-                try
-                {
-                    dataField.Value = GetValue(dataField, package);
-                }
-                catch (ArgumentOutOfRangeException)
-                {
-                    //null value
-                }
+                dataField.Value = GetValue(dataField, package);
         }
 
         protected string GetValue(DataField field, string package)
         {
-            return field.HasPrefix ? package.Substring(2 + field.Index, field.Size) : package.Substring(field.Index, field.Size);
+            try
+            {
+                return field.HasPrefix ? package.Substring(2 + field.Index, field.Size) : package.Substring(field.Index, field.Size);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return null;
+            }
+        }
+
+        protected byte[] GetValue(DataField field, byte[] package)
+        {
+            try
+            {
+                byte[] bytes = new byte[field.Size];
+                var index = field.HasPrefix ? 2 + field.Index : field.Index;
+                int j = 0;
+                for (int i = index; i < index + field.Size; i++)
+                {
+                    bytes[j] = package[i];
+                    j++;
+                }
+
+                return bytes;
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return null;
+            }
         }
 
         protected DataField GetField(int revision, int field) => RevisionsByFields[revision].FirstOrDefault(x => x.Field == field);
+
+        protected string ToAscii(byte[] bytes) => Encoding.ASCII.GetString(bytes);
+
+        protected byte[] ToBytes(string value) => Encoding.ASCII.GetBytes(value);
 
         public class Header
         {
@@ -174,5 +211,6 @@ namespace OpenProtocolInterpreter
         }
 
         internal void SetNextTemplate(Mid mid) => NextTemplate = mid;
+
     }
 }

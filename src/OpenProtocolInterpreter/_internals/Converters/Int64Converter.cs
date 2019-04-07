@@ -1,10 +1,8 @@
-﻿using OpenProtocolInterpreter.Converters;
-
-namespace OpenProtocolInterpreter.Converters
+﻿namespace OpenProtocolInterpreter.Converters
 {
-    internal class Int64Converter : ValueConverter, IValueConverter<long>
+    internal class Int64Converter : AsciiConverter<long>
     {
-        public long Convert(string value)
+        public override long Convert(string value)
         {
             long convertedValue = 0;
             if (value != null)
@@ -13,9 +11,9 @@ namespace OpenProtocolInterpreter.Converters
             return convertedValue;
         }
 
-        public string Convert(long value) => value.ToString();
+        public override string Convert(long value) => value.ToString();
 
-        public string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, long value)
+        public override string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, long value)
         {
             return GetPadded(paddingChar, size, orientation, Convert(value));
         }

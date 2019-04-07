@@ -5,11 +5,11 @@ namespace OpenProtocolInterpreter.Tightening
 {
     internal class TighteningMessages : IMessagesTemplate
     {
-        private readonly IMid templates;
+        private readonly IMid _templates;
 
         public TighteningMessages()
         {
-            templates = new Mid0061(
+            _templates = new Mid0061(
                                     new Mid0065(
                                         new Mid0062(
                                             new Mid0064(
@@ -19,18 +19,17 @@ namespace OpenProtocolInterpreter.Tightening
 
         public TighteningMessages(bool onlyController)
         {
-            templates = (onlyController) ? InitControllerTemplates() : InitIntegratorTemplates();
+            _templates = (onlyController) ? InitControllerTemplates() : InitIntegratorTemplates();
         }
 
         public TighteningMessages(IEnumerable<Mid> selectedMids)
         {
-            templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
+            _templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
         }
 
-        public Mid ProcessPackage(string package)
-        {
-            return templates.Parse(package);
-        }
+        public Mid ProcessPackage(string package) => _templates.Parse(package);
+
+        public Mid ProcessPackage(byte[] package) => _templates.Parse(package);
 
         private IMid InitIntegratorTemplates()
         {
@@ -41,5 +40,7 @@ namespace OpenProtocolInterpreter.Tightening
         {
             return new Mid0061(new Mid0065(null));
         }
+
+        
     }
 }

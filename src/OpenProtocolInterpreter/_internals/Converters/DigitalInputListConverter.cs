@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Converters
 {
-    internal class DigitalInputListConverter : IValueConverter<IEnumerable<DigitalInput>>
+    internal class DigitalInputListConverter : AsciiConverter<IEnumerable<DigitalInput>>
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;
@@ -14,7 +14,7 @@ namespace OpenProtocolInterpreter.Converters
             _boolConverter = boolConverter;
         }
 
-        public IEnumerable<DigitalInput> Convert(string value)
+        public override IEnumerable<DigitalInput> Convert(string value)
         {
             for (int i = 0; i < value.Length; i += 4)
                 yield return new DigitalInput()
@@ -24,7 +24,7 @@ namespace OpenProtocolInterpreter.Converters
                 };
         }
 
-        public string Convert(IEnumerable<DigitalInput> value)
+        public override string Convert(IEnumerable<DigitalInput> value)
         {
             string pack = string.Empty;
             foreach (var digitalInput in value)
@@ -33,6 +33,6 @@ namespace OpenProtocolInterpreter.Converters
             return pack;
         }
 
-        public string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, IEnumerable<DigitalInput> value) => Convert(value);
+        public override string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, IEnumerable<DigitalInput> value) => Convert(value);
     }
 }

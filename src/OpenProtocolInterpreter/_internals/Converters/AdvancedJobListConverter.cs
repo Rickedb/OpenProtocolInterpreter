@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Converters
 {
-    internal class AdvancedJobListConverter : IValueConverter<IEnumerable<AdvancedJob>>
+    internal class AdvancedJobListConverter : AsciiConverter<IEnumerable<AdvancedJob>>
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;
@@ -16,7 +16,7 @@ namespace OpenProtocolInterpreter.Converters
             _revision = revision;
         }
 
-        public string Convert(IEnumerable<AdvancedJob> value)
+        public override string Convert(IEnumerable<AdvancedJob> value)
         {
             List<string> advancedJobsList = new List<string>();
 
@@ -39,9 +39,9 @@ namespace OpenProtocolInterpreter.Converters
             return string.Join(";", advancedJobsList);
         }
 
-        public string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, IEnumerable<AdvancedJob> value) => Convert(value);
+        public override string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, IEnumerable<AdvancedJob> value) => Convert(value);
 
-        public IEnumerable<AdvancedJob> Convert(string value)
+        public override IEnumerable<AdvancedJob> Convert(string value)
         {
             var list = value.Split(';');
             foreach(var advancedJob in list)

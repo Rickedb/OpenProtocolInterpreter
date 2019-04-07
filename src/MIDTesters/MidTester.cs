@@ -1,4 +1,5 @@
 ﻿using OpenProtocolInterpreter;
+using System.Text;
 
 namespace MIDTesters
 {
@@ -10,5 +11,7 @@ namespace MIDTesters
         {
             _midInterpreter = new MidInterpreter();
         }
+
+        protected byte[] GetAsciiBytes(string package) => Encoding.ASCII.GetBytes(package);
     }
 }

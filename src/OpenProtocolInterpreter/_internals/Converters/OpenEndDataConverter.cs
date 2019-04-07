@@ -2,7 +2,7 @@
 
 namespace OpenProtocolInterpreter.Converters
 {
-    internal class OpenEndDataConverter : IValueConverter<OpenEndDatas>
+    internal class OpenEndDataConverter : AsciiConverter<OpenEndDatas>
     {
         private readonly IValueConverter<bool> _boolConverter;
         private readonly IValueConverter<int> _intConverter;
@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.Converters
             _intConverter = intConverter;
         }
 
-        public OpenEndDatas Convert(string value)
+        public override OpenEndDatas Convert(string value)
         {
             return new OpenEndDatas()
             {
@@ -23,7 +23,7 @@ namespace OpenProtocolInterpreter.Converters
             };
         }
 
-        public string Convert(OpenEndDatas value)
+        public override string Convert(OpenEndDatas value)
         {
             return _boolConverter.Convert(value.UseOpenEnd) +
                 _intConverter.Convert((int)value.TighteningDirection) +
@@ -31,7 +31,7 @@ namespace OpenProtocolInterpreter.Converters
         }
 
 
-        public string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, OpenEndDatas value)
+        public override string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, OpenEndDatas value)
         {
             return Convert(value);
         }

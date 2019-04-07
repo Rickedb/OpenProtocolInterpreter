@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Converters
 {
-    internal class RelayListConverter : IValueConverter<IEnumerable<Relay>>
+    internal class RelayListConverter : AsciiConverter<IEnumerable<Relay>>
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;
@@ -14,7 +14,7 @@ namespace OpenProtocolInterpreter.Converters
             _boolConverter = boolConverter;
         }
 
-        public IEnumerable<Relay> Convert(string value)
+        public override IEnumerable<Relay> Convert(string value)
         {
             for (int i = 0; i < value.Length; i += 4)
                 yield return new Relay()
@@ -24,7 +24,7 @@ namespace OpenProtocolInterpreter.Converters
                 };
         }
 
-        public string Convert(IEnumerable<Relay> value)
+        public override string Convert(IEnumerable<Relay> value)
         {
             string pack = string.Empty;
             foreach(var relay in value)
@@ -33,6 +33,6 @@ namespace OpenProtocolInterpreter.Converters
             return pack;
         }
 
-        public string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, IEnumerable<Relay> value) => Convert(value);
+        public override string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, IEnumerable<Relay> value) => Convert(value);
     }
 }

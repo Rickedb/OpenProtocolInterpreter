@@ -1,8 +1,8 @@
 ﻿namespace OpenProtocolInterpreter.Converters
 {
-    internal abstract class BitConverter
+    public class BitConverter
     {
-        protected bool GetBit(byte b, int bitNumber) => (b & (1 << bitNumber - 1)) != 0;
+        public bool GetBit(byte b, int bitNumber) => (b & (1 << bitNumber - 1)) != 0;
 
         protected byte SetByte(bool[] values)
         {

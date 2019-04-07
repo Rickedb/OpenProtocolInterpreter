@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace OpenProtocolInterpreter.Converters
 {
-    internal class ParameterSetListConverter : ValueConverter, IValueConverter<IEnumerable<Job.ParameterSet>>
+    internal class ParameterSetListConverter : AsciiConverter<IEnumerable<Job.ParameterSet>>
     {
         private readonly int _revision;
         private readonly IValueConverter<int> _intConverter;
@@ -16,7 +16,7 @@ namespace OpenProtocolInterpreter.Converters
             _boolConverter = boolConverter;
         }
 
-        public IEnumerable<Job.ParameterSet> Convert(string value)
+        public override IEnumerable<Job.ParameterSet> Convert(string value)
         {
             List<string> parameterSets = value.Split(';').ToList();
             parameterSets.RemoveAt(parameterSets.Count - 1); //remove last one which will be empty
@@ -42,7 +42,7 @@ namespace OpenProtocolInterpreter.Converters
             }
         }
 
-        public string Convert(IEnumerable<Job.ParameterSet> value)
+        public override string Convert(IEnumerable<Job.ParameterSet> value)
         {
             List<string> packages = new List<string>();
 
@@ -69,7 +69,7 @@ namespace OpenProtocolInterpreter.Converters
             return string.Join(";", packages) + ";";
         }
 
-        public string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, IEnumerable<Job.ParameterSet> value)
+        public override string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, IEnumerable<Job.ParameterSet> value)
         {
             return Convert(value);
         }
