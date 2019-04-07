@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -155,7 +156,16 @@ namespace OpenProtocolInterpreter
         {
             try
             {
-                return (field.HasPrefix ? package.Skip(2 + field.Index).Take(field.Size) : package.Skip(field.Index).Take(field.Size)).ToArray();
+                byte[] bytes = new byte[field.Size];
+                var index = field.HasPrefix ? 2 + field.Index : field.Index;
+                int j = 0;
+                for (int i = index; i < index + field.Size; i++)
+                {
+                    bytes[j] = package[i];
+                    j++;
+                }
+
+                return bytes;
             }
             catch (ArgumentOutOfRangeException)
             {

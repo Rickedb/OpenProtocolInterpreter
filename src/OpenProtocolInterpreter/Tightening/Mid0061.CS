@@ -465,7 +465,7 @@ namespace OpenProtocolInterpreter.Tightening
                     {
                         processUntil = 6;
                         var stageResultField = GetField(998, (int)DataFields.STAGE_RESULT);
-                        stageResultField.Size = package.Length - stageResultField.Index;
+                        stageResultField.Size = package.Length - stageResultField.Index - 2;
                         ProcessDataFields(package, RevisionsByFields[998]);
                         StageResults = _stageResultListConverter.Convert(stageResultField.Value).ToList();
                     }
