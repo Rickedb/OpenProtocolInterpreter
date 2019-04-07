@@ -1,5 +1,5 @@
-﻿using OpenProtocolInterpreter.MIDs.Communication;
-using OpenProtocolInterpreter.MIDs.VIN;
+﻿using OpenProtocolInterpreter.Communication;
+using OpenProtocolInterpreter.Vin;
 using System;
 
 namespace OpenProtocolInterpreter.Sample.Driver.Commands
@@ -16,24 +16,24 @@ namespace OpenProtocolInterpreter.Sample.Driver.Commands
         public bool Execute(string vinNumber)
         {
             Console.WriteLine($"Sending product <{vinNumber}> to controller!");
-            var mid = driver.sendAndWaitForResponse(new MID_0050() { VINNumber = vinNumber }.buildPackage(), new TimeSpan(0, 0, 10));
+            var mid = driver.sendAndWaitForResponse(new Mid0050() { VinNumber = vinNumber }.Pack(), new TimeSpan(0, 0, 10));
 
-            if (mid.HeaderData.Mid == MID_0004.MID)
+            if (mid.HeaderData.Mid == Mid0004.MID)
             {
-                this.onProductRefused(mid as MID_0004);
+                this.onProductRefused(mid as Mid0004);
                 return false;
             }
 
-            this.onProductAccepted(mid as MID_0005);
+            this.onProductAccepted(mid as Mid0005);
             return true;
         }
 
-        private void onProductAccepted(MID_0005 mid)
+        private void onProductAccepted(Mid0005 mid)
         {
             Console.WriteLine("Product Accepted by controller!");
         }
 
-        private void onProductRefused(MID_0004 mid)
+        private void onProductRefused(Mid0004 mid)
         {
             Console.WriteLine($"Error thrown by controller, product rejected under error code <{(int)mid.ErrorCode}> ({mid.ErrorCode.ToString()})!");
         }
