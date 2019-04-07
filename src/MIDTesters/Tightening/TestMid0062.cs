@@ -1,10 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Tightening;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MIDTesters.Tightening
 {
@@ -19,6 +15,17 @@ namespace MIDTesters.Tightening
 
             Assert.AreEqual(typeof(Mid0062), mid.GetType());
             Assert.AreEqual(package, mid.Pack());
+        }
+
+        [TestMethod]
+        public void Mid0062ByteAllRevisions()
+        {
+            string package = "00200062005         ";
+            byte[] bytes = GetAsciiBytes(package);
+            var mid = _midInterpreter.Parse(bytes);
+
+            Assert.AreEqual(typeof(Mid0062), mid.GetType());
+            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
         }
     }
 }
