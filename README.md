@@ -1,11 +1,25 @@
 
-
-  
 # OpenProtocolInterpreter  
 [![Build status](https://ci.appveyor.com/api/projects/status/op72gr1k1vi04o35/branch/master?svg=true)](https://ci.appveyor.com/project/Rickedb/openprotocolintepreter/branch/master) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/Rickedb/OpenProtocolIntepreter/master/LICENSE)
 > OpenProtocol communication utility
 
 > Missing OpenProtocolInterpreter v1.0.0 ? [>It's here!<](https://github.com/Rickedb/OpenProtocolInterpreter/releases/tag/1.0.0)
+
+ 1. [What is Open Protocol at all?](#what-is-open-protocol-at-all) 
+ 2. [What is OpenProtocolInterpreter?](#what-is-openprotocolinterpreter)
+ 3. [Changelog version 2.2.0](#changelog-for-version-2.2.0)
+ 4. [How does it work?](#how-does-it-work)
+ 5. [Usage examples](#lets-see-some-examples-of-usage)
+ 6. [Available on package managers](#get-it-on-nuget)
+ 7. [Advanced section](#advanced-section)
+    * [How it was built?](#how-it-was-built)
+    * [Customization](#mids-identifying-customization)
+    * [Advanced example](#advanced-example)
+8. [Tips](#tips)
+9. [Contribute to the project](#contribute-to-the-project)
+10. [Still unavailable mids](#list-of-still-unavailable-mids)
+11. [Next steps](#next-steps) 
+
 
 ## What is Open Protocol at all?
 
@@ -21,27 +35,24 @@ OpenProtocolInterpreter is a **library that converts the ugly string** that came
 
 **[If you're curious, just take a look at their documentation.](https://github.com/Rickedb/OpenProtocolIntepreter/blob/master/docs/OpenProtocol_Specification.pdf)**
 
-## Changelog for version 2.0.0
+## Changelog for version 2.2.0
 
- 1. Namespace "MIDs" removed, for more clean usings;
- 2. Classes, methods and properties names changed (For example: MidIdentifier => MidInterpreter);
- 3. All revisions added to all current Mids;
- 4. Mid classes names changed from "MID_{number}" to "Mid{number}";
- 5. All interfaces from Mids were made public, so now anyone can inject a custom mid to MidInterpreter;
- 6. Enums moved to root namespace instead of each class having his own enum correspondent to their values;
- 7. Converting does not work as before, it will convert it's value only when you trigger get, parsing became faster;
- 8. DataValues cache get values for better performance;
- 9. Parsing almost 50% faster than version 1.0.0.
+ 1. New overload added to Mid class => Parse(byte[] package);
+ 2. New method added to Mid class => PackBytes();
+ 3. All revisions are now working with byte[] and ASCII string;
+ 4. Mid 0061 and 0065 now works for every revision. 
+     * Because of Strategy Options and other fields which are used as bytes, not ASCII string it wasn't possible to work with other revisions in Parse(string package);
+ 5. Mid 0061 and 0065 got their Parse(string package) overload obsolete, you should only use it for revisions 1 and 999, otherwise use Parse(byte[] package) overload;
+ 6. Compatibility remains for all 2.X.X versions;
 
 ## How does it work?
 
-It's simple, you give us your string package and we deliver you an object, simple as that!
+It's simple, you give us your byte[] or string package and we deliver you an object, simple as that!
 
 For example, let's imagine you received the following string package: 
 ``` csharp
 string package = "00240005001         0018";
 ```
-
 It's **MID 5**, so OpenProtocolIntepreter will return a **MID_0005** class for you with all his datafields and the package entire translated to an object.
 
 ## Let's see some examples of usage
@@ -204,6 +215,14 @@ protected void BuildAndSendAcknowledge(Mid mid)
 
 > **Integrator Implementation Tip:** Always **DO** register used MIDs, I'm pretty sure you won't need all of them to your application.
 
+### Contribute to the project
+
+Lot's of effort were given to this project and by seen people using it motivated me a lot to improve it more and more.
+
+Does it help you a lot? That's awesome and very rewarding!
+But if you wish, you can support and help to motivate the constant improving of this library:
+
+[![Donate with PayPal](https://raw.githubusercontent.com/stefan-niedermann/paypal-donate-button/master/paypal-donate-button.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=JZ4824WWGK7UL&item_name=Open+Protocol+Interpreter+contribution&currency_code=BRL&source=url)
 
 ### List of still unavailable Mids
 
@@ -228,6 +247,5 @@ Feel free to fork and contribute to add any of those mids.
 
 ### Next Steps
 
- 1. Add overload method to parse that uses byte[] instead of string;
- 2. Add missing mids;
- 3. Create wiki.
+ 1. Add missing mids;
+ 2. Create wiki.
