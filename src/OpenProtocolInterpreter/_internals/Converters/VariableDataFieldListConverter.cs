@@ -14,16 +14,20 @@ namespace OpenProtocolInterpreter.Converters
 
         public override IEnumerable<VariableDataField> Convert(string value)
         {
-            for (int i = 0; i < value.Length; i += 18)
+            int length = 0;
+            for (int i = 0; i < value.Length; i += 17 + length)
+            {
+                length = _intConverter.Convert(value.Substring(i + 5, 3));
                 yield return new VariableDataField()
                 {
                     ParameterId = _intConverter.Convert(value.Substring(i, 5)),
-                    Length = _intConverter.Convert(value.Substring(i + 5, 3)),
+                    Length = length,
                     DataType = _intConverter.Convert(value.Substring(i + 8, 2)),
                     Unit = _intConverter.Convert(value.Substring(i + 10, 3)),
                     StepNumber = _intConverter.Convert(value.Substring(i + 13, 4)),
-                    RealValue = value.Substring(i + 17, 1)
+                    RealValue = value.Substring(i + 17, length)
                 };
+            }
         }
 
         public override string Convert(IEnumerable<VariableDataField> value)
