@@ -173,6 +173,7 @@ namespace OpenProtocolInterpreter.ParameterSet
             if (IsCorrectType(package))
             {
                 HeaderData = ProcessHeader(package);
+                HeaderData.Revision = HeaderData.Revision > 0 ? HeaderData.Revision : 1;
                 ProcessDataFields(RevisionsByFields[HeaderData.Revision], package);
                 return this;
             }
