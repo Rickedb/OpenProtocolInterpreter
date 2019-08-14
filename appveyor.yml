@@ -8,10 +8,6 @@ build:
   publish_nuget: true
   include_nuget_references: true
   verbosity: minimal
-artifacts:
-- path: dist\OpenProtocolInterpreter.*.nupkg
-before_deploy:
-- ps: nuget pack src\OpenProtocolInterpreter\OpenProtocolInterpreter.csproj
 deploy:
 - provider: NuGet
   api_key:
