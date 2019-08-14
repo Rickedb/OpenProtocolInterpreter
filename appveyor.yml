@@ -1,11 +1,15 @@
-version: 2.0.{build}
-image: Visual Studio 2017
+version: 3.0.{build}
+image: Visual Studio 2019
 configuration: Release
+before_build:
+- cmd: dotnet restore src/MIDTesters.Core/MIDTesters.Core.csproj
 build:
-  project: OpenProtocolInterpreter.sln
+  project: src\OpenProtocolInterpreter\OpenProtocolInterpreter.csproj
   publish_nuget: true
   include_nuget_references: true
   verbosity: minimal
+artifacts:
+- path: dist\OpenProtocolInterpreter.*.nupkg
 before_deploy:
 - ps: nuget pack src\OpenProtocolInterpreter\OpenProtocolInterpreter.csproj
 deploy:
@@ -13,4 +17,3 @@ deploy:
   api_key:
     secure: IbuXe05ZqOytMAmop7c4Xq0Vd9OFl5gVib/hs6nfJc++vG7tnoyYxUm4nS/CQGaS
   skip_symbols: true
-  artifact: '**\*.nupkg'
