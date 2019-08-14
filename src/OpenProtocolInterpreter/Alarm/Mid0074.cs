@@ -11,7 +11,7 @@ namespace OpenProtocolInterpreter.Alarm
     /// Message sent by: Controller
     /// Answer: MID 0075 Alarm acknowledged on controller acknowledge
     /// </summary>
-    public class Mid0074 : Mid, IAlarm
+    public class Mid0074 : Mid, IAlarm, IController
     {
         private const int LAST_REVISION = 2;
         public const int MID = 74;
@@ -22,14 +22,17 @@ namespace OpenProtocolInterpreter.Alarm
             set => GetField(1,(int)DataFields.ERROR_CODE).SetValue(value);
         }
 
+        public Mid0074() : this(LAST_REVISION)
+        {
+
+        }
+
         public Mid0074(int revision = LAST_REVISION) : base(MID, revision) { }
 
         public Mid0074(string errorCode, int revision = LAST_REVISION) : this(revision)
         {
             ErrorCode = errorCode;
         }
-
-        internal Mid0074(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

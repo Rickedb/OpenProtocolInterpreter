@@ -30,17 +30,6 @@ namespace OpenProtocolInterpreter.LinkCommunication
 
         }
 
-        internal Mid9998(IMid nextTemplate) : base(MID, revision, null, null, null, new DataField[] 
-        {
-            new DataField((int)UsedsAs.MESSAGE_NUMBER, 16, 2),
-            new DataField((int)UsedsAs.NUMBER_OF_MESSAGES, 18, 1),
-            new DataField((int)UsedsAs.SEQUENCE_NUMBER, 19, 1)
-        })
-        {
-            NextTemplate = nextTemplate;
-            
-        }
-
         protected override string BuildHeader()
         {
             string header = string.Empty;
@@ -79,13 +68,8 @@ namespace OpenProtocolInterpreter.LinkCommunication
 
         public override Mid Parse(string package)
         {
-            if (base.IsCorrectType(package))
-            {
-                ProcessHeader(package);
-
-            }
-
-            return NextTemplate.Parse(package);
+            ProcessHeader(package);
+            return this;
         }
 
 

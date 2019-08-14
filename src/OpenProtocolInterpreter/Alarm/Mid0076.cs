@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.Alarm
     /// Message sent by: Controller
     /// Answer : MID 0077 Alarm status acknowledge
     /// </summary>
-    public class Mid0076 : Mid, IAlarm
+    public class Mid0076 : Mid, IAlarm, IController
     {
         private readonly IValueConverter<bool> _boolConverter;
         private readonly IValueConverter<DateTime> _dateConverter;
@@ -45,6 +45,7 @@ namespace OpenProtocolInterpreter.Alarm
             set => GetField(1,(int)DataFields.TIME).SetValue(_dateConverter.Convert, value);
         }
 
+
         public Mid0076() : base(MID, LAST_REVISION)
         {
             _boolConverter = new BoolConverter();
@@ -67,8 +68,6 @@ namespace OpenProtocolInterpreter.Alarm
             ToolReadyStatus = toolReadyStatus;
             Time = time;
         }
-
-        internal Mid0076(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.Tool
     /// Message sent by: Controller
     /// Answer: None
     /// </summary>
-    public class Mid0041 : Mid, ITool
+    public class Mid0041 : Mid, ITool, IController
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<long> _longConverter;
@@ -105,6 +105,11 @@ namespace OpenProtocolInterpreter.Tool
         {
             get => GetField(5,(int)DataFields.TOOL_MODEL).Value;
             set => GetField(5,(int)DataFields.TOOL_MODEL).SetValue(value);
+        }
+
+        public Mid0041() : this(LAST_REVISION)
+        {
+
         }
 
         public Mid0041(int revision = LAST_REVISION) : base(MID, revision)
@@ -291,11 +296,6 @@ namespace OpenProtocolInterpreter.Tool
                   controllerSoftwareVersion, toolMaxTorque, gearRatio, toolFullSpeed, primaryTool, revision)
         {
             ToolModel = toolModel;
-        }
-
-        internal Mid0041(IMid nextTemplate) : this()
-        {
-            NextTemplate = nextTemplate;
         }
 
         /// <summary>

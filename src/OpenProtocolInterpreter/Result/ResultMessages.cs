@@ -1,36 +1,31 @@
 ﻿using OpenProtocolInterpreter.Messages;
+using System;
 using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Result
 {
-    public class ResultMessages : IMessagesTemplate
+    internal class ResultMessages : MessagesTemplate
     {
-        private readonly IMid _templates;
-
-        public ResultMessages()
+        public ResultMessages() : base()
         {
-            _templates = new Mid1201(new Mid1202(new Mid1203()));
+            _templates = new Dictionary<int, Type>()
+            {
+                { Mid1201.MID, typeof(Mid1201) },
+                { Mid1202.MID, typeof(Mid1202) },
+                { Mid1203.MID, typeof(Mid1203) }
+            };
         }
 
-        public ResultMessages(bool onlyController)
+        public ResultMessages(IEnumerable<Type> selectedMids) : this()
         {
-            _templates = onlyController ? InitControllerTemplates() : InitIntegratorTemplates();
+            FilterSelectedMids(selectedMids);
         }
 
-        public ResultMessages(IEnumerable<Mid> selectedMids)
+        public ResultMessages(InterpreterMode mode) : this()
         {
-            _templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
+            FilterSelectedMids(mode);
         }
 
-        public Mid ProcessPackage(string package) => _templates.Parse(package);
-
-        public Mid ProcessPackage(byte[] package) => _templates.Parse(package);
-
-        private IMid InitIntegratorTemplates() => new Mid1203();
-        
-        private IMid InitControllerTemplates()
-        {
-            return new Mid1201(new Mid1202(null));
-        }
+        public override bool IsAssignableTo(int mid) => mid > 1200 && mid < 1204;
     }
 }

@@ -9,7 +9,7 @@ namespace MIDTesters
 
         public MidTester()
         {
-            _midInterpreter = new MidInterpreter();
+            _midInterpreter = new MidInterpreter().UseAllMessages();
         }
 
         protected byte[] GetAsciiBytes(string package) => Encoding.ASCII.GetBytes(package);

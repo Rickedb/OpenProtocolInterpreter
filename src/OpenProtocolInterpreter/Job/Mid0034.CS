@@ -8,18 +8,21 @@
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command Accepted or MID 0004 Command error, Job info subscription already exists
     /// </summary>
-    public class Mid0034 : Mid, IJob
+    public class Mid0034 : Mid, IJob, IIntegrator
     {
         private const int LAST_REVISION = 4;
         public const int MID = 34;
+
+        public Mid0034() : this(LAST_REVISION)
+        {
+
+        }
 
         /// <summary>
         /// Revision 1 to 4 Constructor
         /// </summary>
         /// <param name="noAckFlag">0=Ack needed, 1=No Ack needed</param>
         /// <param name="revision">Revision number (default = 4)</param>
-        public Mid0034(int? noAckFlag = 0, int revision = LAST_REVISION) : base(MID, revision, noAckFlag) { }
-
-        internal Mid0034(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
+        public Mid0034(int revision = LAST_REVISION, int? noAckFlag = 0) : base(MID, revision, noAckFlag) { }
     }
 }

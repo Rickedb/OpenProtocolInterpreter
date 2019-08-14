@@ -11,13 +11,16 @@
     /// Answer: MID 0005 Command accepted or 
     ///         MID 0004 Command error, Automatic/Manual mode subscribe already exists
     /// </summary>
-    public class Mid0400 : Mid, IAutomaticManualMode
+    public class Mid0400 : Mid, IAutomaticManualMode, IIntegrator
     {
         private const int LAST_REVISION = 1;
         public const int MID = 400;
 
-        public Mid0400(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) { }
+        public Mid0400() : this(0)
+        {
 
-        internal Mid0400(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
+        }
+
+        public Mid0400(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) { }
     }
 }

@@ -14,7 +14,7 @@ namespace OpenProtocolInterpreter.Job
     /// Message sent by: Controller
     /// Answer: MID 0036
     /// </summary>
-    public class Mid0035 : Mid, IJob
+    public class Mid0035 : Mid, IJob, IController
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<DateTime> _datetimeConverter;
@@ -74,7 +74,12 @@ namespace OpenProtocolInterpreter.Job
             set => GetField(4, (int)DataFields.JOB_TIGHTENING_STATUS).SetValue(_intConverter.Convert, (int)value);
         }
 
-        public Mid0035(int revision = LAST_REVISION, int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
+        public Mid0035() : this(LAST_REVISION)
+        {
+
+        }
+
+        public Mid0035(int revision = LAST_REVISION, int? noAckFlag = 0) : base(MID, revision, noAckFlag)
         {
             _intConverter = new Int32Converter();
             _datetimeConverter = new DateConverter();
@@ -150,19 +155,12 @@ namespace OpenProtocolInterpreter.Job
             JobTighteningStatus = jobTighteningStatus;
         }
 
-        internal Mid0035(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
-
         public override Mid Parse(string package)
         {
-            if (IsCorrectType(package))
-            {
-                HeaderData = ProcessHeader(package);
-                UpdateFieldsIndexBasedOnRevision();
-                ProcessDataFields(package);
-                return this;
-            }
-
-            return NextTemplate.Parse(package);
+            HeaderData = ProcessHeader(package);
+            UpdateFieldsIndexBasedOnRevision();
+            ProcessDataFields(package);
+            return this;
         }
 
         /// <summary>

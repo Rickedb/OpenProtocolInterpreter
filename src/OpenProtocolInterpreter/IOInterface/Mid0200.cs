@@ -11,7 +11,7 @@ namespace OpenProtocolInterpreter.IOInterface
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted
     /// </summary>
-    public class Mid0200 : Mid, IIOInterface
+    public class Mid0200 : Mid, IIOInterface, IIntegrator
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 1;
@@ -73,8 +73,6 @@ namespace OpenProtocolInterpreter.IOInterface
             _intConverter = new Int32Converter();
         }
 
-        internal Mid0200(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
-        
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()

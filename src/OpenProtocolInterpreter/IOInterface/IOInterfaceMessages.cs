@@ -1,26 +1,45 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using OpenProtocolInterpreter.Messages;
 
 namespace OpenProtocolInterpreter.IOInterface
 {
-    internal class IOInterfaceMessages : IMessagesTemplate
+    internal class IOInterfaceMessages : MessagesTemplate
     {
-        private readonly IMid _templates;
-
-        public IOInterfaceMessages()
+        public IOInterfaceMessages() : base()
         {
-            _templates = new Mid0200(new Mid0210(new Mid0211(new Mid0212(new Mid0213(new Mid0214(
-                             new Mid0215(new Mid0216(new Mid0217(new Mid0218(new Mid0219(new Mid0220(
-                             new Mid0221(new Mid0222(new Mid0223(new Mid0224(new Mid0225(null)))))))))))))))));
+            _templates = new Dictionary<int, Type>()
+            {
+                { Mid0200.MID, typeof(Mid0200) },
+                { Mid0210.MID, typeof(Mid0210) },
+                { Mid0211.MID, typeof(Mid0211) },
+                { Mid0212.MID, typeof(Mid0212) },
+                { Mid0213.MID, typeof(Mid0213) },
+                { Mid0214.MID, typeof(Mid0214) },
+                { Mid0215.MID, typeof(Mid0215) },
+                { Mid0216.MID, typeof(Mid0216) },
+                { Mid0217.MID, typeof(Mid0217) },
+                { Mid0218.MID, typeof(Mid0218) },
+                { Mid0219.MID, typeof(Mid0219) },
+                { Mid0220.MID, typeof(Mid0220) },
+                { Mid0221.MID, typeof(Mid0221) },
+                { Mid0222.MID, typeof(Mid0222) },
+                { Mid0223.MID, typeof(Mid0223) },
+                { Mid0224.MID, typeof(Mid0224) },
+                { Mid0225.MID, typeof(Mid0225) }
+            };
         }
 
-        public IOInterfaceMessages(IEnumerable<Mid> selectedMids)
+        public IOInterfaceMessages(IEnumerable<Type> selectedMids) : this()
         {
-            _templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
+            FilterSelectedMids(selectedMids);
         }
 
-        public Mid ProcessPackage(string package) => _templates.Parse(package);
+        public IOInterfaceMessages(InterpreterMode mode) : this()
+        {
+            FilterSelectedMids(mode);
+        }
 
-        public Mid ProcessPackage(byte[] package) => _templates.Parse(package);
+        public override bool IsAssignableTo(int mid) => mid > 199 && mid < 226;
     }
 }

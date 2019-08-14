@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.IOInterface
     ///         MID 0004 Command error,
     ///         Faulty IO device ID, or IO device not connected
     /// </summary>
-    public class Mid0214 : Mid, IIOInterface
+    public class Mid0214 : Mid, IIOInterface, IIntegrator
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 2;
@@ -25,7 +25,12 @@ namespace OpenProtocolInterpreter.IOInterface
             set => GetField(1,(int)DataFields.DEVICE_NUMBER).SetValue(_intConverter.Convert, value);
         }
 
-        public Mid0214(int revision = LAST_REVISION) : base(MID, LAST_REVISION)
+        public Mid0214() : this(LAST_REVISION)
+        {
+
+        }
+
+        public Mid0214(int revision = LAST_REVISION) : base(MID, revision)
         {
             _intConverter = new Int32Converter();
         }
@@ -34,8 +39,6 @@ namespace OpenProtocolInterpreter.IOInterface
         {
             DeviceNumber = deviceNumber;
         }
-
-        internal Mid0214(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

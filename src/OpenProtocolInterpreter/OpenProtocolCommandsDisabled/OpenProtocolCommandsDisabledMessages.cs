@@ -1,23 +1,32 @@
 ﻿using OpenProtocolInterpreter.Messages;
+using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
 {
-    internal class OpenProtocolCommandsDisabledMessages :  IMessagesTemplate
+    internal class OpenProtocolCommandsDisabledMessages : MessagesTemplate
     {
-        private readonly IMid _templates;
-
-        public OpenProtocolCommandsDisabledMessages()
+        public OpenProtocolCommandsDisabledMessages() : base()
         {
-            _templates = new Mid0420(new Mid0421(new Mid0422(new Mid0423(null))));
+            _templates = new Dictionary<int, Type>()
+            {
+                { Mid0420.MID, typeof(Mid0420) },
+                { Mid0421.MID, typeof(Mid0421) },
+                { Mid0422.MID, typeof(Mid0422) },
+                { Mid0423.MID, typeof(Mid0423) }
+            };
         }
 
-        public OpenProtocolCommandsDisabledMessages(System.Collections.Generic.IEnumerable<Mid> selectedMids)
+        public OpenProtocolCommandsDisabledMessages(IEnumerable<Type> selectedMids) : this()
         {
-            _templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
+            FilterSelectedMids(selectedMids);
         }
 
-        public Mid ProcessPackage(string package) => _templates.Parse(package);
+        public OpenProtocolCommandsDisabledMessages(InterpreterMode mode) : this()
+        {
+            FilterSelectedMids(mode);
+        }
 
-        public Mid ProcessPackage(byte[] package) => _templates.Parse(package);
+        public override bool IsAssignableTo(int mid) => mid > 419 && mid < 424;
     }
 }

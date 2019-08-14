@@ -8,16 +8,19 @@
     /// Message sent by: Integrator
     /// Answer: None
     /// </summary>
-    public class Mid0072 : Mid, IAlarm
+    public class Mid0072 : Mid, IAlarm, IIntegrator
     {
         private const int LAST_REVISION = 2;
         public const int MID = 72;
+
+        public Mid0072() : this(LAST_REVISION)
+        {
+
+        }
 
         public Mid0072(int revision = LAST_REVISION) : base(MID, revision)
         {
 
         }
-
-        internal Mid0072(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
     }
 }

@@ -9,14 +9,11 @@
     /// MID 0004 Command error, 
     /// Status externally monitored inputs subscription does not exist
     /// </summary>
-    public class Mid0213 : Mid, IIOInterface
+    public class Mid0213 : Mid, IIOInterface, IIntegrator
     {
         private const int LAST_REVISION = 1;
         public const int MID = 213;
 
         public Mid0213() : base(MID, LAST_REVISION) { }
-
-        internal Mid0213(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
-        
     }
 }

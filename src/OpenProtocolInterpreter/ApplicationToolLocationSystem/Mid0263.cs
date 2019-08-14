@@ -7,13 +7,11 @@
     /// Message sent by: Integrator
     /// Answer: None
     /// </summary>
-    public class Mid0263 : Mid, IApplicationToolLocationSystem
+    public class Mid0263 : Mid, IApplicationToolLocationSystem, IIntegrator
     {
         private const int LAST_REVISION = 1;
         public const int MID = 263;
 
         public Mid0263() : base(MID, LAST_REVISION) { }
-
-        internal Mid0263(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
     }
 }

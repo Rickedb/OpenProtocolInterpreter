@@ -9,10 +9,15 @@
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted and MID 0015 Parameter set selected
     /// </summary>
-    public class Mid0014 : Mid, IParameterSet
+    public class Mid0014 : Mid, IParameterSet, IIntegrator
     {
         private const int LAST_REVISION = 1;
         public const int MID = 14;
+
+        public Mid0014() : this(0)
+        {
+
+        }
 
         /// <summary>
         /// Revision 1 Constructor
@@ -21,11 +26,6 @@
         public Mid0014(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) 
         { 
         
-        }
-
-        internal Mid0014(IMid nextTemplate) : this()
-        {
-            NextTemplate = nextTemplate;
         }
     }
 }

@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.Job
     /// Message sent by: Controller
     /// Answer: None
     /// </summary>
-    public class Mid0031 : Mid, IJob
+    public class Mid0031 : Mid, IJob, IController
     {
         private readonly IValueConverter<int> _intConverter;
         private JobIdListConverter _jobListConverter;
@@ -27,6 +27,11 @@ namespace OpenProtocolInterpreter.Job
         }
 
         public List<int> JobIds { get; set; }
+
+        public Mid0031() : this(LAST_REVISION)
+        {
+
+        }
 
         public Mid0031(int revision = LAST_REVISION) : base(MID, revision)
         {
@@ -53,8 +58,6 @@ namespace OpenProtocolInterpreter.Job
             JobIds = jobIds.ToList();
         }
 
-        internal Mid0031(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
-
         public override string Pack()
         {
             _jobListConverter = new JobIdListConverter(_intConverter, HeaderData.Revision);
@@ -76,24 +79,19 @@ namespace OpenProtocolInterpreter.Job
 
         public override Mid Parse(string package)
         {
-            if (IsCorrectType(package))
+            HeaderData = ProcessHeader(package);
+            _jobListConverter = new JobIdListConverter(_intConverter, HeaderData.Revision);
+
+            var eachJobField = GetField(1, (int)DataFields.EACH_JOB_ID);
+            if (HeaderData.Revision > 1)
             {
-                HeaderData = ProcessHeader(package);
-                _jobListConverter = new JobIdListConverter(_intConverter, HeaderData.Revision);
-
-                var eachJobField = GetField(1, (int)DataFields.EACH_JOB_ID);
-                if (HeaderData.Revision > 1)
-                {
-                    eachJobField.Index = 24;
-                    GetField(1, (int)DataFields.NUMBER_OF_JOBS).Size = 4;
-                }
-                eachJobField.Size = package.Length - eachJobField.Index;
-                base.Parse(package);
-                JobIds = _jobListConverter.Convert(eachJobField.Value).ToList();
-                return this;
+                eachJobField.Index = 24;
+                GetField(1, (int)DataFields.NUMBER_OF_JOBS).Size = 4;
             }
-
-            return NextTemplate.Parse(package);
+            eachJobField.Size = package.Length - eachJobField.Index;
+            base.Parse(package);
+            JobIds = _jobListConverter.Convert(eachJobField.Value).ToList();
+            return this;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

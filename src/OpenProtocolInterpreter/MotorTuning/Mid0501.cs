@@ -10,7 +10,7 @@ namespace OpenProtocolInterpreter.MotorTuning
     /// Message sent by: Controller
     /// Answer: MID 0502 Motor tuning result data acknowledge
     /// </summary>
-    public class Mid0501 : Mid, IMotorTuning
+    public class Mid0501 : Mid, IMotorTuning, IController
     {
         private readonly IValueConverter<bool> _boolConverter;
         private const int LAST_REVISION = 1;
@@ -26,6 +26,11 @@ namespace OpenProtocolInterpreter.MotorTuning
             set => GetField(1,(int)DataFields.MOTOR_TUNE_RESULT).SetValue(_boolConverter.Convert, value);
         }
 
+        public Mid0501() : this(0)
+        {
+
+        }
+
         public Mid0501(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
         {
             _boolConverter = new BoolConverter();
@@ -35,8 +40,6 @@ namespace OpenProtocolInterpreter.MotorTuning
         {
             MotorTuneResult = motorTuneResult;
         }
-
-        internal Mid0501(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

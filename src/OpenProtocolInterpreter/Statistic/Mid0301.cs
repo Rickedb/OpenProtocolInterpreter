@@ -11,7 +11,7 @@ namespace OpenProtocolInterpreter.Statistic
     /// Message sent by: Controller
     /// Answer: None
     /// </summary>
-    public class Mid0301 : Mid, IStatistic
+    public class Mid0301 : Mid, IStatistic, IController
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<decimal> _decimalConverter;
@@ -94,8 +94,6 @@ namespace OpenProtocolInterpreter.Statistic
             _intConverter = new Int32Converter();
             _decimalConverter = new DecimalTrucatedConverter(2);
         }
-
-        internal Mid0301(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

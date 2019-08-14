@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.Alarm
     /// Message sent by: Controller
     /// Answer: MID 0072 Alarm acknowledge
     /// </summary>
-    public class Mid0071 : Mid, IAlarm
+    public class Mid0071 : Mid, IAlarm, IController
     {
         private IValueConverter<bool> _boolConverter;
         private IValueConverter<DateTime> _dateConverter;
@@ -45,6 +45,11 @@ namespace OpenProtocolInterpreter.Alarm
         {
             get => GetField(2, (int)DataFields.ALARM_TEXT).Value;
             set => GetField(2, (int)DataFields.ALARM_TEXT).SetValue(value);
+        }
+
+        public Mid0071() : this(LAST_REVISION)
+        {
+
         }
 
         public Mid0071(int revision = LAST_REVISION, int? noAckFlag = 0) : base(MID, revision, noAckFlag)
@@ -86,8 +91,6 @@ namespace OpenProtocolInterpreter.Alarm
             AlarmText = alarmText;
         }
 
-        internal Mid0071(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
-
         public override string Pack()
         {
             UpdateFieldsIndexBasedOnRevision(HeaderData.Revision);
@@ -96,15 +99,10 @@ namespace OpenProtocolInterpreter.Alarm
 
         public override Mid Parse(string package)
         {
-            if (IsCorrectType(package))
-            {
-                HeaderData = ProcessHeader(package);
-                UpdateFieldsIndexBasedOnRevision(HeaderData.Revision);
-                ProcessDataFields(package);
-                return this;
-            }
-
-            return NextTemplate.Parse(package);
+            HeaderData = ProcessHeader(package);
+            UpdateFieldsIndexBasedOnRevision(HeaderData.Revision);
+            ProcessDataFields(package);
+            return this;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

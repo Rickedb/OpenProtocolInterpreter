@@ -7,13 +7,11 @@
     /// Message sent by: Integrator
     /// Answer: None
     /// </summary>
-    public class Mid0422 : Mid, IOpenProtocolCommandsDisabled
+    public class Mid0422 : Mid, IOpenProtocolCommandsDisabled, IIntegrator
     {
         private const int LAST_REVISION = 1;
         public const int MID = 422;
 
         public Mid0422() : base(MID, LAST_REVISION) { }
-
-        internal Mid0422(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
     }
 }

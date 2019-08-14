@@ -1,23 +1,33 @@
 ﻿using OpenProtocolInterpreter.Messages;
+using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.MotorTuning
 {
-    internal class MotorTuningMessages : IMessagesTemplate
+    internal class MotorTuningMessages : MessagesTemplate
     {
-        private readonly IMid _templates;
-
-        public MotorTuningMessages()
+        public MotorTuningMessages() : base()
         {
-            _templates = new Mid0500(new Mid0501(new Mid0502(new Mid0503(new Mid0504(null)))));
+            _templates = new Dictionary<int, Type>()
+            {
+                { Mid0500.MID, typeof(Mid0500) },
+                { Mid0501.MID, typeof(Mid0501) },
+                { Mid0502.MID, typeof(Mid0502) },
+                { Mid0503.MID, typeof(Mid0503) },
+                { Mid0504.MID, typeof(Mid0504) }
+            };
         }
 
-        public MotorTuningMessages(System.Collections.Generic.IEnumerable<Mid> selectedMids)
+        public MotorTuningMessages(IEnumerable<Type> selectedMids) : this()
         {
-            _templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
+            FilterSelectedMids(selectedMids);
         }
 
-        public Mid ProcessPackage(string package) => _templates.Parse(package);
+        public MotorTuningMessages(InterpreterMode mode) : this()
+        {
+            FilterSelectedMids(mode);
+        }
 
-        public Mid ProcessPackage(byte[] package) => _templates.Parse(package);
+        public override bool IsAssignableTo(int mid) => mid > 499 && mid < 505;
     }
 }

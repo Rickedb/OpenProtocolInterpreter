@@ -10,13 +10,16 @@
     ///         MID 0004 Command error, Subscription already exists, or
     ///         Controller is not a sync master/station controller
     /// </summary>
-    public class Mid0241 : Mid, IPLCUserData
+    public class Mid0241 : Mid, IPLCUserData, IIntegrator
     {
         private const int LAST_REVISION = 1;
         public const int MID = 241;
 
-        public Mid0241(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) { }
+        public Mid0241() : this(0)
+        {
 
-        internal Mid0241(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
+        }
+
+        public Mid0241(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) { }
     }
 }

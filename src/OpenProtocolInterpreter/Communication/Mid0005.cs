@@ -20,7 +20,7 @@ namespace OpenProtocolInterpreter.Communication
     /// Message sent by: Controller
     /// Answer: None
     /// </summary>
-    public class Mid0005 : Mid, ICommunication
+    public class Mid0005 : Mid, ICommunication, IController
     {
         private readonly IValueConverter<int> _intConverter;
         public const int MID = 5;
@@ -40,8 +40,6 @@ namespace OpenProtocolInterpreter.Communication
         /// <param name="midAccepted">Mid accepted</param>
         public Mid0005(int midAccepted) : this() => MidAccepted = midAccepted;
         
-        internal Mid0005(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
-
         /// <summary>
         /// Validate all fields size
         /// </summary>

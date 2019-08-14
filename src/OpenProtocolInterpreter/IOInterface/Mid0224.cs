@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.IOInterface
     /// Answer: MID 0005 Command accepted or
     ///         MID 0004 Command error, Invalid data
     /// </summary>
-    public class Mid0224 : Mid, IIOInterface
+    public class Mid0224 : Mid, IIOInterface, IIntegrator
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 1;
@@ -33,8 +33,6 @@ namespace OpenProtocolInterpreter.IOInterface
         {
             DigitalInputNumber = digitalInputNumber;
         }
-
-        internal Mid0224(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

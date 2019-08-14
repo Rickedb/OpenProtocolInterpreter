@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.Time
     /// Message sent by: Controller
     /// Answer: None
     /// </summary>
-    public class Mid0081 : Mid, ITime
+    public class Mid0081 : Mid, ITime, IController
     {
         private readonly IValueConverter<DateTime> _dateConverter;
         private const int LAST_REVISION = 1;
@@ -37,8 +37,6 @@ namespace OpenProtocolInterpreter.Time
         {
             Time = time;
         }
-
-        internal Mid0081(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

@@ -12,13 +12,16 @@
     ///         MID 0004 Command error, Open Protocol commands disabled
     ///         subscription already exists
     /// </summary>
-    public class Mid0420 : Mid, IOpenProtocolCommandsDisabled
+    public class Mid0420 : Mid, IOpenProtocolCommandsDisabled, IIntegrator
     {
         private const int LAST_REVISION = 1;
         public const int MID = 420;
 
-        public Mid0420(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) { }
+        public Mid0420() : this(0)
+        {
 
-        internal Mid0420(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
+        }
+
+        public Mid0420(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) { }
     }
 }

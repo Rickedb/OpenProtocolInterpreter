@@ -1,23 +1,31 @@
 ﻿using OpenProtocolInterpreter.Messages;
+using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.UserInterface
 {
-    internal class UserInterfaceMessages : IMessagesTemplate
+    internal class UserInterfaceMessages : MessagesTemplate
     {
-        private readonly IMid _templates;
-
-        public UserInterfaceMessages()
+        public UserInterfaceMessages() : base()
         {
-            _templates = new Mid0110(new Mid0111(new Mid0113(null)));
+            _templates = new Dictionary<int, Type>()
+            {
+                { Mid0110.MID, typeof(Mid0110) },
+                { Mid0111.MID, typeof(Mid0111) },
+                { Mid0113.MID, typeof(Mid0113) }
+            };
         }
 
-        public UserInterfaceMessages(System.Collections.Generic.IEnumerable<Mid> selectedMids)
+        public UserInterfaceMessages(IEnumerable<Type> selectedMids) : this()
         {
-            _templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
+            FilterSelectedMids(selectedMids);
         }
 
-        public Mid ProcessPackage(string package) => _templates.Parse(package);
+        public UserInterfaceMessages(InterpreterMode mode) : this()
+        {
+            FilterSelectedMids(mode);
+        }
 
-        public Mid ProcessPackage(byte[] package) => _templates.Parse(package);
+        public override bool IsAssignableTo(int mid) => mid > 109 && mid < 114;
     }
 }

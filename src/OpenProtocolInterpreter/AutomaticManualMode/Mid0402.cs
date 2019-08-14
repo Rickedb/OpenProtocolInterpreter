@@ -7,13 +7,11 @@
     /// Message sent by: Integrator
     /// Answer: None
     /// </summary>
-    public class Mid0402 : Mid, IAutomaticManualMode
+    public class Mid0402 : Mid, IAutomaticManualMode, IIntegrator
     {
         private const int LAST_REVISION = 1;
         public const int MID = 402;
 
         public Mid0402() : base(MID, LAST_REVISION) { }
-
-        internal Mid0402(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
     }
 }

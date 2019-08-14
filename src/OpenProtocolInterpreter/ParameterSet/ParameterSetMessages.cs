@@ -1,25 +1,44 @@
 ﻿using OpenProtocolInterpreter.Messages;
+using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.ParameterSet
 {
-    internal class ParameterSetMessages : IMessagesTemplate
+    internal class ParameterSetMessages : MessagesTemplate
     {
-        private readonly IMid _templates;
-
-        public ParameterSetMessages()
+        public ParameterSetMessages() : base()
         {
-            _templates = new Mid0010(new Mid0011(new Mid0012(new Mid0013(new Mid0014(new Mid0015(new Mid0016(
-                             new Mid0017(new Mid0018(new Mid0019(new Mid0020(new Mid0021(new Mid0022(new Mid0023(
-                             new Mid0024(new Mid2504(null))))))))))))))));
+            _templates = new Dictionary<int, Type>()
+            {
+                { Mid0010.MID, typeof(Mid0010) },
+                { Mid0011.MID, typeof(Mid0011) },
+                { Mid0012.MID, typeof(Mid0012) },
+                { Mid0013.MID, typeof(Mid0013) },
+                { Mid0014.MID, typeof(Mid0014) },
+                { Mid0015.MID, typeof(Mid0015) },
+                { Mid0016.MID, typeof(Mid0016) },
+                { Mid0017.MID, typeof(Mid0017) },
+                { Mid0018.MID, typeof(Mid0018) },
+                { Mid0019.MID, typeof(Mid0019) },
+                { Mid0020.MID, typeof(Mid0020) },
+                { Mid0021.MID, typeof(Mid0021) },
+                { Mid0022.MID, typeof(Mid0022) },
+                { Mid0023.MID, typeof(Mid0023) },
+                { Mid0024.MID, typeof(Mid0024) },
+                { Mid2504.MID, typeof(Mid2504) }
+            };
         }
 
-        public ParameterSetMessages(System.Collections.Generic.IEnumerable<Mid> selectedMids)
+        public ParameterSetMessages(IEnumerable<Type> selectedMids) : this()
         {
-            _templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
+            FilterSelectedMids(selectedMids);
         }
 
-        public Mid ProcessPackage(string package) => _templates.Parse(package);
+        public ParameterSetMessages(InterpreterMode mode) : this()
+        {
+            FilterSelectedMids(mode);
+        }
 
-        public Mid ProcessPackage(byte[] package) => _templates.Parse(package);
+        public override bool IsAssignableTo(int mid) => mid > 9 && mid < 26 || mid > 2499 && mid < 2506;
     }
 }

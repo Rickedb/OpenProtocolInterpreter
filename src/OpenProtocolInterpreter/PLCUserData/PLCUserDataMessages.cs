@@ -1,23 +1,34 @@
 ﻿using OpenProtocolInterpreter.Messages;
+using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.PLCUserData
 {
-    internal class PLCUserDataMessages : IMessagesTemplate
+    internal class PLCUserDataMessages : MessagesTemplate
     {
-        private readonly IMid _templates;
-
-        public PLCUserDataMessages()
+        public PLCUserDataMessages() : base()
         {
-            _templates = new Mid0240(new Mid0241( new Mid0242( new Mid0243(new Mid0244(new Mid0245(null))))));
+            _templates = new Dictionary<int, Type>()
+            {
+                { Mid0240.MID, typeof(Mid0240) },
+                { Mid0241.MID, typeof(Mid0241) },
+                { Mid0242.MID, typeof(Mid0242) },
+                { Mid0243.MID, typeof(Mid0243) },
+                { Mid0244.MID, typeof(Mid0244) },
+                { Mid0245.MID, typeof(Mid0245) }
+            };
         }
 
-        public PLCUserDataMessages(System.Collections.Generic.IEnumerable<Mid> selectedMids)
+        public PLCUserDataMessages(IEnumerable<Type> selectedMids) : this()
         {
-            _templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
+            FilterSelectedMids(selectedMids);
         }
 
-        public Mid ProcessPackage(string package) => _templates.Parse(package);
+        public PLCUserDataMessages(InterpreterMode mode) : this()
+        {
+            FilterSelectedMids(mode);
+        }
 
-        public Mid ProcessPackage(byte[] package) => _templates.Parse(package);
+        public override bool IsAssignableTo(int mid) => mid > 239 && mid < 246;
     }
 }

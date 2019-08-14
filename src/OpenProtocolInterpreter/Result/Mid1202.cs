@@ -19,7 +19,7 @@ namespace OpenProtocolInterpreter.Result
     ///         
     ///         If the sequence number acknowledge functionality is used there is no need for these acknowledges.
     /// </summary>
-    public class Mid1202 : Mid, IResult
+    public class Mid1202 : Mid, IResult, IController
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<IEnumerable<VariableDataField>> _variableDataFieldListConverter;
@@ -61,8 +61,6 @@ namespace OpenProtocolInterpreter.Result
             VariableDataFields = new List<VariableDataField>();
         }
 
-        internal Mid1202(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
-
         public override string Pack()
         {
             NumberOfDataFields = VariableDataFields.Count;
@@ -72,18 +70,13 @@ namespace OpenProtocolInterpreter.Result
 
         public override Mid Parse(string package)
         {
-            if (IsCorrectType(package))
-            {
-                HeaderData = ProcessHeader(package);
-                var variableDataField = GetField(1, (int)DataFields.VARIABLE_DATA_FIELDS);
-                variableDataField.Size = package.Length - variableDataField.Index;
-                ProcessDataFields(package);
+            HeaderData = ProcessHeader(package);
+            var variableDataField = GetField(1, (int)DataFields.VARIABLE_DATA_FIELDS);
+            variableDataField.Size = package.Length - variableDataField.Index;
+            ProcessDataFields(package);
 
-                VariableDataFields = _variableDataFieldListConverter.Convert(variableDataField.Value).ToList();
-                return this;
-            }
-
-            return NextTemplate.Parse(package);
+            VariableDataFields = _variableDataFieldListConverter.Convert(variableDataField.Value).ToList();
+            return this;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

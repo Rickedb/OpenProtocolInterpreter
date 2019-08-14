@@ -14,7 +14,7 @@ namespace OpenProtocolInterpreter.Statistic
     /// Answer: MID 0301, Histogram upload reply, or 
     ///         MID 0004 Command error, No histogram available or Invalid data
     /// </summary>
-    public class Mid0300 : Mid, IStatistic
+    public class Mid0300 : Mid, IStatistic, IIntegrator
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 1;
@@ -35,9 +35,6 @@ namespace OpenProtocolInterpreter.Statistic
         {
             _intConverter = new Int32Converter();
         }
-
-        internal Mid0300(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
-        
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

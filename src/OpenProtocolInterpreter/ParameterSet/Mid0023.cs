@@ -7,16 +7,11 @@
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted
     /// </summary>
-    public class Mid0023 : Mid, IParameterSet
+    public class Mid0023 : Mid, IParameterSet, IIntegrator
     {
         private const int LAST_REVISION = 1;
         public const int MID = 23;
 
         public Mid0023() : base(MID, LAST_REVISION) { }
-
-        internal Mid0023(IMid nextTemplate) : this()
-        {
-            NextTemplate = nextTemplate;
-        }
     }
 }

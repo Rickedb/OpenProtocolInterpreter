@@ -10,14 +10,11 @@
     /// Answer: MID 0005 Command accepted or 
     ///         MID 0004 Command error, Programming control not granted
     /// </summary>
-    public class Mid0270 : Mid
+    public class Mid0270 : Mid, IApplicationController, IIntegrator
     {
         private const int LAST_REVISION = 1;
         public const int MID = 270;
 
         public Mid0270() : base(MID, LAST_REVISION) { }
-
-        internal Mid0270(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
-        
     }
 }

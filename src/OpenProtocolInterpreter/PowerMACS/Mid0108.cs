@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.PowerMACS
     /// Message sent by: Integrator
     /// Answer: None
     /// </summary>
-    public class Mid0108 : Mid, IPowerMACS
+    public class Mid0108 : Mid, IPowerMACS, IIntegrator
     {
         private readonly IValueConverter<bool> _boolConverter;
         private const int LAST_REVISION = 4;
@@ -25,12 +25,15 @@ namespace OpenProtocolInterpreter.PowerMACS
             set => GetField(1,(int)DataFields.BOLT_DATA).SetValue(_boolConverter.Convert, value);
         }
 
+        public Mid0108() : this(LAST_REVISION)
+        {
+
+        }
+
         public Mid0108(int revision = LAST_REVISION) : base(MID, revision)
         {
             _boolConverter = new BoolConverter();
         }
-
-        internal Mid0108(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

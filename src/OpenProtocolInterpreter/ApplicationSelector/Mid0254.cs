@@ -18,7 +18,7 @@ namespace OpenProtocolInterpreter.ApplicationSelector
     /// Answer: MID 0005 Command accepted or 
     ///         MID 0004 Command error, Faulty IO device ID
     /// </summary>
-    public class Mid0254 : Mid, IApplicationSelector
+    public class Mid0254 : Mid, IApplicationSelector, IIntegrator
     {
         private readonly IValueConverter<IEnumerable<LightCommand>> _lightsConverter;
         private readonly IValueConverter<int> _intConverter;
@@ -27,8 +27,8 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
         public int DeviceId
         {
-            get => GetField(1,(int)DataFields.DEVICE_ID).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.DEVICE_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.DEVICE_ID).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.DEVICE_ID).SetValue(_intConverter.Convert, value);
         }
         public List<LightCommand> GreenLights { get; set; }
 
@@ -46,24 +46,17 @@ namespace OpenProtocolInterpreter.ApplicationSelector
             GreenLights = greenLights.ToList();
         }
 
-        internal Mid0254(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
-
         public override string Pack()
         {
-            GetField(1,(int)DataFields.GREEN_LIGHT_COMMAND).Value = _lightsConverter.Convert(GreenLights);
+            GetField(1, (int)DataFields.GREEN_LIGHT_COMMAND).Value = _lightsConverter.Convert(GreenLights);
             return base.Pack();
         }
 
         public override Mid Parse(string package)
         {
-            if (IsCorrectType(package))
-            {
-                base.Parse(package);
-                GreenLights = _lightsConverter.Convert(GetField(1,(int)DataFields.GREEN_LIGHT_COMMAND).Value).ToList();
-                return this;
-            }
-
-            return NextTemplate.Parse(package);
+            base.Parse(package);
+            GreenLights = _lightsConverter.Convert(GetField(1, (int)DataFields.GREEN_LIGHT_COMMAND).Value).ToList();
+            return this;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

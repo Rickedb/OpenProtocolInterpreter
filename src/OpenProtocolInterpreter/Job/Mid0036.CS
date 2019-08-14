@@ -6,13 +6,16 @@
     /// Message sent by: Integrator
     /// Answer: None
     /// </summary>
-    public class Mid0036 : Mid, IJob
+    public class Mid0036 : Mid, IJob, IIntegrator
     {
         private const int LAST_REVISION = 4;
         public const int MID = 36;
 
-        public Mid0036(int revision = LAST_REVISION) : base(MID, revision) {  }
+        public Mid0036() : this(LAST_REVISION)
+        {
 
-        internal Mid0036(IMid nextTemplate) : base(MID, LAST_REVISION) => NextTemplate = nextTemplate;
+        }
+
+        public Mid0036(int revision = LAST_REVISION) : base(MID, revision) {  }
     }
 }

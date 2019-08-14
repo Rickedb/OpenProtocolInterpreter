@@ -1,24 +1,36 @@
 ﻿using OpenProtocolInterpreter.Messages;
+using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.MultipleIdentifiers
 {
-    internal class MultipleIdentifierMessages : IMessagesTemplate
+    internal class MultipleIdentifierMessages : MessagesTemplate
     {
-        private readonly IMid _templates;
-
-        public MultipleIdentifierMessages()
+        public MultipleIdentifierMessages() : base()
         {
-            _templates = new Mid0150(new Mid0151(new Mid0152(new Mid0153(
-                new Mid0154(new Mid0155(new Mid0156(new Mid0157(null))))))));
+            _templates = new Dictionary<int, Type>()
+            {
+                { Mid0150.MID, typeof(Mid0150) },
+                { Mid0151.MID, typeof(Mid0151) },
+                { Mid0152.MID, typeof(Mid0152) },
+                { Mid0153.MID, typeof(Mid0153) },
+                { Mid0154.MID, typeof(Mid0154) },
+                { Mid0155.MID, typeof(Mid0155) },
+                { Mid0156.MID, typeof(Mid0156) },
+                { Mid0157.MID, typeof(Mid0157) }
+            };
         }
 
-        public MultipleIdentifierMessages(System.Collections.Generic.IEnumerable<Mid> selectedMids)
+        public MultipleIdentifierMessages(IEnumerable<Type> selectedMids) : this()
         {
-            _templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
+            FilterSelectedMids(selectedMids);
         }
 
-        public Mid ProcessPackage(string package) => _templates.Parse(package);
+        public MultipleIdentifierMessages(InterpreterMode mode) : this()
+        {
+            FilterSelectedMids(mode);
+        }
 
-        public Mid ProcessPackage(byte[] package) => _templates.Parse(package);
+        public override bool IsAssignableTo(int mid) => mid > 149 && mid < 158;
     }
 }

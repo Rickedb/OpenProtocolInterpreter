@@ -9,15 +9,15 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
     /// Answer: MID 0005 Command accepted or
     /// MID 0004 Command error, Identifier input source not granted
     /// </summary>
-    public class Mid0150 : Mid, IMultipleIdentifier
+    public class Mid0150 : Mid, IMultipleIdentifier, IIntegrator
     {
         private const int LAST_REVISION = 1;
         public const int MID = 150;
 
         public string IdentifierData
         {
-            get => GetField(1,(int)DataFields.IDENTIFIER_DATA).Value;
-            set => GetField(1,(int)DataFields.IDENTIFIER_DATA).SetValue(value);
+            get => GetField(1, (int)DataFields.IDENTIFIER_DATA).Value;
+            set => GetField(1, (int)DataFields.IDENTIFIER_DATA).SetValue(value);
         }
 
         public Mid0150() : base(MID, LAST_REVISION) { }
@@ -27,19 +27,12 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
             IdentifierData = identifierData;
         }
 
-        internal Mid0150(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
-
         public override Mid Parse(string package)
         {
-            if (IsCorrectType(package))
-            {
-                HeaderData = ProcessHeader(package);
-                GetField(1,(int)DataFields.IDENTIFIER_DATA).Size = package.Length - 20;
-                ProcessDataFields(package);
-                return this;
-            }
-
-            return NextTemplate.Parse(package);
+            HeaderData = ProcessHeader(package);
+            GetField(1, (int)DataFields.IDENTIFIER_DATA).Size = package.Length - 20;
+            ProcessDataFields(package);
+            return this;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

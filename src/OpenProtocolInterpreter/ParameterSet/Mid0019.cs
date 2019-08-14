@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted or MID 0004 Command error, Invalid data
     /// </summary>
-    public class Mid0019 : Mid, IParameterSet
+    public class Mid0019 : Mid, IParameterSet, IIntegrator
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 1;
@@ -44,8 +44,6 @@ namespace OpenProtocolInterpreter.ParameterSet
             ParameterSetId = parameterSetId;
             BatchSize = batchSize;
         }
-
-        internal Mid0019(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

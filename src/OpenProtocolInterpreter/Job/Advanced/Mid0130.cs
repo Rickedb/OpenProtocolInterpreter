@@ -9,7 +9,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted
     /// </summary>
-    public class Mid0130 : Mid, IAdvancedJob
+    public class Mid0130 : Mid, IAdvancedJob, IIntegrator
     {
         private readonly IValueConverter<bool> _boolConverter;
         private const int LAST_REVISION = 1;
@@ -34,8 +34,6 @@ namespace OpenProtocolInterpreter.Job.Advanced
         {
             JobOffStatus = jobOffStatus;
         }
-
-        internal Mid0130(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

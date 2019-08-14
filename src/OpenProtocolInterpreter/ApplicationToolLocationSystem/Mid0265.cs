@@ -11,7 +11,7 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
     /// Answer: MID 0005 Command accepted or
     ///         MID 0004 Command error, MID revision unsupported.
     /// </summary>
-    public class Mid0265 : Mid, IApplicationToolLocationSystem
+    public class Mid0265 : Mid, IApplicationToolLocationSystem, IIntegrator
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 1;
@@ -38,8 +38,6 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
             ToolTagId = toolTagId;
             ToolStatus = toolStatus;
         }
-
-        internal Mid0265(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

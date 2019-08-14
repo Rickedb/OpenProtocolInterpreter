@@ -8,7 +8,7 @@
     /// Message sent by: Integrator
     /// Answer: None
     /// </summary>
-    public class Mid1203 : Mid, IResult
+    public class Mid1203 : Mid, IResult, IIntegrator
     {
         private const int LAST_REVISION = 1;
         public const int MID = 1203;
@@ -17,7 +17,5 @@
         {
 
         }
-
-        internal Mid1203(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
     }
 }

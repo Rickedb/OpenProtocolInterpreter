@@ -8,13 +8,11 @@
     /// Answer: MID 0005 Command accepted or MID 0004 Command error,
     /// Multiple identifiers and result parts subscription does not exist
     /// </summary>
-    public class Mid0154 : Mid, IMultipleIdentifier
+    public class Mid0154 : Mid, IMultipleIdentifier, IIntegrator
     {
         private const int LAST_REVISION = 1;
         public const int MID = 154;
 
         public Mid0154() : base(MID, LAST_REVISION) { }
-
-        internal Mid0154(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
     }
 }

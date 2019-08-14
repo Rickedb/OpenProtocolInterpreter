@@ -24,7 +24,7 @@ namespace OpenProtocolInterpreter.PowerMACS
     /// Message sent by: Controller
     /// Answer: MID 0108 Last Power MACS tightening result data acknowledge
     /// </summary>
-    public class Mid0106 : Mid, IPowerMACS
+    public class Mid0106 : Mid, IPowerMACS, IController
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;
@@ -108,7 +108,12 @@ namespace OpenProtocolInterpreter.PowerMACS
             set => GetField(4, (int)DataFields.SYSTEM_SUB_TYPE).SetValue(_intConverter.Convert, (int)value);
         }
 
-        public Mid0106(int revision = LAST_REVISION, int? noAckFlag = 0) : base(MID, LAST_REVISION)
+        public Mid0106() : this(LAST_REVISION)
+        {
+
+        }
+
+        public Mid0106(int revision = LAST_REVISION, int? noAckFlag = 0) : base(MID, revision, noAckFlag)
         {
             _intConverter = new Int32Converter();
             _boolConverter = new BoolConverter();
@@ -119,8 +124,6 @@ namespace OpenProtocolInterpreter.PowerMACS
             if (SpecialValues == null)
                 SpecialValues = new List<SpecialValue>();
         }
-
-        internal Mid0106(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         public override string Pack()
         {
@@ -153,35 +156,30 @@ namespace OpenProtocolInterpreter.PowerMACS
 
         public override Mid Parse(string package)
         {
-            if (IsCorrectType(package))
+            HeaderData = ProcessHeader(package);
+
+            int numberOfBolts = _intConverter.Convert(package.Substring(GetField(1, (int)DataFields.NUMBER_OF_BOLTS).Index + 2, GetField(1, (int)DataFields.NUMBER_OF_BOLTS).Size));
+            GetField(1, (int)DataFields.BOLT_DATA).Size *= numberOfBolts;
+
+            var numberOfSpecialValuesField = GetField(1, (int)DataFields.NUMBER_OF_SPECIAL_VALUES);
+            numberOfSpecialValuesField.Index = GetField(1, (int)DataFields.BOLT_DATA).Index + GetField(1, (int)DataFields.BOLT_DATA).Size;
+
+            var specialValues = GetField(1, (int)DataFields.SPECIAL_VALUES);
+            specialValues.Index = numberOfSpecialValuesField.Index + numberOfSpecialValuesField.Size + 2;
+            if (HeaderData.Revision > 3)
             {
-                HeaderData = ProcessHeader(package);
-
-                int numberOfBolts = _intConverter.Convert(package.Substring(GetField(1, (int)DataFields.NUMBER_OF_BOLTS).Index + 2, GetField(1, (int)DataFields.NUMBER_OF_BOLTS).Size));
-                GetField(1, (int)DataFields.BOLT_DATA).Size *= numberOfBolts;
-
-                var numberOfSpecialValuesField = GetField(1, (int)DataFields.NUMBER_OF_SPECIAL_VALUES);
-                numberOfSpecialValuesField.Index = GetField(1, (int)DataFields.BOLT_DATA).Index + GetField(1, (int)DataFields.BOLT_DATA).Size;
-
-                var specialValues = GetField(1, (int)DataFields.SPECIAL_VALUES);
-                specialValues.Index = numberOfSpecialValuesField.Index + numberOfSpecialValuesField.Size + 2;
-                if (HeaderData.Revision > 3)
-                {
-                    specialValues.Size = package.Length - GetField(4, (int)DataFields.SYSTEM_SUB_TYPE).Size - 2;
-                    GetField(4, (int)DataFields.SYSTEM_SUB_TYPE).Index = specialValues.Index + specialValues.Size;
-                }
-                else
-                    specialValues.Size = package.Length - specialValues.Index;
-                ProcessDataFields(package);
-
-                _boltDataListConverter = new BoltDataListConverter(_intConverter, _boolConverter, _decimalConverter, numberOfBolts);
-                _specialValueListConverter = new SpecialValueListConverter(_intConverter, TotalSpecialValues);
-                BoltsData = _boltDataListConverter.Convert(GetField(1, (int)DataFields.BOLT_DATA).Value).ToList();
-                SpecialValues = _specialValueListConverter.Convert(GetField(1, (int)DataFields.SPECIAL_VALUES).Value).ToList();
-                return this;
+                specialValues.Size = package.Length - GetField(4, (int)DataFields.SYSTEM_SUB_TYPE).Size - 2;
+                GetField(4, (int)DataFields.SYSTEM_SUB_TYPE).Index = specialValues.Index + specialValues.Size;
             }
+            else
+                specialValues.Size = package.Length - specialValues.Index;
+            ProcessDataFields(package);
 
-            return NextTemplate.Parse(package);
+            _boltDataListConverter = new BoltDataListConverter(_intConverter, _boolConverter, _decimalConverter, numberOfBolts);
+            _specialValueListConverter = new SpecialValueListConverter(_intConverter, TotalSpecialValues);
+            BoltsData = _boltDataListConverter.Convert(GetField(1, (int)DataFields.BOLT_DATA).Value).ToList();
+            SpecialValues = _specialValueListConverter.Convert(GetField(1, (int)DataFields.SPECIAL_VALUES).Value).ToList();
+            return this;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

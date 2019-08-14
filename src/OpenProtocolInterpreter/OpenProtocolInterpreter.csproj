@@ -33,6 +33,8 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationController\ApplicationControllerMessages.cs" />
+    <Compile Include="ApplicationController\IApplicationController.cs" />
     <Compile Include="ApplicationController\Mid0270.cs" />
     <Compile Include="ApplicationSelector\ApplicationSelectorMessages.cs" />
     <Compile Include="ApplicationSelector\IApplicationSelector.cs" />
@@ -87,6 +89,7 @@
     <Compile Include="Enums\ForcedOrder.cs" />
     <Compile Include="Enums\HistogramType.cs" />
     <Compile Include="Enums\IdentifierPart.cs" />
+    <Compile Include="Enums\InterpreterMode.cs" />
     <Compile Include="Enums\JobBatchMode.cs" />
     <Compile Include="Enums\JobStatus.cs" />
     <Compile Include="Enums\JobTighteningStatus.cs" />
@@ -116,6 +119,7 @@
     <Compile Include="Job\Advanced\AdvancedJob.cs" />
     <Compile Include="Job\Mid0039.cs" />
     <Compile Include="Job\ParameterSet.cs" />
+    <Compile Include="MidInterpreterMessagesExtensions.cs" />
     <Compile Include="MultipleIdentifiers\IdentifierStatus.cs" />
     <Compile Include="MultiSpindle\Mid0093.cs" />
     <Compile Include="MultiSpindle\SpindleStatus.cs" />
@@ -165,6 +169,8 @@
     <Compile Include="_internals\Converters\TighteningErrorStatusConverter.cs" />
     <Compile Include="_internals\Converters\ValueConverter.cs" />
     <Compile Include="_internals\Converters\VariableDataFieldListConverter.cs" />
+    <Compile Include="IController.cs" />
+    <Compile Include="IIntegrator.cs" />
     <Compile Include="_internals\Messages\IMessagesTemplate.cs" />
     <Compile Include="IMid.cs" />
     <Compile Include="IOInterface\DigitalInput.cs" />
@@ -210,15 +216,16 @@
     <Compile Include="Job\Mid0031.cs" />
     <Compile Include="Job\Mid0032.cs" />
     <Compile Include="Job\Mid0033.cs" />
-    <Compile Include="Job\Mid0034.CS" />
-    <Compile Include="Job\Mid0035.CS" />
-    <Compile Include="Job\Mid0036.CS" />
-    <Compile Include="Job\Mid0037.CS" />
-    <Compile Include="Job\Mid0038.CS" />
-    <Compile Include="Job\Advanced\Mid0127.CS" />
+    <Compile Include="Job\Mid0034.cs" />
+    <Compile Include="Job\Mid0035.cs" />
+    <Compile Include="Job\Mid0036.cs" />
+    <Compile Include="Job\Mid0037.cs" />
+    <Compile Include="Job\Mid0038.cs" />
+    <Compile Include="Job\Advanced\Mid0127.cs" />
     <Compile Include="KeepAlive\Mid9999.CS" />
     <Compile Include="LinkCommunication\Mid9997.cs" />
     <Compile Include="LinkCommunication\Mid9998.cs" />
+    <Compile Include="_internals\Messages\MessagesTemplate.cs" />
     <Compile Include="_internals\Messages\MessageTemplateFactory.cs" />
     <Compile Include="Mid.cs" />
     <Compile Include="MidInterpreter.cs" />
@@ -296,12 +303,12 @@
     <Compile Include="Statistic\Mid0301.cs" />
     <Compile Include="Statistic\StatisticMessages.cs" />
     <Compile Include="Tightening\ITightening.cs" />
-    <Compile Include="Tightening\Mid0060.CS" />
-    <Compile Include="Tightening\Mid0061.CS" />
-    <Compile Include="Tightening\Mid0062.CS" />
+    <Compile Include="Tightening\Mid0060.cs" />
+    <Compile Include="Tightening\Mid0061.cs" />
+    <Compile Include="Tightening\Mid0062.cs" />
     <Compile Include="Tightening\Mid0063.cs" />
-    <Compile Include="Tightening\Mid0064.CS" />
-    <Compile Include="Tightening\Mid0065.CS" />
+    <Compile Include="Tightening\Mid0064.cs" />
+    <Compile Include="Tightening\Mid0065.cs" />
     <Compile Include="Tightening\TighteningMessages.cs" />
     <Compile Include="Time\ITime.cs" />
     <Compile Include="Time\Mid0080.cs" />

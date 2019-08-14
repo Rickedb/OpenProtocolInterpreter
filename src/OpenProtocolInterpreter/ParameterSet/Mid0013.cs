@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// Message sent by: Controller
     /// Answer: None
     /// </summary>
-    public class Mid0013 : Mid, IParameterSet
+    public class Mid0013 : Mid, IParameterSet, IController
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<decimal> _decimalConverter;
@@ -81,6 +81,11 @@ namespace OpenProtocolInterpreter.ParameterSet
             set => GetField(2,(int)DataFields.START_FINAL_TARGET).SetValue(_decimalConverter.Convert, value);
         }
 
+        public Mid0013() : this(LAST_REVISION)
+        {
+
+        }
+
         public Mid0013(int revision = LAST_REVISION) : base(MID, revision)
         {
             _intConverter = new Int32Converter();
@@ -140,8 +145,6 @@ namespace OpenProtocolInterpreter.ParameterSet
             FirstTarget = firstTarget;
             StartFinalAngle = startFinalAngle;
         }
-
-        internal Mid0013(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         /// <summary>
         /// Validate all fields size

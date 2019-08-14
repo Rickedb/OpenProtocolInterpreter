@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.Job
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted or MID 0004 Command error, Job can not be set, or Invalid data
     /// </summary>
-    public class Mid0038 : Mid, IJob
+    public class Mid0038 : Mid, IJob, IIntegrator
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 2;
@@ -23,6 +23,11 @@ namespace OpenProtocolInterpreter.Job
         {
             get => GetField(1, (int)DataFields.JOB_ID).GetValue(_intConverter.Convert);
             set => GetField(1, (int)DataFields.JOB_ID).SetValue(_intConverter.Convert, value);
+        }
+
+        public Mid0038() : this(LAST_REVISION)
+        {
+
         }
 
         public Mid0038(int revision = LAST_REVISION) : base(MID, revision)
@@ -40,19 +45,12 @@ namespace OpenProtocolInterpreter.Job
             JobId = jobId;
         }
 
-        internal Mid0038(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
-
         public override Mid Parse(string package)
         {
-            if (IsCorrectType(package))
-            {
-                HeaderData = ProcessHeader(package);
-                HandleRevision();
-                ProcessDataFields(package);
-                return this;
-            }
-
-            return NextTemplate.Parse(package);
+            HeaderData = ProcessHeader(package);
+            HandleRevision();
+            ProcessDataFields(package);
+            return this;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -93,9 +91,9 @@ namespace OpenProtocolInterpreter.Job
         private void HandleRevision()
         {
             if (HeaderData.Revision == 1)
-                GetField(1,(int)DataFields.JOB_ID).Size = 2;
+                GetField(1, (int)DataFields.JOB_ID).Size = 2;
             else
-                GetField(1,(int)DataFields.JOB_ID).Size = 4;
+                GetField(1, (int)DataFields.JOB_ID).Size = 4;
         }
 
         public enum DataFields

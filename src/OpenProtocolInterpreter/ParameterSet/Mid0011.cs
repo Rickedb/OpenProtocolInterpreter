@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// Message sent by: Controller
     /// Answer: None
     /// </summary>
-    public class Mid0011 : Mid, IParameterSet
+    public class Mid0011 : Mid, IParameterSet, IController
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<IEnumerable<int>> _intListConverter;
@@ -41,8 +41,6 @@ namespace OpenProtocolInterpreter.ParameterSet
             ParameterSets = parameterSets.ToList();
         }
 
-        internal Mid0011(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
-
         public override string Pack()
         {
             TotalParameterSets = ParameterSets.Count;
@@ -54,17 +52,12 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public override Mid Parse(string package)
         {
-            if (IsCorrectType(package))
-            {
-                HeaderData = ProcessHeader(package);
+            HeaderData = ProcessHeader(package);
 
-                GetField(1, (int)DataFields.EACH_PARAMETER_SET).Size = package.Length - GetField(1, (int)DataFields.EACH_PARAMETER_SET).Index;
-                ProcessDataFields(package);
-                ParameterSets = _intListConverter.Convert(GetField(1, (int)DataFields.EACH_PARAMETER_SET).Value).ToList();
-                return this;
-            }
-
-            return NextTemplate.Parse(package);
+            GetField(1, (int)DataFields.EACH_PARAMETER_SET).Size = package.Length - GetField(1, (int)DataFields.EACH_PARAMETER_SET).Index;
+            ProcessDataFields(package);
+            ParameterSets = _intListConverter.Convert(GetField(1, (int)DataFields.EACH_PARAMETER_SET).Value).ToList();
+            return this;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

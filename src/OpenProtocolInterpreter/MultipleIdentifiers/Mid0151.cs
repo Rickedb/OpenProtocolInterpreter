@@ -11,13 +11,16 @@
     /// Answer: MID 0005 Command accepted or 
     ///         MID 0004 Command error, Multiple identifier and result parts subscription already exists
     /// </summary>
-    public class Mid0151 : Mid, IMultipleIdentifier
+    public class Mid0151 : Mid, IMultipleIdentifier, IIntegrator
     {
         private const int LAST_REVISION = 1;
         public const int MID = 151;
 
-        public Mid0151(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) { }
+        public Mid0151() : this(0)
+        {
 
-        internal Mid0151(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
+        }
+
+        public Mid0151(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) { }
     }
 }

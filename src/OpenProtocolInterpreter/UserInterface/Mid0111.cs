@@ -1,9 +1,5 @@
 ﻿using OpenProtocolInterpreter.Converters;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenProtocolInterpreter.UserInterface
 {
@@ -20,7 +16,7 @@ namespace OpenProtocolInterpreter.UserInterface
     /// Answer: MID 0005 Command accepted or 
     ///         MID 0004 Command error, User text could not be displayed
     /// </summary>
-    public class Mid0111 : Mid, IUserInterface
+    public class Mid0111 : Mid, IUserInterface, IIntegrator
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 1;
@@ -71,9 +67,6 @@ namespace OpenProtocolInterpreter.UserInterface
             Line3 = line3;
             Line4 = line4;
         }
-
-        internal Mid0111(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
-
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

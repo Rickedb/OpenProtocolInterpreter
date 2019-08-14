@@ -1,24 +1,34 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using OpenProtocolInterpreter.Messages;
 
 namespace OpenProtocolInterpreter.ApplicationSelector
 {
-    internal class ApplicationSelectorMessages : IMessagesTemplate
+    internal class ApplicationSelectorMessages : MessagesTemplate
     {
-        private readonly IMid _templates;
-
-        public ApplicationSelectorMessages()
+        public ApplicationSelectorMessages() : base()
         {
-            _templates = new Mid0250(new Mid0251(new Mid0252(new Mid0253(new Mid0254(new Mid0255(null))))));
+            _templates = new Dictionary<int, Type>()
+            {
+                { Mid0250.MID, typeof(Mid0250) },
+                { Mid0251.MID, typeof(Mid0251) },
+                { Mid0252.MID, typeof(Mid0252) },
+                { Mid0253.MID, typeof(Mid0253) },
+                { Mid0254.MID, typeof(Mid0254) },
+                { Mid0255.MID, typeof(Mid0255) }
+            };
         }
 
-        public ApplicationSelectorMessages(IEnumerable<Mid> selectedMids)
+        public ApplicationSelectorMessages(IEnumerable<Type> selectedMids) : this()
         {
-            _templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
+            FilterSelectedMids(selectedMids);
         }
 
-        public Mid ProcessPackage(string package) => _templates.Parse(package);
+        public ApplicationSelectorMessages(InterpreterMode mode) : this()
+        {
+            FilterSelectedMids(mode);
+        }
 
-        public Mid ProcessPackage(byte[] package) => _templates.Parse(package);
+        public override bool IsAssignableTo(int mid) => mid > 249 && mid < 256;
     }
 }

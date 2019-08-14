@@ -11,14 +11,11 @@
     /// Message sent by: Integrator
     /// Answer: MID 0004 Command error, Motor Tuning subscription already exists or MID revision not supported
     /// </summary>
-    public class Mid0500 : Mid, IMotorTuning
+    public class Mid0500 : Mid, IMotorTuning, IIntegrator
     {
         private const int LAST_REVISION = 1;
         public const int MID = 500;
 
         public Mid0500() : base(MID, LAST_REVISION) { }
-
-        internal Mid0500(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
-        
     }
 }

@@ -11,7 +11,7 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
     /// Message sent by: Controller
     /// Answer: MID 0402 Automatic/Manual mode acknowledge
     /// </summary>
-    public class Mid0401 : Mid, IAutomaticManualMode
+    public class Mid0401 : Mid, IAutomaticManualMode, IController
     {
         private readonly IValueConverter<bool> _boolConverter;
         private const int LAST_REVISION = 1;
@@ -27,6 +27,11 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
             set => GetField(1,(int)DataFields.MANUAL_AUTOMATIC_MODE).SetValue(_boolConverter.Convert, value);
         }
 
+        public Mid0401() : this(0)
+        {
+
+        }
+
         public Mid0401(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
         {
             _boolConverter = new BoolConverter();
@@ -36,8 +41,6 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
         {
             ManualAutomaticMode = manualAutomaticMode;
         }
-
-        internal Mid0401(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

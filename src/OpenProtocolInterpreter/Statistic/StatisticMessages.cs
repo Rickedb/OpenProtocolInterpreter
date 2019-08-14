@@ -1,24 +1,30 @@
 ﻿using OpenProtocolInterpreter.Messages;
-
+using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Statistic
 {
-    internal class StatisticMessages : IMessagesTemplate
+    internal class StatisticMessages : MessagesTemplate
     {
-        private readonly IMid _templates;
-
-        public StatisticMessages()
+        public StatisticMessages() : base()
         {
-            _templates = new Mid0300(new Mid0301(null));
+            _templates = new Dictionary<int, Type>()
+            {
+                { Mid0300.MID, typeof(Mid0300) },
+                { Mid0301.MID, typeof(Mid0301) }
+            };
         }
 
-        public StatisticMessages(System.Collections.Generic.IEnumerable<Mid> selectedMids)
+        public StatisticMessages(IEnumerable<Type> selectedMids) : this()
         {
-            _templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
+            FilterSelectedMids(selectedMids);
         }
 
-        public Mid ProcessPackage(string package) => _templates.Parse(package);
+        public StatisticMessages(InterpreterMode mode) : this()
+        {
+            FilterSelectedMids(mode);
+        }
 
-        public Mid ProcessPackage(byte[] package) => _templates.Parse(package);
+        public override bool IsAssignableTo(int mid) => mid > 299 && mid < 302;
     }
 }

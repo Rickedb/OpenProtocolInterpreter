@@ -1,23 +1,33 @@
 ﻿using OpenProtocolInterpreter.Messages;
+using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.PowerMACS
 {
-    internal class PowerMACSMessages : IMessagesTemplate
+    internal class PowerMACSMessages : MessagesTemplate
     {
-        private readonly IMid _templates;
-
-        public PowerMACSMessages()
+        public PowerMACSMessages() : base()
         {
-            _templates = new Mid0105(new Mid0106(new Mid0107(new Mid0108(new Mid0109(null)))));
+            _templates = new Dictionary<int, Type>()
+            {
+                { Mid0105.MID, typeof(Mid0105) },
+                { Mid0106.MID, typeof(Mid0106) },
+                { Mid0107.MID, typeof(Mid0107) },
+                { Mid0108.MID, typeof(Mid0108) },
+                { Mid0109.MID, typeof(Mid0109) }
+            };
         }
 
-        public PowerMACSMessages(System.Collections.Generic.IEnumerable<Mid> selectedMids)
+        public PowerMACSMessages(IEnumerable<Type> selectedMids) : this()
         {
-            _templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
+            FilterSelectedMids(selectedMids);
         }
 
-        public Mid ProcessPackage(string package) => _templates.Parse(package);
+        public PowerMACSMessages(InterpreterMode mode) : this()
+        {
+            FilterSelectedMids(mode);
+        }
 
-        public Mid ProcessPackage(byte[] package) => _templates.Parse(package);
+        public override bool IsAssignableTo(int mid) => mid > 104 && mid < 110;
     }
 }

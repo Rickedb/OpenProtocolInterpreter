@@ -16,7 +16,7 @@
     /// Message sent by: Integrator
     /// Answer: The same message mirrored by the controller.
     /// </summary>
-    public class Mid9999 : Mid
+    public class Mid9999 : Mid, IIntegrator, IController
     {
         private const int LAST_REVISION = 0;
         public const int MID = 9999;

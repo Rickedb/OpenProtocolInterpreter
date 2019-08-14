@@ -17,16 +17,19 @@
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted or MID 0004 Command error, VIN subscription already exists
     /// </summary>
-    public class Mid0051 : Mid, IVin
+    public class Mid0051 : Mid, IVin, IIntegrator
     {
         private const int LAST_REVISION = 2;
         public const int MID = 51;
 
-        public Mid0051(int? noAckFlag = 0, int revision = LAST_REVISION) : base(MID, revision, noAckFlag)
+        public Mid0051() : this(LAST_REVISION)
         {
 
         }
 
-        internal Mid0051(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
+        public Mid0051(int revision = LAST_REVISION, int ? noAckFlag = 0) : base(MID, revision, noAckFlag)
+        {
+
+        }
     }
 }

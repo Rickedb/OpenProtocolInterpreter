@@ -1,14 +1,8 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenProtocolInterpreter;
-using OpenProtocolInterpreter.KeepAlive;
-using OpenProtocolInterpreter.Job;
-using OpenProtocolInterpreter.Job.Advanced;
-using OpenProtocolInterpreter.Tightening;
+﻿using OpenProtocolInterpreter;
 using OpenProtocolInterpreter.Communication;
-using OpenProtocolInterpreter.Alarm;
-using OpenProtocolInterpreter.PowerMACS;
 using OpenProtocolInterpreter.MotorTuning;
+using OpenProtocolInterpreter.Tightening;
+using System;
 using System.Diagnostics;
 
 namespace MIDTesters
@@ -26,25 +20,26 @@ namespace MIDTesters
                            "1900000202001-06-02:09:54:09212001-05-29:12:34:3322123345675    ";
             //CustomMids
             watch.Start();
-            var myTEmplate = new MidInterpreter(new Mid[]
+            var myTEmplate = new MidInterpreter()
+                .UseAllMessages(new Type[]
             {
-                new Mid0001(),
-                new Mid0002(),
-                new Mid0003(),
-                new Mid0004(),
-                new Mid0061(),
-                new Mid0500(),
-                new Mid0501(),
-                new Mid0502(),
-                new Mid0503(),
-                new Mid0504()
+                typeof(Mid0001),
+                typeof(Mid0002),
+                typeof(Mid0003),
+                typeof(Mid0004),
+                typeof(Mid0061),
+                typeof(Mid0500),
+                typeof(Mid0501),
+                typeof(Mid0502),
+                typeof(Mid0503),
+                typeof(Mid0504)
             });
             watch.Stop();
             Debug.WriteLine("[CustomMIDs] Elapsed time to construct MidInterpreter: " + new TimeSpan(watch.ElapsedTicks));
-            
+
             for (int i = 0; i < 1000000; i++)
             {
-                
+
                 watch.Start();
                 var myMid106 = myTEmplate.Parse<Mid0061>(mid61);
                 watch.Stop();

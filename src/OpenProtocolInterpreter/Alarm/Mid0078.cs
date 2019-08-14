@@ -8,7 +8,7 @@
     /// Message sent by: Integrator
     /// Answer : MID 0005 Command accepted or MID 0004 Command error, No alarm present or Invalid data
     /// </summary>
-    public class Mid0078 : Mid, IAlarm
+    public class Mid0078 : Mid, IAlarm, IIntegrator
     {
         private const int LAST_REVISION = 1;
         public const int MID = 78;
@@ -17,7 +17,5 @@
         {
 
         }
-
-        internal Mid0078(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
     }
 }

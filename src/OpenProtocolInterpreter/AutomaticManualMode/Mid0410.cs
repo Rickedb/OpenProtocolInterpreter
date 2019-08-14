@@ -8,14 +8,11 @@
     /// Message sent by: Integrator
     /// Answer: MID 0411 AutoDisable settings reply
     /// </summary>
-    public class Mid0410 : Mid, IAutomaticManualMode
+    public class Mid0410 : Mid, IAutomaticManualMode, IIntegrator
     {
         private const int LAST_REVISION = 1;
         public const int MID = 410;
 
         public Mid0410() : base(MID, LAST_REVISION) { }
-
-        internal Mid0410(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
-        
     }
 }

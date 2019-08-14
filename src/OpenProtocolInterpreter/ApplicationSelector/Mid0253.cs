@@ -8,13 +8,11 @@
     /// Answer: MID 0005 Command accepted or
     /// MID 0004 Command error, The selector socket info subscription does not exist
     /// </summary>
-    public class Mid0253 : Mid, IApplicationSelector
+    public class Mid0253 : Mid, IApplicationSelector, IIntegrator
     {
         public const int MID = 253;
         private const int LAST_REVISION = 1;
 
         public Mid0253() : base(MID, LAST_REVISION) { }
-
-        internal Mid0253(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
     }
 }
