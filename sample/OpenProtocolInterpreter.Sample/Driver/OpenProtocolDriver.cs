@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter;
-using OpenProtocolInterpreter.Communication;
+﻿using OpenProtocolInterpreter.Communication;
 using OpenProtocolInterpreter.Sample.Driver.Events;
 using OpenProtocolInterpreter.Sample.Ethernet;
 using System;
@@ -11,10 +10,11 @@ namespace OpenProtocolInterpreter.Sample.Driver
 {
     public class OpenProtocolDriver
     {
-        private readonly MidInterpreter midIdentifier;
+        private readonly MidInterpreter _midInterpreter;
         private SimpleTcpClient simpleTcpClient;
-        public Stopwatch keepAlive;
-        public Dictionary<Type, ReceivedCommandActionDelegate> OnReceivedMID;
+        public Stopwatch KeepAlive { get; set; }
+        public Dictionary<Type, ReceivedCommandActionDelegate> OnReceivedMID { get; private set; }
+
         public bool Connected { get; set; }
 
         public delegate void ReceivedCommandActionDelegate(MIDIncome e);
@@ -24,25 +24,25 @@ namespace OpenProtocolInterpreter.Sample.Driver
         /// </summary>
         public OpenProtocolDriver()
         {
-            this.OnReceivedMID = new Dictionary<Type, ReceivedCommandActionDelegate>();
-            this.midIdentifier = new MidInterpreter();
+            OnReceivedMID = new Dictionary<Type, ReceivedCommandActionDelegate>();
+            _midInterpreter = new MidInterpreter().UseAllMessages();
         }
 
         /// <summary>
         /// Custom MIDs that will be used on OpenProtocol lib (Filtering my used mids)
         /// </summary>
-        public OpenProtocolDriver(IEnumerable<Mid> usedMids)
+        public OpenProtocolDriver(IEnumerable<Type> usedMids)
         {
-            this.OnReceivedMID = new Dictionary<Type, ReceivedCommandActionDelegate>();
-            this.midIdentifier = new MidInterpreter(usedMids);
+            OnReceivedMID = new Dictionary<Type, ReceivedCommandActionDelegate>();
+            _midInterpreter = new MidInterpreter().UseAllMessages(usedMids);
         }
 
         public bool BeginCommunication(SimpleTcpClient client)
         {
-            this.simpleTcpClient = client;
-            this.simpleTcpClient.DataReceived += this.onPackageReceived;
-            this.simpleTcpClient.DelimiterDataReceived += this.onPackageReceived;
-            return this.StartCommunication();
+            simpleTcpClient = client;
+            simpleTcpClient.DataReceived += OnPackageReceived;
+            simpleTcpClient.DelimiterDataReceived += OnPackageReceived;
+            return StartCommunication();
         }
 
         /// <summary>
@@ -52,17 +52,17 @@ namespace OpenProtocolInterpreter.Sample.Driver
         /// <param name="deleg"></param>
         public void AddUpdateOnReceivedCommand(Type midType, ReceivedCommandActionDelegate deleg)
         {
-            if (this.OnReceivedMID.ContainsKey(midType))
-                this.OnReceivedMID[midType] = deleg;
+            if (OnReceivedMID.ContainsKey(midType))
+                OnReceivedMID[midType] = deleg;
             else
-                this.OnReceivedMID.Add(midType, deleg);
+                OnReceivedMID.Add(midType, deleg);
         }
 
         /// <summary>
         /// Send an Async message to controller without waiting for response
         /// </summary>
         /// <param name="message">Message to be sent</param>
-        public void sendMessage(string message)
+        public void SendMessage(string message)
         {
             try
             {
@@ -70,7 +70,7 @@ namespace OpenProtocolInterpreter.Sample.Driver
                 Console.WriteLine($"Sending message: {message}");
 
                 this.simpleTcpClient.WriteLine(message);
-                this.communicationAlive();
+                this.KeepConnectionAlive();
             }
             catch (Exception ex)
             {
@@ -84,7 +84,7 @@ namespace OpenProtocolInterpreter.Sample.Driver
         /// <param name="message">Message to be sent</param>
         /// <param name="timeout">Max time to wait</param>
         /// <returns>Controller's message</returns>
-        public Mid sendAndWaitForResponse(string message, TimeSpan timeout)
+        public Mid SendAndWaitForResponse(string message, TimeSpan timeout)
         {
             try
             {
@@ -98,8 +98,8 @@ namespace OpenProtocolInterpreter.Sample.Driver
 
                 if (response != null)
                 {
-                    this.communicationAlive();
-                    midResponse = this.midIdentifier.Parse(response.MessageString);
+                    KeepConnectionAlive();
+                    midResponse = _midInterpreter.Parse(response.MessageString);
                 }
 
                 return midResponse;
@@ -117,13 +117,13 @@ namespace OpenProtocolInterpreter.Sample.Driver
         /// </summary>
         /// <param name="sender">sender</param>
         /// <param name="message">Message received</param>
-        protected virtual void onPackageReceived(object sender, Message message)
+        protected virtual void OnPackageReceived(object sender, Message message)
         {
             try
             {
                 Console.WriteLine($"Message arrived: {message.MessageString}");
 
-                var mid = this.midIdentifier.Parse(message.MessageString);
+                var mid = this._midInterpreter.Parse(message.MessageString);
                 var action = this.OnReceivedMID.FirstOrDefault(x => x.Key == mid.GetType());
 
                 if (action.Equals(default(KeyValuePair<Type, ReceivedCommandActionDelegate>)))
@@ -147,25 +147,25 @@ namespace OpenProtocolInterpreter.Sample.Driver
         {
             try
             {
-                var message = this.sendAndWaitForResponse(new Mid0001(1).Pack(), TimeSpan.FromSeconds(10));
+                var message = SendAndWaitForResponse(new Mid0001(1).Pack(), TimeSpan.FromSeconds(10));
                 if (message != null)
                     switch (message.HeaderData.Mid)
                     {
                         case Mid0002.MID:
-                            this.OnCommunicationStartAccepted(message as Mid0002);
+                            OnCommunicationStartAccepted(message as Mid0002);
                             break;
                         case Mid0004.MID:
-                            this.OnCommunicationStartError(message as Mid0004);
+                            OnCommunicationStartError(message as Mid0004);
                             break;
                     }
-                return true;
             }
             catch (Exception ex)
             {
-                this.Connected = false;
+                Connected = false;
                 Console.WriteLine($"Exception: {ex.Message}");
-                return false;
             }
+
+            return Connected;
         }
 
         /// <summary>
@@ -174,22 +174,22 @@ namespace OpenProtocolInterpreter.Sample.Driver
         /// <param name="e"></param>
         protected virtual void OnCommunicationStartAccepted(Mid0002 mid)
         {
-            this.Connected = true;
+            Connected = true;
             Console.WriteLine($"Communication Start Accepted (MID 0002)");
         }
 
         protected virtual void OnCommunicationStartError(Mid0004 mid)
         {
-            this.Connected = false;
+            Connected = false;
             if (mid.ErrorCode == Error.CLIENT_ALREADY_CONNECTED)
                 Console.WriteLine("Client is already connected!!");
             else if (mid.ErrorCode == Error.MID_REVISION_UNSUPPORTED)
                 Console.WriteLine(Error.MID_REVISION_UNSUPPORTED.ToString());
         }
 
-        private void communicationAlive()
+        private void KeepConnectionAlive()
         {
-            this.keepAlive = Stopwatch.StartNew();
+            KeepAlive = Stopwatch.StartNew();
         }
     }
 }

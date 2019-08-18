@@ -16,7 +16,7 @@ namespace OpenProtocolInterpreter.Sample.Driver.Commands
         public bool Execute()
         {
             Console.WriteLine($"Sending abort job to controller!");
-            var mid = driver.sendAndWaitForResponse(new Mid0127().Pack(), new TimeSpan(0, 0, 10));
+            var mid = driver.SendAndWaitForResponse(new Mid0127().Pack(), new TimeSpan(0, 0, 10));
 
             if (mid.HeaderData.Mid == Mid0004.MID)
             {

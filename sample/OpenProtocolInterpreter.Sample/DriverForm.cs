@@ -27,37 +27,38 @@ namespace OpenProtocolInterpreter.Sample
             keepAliveTimer.Interval = 1000;
         }
 
-        private void btnConnection_Click(object sender, EventArgs e)
+        private void BtnConnection_Click(object sender, EventArgs e)
         {
             //Added list of mids i want to use in my interpreter, every another will be desconsidered
-            driver = new OpenProtocolDriver(new List<Mid>()
+            driver = new OpenProtocolDriver(new Type[]
             {
-                new Mid0002(),
-                new Mid0005(),
-                new Mid0004(),
-                new Mid0003(),
-
-                new ParameterSet.Mid0011(),
-                new ParameterSet.Mid0013(),
-
-                new Mid0035(),
-                new Mid0031(),
-
-                new Alarm.Mid0071(),
-                new Alarm.Mid0074(),
-                new Alarm.Mid0076(),
-
-                new Vin.Mid0052(),
-
-                new Mid0061(),
-                new Mid0065(),
-
-                new Time.Mid0081(),
-
-                new Mid9999()
+                typeof(Mid0002),
+                typeof(Mid0005),
+                typeof(Mid0004),
+                typeof(Mid0003),
+                
+                typeof(ParameterSet.Mid0011),
+                typeof(ParameterSet.Mid0013),
+                
+                typeof(Mid0035),
+                typeof(Mid0031),
+                
+                typeof(Alarm.Mid0071),
+                typeof(Alarm.Mid0074),
+                typeof(Alarm.Mid0076),
+                
+                typeof(Vin.Mid0052),
+                
+                typeof(Mid0061),
+                typeof(Mid0065),
+                
+                typeof(Time.Mid0081),
+                
+                typeof(Mid9999)
             });
 
-            if (driver.BeginCommunication(new Ethernet.SimpleTcpClient().Connect(textIp.Text, (int)numericPort.Value)))
+            var client = new Ethernet.SimpleTcpClient().Connect(textIp.Text, (int)numericPort.Value);
+            if (driver.BeginCommunication(client))
             {
                 keepAliveTimer.Start();
                 connectionStatus.Text = "Connected!";
@@ -73,10 +74,10 @@ namespace OpenProtocolInterpreter.Sample
 
         private void KeepAliveTimer_Tick(object sender, EventArgs e)
         {
-            if (driver.keepAlive.ElapsedMilliseconds > 10000) //10 sec
+            if (driver.KeepAlive.ElapsedMilliseconds > 10000) //10 sec
             {
                 Console.WriteLine($"Sending Keep Alive...");
-                var pack = driver.sendAndWaitForResponse(new Mid9999().Pack(), TimeSpan.FromSeconds(10));
+                var pack = driver.SendAndWaitForResponse(new Mid9999().Pack(), TimeSpan.FromSeconds(10));
                 if (pack != null && pack.HeaderData.Mid == Mid9999.MID)
                 {
                     lastMessageArrived.Text = Mid9999.MID.ToString();
@@ -92,10 +93,10 @@ namespace OpenProtocolInterpreter.Sample
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnJobInfoSubscribe_Click(object sender, EventArgs e)
+        private void BtnJobInfoSubscribe_Click(object sender, EventArgs e)
         {
             Console.WriteLine($"Sending Job Info Subscribe...");
-            var pack = driver.sendAndWaitForResponse(new Mid0034().Pack(), TimeSpan.FromSeconds(10));
+            var pack = driver.SendAndWaitForResponse(new Mid0034().Pack(), TimeSpan.FromSeconds(10));
 
             if (pack != null)
             {
@@ -110,7 +111,7 @@ namespace OpenProtocolInterpreter.Sample
                     Console.WriteLine($"Job Info Subscribe accepted!");
             }
 
-            driver.AddUpdateOnReceivedCommand(typeof(Mid0035), onJobInfoReceived);
+            driver.AddUpdateOnReceivedCommand(typeof(Mid0035), OnJobInfoReceived);
         }
 
         /// <summary>
@@ -118,11 +119,11 @@ namespace OpenProtocolInterpreter.Sample
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnTighteningSubscribe_Click(object sender, EventArgs e)
+        private void BtnTighteningSubscribe_Click(object sender, EventArgs e)
         {
 
             Console.WriteLine($"Sending Tightening Subscribe...");
-            var pack = driver.sendAndWaitForResponse(new Mid0060().Pack(), TimeSpan.FromSeconds(10));
+            var pack = driver.SendAndWaitForResponse(new Mid0060().Pack(), TimeSpan.FromSeconds(10));
 
             if (pack != null)
             {
@@ -138,11 +139,11 @@ namespace OpenProtocolInterpreter.Sample
             }
 
             //register command
-            driver.AddUpdateOnReceivedCommand(typeof(Mid0061), onTighteningReceived);
+            driver.AddUpdateOnReceivedCommand(typeof(Mid0061), OnTighteningReceived);
         }
 
 
-        private void btnSendJob_Click(object sender, EventArgs e)
+        private void BtnSendJob_Click(object sender, EventArgs e)
         {
             new SendJobCommand(driver).Execute((int)numericJob.Value);
         }
@@ -151,9 +152,9 @@ namespace OpenProtocolInterpreter.Sample
         /// Async method from controller, MID 0035 (Job Info)
         /// </summary>
         /// <param name="e"></param>
-        private void onJobInfoReceived(MIDIncome e)
+        private void OnJobInfoReceived(MIDIncome e)
         {
-            driver.sendMessage(e.Mid.BuildAckPackage());
+            driver.SendMessage(e.Mid.BuildAckPackage());
 
             var jobInfo = e.Mid as Mid0035;
             lastMessageArrived.Text = Mid0035.MID.ToString();
@@ -171,9 +172,9 @@ namespace OpenProtocolInterpreter.Sample
         /// Basically, on every tightening this method will be called!
         /// </summary>
         /// <param name="e"></param>
-        private void onTighteningReceived(MIDIncome e)
+        private void OnTighteningReceived(MIDIncome e)
         {
-            driver.sendMessage(e.Mid.BuildAckPackage());
+            driver.SendMessage(e.Mid.BuildAckPackage());
 
             var tighteningMid = e.Mid as Mid0061;
             lastMessageArrived.Text = Mid0061.MID.ToString();
@@ -203,12 +204,12 @@ namespace OpenProtocolInterpreter.Sample
                                  TighteningID: <{tighteningMid.TighteningId}>");
         }
 
-        private void btnSendProduct_Click(object sender, EventArgs e)
+        private void BtnSendProduct_Click(object sender, EventArgs e)
         {
             new DownloadProductCommand(driver).Execute(txtProduct.Text);
         }
 
-        private void btnAbortJob_Click(object sender, EventArgs e)
+        private void BtnAbortJob_Click(object sender, EventArgs e)
         {
             new AbortJobCommand(driver).Execute();
         }
