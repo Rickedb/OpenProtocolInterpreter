@@ -8,9 +8,9 @@ namespace OpenProtocolInterpreter.ApplicationController
     {
         public ApplicationControllerMessages() : base()
         {
-            _templates = new Dictionary<int, Type>()
+            _templates = new Dictionary<int, MidCompiledInstance>()
             {
-                { Mid0270.MID, typeof(Mid0270) }
+                { Mid0270.MID, new MidCompiledInstance(typeof(Mid0270)) }
             };
         }
 

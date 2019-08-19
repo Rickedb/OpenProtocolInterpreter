@@ -8,12 +8,12 @@ namespace OpenProtocolInterpreter.MultiSpindle
     {
         public MultiSpindleMessages() : base()
         {
-            _templates = new Dictionary<int, Type>()
+            _templates = new Dictionary<int, MidCompiledInstance>()
             {
-                { Mid0090.MID, typeof(Mid0090) },
-                { Mid0091.MID, typeof(Mid0091) },
-                { Mid0092.MID, typeof(Mid0092) },
-                { Mid0093.MID, typeof(Mid0093) }
+                { Mid0090.MID, new MidCompiledInstance(typeof(Mid0090)) },
+                { Mid0091.MID, new MidCompiledInstance(typeof(Mid0091)) },
+                { Mid0092.MID, new MidCompiledInstance(typeof(Mid0092)) },
+                { Mid0093.MID, new MidCompiledInstance(typeof(Mid0093)) }
             };
         }
 

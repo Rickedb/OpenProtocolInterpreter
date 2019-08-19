@@ -8,14 +8,14 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
     {
         public AutomaticManualModeMessages() : base()
         {
-            _templates = new Dictionary<int, Type>()
+            _templates = new Dictionary<int, MidCompiledInstance>()
             {
-                { Mid0400.MID, typeof(Mid0400) },
-                { Mid0401.MID, typeof(Mid0401) },
-                { Mid0402.MID, typeof(Mid0402) },
-                { Mid0403.MID, typeof(Mid0403) },
-                { Mid0410.MID, typeof(Mid0410) },
-                { Mid0411.MID, typeof(Mid0411) }
+                { Mid0400.MID, new MidCompiledInstance(typeof(Mid0400)) },
+                { Mid0401.MID, new MidCompiledInstance(typeof(Mid0401)) },
+                { Mid0402.MID, new MidCompiledInstance(typeof(Mid0402)) },
+                { Mid0403.MID, new MidCompiledInstance(typeof(Mid0403)) },
+                { Mid0410.MID, new MidCompiledInstance(typeof(Mid0410)) },
+                { Mid0411.MID, new MidCompiledInstance(typeof(Mid0411)) }
             };
         }
 

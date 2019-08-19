@@ -8,14 +8,14 @@ namespace OpenProtocolInterpreter.ApplicationSelector
     {
         public ApplicationSelectorMessages() : base()
         {
-            _templates = new Dictionary<int, Type>()
+            _templates = new Dictionary<int, MidCompiledInstance>()
             {
-                { Mid0250.MID, typeof(Mid0250) },
-                { Mid0251.MID, typeof(Mid0251) },
-                { Mid0252.MID, typeof(Mid0252) },
-                { Mid0253.MID, typeof(Mid0253) },
-                { Mid0254.MID, typeof(Mid0254) },
-                { Mid0255.MID, typeof(Mid0255) }
+                { Mid0250.MID, new MidCompiledInstance(typeof(Mid0250)) },
+                { Mid0251.MID, new MidCompiledInstance(typeof(Mid0251)) },
+                { Mid0252.MID, new MidCompiledInstance(typeof(Mid0252)) },
+                { Mid0253.MID, new MidCompiledInstance(typeof(Mid0253)) },
+                { Mid0254.MID, new MidCompiledInstance(typeof(Mid0254)) },
+                { Mid0255.MID, new MidCompiledInstance(typeof(Mid0255)) }
             };
         }
 

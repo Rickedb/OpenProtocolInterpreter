@@ -8,17 +8,17 @@ namespace OpenProtocolInterpreter.Tool
     {
         public ToolMessages() : base()
         {
-            _templates = new Dictionary<int, Type>()
+            _templates = new Dictionary<int, MidCompiledInstance>()
             {
-                { Mid0040.MID, typeof(Mid0040) },
-                { Mid0041.MID, typeof(Mid0041) },
-                { Mid0042.MID, typeof(Mid0042) },
-                { Mid0043.MID, typeof(Mid0043) },
-                { Mid0044.MID, typeof(Mid0044) },
-                { Mid0045.MID, typeof(Mid0045) },
-                { Mid0046.MID, typeof(Mid0046) },
-                { Mid0047.MID, typeof(Mid0047) },
-                { Mid0048.MID, typeof(Mid0048) }
+                { Mid0040.MID, new MidCompiledInstance(typeof(Mid0040)) },
+                { Mid0041.MID, new MidCompiledInstance(typeof(Mid0041)) },
+                { Mid0042.MID, new MidCompiledInstance(typeof(Mid0042)) },
+                { Mid0043.MID, new MidCompiledInstance(typeof(Mid0043)) },
+                { Mid0044.MID, new MidCompiledInstance(typeof(Mid0044)) },
+                { Mid0045.MID, new MidCompiledInstance(typeof(Mid0045)) },
+                { Mid0046.MID, new MidCompiledInstance(typeof(Mid0046)) },
+                { Mid0047.MID, new MidCompiledInstance(typeof(Mid0047)) },
+                { Mid0048.MID, new MidCompiledInstance(typeof(Mid0048)) }
             };
         }
 

@@ -8,13 +8,13 @@ namespace OpenProtocolInterpreter.PowerMACS
     {
         public PowerMACSMessages() : base()
         {
-            _templates = new Dictionary<int, Type>()
+            _templates = new Dictionary<int, MidCompiledInstance>()
             {
-                { Mid0105.MID, typeof(Mid0105) },
-                { Mid0106.MID, typeof(Mid0106) },
-                { Mid0107.MID, typeof(Mid0107) },
-                { Mid0108.MID, typeof(Mid0108) },
-                { Mid0109.MID, typeof(Mid0109) }
+                { Mid0105.MID, new MidCompiledInstance(typeof(Mid0105)) },
+                { Mid0106.MID, new MidCompiledInstance(typeof(Mid0106)) },
+                { Mid0107.MID, new MidCompiledInstance(typeof(Mid0107)) },
+                { Mid0108.MID, new MidCompiledInstance(typeof(Mid0108)) },
+                { Mid0109.MID, new MidCompiledInstance(typeof(Mid0109)) }
             };
         }
 

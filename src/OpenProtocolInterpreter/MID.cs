@@ -13,23 +13,22 @@ namespace OpenProtocolInterpreter
         public Mid(Header header)
         {
             HeaderData = header;
-            RevisionsByFields = new Dictionary<int, List<DataField>>();
-            RegisterDatafields();
+            RevisionsByFields = CachedFields.GetRegisteredFields(header.Mid, RegisterDatafields);
         }
 
-        public Mid(int MID, int revision, int? noAckFlag = null, int? spindleID = null, int? stationID = null, IEnumerable<DataField> usedAs = null)
+        public Mid(int mid, int revision, int? noAckFlag = null, int? spindleID = null, int? stationID = null, IEnumerable<DataField> usedAs = null)
         {
             HeaderData = new Header()
             {
                 Length = 20,
-                Mid = MID,
+                Mid = mid,
                 Revision = revision,
                 NoAckFlag = noAckFlag,
                 SpindleID = spindleID,
                 StationID = stationID,
                 UsedAs = usedAs
             };
-            RevisionsByFields = RegisterDatafields();
+            RevisionsByFields = CachedFields.GetRegisteredFields(mid, RegisterDatafields);
         }
 
         protected virtual byte[] BuildRawHeader() => ToBytes(BuildHeader());

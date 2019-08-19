@@ -8,16 +8,16 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
     {
         public MultipleIdentifierMessages() : base()
         {
-            _templates = new Dictionary<int, Type>()
+            _templates = new Dictionary<int, MidCompiledInstance>()
             {
-                { Mid0150.MID, typeof(Mid0150) },
-                { Mid0151.MID, typeof(Mid0151) },
-                { Mid0152.MID, typeof(Mid0152) },
-                { Mid0153.MID, typeof(Mid0153) },
-                { Mid0154.MID, typeof(Mid0154) },
-                { Mid0155.MID, typeof(Mid0155) },
-                { Mid0156.MID, typeof(Mid0156) },
-                { Mid0157.MID, typeof(Mid0157) }
+                { Mid0150.MID, new MidCompiledInstance(typeof(Mid0150)) },
+                { Mid0151.MID, new MidCompiledInstance(typeof(Mid0151)) },
+                { Mid0152.MID, new MidCompiledInstance(typeof(Mid0152)) },
+                { Mid0153.MID, new MidCompiledInstance(typeof(Mid0153)) },
+                { Mid0154.MID, new MidCompiledInstance(typeof(Mid0154)) },
+                { Mid0155.MID, new MidCompiledInstance(typeof(Mid0155)) },
+                { Mid0156.MID, new MidCompiledInstance(typeof(Mid0156)) },
+                { Mid0157.MID, new MidCompiledInstance(typeof(Mid0157)) }
             };
         }
 

@@ -6,7 +6,8 @@ namespace OpenProtocolInterpreter
 {
     public static class MidInterpreterMessagesExtensions
     {
-        private static readonly Func<IEnumerable<Type>, Type, bool> IsValid = (mids, desiredInterface) => mids.All(x => x.GetType().IsAssignableFrom(desiredInterface) && x.GetType().IsAssignableFrom(typeof(Mid)));
+        private static readonly Func<Type, Type, bool> DoesImplementInteface = (mid, desiredInterface) => desiredInterface.IsAssignableFrom(mid);
+        private static readonly Func<IEnumerable<Type>, Type, bool> IsValid = (mids, desiredInterface) => mids.All(x => DoesImplementInteface(x, desiredInterface) && x.IsSubclassOf(typeof(Mid)));
 
         /// <summary>
         /// Configure MidInterpreter to parse all available Mids of a mode
@@ -52,33 +53,33 @@ namespace OpenProtocolInterpreter
         /// <returns></returns>
         public static MidInterpreter UseAllMessages(this MidInterpreter midInterpreter, IEnumerable<Type> mids)
         {
-            if (mids.Any(x => !x.IsAssignableFrom(typeof(Mid))))
+            if (mids.Any(x => !x.IsSubclassOf(typeof(Mid))))
                 throw new ArgumentException("All mids must inherit Mid class", nameof(mids));
-
+            
             return midInterpreter
-                .UseAlarmMessages(mids.Where(x=> x.IsAssignableFrom(typeof(Alarm.IAlarm))))
-                .UseApplicationControllerMessage(mids.Where(x => x.IsAssignableFrom(typeof(ApplicationController.IApplicationController))))
-                .UseApplicationSelectorMessages(mids.Where(x => x.IsAssignableFrom(typeof(ApplicationSelector.IApplicationSelector))))
-                .UseApplicationToolLocationSystemMessages(mids.Where(x => x.IsAssignableFrom(typeof(ApplicationToolLocationSystem.IApplicationToolLocationSystem))))
-                .UseAutomaticManualModeMessages(mids.Where(x => x.IsAssignableFrom(typeof(AutomaticManualMode.IAutomaticManualMode))))
-                .UseCommunicationMessages(mids.Where(x => x.IsAssignableFrom(typeof(Communication.ICommunication))))
-                .UseIOInterfaceMessages(mids.Where(x => x.IsAssignableFrom(typeof(IOInterface.IIOInterface))))
-                .UseJobMessages(mids.Where(x => x.IsAssignableFrom(typeof(Job.IJob))))
-                .UseAdvancedJobMessages(mids.Where(x => x.IsAssignableFrom(typeof(Job.Advanced.IAdvancedJob))))
-                .UseMotorTuningMessages(mids.Where(x => x.IsAssignableFrom(typeof(MotorTuning.IMotorTuning))))
-                .UseMultipleIdentifiersMessages(mids.Where(x => x.IsAssignableFrom(typeof(MultipleIdentifiers.IMultipleIdentifier))))
-                .UseMultiSpindleMessages(mids.Where(x => x.IsAssignableFrom(typeof(MultiSpindle.IMultiSpindle))))
-                .UseOpenProtocolCommandsDisabledMessages(mids.Where(x => x.IsAssignableFrom(typeof(OpenProtocolCommandsDisabled.IOpenProtocolCommandsDisabled))))
-                .UseParameterSetMessages(mids.Where(x => x.IsAssignableFrom(typeof(ParameterSet.IParameterSet))))
-                .UsePLCUserDataMessages(mids.Where(x => x.IsAssignableFrom(typeof(PLCUserData.IPLCUserData))))
-                .UsePowerMACSMessages(mids.Where(x => x.IsAssignableFrom(typeof(PowerMACS.IPowerMACS))))
-                .UseResultMessages(mids.Where(x => x.IsAssignableFrom(typeof(Result.IResult))))
-                .UseStatisticMessages(mids.Where(x => x.IsAssignableFrom(typeof(Statistic.IStatistic))))
-                .UseTighteningMessages(mids.Where(x => x.IsAssignableFrom(typeof(Tightening.ITightening))))
-                .UseTimeMessages(mids.Where(x => x.IsAssignableFrom(typeof(Time.ITime))))
-                .UseToolMessages(mids.Where(x => x.IsAssignableFrom(typeof(Tool.ITool))))
-                .UseUserInterfaceMessages(mids.Where(x => x.IsAssignableFrom(typeof(UserInterface.IUserInterface))))
-                .UseVinMessages(mids.Where(x => x.IsAssignableFrom(typeof(Vin.IVin))));
+                .UseAlarmMessages(mids.Where(x=> DoesImplementInteface(x, typeof(Alarm.IAlarm))))
+                .UseApplicationControllerMessage(mids.Where(x => DoesImplementInteface(x, typeof(ApplicationController.IApplicationController))))
+                .UseApplicationSelectorMessages(mids.Where(x => DoesImplementInteface(x, typeof(ApplicationSelector.IApplicationSelector))))
+                .UseApplicationToolLocationSystemMessages(mids.Where(x => DoesImplementInteface(x, typeof(ApplicationToolLocationSystem.IApplicationToolLocationSystem))))
+                .UseAutomaticManualModeMessages(mids.Where(x => DoesImplementInteface(x, typeof(AutomaticManualMode.IAutomaticManualMode))))
+                .UseCommunicationMessages(mids.Where(x => DoesImplementInteface(x, typeof(Communication.ICommunication))))
+                .UseIOInterfaceMessages(mids.Where(x => DoesImplementInteface(x, typeof(IOInterface.IIOInterface))))
+                .UseJobMessages(mids.Where(x => DoesImplementInteface(x, typeof(Job.IJob))))
+                .UseAdvancedJobMessages(mids.Where(x => DoesImplementInteface(x, typeof(Job.Advanced.IAdvancedJob))))
+                .UseMotorTuningMessages(mids.Where(x => DoesImplementInteface(x, typeof(MotorTuning.IMotorTuning))))
+                .UseMultipleIdentifiersMessages(mids.Where(x => DoesImplementInteface(x, typeof(MultipleIdentifiers.IMultipleIdentifier))))
+                .UseMultiSpindleMessages(mids.Where(x => DoesImplementInteface(x, typeof(MultiSpindle.IMultiSpindle))))
+                .UseOpenProtocolCommandsDisabledMessages(mids.Where(x => DoesImplementInteface(x, typeof(OpenProtocolCommandsDisabled.IOpenProtocolCommandsDisabled))))
+                .UseParameterSetMessages(mids.Where(x => DoesImplementInteface(x, typeof(ParameterSet.IParameterSet))))
+                .UsePLCUserDataMessages(mids.Where(x => DoesImplementInteface(x, typeof(PLCUserData.IPLCUserData))))
+                .UsePowerMACSMessages(mids.Where(x => DoesImplementInteface(x, typeof(PowerMACS.IPowerMACS))))
+                .UseResultMessages(mids.Where(x => DoesImplementInteface(x, typeof(Result.IResult))))
+                .UseStatisticMessages(mids.Where(x => DoesImplementInteface(x, typeof(Statistic.IStatistic))))
+                .UseTighteningMessages(mids.Where(x => DoesImplementInteface(x, typeof(Tightening.ITightening))))
+                .UseTimeMessages(mids.Where(x => DoesImplementInteface(x, typeof(Time.ITime))))
+                .UseToolMessages(mids.Where(x => DoesImplementInteface(x, typeof(Tool.ITool))))
+                .UseUserInterfaceMessages(mids.Where(x => DoesImplementInteface(x, typeof(UserInterface.IUserInterface))))
+                .UseVinMessages(mids.Where(x => DoesImplementInteface(x, typeof(Vin.IVin))));
         }
 
 

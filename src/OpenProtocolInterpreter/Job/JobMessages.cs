@@ -8,18 +8,18 @@ namespace OpenProtocolInterpreter.Job
     {
         public JobMessages() : base()
         {
-            _templates = new Dictionary<int, Type>()
+            _templates = new Dictionary<int, MidCompiledInstance>()
             {
-                { Mid0030.MID, typeof(Mid0030) },
-                { Mid0031.MID, typeof(Mid0031) },
-                { Mid0032.MID, typeof(Mid0032) },
-                { Mid0033.MID, typeof(Mid0033) },
-                { Mid0034.MID, typeof(Mid0034) },
-                { Mid0035.MID, typeof(Mid0035) },
-                { Mid0036.MID, typeof(Mid0036) },
-                { Mid0037.MID, typeof(Mid0037) },
-                { Mid0038.MID, typeof(Mid0038) },
-                { Mid0039.MID, typeof(Mid0039) }
+                { Mid0030.MID, new MidCompiledInstance(typeof(Mid0030)) },
+                { Mid0031.MID, new MidCompiledInstance(typeof(Mid0031)) },
+                { Mid0032.MID, new MidCompiledInstance(typeof(Mid0032)) },
+                { Mid0033.MID, new MidCompiledInstance(typeof(Mid0033)) },
+                { Mid0034.MID, new MidCompiledInstance(typeof(Mid0034)) },
+                { Mid0035.MID, new MidCompiledInstance(typeof(Mid0035)) },
+                { Mid0036.MID, new MidCompiledInstance(typeof(Mid0036)) },
+                { Mid0037.MID, new MidCompiledInstance(typeof(Mid0037)) },
+                { Mid0038.MID, new MidCompiledInstance(typeof(Mid0038)) },
+                { Mid0039.MID, new MidCompiledInstance(typeof(Mid0039)) }
             };
         }
 

@@ -8,11 +8,11 @@ namespace OpenProtocolInterpreter.Result
     {
         public ResultMessages() : base()
         {
-            _templates = new Dictionary<int, Type>()
+            _templates = new Dictionary<int, MidCompiledInstance>()
             {
-                { Mid1201.MID, typeof(Mid1201) },
-                { Mid1202.MID, typeof(Mid1202) },
-                { Mid1203.MID, typeof(Mid1203) }
+                { Mid1201.MID, new MidCompiledInstance(typeof(Mid1201)) },
+                { Mid1202.MID, new MidCompiledInstance(typeof(Mid1202)) },
+                { Mid1203.MID, new MidCompiledInstance(typeof(Mid1203)) }
             };
         }
 

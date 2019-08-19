@@ -9,10 +9,11 @@ namespace OpenProtocolInterpreter
     public class MidInterpreter
     {
         private readonly IList<IMessagesTemplate> _messagesTemplates;
-
+        private readonly IDictionary<int, IMessagesTemplate> _fastAccessTemplate;
         public MidInterpreter()
         {
             _messagesTemplates = new List<IMessagesTemplate>();
+            _fastAccessTemplate = new Dictionary<int, IMessagesTemplate>();
         }
 
         public string Pack(Mid mid) => mid.Pack();
@@ -77,7 +78,6 @@ namespace OpenProtocolInterpreter
         {
             var instance = (IMessagesTemplate)Activator.CreateInstance(typeof(T), new object[] { mode });
             UseTemplate(instance);
-
         }
 
         internal void UseTemplate<T>(IEnumerable<Type> types) where T : IMessagesTemplate
@@ -91,10 +91,16 @@ namespace OpenProtocolInterpreter
 
         private IMessagesTemplate GetMessageTemplate(int mid)
         {
-            var template = _messagesTemplates.FirstOrDefault(x => x.IsAssignableTo(mid));
-            if (template == null)
+            if (!_fastAccessTemplate.TryGetValue(mid, out IMessagesTemplate template))
             {
-                throw new NotImplementedException($@"Could not found a message parser for mid {mid}, please register it before using");
+
+                template = _messagesTemplates.FirstOrDefault(x => x.IsAssignableTo(mid));
+                if (template == null)
+                {
+                    throw new NotImplementedException($@"Could not found a message parser for mid {mid}, please register it before using");
+                }
+
+                _fastAccessTemplate.Add(mid, template);
             }
 
             return template;

@@ -8,15 +8,15 @@ namespace OpenProtocolInterpreter.Communication
     {
         public CommunicationMessages() : base()
         {
-            _templates = new Dictionary<int, Type>()
+            _templates = new Dictionary<int, MidCompiledInstance>()
             {
-                { Mid0001.MID, typeof(Mid0001) },
-                { Mid0002.MID, typeof(Mid0002) },
-                { Mid0003.MID, typeof(Mid0003) },
-                { Mid0004.MID, typeof(Mid0004) },
-                { Mid0005.MID, typeof(Mid0005) },
-                { Mid0006.MID, typeof(Mid0006) },
-                { Mid0008.MID, typeof(Mid0008) }
+               { Mid0001.MID, new MidCompiledInstance(typeof(Mid0001)) },
+               { Mid0002.MID, new MidCompiledInstance(typeof(Mid0002)) },
+               { Mid0003.MID, new MidCompiledInstance(typeof(Mid0003)) },
+               { Mid0004.MID, new MidCompiledInstance(typeof(Mid0004)) },
+               { Mid0005.MID, new MidCompiledInstance(typeof(Mid0005)) },
+               { Mid0006.MID, new MidCompiledInstance(typeof(Mid0006)) },
+               { Mid0008.MID, new MidCompiledInstance(typeof(Mid0008)) }
             };
         }
 

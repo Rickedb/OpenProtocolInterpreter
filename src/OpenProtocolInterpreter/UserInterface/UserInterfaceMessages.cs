@@ -8,11 +8,11 @@ namespace OpenProtocolInterpreter.UserInterface
     {
         public UserInterfaceMessages() : base()
         {
-            _templates = new Dictionary<int, Type>()
+            _templates = new Dictionary<int, MidCompiledInstance>()
             {
-                { Mid0110.MID, typeof(Mid0110) },
-                { Mid0111.MID, typeof(Mid0111) },
-                { Mid0113.MID, typeof(Mid0113) }
+                { Mid0110.MID, new MidCompiledInstance(typeof(Mid0110)) },
+                { Mid0111.MID, new MidCompiledInstance(typeof(Mid0111)) },
+                { Mid0113.MID, new MidCompiledInstance(typeof(Mid0113)) }
             };
         }
 

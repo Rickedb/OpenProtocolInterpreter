@@ -8,14 +8,14 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
     {
         public ApplicationToolLocationSystemMessages() : base()
         {
-            _templates = new Dictionary<int, Type>()
+            _templates = new Dictionary<int, MidCompiledInstance>()
             {
-                { Mid0260.MID, typeof(Mid0260) },
-                { Mid0261.MID, typeof(Mid0261) },
-                { Mid0262.MID, typeof(Mid0262) },
-                { Mid0263.MID, typeof(Mid0263) },
-                { Mid0264.MID, typeof(Mid0264) },
-                { Mid0265.MID, typeof(Mid0265) }
+                { Mid0260.MID, new MidCompiledInstance(typeof(Mid0260)) },
+                { Mid0261.MID, new MidCompiledInstance(typeof(Mid0261)) },
+                { Mid0262.MID, new MidCompiledInstance(typeof(Mid0262)) },
+                { Mid0263.MID, new MidCompiledInstance(typeof(Mid0263)) },
+                { Mid0264.MID, new MidCompiledInstance(typeof(Mid0264)) },
+                { Mid0265.MID, new MidCompiledInstance(typeof(Mid0265)) }
             };
         }
 

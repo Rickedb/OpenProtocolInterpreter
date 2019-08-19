@@ -8,10 +8,10 @@ namespace OpenProtocolInterpreter.Statistic
     {
         public StatisticMessages() : base()
         {
-            _templates = new Dictionary<int, Type>()
+            _templates = new Dictionary<int, MidCompiledInstance>()
             {
-                { Mid0300.MID, typeof(Mid0300) },
-                { Mid0301.MID, typeof(Mid0301) }
+                { Mid0300.MID, new MidCompiledInstance(typeof(Mid0300)) },
+                { Mid0301.MID, new MidCompiledInstance(typeof(Mid0301)) }
             };
         }
 
