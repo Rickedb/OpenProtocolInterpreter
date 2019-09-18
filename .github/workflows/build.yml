@@ -1,0 +1,29 @@
+name: OpenProtocolInterpreter CI
+
+on:
+  push:
+    branches:
+    - github-actions
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+    - uses: actions/checkout@master
+    - name: setup .NET Core
+      uses: actions/setup-dotnet@master
+      with:
+        dotnet-version: '3.0.100-rc1-014190'
+    - name: build library (.net core)
+      run: dotnet build src/OpenProtocolInterpreter/OpenProtocolInterpreter.csproj --configuration release
+    - name: build and run .net core tests
+      run: |
+        dotnet build src/MIDTesters.Core/MIDTesters.Core.csproj
+        dotnet test src/MIDTesters.Core/MIDTesters.Core.csproj
+    - name: NuGet setup
+      uses: warrenbuckley/Setup-Nuget@v1
+    - name: publish NuGet Package
+      run: |
+        nuget setApiKey ${{ secrets.NUGET_API_KEY }}
+        nuget push src/OpenProtocolInterpreter/bin/release/OpenProtocolInterpreter.3.0.1.nupkg -Source https://api.nuget.org/v3/index.json -SkipDuplicate

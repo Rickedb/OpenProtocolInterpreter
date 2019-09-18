@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter
         public Mid(Header header)
         {
             HeaderData = header;
-            RevisionsByFields = CachedFields.GetRegisteredFields(header.Mid, RegisterDatafields);
+            RevisionsByFields = RegisterDatafields();
         }
 
         public Mid(int mid, int revision, int? noAckFlag = null, int? spindleID = null, int? stationID = null, IEnumerable<DataField> usedAs = null)
@@ -28,7 +28,7 @@ namespace OpenProtocolInterpreter
                 StationID = stationID,
                 UsedAs = usedAs
             };
-            RevisionsByFields = CachedFields.GetRegisteredFields(mid, RegisterDatafields);
+            RevisionsByFields = RegisterDatafields();
         }
 
         protected virtual byte[] BuildRawHeader() => ToBytes(BuildHeader());
