@@ -38,6 +38,7 @@ namespace OpenProtocolInterpreter.Job
             _intConverter = new Int32Converter();
             if (JobIds == null)
                 JobIds = new List<int>();
+            HandleRevisions();
         }
 
         /// <summary>
@@ -61,18 +62,10 @@ namespace OpenProtocolInterpreter.Job
         public override string Pack()
         {
             _jobListConverter = new JobIdListConverter(_intConverter, HeaderData.Revision);
-            string package = BuildHeader();
             TotalJobs = JobIds.Count;
-            var eachJobField = GetField(1, (int)DataFields.EACH_JOB_ID);
-            if (HeaderData.Revision > 1)
-            {
-                eachJobField.Index = 24;
-                GetField(1, (int)DataFields.NUMBER_OF_JOBS).Size = eachJobField.Size = 4;
-            }
-            else
-                GetField(1, (int)DataFields.NUMBER_OF_JOBS).Size = eachJobField.Size = 2;
 
-            eachJobField.Size = eachJobField.Size * TotalJobs;
+            var eachJobField = GetField(1, (int)DataFields.EACH_JOB_ID);
+            eachJobField.Size = (HeaderData.Revision > 1 ? 4 : 2) * TotalJobs;
             eachJobField.Value = _jobListConverter.Convert(JobIds);
             return base.Pack();
         }
@@ -80,14 +73,10 @@ namespace OpenProtocolInterpreter.Job
         public override Mid Parse(string package)
         {
             HeaderData = ProcessHeader(package);
-            _jobListConverter = new JobIdListConverter(_intConverter, HeaderData.Revision);
+            HandleRevisions();
 
+            _jobListConverter = new JobIdListConverter(_intConverter, HeaderData.Revision);
             var eachJobField = GetField(1, (int)DataFields.EACH_JOB_ID);
-            if (HeaderData.Revision > 1)
-            {
-                eachJobField.Index = 24;
-                GetField(1, (int)DataFields.NUMBER_OF_JOBS).Size = 4;
-            }
             eachJobField.Size = package.Length - eachJobField.Index;
             base.Parse(package);
             JobIds = _jobListConverter.Convert(eachJobField.Value).ToList();
@@ -142,6 +131,19 @@ namespace OpenProtocolInterpreter.Job
 
             errors = failed;
             return errors.Any();
+        }
+
+        private void HandleRevisions()
+        {
+            if (HeaderData.Revision > 1)
+            {
+                GetField(1, (int)DataFields.EACH_JOB_ID).Index = 24;
+                GetField(1, (int)DataFields.NUMBER_OF_JOBS).Size = 4;
+            }
+            else
+            {
+                GetField(1, (int)DataFields.NUMBER_OF_JOBS).Size = GetField(1, (int)DataFields.EACH_JOB_ID).Size = 2;
+            }
         }
 
         public enum DataFields

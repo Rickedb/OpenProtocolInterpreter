@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
-    <AssemblyVersion>3.0.2.0</AssemblyVersion>
-    <FileVersion>3.0.2.0</FileVersion>
-    <Version>3.0.2</Version>
+    <AssemblyVersion>3.0.3.0</AssemblyVersion>
+    <FileVersion>3.0.3.0</FileVersion>
+    <Version>3.0.3</Version>
     <Description>Converts the ugly package that came from Open Protocol TCP/IP or Serial to an object</Description>
     <Copyright>Copyright ©  2019</Copyright>
     <Authors>Henrique Dal Bello Batista</Authors>

@@ -32,6 +32,7 @@ namespace OpenProtocolInterpreter.Job
         public Mid0039(int revision = LAST_REVISION) : base(MID, revision)
         {
             _intConverter = new Int32Converter();
+            HandleRevisions();
         }
 
         /// <summary>
@@ -47,7 +48,7 @@ namespace OpenProtocolInterpreter.Job
         public override Mid Parse(string package)
         {
             HeaderData = ProcessHeader(package);
-            HandleRevision();
+            HandleRevisions();
             ProcessDataFields(package);
             return this;
         }
@@ -88,12 +89,16 @@ namespace OpenProtocolInterpreter.Job
             return errors.Any();
         }
 
-        private void HandleRevision()
+        private void HandleRevisions()
         {
             if (HeaderData.Revision == 1)
+            {
                 GetField(1, (int)DataFields.JOB_ID).Size = 2;
+            }
             else
+            {
                 GetField(1, (int)DataFields.JOB_ID).Size = 4;
+            }
         }
 
         public enum DataFields

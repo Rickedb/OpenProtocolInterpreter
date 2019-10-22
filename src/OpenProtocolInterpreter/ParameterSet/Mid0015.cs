@@ -25,8 +25,8 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public int ParameterSetId
         {
-            get => GetField(1, (int)DataFields.PARAMETER_SET_ID).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.PARAMETER_SET_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(HeaderData.Revision, (int)DataFields.PARAMETER_SET_ID).GetValue(_intConverter.Convert);
+            set => GetField(HeaderData.Revision, (int)DataFields.PARAMETER_SET_ID).SetValue(_intConverter.Convert, value);
         }
         public DateTime LastChangeInParameterSet
         {

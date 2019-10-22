@@ -33,6 +33,7 @@ namespace OpenProtocolInterpreter.Job
         public Mid0038(int revision = LAST_REVISION) : base(MID, revision)
         {
             _intConverter = new Int32Converter();
+            HandleRevision();
         }
 
         /// <summary>
@@ -90,10 +91,14 @@ namespace OpenProtocolInterpreter.Job
 
         private void HandleRevision()
         {
-            if (HeaderData.Revision == 1)
-                GetField(1, (int)DataFields.JOB_ID).Size = 2;
-            else
+            if (HeaderData.Revision > 1)
+            {
                 GetField(1, (int)DataFields.JOB_ID).Size = 4;
+            }
+            else
+            {
+                GetField(1, (int)DataFields.JOB_ID).Size = 2;
+            }
         }
 
         public enum DataFields

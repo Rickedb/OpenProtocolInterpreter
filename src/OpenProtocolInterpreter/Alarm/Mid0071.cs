@@ -56,6 +56,7 @@ namespace OpenProtocolInterpreter.Alarm
         {
             _boolConverter = new BoolConverter();
             _dateConverter = new DateConverter();
+            HandleRevision();
         }
 
         /// <summary>
@@ -91,16 +92,10 @@ namespace OpenProtocolInterpreter.Alarm
             AlarmText = alarmText;
         }
 
-        public override string Pack()
-        {
-            UpdateFieldsIndexBasedOnRevision(HeaderData.Revision);
-            return base.Pack();
-        }
-
         public override Mid Parse(string package)
         {
             HeaderData = ProcessHeader(package);
-            UpdateFieldsIndexBasedOnRevision(HeaderData.Revision);
+            HandleRevision();
             ProcessDataFields(package);
             return this;
         }
@@ -127,9 +122,9 @@ namespace OpenProtocolInterpreter.Alarm
             };
         }
 
-        private void UpdateFieldsIndexBasedOnRevision(int? revision)
+        private void HandleRevision()
         {
-            if (revision > 1)
+            if (HeaderData.Revision > 1)
             {
                 GetField(1, (int)DataFields.ERROR_CODE).Size = 5;
                 for (int i = (int)DataFields.CONTROLLER_READY_STATUS; i <= (int)DataFields.TIME; i++)

@@ -32,6 +32,7 @@ namespace OpenProtocolInterpreter.Job
         public Mid0032(int revision = LAST_REVISION) : base(MID, revision)
         {
             _intConverter = new Int32Converter();
+            HandleRevision();
         }
 
         /// <summary>
@@ -43,12 +44,6 @@ namespace OpenProtocolInterpreter.Job
         /// </param>
         /// <param name="revision">Revision number (default = 3)</param>
         public Mid0032(int jobId, int revision = 2) : this(revision) => JobId = jobId;
-
-        public override string Pack()
-        {
-            HandleRevision();
-            return base.Pack();
-        }
 
         public override Mid Parse(string package)
         {

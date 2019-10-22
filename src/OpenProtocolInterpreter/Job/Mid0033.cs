@@ -92,6 +92,7 @@ namespace OpenProtocolInterpreter.Job
             _boolConverter = new BoolConverter();
             if (ParameterSetList == null)
                 ParameterSetList = new List<ParameterSet>();
+            HandleRevisions();
         }
 
         /// <summary>
@@ -140,6 +141,7 @@ namespace OpenProtocolInterpreter.Job
 
         public override string Pack()
         {
+            HandleRevisions();
             _parameterSetListConverter = new ParameterSetListConverter(_intConverter, _boolConverter, HeaderData.Revision);
             var psetListField = GetField(1, (int)DataFields.PARAMETER_SET_LIST);
             psetListField.Size = ParameterSetList.Count * ((HeaderData.Revision < 3) ? 12 : 44);
@@ -150,6 +152,7 @@ namespace OpenProtocolInterpreter.Job
         public override Mid Parse(string package)
         {
             HeaderData = ProcessHeader(package);
+            HandleRevisions();
             _parameterSetListConverter = new ParameterSetListConverter(_intConverter, _boolConverter, HeaderData.Revision);
             var jobListField = GetField(1, (int)DataFields.PARAMETER_SET_LIST);
             jobListField.Size = package.Length - jobListField.Index - 2;
@@ -183,13 +186,24 @@ namespace OpenProtocolInterpreter.Job
                 };
         }
 
-        private void UpdateFieldsIndexBasedOnRevision()
+        private void HandleRevisions()
         {
-            if (HeaderData.Revision > 1 && GetField(1, (int)DataFields.JOB_ID).Size == 2)
+            var jobIdField = GetField(1, (int)DataFields.JOB_ID);
+            if (HeaderData.Revision > 1)
             {
-                GetField(1, (int)DataFields.JOB_ID).Size = 4;
-                for (int i = (int)DataFields.JOB_NAME; i < RevisionsByFields[1].Count; i++)
-                    GetField(1, i).Index += 2;
+                jobIdField.Size = 4;
+            }
+            else
+            {
+                jobIdField.Size = 2;
+            }
+
+            int index = jobIdField.Index + jobIdField.Size;
+            for (int i = (int)DataFields.JOB_NAME; i < RevisionsByFields[1].Count; i++)
+            {
+                var field = GetField(1, i);
+                field.Index = 2 + index;
+                index = field.Index + field.Size;
             }
         }
 

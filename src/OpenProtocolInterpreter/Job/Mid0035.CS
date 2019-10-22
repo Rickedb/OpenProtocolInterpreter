@@ -83,6 +83,7 @@ namespace OpenProtocolInterpreter.Job
         {
             _intConverter = new Int32Converter();
             _datetimeConverter = new DateConverter();
+            HandleRevision();
         }
 
         /// <summary>
@@ -158,7 +159,7 @@ namespace OpenProtocolInterpreter.Job
         public override Mid Parse(string package)
         {
             HeaderData = ProcessHeader(package);
-            UpdateFieldsIndexBasedOnRevision();
+            HandleRevision();
             ProcessDataFields(package);
             return this;
         }
@@ -236,13 +237,24 @@ namespace OpenProtocolInterpreter.Job
             };
         }
 
-        private void UpdateFieldsIndexBasedOnRevision()
+        private void HandleRevision()
         {
+            var jobIdField = GetField(1, (int)DataFields.JOB_ID);
             if (HeaderData.Revision > 1)
             {
-                GetField(1, (int)DataFields.JOB_ID).Size = 4;
-                for (int i = (int)DataFields.JOB_STATUS; i < RevisionsByFields[1].Count; i++)
-                    GetField(1, i).Index += 2;
+                jobIdField.Size = 4;
+            }
+            else
+            {
+                jobIdField.Size = 2;
+            }
+
+            int index = jobIdField.Index + jobIdField.Size;
+            for (int i = (int)DataFields.JOB_STATUS; i < RevisionsByFields[1].Count; i++)
+            {
+                var field = GetField(1, i);
+                field.Index = 2 + index;
+                index = field.Index + field.Size;
             }
         }
     }
