@@ -124,11 +124,22 @@ namespace OpenProtocolInterpreter.Alarm
 
         private void HandleRevision()
         {
+            var errorCodeField = GetField(1, (int)DataFields.ERROR_CODE);
             if (HeaderData.Revision > 1)
             {
-                GetField(1, (int)DataFields.ERROR_CODE).Size = 5;
-                for (int i = (int)DataFields.CONTROLLER_READY_STATUS; i <= (int)DataFields.TIME; i++)
-                    GetField(1, i).Index++;
+                errorCodeField.Size = 5;
+            }
+            else
+            {
+                errorCodeField.Size = 4;
+            }
+
+            int index = errorCodeField.Index + errorCodeField.Size;
+            for (int i = (int)DataFields.CONTROLLER_READY_STATUS; i < RevisionsByFields[1].Count; i++)
+            {
+                var field = GetField(1, i);
+                field.Index = 2 + index;
+                index = field.Index + field.Size;
             }
         }
 
