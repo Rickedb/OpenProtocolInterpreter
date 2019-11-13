@@ -14,7 +14,7 @@ namespace OpenProtocolInterpreter.IOInterface
     /// Message sent by: Controller
     /// Answer: MID 0222 Digital input function upload acknowledge
     /// </summary>
-    public class Mid0221 : Mid, IIOInterface
+    public class Mid0221 : Mid, IIOInterface, IController
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;
@@ -32,6 +32,11 @@ namespace OpenProtocolInterpreter.IOInterface
             set => GetField(1,(int)DataFields.DIGITAL_INPUT_STATUS).SetValue(_boolConverter.Convert, value);
         }
 
+        public Mid0221() : this(0)
+        {
+
+        }
+
         public Mid0221(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
         {
             _intConverter = new Int32Converter();
@@ -43,8 +48,6 @@ namespace OpenProtocolInterpreter.IOInterface
             DigitalInputNumber = digitalInputNumber;
             DigitalInputStatus = digitalInputStatus;
         }
-
-        internal Mid0221(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

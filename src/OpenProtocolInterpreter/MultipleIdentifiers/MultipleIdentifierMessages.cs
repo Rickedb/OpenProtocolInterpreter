@@ -1,24 +1,36 @@
 ﻿using OpenProtocolInterpreter.Messages;
+using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.MultipleIdentifiers
 {
-    internal class MultipleIdentifierMessages : IMessagesTemplate
+    internal class MultipleIdentifierMessages : MessagesTemplate
     {
-        private readonly IMid _templates;
-
-        public MultipleIdentifierMessages()
+        public MultipleIdentifierMessages() : base()
         {
-            _templates = new Mid0150(new Mid0151(new Mid0152(new Mid0153(
-                new Mid0154(new Mid0155(new Mid0156(new Mid0157(null))))))));
+            _templates = new Dictionary<int, MidCompiledInstance>()
+            {
+                { Mid0150.MID, new MidCompiledInstance(typeof(Mid0150)) },
+                { Mid0151.MID, new MidCompiledInstance(typeof(Mid0151)) },
+                { Mid0152.MID, new MidCompiledInstance(typeof(Mid0152)) },
+                { Mid0153.MID, new MidCompiledInstance(typeof(Mid0153)) },
+                { Mid0154.MID, new MidCompiledInstance(typeof(Mid0154)) },
+                { Mid0155.MID, new MidCompiledInstance(typeof(Mid0155)) },
+                { Mid0156.MID, new MidCompiledInstance(typeof(Mid0156)) },
+                { Mid0157.MID, new MidCompiledInstance(typeof(Mid0157)) }
+            };
         }
 
-        public MultipleIdentifierMessages(System.Collections.Generic.IEnumerable<Mid> selectedMids)
+        public MultipleIdentifierMessages(IEnumerable<Type> selectedMids) : this()
         {
-            _templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
+            FilterSelectedMids(selectedMids);
         }
 
-        public Mid ProcessPackage(string package) => _templates.Parse(package);
+        public MultipleIdentifierMessages(InterpreterMode mode) : this()
+        {
+            FilterSelectedMids(mode);
+        }
 
-        public Mid ProcessPackage(byte[] package) => _templates.Parse(package);
+        public override bool IsAssignableTo(int mid) => mid > 149 && mid < 158;
     }
 }

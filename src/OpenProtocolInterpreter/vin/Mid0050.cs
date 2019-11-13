@@ -10,15 +10,15 @@ namespace OpenProtocolInterpreter.Vin
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted or MID 0004 Command error, VIN input source not granted
     /// </summary>
-    public class Mid0050 : Mid, IVin
+    public class Mid0050 : Mid, IVin, IIntegrator
     {
         private const int LAST_REVISION = 1;
         public const int MID = 50;
 
         public string VinNumber
         {
-            get => GetField(1,(int)DataFields.VIN_NUMBER).Value;
-            set => GetField(1,(int)DataFields.VIN_NUMBER).SetValue(value);
+            get => GetField(1, (int)DataFields.VIN_NUMBER).Value;
+            set => GetField(1, (int)DataFields.VIN_NUMBER).SetValue(value);
         }
 
         public Mid0050() : base(MID, LAST_REVISION) { }
@@ -32,25 +32,18 @@ namespace OpenProtocolInterpreter.Vin
             VinNumber = vinNumber;
         }
 
-        internal Mid0050(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
-
         public override string Pack()
         {
-            GetField(1,(int)DataFields.VIN_NUMBER).Size = VinNumber.Length;
+            GetField(1, (int)DataFields.VIN_NUMBER).Size = VinNumber.Length;
             return base.Pack();
         }
 
         public override Mid Parse(string package)
         {
-            if (IsCorrectType(package))
-            {
-                HeaderData = ProcessHeader(package);
-                GetField(1,(int)DataFields.VIN_NUMBER).Size = HeaderData.Length - 20;
-                ProcessDataFields(package);
-                return this;
-            }
-
-            return NextTemplate.Parse(package);
+            HeaderData = ProcessHeader(package);
+            GetField(1, (int)DataFields.VIN_NUMBER).Size = HeaderData.Length - 20;
+            ProcessDataFields(package);
+            return this;
         }
 
         /// <summary>

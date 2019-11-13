@@ -1,23 +1,34 @@
 ﻿using OpenProtocolInterpreter.Messages;
+using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.AutomaticManualMode
 {
-    internal class AutomaticManualModeMessages : IMessagesTemplate
+    internal class AutomaticManualModeMessages : MessagesTemplate
     {
-        private readonly IMid _templates;
-
-        public AutomaticManualModeMessages()
+        public AutomaticManualModeMessages() : base()
         {
-            _templates = new Mid0400(new Mid0401(new Mid0402(new Mid0403(new Mid0410(new Mid0411(null))))));
+            _templates = new Dictionary<int, MidCompiledInstance>()
+            {
+                { Mid0400.MID, new MidCompiledInstance(typeof(Mid0400)) },
+                { Mid0401.MID, new MidCompiledInstance(typeof(Mid0401)) },
+                { Mid0402.MID, new MidCompiledInstance(typeof(Mid0402)) },
+                { Mid0403.MID, new MidCompiledInstance(typeof(Mid0403)) },
+                { Mid0410.MID, new MidCompiledInstance(typeof(Mid0410)) },
+                { Mid0411.MID, new MidCompiledInstance(typeof(Mid0411)) }
+            };
         }
 
-        public AutomaticManualModeMessages(System.Collections.Generic.IEnumerable<Mid> selectedMids)
+        public AutomaticManualModeMessages(IEnumerable<Type> selectedMids) : this()
         {
-            _templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
+            FilterSelectedMids(selectedMids);
         }
 
-        public Mid ProcessPackage(string package) => _templates.Parse(package);
+        public AutomaticManualModeMessages(InterpreterMode mode) : this()
+        {
+            FilterSelectedMids(mode);
+        }
 
-        public Mid ProcessPackage(byte[] package) => _templates.Parse(package);
+        public override bool IsAssignableTo(int mid) => mid > 399 && mid < 412;
     }
 }

@@ -18,7 +18,7 @@ namespace OpenProtocolInterpreter.Vin
     /// Message sent by: Controller
     /// Answer: MID 0053 Vehicle ID Number acknowledge
     /// </summary>
-    public class Mid0052 : Mid, IVin
+    public class Mid0052 : Mid, IVin, IController
     {
         private const int LAST_REVISION = 2;
         public const int MID = 52;
@@ -44,6 +44,11 @@ namespace OpenProtocolInterpreter.Vin
             set => GetField(2, (int)DataFields.IDENTIFIER_RESULT_PART4).SetValue(value);
         }
 
+        public Mid0052() : this(LAST_REVISION)
+        {
+
+        }
+
         public Mid0052(int revision = LAST_REVISION) : base(MID, revision) { }
 
         /// <summary>
@@ -56,7 +61,7 @@ namespace OpenProtocolInterpreter.Vin
         /// </para>
         /// </param>
         /// <param name="revision">Revision number (default = 1)</param>
-        public Mid0052(string vinNumber, int revision = 1) : this()
+        public Mid0052(string vinNumber, int revision = 1) : this(revision)
         {
             VinNumber = vinNumber;
         }
@@ -82,8 +87,6 @@ namespace OpenProtocolInterpreter.Vin
             IdentifierResultPart4 = identifierResultPart4;
         }
 
-        internal Mid0052(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
-
         public override string Pack()
         {
             var vinNumberField = GetField(1, (int)DataFields.VIN_NUMBER);
@@ -97,29 +100,24 @@ namespace OpenProtocolInterpreter.Vin
 
         public override Mid Parse(string package)
         {
-            if (IsCorrectType(package))
+            HeaderData = ProcessHeader(package);
+            if (HeaderData.Revision > 1)
             {
-                HeaderData = ProcessHeader(package);
-                if (HeaderData.Revision > 1)
+                var vinNumberField = GetField(1, (int)DataFields.VIN_NUMBER);
+                vinNumberField.HasPrefix = true;
+                vinNumberField.Size = package.Length - 103;
+                if (vinNumberField.Size > 25)
                 {
-                    var vinNumberField = GetField(1, (int)DataFields.VIN_NUMBER);
-                    vinNumberField.HasPrefix = true;
-                    vinNumberField.Size = package.Length - 103;
-                    if (vinNumberField.Size > 25)
-                    {
-                        int addedSize = vinNumberField.Size - 25;
-                        GetField(2, (int)DataFields.IDENTIFIER_RESULT_PART2).Index += addedSize;
-                        GetField(2, (int)DataFields.IDENTIFIER_RESULT_PART3).Index += addedSize;
-                        GetField(2, (int)DataFields.IDENTIFIER_RESULT_PART4).Index += addedSize;
-                    }
+                    int addedSize = vinNumberField.Size - 25;
+                    GetField(2, (int)DataFields.IDENTIFIER_RESULT_PART2).Index += addedSize;
+                    GetField(2, (int)DataFields.IDENTIFIER_RESULT_PART3).Index += addedSize;
+                    GetField(2, (int)DataFields.IDENTIFIER_RESULT_PART4).Index += addedSize;
                 }
-                else
-                    GetField(1, (int)DataFields.VIN_NUMBER).Size = package.Length - 20;
-                ProcessDataFields(package);
-                return this;
             }
-
-            return NextTemplate.Parse(package);
+            else
+                GetField(1, (int)DataFields.VIN_NUMBER).Size = package.Length - 20;
+            ProcessDataFields(package);
+            return this;
         }
 
         /// <summary>

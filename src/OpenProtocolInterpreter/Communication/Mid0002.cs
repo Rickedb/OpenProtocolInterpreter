@@ -14,7 +14,7 @@ namespace OpenProtocolInterpreter.Communication
     /// Message sent by: Controller
     /// Answer: None
     /// </summary>
-    public class Mid0002 : Mid, ICommunication
+    public class Mid0002 : Mid, ICommunication, IController
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;
@@ -98,6 +98,11 @@ namespace OpenProtocolInterpreter.Communication
         {
             get => GetField(6, (int)DataFields.LINKING_HANDLING_SUPPORT).GetValue(_boolConverter.Convert);
             set => GetField(6, (int)DataFields.LINKING_HANDLING_SUPPORT).SetValue(_boolConverter.Convert, value);
+        }
+
+        public Mid0002() : this(LAST_REVISION)
+        {
+
         }
 
         public Mid0002(int revision = LAST_REVISION) : base(MID, revision)
@@ -224,8 +229,6 @@ namespace OpenProtocolInterpreter.Communication
             SequenceNumberSupport = sequenceNumberSupport;
             LinkingHandlingSupport = linkingHandlingSupport;
         }
-
-        internal Mid0002(IMid nextTemplate) : this(LAST_REVISION) => NextTemplate = nextTemplate;
 
         /// <summary>
         /// Validate all fields size

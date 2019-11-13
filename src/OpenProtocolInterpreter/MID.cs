@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,24 +7,21 @@ namespace OpenProtocolInterpreter
 {
     public abstract class Mid : IMid
     {
-        protected IMid NextTemplate;
-
         public Dictionary<int, List<DataField>> RevisionsByFields { get; set; }
         public Header HeaderData { get; set; }
 
         public Mid(Header header)
         {
             HeaderData = header;
-            RevisionsByFields = new Dictionary<int, List<DataField>>();
-            RegisterDatafields();
+            RevisionsByFields = RegisterDatafields();
         }
 
-        public Mid(int MID, int revision, int? noAckFlag = null, int? spindleID = null, int? stationID = null, IEnumerable<DataField> usedAs = null)
+        public Mid(int mid, int revision, int? noAckFlag = null, int? spindleID = null, int? stationID = null, IEnumerable<DataField> usedAs = null)
         {
             HeaderData = new Header()
             {
                 Length = 20,
-                Mid = MID,
+                Mid = mid,
                 Revision = revision,
                 NoAckFlag = noAckFlag,
                 SpindleID = spindleID,
@@ -33,14 +29,6 @@ namespace OpenProtocolInterpreter
                 UsedAs = usedAs
             };
             RevisionsByFields = RegisterDatafields();
-        }
-
-        protected bool IsCorrectType(string package)
-        {
-            if (int.TryParse(package.Substring(4, 4), out int mid))
-                return mid == HeaderData.Mid;
-
-            return false;
         }
 
         protected virtual byte[] BuildRawHeader() => ToBytes(BuildHeader());
@@ -108,14 +96,9 @@ namespace OpenProtocolInterpreter
 
         public virtual Mid Parse(string package)
         {
-            if (IsCorrectType(package))
-            {
-                HeaderData = ProcessHeader(package);
-                ProcessDataFields(package);
-                return this;
-            }
-
-            return NextTemplate.Parse(package);
+            HeaderData = ProcessHeader(package);
+            ProcessDataFields(package);
+            return this;
         }
 
         public virtual Mid Parse(byte[] package)
@@ -209,8 +192,5 @@ namespace OpenProtocolInterpreter
                 return header;
             }
         }
-
-        internal void SetNextTemplate(Mid mid) => NextTemplate = mid;
-
     }
 }

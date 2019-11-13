@@ -8,7 +8,7 @@
     /// Message sent by: Integrator
     /// Answer: MID 0081 Read time upload reply
     /// </summary>
-    public class Mid0080 : Mid, ITime
+    public class Mid0080 : Mid, ITime, IIntegrator
     {
         private const int LAST_REVISION = 1;
         public const int MID = 80;
@@ -17,7 +17,5 @@
         {
 
         }
-
-        internal Mid0080(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
     }
 }

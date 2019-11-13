@@ -15,7 +15,7 @@ namespace OpenProtocolInterpreter.Communication
     /// Answer: MID 0005 Command accepted with the MID subscribed for or MID 0004 Command error, 
     ///         MID revision unsupported or Invalid data code and the MID subscribed for
     /// </summary>
-    public class Mid0008 : Mid
+    public class Mid0008 : Mid, ICommunication, IIntegrator
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 1;
@@ -42,7 +42,10 @@ namespace OpenProtocolInterpreter.Communication
             set => GetField(1, (int)DataFields.EXTRA_DATA).SetValue(value);
         }
 
-        public Mid0008() : base(MID, LAST_REVISION) => _intConverter = new Int32Converter();
+        public Mid0008() : base(MID, LAST_REVISION)
+        {
+            _intConverter = new Int32Converter();
+        }
 
         public Mid0008(string subscriptionMid, int wantedRevision, string extraData) : this()
         {
@@ -52,22 +55,12 @@ namespace OpenProtocolInterpreter.Communication
             ExtraDataLength = ExtraData.Length;
         }
 
-        internal Mid0008(IMid nextTemplate) : this()
-        {
-            NextTemplate = nextTemplate;
-        }
-
         public override Mid Parse(string package)
         {
-            if (IsCorrectType(package))
-            {
-                HeaderData = ProcessHeader(package);
-                GetField(1, (int)DataFields.EXTRA_DATA).Size = package.Length - 29;
-                ProcessDataFields(package);
-                return this;
-            }
-
-            return NextTemplate.Parse(package);
+            HeaderData = ProcessHeader(package);
+            GetField(1, (int)DataFields.EXTRA_DATA).Size = package.Length - 29;
+            ProcessDataFields(package);
+            return this;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

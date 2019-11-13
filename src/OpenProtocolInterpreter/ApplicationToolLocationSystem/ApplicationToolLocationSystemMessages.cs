@@ -1,24 +1,34 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using OpenProtocolInterpreter.Messages;
 
 namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
 {
-    internal class ApplicationToolLocationSystemMessages : IMessagesTemplate
+    internal class ApplicationToolLocationSystemMessages : MessagesTemplate
     {
-        private readonly IMid _templates;
-
-        public ApplicationToolLocationSystemMessages()
+        public ApplicationToolLocationSystemMessages() : base()
         {
-            _templates = new Mid0260(new Mid0261(new Mid0262(new Mid0263(new Mid0264(new Mid0265(null))))));
+            _templates = new Dictionary<int, MidCompiledInstance>()
+            {
+                { Mid0260.MID, new MidCompiledInstance(typeof(Mid0260)) },
+                { Mid0261.MID, new MidCompiledInstance(typeof(Mid0261)) },
+                { Mid0262.MID, new MidCompiledInstance(typeof(Mid0262)) },
+                { Mid0263.MID, new MidCompiledInstance(typeof(Mid0263)) },
+                { Mid0264.MID, new MidCompiledInstance(typeof(Mid0264)) },
+                { Mid0265.MID, new MidCompiledInstance(typeof(Mid0265)) }
+            };
         }
 
-        public ApplicationToolLocationSystemMessages(IEnumerable<Mid> selectedMids)
+        public ApplicationToolLocationSystemMessages(IEnumerable<Type> selectedMids) : this()
         {
-            _templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
+            FilterSelectedMids(selectedMids);
         }
 
-        public Mid ProcessPackage(string package) => _templates.Parse(package);
+        public ApplicationToolLocationSystemMessages(InterpreterMode mode) : this()
+        {
+            FilterSelectedMids(mode);
+        }
 
-        public Mid ProcessPackage(byte[] package) => _templates.Parse(package);
+        public override bool IsAssignableTo(int mid) => mid > 259 && mid < 266;
     }
 }

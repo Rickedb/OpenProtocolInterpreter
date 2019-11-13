@@ -17,7 +17,7 @@ namespace OpenProtocolInterpreter.IOInterface
     /// Message sent by: Controller
     /// Answer: None
     /// </summary>
-    public class Mid0215 : Mid, IIOInterface
+    public class Mid0215 : Mid, IIOInterface, IController
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<IEnumerable<Relay>> _relayListConverter;
@@ -44,6 +44,11 @@ namespace OpenProtocolInterpreter.IOInterface
             private set => GetField(2, (int)DataFields.NUMBER_OF_DIGITAL_INPUTS).SetValue(_intConverter.Convert, value);
         }
 
+        public Mid0215() : this(LAST_REVISION)
+        {
+
+        }
+
         public Mid0215(int revision = LAST_REVISION) : base(MID, revision)
         {
             var boolConverter = new BoolConverter();
@@ -53,8 +58,6 @@ namespace OpenProtocolInterpreter.IOInterface
             Relays = new List<Relay>();
             DigitalInputs = new List<DigitalInput>();
         }
-
-        internal Mid0215(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override string BuildHeader()
         {
@@ -103,39 +106,34 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public override Mid Parse(string package)
         {
-            if (IsCorrectType(package))
+            HeaderData = ProcessHeader(package);
+            DataField relayListField;
+            DataField digitalListField;
+
+            if (HeaderData.Revision > 1)
             {
-                HeaderData = ProcessHeader(package);
-                DataField relayListField;
-                DataField digitalListField;
+                relayListField = GetField(2, (int)DataFields.RELAY_LIST);
+                digitalListField = GetField(2, (int)DataFields.DIGITAL_INPUT_LIST);
+                int numberOfRelays = _intConverter.Convert(GetValue(GetField(2, (int)DataFields.NUMBER_OF_RELAYS), package));
+                relayListField.Size = numberOfRelays * 4;
 
-                if (HeaderData.Revision > 1)
-                {
-                    relayListField = GetField(2, (int)DataFields.RELAY_LIST);
-                    digitalListField = GetField(2, (int)DataFields.DIGITAL_INPUT_LIST);
-                    int numberOfRelays = _intConverter.Convert(GetValue(GetField(2, (int)DataFields.NUMBER_OF_RELAYS), package));
-                    relayListField.Size = numberOfRelays * 4;
+                var numberOfDigitalInputsField = GetField(2, (int)DataFields.NUMBER_OF_DIGITAL_INPUTS);
+                numberOfDigitalInputsField.Index = relayListField.Index + 2 + relayListField.Size;
 
-                    var numberOfDigitalInputsField = GetField(2, (int)DataFields.NUMBER_OF_DIGITAL_INPUTS);
-                    numberOfDigitalInputsField.Index = relayListField.Index + 2 + relayListField.Size;
-
-                    digitalListField.Index = numberOfDigitalInputsField.Index + 2 + numberOfDigitalInputsField.Size;
-                    digitalListField.Size = package.Length - 2 - digitalListField.Index;
-                }
-                else
-                {
-                    relayListField = GetField(1, (int)DataFields.RELAY_LIST);
-                    digitalListField = GetField(1, (int)DataFields.DIGITAL_INPUT_LIST);
-                }
-
-                ProcessDataFields(package);
-
-                Relays = _relayListConverter.Convert(relayListField.Value).ToList();
-                DigitalInputs = _digitalInputListConverter.Convert(digitalListField.Value).ToList();
-                return this;
+                digitalListField.Index = numberOfDigitalInputsField.Index + 2 + numberOfDigitalInputsField.Size;
+                digitalListField.Size = package.Length - 2 - digitalListField.Index;
+            }
+            else
+            {
+                relayListField = GetField(1, (int)DataFields.RELAY_LIST);
+                digitalListField = GetField(1, (int)DataFields.DIGITAL_INPUT_LIST);
             }
 
-            return NextTemplate.Parse(package);
+            ProcessDataFields(package);
+
+            Relays = _relayListConverter.Convert(relayListField.Value).ToList();
+            DigitalInputs = _digitalInputListConverter.Convert(digitalListField.Value).ToList();
+            return this;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

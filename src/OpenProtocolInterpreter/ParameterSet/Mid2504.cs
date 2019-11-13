@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted or MID 0004 Command error, Dynamic Job cannot be created, non-existing pset
     /// </summary>
-    public class Mid2504 : Mid, IParameterSet
+    public class Mid2504 : Mid, IParameterSet, IIntegrator
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 1;
@@ -31,8 +31,6 @@ namespace OpenProtocolInterpreter.ParameterSet
         /// </summary>
         /// <param name="parameterSetId">Three ASCII digits, range 000-999</param>
         public Mid2504(int parameterSetId) : this() => ParameterSetId = parameterSetId;
-
-        internal Mid2504(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

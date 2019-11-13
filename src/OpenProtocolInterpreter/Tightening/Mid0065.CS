@@ -11,7 +11,7 @@ namespace OpenProtocolInterpreter.Tightening
     /// Message sent by: Controller
     /// Answer: None
     /// </summary>
-    public class Mid0065 : Mid, ITightening
+    public class Mid0065 : Mid, ITightening, IController
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<long> _longConverter;
@@ -210,6 +210,11 @@ namespace OpenProtocolInterpreter.Tightening
             set => GetField(6, (int)DataFields.TIGHTENING_ERROR_STATUS_2).SetRawValue(_tighteningErrorStatus2Converter.ConvertToBytes, value);
         }
 
+        public Mid0065() : this(LAST_REVISION)
+        {
+
+        }
+
         public Mid0065(int revision = LAST_REVISION) : base(MID, revision)
         {
             var byteArrayConverter = new ByteArrayConverter();
@@ -222,8 +227,6 @@ namespace OpenProtocolInterpreter.Tightening
             _tighteningErrorStatusConverter = new TighteningErrorStatusConverter(byteArrayConverter);
             _tighteningErrorStatus2Converter = new TighteningErrorStatus2Converter(byteArrayConverter);
         }
-
-        internal Mid0065(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override string BuildHeader()
         {
@@ -298,23 +301,18 @@ namespace OpenProtocolInterpreter.Tightening
         public override Mid Parse(byte[] package)
         {
             var headerData = ToAscii(package.Take(20).ToArray());
-            if (IsCorrectType(headerData))
+            HeaderData = ProcessHeader(headerData);
+            if (HeaderData.Revision > 1)
             {
-                HeaderData = ProcessHeader(headerData);
-                if (HeaderData.Revision > 1)
-                {
-                    int processUntil = HeaderData.Revision;
-                    for (int i = 2; i <= processUntil; i++)
-                        ProcessDataFields(package, RevisionsByFields[i]);
+                int processUntil = HeaderData.Revision;
+                for (int i = 2; i <= processUntil; i++)
+                    ProcessDataFields(package, RevisionsByFields[i]);
 
-                }
-                else
-                    ProcessDataFields(package, RevisionsByFields[HeaderData.Revision]);
-
-                return this;
             }
+            else
+                ProcessDataFields(package, RevisionsByFields[HeaderData.Revision]);
 
-            return NextTemplate.Parse(package);
+            return this;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

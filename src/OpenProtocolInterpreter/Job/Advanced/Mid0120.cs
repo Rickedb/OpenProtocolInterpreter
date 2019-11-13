@@ -8,15 +8,18 @@
     /// Message sent by: Integrator
     /// Answer: MID 0005 or MID 0004 Command error, Job line control info subscription already exists
     /// </summary>
-    public class Mid0120 : Mid, IAdvancedJob
+    public class Mid0120 : Mid, IAdvancedJob, IIntegrator
     {
         private const int LAST_REVISION = 1;
         public const int MID = 120;
 
+        public Mid0120() : this(0)
+        {
+
+        }
+
         public Mid0120(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
         {
         }
-
-        internal Mid0120(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
     }
 }

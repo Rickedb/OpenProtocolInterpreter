@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenProtocolInterpreter.Job
 {
@@ -14,7 +12,7 @@ namespace OpenProtocolInterpreter.Job
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted or MID 0004 Command error, Job not running, or Invalid data
     /// </summary>
-    public class Mid0039 : Mid, IJob
+    public class Mid0039 : Mid, IJob, IIntegrator
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 2;
@@ -26,9 +24,15 @@ namespace OpenProtocolInterpreter.Job
             set => GetField(1, (int)DataFields.JOB_ID).SetValue(_intConverter.Convert, value);
         }
 
+        public Mid0039() : this(LAST_REVISION)
+        {
+
+        }
+
         public Mid0039(int revision = LAST_REVISION) : base(MID, revision)
         {
             _intConverter = new Int32Converter();
+            HandleRevisions();
         }
 
         /// <summary>
@@ -41,19 +45,12 @@ namespace OpenProtocolInterpreter.Job
             JobId = jobId;
         }
 
-        internal Mid0039(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
-
         public override Mid Parse(string package)
         {
-            if (IsCorrectType(package))
-            {
-                HeaderData = ProcessHeader(package);
-                HandleRevision();
-                ProcessDataFields(package);
-                return this;
-            }
-
-            return NextTemplate.Parse(package);
+            HeaderData = ProcessHeader(package);
+            HandleRevisions();
+            ProcessDataFields(package);
+            return this;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -92,12 +89,16 @@ namespace OpenProtocolInterpreter.Job
             return errors.Any();
         }
 
-        private void HandleRevision()
+        private void HandleRevisions()
         {
             if (HeaderData.Revision == 1)
-                GetField(1,(int)DataFields.JOB_ID).Size = 2;
+            {
+                GetField(1, (int)DataFields.JOB_ID).Size = 2;
+            }
             else
-                GetField(1,(int)DataFields.JOB_ID).Size = 4;
+            {
+                GetField(1, (int)DataFields.JOB_ID).Size = 4;
+            }
         }
 
         public enum DataFields

@@ -1,24 +1,35 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using OpenProtocolInterpreter.Messages;
 
 namespace OpenProtocolInterpreter.Communication
 {
-    internal class CommunicationMessages : IMessagesTemplate
+    internal class CommunicationMessages : MessagesTemplate
     {
-        private readonly IMid _templates;
-
-        public CommunicationMessages()
+        public CommunicationMessages() : base()
         {
-            _templates = new Mid0005(new Mid0004(new Mid0001(new Mid0002(new Mid0003(new Mid0006(new Mid0008(null)))))));
+            _templates = new Dictionary<int, MidCompiledInstance>()
+            {
+               { Mid0001.MID, new MidCompiledInstance(typeof(Mid0001)) },
+               { Mid0002.MID, new MidCompiledInstance(typeof(Mid0002)) },
+               { Mid0003.MID, new MidCompiledInstance(typeof(Mid0003)) },
+               { Mid0004.MID, new MidCompiledInstance(typeof(Mid0004)) },
+               { Mid0005.MID, new MidCompiledInstance(typeof(Mid0005)) },
+               { Mid0006.MID, new MidCompiledInstance(typeof(Mid0006)) },
+               { Mid0008.MID, new MidCompiledInstance(typeof(Mid0008)) }
+            };
         }
 
-        public CommunicationMessages(IEnumerable<Mid> selectedMids)
+        public CommunicationMessages(IEnumerable<Type> selectedMids) : this()
         {
-            _templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
+            FilterSelectedMids(selectedMids);
         }
 
-        public Mid ProcessPackage(string package) => _templates.Parse(package);
+        public CommunicationMessages(InterpreterMode mode) : this()
+        {
+            FilterSelectedMids(mode);
+        }
 
-        public Mid ProcessPackage(byte[] package) => _templates.Parse(package);
+        public override bool IsAssignableTo(int mid) => mid > 0 && mid < 10;
     }
 }

@@ -8,16 +8,16 @@
     /// Message sent by: Integrator
     /// Answer: MID 0031 Job ID upload reply
     /// </summary>
-    public class Mid0030 : Mid, IJob
+    public class Mid0030 : Mid, IJob, IIntegrator
     {
         private const int LAST_REVISION = 2;
         public const int MID = 30;
-        
-        public Mid0030(int revision = LAST_REVISION) : base(MID, LAST_REVISION) { }
 
-        internal Mid0030(IMid nextTemplate) : this(LAST_REVISION)
+        public Mid0030() : this(LAST_REVISION)
         {
-            NextTemplate = nextTemplate;
+
         }
+
+        public Mid0030(int revision = LAST_REVISION) : base(MID, revision) { }
     }
 }

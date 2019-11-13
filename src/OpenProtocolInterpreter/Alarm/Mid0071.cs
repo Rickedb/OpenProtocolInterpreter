@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.Alarm
     /// Message sent by: Controller
     /// Answer: MID 0072 Alarm acknowledge
     /// </summary>
-    public class Mid0071 : Mid, IAlarm
+    public class Mid0071 : Mid, IAlarm, IController
     {
         private IValueConverter<bool> _boolConverter;
         private IValueConverter<DateTime> _dateConverter;
@@ -47,10 +47,16 @@ namespace OpenProtocolInterpreter.Alarm
             set => GetField(2, (int)DataFields.ALARM_TEXT).SetValue(value);
         }
 
+        public Mid0071() : this(LAST_REVISION)
+        {
+
+        }
+
         public Mid0071(int revision = LAST_REVISION, int? noAckFlag = 0) : base(MID, revision, noAckFlag)
         {
             _boolConverter = new BoolConverter();
             _dateConverter = new DateConverter();
+            HandleRevision();
         }
 
         /// <summary>
@@ -86,25 +92,12 @@ namespace OpenProtocolInterpreter.Alarm
             AlarmText = alarmText;
         }
 
-        internal Mid0071(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
-
-        public override string Pack()
-        {
-            UpdateFieldsIndexBasedOnRevision(HeaderData.Revision);
-            return base.Pack();
-        }
-
         public override Mid Parse(string package)
         {
-            if (IsCorrectType(package))
-            {
-                HeaderData = ProcessHeader(package);
-                UpdateFieldsIndexBasedOnRevision(HeaderData.Revision);
-                ProcessDataFields(package);
-                return this;
-            }
-
-            return NextTemplate.Parse(package);
+            HeaderData = ProcessHeader(package);
+            HandleRevision();
+            ProcessDataFields(package);
+            return this;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -129,13 +122,24 @@ namespace OpenProtocolInterpreter.Alarm
             };
         }
 
-        private void UpdateFieldsIndexBasedOnRevision(int? revision)
+        private void HandleRevision()
         {
-            if (revision > 1)
+            var errorCodeField = GetField(1, (int)DataFields.ERROR_CODE);
+            if (HeaderData.Revision > 1)
             {
-                GetField(1, (int)DataFields.ERROR_CODE).Size = 5;
-                for (int i = (int)DataFields.CONTROLLER_READY_STATUS; i <= (int)DataFields.TIME; i++)
-                    GetField(1, i).Index++;
+                errorCodeField.Size = 5;
+            }
+            else
+            {
+                errorCodeField.Size = 4;
+            }
+
+            int index = errorCodeField.Index + errorCodeField.Size;
+            for (int i = (int)DataFields.CONTROLLER_READY_STATUS; i < RevisionsByFields[1].Count; i++)
+            {
+                var field = GetField(1, i);
+                field.Index = 2 + index;
+                index = field.Index + field.Size;
             }
         }
 

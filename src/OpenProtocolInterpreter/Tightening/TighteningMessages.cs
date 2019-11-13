@@ -1,46 +1,34 @@
 ﻿using OpenProtocolInterpreter.Messages;
+using System;
 using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Tightening
 {
-    internal class TighteningMessages : IMessagesTemplate
+    internal class TighteningMessages : MessagesTemplate
     {
-        private readonly IMid _templates;
-
-        public TighteningMessages()
+        public TighteningMessages() : base()
         {
-            _templates = new Mid0061(
-                                    new Mid0065(
-                                        new Mid0062(
-                                            new Mid0064(
-                                                new Mid0063(
-                                                    new Mid0060(null))))));
+            _templates = new Dictionary<int, MidCompiledInstance>()
+            {
+                { Mid0060.MID, new MidCompiledInstance(typeof(Mid0060)) },
+                { Mid0061.MID, new MidCompiledInstance(typeof(Mid0061)) },
+                { Mid0062.MID, new MidCompiledInstance(typeof(Mid0062)) },
+                { Mid0063.MID, new MidCompiledInstance(typeof(Mid0063)) },
+                { Mid0064.MID, new MidCompiledInstance(typeof(Mid0064)) },
+                { Mid0065.MID, new MidCompiledInstance(typeof(Mid0065)) }
+            };
         }
 
-        public TighteningMessages(bool onlyController)
+        public TighteningMessages(IEnumerable<Type> selectedMids) : this()
         {
-            _templates = (onlyController) ? InitControllerTemplates() : InitIntegratorTemplates();
+            FilterSelectedMids(selectedMids);
         }
 
-        public TighteningMessages(IEnumerable<Mid> selectedMids)
+        public TighteningMessages(InterpreterMode mode) : this()
         {
-            _templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
+            FilterSelectedMids(mode);
         }
 
-        public Mid ProcessPackage(string package) => _templates.Parse(package);
-
-        public Mid ProcessPackage(byte[] package) => _templates.Parse(package);
-
-        private IMid InitIntegratorTemplates()
-        {
-            return new Mid0062(new Mid0064(new Mid0063(new Mid0060(null))));
-        }
-
-        private IMid InitControllerTemplates()
-        {
-            return new Mid0061(new Mid0065(null));
-        }
-
-        
+        public override bool IsAssignableTo(int mid) => mid > 59 && mid < 66;
     }
 }

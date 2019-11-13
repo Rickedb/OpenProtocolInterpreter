@@ -1,23 +1,32 @@
 ﻿using OpenProtocolInterpreter.Messages;
+using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.MultiSpindle
 {
-    internal class MultiSpindleMessages : IMessagesTemplate
+    internal class MultiSpindleMessages : MessagesTemplate
     {
-        private readonly IMid _templates;
-
-        public MultiSpindleMessages()
+        public MultiSpindleMessages() : base()
         {
-            _templates = new Mid0090(new Mid0091(new Mid0092(new Mid0093(null))));
+            _templates = new Dictionary<int, MidCompiledInstance>()
+            {
+                { Mid0090.MID, new MidCompiledInstance(typeof(Mid0090)) },
+                { Mid0091.MID, new MidCompiledInstance(typeof(Mid0091)) },
+                { Mid0092.MID, new MidCompiledInstance(typeof(Mid0092)) },
+                { Mid0093.MID, new MidCompiledInstance(typeof(Mid0093)) }
+            };
         }
 
-        public MultiSpindleMessages(System.Collections.Generic.IEnumerable<Mid> selectedMids)
+        public MultiSpindleMessages(IEnumerable<Type> selectedMids) : this()
         {
-            _templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
+            FilterSelectedMids(selectedMids);
         }
 
-        public Mid ProcessPackage(string package) => _templates.Parse(package);
+        public MultiSpindleMessages(InterpreterMode mode) : this()
+        {
+            FilterSelectedMids(mode);
+        }
 
-        public Mid ProcessPackage(byte[] package) => _templates.Parse(package);
+        public override bool IsAssignableTo(int mid) => mid > 89 && mid < 104;
     }
 }

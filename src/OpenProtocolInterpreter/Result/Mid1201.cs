@@ -17,7 +17,7 @@ namespace OpenProtocolInterpreter.Result
     ///         
     ///         If the sequence number acknowledge functionality is used there is no need for these acknowledges.
     /// </summary>
-    public class Mid1201 : Mid, IResult
+    public class Mid1201 : Mid, IResult, IController
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<DateTime> _dateConverter;
@@ -37,11 +37,6 @@ namespace OpenProtocolInterpreter.Result
             _varDataFieldListConverter = new VariableDataFieldListConverter(_intConverter);
             ObjectDataList = new List<ObjectData>();
             VariableDataFields = new List<VariableDataField>();
-        }
-
-        internal Mid1201(IMid nextTemplate) : this()
-        {
-            NextTemplate = nextTemplate;
         }
 
         public int TotalNumberOfMessages
@@ -100,27 +95,22 @@ namespace OpenProtocolInterpreter.Result
 
         public override Mid Parse(string package)
         {
-            if (IsCorrectType(package))
-            {
-                HeaderData = ProcessHeader(package);
-                int totalObjectData = _intConverter.Convert(GetValue(GetField(1, (int)DataFields.NUMBER_OF_OBJECTS), package));
+            HeaderData = ProcessHeader(package);
+            int totalObjectData = _intConverter.Convert(GetValue(GetField(1, (int)DataFields.NUMBER_OF_OBJECTS), package));
 
-                var objectDataField = GetField(1, (int)DataFields.OBJECT_DATA);
-                objectDataField.Size = totalObjectData * 5;
+            var objectDataField = GetField(1, (int)DataFields.OBJECT_DATA);
+            objectDataField.Size = totalObjectData * 5;
 
-                var totalNumberDataField = GetField(1, (int)DataFields.NUMBER_OF_DATA_FIELDS);
-                totalNumberDataField.Index = objectDataField.Index + objectDataField.Size;
+            var totalNumberDataField = GetField(1, (int)DataFields.NUMBER_OF_DATA_FIELDS);
+            totalNumberDataField.Index = objectDataField.Index + objectDataField.Size;
 
-                var dataFieldListField = GetField(1, (int)DataFields.DATA_FIELD_LIST);
-                dataFieldListField.Index = totalNumberDataField.Index + totalNumberDataField.Size;
-                dataFieldListField.Size = package.Length - dataFieldListField.Index;
+            var dataFieldListField = GetField(1, (int)DataFields.DATA_FIELD_LIST);
+            dataFieldListField.Index = totalNumberDataField.Index + totalNumberDataField.Size;
+            dataFieldListField.Size = package.Length - dataFieldListField.Index;
 
-                ObjectDataList = _objectDataListConverter.Convert(objectDataField.Value).ToList();
-                VariableDataFields = _varDataFieldListConverter.Convert(dataFieldListField.Value).ToList();
-                return this;
-            }
-
-            return NextTemplate.Parse(package);
+            ObjectDataList = _objectDataListConverter.Convert(objectDataField.Value).ToList();
+            VariableDataFields = _varDataFieldListConverter.Convert(dataFieldListField.Value).ToList();
+            return this;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

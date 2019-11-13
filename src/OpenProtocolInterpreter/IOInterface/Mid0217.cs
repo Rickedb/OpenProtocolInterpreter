@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.IOInterface
     /// Message sent by: Controller
     /// Answer: MID 0218 Relay function acknowledge
     /// </summary>
-    public class Mid0217 : Mid, IIOInterface
+    public class Mid0217 : Mid, IIOInterface, IController
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;
@@ -29,6 +29,11 @@ namespace OpenProtocolInterpreter.IOInterface
         {
             get => GetField(1,(int)DataFields.RELAY_STATUS).GetValue(_boolConverter.Convert);
             set => GetField(1,(int)DataFields.RELAY_STATUS).SetValue(_boolConverter.Convert, value);
+        }
+
+        public Mid0217() : this(0)
+        {
+
         }
 
         /// <summary>
@@ -52,8 +57,6 @@ namespace OpenProtocolInterpreter.IOInterface
             RelayNumber = relayNumber;
             RelayStatus = relayStatus;
         }
-
-        internal Mid0217(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

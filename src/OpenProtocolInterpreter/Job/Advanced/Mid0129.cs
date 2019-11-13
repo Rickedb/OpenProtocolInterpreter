@@ -17,7 +17,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
     /// Answer: MID 0005 Command accepted or
     /// MID 0004 Command error, Job batch decrement failed (only for MID revision 2)
     /// </summary>
-    public class Mid0129 : Mid, IAdvancedJob
+    public class Mid0129 : Mid, IAdvancedJob, IIntegrator
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 2;
@@ -34,7 +34,12 @@ namespace OpenProtocolInterpreter.Job.Advanced
             set => GetField(2,(int)DataFields.PARAMETER_SET_ID).SetValue(_intConverter.Convert, value);
         }
 
-        public Mid0129(int revision = LAST_REVISION) : base(MID, LAST_REVISION)
+        public Mid0129() : this(LAST_REVISION)
+        {
+
+        }
+
+        public Mid0129(int revision = LAST_REVISION) : base(MID, revision)
         {
             _intConverter = new Int32Converter();
         }
@@ -44,8 +49,6 @@ namespace OpenProtocolInterpreter.Job.Advanced
             ChannelId = channelId;
             ParameterSetId = parameterSetId;
         }
-
-        internal Mid0129(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

@@ -12,21 +12,27 @@ namespace OpenProtocolInterpreter.Job
     /// Message sent by: Integrator
     /// Answer: MID 0033 Job data upload or MID 0004 Command error, Job ID not present
     /// </summary>
-    public class Mid0032 : Mid, IJob
+    public class Mid0032 : Mid, IJob, IIntegrator
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 3;
         public const int MID = 32;
-        
+
         public int JobId
         {
-            get => GetField(1,(int)DataFields.JOB_ID).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.JOB_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.JOB_ID).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.JOB_ID).SetValue(_intConverter.Convert, value);
+        }
+
+        public Mid0032() : this(LAST_REVISION)
+        {
+
         }
 
         public Mid0032(int revision = LAST_REVISION) : base(MID, revision)
         {
             _intConverter = new Int32Converter();
+            HandleRevision();
         }
 
         /// <summary>
@@ -39,25 +45,12 @@ namespace OpenProtocolInterpreter.Job
         /// <param name="revision">Revision number (default = 3)</param>
         public Mid0032(int jobId, int revision = 2) : this(revision) => JobId = jobId;
 
-        internal Mid0032(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
-
-        public override string Pack()
-        {
-            HandleRevision();
-            return base.Pack();
-        }
-
         public override Mid Parse(string package)
         {
-            if (IsCorrectType(package))
-            {
-                HeaderData = ProcessHeader(package);
-                HandleRevision();
-                ProcessDataFields(package);
-                return this;
-            }
-
-            return NextTemplate.Parse(package);
+            HeaderData = ProcessHeader(package);
+            HandleRevision();
+            ProcessDataFields(package);
+            return this;
         }
 
 
@@ -101,9 +94,9 @@ namespace OpenProtocolInterpreter.Job
         private void HandleRevision()
         {
             if (HeaderData.Revision == 1)
-                GetField(1,(int)DataFields.JOB_ID).Size = 2;
+                GetField(1, (int)DataFields.JOB_ID).Size = 2;
             else
-                GetField(1,(int)DataFields.JOB_ID).Size = 4;
+                GetField(1, (int)DataFields.JOB_ID).Size = 4;
         }
 
         public enum DataFields

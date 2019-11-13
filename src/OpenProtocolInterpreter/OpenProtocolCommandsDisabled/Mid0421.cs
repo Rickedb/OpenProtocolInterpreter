@@ -14,7 +14,7 @@ namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
     /// Message sent by: Controller
     /// Answer: MID 0422 Open Protocol commands disabled acknowledge
     /// </summary>
-    public class Mid0421 : Mid, IOpenProtocolCommandsDisabled
+    public class Mid0421 : Mid, IOpenProtocolCommandsDisabled, IController
     {
         private readonly IValueConverter<bool> _boolConverter;
         private const int LAST_REVISION = 1;
@@ -26,6 +26,11 @@ namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
             set => GetField(1,(int)DataFields.DIGITAL_INPUT_STATUS).SetValue(_boolConverter.Convert, value);
         }
 
+        public Mid0421() : this(0)
+        {
+
+        }
+
         public Mid0421(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
         {
             _boolConverter = new BoolConverter();
@@ -35,8 +40,6 @@ namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
         {
             DigitalInputStatus = digitalInputStatus;
         }
-
-        internal Mid0421(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

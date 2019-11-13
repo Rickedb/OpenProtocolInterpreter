@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.MultiSpindle
     /// Message sent by: Controller
     /// Answer : MID 0092 Multi-spindle status acknowledge
     /// </summary>
-    public class Mid0091 : Mid, IMultiSpindle
+    public class Mid0091 : Mid, IMultiSpindle, IController
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;
@@ -24,26 +24,30 @@ namespace OpenProtocolInterpreter.MultiSpindle
 
         public int NumberOfSpindles
         {
-            get => GetField(1,(int)DataFields.NUMBER_OF_SPINDLES).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.NUMBER_OF_SPINDLES).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.NUMBER_OF_SPINDLES).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.NUMBER_OF_SPINDLES).SetValue(_intConverter.Convert, value);
         }
         public int SyncTighteningId
         {
-            get => GetField(1,(int)DataFields.SYNC_TIGHTENING_ID).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.SYNC_TIGHTENING_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.SYNC_TIGHTENING_ID).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.SYNC_TIGHTENING_ID).SetValue(_intConverter.Convert, value);
         }
         public DateTime Time
         {
-            get => GetField(1,(int)DataFields.TIME).GetValue(_dateConverter.Convert);
-            set => GetField(1,(int)DataFields.TIME).SetValue(_dateConverter.Convert, value);
+            get => GetField(1, (int)DataFields.TIME).GetValue(_dateConverter.Convert);
+            set => GetField(1, (int)DataFields.TIME).SetValue(_dateConverter.Convert, value);
         }
         public bool SyncOverallStatus
         {
-            get => GetField(1,(int)DataFields.SYNC_OVERALL_STATUS).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.SYNC_OVERALL_STATUS).SetValue(_boolConverter.Convert, value);
+            get => GetField(1, (int)DataFields.SYNC_OVERALL_STATUS).GetValue(_boolConverter.Convert);
+            set => GetField(1, (int)DataFields.SYNC_OVERALL_STATUS).SetValue(_boolConverter.Convert, value);
         }
         public List<SpindleStatus> SpindlesStatus { get; set; }
 
+        public Mid0091() : this(0)
+        {
+
+        }
 
         public Mid0091(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
         {
@@ -63,27 +67,20 @@ namespace OpenProtocolInterpreter.MultiSpindle
             SpindlesStatus = spindleStatus.ToList();
         }
 
-        internal Mid0091(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
-
         public override string Pack()
         {
-            GetField(1,(int)DataFields.SPINDLE_STATUS).Value = _spindlesStatusConverter.Convert(SpindlesStatus);
+            GetField(1, (int)DataFields.SPINDLE_STATUS).Value = _spindlesStatusConverter.Convert(SpindlesStatus);
             return base.Pack();
         }
 
         public override Mid Parse(string package)
         {
-            if (IsCorrectType(package))
-            {
-                HeaderData = ProcessHeader(package);
-                var spindleField = GetField(1,(int)DataFields.SPINDLE_STATUS);
-                spindleField.Size = package.Length - spindleField.Index - 2;
-                base.Parse(package);
-                SpindlesStatus = _spindlesStatusConverter.Convert(spindleField.Value).ToList();
-                return this;
-            }
-
-            return NextTemplate.Parse(package);
+            HeaderData = ProcessHeader(package);
+            var spindleField = GetField(1, (int)DataFields.SPINDLE_STATUS);
+            spindleField.Size = package.Length - spindleField.Index - 2;
+            base.Parse(package);
+            SpindlesStatus = _spindlesStatusConverter.Convert(spindleField.Value).ToList();
+            return this;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

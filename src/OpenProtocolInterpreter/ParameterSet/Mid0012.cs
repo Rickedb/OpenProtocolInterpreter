@@ -11,7 +11,7 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// Message sent by: Integrator
     /// Answer: MID 0013 Parameter set data upload reply, or MID 0004 Command error, Parameter set not present
     /// </summary>
-    public class Mid0012 : Mid, IParameterSet
+    public class Mid0012 : Mid, IParameterSet, IIntegrator
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 4;
@@ -26,6 +26,11 @@ namespace OpenProtocolInterpreter.ParameterSet
         {
             get => GetField(3, (int)DataFields.PSET_FILE_VERSION).GetValue(_intConverter.Convert);
             set => GetField(3, (int)DataFields.PSET_FILE_VERSION).SetValue(_intConverter.Convert, value);
+        }
+
+        public Mid0012() : this(LAST_REVISION)
+        {
+
         }
 
         public Mid0012(int revision = LAST_REVISION) : base(MID, revision)
@@ -53,8 +58,6 @@ namespace OpenProtocolInterpreter.ParameterSet
         {
             ParameterSetFileVersion = parameterSetFileVersion;
         }
-
-        internal Mid0012(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         /// <summary>
         /// Validate all fields size

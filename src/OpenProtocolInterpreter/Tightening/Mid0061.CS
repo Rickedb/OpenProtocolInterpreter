@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace OpenProtocolInterpreter.Tightening
 {
@@ -12,7 +11,7 @@ namespace OpenProtocolInterpreter.Tightening
     /// Message sent by: Controller
     /// Answer: MID 0062 Last tightening result data acknowledge
     /// </summary>
-    public class Mid0061 : Mid, ITightening
+    public class Mid0061 : Mid, ITightening, IController
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<long> _longConverter;
@@ -333,6 +332,11 @@ namespace OpenProtocolInterpreter.Tightening
         }
         public List<StageResult> StageResults { get; set; }
 
+        public Mid0061() : this(LAST_REVISION)
+        {
+
+        }
+
         public Mid0061(int revision = LAST_REVISION) : base(MID, revision)
         {
             var byteArrayConverter = new ByteArrayConverter();
@@ -346,8 +350,6 @@ namespace OpenProtocolInterpreter.Tightening
             _tighteningErrorStatus2Converter = new TighteningErrorStatus2Converter(byteArrayConverter);
             _stageResultListConverter = new StageResultListConverter(_intConverter, _decimalConverter);
         }
-
-        internal Mid0061(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override string BuildHeader()
         {
@@ -431,7 +433,7 @@ namespace OpenProtocolInterpreter.Tightening
                     prefixIndex += RevisionsByFields[i].Count(x => x.HasPrefix);
                 }
 
-                if(HeaderData.Revision == 998)
+                if (HeaderData.Revision == 998)
                 {
                     NumberOfStageResults = StageResults.Count;
                     GetField(998, (int)DataFields.STAGE_RESULT).SetValue(_stageResultListConverter.Convert(StageResults));
@@ -451,33 +453,28 @@ namespace OpenProtocolInterpreter.Tightening
         public override Mid Parse(byte[] package)
         {
             var headerData = ToAscii(package.Take(20).ToArray());
-            if (IsCorrectType(headerData))
+            HeaderData = ProcessHeader(headerData);
+            if (HeaderData.Revision == 1 || HeaderData.Revision == 999)
             {
-                HeaderData = ProcessHeader(headerData);
-                if (HeaderData.Revision == 1 || HeaderData.Revision == 999)
+                ProcessDataFields(package, RevisionsByFields[HeaderData.Revision]);
+            }
+            else
+            {
+                int processUntil = HeaderData.Revision;
+                if (HeaderData.Revision == 998)
                 {
-                    ProcessDataFields(package, RevisionsByFields[HeaderData.Revision]);
-                }
-                else
-                {
-                    int processUntil = HeaderData.Revision;
-                    if (HeaderData.Revision == 998)
-                    {
-                        processUntil = 6;
-                        var stageResultField = GetField(998, (int)DataFields.STAGE_RESULT);
-                        stageResultField.Size = package.Length - stageResultField.Index - 2;
-                        ProcessDataFields(package, RevisionsByFields[998]);
-                        StageResults = _stageResultListConverter.Convert(stageResultField.Value).ToList();
-                    }
-
-                    for (int i = 2; i <= processUntil; i++)
-                        ProcessDataFields(package, RevisionsByFields[i]);
+                    processUntil = 6;
+                    var stageResultField = GetField(998, (int)DataFields.STAGE_RESULT);
+                    stageResultField.Size = package.Length - stageResultField.Index - 2;
+                    ProcessDataFields(package, RevisionsByFields[998]);
+                    StageResults = _stageResultListConverter.Convert(stageResultField.Value).ToList();
                 }
 
-                return this;
+                for (int i = 2; i <= processUntil; i++)
+                    ProcessDataFields(package, RevisionsByFields[i]);
             }
 
-            return NextTemplate.Parse(package);
+            return this;
         }
 
         protected override void ProcessDataFields(string package)

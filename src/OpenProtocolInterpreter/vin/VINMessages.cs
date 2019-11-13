@@ -1,23 +1,33 @@
 ﻿using OpenProtocolInterpreter.Messages;
+using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Vin
 {
-    internal class VinMessages : IMessagesTemplate
+    internal class VinMessages : MessagesTemplate
     {
-        private readonly IMid _templates;
-
-        public VinMessages()
+        public VinMessages() : base()
         {
-            _templates = new Mid0050(new Mid0051(new Mid0052(new Mid0053(new Mid0054(null)))));
+            _templates = new Dictionary<int, MidCompiledInstance>()
+            {
+                { Mid0050.MID, new MidCompiledInstance(typeof(Mid0050)) },
+                { Mid0051.MID, new MidCompiledInstance(typeof(Mid0051)) },
+                { Mid0052.MID, new MidCompiledInstance(typeof(Mid0052)) },
+                { Mid0053.MID, new MidCompiledInstance(typeof(Mid0053)) },
+                { Mid0054.MID, new MidCompiledInstance(typeof(Mid0054)) }
+            };
         }
 
-        public VinMessages(System.Collections.Generic.IEnumerable<Mid> selectedMids)
+        public VinMessages(IEnumerable<Type> selectedMids) : this()
         {
-            _templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
+            FilterSelectedMids(selectedMids);
         }
 
-        public Mid ProcessPackage(string package) => _templates.Parse(package);
+        public VinMessages(InterpreterMode mode) : this()
+        {
+            FilterSelectedMids(mode);
+        }
 
-        public Mid ProcessPackage(byte[] package) => _templates.Parse(package);
+        public override bool IsAssignableTo(int mid) => mid > 49 && mid < 55;
     }
 }

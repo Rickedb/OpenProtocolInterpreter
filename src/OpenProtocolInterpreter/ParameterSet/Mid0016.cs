@@ -7,16 +7,11 @@
     /// Message sent by: Integrator
     /// Answer: None
     /// </summary>
-    public class Mid0016 : Mid, IParameterSet
+    public class Mid0016 : Mid, IParameterSet, IIntegrator
     {
         private const int LAST_REVISION = 1;
         public const int MID = 16;
 
         public Mid0016() : base(MID, LAST_REVISION) { }
-
-        internal Mid0016(IMid nextTemplate) : this()
-        {
-            NextTemplate = nextTemplate;
-        }
     }
 }

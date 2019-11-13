@@ -1,26 +1,45 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using OpenProtocolInterpreter.Messages;
 
 namespace OpenProtocolInterpreter.IOInterface
 {
-    internal class IOInterfaceMessages : IMessagesTemplate
+    internal class IOInterfaceMessages : MessagesTemplate
     {
-        private readonly IMid _templates;
-
-        public IOInterfaceMessages()
+        public IOInterfaceMessages() : base()
         {
-            _templates = new Mid0200(new Mid0210(new Mid0211(new Mid0212(new Mid0213(new Mid0214(
-                             new Mid0215(new Mid0216(new Mid0217(new Mid0218(new Mid0219(new Mid0220(
-                             new Mid0221(new Mid0222(new Mid0223(new Mid0224(new Mid0225(null)))))))))))))))));
+            _templates = new Dictionary<int, MidCompiledInstance>()
+            {
+                { Mid0200.MID, new MidCompiledInstance(typeof(Mid0200)) },
+                { Mid0210.MID, new MidCompiledInstance(typeof(Mid0210)) },
+                { Mid0211.MID, new MidCompiledInstance(typeof(Mid0211)) },
+                { Mid0212.MID, new MidCompiledInstance(typeof(Mid0212)) },
+                { Mid0213.MID, new MidCompiledInstance(typeof(Mid0213)) },
+                { Mid0214.MID, new MidCompiledInstance(typeof(Mid0214)) },
+                { Mid0215.MID, new MidCompiledInstance(typeof(Mid0215)) },
+                { Mid0216.MID, new MidCompiledInstance(typeof(Mid0216)) },
+                { Mid0217.MID, new MidCompiledInstance(typeof(Mid0217)) },
+                { Mid0218.MID, new MidCompiledInstance(typeof(Mid0218)) },
+                { Mid0219.MID, new MidCompiledInstance(typeof(Mid0219)) },
+                { Mid0220.MID, new MidCompiledInstance(typeof(Mid0220)) },
+                { Mid0221.MID, new MidCompiledInstance(typeof(Mid0221)) },
+                { Mid0222.MID, new MidCompiledInstance(typeof(Mid0222)) },
+                { Mid0223.MID, new MidCompiledInstance(typeof(Mid0223)) },
+                { Mid0224.MID, new MidCompiledInstance(typeof(Mid0224)) },
+                { Mid0225.MID, new MidCompiledInstance(typeof(Mid0225)) }
+            };
         }
 
-        public IOInterfaceMessages(IEnumerable<Mid> selectedMids)
+        public IOInterfaceMessages(IEnumerable<Type> selectedMids) : this()
         {
-            _templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
+            FilterSelectedMids(selectedMids);
         }
 
-        public Mid ProcessPackage(string package) => _templates.Parse(package);
+        public IOInterfaceMessages(InterpreterMode mode) : this()
+        {
+            FilterSelectedMids(mode);
+        }
 
-        public Mid ProcessPackage(byte[] package) => _templates.Parse(package);
+        public override bool IsAssignableTo(int mid) => mid > 199 && mid < 226;
     }
 }

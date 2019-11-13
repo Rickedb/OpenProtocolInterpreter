@@ -27,7 +27,7 @@ namespace OpenProtocolInterpreter.PLCUserData
     /// Controller is not a sync master/station controller or
     /// MID revision not supported.
     /// </summary>
-    public class Mid0245 : Mid, IPLCUserData
+    public class Mid0245 : Mid, IPLCUserData, IIntegrator
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 1;
@@ -55,9 +55,6 @@ namespace OpenProtocolInterpreter.PLCUserData
             UserData = userData;
         }
 
-        internal Mid0245(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
-        
-
         public override string Pack()
         {
             GetField(1, (int)DataFields.USER_DATA).Size = UserData.Length;
@@ -66,15 +63,10 @@ namespace OpenProtocolInterpreter.PLCUserData
 
         public override Mid Parse(string package)
         {
-            if (IsCorrectType(package))
-            {
-                HeaderData = ProcessHeader(package);
-                GetField(1,(int)DataFields.USER_DATA).Size = package.Length - 23;
-                ProcessDataFields(package);
-                return this;
-            }
-
-            return NextTemplate.Parse(package);
+            HeaderData = ProcessHeader(package);
+            GetField(1, (int)DataFields.USER_DATA).Size = package.Length - 23;
+            ProcessDataFields(package);
+            return this;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

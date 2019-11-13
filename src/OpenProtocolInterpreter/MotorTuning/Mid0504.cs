@@ -11,13 +11,11 @@
     /// Answer: MID 0005 Command accepted or 
     ///         MID 0004 Command error, Tool motor tuning failed
     /// </summary>
-    public class Mid0504 : Mid, IMotorTuning
+    public class Mid0504 : Mid, IMotorTuning, IIntegrator
     {
         private const int LAST_REVISION = 1;
         public const int MID = 504;
 
         public Mid0504() : base(MID, LAST_REVISION) { }
-
-        internal Mid0504(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
     }
 }

@@ -1,20 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace OpenProtocolInterpreter.Messages
 {
-    internal class MessageTemplateFactory
+    internal static class MessageTemplateFactory
     {
-        public static IMid BuildChainOfMids(IEnumerable<Mid> selectedMids)
+        public static IDictionary<int, Type> Except(this IDictionary<int, Type> defaultMids, IEnumerable<Type> selectedMids)
         {
             if (!selectedMids.Any())
-                return null;
+                return defaultMids;
 
-            List<Mid> midList = selectedMids.ToList();
-            for(int i = 1; i < midList.Count; i++)
-                midList[i - 1].SetNextTemplate(midList[i]);
-                
-            return midList.FirstOrDefault();
+            var unusedMids = defaultMids.Values.Except(selectedMids);
+
+            foreach (var unused in unusedMids)
+            {
+                defaultMids.Remove(defaultMids.First(x => x.Value == unused));
+            }
+
+            return defaultMids;
         }
     }
 }

@@ -16,7 +16,7 @@ namespace OpenProtocolInterpreter.IOInterface
     /// Answer: MID 0005 Command accepted or
     ///         MID 0004 Command error, The relay function subscription already exists
     /// </summary>
-    public class Mid0216 : Mid, IIOInterface
+    public class Mid0216 : Mid, IIOInterface, IIntegrator
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 1;
@@ -28,6 +28,11 @@ namespace OpenProtocolInterpreter.IOInterface
             set => GetField(1,(int)DataFields.RELAY_NUMBER).SetValue(_intConverter.Convert, (int)value);
         }
 
+        public Mid0216() : this(0)
+        {
+
+        }
+
         public Mid0216(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
         {
             _intConverter = new Int32Converter();
@@ -37,8 +42,6 @@ namespace OpenProtocolInterpreter.IOInterface
         {
             RelayNumber = relayNumber;
         }
-
-        internal Mid0216(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

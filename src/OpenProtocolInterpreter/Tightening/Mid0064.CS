@@ -16,7 +16,7 @@ namespace OpenProtocolInterpreter.Tightening
     ///         or MID 0004 Command error, Tightening ID requested not found,
     ///         or MID revision not supported
     /// </summary>
-    public class Mid0064 : Mid, ITightening
+    public class Mid0064 : Mid, ITightening, IIntegrator
     {
         private readonly IValueConverter<long> _longConverter;
         private const int LAST_REVISION = 6;
@@ -28,7 +28,12 @@ namespace OpenProtocolInterpreter.Tightening
             set => GetField(1,(int)DataFields.TIGHTENING_ID).SetValue(_longConverter.Convert, value);
         }
 
-        public Mid0064(int revision = LAST_REVISION) : base(MID, LAST_REVISION)
+        public Mid0064() : this(LAST_REVISION)
+        {
+
+        }
+
+        public Mid0064(int revision = LAST_REVISION) : base(MID, revision)
         {
             _longConverter = new Int64Converter();
         }
@@ -37,8 +42,6 @@ namespace OpenProtocolInterpreter.Tightening
         {
             TighteningId = tighteningId;
         }
-
-        internal Mid0064(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

@@ -1,13 +1,16 @@
 
 # OpenProtocolInterpreter  
-[![Build status](https://ci.appveyor.com/api/projects/status/op72gr1k1vi04o35/branch/master?svg=true)](https://ci.appveyor.com/project/Rickedb/openprotocolintepreter/branch/master) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/Rickedb/OpenProtocolIntepreter/master/LICENSE)
+[![Build status](https://github.com/rickedb/openprotocolinterpreter/workflows/master/badge.svg)](https://github.com/Rickedb/OpenProtocolInterpreter/) 
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/Rickedb/OpenProtocolIntepreter/master/LICENSE)
 > OpenProtocol communication utility
 
 > Missing OpenProtocolInterpreter v1.0.0 ? [>It's here!<](https://github.com/Rickedb/OpenProtocolInterpreter/releases/tag/1.0.0)
 
+> Missing OpenProtocolInterpreter v2.2.1 ? [>It's here!<](https://github.com/Rickedb/OpenProtocolInterpreter/releases/tag/2.2.1)
+
  1. [What is Open Protocol at all?](#what-is-open-protocol-at-all) 
  2. [What is OpenProtocolInterpreter?](#what-is-openprotocolinterpreter)
- 3. [Changelog version 2.2.0](#changelog-for-version-2.2.0)
+ 3. [Changelog version 3.0.0](#changelog-for-version-3.0.0)
  4. [How does it work?](#how-does-it-work)
  5. [Usage examples](#lets-see-some-examples-of-usage)
  6. [Available on package managers](#get-it-on-nuget)
@@ -35,15 +38,13 @@ OpenProtocolInterpreter is a **library that converts the ugly string** that came
 
 **[If you're curious, just take a look at their documentation.](https://github.com/Rickedb/OpenProtocolIntepreter/blob/master/docs/OpenProtocol_Specification.pdf)**
 
-## Changelog for version 2.2.0
+## Changelog for version 3.0.0
 
- 1. New overload added to Mid class => Parse(byte[] package);
- 2. New method added to Mid class => PackBytes();
- 3. All revisions are now working with byte[] and ASCII string;
- 4. Mid 0061 and 0065 now works for every revision. 
-     * Because of Strategy Options and other fields which are used as bytes, not ASCII string it wasn't possible to work with other revisions in Parse(string package);
- 5. Mid 0061 and 0065 got their Parse(string package) overload obsolete, you should only use it for revisions 1 and 999, otherwise use Parse(byte[] package) overload;
- 6. Compatibility remains for all 2.X.X versions;
+ 1. Reworked on how to instantiate a Mid class when parsing to fix a bug where the parse method updates the same instance instead of creating a new;
+ 2. Pack methods added to MidInterpreter as Pack(Mid mid) and PackBytes(Mid mid);
+ 3. Added extension methods to MidInterpreter to use the desired Mids/Message parsers;
+ 4. Now you can instantiate MidIntepreter telling if you're the Controller or the Integrator;
+ 5. Upgraded it from .net framework 4.5.1 to .net standard 2.0 to include .net core projects;
 
 ## How does it work?
 
@@ -53,15 +54,15 @@ For example, let's imagine you received the following string package:
 ``` csharp
 string package = "00240005001         0018";
 ```
-It's **MID 5**, so OpenProtocolIntepreter will return a **MID_0005** class for you with all his datafields and the package entire translated to an object.
+It's **MID 5**, so OpenProtocolIntepreter will return a **Mid0005** class for you with all his datafields and the package entire translated to an object.
 
 ## Let's see some examples of usage
 
 A simple usage:
 
 ``` csharp
-MidInterpreter interpreter = new MidInterpreter();
-string midPackage = @"00260004001         001802";
+var interpreter = new MidInterpreter();
+var midPackage = @"00260004001         001802";
 var myMid04 = interpreter.Parse<Mid0004>(midPackage);
 //MID 0004 is an error mid which contains which MID Failed and its error code
 //Int value of the Failed Mid
@@ -72,8 +73,8 @@ Error errorCode = myMid04.ErrorCode;
 
 It can generate an object from a string, but can it make it to the other way?? FOR SURE!
 ``` csharp
-Mid0032 jobUploadRequest = new Mid0032(1, 2); //Job id 1, revision 2
-string package = jobUploadRequest.Pack();
+var jobUploadRequest = new Mid0032(1, 2); //Job id 1, revision 2
+var package = jobUploadRequest.Pack();
 //Generated package => 00240032002         0001
 ```  
 
@@ -90,12 +91,8 @@ Put one thing in mind, in real world we will always need to build something more
 
 #### How it was built?
 
-Well, FYI it was all built accordingly with **Chain Of Responsabilities** design pattern, so we iterate among the **COMMON** and **ONLY COMMON MIDs.**
-<dl>
-    <dt>What do I mean by Common mid?</dt>
-    <dd>The docs separate mids by categories, such as "Job MIDs", there will be, Job Info, Ack, Upload Request, etc.</dd>
-    <dd>So we iterate only inside "Job Messages", not in all of available MIDs.</dd>
-</dl>
+It used to rely on **Chain Of Responsabilities** design pattern, but since we had some problems with instance references, it changed!
+For now, instead of iterating through all Mids of the same category, it relies on a Dictionary, which every category knows which mid it attends, once it found it creates a new Instance via System.Reflection and parse it.
 
 #### MIDs Identifying Customization
 
@@ -104,28 +101,29 @@ The answer is... **NO!**
 
 You will probably need only to use a range of MIDs, with this in mind, we did something to make things faster. You can tell us which MIDs we should considerate!
 
-> *NOTE: You can register only mids you need to call "processPackage" method 
+> *NOTE: You can register only mids you need to call "Parse" method 
 
 Here is an example:
 ``` csharp
 string package = "00260004001         001802";
-var myCustomInterpreter = new MidInterpreter(new Mid[]
-                        {
-                            new Mid0001(),
-                            new Mid0002(),
-                            new Mid0003(),
-                            new Mid0004(),
-                            new Mid0106()
-                        });
+var myCustomInterpreter = new MidInterpreter()
+								.UseAllMessages(new Type[]
+		                        {
+		                            typeof(Mid0001),
+		                            typeof(Mid0002),
+		                            typeof(Mid0003),
+		                            typeof(Mid0004),
+		                            typeof(Mid0106)
+		                        });
 //Will work:
-Mid0004 myMid04 = myCustomInterpreter.Parse<Mid0004>(package);
+var myMid04 = myCustomInterpreter.Parse<Mid0004>(package);
 //Won't work, will throw NotImplementedException:
-Mid0030 myMid30 = myCustomInterpreter.Parse<Mid0030>(package);        
+var myMid30 = myCustomInterpreter.Parse<Mid0030>(package);        
 //Won't work, will throw InvalidCastException:
-Mid0001 myMid01 = myCustomInterpreter.Parse<Mid0001>(package);
+var myMid01 = myCustomInterpreter.Parse<Mid0001>(package);
 ```
 When you don't know which package will come, use ``` Parse ``` overload, not ``` Parse<DesiredMid> ```. If you want, take a look at the sample on this repository.
-> In my conception you should always register used MIDs when you are the **Integrator**
+> If necessary, there is a new overload where you can define if you're the controller or the integrator, which will automatically handle implemented mids
 
 #### Advanced Example
 
@@ -209,7 +207,7 @@ protected void BuildAndSendAcknowledge(Mid mid)
 
 ### Tips
 
-> Instantiate the **MIDIdentifier** class just once, it takes some time to build all the "chain thing", and you don't want to lose time instantiating it everytime a package arrives.
+> Instantiate the **MIDIdentifier** class just once and keep working with it!
 
 > **Controller Implementation Tip:** Always **TRY** to register used MIDs, not all Tightening Controllers use every available MID.
 
@@ -227,6 +225,10 @@ But if you wish, you can support and help to motivate the constant improving of 
 ### List of still unavailable Mids
 
  - Mid 0009;
+ - Mid 0100;
+ - Mid 0101;
+ - Mid 0102;
+ - Mid 0103;
  - Mid 0700;
  - Mid 0900;
  - Mid 0901;

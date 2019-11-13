@@ -6,14 +6,16 @@
     /// Message sent by: Integrator
     /// Answer: None
     /// </summary>
-    public class Mid0125 : Mid, IAdvancedJob
+    public class Mid0125 : Mid, IAdvancedJob, IIntegrator
     {
         private const int LAST_REVISION = 1;
         public const int MID = 125;
 
-        public Mid0125(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) { }
+        public Mid0125() : this(0)
+        {
 
-        internal Mid0125(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
-        
+        }
+
+        public Mid0125(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) { }
     }
 }

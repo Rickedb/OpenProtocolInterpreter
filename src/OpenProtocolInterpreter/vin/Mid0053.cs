@@ -7,16 +7,19 @@
     /// Message sent by: Integrator
     /// Answer: None
     /// </summary>
-    public class Mid0053 : Mid, IVin
+    public class Mid0053 : Mid, IVin, IIntegrator
     {
         private const int LAST_REVISION = 2;
         public const int MID = 53;
-        
-        public Mid0053(int revision = LAST_REVISION) : base(MID, revision)
+
+        public Mid0053() : this(LAST_REVISION)
         {
 
         }
 
-        internal Mid0053(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
+        public Mid0053(int revision = LAST_REVISION) : base(MID, revision)
+        {
+
+        }
     }
 }

@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.UserInterface
     /// Answer: MID 0005 Command accepted or 
     ///         MID 0004 Command error, User text could not be displayed
     /// </summary>
-    public class Mid0110 : Mid, IUserInterface
+    public class Mid0110 : Mid, IUserInterface, IIntegrator
     {
         private const int LAST_REVISION = 1;
         public const int MID = 110;
@@ -33,8 +33,6 @@ namespace OpenProtocolInterpreter.UserInterface
         {
             UserText = userText;
         }
-
-        internal Mid0110(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

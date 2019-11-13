@@ -11,7 +11,7 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// Message sent by: Controller
     /// Answer: MID 0023 Lock at batch done upload Ack
     /// </summary>
-    public class Mid0022 : Mid, IParameterSet
+    public class Mid0022 : Mid, IParameterSet, IController
     {
         private readonly IValueConverter<bool> _boolConverter;
         public const int MID = 22;
@@ -21,6 +21,11 @@ namespace OpenProtocolInterpreter.ParameterSet
         {
             get => GetField(1, (int)DataFields.RELAY_STATUS).GetValue(_boolConverter.Convert);
             set => GetField(1, (int)DataFields.RELAY_STATUS).SetValue(_boolConverter.Convert, value);
+        }
+
+        public Mid0022() : this(0)
+        {
+
         }
 
         public Mid0022(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
@@ -37,8 +42,6 @@ namespace OpenProtocolInterpreter.ParameterSet
         {
             RelayStatus = relayStatus;
         }
-
-        internal Mid0022(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

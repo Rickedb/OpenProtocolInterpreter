@@ -15,7 +15,7 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// Message sent by: Controller
     /// Answer: MID 0016 New parameter set selected acknowledge
     /// </summary>
-    public class Mid0015 : Mid, IParameterSet
+    public class Mid0015 : Mid, IParameterSet, IController
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<decimal> _decimalConverter;
@@ -25,8 +25,8 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public int ParameterSetId
         {
-            get => GetField(1, (int)DataFields.PARAMETER_SET_ID).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.PARAMETER_SET_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(HeaderData.Revision, (int)DataFields.PARAMETER_SET_ID).GetValue(_intConverter.Convert);
+            set => GetField(HeaderData.Revision, (int)DataFields.PARAMETER_SET_ID).SetValue(_intConverter.Convert, value);
         }
         public DateTime LastChangeInParameterSet
         {
@@ -90,12 +90,17 @@ namespace OpenProtocolInterpreter.ParameterSet
             set => GetField(2, (int)DataFields.START_FINAL_ANGLE).SetValue(_decimalConverter.Convert, value);
         }
 
+        public Mid0015() : this(LAST_REVISION)
+        {
+
+        }
+
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="ackFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
         /// <param name="revision">Range: 000-002</param>
-        public Mid0015(int? noAckFlag = 0, int revision = LAST_REVISION) : base(MID, revision, noAckFlag)
+        public Mid0015(int revision = LAST_REVISION, int? noAckFlag = 0) : base(MID, revision, noAckFlag)
         {
             _intConverter = new Int32Converter();
             _datetimeConverter = new DateConverter();
@@ -110,7 +115,7 @@ namespace OpenProtocolInterpreter.ParameterSet
         /// <param name="ackFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
         /// <param name="revision">Range: 000-002</param>
         public Mid0015(int parameterSetId, DateTime lastChangeInParameterSet, int? noAckFlag = 0, int revision = 1)
-            : this(noAckFlag, revision)
+            : this(revision, noAckFlag)
         {
             ParameterSetId = parameterSetId;
             LastChangeInParameterSet = lastChangeInParameterSet;
@@ -151,8 +156,6 @@ namespace OpenProtocolInterpreter.ParameterSet
             StartFinalAngle = startFinalAngle;
         }
 
-        internal Mid0015(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
-
         protected override string BuildHeader()
         {
             HeaderData.Length = 20;
@@ -170,14 +173,10 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public override Mid Parse(string package)
         {
-            if (IsCorrectType(package))
-            {
-                HeaderData = ProcessHeader(package);
-                ProcessDataFields(RevisionsByFields[HeaderData.Revision], package);
-                return this;
-            }
-
-            return NextTemplate.Parse(package);
+            HeaderData = ProcessHeader(package);
+            HeaderData.Revision = HeaderData.Revision > 0 ? HeaderData.Revision : 1;
+            ProcessDataFields(RevisionsByFields[HeaderData.Revision], package);
+            return this;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

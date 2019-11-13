@@ -13,13 +13,16 @@
     /// Status externally monitored inputs subscription already exists or 
     /// MID 0211 Status externally monitored inputs.
     /// </summary>
-    public class Mid0210 : Mid, IIOInterface
+    public class Mid0210 : Mid, IIOInterface, IIntegrator
     {
         private const int LAST_REVISION = 1;
         public const int MID = 210;
 
-        public Mid0210(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) { }
+        public Mid0210() : this(0)
+        {
 
-        internal Mid0210(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
+        }
+
+        public Mid0210(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) { }
     }
 }

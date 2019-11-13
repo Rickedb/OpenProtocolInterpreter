@@ -1,24 +1,37 @@
 ﻿using OpenProtocolInterpreter.Messages;
+using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Tool
 {
-    internal class ToolMessages : IMessagesTemplate
+    internal class ToolMessages : MessagesTemplate
     {
-        private readonly IMid _templates;
-
-        public ToolMessages()
+        public ToolMessages() : base()
         {
-            _templates = new Mid0040(new Mid0041(new Mid0042(new Mid0043(new Mid0044(new Mid0045(new Mid0046(
-                             new Mid0047(new Mid0048(null)))))))));
+            _templates = new Dictionary<int, MidCompiledInstance>()
+            {
+                { Mid0040.MID, new MidCompiledInstance(typeof(Mid0040)) },
+                { Mid0041.MID, new MidCompiledInstance(typeof(Mid0041)) },
+                { Mid0042.MID, new MidCompiledInstance(typeof(Mid0042)) },
+                { Mid0043.MID, new MidCompiledInstance(typeof(Mid0043)) },
+                { Mid0044.MID, new MidCompiledInstance(typeof(Mid0044)) },
+                { Mid0045.MID, new MidCompiledInstance(typeof(Mid0045)) },
+                { Mid0046.MID, new MidCompiledInstance(typeof(Mid0046)) },
+                { Mid0047.MID, new MidCompiledInstance(typeof(Mid0047)) },
+                { Mid0048.MID, new MidCompiledInstance(typeof(Mid0048)) }
+            };
         }
 
-        public ToolMessages(System.Collections.Generic.IEnumerable<Mid> selectedMids)
+        public ToolMessages(IEnumerable<Type> selectedMids) : this()
         {
-            _templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
+            FilterSelectedMids(selectedMids);
         }
 
-        public Mid ProcessPackage(string package) => _templates.Parse(package);
+        public ToolMessages(InterpreterMode mode) : this()
+        {
+            FilterSelectedMids(mode);
+        }
 
-        public Mid ProcessPackage(byte[] package) => _templates.Parse(package);
+        public override bool IsAssignableTo(int mid) => mid > 39 && mid < 49;
     }
 }

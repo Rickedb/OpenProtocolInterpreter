@@ -11,7 +11,7 @@ namespace OpenProtocolInterpreter.Tool
     /// Message sent by: Controller
     /// Answer: N/A
     /// </summary>
-    public class Mid0048 : Mid, ITool
+    public class Mid0048 : Mid, ITool, IController
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<DateTime> _dateConverter;
@@ -45,8 +45,6 @@ namespace OpenProtocolInterpreter.Tool
             PairingStatus = pairingStatus;
             TimeStamp = timeStamp;
         }
-
-        internal Mid0048(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

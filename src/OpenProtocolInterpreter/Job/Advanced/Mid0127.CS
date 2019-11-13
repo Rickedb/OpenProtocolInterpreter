@@ -6,7 +6,7 @@
     /// Message sent by: Integrator
     /// Answer: MID 0005
     /// </summary>
-    public class Mid0127 : Mid, IAdvancedJob
+    public class Mid0127 : Mid, IAdvancedJob, IIntegrator
     {
         private const int LAST_REVISION = 1;
         public const int MID = 127;
@@ -15,8 +15,5 @@
         {
 
         }
-
-        internal Mid0127(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
-        
     }
 }

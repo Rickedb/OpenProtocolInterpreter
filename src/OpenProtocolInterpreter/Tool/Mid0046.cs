@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.Tool
     /// Answer: MID 0005 Command accepted or MID 0004 Command error, 
     ///         Programming control not granted or Invalid data (value not supported by controller)
     /// </summary>
-    public class Mid0046 : Mid, ITool
+    public class Mid0046 : Mid, ITool, IIntegrator
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 1;
@@ -38,8 +38,6 @@ namespace OpenProtocolInterpreter.Tool
         {
             PrimaryTool = primaryTool;
         }
-
-        internal Mid0046(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

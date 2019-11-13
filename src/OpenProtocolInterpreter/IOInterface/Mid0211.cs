@@ -11,7 +11,7 @@ namespace OpenProtocolInterpreter.IOInterface
     /// Message sent by: Controller
     /// Answer: MID 0212 Status externally monitored inputs acknowledge
     /// </summary>
-    public class Mid0211 : Mid, IIOInterface
+    public class Mid0211 : Mid, IIOInterface, IController
     {
         private readonly IValueConverter<bool> _boolConverter;
         private const int LAST_REVISION = 1;
@@ -58,13 +58,16 @@ namespace OpenProtocolInterpreter.IOInterface
             set => GetField(1,(int)DataFields.STATUS_DIG_IN_8).SetValue(_boolConverter.Convert, value);
         }
 
+        public Mid0211() : this(0)
+        {
+
+        }
+
         public Mid0211(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
         {
             _boolConverter = new BoolConverter();
         }
 
-        internal Mid0211(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
-        
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()

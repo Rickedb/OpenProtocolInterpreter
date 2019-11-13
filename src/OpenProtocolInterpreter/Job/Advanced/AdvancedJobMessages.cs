@@ -1,24 +1,43 @@
 ﻿using OpenProtocolInterpreter.Messages;
+using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Job.Advanced
 {
-    internal class AdvancedJobMessages : IMessagesTemplate
+    internal class AdvancedJobMessages : MessagesTemplate
     {
-        private readonly IMid _templates;
-
-        public AdvancedJobMessages()
+        public AdvancedJobMessages() : base()
         {
-            _templates = new Mid0121(new Mid0122(new Mid0123(new Mid0124(new Mid0125(new Mid0126(new Mid0127(new Mid0128(new Mid0129(
-                             new Mid0130(new Mid0131(new Mid0132(new Mid0133(new Mid0120(new Mid0140(null)))))))))))))));
+            _templates = new Dictionary<int, MidCompiledInstance>()
+            {
+                { Mid0120.MID, new MidCompiledInstance(typeof(Mid0120)) },
+                { Mid0121.MID, new MidCompiledInstance(typeof(Mid0121)) },
+                { Mid0122.MID, new MidCompiledInstance(typeof(Mid0122)) },
+                { Mid0123.MID, new MidCompiledInstance(typeof(Mid0123)) },
+                { Mid0124.MID, new MidCompiledInstance(typeof(Mid0124)) },
+                { Mid0125.MID, new MidCompiledInstance(typeof(Mid0125)) },
+                { Mid0126.MID, new MidCompiledInstance(typeof(Mid0126)) },
+                { Mid0127.MID, new MidCompiledInstance(typeof(Mid0127)) },
+                { Mid0128.MID, new MidCompiledInstance(typeof(Mid0128)) },
+                { Mid0129.MID, new MidCompiledInstance(typeof(Mid0129)) },
+                { Mid0130.MID, new MidCompiledInstance(typeof(Mid0130)) },
+                { Mid0131.MID, new MidCompiledInstance(typeof(Mid0131)) },
+                { Mid0132.MID, new MidCompiledInstance(typeof(Mid0132)) },
+                { Mid0133.MID, new MidCompiledInstance(typeof(Mid0133)) },
+                { Mid0140.MID, new MidCompiledInstance(typeof(Mid0140)) }
+            };
         }
 
-        public AdvancedJobMessages(System.Collections.Generic.IEnumerable<Mid> selectedMids)
+        public AdvancedJobMessages(IEnumerable<Type> selectedMids) : this()
         {
-            _templates = MessageTemplateFactory.BuildChainOfMids(selectedMids);
+            FilterSelectedMids(selectedMids);
         }
 
-        public Mid ProcessPackage(string package) => _templates.Parse(package);
+        public AdvancedJobMessages(InterpreterMode mode) : this()
+        {
+            FilterSelectedMids(mode);
+        }
 
-        public Mid ProcessPackage(byte[] package) => _templates.Parse(package);
+        public override bool IsAssignableTo(int mid) => mid > 119 && mid < 141;
     }
 }

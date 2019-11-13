@@ -11,16 +11,19 @@
     /// Answer: MID 0005 Command accepted or MID 0004 Command error, Last tightening subscription already 
     ///         exists or MID revision not supported
     /// </summary>
-    public class Mid0060 : Mid, ITightening
+    public class Mid0060 : Mid, ITightening, IIntegrator
     {
         private const int LAST_REVISION = 7;
         public const int MID = 60;
 
-        public Mid0060(int? noAckFlag = 0, int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0060() : this(LAST_REVISION)
         {
 
         }
 
-        internal Mid0060(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
+        public Mid0060(int revision = LAST_REVISION, int ? noAckFlag = 0) : base(MID, revision, noAckFlag)
+        {
+
+        }
     }
 }

@@ -6,13 +6,16 @@
     /// Message sent by: Controller
     /// Answer: MID 0125 Job line control info acknowledged
     /// </summary>
-    public class Mid0121 : Mid, IAdvancedJob
+    public class Mid0121 : Mid, IAdvancedJob, IController
     {
         private const int LAST_REVISION = 1;
         public const int MID = 121;
 
-        public Mid0121(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) { }
+        public Mid0121() : this(0)
+        {
 
-        internal Mid0121(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
+        }
+
+        public Mid0121(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) { }
     }
 }

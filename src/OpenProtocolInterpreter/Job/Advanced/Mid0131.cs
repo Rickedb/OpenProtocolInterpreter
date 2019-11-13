@@ -6,13 +6,11 @@
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted
     /// </summary>
-    public class Mid0131 : Mid, IAdvancedJob
+    public class Mid0131 : Mid, IAdvancedJob, IIntegrator
     {
         private const int LAST_REVISION = 1;
         public const int MID = 131;
 
         public Mid0131() : base(MID, LAST_REVISION) { }
-
-        internal Mid0131(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
     }
 }

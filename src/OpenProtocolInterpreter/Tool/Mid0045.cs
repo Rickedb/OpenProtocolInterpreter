@@ -11,7 +11,7 @@ namespace OpenProtocolInterpreter.Tool
     /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted or MID 0004 Command error, Calibration failed
     /// </summary>
-    public class Mid0045 : Mid, ITool
+    public class Mid0045 : Mid, ITool, IIntegrator
     {
         private readonly IValueConverter<decimal> _decimalConverter;
         private readonly IValueConverter<int> _intConverter;
@@ -45,8 +45,6 @@ namespace OpenProtocolInterpreter.Tool
             CalibrationValueUnit = calibrationValueUnit;
             CalibrationValue = calibrationValue;
         }
-
-        internal Mid0045(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

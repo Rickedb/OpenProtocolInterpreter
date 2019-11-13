@@ -113,7 +113,7 @@
             this.btnConnection.TabIndex = 4;
             this.btnConnection.Text = "Connect";
             this.btnConnection.UseVisualStyleBackColor = true;
-            this.btnConnection.Click += new System.EventHandler(this.btnConnection_Click);
+            this.btnConnection.Click += new System.EventHandler(this.BtnConnection_Click);
             // 
             // label2
             // 
@@ -165,7 +165,7 @@
             this.btnTighteningSubscribe.TabIndex = 11;
             this.btnTighteningSubscribe.Text = "Tightening Subscribe";
             this.btnTighteningSubscribe.UseVisualStyleBackColor = true;
-            this.btnTighteningSubscribe.Click += new System.EventHandler(this.btnTighteningSubscribe_Click);
+            this.btnTighteningSubscribe.Click += new System.EventHandler(this.BtnTighteningSubscribe_Click);
             // 
             // btnJobInfoSubscribe
             // 
@@ -176,7 +176,7 @@
             this.btnJobInfoSubscribe.TabIndex = 10;
             this.btnJobInfoSubscribe.Text = "Job Info Subscribe";
             this.btnJobInfoSubscribe.UseVisualStyleBackColor = true;
-            this.btnJobInfoSubscribe.Click += new System.EventHandler(this.btnJobInfoSubscribe_Click);
+            this.btnJobInfoSubscribe.Click += new System.EventHandler(this.BtnJobInfoSubscribe_Click);
             // 
             // groupBox2
             // 
@@ -211,7 +211,7 @@
             this.btnSendProduct.TabIndex = 11;
             this.btnSendProduct.Text = "Send Product";
             this.btnSendProduct.UseVisualStyleBackColor = true;
-            this.btnSendProduct.Click += new System.EventHandler(this.btnSendProduct_Click);
+            this.btnSendProduct.Click += new System.EventHandler(this.BtnSendProduct_Click);
             // 
             // btnSendJob
             // 
@@ -222,7 +222,7 @@
             this.btnSendJob.TabIndex = 10;
             this.btnSendJob.Text = "Send Job";
             this.btnSendJob.UseVisualStyleBackColor = true;
-            this.btnSendJob.Click += new System.EventHandler(this.btnSendJob_Click);
+            this.btnSendJob.Click += new System.EventHandler(this.BtnSendJob_Click);
             // 
             // numericJob
             // 
@@ -247,7 +247,7 @@
             this.btnAbortJob.TabIndex = 12;
             this.btnAbortJob.Text = "Abort Job";
             this.btnAbortJob.UseVisualStyleBackColor = true;
-            this.btnAbortJob.Click += new System.EventHandler(this.btnAbortJob_Click);
+            this.btnAbortJob.Click += new System.EventHandler(this.BtnAbortJob_Click);
             // 
             // DriverForm
             // 

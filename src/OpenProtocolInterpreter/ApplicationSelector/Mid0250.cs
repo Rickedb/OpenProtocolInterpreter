@@ -10,13 +10,16 @@
     /// Answer: MID 0005 Command accepted or 
     ///         MID 0004 Command error, The selector socket info subscription already exists
     /// </summary>
-    public class Mid0250 : Mid, IApplicationSelector
+    public class Mid0250 : Mid, IApplicationSelector, IIntegrator
     {
         private const int LAST_REVISION = 1;
         public const int MID = 250;
 
-        public Mid0250(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) { }
+        public Mid0250() : this(0)
+        {
 
-        internal Mid0250(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
+        }
+
+        public Mid0250(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) { }
     }
 }

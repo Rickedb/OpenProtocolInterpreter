@@ -14,7 +14,7 @@ namespace OpenProtocolInterpreter.Job
     /// Message sent by: Controller
     /// Answer: MID 0036
     /// </summary>
-    public class Mid0035 : Mid, IJob
+    public class Mid0035 : Mid, IJob, IController
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<DateTime> _datetimeConverter;
@@ -74,10 +74,16 @@ namespace OpenProtocolInterpreter.Job
             set => GetField(4, (int)DataFields.JOB_TIGHTENING_STATUS).SetValue(_intConverter.Convert, (int)value);
         }
 
-        public Mid0035(int revision = LAST_REVISION, int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
+        public Mid0035() : this(LAST_REVISION)
+        {
+
+        }
+
+        public Mid0035(int revision = LAST_REVISION, int? noAckFlag = 0) : base(MID, revision, noAckFlag)
         {
             _intConverter = new Int32Converter();
             _datetimeConverter = new DateConverter();
+            HandleRevision();
         }
 
         /// <summary>
@@ -150,19 +156,12 @@ namespace OpenProtocolInterpreter.Job
             JobTighteningStatus = jobTighteningStatus;
         }
 
-        internal Mid0035(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
-
         public override Mid Parse(string package)
         {
-            if (IsCorrectType(package))
-            {
-                HeaderData = ProcessHeader(package);
-                UpdateFieldsIndexBasedOnRevision();
-                ProcessDataFields(package);
-                return this;
-            }
-
-            return NextTemplate.Parse(package);
+            HeaderData = ProcessHeader(package);
+            HandleRevision();
+            ProcessDataFields(package);
+            return this;
         }
 
         /// <summary>
@@ -238,13 +237,24 @@ namespace OpenProtocolInterpreter.Job
             };
         }
 
-        private void UpdateFieldsIndexBasedOnRevision()
+        private void HandleRevision()
         {
+            var jobIdField = GetField(1, (int)DataFields.JOB_ID);
             if (HeaderData.Revision > 1)
             {
-                GetField(1, (int)DataFields.JOB_ID).Size = 4;
-                for (int i = (int)DataFields.JOB_STATUS; i < RevisionsByFields[1].Count; i++)
-                    GetField(1, i).Index += 2;
+                jobIdField.Size = 4;
+            }
+            else
+            {
+                jobIdField.Size = 2;
+            }
+
+            int index = jobIdField.Index + jobIdField.Size;
+            for (int i = (int)DataFields.JOB_STATUS; i < RevisionsByFields[1].Count; i++)
+            {
+                var field = GetField(1, i);
+                field.Index = 2 + index;
+                index = field.Index + field.Size;
             }
         }
     }

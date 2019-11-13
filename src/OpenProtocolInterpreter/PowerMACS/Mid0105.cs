@@ -15,7 +15,7 @@ namespace OpenProtocolInterpreter.PowerMACS
     /// Answer: MID 0005 Command accepted or 
     ///         MID 0004 Command error, Subscription already exists or MID revision unsupported
     /// </summary>
-    public class Mid0105 : Mid, IPowerMACS
+    public class Mid0105 : Mid, IPowerMACS, IIntegrator
     {
         private readonly IValueConverter<bool> _boolConverter;
         private readonly IValueConverter<int> _intConverter;
@@ -33,14 +33,16 @@ namespace OpenProtocolInterpreter.PowerMACS
             set => GetField(3,(int)DataFields.SEND_ONLY_NEW_DATA).SetValue(_boolConverter.Convert, value);
         }
 
+        public Mid0105() : this(LAST_REVISION)
+        {
+
+        }
+
         public Mid0105(int revision = LAST_REVISION, int? noAckFlag = 0) : base(MID, revision, noAckFlag)
         {
             _boolConverter = new BoolConverter();
             _intConverter = new Int32Converter();
         }
-
-        internal Mid0105(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
-
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

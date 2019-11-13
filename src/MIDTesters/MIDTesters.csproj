@@ -8,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MIDTesters</RootNamespace>
     <AssemblyName>MIDTesters</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -16,6 +16,7 @@
     <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
     <IsCodedUITest>False</IsCodedUITest>
     <TestProjectType>UnitTest</TestProjectType>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -207,13 +208,13 @@
     <Compile Include="Vin\TestMid0054.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenProtocolInterpreter\OpenProtocolInterpreter.csproj">
-      <Project>{8897ca4c-681a-4181-9486-f9b6ce300d22}</Project>
-      <Name>OpenProtocolInterpreter</Name>
-    </ProjectReference>
+    <Folder Include="LinkCommunication\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="LinkCommunication\" />
+    <ProjectReference Include="..\OpenProtocolInterpreter\OpenProtocolInterpreter.csproj">
+      <Project>{b022dfc7-f264-48b2-94c0-8984ffcf3a91}</Project>
+      <Name>OpenProtocolInterpreter</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

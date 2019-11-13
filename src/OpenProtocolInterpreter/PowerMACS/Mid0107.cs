@@ -23,7 +23,7 @@ namespace OpenProtocolInterpreter.PowerMACS
     /// Message sent by: Controller
     /// Answer: MID 0108 Last PowerMACS tightening result data acknowledge
     /// </summary>
-    public class Mid0107 : Mid, IPowerMACS
+    public class Mid0107 : Mid, IPowerMACS, IController
     {
         private readonly IValueConverter<bool> _boolConverter;
         private readonly IValueConverter<int> _intConverter;
@@ -129,8 +129,6 @@ namespace OpenProtocolInterpreter.PowerMACS
                 SpecialValues = new List<SpecialValue>();
         }
 
-        internal Mid0107(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
-
         public override string Pack()
         {
             NumberOfBoltResults = BoltResults.Count;
@@ -147,43 +145,38 @@ namespace OpenProtocolInterpreter.PowerMACS
 
         public override Mid Parse(string package)
         {
-            if (IsCorrectType(package))
-            {
-                HeaderData = ProcessHeader(package);
+            HeaderData = ProcessHeader(package);
 
-                int numberOfBoltResults = _intConverter.Convert(GetValue(GetField(1, (int)DataFields.NUMBER_OF_BOLT_RESULTS), package));
-                var boltResultField = GetField(1, (int)DataFields.BOLT_RESULTS);
-                boltResultField.Size = 29 * numberOfBoltResults;
+            int numberOfBoltResults = _intConverter.Convert(GetValue(GetField(1, (int)DataFields.NUMBER_OF_BOLT_RESULTS), package));
+            var boltResultField = GetField(1, (int)DataFields.BOLT_RESULTS);
+            boltResultField.Size = 29 * numberOfBoltResults;
 
-                var numberOfStepResultsField = GetField(1, (int)DataFields.NUMBER_OF_STEP_RESULTS);
-                numberOfStepResultsField.Index = boltResultField.Index + boltResultField.Size;
+            var numberOfStepResultsField = GetField(1, (int)DataFields.NUMBER_OF_STEP_RESULTS);
+            numberOfStepResultsField.Index = boltResultField.Index + boltResultField.Size;
 
-                var allStepDataSentField = GetField(1, (int)DataFields.ALL_STEP_DATA_SENT);
-                allStepDataSentField.Index = 2 + numberOfStepResultsField.Index + numberOfStepResultsField.Size;
+            var allStepDataSentField = GetField(1, (int)DataFields.ALL_STEP_DATA_SENT);
+            allStepDataSentField.Index = 2 + numberOfStepResultsField.Index + numberOfStepResultsField.Size;
 
-                var stepResultsField = GetField(1, (int)DataFields.STEP_RESULTS);
-                stepResultsField.Index = 2 + allStepDataSentField.Index + allStepDataSentField.Size;
+            var stepResultsField = GetField(1, (int)DataFields.STEP_RESULTS);
+            stepResultsField.Index = 2 + allStepDataSentField.Index + allStepDataSentField.Size;
 
-                int numberOfStepResults = _intConverter.Convert(GetValue(numberOfStepResultsField, package));
-                stepResultsField.Size = 31 * numberOfStepResults;
+            int numberOfStepResults = _intConverter.Convert(GetValue(numberOfStepResultsField, package));
+            stepResultsField.Size = 31 * numberOfStepResults;
 
-                var numberOfSpecialValuesField = GetField(1, (int)DataFields.NUMBER_OF_SPECIAL_VALUES);
-                numberOfSpecialValuesField.Index = stepResultsField.Index + stepResultsField.Size;
+            var numberOfSpecialValuesField = GetField(1, (int)DataFields.NUMBER_OF_SPECIAL_VALUES);
+            numberOfSpecialValuesField.Index = stepResultsField.Index + stepResultsField.Size;
 
-                var specialValuesField = GetField(1, (int)DataFields.SPECIAL_VALUES);
-                specialValuesField.Index = 2 + numberOfSpecialValuesField.Index + numberOfSpecialValuesField.Size;
-                specialValuesField.Size = package.Length - specialValuesField.Index;
+            var specialValuesField = GetField(1, (int)DataFields.SPECIAL_VALUES);
+            specialValuesField.Index = 2 + numberOfSpecialValuesField.Index + numberOfSpecialValuesField.Size;
+            specialValuesField.Size = package.Length - specialValuesField.Index;
 
-                ProcessDataFields(package);
-                _specialValueConverter = new SpecialValueListConverter(_intConverter, NumberOfSpecialValues, true);
+            ProcessDataFields(package);
+            _specialValueConverter = new SpecialValueListConverter(_intConverter, NumberOfSpecialValues, true);
 
-                BoltResults = _boltResultConverter.Convert(boltResultField.Value).ToList();
-                StepResults = _stepResultConverter.Convert(stepResultsField.Value).ToList();
-                SpecialValues = _specialValueConverter.Convert(specialValuesField.Value).ToList();
-                return this;
-            }
-
-            return NextTemplate.Parse(package);
+            BoltResults = _boltResultConverter.Convert(boltResultField.Value).ToList();
+            StepResults = _stepResultConverter.Convert(stepResultsField.Value).ToList();
+            SpecialValues = _specialValueConverter.Convert(specialValuesField.Value).ToList();
+            return this;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

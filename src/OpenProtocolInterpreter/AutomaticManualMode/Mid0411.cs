@@ -1,5 +1,4 @@
 ﻿using OpenProtocolInterpreter.Converters;
-using System;
 using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.AutomaticManualMode
@@ -23,7 +22,7 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
     /// Message sent by: Controller
     /// Answer: None
     /// </summary>
-    public class Mid0411 : Mid, IAutomaticManualMode
+    public class Mid0411 : Mid, IAutomaticManualMode, IController
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 1;
@@ -50,9 +49,6 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
             AutoDisableSetting = autoDisableSetting;
             CurrentBatch = currentBatch;
         }
-
-        internal Mid0411(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
-        
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

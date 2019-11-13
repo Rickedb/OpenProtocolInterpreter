@@ -2,7 +2,8 @@
 {
     internal interface IMessagesTemplate
     {
-        Mid ProcessPackage(string package);
-        Mid ProcessPackage(byte[] package);
+        Mid ProcessPackage(int mid, string package);
+        Mid ProcessPackage(int mid, byte[] package);
+        bool IsAssignableTo(int mid);
     }
 }

@@ -1,5 +1,4 @@
 ﻿using OpenProtocolInterpreter.Converters;
-using System;
 using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.IOInterface
@@ -14,7 +13,7 @@ namespace OpenProtocolInterpreter.IOInterface
     /// Answer: MID 0005 Command accepted or
     ///         MID 0004 Command error, The relay function subscription does not exist
     /// </summary>
-    public class Mid0219 : Mid, IIOInterface
+    public class Mid0219 : Mid, IIOInterface, IIntegrator
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 1;
@@ -39,8 +38,6 @@ namespace OpenProtocolInterpreter.IOInterface
         {
             RelayNumber = relayNumber;
         }
-
-        internal Mid0219(IMid nextTemplate) : this() => NextTemplate = nextTemplate;
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
