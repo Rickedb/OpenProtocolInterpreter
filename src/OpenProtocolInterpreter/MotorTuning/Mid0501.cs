@@ -4,11 +4,10 @@ using System.Collections.Generic;
 namespace OpenProtocolInterpreter.MotorTuning
 {
     /// <summary>
-    /// MID: Motor tuning result data
-    /// Description: 
-    ///     Upload the last motor tuning result.
-    /// Message sent by: Controller
-    /// Answer: MID 0502 Motor tuning result data acknowledge
+    /// Motor tuning result data
+    /// <para>Upload the last motor tuning result.</para>
+    /// <para>Message sent by: Controller</para>
+    /// <para>Answer: <see cref="Mid0502"/> Motor tuning result data acknowledge</para>
     /// </summary>
     public class Mid0501 : Mid, IMotorTuning, IController
     {

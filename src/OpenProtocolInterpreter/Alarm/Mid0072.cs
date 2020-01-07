@@ -1,12 +1,10 @@
 ﻿namespace OpenProtocolInterpreter.Alarm
 {
     /// <summary>
-    /// MID: Alarm acknowledge
-    /// Description: 
-    ///      Acknowledgement for MID 0071 Alarm.
-    /// 
-    /// Message sent by: Integrator
-    /// Answer: None
+    /// Alarm acknowledge
+    /// <para>Acknowledgement for <see cref="Mid0071"/> Alarm.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: None</para>
     /// </summary>
     public class Mid0072 : Mid, IAlarm, IIntegrator
     {

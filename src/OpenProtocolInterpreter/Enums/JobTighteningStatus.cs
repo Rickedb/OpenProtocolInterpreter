@@ -1,5 +1,8 @@
 ﻿namespace OpenProtocolInterpreter
 {
+    /// <summary>
+    /// Job tightening status. Used in <see cref="Job.Mid0035"/>.
+    /// </summary>
     public enum JobTighteningStatus
     {
         OFF = 0,

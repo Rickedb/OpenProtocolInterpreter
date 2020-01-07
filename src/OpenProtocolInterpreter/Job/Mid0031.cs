@@ -6,12 +6,13 @@ using System.Linq;
 namespace OpenProtocolInterpreter.Job
 {
     /// <summary>
-    /// MID: Job ID upload reply
-    /// Description:
+    /// Job ID upload reply
+    /// <para>
     ///     The transmission of all the valid Job IDs of the controller. 
     ///     The data field contains the number of valid Jobs currently present in the controller, and the ID of each Job.
-    /// Message sent by: Controller
-    /// Answer: None
+    /// </para>    
+    /// <para>Message sent by: Controller</para>
+    /// <para>Answer: None</para>
     /// </summary>
     public class Mid0031 : Mid, IJob, IController
     {

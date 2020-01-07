@@ -1,5 +1,8 @@
 ﻿namespace OpenProtocolInterpreter
 {
+    /// <summary>
+    /// Pairing handling types. Used in <see cref="Tool.Mid0047"/>.
+    /// </summary>
     public enum PairingHandlingType
     {
         START_PAIRING = 01,

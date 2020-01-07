@@ -6,13 +6,14 @@ using System.Linq;
 namespace OpenProtocolInterpreter.Communication
 {
     /// <summary>
-    /// MID: Application Communication start acknowledge
-    /// Description:
+    /// Application Communication start acknowledge
+    /// <para>
     ///     When accepting the communication start the controller sends as reply, 
     ///     a Communication start acknowledge. This message contains some basic information about the
     ///     controller, such as cell ID, channel ID, and name.
-    /// Message sent by: Controller
-    /// Answer: None
+    /// </para>
+    /// <para>Message sent by: Controller</para>
+    /// <para>Answer: None</para>
     /// </summary>
     public class Mid0002 : Mid, ICommunication, IController
     {

@@ -1,5 +1,8 @@
 ﻿namespace OpenProtocolInterpreter
 {
+    /// <summary>
+    /// Calibration Units. Used in <see cref="Tool.Mid0045"/>.
+    /// </summary>
     public enum CalibrationUnit
     {
         NM = 1,

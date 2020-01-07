@@ -1,11 +1,10 @@
 ﻿namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
 {
     /// <summary>
-    /// MID: Tool tag ID acknowledge
-    /// Description:
-    ///     Acknowledgement of MID 0262 Tool tag ID.
-    /// Message sent by: Integrator
-    /// Answer: None
+    /// Tool tag ID acknowledge
+    /// <para>Acknowledgement of <see cref="Mid0262"/> Tool tag ID.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: None</para>
     /// </summary>
     public class Mid0263 : Mid, IApplicationToolLocationSystem, IIntegrator
     {

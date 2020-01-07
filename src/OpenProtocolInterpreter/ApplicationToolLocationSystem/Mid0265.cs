@@ -4,12 +4,10 @@ using System.Collections.Generic;
 namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
 {
     /// <summary>
-    /// MID: External Tool tag ID and status
-    /// Description:
-    ///     Used by the controller to detect a Tool tag ID with its status from the integrator.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted or
-    ///         MID 0004 Command error, MID revision unsupported.
+    /// External Tool tag ID and status
+    /// <para>Used by the controller to detect a Tool tag ID with its status from the integrator.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted or <see cref="Communication.Mid0004"/> Command error, MID revision unsupported.</para>
     /// </summary>
     public class Mid0265 : Mid, IApplicationToolLocationSystem, IIntegrator
     {

@@ -1,5 +1,8 @@
 ﻿namespace OpenProtocolInterpreter.Job
 {
+    /// <summary>
+    /// Parameter set entity.
+    /// </summary>
     public class ParameterSet
     {
         public int ChannelId { get; set; }

@@ -4,15 +4,17 @@ using System.Collections.Generic;
 namespace OpenProtocolInterpreter.Communication
 {
     /// <summary>
-    /// MID: Application Communication positive acknowledge
-    /// Description: 
+    /// Application Communication positive acknowledge
+    /// <para>
     ///     Do a request for data. This message is used for ALL request handling.
     ///     When used it substitutes the use of all MID special request messages.
-    ///     NOTE! The Header Revision field is the revision of the MID 0006 itself NOT 
+    /// </para>    
+    /// <para>
+    ///     NOTE! The Header Revision field is the revision of the <see cref="Mid0006"/> itself NOT 
     ///     the revision of the data MID that is wanted to be uploaded.
-    /// 
-    /// Message sent by: Integrator
-    /// Answer: MID Requested for or MID 0004 Command error. Error described at each MID description.
+    /// </para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: MID Requested for or <see cref="Mid0004"/> Command error. Error described at each MID description.</para>
     /// </summary>
     public class Mid0006 : Mid, ICommunication, IIntegrator
     {

@@ -4,6 +4,9 @@ using OpenProtocolInterpreter.Messages;
 
 namespace OpenProtocolInterpreter.ApplicationSelector
 {
+    /// <summary>
+    /// Template for <see cref="IApplicationSelector"/> implementers.
+    /// </summary>
     internal class ApplicationSelectorMessages : MessagesTemplate
     {
         public ApplicationSelectorMessages() : base()

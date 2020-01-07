@@ -1,11 +1,10 @@
 ﻿namespace OpenProtocolInterpreter.AutomaticManualMode
 {
     /// <summary>
-    /// MID: Automatic/Manual mode acknowledge
-    /// Description: 
-    ///     Acknowledgement of automatic/manual mode upload.
-    /// Message sent by: Integrator
-    /// Answer: None
+    /// Automatic/Manual mode acknowledge
+    /// <para>Acknowledgement of automatic/manual mode upload.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: None</para>
     /// </summary>
     public class Mid0402 : Mid, IAutomaticManualMode, IIntegrator
     {

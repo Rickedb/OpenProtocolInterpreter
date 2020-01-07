@@ -1,11 +1,10 @@
 ﻿namespace OpenProtocolInterpreter.IOInterface
 {
     /// <summary>
-    /// MID: Status externally monitored inputs acknowledge
-    /// Description: 
-    ///     Acknowledgement for the message status externally monitored inputs upload.
-    /// Message sent by: Integrator
-    /// Answer: None
+    /// Status externally monitored inputs acknowledge
+    /// <para>Acknowledgement for the message status externally monitored inputs upload.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: None</para>
     /// </summary>
     public class Mid0212 : Mid, IIOInterface, IIntegrator
     {

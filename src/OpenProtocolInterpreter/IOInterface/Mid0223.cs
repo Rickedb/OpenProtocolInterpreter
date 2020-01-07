@@ -4,14 +4,14 @@ using System.Collections.Generic;
 namespace OpenProtocolInterpreter.IOInterface
 {
     /// <summary>
-    /// MID: Relay function unsubscribe
-    /// Description: 
+    /// Relay function unsubscribe
+    /// <para>
     ///     Unsubscribe for a single relay function. The data field consists of three ASCII digits,
     ///     the relay number, which corresponds to the specific relay function. The relay numbers can be 
     ///     found in Table 101.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted or
-    ///         MID 0004 Command error, The relay function subscription does not exist
+    /// </para>    
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted or <see cref="Communication.Mid0004"/> Command error, The relay function subscription does not exist</para>
     /// </summary>
     public class Mid0223 : Mid, IIOInterface, IIntegrator
     {

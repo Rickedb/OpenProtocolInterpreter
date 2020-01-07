@@ -4,15 +4,16 @@ using System.Collections.Generic;
 namespace OpenProtocolInterpreter.IOInterface
 {
     /// <summary>
-    /// MID: Digital input function
-    /// Description: 
+    /// Digital input function
+    /// <para>
     ///     Upload of one specific digital input function status. See Table 80.
-    ///     For tracking event functions, MID 0221 Digital input function, is sent each time the digital input
+    ///     For tracking event functions, <see cref="Mid0221"/> Digital input function, is sent each time the digital input
     ///     function’s status (state) is changed. For digital input functions which are not tracking events, the
     ///     upload is sent only when the digital input function is set high, 
     ///     i.e. the data field “Digital input function status” will always be 1 for such functions.
-    /// Message sent by: Controller
-    /// Answer: MID 0222 Digital input function upload acknowledge
+    /// </para>
+    /// <para>Message sent by: Controller</para>
+    /// <para>Answer: <see cref="Mid0222"/> Digital input function upload acknowledge</para>
     /// </summary>
     public class Mid0221 : Mid, IIOInterface, IController
     {

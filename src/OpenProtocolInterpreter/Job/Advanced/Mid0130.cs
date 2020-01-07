@@ -4,10 +4,10 @@ using System.Collections.Generic;
 namespace OpenProtocolInterpreter.Job.Advanced
 {
     /// <summary>
-    /// MID: Job off
-    /// Description: Set the controller in Job off mode or reset the Job off mode.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted
+    /// Job off
+    /// <para>Set the controller in Job off mode or reset the Job off mode.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted</para>
     /// </summary>
     public class Mid0130 : Mid, IAdvancedJob, IIntegrator
     {

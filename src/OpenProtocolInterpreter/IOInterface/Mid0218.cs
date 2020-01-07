@@ -1,11 +1,10 @@
 ﻿namespace OpenProtocolInterpreter.IOInterface
 {
     /// <summary>
-    /// MID: Relay function acknowledge
-    /// Description: 
-    ///     Acknowledgement of relay function upload.
-    /// Message sent by: Integrator
-    /// Answer: None
+    /// Relay function acknowledge
+    /// <para>Acknowledgement of relay function upload.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: None</para>
     /// </summary>
     public class Mid0218 : Mid, IIOInterface, IIntegrator
     {

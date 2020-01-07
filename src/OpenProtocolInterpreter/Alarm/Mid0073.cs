@@ -1,11 +1,10 @@
 ﻿namespace OpenProtocolInterpreter.Alarm
 {
     /// <summary>
-    /// MID: Alarm unsubscribe
-    /// Description: 
-    ///      Reset the subscription for the controller alarms.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted or MID 0004 Command error, Alarm subscription does not exist
+    /// Alarm unsubscribe
+    /// <para>Reset the subscription for the controller alarms.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted or <see cref="Communication.Mid0004"/> Command error, Alarm subscription does not exist</para>
     /// </summary>
     public class Mid0073 : Mid, IAlarm, IIntegrator
     {

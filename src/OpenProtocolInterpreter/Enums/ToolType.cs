@@ -1,5 +1,8 @@
 ﻿namespace OpenProtocolInterpreter
 {
+    /// <summary>
+    /// Tool types. Used in <see cref="Tool.Mid0041"/>.
+    /// </summary>
     public enum ToolType
     {
         NO_TOOL = 0,

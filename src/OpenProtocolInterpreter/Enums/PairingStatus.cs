@@ -1,5 +1,8 @@
 ﻿namespace OpenProtocolInterpreter
 {
+    /// <summary>
+    /// Pairing status. Used in <see cref="Tool.Mid0048"/>.
+    /// </summary>
     public enum PairingStatus
     {
         /// <summary>

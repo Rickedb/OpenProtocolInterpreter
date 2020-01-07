@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.MotorTuning
 {
+    /// <summary>
+    /// Template for <see cref="IMotorTuning"/> implementers.
+    /// </summary>
     internal class MotorTuningMessages : MessagesTemplate
     {
         public MotorTuningMessages() : base()

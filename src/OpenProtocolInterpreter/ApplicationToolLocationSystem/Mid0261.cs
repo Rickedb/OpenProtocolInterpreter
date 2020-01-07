@@ -1,12 +1,10 @@
 ﻿namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
 {
     /// <summary>
-    /// MID: Tool tag ID subscribe
-    /// Description:
-    ///     Used by the integrator to order a Tool tag ID subscription from the controller.
-    /// Message sent by: Controller
-    /// Answer: MID 0262 Tool tag ID or
-    ///         MID 0004 Command error, Tool tag ID unknown , Tool tag ID subscription already exist or MID revision unsupported.
+    /// Tool tag ID subscribe
+    /// <para>Used by the integrator to order a Tool tag ID subscription from the controller.</para>
+    /// <para>Message sent by: Controller</para>
+    /// <para>Answer: <see cref="Mid0262"/> Tool tag ID or <see cref="Communication.Mid0004"/> Command error, Tool tag ID unknown, Tool tag ID subscription already exist or MID revision unsupported.</para>
     /// </summary>
     public class Mid0261 : Mid, IApplicationToolLocationSystem, IController
     {

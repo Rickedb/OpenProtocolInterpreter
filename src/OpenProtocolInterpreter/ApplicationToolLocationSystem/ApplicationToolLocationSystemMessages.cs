@@ -4,6 +4,9 @@ using OpenProtocolInterpreter.Messages;
 
 namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
 {
+    /// <summary>
+    /// Template for <see cref="IApplicationToolLocationSystem"/> implementers.
+    /// </summary>
     internal class ApplicationToolLocationSystemMessages : MessagesTemplate
     {
         public ApplicationToolLocationSystemMessages() : base()

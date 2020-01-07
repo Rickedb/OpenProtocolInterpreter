@@ -5,13 +5,10 @@ using System.Collections.Generic;
 namespace OpenProtocolInterpreter.Alarm
 {
     /// <summary>
-    /// MID: Alarm
-    /// Description: 
-    ///      An alarm has appeared in the controller. 
-    ///      The current alarm is uploaded from the controller to the integrator.
-    /// 
-    /// Message sent by: Controller
-    /// Answer: MID 0072 Alarm acknowledge
+    /// Alarm
+    /// <para>An alarm has appeared in the controller. The current alarm is uploaded from the controller to the integrator.</para>
+    /// <para>Message sent by: Controller</para>
+    /// <para>Answer: <see cref="Mid0072"/> Alarm acknowledge</para>
     /// </summary>
     public class Mid0071 : Mid, IAlarm, IController
     {

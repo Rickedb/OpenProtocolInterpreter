@@ -1,5 +1,8 @@
 ﻿namespace OpenProtocolInterpreter
 {
+    /// <summary>
+    /// Relay Numbers. Used in <see cref="IOInterface.Mid0216"/>, <see cref="IOInterface.Mid0217"/>, <see cref="IOInterface.Mid0219"/> and <see cref="IOInterface.Relay"/>
+    /// </summary>
     public enum RelayNumber
     {
         OFF = 0,

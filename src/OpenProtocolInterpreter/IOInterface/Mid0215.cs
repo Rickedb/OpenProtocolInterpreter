@@ -5,17 +5,18 @@ using System.Linq;
 namespace OpenProtocolInterpreter.IOInterface
 {
     /// <summary>
-    /// MID: IO device status reply
-    /// Description: 
-    ///     This message is sent as an answer to the MID 0214 IO device status request.
-    ///     MID 0215 revision 1 should only be used to get the status of IO devices with max 8 relays/digital
+    /// IO device status reply
+    /// <para>
+    ///     This message is sent as an answer to the <see cref="Mid0214"/> IO device status request.
+    ///     <see cref="Mid0215"/> revision 1 should only be used to get the status of IO devices with max 8 relays/digital
     ///     inputs.
     ///     For external I/O devices each list contain up to 8 relays/digital inputs. For the internal device the lists
     ///     contain up to 4 relays/digital inputs and the remaining 4 will be empty.
-    ///     MID 0215 revision 2 can be used to get the status of all types of IO devices with up to 48 relays/digital
+    ///     <see cref="Mid0215"/> revision 2 can be used to get the status of all types of IO devices with up to 48 relays/digital
     ///     inputs.
-    /// Message sent by: Controller
-    /// Answer: None
+    /// </para>
+    /// <para>Message sent by: Controller</para>
+    /// <para>Answer: None</para>
     /// </summary>
     public class Mid0215 : Mid, IIOInterface, IController
     {

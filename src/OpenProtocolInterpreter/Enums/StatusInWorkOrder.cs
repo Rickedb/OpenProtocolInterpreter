@@ -1,5 +1,8 @@
 ﻿namespace OpenProtocolInterpreter
 {
+    /// <summary>
+    /// Status in work order. Used in <see cref="MultipleIdentifiers.IdentifierStatus"/>.
+    /// </summary>
     public enum StatusInWorkOrder
     {
         NOT_ACCEPTED = 0,

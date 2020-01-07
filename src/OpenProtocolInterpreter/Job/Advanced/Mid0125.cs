@@ -1,10 +1,10 @@
 ﻿namespace OpenProtocolInterpreter.Job.Advanced
 {
     /// <summary>
-    /// MID: Job line control info acknowledge
-    /// Description: Acknowledgement of Job line control info messages MID 0121, 0122, 0123, and 0124.
-    /// Message sent by: Integrator
-    /// Answer: None
+    /// Job line control info acknowledge
+    /// <para>Acknowledgement of Job line control info messages <see cref="Mid0121"/>, <see cref="Mid0122"/>, <see cref="Mid0123"/>, and <see cref="Mid0124"/>.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: None</para>
     /// </summary>
     public class Mid0125 : Mid, IAdvancedJob, IIntegrator
     {

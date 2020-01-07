@@ -4,14 +4,16 @@ using System.Collections.Generic;
 namespace OpenProtocolInterpreter.IOInterface
 {
     /// <summary>
-    /// MID: IO device status request
-    /// Description: 
+    /// IO device status request
+    /// <para>
     ///     Request for the status of the relays and digital inputs at a device, e.g. an I/O expander. 
     ///     The device is specified by a device number.
-    /// Message sent by: Integrator
-    /// Answer: MID 0215 IO device status or
-    ///         MID 0004 Command error,
-    ///         Faulty IO device ID, or IO device not connected
+    /// </para>    
+    /// <para>Message sent by: Integrator</para>
+    /// <para>
+    /// Answer: <see cref="Mid0215"/> IO device status or
+    ///         <see cref="Communication.Mid0004"/> Command error, Faulty IO device ID, or IO device not connected
+    /// </para>
     /// </summary>
     public class Mid0214 : Mid, IIOInterface, IIntegrator
     {

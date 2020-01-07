@@ -1,5 +1,8 @@
 ﻿namespace OpenProtocolInterpreter
 {
+    /// <summary>
+    /// Torque status. Used in <see cref="PowerMACS.BoltData"/>.
+    /// </summary>
     public enum TorqueStatus
     {
         UNDEFINED = -1,

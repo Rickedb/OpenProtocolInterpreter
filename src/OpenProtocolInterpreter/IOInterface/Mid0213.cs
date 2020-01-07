@@ -1,13 +1,13 @@
 ﻿namespace OpenProtocolInterpreter.IOInterface
 {
     /// <summary>
-    /// MID: Status externally monitored inputs unsubscribe
-    /// Description: 
-    ///     Unsubscribe for the MID 0211 Status externally monitored inputs.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted or 
-    /// MID 0004 Command error, 
-    /// Status externally monitored inputs subscription does not exist
+    /// Status externally monitored inputs unsubscribe
+    /// <para>Unsubscribe for the <see cref="Mid0211"/> Status externally monitored inputs.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>
+    ///     Answer: <see cref="Communication.Mid0005"/> Command accepted or <see cref="Communication.Mid0004"/> Command error, 
+    ///             Status externally monitored inputs subscription does not exist
+    /// </para>
     /// </summary>
     public class Mid0213 : Mid, IIOInterface, IIntegrator
     {

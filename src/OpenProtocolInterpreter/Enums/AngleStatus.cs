@@ -1,5 +1,8 @@
 ﻿namespace OpenProtocolInterpreter
 {
+    /// <summary>
+    /// Angle status. Used in <see cref="PowerMACS.BoltData"/>.
+    /// </summary>
     public enum AngleStatus
     {
         UNDEFINED = -1,

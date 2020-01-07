@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OpenProtocolInterpreter.ApplicationController
+﻿namespace OpenProtocolInterpreter.ApplicationController
 {
+    /// <summary>
+    /// Application Controller message category. Every application controller mid should implement <see cref="IApplicationController"/>.
+    /// </summary>
     public interface IApplicationController
     {
     }
