@@ -1,8 +1,5 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Converters;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenProtocolInterpreter.MultiSpindle
 {
@@ -19,11 +16,53 @@ namespace OpenProtocolInterpreter.MultiSpindle
     ///         Controller is not a sync master/station controller, 
     ///         Multi-spindle result subscription already exists or MID revision unsupported
     /// </summary>
-    class Mid0100 
+    public class Mid0100 : Mid, IMultiSpindle, IIntegrator
     {
+        private readonly IValueConverter<int> _intConverter;
+        private readonly IValueConverter<bool> _boolConverter;
+        private const int LAST_REVISION = 4;
         public const int MID = 100;
-        private const int length = 20;
-        private const int revision = 1;
 
+        public int DataNumberSystem
+        {
+            get => GetField(2, (int)DataFields.DATA_NUMBER_SYSTEM).GetValue(_intConverter.Convert);
+            set => GetField(2, (int)DataFields.DATA_NUMBER_SYSTEM).SetValue(_intConverter.Convert, value);
+        }
+
+        public bool SendOnlyNewData
+        {
+            get => GetField(3, (int)DataFields.SEND_ONLY_NEW_DATA).GetValue(_boolConverter.Convert);
+            set => GetField(3, (int)DataFields.SEND_ONLY_NEW_DATA).SetValue(_boolConverter.Convert, value);
+        }
+
+        public Mid0100() : base(MID, LAST_REVISION)
+        {
+
+        }
+
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        {
+            return new Dictionary<int, List<DataField>>()
+            {
+                {
+                    2, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.DATA_NUMBER_SYSTEM, 20, 10, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
+                            }
+                },
+                {
+                    3, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.SEND_ONLY_NEW_DATA, 30, 1, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
+                            }
+                }
+            };
+        }
+
+        public enum DataFields
+        {
+            DATA_NUMBER_SYSTEM,
+            SEND_ONLY_NEW_DATA
+        }
     }
 }
