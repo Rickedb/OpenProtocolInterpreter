@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace OpenProtocolInterpreter.Ethernet.Integrator
 {
@@ -61,15 +62,19 @@ namespace OpenProtocolInterpreter.Ethernet.Integrator
             Client.Connect(hostNameOrIpAddress, port);
 
             StartRxThread();
-
             return this;
         }
 
 
         public SimpleTcpClient Disconnect()
         {
-            if (Client == null) { return this; }
+            if (Client == null)
+            {
+                return this;
+            }
+
             Client.Close();
+            Client.Dispose();
             Client = null;
             return this;
         }
@@ -168,35 +173,35 @@ namespace OpenProtocolInterpreter.Ethernet.Integrator
             DataReceived(this, m);
         }
 
-        public void Write(byte[] data)
+        public Task WriteAsync(byte[] data)
         {
             if (Client == null) { throw new NullReferenceException("Cannot send data to a null TcpClient (check to see if Connect was called)"); }
 
             lock (_messageSendLock)
-                Client.GetStream().Write(data, 0, data.Length);
+                return Client.GetStream().WriteAsync(data, 0, data.Length);
         }
 
-        public void Write(string data)
+        public Task WriteAsync(string data)
         {
-            if (data == null) { return; }
+            if (data == null) { return Task.CompletedTask; }
             var byteData = StringEncoder.GetBytes(data).ToList();
             byteData.Add(Delimiter);
-            Write(byteData.ToArray());
+            return WriteAsync(byteData.ToArray());
         }
 
-        public void WriteLine(string data)
+        public Task WriteLineAsync(string data)
         {
-            if (string.IsNullOrEmpty(data)) { return; }
+            if (string.IsNullOrEmpty(data)) { return Task.CompletedTask; }
 
             while (waitingForResponse)
                 Thread.Sleep(10);
             if (data.LastOrDefault() != Delimiter)
             {
-                Write(data);
+                return WriteAsync(data);
             }
             else
             {
-                Write(data);
+                return WriteAsync(data);
             }
         }
 
@@ -214,7 +219,7 @@ namespace OpenProtocolInterpreter.Ethernet.Integrator
                 void ev(object s, Message e) { mReply = e; }
                 ReplyEvent += ev;
 
-                WriteLine(data);
+                WriteLineAsync(data);
                 waitingForResponse = true;
 
                 var sw = Stopwatch.StartNew();
