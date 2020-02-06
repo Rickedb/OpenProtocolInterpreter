@@ -26,4 +26,4 @@ jobs:
     - name: Publish NuGet Package
       run: |
         nuget setApiKey ${{ secrets.NUGET_API_KEY }}
-        nuget push src/OpenProtocolInterpreter/bin/release/OpenProtocolInterpreter.3.0.3.nupkg -Source https://api.nuget.org/v3/index.json -SkipDuplicate
+        nuget push src/OpenProtocolInterpreter/bin/release/OpenProtocolInterpreter.3.0.4.nupkg -Source https://api.nuget.org/v3/index.json -SkipDuplicate
