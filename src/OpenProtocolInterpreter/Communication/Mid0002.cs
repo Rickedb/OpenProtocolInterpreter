@@ -278,8 +278,8 @@ namespace OpenProtocolInterpreter.Communication
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.CELL_ID, 20, 4, '0'),
-                                new DataField((int)DataFields.CHANNEL_ID, 26, 2, '0'),
+                                new DataField((int)DataFields.CELL_ID, 20, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.CHANNEL_ID, 26, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
                                 new DataField((int)DataFields.CONTROLLER_NAME, 30, 25, ' ')
                             }
                 },

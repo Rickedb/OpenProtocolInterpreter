@@ -5,10 +5,10 @@
     /// Description:
     ///     This message disables the communication. The controller will stop to respond to any commands
     ///     except for MID 0001 Communication start after receiving this command.
-    /// Message sent by: Controller
+    /// Message sent by: Integrator
     /// Answer: MID 0005 Command accepted
     /// </summary>
-    public class Mid0003 : Mid, ICommunication, IController
+    public class Mid0003 : Mid, ICommunication, IIntegrator
     {
         private const int LAST_REVISION = 1;
         public const int MID = 3;
