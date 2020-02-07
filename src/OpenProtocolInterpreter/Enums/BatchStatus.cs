@@ -4,6 +4,7 @@
     {
         NOK = 0,
         OK = 1,
-        NOT_USED = 2
+        NOT_USED = 2,
+        RUNNING = 3
     }
 }
