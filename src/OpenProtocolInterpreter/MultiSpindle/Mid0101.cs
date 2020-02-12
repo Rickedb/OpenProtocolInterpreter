@@ -196,6 +196,8 @@ namespace OpenProtocolInterpreter.MultiSpindle
                                 new DataField((int)DataFields.SPINDLES_OR_PRESSES_STATUS, 172, 0)
                             }
                 },
+                { 2, new List<DataField>() },
+                { 3, new List<DataField>() },
                 {
                     4, new List<DataField>()
                             {

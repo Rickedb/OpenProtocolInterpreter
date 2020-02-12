@@ -18,15 +18,15 @@ namespace OpenProtocolInterpreter.MultiSpindle
     /// </summary>
     public class Mid0100 : Mid, IMultiSpindle, IIntegrator
     {
-        private readonly IValueConverter<int> _intConverter;
+        private readonly IValueConverter<long> _longConverter;
         private readonly IValueConverter<bool> _boolConverter;
         private const int LAST_REVISION = 4;
         public const int MID = 100;
 
-        public int DataNumberSystem
+        public long DataNumberSystem
         {
-            get => GetField(2, (int)DataFields.DATA_NUMBER_SYSTEM).GetValue(_intConverter.Convert);
-            set => GetField(2, (int)DataFields.DATA_NUMBER_SYSTEM).SetValue(_intConverter.Convert, value);
+            get => GetField(2, (int)DataFields.DATA_NUMBER_SYSTEM).GetValue(_longConverter.Convert);
+            set => GetField(2, (int)DataFields.DATA_NUMBER_SYSTEM).SetValue(_longConverter.Convert, value);
         }
 
         public bool SendOnlyNewData
@@ -35,15 +35,22 @@ namespace OpenProtocolInterpreter.MultiSpindle
             set => GetField(3, (int)DataFields.SEND_ONLY_NEW_DATA).SetValue(_boolConverter.Convert, value);
         }
 
-        public Mid0100() : base(MID, LAST_REVISION)
+        public Mid0100() : this(LAST_REVISION)
         {
 
+        }
+
+        public Mid0100(int revision = LAST_REVISION) : base(MID, revision)
+        {
+            _longConverter = new Int64Converter();
+            _boolConverter = new BoolConverter();
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()
             {
+                { 1, new List<DataField>() },
                 {
                     2, new List<DataField>()
                             {
