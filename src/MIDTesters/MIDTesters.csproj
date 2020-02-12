@@ -146,6 +146,10 @@
     <Compile Include="MultiSpindle\TestMid0091.cs" />
     <Compile Include="MultiSpindle\TestMid0092.cs" />
     <Compile Include="MultiSpindle\TestMid0093.cs" />
+    <Compile Include="MultiSpindle\TestMid0100.cs" />
+    <Compile Include="MultiSpindle\TestMid0101.cs" />
+    <Compile Include="MultiSpindle\TestMid0102.cs" />
+    <Compile Include="MultiSpindle\TestMid0103.cs" />
     <Compile Include="OpenProtocolCommandsDisabled\TestMid0420.cs" />
     <Compile Include="OpenProtocolCommandsDisabled\TestMid0421.cs" />
     <Compile Include="OpenProtocolCommandsDisabled\TestMid0422.cs" />

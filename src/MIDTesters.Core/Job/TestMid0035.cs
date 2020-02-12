@@ -11,7 +11,7 @@ namespace MIDTesters.Job
         public void Mid0035Revision1()
         {
             string package = "00630035001         0101020030040008050003062001-12-01:20:12:45";
-            var mid = _midInterpreter.Parse< Mid0035>(package);
+            var mid = _midInterpreter.Parse<Mid0035>(package);
 
             Assert.AreEqual(typeof(Mid0035), mid.GetType());
             Assert.IsNotNull(mid.JobId);
