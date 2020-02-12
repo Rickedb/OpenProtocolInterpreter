@@ -225,10 +225,6 @@ But if you wish, you can support and help to motivate the constant improving of 
 ### List of still unavailable Mids
 
  - Mid 0009;
- - Mid 0100;
- - Mid 0101;
- - Mid 0102;
- - Mid 0103;
  - Mid 0700;
  - Mid 0900;
  - Mid 0901;
