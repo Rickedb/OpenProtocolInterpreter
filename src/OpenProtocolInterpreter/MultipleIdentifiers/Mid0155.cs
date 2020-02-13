@@ -1,11 +1,10 @@
 ﻿namespace OpenProtocolInterpreter.MultipleIdentifiers
 {
     /// <summary>
-    /// MID: Bypass Identifier
-    /// Description: 
-    ///    This message is used by the integrator to bypass the next identifier expected in the work order.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted
+    /// Bypass Identifier
+    /// <para>This message is used by the integrator to bypass the next identifier expected in the work order.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted</para>
     /// </summary>
     public class Mid0155 : Mid, IMultipleIdentifier, IIntegrator
     {
