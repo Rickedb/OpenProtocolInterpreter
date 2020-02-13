@@ -60,7 +60,7 @@ namespace OpenProtocolInterpreter.Messages
                 return;
 
             var type = mode == InterpreterMode.Controller ? typeof(IIntegrator) : typeof(IController);
-            var selectedMids = _templates.Values.Where(x => x.Type.IsAssignableFrom(type));
+            var selectedMids = _templates.Values.Where(x => type.IsAssignableFrom(x.Type));
             FilterSelectedMids(selectedMids);
         }
 

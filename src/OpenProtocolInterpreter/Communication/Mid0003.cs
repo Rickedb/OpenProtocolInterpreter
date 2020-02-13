@@ -9,7 +9,7 @@
     /// <para>Message sent by: Controller</para>
     /// <para>Answer: <see cref="Mid0005"/> Command accepted</para>
     /// </summary>
-    public class Mid0003 : Mid, ICommunication, IController
+    public class Mid0003 : Mid, ICommunication, IIntegrator
     {
         private const int LAST_REVISION = 1;
         public const int MID = 3;
