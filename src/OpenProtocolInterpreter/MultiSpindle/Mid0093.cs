@@ -1,11 +1,13 @@
 ﻿namespace OpenProtocolInterpreter.MultiSpindle
 {
     /// <summary>
-    /// MID: Multi-spindle status acknowledge
-    /// Description: 
-    ///      Multi-spindle status acknowledge.
-    /// Message sent by: Integrator
-    /// Answer : None
+    /// Multi-spindle status unsubscribe
+    /// <para>Reset the subscription for the multi-spindle status.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>
+    /// Answer: <see cref="Communication.Mid0005"/> Command accepted or 
+    /// <see cref="Communication.Mid0004"/> Command error, Multi-spindle status subscription does not exist
+    /// </para>
     /// </summary>
     public class Mid0093 : Mid, IMultiSpindle, IIntegrator
     {

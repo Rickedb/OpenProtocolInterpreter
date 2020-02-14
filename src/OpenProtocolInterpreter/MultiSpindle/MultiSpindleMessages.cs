@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.MultiSpindle
 {
+    /// <summary>
+    /// Template for <see cref="IMultiSpindle"/> implementers.
+    /// </summary>
     internal class MultiSpindleMessages : MessagesTemplate
     {
         public MultiSpindleMessages() : base()

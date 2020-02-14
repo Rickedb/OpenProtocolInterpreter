@@ -1,7 +1,7 @@
 ﻿namespace OpenProtocolInterpreter.MultipleIdentifiers
 {
     /// <summary>
-    /// Represents an Identifier Status
+    /// Represents an Identifier Status entity
     /// </summary>
     public class IdentifierStatus
     {
