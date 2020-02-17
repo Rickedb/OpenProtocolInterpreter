@@ -6,10 +6,10 @@ using System.Linq;
 namespace OpenProtocolInterpreter.Tightening
 {
     /// <summary>
-    /// MID: Last tightening result data
-    /// Description: Upload the last tightening result.
-    /// Message sent by: Controller
-    /// Answer: MID 0062 Last tightening result data acknowledge
+    /// Last tightening result data
+    /// <para>Upload the last tightening result.</para>
+    /// <para>Message sent by: Controller</para>
+    /// <para>Answer: <see cref="Mid0062"/> Last tightening result data acknowledge</para>
     /// </summary>
     public class Mid0061 : Mid, ITightening, IController
     {

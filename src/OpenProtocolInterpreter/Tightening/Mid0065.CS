@@ -6,10 +6,9 @@ using System.Linq;
 namespace OpenProtocolInterpreter.Tightening
 {
     /// <summary>
-    /// MID: Old tightening result upload reply
-    /// Description: Old tightening upload.
-    /// Message sent by: Controller
-    /// Answer: None
+    /// Old tightening result upload reply
+    /// <para>Message sent by: Controller</para>
+    /// <para>Answer: None</para>
     /// </summary>
     public class Mid0065 : Mid, ITightening, IController
     {

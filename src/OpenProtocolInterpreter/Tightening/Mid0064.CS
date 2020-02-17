@@ -4,17 +4,23 @@ using System.Collections.Generic;
 namespace OpenProtocolInterpreter.Tightening
 {
     /// <summary>
-    /// MID: Old tightening result upload request
-    /// Description: This message is a request to upload a particular tightening result from the controller. The requested
-    ///              result is specified by its unique ID(tightening ID). This message is useful after a failure of the
-    ///              network in order to retrieve the missing result during the communication interruption.The integrator
-    ///              can see the missing results by always comparing the last tightening IDs of the two last received
-    ///              tightenings packets (parameter 23 in the result message).
-    ///              Requesting tightening ID zero is the same as requesting the latest tightening performed.
-    /// Message sent by: Integrator
-    /// Answer: MID 0065 Old tightening result upload reply 
-    ///         or MID 0004 Command error, Tightening ID requested not found,
-    ///         or MID revision not supported
+    /// Old tightening result upload request
+    /// <para>
+    ///     This message is a request to upload a particular tightening result from the controller. The requested
+    ///     result is specified by its unique ID(tightening ID). This message is useful after a failure of the
+    ///     network in order to retrieve the missing result during the communication interruption.The integrator
+    ///     can see the missing results by always comparing the last tightening IDs of the two last received
+    ///     tightenings packets (parameter 23 in the result message).
+    /// </para>    
+    /// <para>
+    ///     Requesting tightening ID zero is the same as requesting the latest tightening performed.
+    /// </para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>
+    ///     Answer: <see cref="Mid0065"/> Old tightening result upload reply or 
+    ///             <see cref="Communication.Mid0004"/> Command error, Tightening ID requested not found, or 
+    ///             MID revision not supported
+    /// </para>
     /// </summary>
     public class Mid0064 : Mid, ITightening, IIntegrator
     {
