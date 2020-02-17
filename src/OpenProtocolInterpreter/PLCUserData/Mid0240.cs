@@ -3,12 +3,13 @@
 namespace OpenProtocolInterpreter.PLCUserData
 {
     /// <summary>
-    /// MID: User data download
-    /// Description: 
-    ///     Used by the integrator to send user data input to the PLC.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted or 
-    ///         MID 0004 Command error, Invalid data, or Controller is not a sync master/station controller
+    /// User data download
+    /// <para>Used by the integrator to send user data input to the PLC.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>
+    ///     Answer: <see cref="Communication.Mid0005"/> Command accepted or 
+    ///         <see cref="Communication.Mid0004"/> Command error, Invalid data, or Controller is not a sync master/station controller
+    /// </para>
     /// </summary>
     public class Mid0240 : Mid, IPLCUserData, IIntegrator
     {

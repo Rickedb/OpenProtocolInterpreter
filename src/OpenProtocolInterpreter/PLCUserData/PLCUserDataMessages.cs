@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.PLCUserData
 {
+    /// <summary>
+    /// Template for <see cref="IPLCUserData"/> implementers.
+    /// </summary>
     internal class PLCUserDataMessages : MessagesTemplate
     {
         public PLCUserDataMessages() : base()

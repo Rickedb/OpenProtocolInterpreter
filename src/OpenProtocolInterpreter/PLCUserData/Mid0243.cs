@@ -1,11 +1,10 @@
 ﻿namespace OpenProtocolInterpreter.PLCUserData
 {
     /// <summary>
-    /// MID: User data acknowledge
-    /// Description: 
-    ///     Acknowledgement of user data.
-    /// Message sent by: Integrator
-    /// Answer: None
+    /// User data acknowledge
+    /// <para>Acknowledgement of user data.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: None</para>
     /// </summary>
     public class Mid0243 : Mid, IPLCUserData, IIntegrator
     {
