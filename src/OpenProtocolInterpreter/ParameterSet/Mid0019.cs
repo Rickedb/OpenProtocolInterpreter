@@ -6,11 +6,13 @@ using System.Linq;
 namespace OpenProtocolInterpreter.ParameterSet
 {
     /// <summary>
-    /// MID: Set Parameter set batch size
-    /// Description: 
-    ///     This message gives the possibility to set the batch size of a parameter set at run time.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted or MID 0004 Command error, Invalid data
+    /// Set Parameter set batch size
+    /// <para>This message gives the possibility to set the batch size of a parameter set at run time.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>
+    ///     Answer: <see cref="Communication.Mid0005"/> Command accepted or 
+    ///     <see cref="Communication.Mid0004"/> Command error, Invalid data
+    /// </para>
     /// </summary>
     public class Mid0019 : Mid, IParameterSet, IIntegrator
     {

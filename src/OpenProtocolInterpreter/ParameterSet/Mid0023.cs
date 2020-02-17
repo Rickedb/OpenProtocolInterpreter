@@ -1,11 +1,10 @@
 ﻿namespace OpenProtocolInterpreter.ParameterSet
 {
     /// <summary>
-    /// MID: Lock at batch done upload Acknowledge
-    /// Description: 
-    ///     This message is an acknowledge to MID 0022.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted
+    /// Lock at batch done upload Acknowledge
+    /// <para>This message is an acknowledge to <see cref="Mid0022"/>.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted</para>
     /// </summary>
     public class Mid0023 : Mid, IParameterSet, IIntegrator
     {

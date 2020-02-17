@@ -1,0 +1,3109 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OpenProtocolInterpreter</name>
+    </assembly>
+    <members>
+        <member name="T:OpenProtocolInterpreter.Alarm.AlarmMessages">
+            <summary>
+            Template for <see cref="T:OpenProtocolInterpreter.Alarm.IAlarm"/> implementers.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Alarm.IAlarm">
+            <summary>
+            Alarm message category. Every alarm mid must implement <see cref="T:OpenProtocolInterpreter.Alarm.IAlarm"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Alarm.Mid0070">
+            <summary>
+            Alarm subscribe
+            <para>A subscription for the alarms that can appear in the controller.</para>
+            <para>Message sent by Integrator</para>
+            <para>Answers: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Alarm subscription already exists</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Alarm.Mid0071">
+            <summary>
+            Alarm
+            <para>An alarm has appeared in the controller. The current alarm is uploaded from the controller to the integrator.</para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Alarm.Mid0072"/> Alarm acknowledge</para>
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Alarm.Mid0071.#ctor(System.String,System.Boolean,System.Boolean,System.DateTime,System.Int32,System.Nullable{System.Int32})">
+            <summary>
+            Constructor for Revision 1
+            </summary>
+            <param name="errorCode">The error code is specified by 4 ASCII characters. The error code begins with E and is followed by three digits. <para>Example E851.</para></param>
+            <param name="controllerReadyStatus">Controller ready status</param>
+            <param name="toolReadyStatus">Tool ready status</param>
+            <param name="time">Time stamp for the alarm</param>
+            <param name="revision">Revision (Default revision = 1)</param>
+            <param name="ackflag">Acknowledge flag (Default = 1)</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Alarm.Mid0071.#ctor(System.String,System.Boolean,System.Boolean,System.DateTime,System.String,System.Int32,System.Nullable{System.Int32})">
+            <summary>
+            Constructor for Revision 2
+            </summary>
+            <param name="errorCode">The error code is specified by 5 ASCII characters. The error code begins with E and is followed by four digits. <para>Example E1021.</para></param>
+            <param name="controllerReadyStatus">Controller ready status</param>
+            <param name="toolReadyStatus">Tool ready status</param>
+            <param name="time">Time stamp for the alarm</param>
+            <param name="alarmText">Alarm text. 50 ASCII characters</param>
+            <param name="revision">Revision (Default revision = 1)</param>
+            <param name="ackflag">Acknowledge flag (Default = 1)</param>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Alarm.Mid0072">
+            <summary>
+            Alarm acknowledge
+            <para>Acknowledgement for <see cref="T:OpenProtocolInterpreter.Alarm.Mid0071"/> Alarm.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: None</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Alarm.Mid0073">
+            <summary>
+            Alarm unsubscribe
+            <para>Reset the subscription for the controller alarms.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Alarm subscription does not exist</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Alarm.Mid0074">
+            <summary>
+            Alarm acknowledged on controller
+            <para>The message is sent by the controller to inform the integrator that the current alarm has been acknowledged.</para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Alarm.Mid0075"/> Alarm acknowledged on controller acknowledge</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Alarm.Mid0075">
+            <summary>
+            Alarm acknowledged on controller acknowledge
+            <para>Acknowledgement of MID 0074 Alarm acknowledged on controller.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer : None</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Alarm.Mid0076">
+            <summary>
+            Alarm status
+            <para>The alarm status is sent after an accepted subscription of the controller alarms. 
+            This message is used to inform the integrator that an alarm is active on the controller at subscription time.</para>
+            <para>Message sent by: Controller</para>
+            <para>Answer : <see cref="T:OpenProtocolInterpreter.Alarm.Mid0077"/> Alarm status acknowledge</para>
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Alarm.Mid0076.#ctor(System.Boolean,System.String,System.Boolean,System.Boolean,System.DateTime)">
+            <summary>
+            Revision 1 constructor
+            </summary>
+            <param name="alarmStatus">0=no alarm is active, 1=an alarm is currently active</param>
+            <param name="errorCode">The error code is specified by 4 ASCII characters. The error code begins with E and is followed by three digits. <para>Example: E851.</para></param>
+            <param name="controllerReadyStatus">Controller ready status 1=OK, 0=NOK</param>
+            <param name="toolReadyStatus">Tool ready status 1=OK, 0=NOK</param>
+            <param name="time">Time stamp for the alarm</param>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Alarm.Mid0077">
+            <summary>
+            Alarm status acknowledge
+            <para>Acknowledgement of <see cref="T:OpenProtocolInterpreter.Alarm.Mid0076"/> Alarm Status.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer : None</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Alarm.Mid0078">
+            <summary>
+            Acknowledge alarm remotely on controller
+            <para>The integrator can remotely acknowledge the current alarm on the controller by sending <see cref="T:OpenProtocolInterpreter.Alarm.Mid0078"/>. 
+            If no alarm is currently active when the controller receives the command, the command will be rejected.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer : <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, No alarm present or Invalid data</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ApplicationController.ApplicationControllerMessages">
+            <summary>
+            Template for <see cref="T:OpenProtocolInterpreter.ApplicationController.IApplicationController"/> implementers.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ApplicationController.IApplicationController">
+            <summary>
+            Application Controller message category. Every application controller mid must implement <see cref="T:OpenProtocolInterpreter.ApplicationController.IApplicationController"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ApplicationController.Mid0270">
+            <summary>
+            Controller reboot request 
+            <para>This message causes the controller to reboot after it has accepted the command.
+                <list type="bullet">
+                    <item>Warning 1: this MID requires programming control (see 4.4 Programming control).</item>
+                    <item>Warning 2: the connection will be lost and will need to be reestablished after controller reboot!</item>
+                </list>
+            </para>    
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Programming control not granted</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ApplicationSelector.ApplicationSelectorMessages">
+            <summary>
+            Template for <see cref="T:OpenProtocolInterpreter.ApplicationSelector.IApplicationSelector"/> implementers.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ApplicationSelector.IApplicationSelector">
+            <summary>
+            Application Selector message category. Every application selector mid must implement <see cref="T:OpenProtocolInterpreter.ApplicationSelector.IApplicationSelector"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ApplicationSelector.Mid0250">
+            <summary>
+            Selector socket info subscribe
+            <para>
+                Subscribe for the socket information of all socket selectors (connected to the controller).
+                After subscription, every time a socket is lifted or put back, <see cref="T:OpenProtocolInterpreter.ApplicationSelector.Mid0251"/> is sent to the subscriber 
+                with the device ID of the selector and the current status of each one of the sockets, lifted or not.
+            </para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, The selector socket info subscription already exists</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ApplicationSelector.Mid0251">
+            <summary>
+            Selector socket info
+            <para>
+                This message is sent each time a socket is lifted or put back in position. 
+                This MID contains the device ID of the selector the information is coming from, 
+                the number of sockets of the selector device, and the current status of each socket 
+                (lifted or not lifted).
+            </para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.ApplicationSelector.Mid0252"/>, Selector socket info acknowledge</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ApplicationSelector.Mid0252">
+            <summary>
+            Selector socket info acknowledge
+            <para>Acknowledgement of the <see cref="T:OpenProtocolInterpreter.ApplicationSelector.Mid0251"/> Selector socket info.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: None</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ApplicationSelector.Mid0253">
+            <summary>
+            Selector socket info unsubscribe
+            <para>Unsubscribe for the selector socket info. The subscription is reset for all selector devices.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, The selector socket info subscription does not exist</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ApplicationSelector.Mid0254">
+            <summary>
+            Selector control green lights
+            <para>    
+                This message controls the selector green lights. 
+                The green light can be set (steady), reset (off) or flash. 
+                A command must be sent for each one of the selector positions (1-8).
+            </para>
+            <para>
+                Note: This MID only works when the selector is put in external controlled mode and 
+                this is only possible when the selector is loaded with software 1.20 or later.  
+            </para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Faulty IO device ID</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ApplicationSelector.Mid0255">
+            <summary>
+            Selector control red lights
+            <para>
+                This message controls the selector red lights. 
+                The green light can be set (steady), reset (off) or flash. 
+                A command must be sent for each one of the selector positions (1-8).
+            </para>
+            <para>
+                Note: This MID only works when the selector is put in external controlled mode and 
+                this is only possible when the selector is loaded with software 1.20 or later.  
+            </para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Faulty IO device ID</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ApplicationToolLocationSystem.ApplicationToolLocationSystemMessages">
+            <summary>
+            Template for <see cref="T:OpenProtocolInterpreter.ApplicationToolLocationSystem.IApplicationToolLocationSystem"/> implementers.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ApplicationToolLocationSystem.IApplicationToolLocationSystem">
+            <summary>
+            Application Tool Location System message category. Every application tool location system mid must implement <see cref="T:OpenProtocolInterpreter.ApplicationToolLocationSystem.IApplicationToolLocationSystem"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ApplicationToolLocationSystem.Mid0260">
+            <summary>
+            Tool tag ID request
+            <para>Used by the integrator to request Tool tag ID information.</para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.ApplicationToolLocationSystem.Mid0262"/> Tool tag ID or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Tool tag ID unknown or MID revision unsupported.</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ApplicationToolLocationSystem.Mid0261">
+            <summary>
+            Tool tag ID subscribe
+            <para>Used by the integrator to order a Tool tag ID subscription from the controller.</para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.ApplicationToolLocationSystem.Mid0262"/> Tool tag ID or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Tool tag ID unknown, Tool tag ID subscription already exist or MID revision unsupported.</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ApplicationToolLocationSystem.Mid0262">
+            <summary>
+            Tool tag ID
+            <para>Used by the controller to send a Tool tag ID to the integrator.</para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.ApplicationToolLocationSystem.Mid0263"/> Tool tag ID acknowledge</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ApplicationToolLocationSystem.Mid0263">
+            <summary>
+            Tool tag ID acknowledge
+            <para>Acknowledgement of <see cref="T:OpenProtocolInterpreter.ApplicationToolLocationSystem.Mid0262"/> Tool tag ID.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: None</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ApplicationToolLocationSystem.Mid0264">
+            <summary>
+            Tool tag ID unsubscribe
+            <para>Used by the integrator to send a Tool tag ID unsubscription to the controller.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Tool tag ID subscription does not exist or MID revision unsupported.</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ApplicationToolLocationSystem.Mid0265">
+            <summary>
+            External Tool tag ID and status
+            <para>Used by the controller to detect a Tool tag ID with its status from the integrator.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, MID revision unsupported.</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.AutomaticManualMode.AutomaticManualModeMessages">
+            <summary>
+            Template for <see cref="T:OpenProtocolInterpreter.AutomaticManualMode.IAutomaticManualMode"/> implementers.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.AutomaticManualMode.IAutomaticManualMode">
+            <summary>
+            Application Selector message category. Every application selector mid must implement <see cref="T:OpenProtocolInterpreter.AutomaticManualMode.IAutomaticManualMode"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.AutomaticManualMode.Mid0400">
+            <summary>
+            Automatic/Manual mode subscribe
+            <para>    
+                A subscription for Automatic/Manual mode. When the mode changes the <see cref="T:OpenProtocolInterpreter.AutomaticManualMode.Mid0401"/> is sent to the integrator.
+                After a successful subscription the message <see cref="T:OpenProtocolInterpreter.AutomaticManualMode.Mid0401"/> upload with the current mode status is sent to the integrator.
+            </para>
+            <para>Message sent by: Integrator</para>
+            <para>
+                Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, 
+                Automatic/Manual mode subscribe already exists
+            </para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.AutomaticManualMode.Mid0401">
+            <summary>
+            Automatic/Manual mode
+            <para>
+                The operation mode in the controller has changed. 
+                The message includes the new operational mode of the controller.
+            </para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.AutomaticManualMode.Mid0402"/> Automatic/Manual mode acknowledge</para>
+            </summary>
+        </member>
+        <member name="P:OpenProtocolInterpreter.AutomaticManualMode.Mid0401.ManualAutomaticMode">
+            <summary>
+            <para>Automatic Mode = false (0)</para>
+            <para>Manual Mode = true (1)</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.AutomaticManualMode.Mid0402">
+            <summary>
+            Automatic/Manual mode acknowledge
+            <para>Acknowledgement of automatic/manual mode upload.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: None</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.AutomaticManualMode.Mid0403">
+            <summary>
+            Automatic/Manual mode unsubscribe
+            <para>Reset the subscription for the automatic/manual mode.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Automatic/Manual mode subscribe does not exist</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.AutomaticManualMode.Mid0410">
+            <summary>
+            AutoDisable settings request
+            <para>
+                Request for AutoDisable settings. This request is intended to be used while 
+                running single parameter sets with batch and does not provide batch information while running Job.
+            </para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.AutomaticManualMode.Mid0411"/> AutoDisable settings reply</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.AutomaticManualMode.Mid0411">
+            <summary>
+            AutoDisable settings reply
+            <para>
+                Information about the setting of AutoDisable tightening in the controller. Also contains information about the currently running batch.
+                The settings are reserved for single parameter sets with batch and are not available while running Job.
+            </para> 
+            <para>
+                Power Macs use:
+                “OKs to disable station” is a parameter in Tools Talk PowerMACS and specifies the number of cycles with status OK or OKR that may be run while in Automatic mode before the station is automatically disabled. It is sent as two ASCII digits, a 0 means the function is not in use.
+                “Current Batch” is two ASCII digits representing the number of OK cycles that have been run in the current batch.If the value is 0 no batch is running at the moment.
+            </para>
+            <para>
+                Power Focus use:
+                The “Current Batch” contains at which batch counter value/tightening the parameter set batch was
+                locked/finished if “batch count” and “lock at batch ok” parameters in Tools Talk PF was used,
+                otherwise it will contain 0 indicating function not used.If “lock at batch ok” parameter was not used
+                the “Current Batch” is just current.
+            </para>
+            <para>
+                The “Auto Disable” contains the parameter sets batch size if “batch count” and “lock at batch ok”
+                parameters was used indicating that Auto Disable function is used.If “batch count” or “lock at batch
+                ok” was not used the “Auto Disable” is 0.
+            </para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: None</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Communication.CommunicationMessages">
+            <summary>
+            Template for <see cref="T:OpenProtocolInterpreter.Communication.ICommunication"/> implementers.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Communication.ICommunication">
+            <summary>
+            Communication message category. Every communication mid must implement <see cref="T:OpenProtocolInterpreter.Communication.ICommunication"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Communication.Mid0001">
+            <summary>
+            Application communication start
+            <para>This message enables the communication. The controller does not respond to any other command before this</para>
+            <para>Message sent by Integrator</para>
+            <para>Answers: <see cref="T:OpenProtocolInterpreter.Communication.Mid0002"/> Communication start acknowledge or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Client already connected or MID revision unsupported</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Communication.Mid0002">
+            <summary>
+            Application Communication start acknowledge
+            <para>
+                When accepting the communication start the controller sends as reply, 
+                a Communication start acknowledge. This message contains some basic information about the
+                controller, such as cell ID, channel ID, and name.
+            </para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: None</para>
+            </summary>
+        </member>
+        <member name="P:OpenProtocolInterpreter.Communication.Mid0002.SystemSubType">
+            <summary>
+            <para>If no subtype exists it will be set to 000</para>
+            <para>For a Power Focus 4000 and PF 6000 system the valid subtypes are:</para>
+            <para>001 = a normal tightening system</para>
+            <para>For a Power MACS 4000 system the valid subtypes are:</para>
+            <para>001 = a normal tightening system </para>
+            <para>002 = a system running presses instead of spindles.</para>
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Communication.Mid0002.#ctor(System.Int32,System.Int32,System.String,System.Int32)">
+            <summary>
+            Revision 1 Constructor
+            </summary>
+            <param name="cellId">The cell ID is four bytes long specified by four ASCII digits. Range: 0000-9999.</param>
+            <param name="channelId">The channel ID is two bytes long specified by two ASCII digits. Range: 00-20.</param>
+            <param name="controllerName">The controller name is 25 bytes long and specified by 25 ASCII characters.</param>
+            <param name="revision">Revision number (default = 1)</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Communication.Mid0002.#ctor(System.Int32,System.Int32,System.String,System.String,System.Int32)">
+            <summary>
+            Revision 2 Constructor
+            </summary>
+            <param name="cellId">The cell ID is four bytes long specified by four ASCII digits. Range: 0000-9999.</param>
+            <param name="channelId">The channel ID is two bytes long specified by two ASCII digits. Range: 00-20.</param>
+            <param name="controllerName">The controller name is 25 bytes long and specified by 25 ASCII characters.</param>
+            <param name="supplierCode">ACT (supplier code for Atlas Copco Tools) specified by three ASCII characters.</param>
+            <param name="revision">Revision number (default = 2)</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Communication.Mid0002.#ctor(System.Int32,System.Int32,System.String,System.String,System.String,System.String,System.String,System.Int32)">
+            <summary>
+            Revision 3 Constructor
+            </summary>
+            <param name="cellId">The cell ID is four bytes long specified by four ASCII digits. Range: 0000-9999.</param>
+            <param name="channelId">The channel ID is two bytes long specified by two ASCII digits. Range: 00-20.</param>
+            <param name="controllerName">The controller name is 25 bytes long and specified by 25 ASCII characters.</param>
+            <param name="supplierCode">ACT (supplier code for Atlas Copco Tools) specified by three ASCII characters.</param>
+            <param name="openProtocolVersion">Open Protocol version. 19 ASCII characters. This version mirrors the IMPLEMENTED version of the Open Protocol and is hence not the same as the version of the specification.This is caused by, for instance, the possibility of implementation done of only a subset of the protocol.</param>
+            <param name="controllerSoftwareVersion">The controller software version. 19 ASCII characters.</param>
+            <param name="toolSoftwareVersion">The tool software version. 19 ASCII characters.</param>
+            <param name="revision">Revision number (default = 3)</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Communication.Mid0002.#ctor(System.Int32,System.Int32,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Int32)">
+            <summary>
+            Revision 4 Constructor
+            </summary>
+            <param name="cellId">The cell ID is four bytes long specified by four ASCII digits. Range: 0000-9999.</param>
+            <param name="channelId">The channel ID is two bytes long specified by two ASCII digits. Range: 00-20.</param>
+            <param name="controllerName">The controller name is 25 bytes long and specified by 25 ASCII characters.</param>
+            <param name="supplierCode">ACT (supplier code for Atlas Copco Tools) specified by three ASCII characters.</param>
+            <param name="openProtocolVersion">Open Protocol version. 19 ASCII characters. This version mirrors the IMPLEMENTED version of the Open Protocol and is hence not the same as the version of the specification.This is caused by, for instance, the possibility of implementation done of only a subset of the protocol.</param>
+            <param name="controllerSoftwareVersion">The controller software version. 19 ASCII characters.</param>
+            <param name="toolSoftwareVersion">The tool software version. 19 ASCII characters.</param>
+            <param name="rbuType">The RBU Type. 24 ASCII characters.</param>
+            <param name="controllerSerialNumber">The Controller Serial Number. 10 ASCII characters.</param>
+            <param name="revision">Revision number (default = 4)</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Communication.Mid0002.#ctor(System.Int32,System.Int32,System.String,System.String,System.String,System.String,System.String,System.String,System.String,OpenProtocolInterpreter.SystemType,OpenProtocolInterpreter.SystemSubType,System.Int32)">
+            <summary>
+            Revision 5 Constructor
+            </summary>
+            <param name="cellId">The cell ID is four bytes long specified by four ASCII digits. Range: 0000-9999.</param>
+            <param name="channelId">The channel ID is two bytes long specified by two ASCII digits. Range: 00-20.</param>
+            <param name="controllerName">The controller name is 25 bytes long and specified by 25 ASCII characters.</param>
+            <param name="supplierCode">ACT (supplier code for Atlas Copco Tools) specified by three ASCII characters.</param>
+            <param name="openProtocolVersion">Open Protocol version. 19 ASCII characters. This version mirrors the IMPLEMENTED version of the Open Protocol and is hence not the same as the version of the specification.This is caused by, for instance, the possibility of implementation done of only a subset of the protocol.</param>
+            <param name="controllerSoftwareVersion">The controller software version. 19 ASCII characters.</param>
+            <param name="toolSoftwareVersion">The tool software version. 19 ASCII characters.</param>
+            <param name="rbuType">The RBU Type. 24 ASCII characters.</param>
+            <param name="controllerSerialNumber">The Controller Serial Number. 10 ASCII characters.</param>
+            <param name="systemType">The system type of the controller. 3 ASCII digits</param>
+            <param name="systemSubType">The system subtype. 3 ASCII digits</param>
+            <param name="revision">Revision number (default = 5)</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Communication.Mid0002.#ctor(System.Int32,System.Int32,System.String,System.String,System.String,System.String,System.String,System.String,System.String,OpenProtocolInterpreter.SystemType,OpenProtocolInterpreter.SystemSubType,System.Boolean,System.Boolean,System.Int32)">
+            <summary>
+            Revision 6 Constructor
+            </summary>
+            <param name="cellId">The cell ID is four bytes long specified by four ASCII digits. Range: 0000-9999.</param>
+            <param name="channelId">The channel ID is two bytes long specified by two ASCII digits. Range: 00-20.</param>
+            <param name="controllerName">The controller name is 25 bytes long and specified by 25 ASCII characters.</param>
+            <param name="supplierCode">ACT (supplier code for Atlas Copco Tools) specified by three ASCII characters.</param>
+            <param name="openProtocolVersion">Open Protocol version. 19 ASCII characters. This version mirrors the IMPLEMENTED version of the Open Protocol and is hence not the same as the version of the specification.This is caused by, for instance, the possibility of implementation done of only a subset of the protocol.</param>
+            <param name="controllerSoftwareVersion">The controller software version. 19 ASCII characters.</param>
+            <param name="toolSoftwareVersion">The tool software version. 19 ASCII characters.</param>
+            <param name="rbuType">The RBU Type. 24 ASCII characters.</param>
+            <param name="controllerSerialNumber">The Controller Serial Number. 10 ASCII characters.</param>
+            <param name="systemType">The system type of the controller. 3 ASCII digits</param>
+            <param name="systemSubType">The system subtype. 3 ASCII digits</param>
+            <param name="sequenceNumberSupport">Flag sequence number handling supported if = 1</param>
+            <param name="linkHandlingSupport">Flag linking functionality handling supported if = 1.</param>
+            <param name="revision">Revision number (default = 6)</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Communication.Mid0002.Validate(System.Collections.Generic.IEnumerable{System.String}@)">
+            <summary>
+            Validate all fields size
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Communication.Mid0003">
+            <summary>
+            Application Communication stop
+            <para>
+                This message disables the communication. The controller will stop to respond to any commands
+                except for <see cref="T:OpenProtocolInterpreter.Communication.Mid0001"/> Communication start after receiving this command.
+            </para>    
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Communication.Mid0004">
+            <summary>
+            Application Communication negative acknowledge
+            <para>
+                This message is used by the controller when a request, command or subscription for any reason has 
+                not been performed. 
+                The data field contains the message ID of the message request that failed as well as an error code.
+                It can also be used by the integrator to acknowledge received subscribed data/events upload and will
+                then do all the special subscription data acknowledges obsolete.
+            </para>
+            <para>
+                When using the communication acknowledgement of MID 0007 and <see cref="T:OpenProtocolInterpreter.Communication.Mid0006"/> together with sequence 
+                numbering this is an application level message only.
+            </para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: None</para>
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Communication.Mid0004.#ctor(System.Int32,OpenProtocolInterpreter.Error)">
+            <summary>
+            Revision 1 Constructor
+            </summary>
+            <param name="failedMid">Failed Mid. Range: 0000-9999</param>
+            <param name="errorCode"></param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Communication.Mid0004.Validate(System.Collections.Generic.IEnumerable{System.String}@)">
+            <summary>
+            Validate all fields size
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Communication.Mid0005">
+            <summary>
+            Application Communication positive acknowledge
+            <para>
+                This message is used by the controller to confirm that the latest command, request or subscription sent
+                by the integrator was accepted.The data field contains the MID of the request accepted if the special
+                MIDs for request or subscription are used.
+            </para>
+            <para>
+                It can also be used by the integrator to acknowledge received subscribed data/events upload and will
+                then do all the special subscription data acknowledges obsolete.
+            </para>
+            <para>
+                When using the communication acknowledgement of MID 9997 and MID 9998 together with
+                sequence numbering this is an application level message only.
+                When using the GENERIC subscription MIDs <see cref="T:OpenProtocolInterpreter.Communication.Mid0008"/> and 0009 the data field contains the MID of
+                the subscribed MID.
+            </para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: None</para>
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Communication.Mid0005.#ctor(System.Int32)">
+            <summary>
+            Revision 1 Constructor
+            </summary>
+            <param name="midAccepted">Mid accepted</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Communication.Mid0005.Validate(System.Collections.Generic.IEnumerable{System.String}@)">
+            <summary>
+            Validate all fields size
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Communication.Mid0006">
+            <summary>
+            Application Communication positive acknowledge
+            <para>
+                Do a request for data. This message is used for ALL request handling.
+                When used it substitutes the use of all MID special request messages.
+            </para>    
+            <para>
+                NOTE! The Header Revision field is the revision of the <see cref="T:OpenProtocolInterpreter.Communication.Mid0006"/> itself NOT 
+                the revision of the data MID that is wanted to be uploaded.
+            </para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: MID Requested for or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error. Error described at each MID description.</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Communication.Mid0008">
+            <summary>
+            Application data message subscription
+            <para>
+                Start a subscription of data. This message is used for ALL subscription handling.
+                When used it substitutes the use of all MID special subscription messages.
+            </para>
+            <para>
+                NOTE! The Header Revision field is the revision of the MID 0008 itself NOT the revision of the data
+                MID that is wanted to be subscribed for.
+            </para>
+            <para>Message sent by: Integrator</para>
+            <para>
+                Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted with the MID subscribed for or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, 
+                    MID revision unsupported or Invalid data code and the MID subscribed for
+            </para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Communication.Mid0009">
+            <summary>
+            Application Data Message unsubscribe
+            <para>
+                Unsubscribe the data. This message is used for ALL unsubscribe.
+                When used it substitutes the use of all MID special subscription messages.
+            </para>
+            <para>
+                NOTE! The Header Revision field is the revision of the MID 0009 itself NOT the revision of the data
+                MID that is wanted to be subscribed for.
+            </para>
+            <para>Message sent by: Integrator</para>
+            <para>
+            Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted with the MID subscribed for or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, 
+                    MID revision unsupported or Invalid data code and the MID subscribed for
+            </para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.AngleStatus">
+            <summary>
+            Angle status. Used in <see cref="T:OpenProtocolInterpreter.PowerMACS.BoltData"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.BatchMode">
+            <summary>
+            Batch Mode. Used in <see cref="T:OpenProtocolInterpreter.Job.Advanced.Mid0140"/>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.BatchStatus">
+            <summary>
+            Batch Status. Used in <see cref="T:OpenProtocolInterpreter.Tightening.Mid0061"/> and <see cref="T:OpenProtocolInterpreter.Tightening.Mid0065"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.CalibrationUnit">
+            <summary>
+            Calibration Units. Used in <see cref="T:OpenProtocolInterpreter.Tool.Mid0045"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.DigitalInputNumber">
+            <summary>
+            Digital Input Numbers. Used in <see cref="T:OpenProtocolInterpreter.IOInterface.Mid0220"/>, <see cref="T:OpenProtocolInterpreter.IOInterface.Mid0221"/>, 
+            <see cref="T:OpenProtocolInterpreter.IOInterface.Mid0223"/>, <see cref="T:OpenProtocolInterpreter.IOInterface.Mid0224"/> and <see cref="T:OpenProtocolInterpreter.IOInterface.Mid0225"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Error">
+            <summary>
+            <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> possible errors.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ForcedOrder">
+            <summary>
+            Forced Orders. Used in <see cref="T:OpenProtocolInterpreter.Job.Mid0033"/> and <see cref="T:OpenProtocolInterpreter.Job.Advanced.Mid0140"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.HistogramType">
+            <summary>
+            Histogram Types. Used in <see cref="T:OpenProtocolInterpreter.Statistic.Mid0300"/> and <see cref="T:OpenProtocolInterpreter.Statistic.Mid0301"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.IdentifierPart">
+            <summary>
+            Identifier parts. Used in <see cref="T:OpenProtocolInterpreter.Job.Advanced.Mid0140"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.InterpreterMode">
+            <summary>
+            Mid interpreter possible modes.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.JobBatchMode">
+            <summary>
+            Job batch modes. Used in <see cref="T:OpenProtocolInterpreter.Job.Mid0033"/> and <see cref="T:OpenProtocolInterpreter.Job.Mid0035"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.JobStatus">
+            <summary>
+            Job Status. Used in <see cref="T:OpenProtocolInterpreter.Job.Mid0035"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.JobTighteningStatus">
+            <summary>
+            Job tightening status. Used in <see cref="T:OpenProtocolInterpreter.Job.Mid0035"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.LightCommand">
+            <summary>
+            Light commands. Used in <see cref="T:OpenProtocolInterpreter.ApplicationSelector.Mid0254"/> and <see cref="T:OpenProtocolInterpreter.ApplicationSelector.Mid0255"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.MotorRotation">
+            <summary>
+            Motor rotations. Used in <see cref="T:OpenProtocolInterpreter.Tool.Mid0041"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.OperationType">
+            <summary>
+            Operation Types. Used in <see cref="T:OpenProtocolInterpreter.Result.Mid1201"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.PairingHandlingType">
+            <summary>
+            Pairing handling types. Used in <see cref="T:OpenProtocolInterpreter.Tool.Mid0047"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.PairingStatus">
+            <summary>
+            Pairing status. Used in <see cref="T:OpenProtocolInterpreter.Tool.Mid0048"/>.
+            </summary>
+        </member>
+        <member name="F:OpenProtocolInterpreter.PairingStatus.UNDEFINED">
+            <summary>
+            Tool not mounted yet
+            </summary>
+        </member>
+        <member name="F:OpenProtocolInterpreter.PairingStatus.ACCEPTED">
+            <summary>
+            Pairing allowed and started
+            </summary>
+        </member>
+        <member name="F:OpenProtocolInterpreter.PairingStatus.INQUIRY">
+            <summary>
+            Normal pairing sequence as OK
+            </summary>
+        </member>
+        <member name="F:OpenProtocolInterpreter.PairingStatus.SENDPIN">
+            <summary>
+            Normal pairing sequence as OK
+            </summary>
+        </member>
+        <member name="F:OpenProtocolInterpreter.PairingStatus.PINOK">
+            <summary>
+            Normal pairing sequence as OK
+            </summary>
+        </member>
+        <member name="F:OpenProtocolInterpreter.PairingStatus.READY">
+            <summary>
+            Normal pairing sequence as OK
+            </summary>
+        </member>
+        <member name="F:OpenProtocolInterpreter.PairingStatus.ABORTED">
+            <summary>
+            Ongoing Pairing Aborted
+            </summary>
+        </member>
+        <member name="F:OpenProtocolInterpreter.PairingStatus.DENIED">
+            <summary>
+            Pairing not allowed. Program control.
+            </summary>
+        </member>
+        <member name="F:OpenProtocolInterpreter.PairingStatus.FAILED">
+            <summary>
+            Pairing attempt failed
+            </summary>
+        </member>
+        <member name="F:OpenProtocolInterpreter.PairingStatus.UNREADY">
+            <summary>
+            Pairing never done before or disconnected
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.PowerMacsStatus">
+            <summary>
+            Power Macs status. Used in <see cref="T:OpenProtocolInterpreter.PowerMACS.Mid0106"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.PrimaryTool">
+            <summary>
+            Primary tools. Used in <see cref="T:OpenProtocolInterpreter.Tool.Mid0041"/> and <see cref="T:OpenProtocolInterpreter.Tool.Mid0046"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.RelayNumber">
+            <summary>
+            Relay Numbers. Used in <see cref="T:OpenProtocolInterpreter.IOInterface.Mid0216"/>, <see cref="T:OpenProtocolInterpreter.IOInterface.Mid0217"/>, <see cref="T:OpenProtocolInterpreter.IOInterface.Mid0219"/> and <see cref="T:OpenProtocolInterpreter.IOInterface.Relay"/>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.RelayStatus">
+            <summary>
+            Relay status. Used in <see cref="T:OpenProtocolInterpreter.IOInterface.Mid0200"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.RemovalCondition">
+            <summary>
+            Removal conditions. <see cref="T:OpenProtocolInterpreter.UserInterface.Mid0111"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Reserved">
+            <summary>
+            Reserved. Used in <see cref="T:OpenProtocolInterpreter.Job.Mid0033"/> and <see cref="T:OpenProtocolInterpreter.Job.Advanced.Mid0140"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ResultType">
+            <summary>
+            Result types. Used in <see cref="T:OpenProtocolInterpreter.Tightening.Mid0061"/> and <see cref="T:OpenProtocolInterpreter.Tightening.Mid0065"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.RotationDirection">
+            <summary>
+            Rotation directions. Used in <see cref="T:OpenProtocolInterpreter.ParameterSet.Mid0013"/> and <see cref="T:OpenProtocolInterpreter.ParameterSet.Mid0015"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.StatusInWorkOrder">
+            <summary>
+            Status in work order. Used in <see cref="T:OpenProtocolInterpreter.MultipleIdentifiers.IdentifierStatus"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Strategy">
+            <summary>
+            Strategies. Used in <see cref="T:OpenProtocolInterpreter.Tightening.Mid0061"/> and <see cref="T:OpenProtocolInterpreter.Tightening.Mid0065"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.SystemSubType">
+            <summary>
+            If no subtype exists it will be set to 000
+            <para>For a Power Focus 4000 and PF 6000 system the valid subtypes are: </para>
+            <para>001 = a normal tightening system</para>
+            For a Power MACS 4000 system the valid subtypes are: 
+            <list type="bullet">
+                <item>001 = a normal tightening system</item>
+                <item>002 = a system running presses instead of spindles.</item>
+            </list>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.SystemType">
+            <summary>
+            The system type of the controller.
+            <para>Possible values are:</para>
+            <list type="bullet">
+                <item>000 = System type not set </item>
+                <item>001 = Power Focus 4000 </item>
+                <item>002 = Power MACS 4000 </item>
+                <item>003 = Power Focus 6000</item>
+            </list>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.TighteningDirection">
+            <summary>
+            Tightening Directions. Used in <see cref="T:OpenProtocolInterpreter.Tool.Mid0041"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.TighteningValueStatus">
+            <summary>
+            Tightening value status. Used in <see cref="T:OpenProtocolInterpreter.Tightening.Mid0061"/> and <see cref="T:OpenProtocolInterpreter.Tightening.Mid0065"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ToolLoosening">
+            <summary>
+            Tool loosenings. Used in <see cref="T:OpenProtocolInterpreter.Job.Mid0033"/> and <see cref="T:OpenProtocolInterpreter.Job.Advanced.Mid0140"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ToolStatus">
+            <summary>
+            Tool status. Used in <see cref="T:OpenProtocolInterpreter.ApplicationToolLocationSystem.Mid0265"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ToolType">
+            <summary>
+            Tool types. Used in <see cref="T:OpenProtocolInterpreter.Tool.Mid0041"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.TorqueStatus">
+            <summary>
+            Torque status. Used in <see cref="T:OpenProtocolInterpreter.PowerMACS.BoltData"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.TorqueValuesUnit">
+            <summary>
+            Torque values unit. Used in <see cref="T:OpenProtocolInterpreter.Tightening.Mid0061"/> and <see cref="T:OpenProtocolInterpreter.Tightening.Mid0065"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.IOInterface.DigitalInput">
+            <summary>
+            Represents a single Digital Input.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.IOInterface.IIOInterface">
+            <summary>
+            IO interface message category. Every IO interface mid must implement <see cref="T:OpenProtocolInterpreter.IOInterface.IIOInterface"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.IOInterface.IOInterfaceMessages">
+            <summary>
+            Template for <see cref="T:OpenProtocolInterpreter.IOInterface.IIOInterface"/> implementers.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.IOInterface.Mid0200">
+            <summary>
+            Set externally controlled relays
+            <para>
+                By using this message the integrator can control 10 relays (externally control relays). The station can
+                set, reset the relays or make them flashing.
+            </para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.IOInterface.Mid0210">
+            <summary>
+            Status externally monitored inputs subscribe
+            <para>
+                By using this message the integrator can set a subscription to monitor the status 
+                for the eight externally monitored digital inputs. After the subscription the station 
+                will directly receive a status message and then every time the status of at least one of 
+                the inputs has changed.
+            </para>
+            <para>Message sent by: Integrator</para>
+            <para>
+            Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or 
+                <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Status externally monitored inputs subscription already exists or 
+                <see cref="T:OpenProtocolInterpreter.IOInterface.Mid0211"/> Status externally monitored inputs.
+            </para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.IOInterface.Mid0211">
+            <summary>
+            Status externally monitored inputs
+            <para>
+               Status for the eight externally monitored digital inputs. This message is sent to the subscriber every
+               time the status of at least one of the inputs has changed.
+            </para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.IOInterface.Mid0212"/> Status externally monitored inputs acknowledge</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.IOInterface.Mid0212">
+            <summary>
+            Status externally monitored inputs acknowledge
+            <para>Acknowledgement for the message status externally monitored inputs upload.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: None</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.IOInterface.Mid0213">
+            <summary>
+            Status externally monitored inputs unsubscribe
+            <para>Unsubscribe for the <see cref="T:OpenProtocolInterpreter.IOInterface.Mid0211"/> Status externally monitored inputs.</para>
+            <para>Message sent by: Integrator</para>
+            <para>
+                Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, 
+                        Status externally monitored inputs subscription does not exist
+            </para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.IOInterface.Mid0214">
+            <summary>
+            IO device status request
+            <para>
+                Request for the status of the relays and digital inputs at a device, e.g. an I/O expander. 
+                The device is specified by a device number.
+            </para>    
+            <para>Message sent by: Integrator</para>
+            <para>
+            Answer: <see cref="T:OpenProtocolInterpreter.IOInterface.Mid0215"/> IO device status or
+                    <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Faulty IO device ID, or IO device not connected
+            </para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.IOInterface.Mid0215">
+            <summary>
+            IO device status reply
+            <para>
+                This message is sent as an answer to the <see cref="T:OpenProtocolInterpreter.IOInterface.Mid0214"/> IO device status request.
+                <see cref="T:OpenProtocolInterpreter.IOInterface.Mid0215"/> revision 1 should only be used to get the status of IO devices with max 8 relays/digital
+                inputs.
+                For external I/O devices each list contain up to 8 relays/digital inputs. For the internal device the lists
+                contain up to 4 relays/digital inputs and the remaining 4 will be empty.
+                <see cref="T:OpenProtocolInterpreter.IOInterface.Mid0215"/> revision 2 can be used to get the status of all types of IO devices with up to 48 relays/digital
+                inputs.
+            </para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: None</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.IOInterface.Mid0216">
+            <summary>
+            Relay function subscribe
+            <para>
+                Subscribe for one single relay function. The data field consists of three ASCII digits, the relay number,
+                which corresponds to the specific relay function.The relay numbers can be found in Table 101 above.
+                At a subscription of a tracking event, <see cref="T:OpenProtocolInterpreter.IOInterface.Mid0217"/> Relay function immediately returns the current relay
+                status to the subscriber.
+                <see cref="T:OpenProtocolInterpreter.IOInterface.Mid0216"/> can only subscribe for one single relay function at a time, but still, Open Protocol supports
+                keeping several relay function subscriptions simultaneously.
+            </para>    
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, The relay function subscription already exists</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.IOInterface.Mid0217">
+            <summary>
+            Relay function
+            <para>
+                Upload of one specific relay function status, see Table 101.
+                For tracking event functions, <see cref="T:OpenProtocolInterpreter.IOInterface.Mid0217"/> Relay function, is sent each time the relay status is changed. For
+                relay functions which are not tracking events, the upload is sent only when the relay is set high, i.e. the
+                data field “Relay function status” will always be 1 for such functions.
+            </para>
+            Message sent by: Controller
+            Answer: MID 0218 Relay function acknowledge
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.IOInterface.Mid0217.#ctor(System.Nullable{System.Int32})">
+            <summary>
+            Default Constructor
+            </summary>
+            <param name="ackFlag">0=Ack needed, 1=No Ack needed</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.IOInterface.Mid0217.#ctor(OpenProtocolInterpreter.RelayNumber,System.Boolean,System.Nullable{System.Int32})">
+            <summary>
+            Revision 1 Constructor
+            </summary>
+            <param name="relayNumber">Three ASCII digits corresponding to a relay function</param>
+            <param name="relayStatus">One ASCII digit representing the relay function status <para>true = Active</para><para>false = Not Active</para></param>
+            <param name="ackFlag">0=Ack needed, 1=No Ack needed</param>
+        </member>
+        <member name="T:OpenProtocolInterpreter.IOInterface.Mid0218">
+            <summary>
+            Relay function acknowledge
+            <para>Acknowledgement of relay function upload.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: None</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.IOInterface.Mid0219">
+            <summary>
+            Relay function unsubscribe
+            <para>
+                Unsubscribe for a single relay function. The data field consists of three ASCII digits,
+                the relay number, which corresponds to the specific relay function. The relay numbers can be 
+                found in Table 101.
+            </para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, The relay function subscription does not exist</para>
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.IOInterface.Mid0219.#ctor(OpenProtocolInterpreter.RelayNumber)">
+            <summary>
+            Revision 1 Constructor
+            </summary>
+            <param name="relayNumber"></param>
+        </member>
+        <member name="T:OpenProtocolInterpreter.IOInterface.Mid0220">
+            <summary>
+            Digital input function subscribe
+            <para>
+                Subscribe for one single digital input function. The data field consists of three ASCII digits, 
+                the digital input function number. The digital input function numbers can be found in Table 80 above.
+                At a subscription of a tracking event, <see cref="T:OpenProtocolInterpreter.IOInterface.Mid0221"/> Digital input function upload immediately returns the 
+                current digital input function status to the subscriber.
+            </para>
+            <para>
+                <see cref="T:OpenProtocolInterpreter.IOInterface.Mid0220"/> can only subscribe for one single digital input function at a time, 
+                but still, Open Protocol supports keeping several digital input function subscriptions simultaneously.
+            </para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, The digital input function subscription already exists</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.IOInterface.Mid0221">
+            <summary>
+            Digital input function
+            <para>
+                Upload of one specific digital input function status. See Table 80.
+                For tracking event functions, <see cref="T:OpenProtocolInterpreter.IOInterface.Mid0221"/> Digital input function, is sent each time the digital input
+                function’s status (state) is changed. For digital input functions which are not tracking events, the
+                upload is sent only when the digital input function is set high, 
+                i.e. the data field “Digital input function status” will always be 1 for such functions.
+            </para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.IOInterface.Mid0222"/> Digital input function upload acknowledge</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.IOInterface.Mid0222">
+            <summary>
+            Digital input function acknowledge
+            <para>Acknowledgement of the digital input function upload.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: None</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.IOInterface.Mid0223">
+            <summary>
+            Relay function unsubscribe
+            <para>
+                Unsubscribe for a single relay function. The data field consists of three ASCII digits,
+                the relay number, which corresponds to the specific relay function. The relay numbers can be 
+                found in Table 101.
+            </para>    
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, The relay function subscription does not exist</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.IOInterface.Mid0224">
+            <summary>
+            Set digital input function
+            <para>
+                Set the digital input function with the digital input number. 
+                The digital input function numbers are defined in Table 80.
+            </para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Invalid data</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.IOInterface.Mid0225">
+            <summary>
+            Reset digital input function
+            <para>
+                Reset the digital input function with the digital input number. 
+                The digital input function numbers are defined in Table 80.
+            </para>    
+            <para>
+                This MID will only affect the digital input functions of tracking type.
+                The digital input functions with the type flank cannot be reset (for example reset the reset 
+                batch digital input function will have no effect).
+            </para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Invalid data</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.IOInterface.Relay">
+            <summary>
+            Represents a single Relay
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Job.Advanced.AdvancedJob">
+            <summary>
+            Represents a advanced job entity
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Job.Advanced.AdvancedJobMessages">
+            <summary>
+            Template for <see cref="T:OpenProtocolInterpreter.Job.Advanced.IAdvancedJob"/> implementers.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Job.Advanced.IAdvancedJob">
+            <summary>
+            Advanced job message category. Every Advanced job mid must implement <see cref="T:OpenProtocolInterpreter.Job.Advanced.IAdvancedJob"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Job.Advanced.Mid0120">
+            <summary>
+            Job line control info subscribe
+            <para>
+                A subscription for the Job line control information.
+                A message is sent to the integrator when the Job line control is started, for alert level 1, 
+                for alert level 2, or when the Job is finished before the alert level 2 (Job line control done).
+            </para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Job line control info subscription already exists</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Job.Advanced.Mid0121">
+            <summary>
+            Job line control started
+            <para>This message tells the integrator that Job Line control start has been set in the controller.</para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Job.Advanced.Mid0125"/> Job line control info acknowledged</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Job.Advanced.Mid0122">
+            <summary>
+            Job line control alert 1
+            <para>
+                This message tells the integrator that, for example, 
+                a car has reached 80% of the station and that the
+                Job line control alert 1 is set in the controller.
+            </para>
+            <para>
+                Only available when a job has been selected.
+            </para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Job.Advanced.Mid0125"/> Job line control info acknowledged</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Job.Advanced.Mid0123">
+            <summary>
+            Job line control alert 2
+            <para>This message tells the integrator that the Job line control alert 2 is set in the controller.</para>
+            <para>Only available when a job has been selected.</para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Job.Advanced.Mid0125"/> Job line control info acknowledged</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Job.Advanced.Mid0124">
+            <summary>
+            Job line control done
+            <para>This message tells the integrator that the Job has been completed before the alert level 2 was reached.</para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Job.Advanced.Mid0125"/> Job line control info acknowledged</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Job.Advanced.Mid0125">
+            <summary>
+            Job line control info acknowledge
+            <para>Acknowledgement of Job line control info messages <see cref="T:OpenProtocolInterpreter.Job.Advanced.Mid0121"/>, <see cref="T:OpenProtocolInterpreter.Job.Advanced.Mid0122"/>, <see cref="T:OpenProtocolInterpreter.Job.Advanced.Mid0123"/>, and <see cref="T:OpenProtocolInterpreter.Job.Advanced.Mid0124"/>.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: None</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Job.Advanced.Mid0126">
+            <summary>
+            Job line control info unsubscribe
+            <para>Unsubscribe for the Job line control info messages.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Job line control info subscription does not exist</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Job.Advanced.Mid0127">
+            <summary>
+            Abort Job
+            <para>Abort the current running job if there is one.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Job.Advanced.Mid0128">
+            <summary>
+            Job batch increment
+            <para>Increment the Job batch if there is a current running Job.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Job.Advanced.Mid0129">
+            <summary>
+            Job batch increment
+            <para>
+                Decrement the Job batch if there is a current running Job. 
+                Two revisions are available for this MID.
+                The default revision or revision 1 does not contain any argument and always decrement the last
+                tightening completed in a Job.
+            </para>
+            <para>The revision 2 contains two parameters; the channel ID and parameter set ID to be decremented.</para>
+            <para>The MID is always sent to the cell master/reference.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Job batch decrement failed (only for MID revision 2)</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Job.Advanced.Mid0130">
+            <summary>
+            Job off
+            <para>Set the controller in Job off mode or reset the Job off mode.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted</para>
+            </summary>
+        </member>
+        <member name="P:OpenProtocolInterpreter.Job.Advanced.Mid0130.JobOffStatus">
+            <summary>
+            <para>False => Set Job Off</para>
+            <para>True => Reset Job Off</para> 
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Job.Advanced.Mid0131">
+            <summary>
+            Set Job line control start
+            <para>The integrator can set the line control start in the controller with this message.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Job.Advanced.Mid0132">
+            <summary>
+            Set Job line alert 1
+            <para>The integrator can set the line control alert 1 in the controller with this message.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Job.Advanced.Mid0133">
+            <summary>
+            Set Job line alert 2
+            <para>The integrator can set the line control alert 2 in the controller with this message.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Job.Advanced.Mid0140">
+            <summary>
+            Execute dynamic Job request
+            <para>
+                The integrator requests a dynamical Job to be executed i.e. the Job sent from the integrator is
+                immediately executed(if possible) by the controller but not saved in the memory.A dynamical Job
+                lifetime is the time for the Job to be executed.If the controller is powered off before the completion of
+                the Job, the dynamical Job is lost.
+            </para>
+            <para>Do note the limitation when sending this message on a serial connection due to the size of the read buffer (256 bytes) in the controller.</para>
+            <para>In such case the number of programs in the Job list is limited.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Job.IJob">
+            <summary>
+            Job message category. Every job mid must implement <see cref="T:OpenProtocolInterpreter.Job.IJob"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Job.JobMessages">
+            <summary>
+            Template for <see cref="T:OpenProtocolInterpreter.Job.IJob"/> implementers.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Job.Mid0030">
+            <summary>
+            Job ID upload request
+            <para>
+                This is a request for a transmission of all the valid Job IDs of the controller.
+                The result of this command is a transmission of all the valid Job IDs.
+            </para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Job.Mid0031"/> Job ID upload reply</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Job.Mid0031">
+            <summary>
+            Job ID upload reply
+            <para>
+                The transmission of all the valid Job IDs of the controller. 
+                The data field contains the number of valid Jobs currently present in the controller, and the ID of each Job.
+            </para>    
+            <para>Message sent by: Controller</para>
+            <para>Answer: None</para>
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Job.Mid0031.#ctor(System.Int32,System.Collections.Generic.IEnumerable{System.Int32},System.Int32)">
+            <summary>
+            Revision 1 or 2 constructor
+            </summary>
+            <param name="totalJobs">
+                Revision 1 range: 00-99 
+                <para>Revision 2 range: 0000-9999</para>
+            </param>
+            <param name="jobIds">
+                Revision 1 - range: 00-99 each
+                <para>Revision 2 - range: 0000-9999 each</para>
+            </param>
+            /// <param name="revision">Revision number (default = 2)</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Job.Mid0031.Validate(System.Collections.Generic.IEnumerable{System.String}@)">
+            <summary>
+            Validate all fields size
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Job.Mid0032">
+            <summary>
+            Job data upload request
+            <para>Request to upload the data for a specific Job from the controller.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Job.Mid0033"/> Job data upload or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Job ID not present</para>
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Job.Mid0032.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Revision 1 or 2 setter
+            </summary>
+            <param name="jobId">
+                Revision 1 range: 00-99 
+                <para>Revision 2 range: 0000-9999</para>
+            </param>
+            <param name="revision">Revision number (default = 3)</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Job.Mid0032.Validate(System.Collections.Generic.IEnumerable{System.String}@)">
+            <summary>
+            Validate all fields size
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Job.Mid0033">
+            <summary>
+            Job data upload reply
+            <para>This message is sent as a reply to the <see cref="T:OpenProtocolInterpreter.Job.Mid0032"/> Job data request.</para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: None</para>
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Job.Mid0033.#ctor(System.Int32,System.String,OpenProtocolInterpreter.ForcedOrder,System.Int32,System.Int32,OpenProtocolInterpreter.JobBatchMode,System.Boolean,System.Boolean,System.Boolean,OpenProtocolInterpreter.ToolLoosening,OpenProtocolInterpreter.Reserved,System.Int32,System.Collections.Generic.IEnumerable{OpenProtocolInterpreter.Job.ParameterSet},System.Int32)">
+            <summary>
+            Revisions 1,2 and 3 constructors
+            </summary>
+            <param name="jobId">The Job ID is specified by two ASCII characters. Range: 00-99</param>
+            <param name="jobName">25 ASCII characters.</param>
+            <param name="forcedOrder">0=free order, 1=forced order, 2=free and forced</param>
+            <param name="maxTimeForFirstTightening">Four ASCII digits, range 0000-9999, <para>00000=not used</para></param>
+            <param name="maxTimeToCompleteJob">Five ASCII digits, range 00000-99999, <para>00000=not used</para></param>
+            <param name="jobBatchMode">The Job batch mode is the way to count the tightening in a Job; only the OK or both OK and NOK. 
+                <para>0=only the OK tightenings are counted </para>
+                <para>1=both the OK and NOK tightenings are counted</para>
+            </param>
+            <param name="lockAtJobDone">False=No, True=Yes</param>
+            <param name="useLineControl">False=No, True=Yes</param>
+            <param name="repeatJob">False=No, True=Yes</param>
+            <param name="toolLoosening">Tool loosening. 
+                <para>0=Enable</para>
+                <para>1=Disable</para>
+                <para>2=Enable only on NOK tightening</para>
+            </param>
+            <param name="reserved">Reserved for Job repair. 0=E, 1=G</param>
+            <param name="numberOfParameterSets">The number of parameter sets in the Job list, defined by two ASCII characters, range 00-99.</param>
+            <param name="parameterSetList">A list of parameter sets (N=value from parameter “Number of parameter sets”, max 50).</param>
+            <param name="revision">Revision number (Default = 3)</param>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Job.Mid0034">
+            <summary>
+            Job Info Subscribe
+            <para>
+                A subscription for the Job info. <see cref="T:OpenProtocolInterpreter.Job.Mid0035"/> Job info is sent to the integrator when a new Job is selected and after 
+                each tightening performed during the Job.
+            </para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command Accepted or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Job info subscription already exists</para>
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Job.Mid0034.#ctor(System.Int32,System.Nullable{System.Int32})">
+            <summary>
+            Revision 1 to 4 Constructor
+            </summary>
+            <param name="noAckFlag">0=Ack needed, 1=No Ack needed</param>
+            <param name="revision">Revision number (default = 4)</param>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Job.Mid0035">
+            <summary>
+            <para>MID: Job info</para>
+            <para>Description:</para>
+                <para>The Job info subscriber will receive a Job info message after a Job has been selected and after each
+                tightening performed in the Job.The Job info consists of the ID of the currently running Job, the Job
+                status, the Job batch mode, the Job batch size and the Job batch counter.</para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Job.Mid0036"/></para>
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Job.Mid0035.#ctor(System.Int32,OpenProtocolInterpreter.JobStatus,OpenProtocolInterpreter.JobBatchMode,System.Int32,System.Int32,System.DateTime,System.Int32,System.Nullable{System.Int32})">
+            <summary>
+            Revision 1 and 2 Constructor
+            </summary>
+            <param name="jobId">The Job ID is specified by two/four ASCII characters, range 00-99/0000-9999 <para>*Depend on revision</para></param>
+            <param name="jobStatus">The Job batch status is specified by one ASCII character.</param>
+            <param name="jobBatchMode">The Job batch mode is the way to count the tightening in a Job only the OK or both OK and NOK.</param>
+            <param name="jobBatchSize">This parameter gives the total number of tightening in the Job.The Job batch size is four bytes long. Four ASCII characters, range 0000-9999.</param>
+            <param name="jobBatchCounter">This parameter gives the current value of the Job batch counter.The Job is completed when the Job batch counter is equal to the Job batch size. The Job batch counter is four bytes long. Four ASCII characters, range 0000-9999.</param>
+            <param name="timestamp">Time stamp for the Job info. The time stamp is 19 bytes long and is specified by 19 ASCII characters</param>
+            <param name="ackFlag">0=Ack needed, 1=No Ack needed</param>
+            <param name="revision">Revision number (default = 2)</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Job.Mid0035.#ctor(System.Int32,OpenProtocolInterpreter.JobStatus,OpenProtocolInterpreter.JobBatchMode,System.Int32,System.Int32,System.DateTime,System.Int32,System.Int32,System.Int32,System.Int32,System.Nullable{System.Int32})">
+            <summary>
+            Revision 3
+            </summary>
+            <param name="jobId">The Job ID is specified by two/four ASCII characters, range 00-99/0000-9999 <para>*Depend on revision</para></param>
+            <param name="jobStatus">The Job batch status is specified by one ASCII character.</param>
+            <param name="jobBatchMode">The Job batch mode is the way to count the tightening in a Job only the OK or both OK and NOK.</param>
+            <param name="jobBatchSize">This parameter gives the total number of tightening in the Job.The Job batch size is four bytes long. Four ASCII characters, range 0000-9999.</param>
+            <param name="jobBatchCounter">This parameter gives the current value of the Job batch counter.The Job is completed when the Job batch counter is equal to the Job batch size. The Job batch counter is four bytes long. Four ASCII characters, range 0000-9999.</param>
+            <param name="timestamp">Time stamp for the Job info. The time stamp is 19 bytes long and is specified by 19 ASCII characters</param>
+            <param name="jobCurrentStep">The number of the step currently executed in the job. 3 bytes long, 3 ASCII characters range 000-999. <para>For PF4000, PF3000 is zero reported.</para></param>
+            <param name="jobTotalNumberOfSteps">The total number of steps in the job. 3 bytes long, 3 ASCII characters range 000-999. <para>For PF4000, PF3000 is zero reported.</para></param>
+            <param name="jobStepType">Job step type = Two ASCII characters, range 00-99 
+            <para>Batch step = 1</para>
+            <para>Reserved = 2-6</para>
+            <para>For PF4000, PF3000 is zero reported.</para>
+            </param>
+            <param name="ackFlag">0=Ack needed, 1=No Ack needed</param>
+            <param name="revision">Revision number (default = 3)</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Job.Mid0035.#ctor(System.Int32,OpenProtocolInterpreter.JobStatus,OpenProtocolInterpreter.JobBatchMode,System.Int32,System.Int32,System.DateTime,OpenProtocolInterpreter.JobTighteningStatus,System.Int32,System.Nullable{System.Int32})">
+            <summary>
+            Revision 4 Constructor
+            </summary>
+            <param name="jobId">The Job ID is specified by two/four ASCII characters, range 00-99/0000-9999 <para>*Depend on revision</para></param>
+            <param name="jobStatus">The Job batch status is specified by one ASCII character.</param>
+            <param name="jobBatchMode">The Job batch mode is the way to count the tightening in a Job only the OK or both OK and NOK.</param>
+            <param name="jobBatchSize">This parameter gives the total number of tightening in the Job.The Job batch size is four bytes long. Four ASCII characters, range 0000-9999.</param>
+            <param name="jobBatchCounter">This parameter gives the current value of the Job batch counter.The Job is completed when the Job batch counter is equal to the Job batch size. The Job batch counter is four bytes long. Four ASCII characters, range 0000-9999.</param>
+            <param name="timestamp">Time stamp for the Job info. The time stamp is 19 bytes long and is specified by 19 ASCII characters</param>
+            <param name="jobTighteningStatus">The Job tightening status is specified by two ASCII character.</param>
+            <param name="ackFlag">0=Ack needed, 1=No Ack needed</param>
+            <param name="revision">Revision number (default = 4)</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Job.Mid0035.Validate(System.Collections.Generic.IEnumerable{System.String}@)">
+            <summary>
+            Validate all fields size
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Job.Mid0036">
+            <summary>
+            Job info acknowledge
+            <para>Acknowledgement of a Job info message.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: None</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Job.Mid0037">
+            <summary>
+            Job info unsubscribe
+            <para>Reset the subscription for a Job info message.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Job info subscription does not exist</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Job.Mid0038">
+            <summary>
+            Select Job
+            <para>Message to select Job. If the requested ID is not present in the controller, then the command will not be performed.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Job can not be set, or Invalid data</para>
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Job.Mid0038.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Constructor for Revision 1 and 2
+            </summary>
+            <param name="jobId">The Job ID is specified by two/four ASCII characters, range 00-99/0000-9999 <para>*Depend on revision</para></param>
+            <param name="revision">Revision number (default = 2)</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Job.Mid0038.Validate(System.Collections.Generic.IEnumerable{System.String}@)">
+            <summary>
+            Validate all fields size
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Job.Mid0039">
+            <summary>
+            Job restart
+            <para>Job restart message.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Job not running, or Invalid data</para>
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Job.Mid0039.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Constructor for Revision 1 and 2
+            </summary>
+            <param name="jobId">The Job ID is specified by two/four ASCII characters, range 00-99/0000-9999 <para>*Depend on revision</para></param>
+            <param name="revision">Revision number (default = 2)</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Job.Mid0039.Validate(System.Collections.Generic.IEnumerable{System.String}@)">
+            <summary>
+            Validate all fields size
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Job.ParameterSet">
+            <summary>
+            Parameter set entity.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.KeepAlive.Mid9999">
+            <summary>
+            Keep alive message
+            <para>
+              The integrator sends a keep alive to the controller. The controller should only mirror and return the 
+              received keep alive to the integrator.
+            </para>
+            <para>
+              The controller has a communication timeout equal to 15s. This means that if no message has been 
+              exchanged between the integrator and the controller for the last 15s, then the controller considers 
+              the connection lost and closes it;
+            </para>
+            <para>
+              In order to keep the communication alive the integrator must send a keep alive to the controller with a
+              time interval lower than 15s.
+            </para>
+            <para>
+              Note: An inactivity timeout is suggested to integrator i.e. if no message has been exchanged (sent or 
+              received) during the last 10s, send a keep alive.
+            </para>  
+            <para>Message sent by: Integrator</para>
+            <para>Answer: The same message (<see cref="T:OpenProtocolInterpreter.KeepAlive.Mid9999"/>) mirrored by the controller.</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.LinkCommunication.Mid9997">
+            <summary>
+            Communication acknowledge
+            <para>This message is used in conjunction with the use of header sequence number.</para>
+            <para>Message sent by: Controller and Integrator:</para>
+            <para>
+                Is sent immediately after the message is received on application link level and if the check of the
+                header is found to be ok.
+                The acknowledge substitute the use of NoAck flag and all subscription data special acknowledging.
+            </para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.LinkCommunication.Mid9998">
+            <summary>
+            Communication acknowledge error
+            <para>This message is used in conjunction with the use of header sequence number.</para>
+            <para>Message sent by: Controller and Integrator:</para>
+            <para>
+                This message is sent immediately after the message is received on application link level and if the check of the header is found to be wrong in any way.
+                The acknowledge substitute the use of NoAck flag and all subscription data special acknowledging.
+            </para>
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseAllMessages(OpenProtocolInterpreter.MidInterpreter,OpenProtocolInterpreter.InterpreterMode)">
+            <summary>
+            Configure MidInterpreter to parse all available Mids of a mode
+            <para>Select Integrator if you're integrator or Controller if you're a controller</para>
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mode">Are you the integrator or controller?</param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseAllMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>
+            Configure MidInterpreter to parse all available Mids of a mode
+            <para>Select Integrator if you're integrator or Controller if you're a controller</para>
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mode">Are you the integrator or controller?</param>
+            <returns></returns>
+        </member>
+        <member name="T:OpenProtocolInterpreter.MotorTuning.IMotorTuning">
+            <summary>
+            Motor tuning message category. Every motor tuning mid must implement <see cref="T:OpenProtocolInterpreter.MotorTuning.IMotorTuning"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.MotorTuning.Mid0500">
+            <summary>
+            Motor tuning result data subscribe
+            <para>
+                Sets the subscription for the motor tuning result. 
+                The result of this command will be the transmission of the motor 
+                tuning result after the motor tuning is performed. The MID revision in 
+                the header is used to subscribe to different revisions of MID 0501 Motor 
+                tuning result data upload reply.
+            </para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Motor Tuning subscription already exists or MID revision not supported</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.MotorTuning.Mid0501">
+            <summary>
+            Motor tuning result data
+            <para>Upload the last motor tuning result.</para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.MotorTuning.Mid0502"/> Motor tuning result data acknowledge</para>
+            </summary>
+        </member>
+        <member name="P:OpenProtocolInterpreter.MotorTuning.Mid0501.MotorTuneResult">
+            <summary>
+            <para>Motor Tune Failed = false (0)</para>
+            <para>Motor Tune Success = true (1)</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.MotorTuning.Mid0502">
+            <summary>
+            Motor tuning result data acknowledge
+            <para>Acknowledgement of motor tuning result data.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: None</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.MotorTuning.Mid0503">
+            <summary>
+            Motor tuning result data unsubscribe
+            <para>Reset the motor tuning result subscription.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Motor Tuning result subscription does not exist</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.MotorTuning.Mid0504">
+            <summary>
+            Motor tuning request
+            <para>Request the start of the motor tuning.</para>
+            <para>Warning!: This command must be implemented during hard restrictions and customer dependent requirements.</para>    
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Tool motor tuning failed</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.MotorTuning.MotorTuningMessages">
+            <summary>
+            Template for <see cref="T:OpenProtocolInterpreter.MotorTuning.IMotorTuning"/> implementers.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.MultipleIdentifiers.IdentifierStatus">
+            <summary>
+            Represents an Identifier Status entity
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.MultipleIdentifiers.IMultipleIdentifier">
+            <summary>
+            Multiple identifier message category. Every multiple identifier mid must implement <see cref="T:OpenProtocolInterpreter.MultipleIdentifiers.IMultipleIdentifier"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.MultipleIdentifiers.Mid0150">
+             <summary>
+             Identifier download request
+             <para>Used by the integrator to send an identifier to the controller.</para>
+             <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Identifier input source not granted</para> 
+             </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.MultipleIdentifiers.Mid0151">
+            <summary>
+            Multiple identifier and result parts subscribe
+            <para>
+               This message is used by the integrator to set a subscription for the work order status, optional
+               identifiers and result parts extracted from the identifiers received and accepted by the controller.
+            </para>   
+            <para>
+               The identifiers may have been received by the controller from one 
+               or several input sources (Serial, Ethernet, Field bus, ST scanner etc.).
+            </para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or 
+                  <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Multiple identifier and result parts subscription already exists
+            </para>        
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.MultipleIdentifiers.Mid0152">
+            <summary>
+            Multiple identifier and result parts
+            <para>
+               Transmission of the work order status, optional identifier and identifier result parts
+               by the controller to the subscriber.
+            </para>
+            <para>
+               The identifier contains the status of the maximum four identifier result parts that could 
+               be extracted from one or more valid identifiers.
+            </para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.MultipleIdentifiers.Mid0153"/> Multiple identifiers and result parts acknowledge</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.MultipleIdentifiers.Mid0153">
+            <summary>
+            Multiple identifiers and result parts acknowledge
+            <para>Acknowledgement of multiple identifiers and result parts upload.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: None</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.MultipleIdentifiers.Mid0154">
+            <summary>
+            Multiple identifier and result parts unsubscribe
+            <para>Reset the subscription for the multiple identifiers and result parts.</para>
+            <para>Message sent by: Integrator</para>
+            <para>
+            Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or 
+            <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Multiple identifiers and result parts subscription does not exist
+            </para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.MultipleIdentifiers.Mid0155">
+            <summary>
+            Bypass Identifier
+            <para>This message is used by the integrator to bypass the next identifier expected in the work order.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.MultipleIdentifiers.Mid0156">
+            <summary>
+            Reset latest Identifier
+            <para>
+               This message is used by the integrator to reset the latest identifier 
+               or bypassed identifier in the work order.
+            </para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.MultipleIdentifiers.Mid0157">
+            <summary>
+            Reset all Identifiers
+            <para>This message is used by the integrator to reset all identifiers in the current work order.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.MultipleIdentifiers.MultipleIdentifierMessages">
+            <summary>
+            Template for <see cref="T:OpenProtocolInterpreter.MultipleIdentifiers.IMultipleIdentifier"/> implementers.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.MultiSpindle.IMultiSpindle">
+            <summary>
+            Multiple spindle message category. Every multiple spindle mid must implement <see cref="T:OpenProtocolInterpreter.MultiSpindle.IMultiSpindle"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.MultiSpindle.Mid0090">
+            <summary>
+            Multi-spindle status subscribe
+            <para>A subscription for the multi-spindle status. For Power Focus, the subscription must be addressed to the sync Master.</para>
+            <para>Message sent by: Integrator</para>
+            <para>
+            Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or 
+                    <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Controller is not a sync master/station controller, 
+                    or Multi-spindle status subscription already exists
+            </para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.MultiSpindle.Mid0091">
+            <summary>
+            Multi-spindle status
+            <para>
+                 The multi-spindle status is sent after each sync tightening. The multiple status contains the common
+                 status of the multiple as well as the individual status of each spindle.
+            </para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.MultiSpindle.Mid0092"/> Multi-spindle status acknowledge</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.MultiSpindle.Mid0092">
+            <summary>
+            Multi-spindle status acknowledge
+            <para>Message sent by: Integrator</para>
+            <para>Answer : None</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.MultiSpindle.Mid0093">
+            <summary>
+            Multi-spindle status unsubscribe
+            <para>Reset the subscription for the multi-spindle status.</para>
+            <para>Message sent by: Integrator</para>
+            <para>
+            Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or 
+            <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Multi-spindle status subscription does not exist
+            </para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.MultiSpindle.Mid0100">
+            <summary>
+            Multi-spindle result subscribe
+            <para>
+                A subscription for the multi-spindle status. For Power Focus, the subscription must 
+                be addressed to a sync Master. 
+            </para>    
+            <para>
+                This telegram is also used for a PowerMACS 4000 system 
+                running a press instead of a spindle. A press system only supports revision 4 and higher 
+                of the telegram and will answer with <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/>, MID revision unsupported if a subscription 
+                is made with a lower revision.
+            </para>
+            <para>Message sent by: Integrator</para>
+            <para>
+                Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or 
+                <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Controller is not a sync master/station controller, 
+                Multi-spindle result subscription already exists or MID revision unsupported
+            </para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.MultiSpindle.Mid0101">
+            <summary>
+            Multi-spindle result
+            <para>
+                The multi-spindle result is sent after each sync tightening and if it is subscribed. The multiple results
+                contain the common status of the multiple as well as the individual tightening result(torque and angle)
+                of each spindle.
+            </para>
+            <para>
+                This telegram is also used for PowerMACS systems running a Press.The layout of the telegram is
+                exactly the same but some of the fields have slightly different definitions.The fields for Torque are
+                used for Force values and the fields for Angle are used for Stroke values. A press system always uses
+                revision 4 or higher of the telegram.
+            </para>    
+            <para>Message sent by: Controller</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.MultiSpindle.Mid0102"/> Multi-spindle result acknowledge</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.MultiSpindle.Mid0102">
+            <summary>
+            Multi-spindle result acknowledge
+            <para>Message sent by: Integrator</para>
+            <para>Answer: None</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.MultiSpindle.Mid0103">
+            <summary>
+            Multi-spindle result unsubscribe
+            <para>Reset the subscription for the multi spindle result.</para>
+            <para>Message sent by: Integrator</para>
+            <para>
+            Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or 
+            <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Multi spindle result subscription does not exist
+            </para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.MultiSpindle.MultiSpindleMessages">
+            <summary>
+            Template for <see cref="T:OpenProtocolInterpreter.MultiSpindle.IMultiSpindle"/> implementers.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.MultiSpindle.SpindleOrPressStatus">
+            <summary>
+            Represents a Spindle or a Press status entity, depending on <see cref="T:OpenProtocolInterpreter.SystemSubType"/>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.MultiSpindle.SpindleStatus">
+            <summary>
+            Represents a Spindle Status entity
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.OpenProtocolCommandsDisabled.IOpenProtocolCommandsDisabled">
+            <summary>
+            Open protocol commands disabled category. Every open protocol command disabled mid must implement <see cref="T:OpenProtocolInterpreter.OpenProtocolCommandsDisabled.IOpenProtocolCommandsDisabled"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.OpenProtocolCommandsDisabled.Mid0420">
+            <summary>
+            Open Protocol commands disabled subscribe
+            <para>
+                Set the subscription for the Open Protocol commands disable digital input. This command will result in
+                transmission of the Open Protocol commands disable input status.When a subscription is set the Open
+                Protocol commands disable digital input status is once uploaded(<see cref="T:OpenProtocolInterpreter.OpenProtocolCommandsDisabled.Mid0421"/>) automatically.Thereafter,
+                the status is uploaded each time the digital input status changes(push function).
+            </para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or
+                    <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Open Protocol commands disabled
+                    subscription already exists
+            </para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.OpenProtocolCommandsDisabled.Mid0421">
+            <summary>
+            Open Protocol commands disabled
+            <para>
+                Upload the status of the Open Protocol commands disable digital input. 
+                The data upload consists of one byte delivering the digital input status. 
+                The status is uploaded each time the “Open Protocol commands disable” digital 
+                input changes (push function).
+            </para>    
+            <para>Message sent by: Controller</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.OpenProtocolCommandsDisabled.Mid0422"/> Open Protocol commands disabled acknowledge</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.OpenProtocolCommandsDisabled.Mid0422">
+            <summary>
+            Open Protocol commands disabled acknowledge
+            <para>Acknowledgement of Open Protocol commands disabled upload.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: None</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.OpenProtocolCommandsDisabled.Mid0423">
+            <summary>
+            Open Protocol commands disabled unsubscribe
+            <para>Reset the subscription for the Open Protocol commands disabled digital input.</para>
+            <para>Message sent by: Integrator</para>
+            <para>
+            Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or
+                    <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Open Protocol commands disabled
+                    subscription does not exist
+            </para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.OpenProtocolCommandsDisabled.OpenProtocolCommandsDisabledMessages">
+            <summary>
+            Template for <see cref="T:OpenProtocolInterpreter.OpenProtocolCommandsDisabled.IOpenProtocolCommandsDisabled"/> implementers.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ParameterSet.IParameterSet">
+            <summary>
+            Parameter set message category. Every parameter set mid must implement <see cref="T:OpenProtocolInterpreter.ParameterSet.IParameterSet"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ParameterSet.Mid0010">
+            <summary>
+            Parameter set ID upload request
+            <para>A request to get the valid parameter set IDs from the controller.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.ParameterSet.Mid0011"/> Parameter set ID upload reply</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ParameterSet.Mid0011">
+            <summary>
+            Parameter set ID upload reply
+            <para>
+                The transmission of all the valid parameter set IDs of the controller. In the revision 000-001 the data
+                field contains the number of valid parameter sets currently present in the controller, and the ID of each
+                parameter set present.In revision 2 is the number of stages on each Pset/Mset added.
+            </para>    
+            <para>Message sent by: Controller</para>
+            <para>Answer: None</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ParameterSet.Mid0012">
+            <summary>
+            Parameter set data upload request
+            <para>Request to upload parameter set data from the controller.</para>
+            <para>Message sent by: Integrator</para>
+            <para>
+            Answer: <see cref="T:OpenProtocolInterpreter.ParameterSet.Mid0013"/> Parameter set data upload reply, or 
+                    <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Parameter set not present
+            </para>
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0012.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Revision 1 and 2 Constructor
+            </summary>
+            <param name="parameterSetId">Parameter Set Id. Three ASCII digits. Range: 000-999</param>
+            <param name="revision">Revision</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0012.#ctor(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Revision 3 and 4 Constructor
+            </summary>
+            <param name="parameterSetId">Parameter Set Id. Three ASCII digits. Range: 000-999</param>
+            <param name="parameterSetFileVersion">00000000 (special usage see Toyota appendix)</param>
+            <param name="revision">Revision</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0012.Validate(System.Collections.Generic.IEnumerable{System.String}@)">
+            <summary>
+            Validate all fields size
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ParameterSet.Mid0013">
+            <summary>
+            Parameter set data upload reply
+            <para>Upload of parameter set data reply.</para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: None</para>
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0013.#ctor(System.Int32,System.String,OpenProtocolInterpreter.RotationDirection,System.Int32,System.Decimal,System.Decimal,System.Decimal,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Revision 1 Constructor
+            </summary>
+            <param name="parameterSetId">Three ASCII digits, range 000-999</param>
+            <param name="parameterSetName">25 ASCII characters. Right padded with space if name is less than 25 characters.</param>
+            <param name="rotationDirection">1=CW (Clockwise), 2=CCW (Counter Clockwise)</param>
+            <param name="batchSize">2 ASCII digits, range 00-99</param>
+            <param name="minTorque">The torque min limit is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
+            <param name="maxTorque">The torque max limit is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
+            <param name="torqueFinalTarget">The torque final target is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
+            <param name="minAngle">The angle min value is five bytes long and is specified by five ASCII digits.Range: 00000-99999.</param>
+            <param name="maxAngle">The angle max value is five bytes long and is specified by five ASCII digits.Range: 00000-99999.</param>
+            <param name="angleFinalTarget">The target angle is specified in degrees. 5 ASCII digits. Range: 00000-99999.</param>
+            <param name="revision">Revision number (default = 1)</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0013.#ctor(System.Int32,System.String,OpenProtocolInterpreter.RotationDirection,System.Int32,System.Decimal,System.Decimal,System.Decimal,System.Int32,System.Int32,System.Int32,System.Decimal,System.Decimal,System.Int32)">
+            <summary>
+            Revision 2 Constructor
+            </summary>
+            <param name="parameterSetId">Three ASCII digits, range 000-999</param>
+            <param name="parameterSetName">25 ASCII characters. Right padded with space if name is less than 25 characters.</param>
+            <param name="rotationDirection">1=CW (Clockwise), 2=CCW (Counter Clockwise)</param>
+            <param name="batchSize">2 ASCII digits, range 00-99</param>
+            <param name="minTorque">The torque min limit is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
+            <param name="maxTorque">The torque max limit is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
+            <param name="torqueFinalTarget">The torque final target is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
+            <param name="minAngle">The angle min value is five bytes long and is specified by five ASCII digits.Range: 00000-99999.</param>
+            <param name="maxAngle">The angle max value is five bytes long and is specified by five ASCII digits.Range: 00000-99999.</param>
+            <param name="angleFinalTarget">The target angle is specified in degrees. 5 ASCII digits. Range: 00000-99999.</param>
+            <param name="firstTarget">The torque first target is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
+            <param name="startFinalAngle">The start final angle is the torque to reach the snug level. The start final angle is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
+            <param name="revision">Revision number (default = 1)</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0013.Validate(System.Collections.Generic.IEnumerable{System.String}@)">
+            <summary>
+            Validate all fields size
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ParameterSet.Mid0014">
+            <summary>
+            Parameter set selected subscribe
+            <para>
+                A subscription for the parameter set selection. Each time a new parameter set is selected the <see cref="T:OpenProtocolInterpreter.ParameterSet.Mid0015"/>
+                Parameter set selected is sent to the integrator.
+            </para>
+            <para>
+                Note that the immediate response is <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command
+                accepted and <see cref="T:OpenProtocolInterpreter.ParameterSet.Mid0015"/> Parameter set selected with the current parameter set number selected.
+            </para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted and <see cref="T:OpenProtocolInterpreter.ParameterSet.Mid0015"/> Parameter set selected</para>
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0014.#ctor(System.Nullable{System.Int32})">
+            <summary>
+            Revision 1 Constructor
+            </summary>
+            <param name="ackFlag">0=Ack needed, 1=No Ack needed</param>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ParameterSet.Mid0015">
+            <summary>
+            Parameter set selected
+            <para>
+                A new parameter set is selected in the controller. 
+                The message includes the ID of the parameter set selected as well as the date and time of the 
+                last change in the parameter set settings. This message is also sent as an immediate response to <see cref="T:OpenProtocolInterpreter.ParameterSet.Mid0014"/> 
+                Parameter set selected subscribe.
+            </para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.ParameterSet.Mid0016"/> New parameter set selected acknowledge</para>
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0015.#ctor(System.Int32,System.Nullable{System.Int32})">
+            <summary>
+            Constructor
+            </summary>
+            <param name="ackFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
+            <param name="revision">Range: 000-002</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0015.#ctor(System.Int32,System.DateTime,System.Nullable{System.Int32},System.Int32)">
+            <summary>
+            Revision 1 Constructor
+            </summary>
+            <param name="parameterSetId">Three ASCII digits, range 000-999</param>
+            <param name="lastChangeInParameterSet">19 ASCII characters. YYYY-MM-DD:HH:MM:SS</param>
+            <param name="ackFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
+            <param name="revision">Range: 000-002</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0015.#ctor(System.Int32,System.String,System.DateTime,OpenProtocolInterpreter.RotationDirection,System.Int32,System.Decimal,System.Decimal,System.Decimal,System.Int32,System.Int32,System.Int32,System.Decimal,System.Decimal,System.Nullable{System.Int32},System.Int32)">
+            <summary>
+             Revision 2 Constructor
+            </summary>
+            <param name="parameterSetId">Three ASCII digits, range 000-999</param>
+            <param name="parameterSetName">25 ASCII characters. Right padded with space if name is less than 25 characters.</param>
+            <param name="lastChangeInParameterSet">19 ASCII characters. YYYY-MM-DD:HH:MM:SS</param>
+            <param name="rotationDirection">1=CW (Clockwise), 2=CCW (Counter Clockwise)</param>
+            <param name="batchSize">2 ASCII digits, range 00-99</param>
+            <param name="torqueMin">The torque min limit is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
+            <param name="torqueMax">The torque max limit is multiplied by 100 and sent as an integer (2 decimals truncated. It is six bytes long and is specified by six ASCII digits.</param>
+            <param name="torqueFinalTarget">The torque final target is multiplied by 100 and sent as an integer(2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
+            <param name="angleMin">The angle min value is five bytes long and is specified by five ASCII digits.Range: 00000-99999.</param>
+            <param name="angleMax">The angle max value is five bytes long and is specified by five ASCII digits.Range: 00000-99999.</param>
+            <param name="finalAngleTarget">The target angle is specified in degrees. 5 ASCII digits.Range: 00000-99999.</param>
+            <param name="firstTarget">The torque first target is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
+            <param name="startFinalAngle">The start final angle is the torque to reach the snug level.The start final angle is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
+            <param name="ackFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
+            <param name="revision">Range: 000-002 (Default = 2)</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0015.Validate(System.Collections.Generic.IEnumerable{System.String}@)">
+            <summary>
+            Validate all fields size
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ParameterSet.Mid0016">
+            <summary>
+            Parameter set selected acknowledge
+            <para>Acknowledgement for a new parameter set selected.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: None</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ParameterSet.Mid0017">
+            <summary>
+            Parameter set selected unsubscribe
+            <para>Reset the subscription for the parameter set selection.</para>
+            <para>Message sent by: Integrator</para>
+            <para>
+                Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or 
+                <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Parameter set subscription does not exist
+            </para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ParameterSet.Mid0018">
+            <summary>
+            Select Parameter set
+            <para>Message sent by: Integrator</para>
+            <para>
+                Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or 
+                <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Parameter set can not be set
+            </para>
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0018.#ctor(System.Int32)">
+            <summary>
+            Revision 1 Constructor
+            </summary>
+            <param name="parameterSetId">Three ASCII digits, range 000-999</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0018.Validate(System.Collections.Generic.IEnumerable{System.String}@)">
+            <summary>
+            Validate all fields size
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ParameterSet.Mid0019">
+            <summary>
+            Set Parameter set batch size
+            <para>This message gives the possibility to set the batch size of a parameter set at run time.</para>
+            <para>Message sent by: Integrator</para>
+            <para>
+                Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or 
+                <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Invalid data
+            </para>
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0019.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Revision 1 Constructor
+            </summary>
+            <param name="parameterSetId">Three ASCII digits, range 000-999</param>
+            <param name="batchSize">Two ASCII digits, range 01-99</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0019.Validate(System.Collections.Generic.IEnumerable{System.String}@)">
+            <summary>
+            Validate all fields size
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ParameterSet.Mid0020">
+            <summary>
+            Reset Parameter set batch counter
+            <para>This message gives the possibility to reset the batch counter of the running parameter set, at run time.</para>
+            <para>Message sent by: Integrator</para>
+            <para>
+                Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or 
+                <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Invalid data, or Parameter set not running
+            </para>
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0020.Validate(System.Collections.Generic.IEnumerable{System.String}@)">
+            <summary>
+            Validate all fields size
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ParameterSet.Mid0021">
+            <summary>
+            MID: Lock at batch done subscribe
+            Description: 
+                A subscription for the Lock at batch done relay status.
+            Message sent by: Integrator
+            Answer: MID 0005 Command accepted or MID 0004 Command error
+            Message: MID 0022 relay status immediately after MID 0005 Command accepted
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ParameterSet.Mid0022">
+            <summary>
+            MID: Lock at batch done upload
+            Description: 
+                This message gives the relay status for Lock at batch done.
+            Message sent by: Controller
+            Answer: MID 0023 Lock at batch done upload Ack
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0022.#ctor(System.Boolean,System.Nullable{System.Int32})">
+            <summary>
+            Revision 1 Constructor
+            </summary>
+            <param name="relayStatus">Relay Status</param>
+            <param name="ackFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ParameterSet.Mid0023">
+            <summary>
+            MID: Lock at batch done upload Acknowledge
+            Description: 
+                This message is an acknowledge to MID 0022.
+            Message sent by: Integrator
+            Answer: MID 0005 Command accepted
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ParameterSet.Mid0024">
+            <summary>
+            MID: Lock at batch done unsubscribe
+            Description: 
+                Reset the subscription for Lock at batch done.
+            Message sent by: Integrator
+            Answer: MID 0005 Command accepted or MID 0004 Command error
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ParameterSet.Mid0025">
+            <summary>
+            MID: Parameter user set download request
+            Description: 
+                Reset the subscription for Lock at batch done.
+            Message sent by: Integrator
+            Answer: MID 0005 Command accepted or MID 0004 Command error
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ParameterSet.Mid2500">
+            <summary>
+            MID: Tightening Program Message download
+            Description: 
+                Reset the subscription for Lock at batch done.
+            Message sent by: Integrator
+            Answer: MID 0005 Command accepted or MID 0004 Command error
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ParameterSet.Mid2501">
+            <summary>
+            MID: Tightening Program Message Upload
+            Description: 
+                Reset the subscription for Lock at batch done.
+            Message sent by: Integrator
+            Answer: MID 0005 Command accepted or MID 0004 Command error
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ParameterSet.Mid2504">
+            <summary>
+            MID: Select Parameter set, Dynamic Job Included
+            Description: 
+                Select a parameter set.
+            Message sent by: Integrator
+            Answer: MID 0005 Command accepted or MID 0004 Command error, Dynamic Job cannot be created, non-existing pset
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.ParameterSet.Mid2504.#ctor(System.Int32)">
+            <summary>
+            Revision 1 Constructor
+            </summary>
+            <param name="parameterSetId">Three ASCII digits, range 000-999</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.ParameterSet.Mid2504.Validate(System.Collections.Generic.IEnumerable{System.String}@)">
+            <summary>
+            Validate all fields size
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.PLCUserData.Mid0240">
+            <summary>
+            MID: User data download
+            Description: 
+                Used by the integrator to send user data input to the PLC.
+            Message sent by: Integrator
+            Answer: MID 0005 Command accepted or 
+                    MID 0004 Command error, Invalid data, or Controller is not a sync master/station controller
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.PLCUserData.Mid0241">
+            <summary>
+            MID: User data subscribe
+            Description: 
+                Subscribe for user data. This command will activate the MID 0242 User data message to be sent when a
+                change in the user data output has been detected.
+            Message sent by: Integrator
+            Answer: MID 0005 Command accepted or
+                    MID 0004 Command error, Subscription already exists, or
+                    Controller is not a sync master/station controller
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.PLCUserData.Mid0242">
+            <summary>
+            MID: User data download
+            Description: 
+                Used by the integrator to send user data input to the PLC.
+            Message sent by: Controller
+            Answer: MID 0243 User data acknowledge
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.PLCUserData.Mid0243">
+            <summary>
+            MID: User data acknowledge
+            Description: 
+                Acknowledgement of user data.
+            Message sent by: Integrator
+            Answer: None
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.PLCUserData.Mid0244">
+            <summary>
+            MID: User data unsubscribe
+            Description: 
+                Unsubscribe for the user data.
+            Message sent by: Integrator
+            Answer: MID 0005 Command accepted or 
+                    MID 0004 Command error, Subscription already exists
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.PLCUserData.Mid0245">
+            <summary>
+            MID: User data download with offset
+            Description: 
+                Used by the integrator to send user data input to the PLC. 
+                The difference compared to MID 0240 User data download is that with this MID it is possible
+                to specify an offset for the data written in the PLC. This makes it possible to have more than 
+                one device writing user data to the PLC on different data areas.
+                
+                The available address range in the PLC is still 13 000 – 13 099, i.e. 100 bytes. The offset parameter in
+                this MID specify the start address for the data in the PLC, i.e.the start address is 13 000 + Offset.
+                Since the highest address is still 13 099 this means the number of data bytes to send will be limited by
+                the offset. The maximum size of the user data will be (100 – offset) bytes, or 2 * (100 – offset) ASCII
+                characters in the telegram.
+                Only data that is sent in the user data field will be written to the PLC, the remaining data will 
+                be untouched.
+                This means for example that if the offset is 10 and the user data is 1234 the bytes with
+                address 13010 and 13011 will be updated (to 0x12 and 0x34) and the rest of the area will be
+                unchanged.
+            Message sent by: Integrator
+            Answer: MID 0005 Command accepted or
+            MID 0004 Command error, Invalid data, or
+            Controller is not a sync master/station controller or
+            MID revision not supported.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.PowerMACS.Mid0105">
+            <summary>
+            MID: Last PowerMACS tightening result data subscribe
+            Description: 
+               Set the subscription for the rundowns result. The result of this command will be the transmission of
+               the rundown result after the tightening is performed(push function).
+               This telegram is also used for a PowerMACS 4000 system running a press instead of a spindle.A
+               press system only supports revision 4 and higher of the telegram and will answer with MID 0004,
+               MID revision unsupported if a subscription is made with a lower revision.
+            Message sent by: Integrator
+            Answer: MID 0005 Command accepted or 
+                    MID 0004 Command error, Subscription already exists or MID revision unsupported
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.PowerMACS.Mid0106">
+            <summary>
+            MID: Last PowerMACS tightening result Station data
+            Description: 
+               This MID contains the station part and some of the Bolt data of the last result data. After this message
+               has been sent the integrator selects if it also wants to have the Bolt and step data.If this data is
+               requested, then the integrator sends the message MID 0108 Last PowerMACS tightening result data
+               acknowledge, with the parameter Bolt Data set to TRUE. If only the station data is wanted the
+               parameter Bolt Data is set to FALSE.
+               This telegram is also used for Power MACS systems running a Press. The layout of the telegram is
+               exactly the same but some of the fields have slightly different definitions. The fields for Torque are
+               used for Force values and the fields for Angle are used for Stroke values. Press systems also use
+               different identifiers for the optional data on bolt and step level. A press system always use revision 4
+               or higher of the telegram
+               Note: All values that are undefined in the results will be sent as all spaces (ASCII 0x20). This will for
+               instance happen with the Torque Status if no measuring value for Bolt T was available for the
+               tightening.
+            Message sent by: Controller
+            Answer: MID 0108 Last Power MACS tightening result data acknowledge
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.PowerMACS.Mid0107">
+            <summary>
+            MID: Last Power MACS tightening result Bolt data
+            Description: 
+               This message contains the cycle data for one Bolt, both Bolt data and step data. It is only sent if 
+               the acknowledgement of the message MID 0106 Last PowerMACS tightening result station data had the parameter 
+               Bolt Data set to TRUE. The next Bolt data is sent if the acknowledgement has the parameter Bolt Data set to TRUE.
+               This telegram is also used for Power MACS systems running a Press.The layout of the telegram is exactly the 
+               same but some of the fields have slightly different definitions. The fields for Torque are used for Force values 
+               and the fields for Angle are used for Stroke values. Press systems also use different identifiers for the optional 
+               data on bolt and step level. Press systems always use revision 4 or higher of the telegram.Values in the fixed part
+               that are undefined in the results will be sent as all spaces (ASCII 0x20). 
+               This can happen with the Customer Error Code if this function is not activated.
+               Note 2: The Bolt results and step results are only sent when the value exists in the result. This means,
+               for example, that if no high limit is programmed for Peak T, then the value Peak T + will not be sent
+               even if limits for Peak T are defined in the reporter.
+            Message sent by: Controller
+            Answer: MID 0108 Last PowerMACS tightening result data acknowledge
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.PowerMACS.Mid0108">
+            <summary>
+            MID: Last Power MACS tightening result data acknowledge
+            Description: 
+               If Bolt Data is set to TRUE the next telegram with Bolt data is sent (if there are any left for this
+               tightening). Otherwise no more Bolt data is sent for this tightening.
+               If only the station data is wanted Bolt Data must be set to FALSE in the acknowledgement of MID 0106
+               Last Power MACS tightening result Station data.
+            Message sent by: Integrator
+            Answer: None
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.PowerMACS.Mid0109">
+            <summary>
+            MID: Last Power MACS tightening result data unsubscribe
+            Description: 
+               Reset the last Power MACS tightening result subscription for the rundowns result.
+            Message sent by: Integrator
+            Answer: MID 0005 Command accepted or 
+                    MID 0004 Command error, Subscription does not exist
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Result.Mid1201">
+            <summary>
+            MID: Operation result Overall data
+            Description: 
+                This MID contains the overall result data and some of the object data of the last tightening. 
+                In the subscription of this message it can be chosen to also start subscription of MID 1202 Operation result object data. 
+                The user defined values is preconfigured in the controller via the configuration tool.
+            
+            Message sent by: Controller
+            Answer: MID 1203 Operation result data acknowledge or MID 0005 with MID 1201 in the data field.
+                    
+                    If the sequence number acknowledge functionality is used there is no need for these acknowledges.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Result.Mid1202">
+            <summary>
+            MID: Operation result object data
+            Description: 
+                This message contains the cycle data for one object, both data for the whole process and data related to 
+                the different steps in the process.The user defined values are preconfigured in the controller via the 
+                configuration tool. The message uses the Variable Parameter pattern for transmission of the values.
+                
+                Note: Only values that exist in the result will be sent.So the actual data received may vary between 
+                the cycles if the settings differ between different programs.
+            
+            Message sent by: Controller
+            Answer: MID 1203 Operation result data acknowledge or MID 0005 with MID 1202 in the data field.
+                    
+                    If the sequence number acknowledge functionality is used there is no need for these acknowledges.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Result.Mid1203">
+            <summary>
+            MID: Operation result data acknowledge
+            Description: 
+                Only Header is sent with no data fields.
+            
+            Message sent by: Integrator
+            Answer: None
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Statistic.Mid0300">
+            <summary>
+            MID: Histogram upload request
+            Description: 
+               Request to upload a histogram from the controller for a certain parameter set.
+               The histogram is calculated with all the tightening results currently present in 
+               the controller’s memory and within the statistic acceptance window(statistic min and max limits) 
+               for the requested parameter set.
+            Message sent by: Integrator
+            Answer: MID 0301, Histogram upload reply, or 
+                    MID 0004 Command error, No histogram available or Invalid data
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Statistic.Mid0301">
+            <summary>
+            MID: Histogram upload reply
+            Description: 
+               Histogram upload reply for the requested parameter set and for the requested histogram type. The
+               histogram uploaded is made of 9 bars according to Figure 22 Histogram example.
+            Message sent by: Controller
+            Answer: None
+            </summary>
+        </member>
+        <member name="F:OpenProtocolInterpreter.Statistic.Mid0301.DataFields.MEAN_VALUE_HISTOGRAM">
+            <summary>
+            X-BAR
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Tightening.Mid0060">
+            <summary>
+            MID: Last tightening result data subscribe
+            Description: 
+                Set the subscription for the result tightenings. The result of this command will be the transmission of
+                the tightening result after the tightening is performed(push function). The MID revision in the header
+                is used to subscribe to different revisions of MID 0061 Last tightening result data upload reply.
+            
+            Message sent by: Integrator
+            Answer: MID 0005 Command accepted or MID 0004 Command error, Last tightening subscription already 
+                    exists or MID revision not supported
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Tightening.Mid0061">
+            <summary>
+            MID: Last tightening result data
+            Description: Upload the last tightening result.
+            Message sent by: Controller
+            Answer: MID 0062 Last tightening result data acknowledge
+            </summary>
+        </member>
+        <member name="P:OpenProtocolInterpreter.Tightening.Mid0061.TighteningErrorStatus2">
+            <summary>
+            Still can't use because it has to work with BYTE ARRAY!!!
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Tightening.Mid0061.GetCurrentRevisionIndex">
+            <summary>
+            Obtain which revision we will work with for shared properties
+            (since rev 1, 2 and 999 are way too different, they are processed in different datafields)
+            </summary>
+            <returns>Datafield Revision Index</returns>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Tightening.Mid0062">
+            <summary>
+            MID: Last tightening result data acknowledge
+            Description: Acknowledgement of last tightening result data.
+            Message sent by: Integrator
+            Answer: None
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Tightening.Mid0063">
+            <summary>
+            MID: Last tightening result data unsubscribe
+            Description: Reset the last tightening result subscription.
+            Message sent by: Integrator
+            Answer: MID 0005 Command accepted or MID 0004 Command error, Last tightening result subscription does not exist
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Tightening.Mid0064">
+            <summary>
+            MID: Old tightening result upload request
+            Description: This message is a request to upload a particular tightening result from the controller. The requested
+                         result is specified by its unique ID(tightening ID). This message is useful after a failure of the
+                         network in order to retrieve the missing result during the communication interruption.The integrator
+                         can see the missing results by always comparing the last tightening IDs of the two last received
+                         tightenings packets (parameter 23 in the result message).
+                         Requesting tightening ID zero is the same as requesting the latest tightening performed.
+            Message sent by: Integrator
+            Answer: MID 0065 Old tightening result upload reply 
+                    or MID 0004 Command error, Tightening ID requested not found,
+                    or MID revision not supported
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Tightening.Mid0065">
+            <summary>
+            MID: Old tightening result upload reply
+            Description: Old tightening upload.
+            Message sent by: Controller
+            Answer: None
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Time.Mid0080">
+            <summary>
+            MID: Read time upload request
+            Description: 
+                Read time request.
+            
+            Message sent by: Integrator
+            Answer: MID 0081 Read time upload reply
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Time.Mid0081">
+            <summary>
+            MID: Read time upload reply
+            Description: 
+                Time upload reply from the controller.
+            
+            Message sent by: Controller
+            Answer: None
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Time.Mid0081.#ctor(System.DateTime)">
+            <summary>
+            Revision 1 Constructor
+            </summary>
+            <param name="time"></param>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Time.Mid0082">
+            <summary>
+            MID: Set Time
+            Description: 
+                Set the time in the controller.
+            
+            Message sent by: Integrator
+            Answer: None
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Time.Mid0082.#ctor(System.DateTime)">
+            <summary>
+            Revision 1 Constructor
+            </summary>
+            <param name="time"></param>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Tool.Mid0040">
+            <summary>
+            MID: Tool data upload request
+            Description: 
+                A request for some of the data stored in the tool. The result of this command is the transmission of the
+                tool data.
+            Message sent by: Integrator
+            Answer: MID 0041 Tool data upload reply
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Tool.Mid0041">
+            <summary>
+            MID: Tool data upload reply
+            Description: 
+                Upload of tool data from the controller.
+            Message sent by: Controller
+            Answer: None
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Tool.Mid0041.#ctor(System.String,System.Int64,System.DateTime,System.String,System.Int32)">
+            <summary>
+            Revision 1 Constructor
+            </summary>
+            <param name="toolSerialNumber">14 ASCII characters</param>
+            <param name="toolNumberOfTightenings">10 ASCII digits. Max 4294967295</param>
+            <param name="lastCalibrationDate">19 ASCII characters.</param>
+            <param name="controllerSerialNumber">10 ASCII characters</param>
+            <param name="revision">Revision number (default = 1)</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Tool.Mid0041.#ctor(System.String,System.Int64,System.DateTime,System.String,System.Decimal,System.DateTime,System.Int64,OpenProtocolInterpreter.ToolType,System.Int32,OpenProtocolInterpreter.Tool.Mid0041.OpenEndDatas,System.String,System.Int32)">
+            <summary>
+            Revision 2 Constructor
+            </summary>
+            <param name="toolSerialNumber">14 ASCII characters</param>
+            <param name="toolNumberOfTightenings">10 ASCII digits. Max 4294967295</param>
+            <param name="lastCalibrationDate">19 ASCII characters.</param>
+            <param name="controllerSerialNumber">10 ASCII characters</param>
+            <param name="calibrationValue">The tool calibration value is multiplied by 100 and sent as an integer (2 decimals truncated). Six ASCII digits.</param>
+            <param name="lastServiceDate">19 ASCII characters.</param>
+            <param name="tighteningsSinceService">The number of tightenings since last service is specified by 10 ASCII digits. Max 4294967295.</param>
+            <param name="toolType">The tool type is specified by 2 ASCII digits</param>
+            <param name="motorSize">The motor size is specified by 2 ASCII digits, range 00-99.
+            <para>00 = no motor, 01-99 = motor size xx in Atlas Copco
+            nomenclature, or motor size = 10xx in Atlas Copco nomenclature </para>
+            <para>(certain numbers correspond to 2
+            different motor sizes, for example 62 for both motor
+            size 62 and motor size 1062)</para></param>
+            <param name="openEndData">The open end data is specified by 3 ASCII digits. 
+            <para>The first digit represents the “use open end”: 1=true, 0=false.</para>
+            <para>The second digit indicates the tightening direction: 0=CW, 1=CCW.</para>
+            <para>The third digit indicates motor rotation: 0=normal,1=inverted.</para></param>
+            <param name="controllerSoftwareVersion">The software version is specified by 19 ASCII characters.</param>
+            <param name="revision">Revision number (default = 2)</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Tool.Mid0041.#ctor(System.String,System.Int64,System.DateTime,System.String,System.Decimal,System.DateTime,System.Int64,OpenProtocolInterpreter.ToolType,System.Int32,OpenProtocolInterpreter.Tool.Mid0041.OpenEndDatas,System.String,System.Decimal,System.Decimal,System.Decimal,System.Int32)">
+            <summary>
+            Revision 3 Constructor
+            </summary>
+            <param name="toolSerialNumber">14 ASCII characters</param>
+            <param name="toolNumberOfTightenings">10 ASCII digits. Max 4294967295</param>
+            <param name="lastCalibrationDate">19 ASCII characters.</param>
+            <param name="controllerSerialNumber">10 ASCII characters</param>
+            <param name="calibrationValue">The tool calibration value is multiplied by 100 and sent as an integer (2 decimals truncated). Six ASCII digits.</param>
+            <param name="lastServiceDate">19 ASCII characters.</param>
+            <param name="tighteningsSinceService">The number of tightenings since last service is specified by 10 ASCII digits. Max 4294967295.</param>
+            <param name="toolType">The tool type is specified by 2 ASCII digits</param>
+            <param name="motorSize">The motor size is specified by 2 ASCII digits, range 00-99.
+            <para>00 = no motor, 01-99 = motor size xx in Atlas Copco
+            nomenclature, or motor size = 10xx in Atlas Copco nomenclature </para>
+            <para>(certain numbers correspond to 2
+            different motor sizes, for example 62 for both motor
+            size 62 and motor size 1062)</para></param>
+            <param name="openEndData">The open end data is specified by 3 ASCII digits. 
+            <para>The first digit represents the “use open end”: 1=true, 0=false.</para>
+            <para>The second digit indicates the tightening direction: 0=CW, 1=CCW.</para>
+            <para>The third digit indicates motor rotation: 0=normal,1=inverted.</para>
+            </param>
+            <param name="controllerSoftwareVersion">The software version is specified by 19 ASCII characters.</param>
+            <param name="toolMaxTorque">The tool max toque value is multiplied by 100 and sent as an integer(2 decimals truncated). Six ASCII digits.</param>
+            <param name="gearRatio">The gear ratio value is multiplied by 100 and sent as an integer(2 decimals truncated). Six ASCII digits.</param>
+            <param name="toolFullSpeed">The tool full speed value is multiplied by 100 and sent as an integer(2 decimals truncated). Six ASCII digits.</param>
+            <param name="revision">Revision number (default = 3)</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Tool.Mid0041.#ctor(System.String,System.Int64,System.DateTime,System.String,System.Decimal,System.DateTime,System.Int64,OpenProtocolInterpreter.ToolType,System.Int32,OpenProtocolInterpreter.Tool.Mid0041.OpenEndDatas,System.String,System.Decimal,System.Decimal,System.Decimal,OpenProtocolInterpreter.PrimaryTool,System.Int32)">
+            <summary>
+            Revision 4 Constructor
+            </summary>
+            <param name="toolSerialNumber">14 ASCII characters</param>
+            <param name="toolNumberOfTightenings">10 ASCII digits. Max 4294967295</param>
+            <param name="lastCalibrationDate">19 ASCII characters.</param>
+            <param name="controllerSerialNumber">10 ASCII characters</param>
+            <param name="calibrationValue">The tool calibration value is multiplied by 100 and sent as an integer (2 decimals truncated). Six ASCII digits.</param>
+            <param name="lastServiceDate">19 ASCII characters.</param>
+            <param name="tighteningsSinceService">The number of tightenings since last service is specified by 10 ASCII digits. Max 4294967295.</param>
+            <param name="toolType">The tool type is specified by 2 ASCII digits</param>
+            <param name="motorSize">The motor size is specified by 2 ASCII digits, range 00-99.
+            <para>00 = no motor, 01-99 = motor size xx in Atlas Copco
+            nomenclature, or motor size = 10xx in Atlas Copco nomenclature </para>
+            <para>(certain numbers correspond to 2
+            different motor sizes, for example 62 for both motor
+            size 62 and motor size 1062)</para></param>
+            <param name="openEndData">The open end data is specified by 3 ASCII digits. 
+            <para>The first digit represents the “use open end”: 1=true, 0=false.</para>
+            <para>The second digit indicates the tightening direction: 0=CW, 1=CCW.</para>
+            <para>The third digit indicates motor rotation: 0=normal,1=inverted.</para>
+            </param>
+            <param name="controllerSoftwareVersion">The software version is specified by 19 ASCII characters.</param>
+            <param name="toolMaxTorque">The tool max toque value is multiplied by 100 and sent as an integer(2 decimals truncated). Six ASCII digits.</param>
+            <param name="gearRatio">The gear ratio value is multiplied by 100 and sent as an integer(2 decimals truncated). Six ASCII digits.</param>
+            <param name="toolFullSpeed">The tool full speed value is multiplied by 100 and sent as an integer(2 decimals truncated). Six ASCII digits.</param>
+            <param name="primaryTool">Primary tool. The primary tool is two byte-long and specified by two ASCII digits.</param>
+            <param name="revision">Revision number (default = 4)</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Tool.Mid0041.#ctor(System.String,System.Int64,System.DateTime,System.String,System.Decimal,System.DateTime,System.Int64,OpenProtocolInterpreter.ToolType,System.Int32,OpenProtocolInterpreter.Tool.Mid0041.OpenEndDatas,System.String,System.Decimal,System.Decimal,System.Decimal,OpenProtocolInterpreter.PrimaryTool,System.String,System.Int32)">
+            <summary>
+            Revision 5 Constructor
+            </summary>
+            <param name="toolSerialNumber">14 ASCII characters</param>
+            <param name="toolNumberOfTightenings">10 ASCII digits. Max 4294967295</param>
+            <param name="lastCalibrationDate">19 ASCII characters.</param>
+            <param name="controllerSerialNumber">10 ASCII characters</param>
+            <param name="calibrationValue">The tool calibration value is multiplied by 100 and sent as an integer (2 decimals truncated). Six ASCII digits.</param>
+            <param name="lastServiceDate">19 ASCII characters.</param>
+            <param name="tighteningsSinceService">The number of tightenings since last service is specified by 10 ASCII digits. Max 4294967295.</param>
+            <param name="toolType">The tool type is specified by 2 ASCII digits</param>
+            <param name="motorSize">The motor size is specified by 2 ASCII digits, range 00-99.
+            <para>00 = no motor, 01-99 = motor size xx in Atlas Copco
+            nomenclature, or motor size = 10xx in Atlas Copco nomenclature </para>
+            <para>(certain numbers correspond to 2
+            different motor sizes, for example 62 for both motor
+            size 62 and motor size 1062)</para></param>
+            <param name="openEndData">The open end data is specified by 3 ASCII digits. 
+            <para>The first digit represents the “use open end”: 1=true, 0=false.</para>
+            <para>The second digit indicates the tightening direction: 0=CW, 1=CCW.</para>
+            <para>The third digit indicates motor rotation: 0=normal,1=inverted.</para>
+            </param>
+            <param name="controllerSoftwareVersion">The software version is specified by 19 ASCII characters.</param>
+            <param name="toolMaxTorque">The tool max toque value is multiplied by 100 and sent as an integer(2 decimals truncated). Six ASCII digits.</param>
+            <param name="gearRatio">The gear ratio value is multiplied by 100 and sent as an integer(2 decimals truncated). Six ASCII digits.</param>
+            <param name="toolFullSpeed">The tool full speed value is multiplied by 100 and sent as an integer(2 decimals truncated). Six ASCII digits.</param>
+            <param name="primaryTool">Primary tool. The primary tool is two byte-long and specified by two ASCII digits.</param>
+            <param name="toolModel">12 ASCII characters with padding at the end of the string if needed.The padding is done spaces.</param>
+            <param name="revision">Revision number (default = 5)</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Tool.Mid0041.Validate(System.Collections.Generic.IEnumerable{System.String}@)">
+            <summary>
+            Validate all fields size
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Tool.Mid0042">
+            <summary>
+            MID: Disable tool
+            Description: 
+                Disable tool.
+            Message sent by: Integrator
+            Answer: MID 0005 Command accepted
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Tool.Mid0043">
+            <summary>
+            MID: Enable tool
+            Description: 
+                Enable tool.
+            Message sent by: Integrator
+            Answer: MID 0005 Command accepted
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Tool.Mid0044">
+            <summary>
+            MID: Disconnect tool request
+            Description: 
+                This command is sent by the integrator in order to request the possibility to disconnect the tool from
+                the controller.The command is rejected if the tool is currently used.
+                When the command is accepted the operator can disconnect the tool and replace it (hot swap).
+            Message sent by: Integrator
+            Answer: MID 0005 Command accepted or MID 0004 Command error, Tool currently in use
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Tool.Mid0045">
+            <summary>
+            MID: Set calibration value request
+            Description: 
+                This message is sent by the integrator in order to set the calibration value of the tool.
+            Message sent by: Integrator
+            Answer: MID 0005 Command accepted or MID 0004 Command error, Calibration failed
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Tool.Mid0045.#ctor(OpenProtocolInterpreter.CalibrationUnit,System.Decimal)">
+            <summary>
+            Revision 1 Constructor
+            </summary>
+            <param name="calibrationValueUnit">The unit in which the calibration value is sent. The calibration value unit is one byte long and specified by one ASCII digit.</param>
+            <param name="calibrationValue">The calibration value is multiplied by 100 and sent as an integer (2 decimals truncated). The calibration value is six bytes long and is specified by six ASCII digits.</param>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Tool.Mid0046">
+            <summary>
+            MID: Set primary tool request
+            Description: 
+                This message is sent by the integrator in order to set tool data.
+                Warning 1: this MID requires programming control (see 4.4 Programming control).
+                Warning 2: the new configuration will not be active until the next controller reboot!
+            Message sent by: Integrator
+            Answer: MID 0005 Command accepted or MID 0004 Command error, 
+                    Programming control not granted or Invalid data (value not supported by controller)
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Tool.Mid0046.#ctor(OpenProtocolInterpreter.PrimaryTool)">
+            <summary>
+            Revision 1 Constructor
+            </summary>
+            <param name="primaryTool">Primary tool. The primary tool is two byte-long and specified by two ASCII digits.</param>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Tool.Mid0047">
+            <summary>
+            MID: Tool Pairing handling
+            Description: 
+                This message is sent by the integrator in order to Pair tools, to abort ongoing pairing, 
+                to Abort/Disconnect established connection and request for pairing status of the IRC-B or IRC-W tool types.
+                At pairing handling type, Start Pairing and Pairing Abort or Disconnect the controller must take program control 
+                and release when finished. MID 0048 will be uploaded during the pairing process at each change of the pairing stage.
+            Message sent by: Integrator
+            Answer: MID 0005 Command accepted at pairing status ACCEPTED
+                    MID 0004 Command error. See error codes. 
+                    MID 0048 Pairing status during the pairing process
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Tool.Mid0048">
+            <summary>
+            MID: Tool Pairing status
+            Description: 
+                This message is sent by the controller in order to report the current status of the tool pairing.
+            Message sent by: Controller
+            Answer: N/A
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Tool.Mid0048.#ctor(OpenProtocolInterpreter.PairingStatus,System.DateTime)">
+            <summary>
+            Revision 1 Constructor
+            </summary>
+            <param name="pairingStatus">Status of the tool pairing, a two byte-long and specified by two ASCII digits.</param>
+            <param name="timeStamp">Time stamp for each status change or time for fetch. It is 19 bytes long and is specified by 19 ASCII characters</param>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Tool.Mid0700">
+            <summary>
+            MID: Tightening data download status
+            Description: 
+                Used by controller to upload the status of tightening data download to an radio connected tool.
+                Must be subscribed for by generic MID 0008 and unsubscribed for with generic MID 0009.
+                No extra data is needed and no historical data is applicable.
+            Message sent by: Controller
+            Answer: MID 0005 Command accepted
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.UserInterface.Mid0110">
+            <summary>
+            MID: Display user text on compact
+            Description: 
+                By sending this message the integrator can display a text on the compact display. The text must be maximum 4 bytes long.
+                The characters that can be displayed are limited due to the hardware of the compact display.
+                Each character must fit into seven segments. This means for example that it is not possible to display an M on the compact display.
+                The text will be displayed until next tightening, new parameter set or Job selection, or alarm code.
+            Message sent by: Integrator
+            Answer: MID 0005 Command accepted or 
+                    MID 0004 Command error, User text could not be displayed
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.UserInterface.Mid0111">
+            <summary>
+            MID: Display user text on graph
+            Description: 
+                By sending this message the integrator can display a text on the graphic display. 
+                The user can furthermore set the time for the text to be displayed and if the text 
+                should be acknowledged by the operator or not.
+                The text is divided into four lines with 25 ASCII characters each.If a line is shorter 
+                than 25 characters it must be right padded with blanks(SPC 0x20).
+                The first line is the text header and is in upper character.
+            Message sent by: Integrator
+            Answer: MID 0005 Command accepted or 
+                    MID 0004 Command error, User text could not be displayed
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.UserInterface.Mid0113">
+            <summary>
+            MID: Flash green light on tool
+            Description: 
+                By sending this message the integrator can make the green light on the tool flash. The light on the tool
+                will flash until the operator pushes the tool trigger.
+            Message sent by: Integrator
+            Answer: MID 0005 Command accepted
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Vin.Mid0050">
+            <summary>
+            MID: Vehicle ID Number download request
+            Description: 
+                This message is replaced by MID 0150. MID 0050 is still supported.
+                Used by the integrator to send a VIN number to the controller.
+            Message sent by: Integrator
+            Answer: MID 0005 Command accepted or MID 0004 Command error, VIN input source not granted
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Vin.Mid0050.#ctor(System.String)">
+            <summary>
+            Revision 1 Constructor
+            </summary>
+            <param name="vinNumber">Dynamic with max 25 ASCII characters.</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Vin.Mid0050.Validate(System.String@)">
+            <summary>
+            Validate all fields size
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Vin.Mid0051">
+            <summary>
+            MID: Vehicle ID Number subscribe
+            Description: 
+                This message is used by the integrator to set a subscription for the current identifiers of the tightening
+                result.
+                The tightening result can be stamped with up to four identifiers:
+                    - VIN number
+                    - Identifier result part 2
+                    - Identifier result part 3
+                    - Identifier result part 4
+                The identifiers are received by the controller from several input sources, for example serial, Ethernet,
+                or field bus.
+                In revision 1 of the MID 0052 Vehicle ID Number, only the VIN number is transmitted.In revision 2, all
+                four possible identifiers are transmitted.
+            Message sent by: Integrator
+            Answer: MID 0005 Command accepted or MID 0004 Command error, VIN subscription already exists
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Vin.Mid0052">
+            <summary>
+            MID: Vehicle ID Number
+            Description: 
+                Transmission of the current identifiers of the tightening by the controller to the subscriber.
+                The tightening result can be stamped with up to four identifiers:
+                    - VIN number(identifier result part 1)
+                    - Identifier result part 2
+                    - Identifier result part 3
+                    - Identifier result part 4
+                The identifiers are received by the controller from several input sources,
+                for example serial, Ethernet, or field bus.
+            Message sent by: Controller
+            Answer: MID 0053 Vehicle ID Number acknowledge
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Vin.Mid0052.#ctor(System.String,System.Int32)">
+            <summary>
+            Revision 1 Constructor
+            </summary>
+            <param name="vinNumber">The VIN number is 25 bytes long and is specified by 25 ASCII characters. 
+            <para>
+            Note! Only for PowerMACS and rev 000-001, the VIN number can be up to 40 bytes long.
+            Minimum number of bytes is always 25.
+            </para>
+            </param>
+            <param name="revision">Revision number (default = 1)</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Vin.Mid0052.#ctor(System.String,System.String,System.String,System.String,System.Int32)">
+            <summary>
+            Revision 2 Constructor
+            </summary>
+            <param name="vinNumber">The VIN number is 25 bytes long and is specified by 25 ASCII characters. 
+            <para>
+            Note! Only for PowerMACS and rev 000-001, the VIN number can be up to 40 bytes long.
+            Minimum number of bytes is always 25.
+            </para>
+            </param>
+            <param name="identifierResultPart2">The identifier result part 2 is 25 bytes long and is specified by 25 ASCII characters</param>
+            <param name="identifierResultPart3">The identifier result part 3 is 25 bytes long and is specified by 25 ASCII characters</param>
+            <param name="identifierResultPart4">The identifier result part 4 is 25 bytes long and is specified by 25 ASCII characters</param>
+            <param name="revision">Revision number (default = 2)</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Vin.Mid0052.Validate(System.Collections.Generic.IEnumerable{System.String}@)">
+            <summary>
+            Validate all fields size
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Vin.Mid0053">
+            <summary>
+            MID: Vehicle ID Number acknowledge
+            Description: 
+                Vehicle ID Number acknowledge.
+            Message sent by: Integrator
+            Answer: None
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Vin.Mid0054">
+            <summary>
+            MID: Vehicle ID Number unsubscribe
+            Description: 
+                Reset the subscription for the current tightening identifiers.
+            Message sent by: Integrator
+            Answer: MID 0005 Command accepted or MID 0004 Command error, VIN subscription does not exist
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Messages.IMessagesTemplate">
+            <summary>
+            Templates for parsing packages and validating Mid assignability
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Messages.MessagesTemplate">
+            <summary>
+            Base class for all <see cref="T:OpenProtocolInterpreter.Messages.IMessagesTemplate"/> templates implementers
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Messages.MessagesTemplate.#ctor">
+            <summary>
+            Initializes a new instance of <see cref="T:OpenProtocolInterpreter.Messages.MessagesTemplate"/> class.
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Messages.MessagesTemplate.IsAssignableTo(System.Int32)">
+            <summary>
+            Check if mid number is assignable to this message template or not.
+            </summary>
+            <param name="mid">Mid number</param>
+            <returns>Is assignable or not</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Messages.MessagesTemplate.ProcessPackage(System.Int32,System.String)">
+            <summary>
+            Find out which Mid instance it should instantiate and parse all it's content.
+            </summary>
+            <param name="mid">Mid number.</param>
+            <param name="package">Package in ASCII string.</param>
+            <returns><see cref="T:OpenProtocolInterpreter.Mid"/> instance.</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Messages.MessagesTemplate.ProcessPackage(System.Int32,System.Byte[])">
+            <summary>
+            Find out which Mid instance it should instantiate and parse all it's content
+            </summary>
+            <param name="mid">Mid number</param>
+            <param name="package">package in bytes</param>
+            <returns><see cref="T:OpenProtocolInterpreter.Mid"/> instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Messages.MessagesTemplate.FilterSelectedMids(OpenProtocolInterpreter.InterpreterMode)">
+            <summary>
+            Filter dictionary to use only Mids from it's mode.
+            </summary>
+            <param name="mode">Current mode if <see cref="F:OpenProtocolInterpreter.InterpreterMode.Controller"/>, <see cref="F:OpenProtocolInterpreter.InterpreterMode.Integrator"/> or <see cref="F:OpenProtocolInterpreter.InterpreterMode.Both"/>.</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Messages.MessagesTemplate.FilterSelectedMids(System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>
+            Filter dictionary to use only selected Mids.
+            </summary>
+            <param name="mids">Selected <see cref="T:OpenProtocolInterpreter.Mid"/> types.</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Messages.MessagesTemplate.FilterSelectedMids(System.Collections.Generic.IEnumerable{OpenProtocolInterpreter.Messages.MidCompiledInstance})">
+            <summary>
+            Remove unused/ignored <see cref="T:OpenProtocolInterpreter.Messages.MidCompiledInstance"/> from dictionary.
+            </summary>
+            <param name="mids">Ignored mid instances</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Messages.MessagesTemplate.GetMidType(System.Int32)">
+            <summary>
+            Get <see cref="T:OpenProtocolInterpreter.Messages.MidCompiledInstance"/> from the dictionary based on mid number
+            </summary>
+            <param name="mid">Mid number</param>
+            <returns>Compiled instance</returns>
+        </member>
+    </members>
+</doc>

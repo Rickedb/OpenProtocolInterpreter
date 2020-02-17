@@ -1,11 +1,10 @@
 ﻿namespace OpenProtocolInterpreter.ParameterSet
 {
     /// <summary>
-    /// MID: Parameter set selected acknowledge
-    /// Description: 
-    ///     Acknowledgement for a new parameter set selected.
-    /// Message sent by: Integrator
-    /// Answer: None
+    /// Parameter set selected acknowledge
+    /// <para>Acknowledgement for a new parameter set selected.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: None</para>
     /// </summary>
     public class Mid0016 : Mid, IParameterSet, IIntegrator
     {

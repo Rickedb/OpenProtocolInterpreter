@@ -20,4 +20,10 @@
   =&gt; Mid 0102
   =&gt; Mid 0103</PackageReleaseNotes>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>C:\GitHub\OpenProtocolInterpreter\dist\lib\netstandard2.0\OpenProtocolInterpreter.xml</DocumentationFile>
+    <OutputPath></OutputPath>
+    <NoWarn>1701;1702;1591</NoWarn>
+  </PropertyGroup>
 </Project>

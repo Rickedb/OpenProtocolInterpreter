@@ -6,11 +6,12 @@ using System.Linq;
 namespace OpenProtocolInterpreter.ParameterSet
 {
     /// <summary>
-    /// MID: Select Parameter set, Dynamic Job Included
-    /// Description: 
-    ///     Select a parameter set.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted or MID 0004 Command error, Dynamic Job cannot be created, non-existing pset
+    /// Select Parameter set, Dynamic Job Included
+    /// <para>Message sent by: Integrator</para>
+    /// <para>
+    ///     Answer: <see cref="Communication.Mid0005"/> Command accepted or
+    ///     <see cref="Communication.Mid0004"/> Command error, Dynamic Job cannot be created, non-existing pset
+    /// </para>
     /// </summary>
     public class Mid2504 : Mid, IParameterSet, IIntegrator
     {

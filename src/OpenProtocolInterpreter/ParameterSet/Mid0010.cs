@@ -1,11 +1,10 @@
 ﻿namespace OpenProtocolInterpreter.ParameterSet
 {
     /// <summary>
-    /// MID: Parameter set ID upload request
-    /// Description: 
-    ///     A request to get the valid parameter set IDs from the controller.
-    /// Message sent by: Integrator
-    /// Answer: MID 0011 Parameter set ID upload reply
+    /// Parameter set ID upload request
+    /// <para>A request to get the valid parameter set IDs from the controller.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: <see cref="Mid0011"/> Parameter set ID upload reply</para>
     /// </summary>
     public class Mid0010 : Mid, IParameterSet, IIntegrator
     {
