@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.PowerMACS
 {
+    /// <summary>
+    /// Template for <see cref="IPowerMACS"/> implementers.
+    /// </summary>
     internal class PowerMACSMessages : MessagesTemplate
     {
         public PowerMACSMessages() : base()

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OpenProtocolInterpreter.PowerMACS
+﻿namespace OpenProtocolInterpreter.PowerMACS
 {
+    /// <summary>
+    /// Represents a Step Result entity
+    /// </summary>
     public class StepResult
     {
         public string VariableName { get; set; }
