@@ -5,12 +5,10 @@ using System.Collections.Generic;
 namespace OpenProtocolInterpreter.Time
 {
     /// <summary>
-    /// MID: Set Time
-    /// Description: 
-    ///     Set the time in the controller.
-    /// 
-    /// Message sent by: Integrator
-    /// Answer: None
+    /// Set Time
+    /// <para>Set the time in the controller.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: None</para>
     /// </summary>
     public class Mid0082 : Mid, ITime, IIntegrator
     {
