@@ -6,16 +6,18 @@ using System.Linq;
 namespace OpenProtocolInterpreter.Result
 {
     /// <summary>
-    /// MID: Operation result Overall data
-    /// Description: 
+    /// Operation result Overall data
+    /// <para>
     ///     This MID contains the overall result data and some of the object data of the last tightening. 
-    ///     In the subscription of this message it can be chosen to also start subscription of MID 1202 Operation result object data. 
+    ///     In the subscription of this message it can be chosen to also start subscription of <see cref="Mid1202"/> Operation result object data. 
     ///     The user defined values is preconfigured in the controller via the configuration tool.
-    /// 
-    /// Message sent by: Controller
-    /// Answer: MID 1203 Operation result data acknowledge or MID 0005 with MID 1201 in the data field.
-    ///         
-    ///         If the sequence number acknowledge functionality is used there is no need for these acknowledges.
+    /// </para>
+    /// <para>Message sent by: Controller</para>
+    /// <para>
+    ///     Answer: <see cref="Mid1203"/> Operation result data acknowledge or 
+    ///             <see cref="Communication.Mid0005"/> with <see cref="Mid1201"/> in the data field.
+    /// </para>
+    /// <para>If the sequence number acknowledge functionality is used there is no need for these acknowledges.</para>
     /// </summary>
     public class Mid1201 : Mid, IResult, IController
     {

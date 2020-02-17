@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace OpenProtocolInterpreter.Result
+﻿namespace OpenProtocolInterpreter.Result
 {
+    /// <summary>
+    /// Represents a Variable Data entity
+    /// </summary>
     public class VariableDataField
     {
         public int ParameterId { get; set; }
