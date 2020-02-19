@@ -1,12 +1,13 @@
 ﻿namespace OpenProtocolInterpreter.MultipleIdentifiers
 {
     /// <summary>
-    /// MID: reset latest Identifier
-    /// Description: 
+    /// Reset latest Identifier
+    /// <para>
     ///    This message is used by the integrator to reset the latest identifier 
     ///    or bypassed identifier in the work order.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted
+    /// </para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted</para>
     /// </summary>
     public class Mid0156 : Mid, IMultipleIdentifier, IIntegrator
     {

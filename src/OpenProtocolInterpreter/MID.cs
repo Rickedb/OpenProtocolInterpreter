@@ -5,7 +5,10 @@ using System.Text;
 
 namespace OpenProtocolInterpreter
 {
-    public abstract class Mid : IMid
+    /// <summary>
+    /// Abstract class which every Mid should inherit, containing all of default data, such as <see cref="Header"/> data and methods.
+    /// </summary>
+    public abstract class Mid
     {
         public Dictionary<int, List<DataField>> RevisionsByFields { get; set; }
         public Header HeaderData { get; set; }

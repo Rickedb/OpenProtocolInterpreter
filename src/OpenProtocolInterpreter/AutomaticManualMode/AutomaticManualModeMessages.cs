@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.AutomaticManualMode
 {
+    /// <summary>
+    /// Template for <see cref="IAutomaticManualMode"/> implementers.
+    /// </summary>
     internal class AutomaticManualModeMessages : MessagesTemplate
     {
         public AutomaticManualModeMessages() : base()

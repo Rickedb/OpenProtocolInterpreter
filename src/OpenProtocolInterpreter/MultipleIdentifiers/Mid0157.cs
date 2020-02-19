@@ -1,11 +1,10 @@
 ﻿namespace OpenProtocolInterpreter.MultipleIdentifiers
 {
     /// <summary>
-    /// MID: reset all Identifiers
-    /// Description: 
-    ///    This message is used by the integrator to reset all identifiers in the current work order.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted
+    /// Reset all Identifiers
+    /// <para>This message is used by the integrator to reset all identifiers in the current work order.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted</para>
     /// </summary>
     public class Mid0157 : Mid, IMultipleIdentifier, IIntegrator
     {

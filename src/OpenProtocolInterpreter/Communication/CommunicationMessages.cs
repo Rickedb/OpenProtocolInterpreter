@@ -4,6 +4,9 @@ using OpenProtocolInterpreter.Messages;
 
 namespace OpenProtocolInterpreter.Communication
 {
+    /// <summary>
+    /// Template for <see cref="ICommunication"/> implementers.
+    /// </summary>
     internal class CommunicationMessages : MessagesTemplate
     {
         public CommunicationMessages() : base()

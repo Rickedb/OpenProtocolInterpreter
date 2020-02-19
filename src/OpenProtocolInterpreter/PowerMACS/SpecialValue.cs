@@ -1,5 +1,8 @@
 ﻿namespace OpenProtocolInterpreter.PowerMACS
 {
+    /// <summary>
+    /// Represents a Special Value entity
+    /// </summary>
     public class SpecialValue
     {
         public string VariableName { get; set; }

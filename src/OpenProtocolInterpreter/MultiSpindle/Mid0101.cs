@@ -7,16 +7,19 @@ namespace OpenProtocolInterpreter.MultiSpindle
 {
     /// <summary>
     /// Multi-spindle result
-    /// Description:
+    /// <para>
     ///     The multi-spindle result is sent after each sync tightening and if it is subscribed. The multiple results
     ///     contain the common status of the multiple as well as the individual tightening result(torque and angle)
     ///     of each spindle.
+    /// </para>
+    /// <para>
     ///     This telegram is also used for PowerMACS systems running a Press.The layout of the telegram is
     ///     exactly the same but some of the fields have slightly different definitions.The fields for Torque are
     ///     used for Force values and the fields for Angle are used for Stroke values. A press system always uses
     ///     revision 4 or higher of the telegram.
-    /// Message sent by: Controller
-    /// Answer: MID 0102 Multi-spindle result acknowledge
+    /// </para>    
+    /// <para>Message sent by: Controller</para>
+    /// <para>Answer: <see cref="Mid0102"/> Multi-spindle result acknowledge</para>
     /// </summary>
     public class Mid0101 : Mid, IMultiSpindle, IController
     {

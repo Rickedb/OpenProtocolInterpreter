@@ -1,5 +1,8 @@
 ﻿namespace OpenProtocolInterpreter
 {
+    /// <summary>
+    /// Operation Types. Used in <see cref="Result.Mid1201"/>.
+    /// </summary>
     public enum OperationType
     {
         NON_SYNCHRONIZED_TIGHTENING = 0,

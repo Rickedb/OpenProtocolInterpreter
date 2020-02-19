@@ -3,11 +3,10 @@
 namespace OpenProtocolInterpreter.MultipleIdentifiers
 {
     /// <summary>
-    /// MID: Identifier download request
-    /// Description: Used by the integrator to send an identifier to the controller.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted or
-    /// MID 0004 Command error, Identifier input source not granted
+    /// Identifier download request
+    /// <para>Used by the integrator to send an identifier to the controller.</para>
+    /// <para>Message sent by: Integrator</para>
+    ///<para>Answer: <see cref="Communication.Mid0005"/> Command accepted or <see cref="Communication.Mid0004"/> Command error, Identifier input source not granted</para> 
     /// </summary>
     public class Mid0150 : Mid, IMultipleIdentifier, IIntegrator
     {

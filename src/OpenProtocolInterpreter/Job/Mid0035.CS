@@ -6,13 +6,13 @@ using System.Linq;
 namespace OpenProtocolInterpreter.Job
 {
     /// <summary>
-    /// MID: Job info
-    /// Description: 
-    ///     The Job info subscriber will receive a Job info message after a Job has been selected and after each
+    /// <para>MID: Job info</para>
+    /// <para>Description:</para>
+    ///     <para>The Job info subscriber will receive a Job info message after a Job has been selected and after each
     ///     tightening performed in the Job.The Job info consists of the ID of the currently running Job, the Job
-    ///     status, the Job batch mode, the Job batch size and the Job batch counter.
-    /// Message sent by: Controller
-    /// Answer: MID 0036
+    ///     status, the Job batch mode, the Job batch size and the Job batch counter.</para>
+    /// <para>Message sent by: Controller</para>
+    /// <para>Answer: <see cref="Mid0036"/></para>
     /// </summary>
     public class Mid0035 : Mid, IJob, IController
     {

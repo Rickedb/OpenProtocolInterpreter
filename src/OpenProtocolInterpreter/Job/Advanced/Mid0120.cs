@@ -1,12 +1,14 @@
 ﻿namespace OpenProtocolInterpreter.Job.Advanced
 {
     /// <summary>
-    /// MID: Job line control info subscribe
-    /// Description: A subscription for the Job line control information.
-    /// A message is sent to the integrator when the Job line control is started, for alert level 1, 
-    /// for alert level 2, or when the Job is finished before the alert level 2 (Job line control done).
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 or MID 0004 Command error, Job line control info subscription already exists
+    /// Job line control info subscribe
+    /// <para>
+    ///     A subscription for the Job line control information.
+    ///     A message is sent to the integrator when the Job line control is started, for alert level 1, 
+    ///     for alert level 2, or when the Job is finished before the alert level 2 (Job line control done).
+    /// </para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: <see cref="Communication.Mid0005"/> or <see cref="Communication.Mid0004"/> Command error, Job line control info subscription already exists</para>
     /// </summary>
     public class Mid0120 : Mid, IAdvancedJob, IIntegrator
     {

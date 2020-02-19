@@ -4,18 +4,17 @@ using System.Collections.Generic;
 namespace OpenProtocolInterpreter.Job.Advanced
 {
     /// <summary>
-    /// MID: Job batch increment
-    /// Description: Decrement the Job batch if there is a current running Job. 
-    /// Two revisions are available for this MID.
-    /// The default revision or revision 1 does not contain any argument and always decrement the last
-    /// tightening completed in a Job.
-    /// 
-    /// The revision 2 contains two parameters; the channel ID and parameter set ID to be decremented.
-    /// 
-    /// The MID is always sent to the cell master/reference.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted or
-    /// MID 0004 Command error, Job batch decrement failed (only for MID revision 2)
+    /// Job batch increment
+    /// <para>
+    ///     Decrement the Job batch if there is a current running Job. 
+    ///     Two revisions are available for this MID.
+    ///     The default revision or revision 1 does not contain any argument and always decrement the last
+    ///     tightening completed in a Job.
+    /// </para>
+    /// <para>The revision 2 contains two parameters; the channel ID and parameter set ID to be decremented.</para>
+    /// <para>The MID is always sent to the cell master/reference.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted or <see cref="Communication.Mid0004"/> Command error, Job batch decrement failed (only for MID revision 2)</para>
     /// </summary>
     public class Mid0129 : Mid, IAdvancedJob, IIntegrator
     {

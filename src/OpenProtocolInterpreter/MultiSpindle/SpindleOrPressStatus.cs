@@ -1,5 +1,8 @@
 ﻿namespace OpenProtocolInterpreter.MultiSpindle
 {
+    /// <summary>
+    /// Represents a Spindle or a Press status entity, depending on <see cref="SystemSubType"/>
+    /// </summary>
     public class SpindleOrPressStatus
     {
         public int SpindleOrPressNumber { get; set; }

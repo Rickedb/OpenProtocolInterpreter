@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Alarm
 {
+    /// <summary>
+    /// Template for <see cref="IAlarm"/> implementers.
+    /// </summary>
     internal class AlarmMessages : MessagesTemplate
     {
         public AlarmMessages() : base()

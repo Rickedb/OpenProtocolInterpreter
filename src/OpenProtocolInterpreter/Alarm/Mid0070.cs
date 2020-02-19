@@ -1,12 +1,10 @@
 ﻿namespace OpenProtocolInterpreter.Alarm
 {
     /// <summary>
-    /// <para>Alarm subscribe</para>
+    /// Alarm subscribe
     /// <para>A subscription for the alarms that can appear in the controller.</para>
     /// <para>Message sent by Integrator</para>
-    /// <para>Answers:</para> 
-    /// <para>- MID 0005 Command accepted</para> 
-    /// <para>- MID 0004 Command error, Alarm subscription already exists</para>
+    /// <para>Answers: <see cref="Communication.Mid0005"/> Command accepted or <see cref="Communication.Mid0004"/> Command error, Alarm subscription already exists</para>
     /// </summary>
     public class Mid0070 : Mid, IAlarm, IIntegrator
     {

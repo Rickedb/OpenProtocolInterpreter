@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.ParameterSet
 {
+    /// <summary>
+    /// Template for <see cref="IParameterSet"/> implementers.
+    /// </summary>
     internal class ParameterSetMessages : MessagesTemplate
     {
         public ParameterSetMessages() : base()

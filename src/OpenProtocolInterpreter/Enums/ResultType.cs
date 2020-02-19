@@ -1,5 +1,8 @@
 ﻿namespace OpenProtocolInterpreter
 {
+    /// <summary>
+    /// Result types. Used in <see cref="Tightening.Mid0061"/> and <see cref="Tightening.Mid0065"/>.
+    /// </summary>
     public enum ResultType
     {
         TIGHTENING = 1,

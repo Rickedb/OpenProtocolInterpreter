@@ -1,21 +1,22 @@
 ﻿using OpenProtocolInterpreter.Converters;
-using System;
 using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.IOInterface
 {
     /// <summary>
-    /// MID: Digital input function subscribe
-    /// Description: 
+    /// Digital input function subscribe
+    /// <para>
     ///     Subscribe for one single digital input function. The data field consists of three ASCII digits, 
     ///     the digital input function number. The digital input function numbers can be found in Table 80 above.
-    ///     At a subscription of a tracking event, MID 0221 Digital input function upload immediately returns the 
+    ///     At a subscription of a tracking event, <see cref="Mid0221"/> Digital input function upload immediately returns the 
     ///     current digital input function status to the subscriber.
-    ///     MID 0220 can only subscribe for one single digital input function at a time, 
+    /// </para>
+    /// <para>
+    ///     <see cref="Mid0220"/> can only subscribe for one single digital input function at a time, 
     ///     but still, Open Protocol supports keeping several digital input function subscriptions simultaneously.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted or
-    ///         MID 0004 Command error, The digital input function subscription already exists
+    /// </para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted or <see cref="Communication.Mid0004"/> Command error, The digital input function subscription already exists</para>
     /// </summary>
     public class Mid0220 : Mid, IIOInterface, IIntegrator
     {

@@ -1,12 +1,9 @@
 ﻿namespace OpenProtocolInterpreter.Time
 {
     /// <summary>
-    /// MID: Read time upload request
-    /// Description: 
-    ///     Read time request.
-    /// 
-    /// Message sent by: Integrator
-    /// Answer: MID 0081 Read time upload reply
+    /// Read time upload request
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: <see cref="Mid0081"/> Read time upload reply</para>
     /// </summary>
     public class Mid0080 : Mid, ITime, IIntegrator
     {

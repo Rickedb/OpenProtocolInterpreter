@@ -1,22 +1,22 @@
 ﻿using OpenProtocolInterpreter.Converters;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace OpenProtocolInterpreter.ApplicationSelector
 {
     /// <summary>
-    /// MID: Selector control green lights
-    /// Description:
+    /// Selector control green lights
+    /// <para>    
     ///     This message controls the selector green lights. 
     ///     The green light can be set (steady), reset (off) or flash. 
     ///     A command must be sent for each one of the selector positions (1-8).
-    ///     
+    /// </para>
+    /// <para>
     ///     Note: This MID only works when the selector is put in external controlled mode and 
     ///     this is only possible when the selector is loaded with software 1.20 or later.  
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted or 
-    ///         MID 0004 Command error, Faulty IO device ID
+    /// </para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted or <see cref="Communication.Mid0004"/> Command error, Faulty IO device ID</para>
     /// </summary>
     public class Mid0254 : Mid, IApplicationSelector, IIntegrator
     {

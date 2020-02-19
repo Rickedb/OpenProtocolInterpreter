@@ -2,6 +2,9 @@
 
 namespace OpenProtocolInterpreter
 {
+    /// <summary>
+    /// Represents a Data Field unit's type
+    /// </summary>
     public class DataType
     {
         private static List<DataType> _dataTypesDefinition;

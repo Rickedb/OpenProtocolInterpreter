@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Tightening
 {
+    /// <summary>
+    /// Template for <see cref="ITightening"/> implementers.
+    /// </summary>
     internal class TighteningMessages : MessagesTemplate
     {
         public TighteningMessages() : base()

@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Statistic
 {
+    /// <summary>
+    /// Template for <see cref="IStatistic"/> implementers.
+    /// </summary>
     internal class StatisticMessages : MessagesTemplate
     {
         public StatisticMessages() : base()

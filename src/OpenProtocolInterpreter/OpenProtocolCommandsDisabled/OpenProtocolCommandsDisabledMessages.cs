@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
 {
+    /// <summary>
+    /// Template for <see cref="IOpenProtocolCommandsDisabled"/> implementers.
+    /// </summary>
     internal class OpenProtocolCommandsDisabledMessages : MessagesTemplate
     {
         public OpenProtocolCommandsDisabledMessages() : base()

@@ -4,6 +4,9 @@ using OpenProtocolInterpreter.Messages;
 
 namespace OpenProtocolInterpreter.IOInterface
 {
+    /// <summary>
+    /// Template for <see cref="IIOInterface"/> implementers.
+    /// </summary>
     internal class IOInterfaceMessages : MessagesTemplate
     {
         public IOInterfaceMessages() : base()

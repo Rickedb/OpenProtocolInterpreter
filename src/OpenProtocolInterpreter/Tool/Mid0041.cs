@@ -6,11 +6,10 @@ using System.Linq;
 namespace OpenProtocolInterpreter.Tool
 {
     /// <summary>
-    /// MID: Tool data upload reply
-    /// Description: 
-    ///     Upload of tool data from the controller.
-    /// Message sent by: Controller
-    /// Answer: None
+    /// Tool data upload reply
+    /// <para>Upload of tool data from the controller.</para>
+    /// <para>Message sent by: Controller</para>
+    /// <para>Answer: None</para>
     /// </summary>
     public class Mid0041 : Mid, ITool, IController
     {
@@ -28,7 +27,7 @@ namespace OpenProtocolInterpreter.Tool
             set => GetField(1,(int)DataFields.TOOL_SERIAL_NUMBER).SetValue(value);
         }
         public long ToolNumberOfTightenings
-        {
+        { 
             get => GetField(1,(int)DataFields.TOOL_NUMBER_OF_TIGHTENINGS).GetValue(_longConverter.Convert);
             set => GetField(1,(int)DataFields.TOOL_NUMBER_OF_TIGHTENINGS).SetValue(_longConverter.Convert, value);
         }

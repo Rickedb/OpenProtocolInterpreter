@@ -1,13 +1,10 @@
 ﻿namespace OpenProtocolInterpreter.Communication
 {
     /// <summary>
-    /// <para>Application communication start</para>
-    /// <para>This message enables the communication. The controller does not respond to any other command
-    ///     before this</para>
+    /// Application communication start
+    /// <para>This message enables the communication. The controller does not respond to any other command before this</para>
     /// <para>Message sent by Integrator</para>
-    /// <para>Answers:</para> 
-    /// <para>- MID 0002 Communication start acknowledge</para> 
-    /// <para>- MID 0004 Command error: Client already connected or MID revision unsupported</para>
+    /// <para>Answers: <see cref="Mid0002"/> Communication start acknowledge or <see cref="Mid0004"/> Command error, Client already connected or MID revision unsupported</para>
     /// </summary>
     public class Mid0001 : Mid, ICommunication, IIntegrator
     {

@@ -1,12 +1,14 @@
 ﻿namespace OpenProtocolInterpreter.ParameterSet
 {
     /// <summary>
-    /// MID: Lock at batch done subscribe
-    /// Description: 
-    ///     A subscription for the Lock at batch done relay status.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted or MID 0004 Command error
-    /// Message: MID 0022 relay status immediately after MID 0005 Command accepted
+    /// Lock at batch done subscribe
+    /// <para>A subscription for the Lock at batch done relay status.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>
+    ///     Answer: <see cref="Communication.Mid0005"/> Command accepted or 
+    ///     <see cref="Communication.Mid0004"/> Command error
+    /// </para>
+    /// <para>Message: <see cref="Mid0022"/> relay status immediately after <see cref="Communication.Mid0005"/> Command accepted</para>
     /// </summary>
     public class Mid0021 : Mid, IParameterSet, IIntegrator
     {

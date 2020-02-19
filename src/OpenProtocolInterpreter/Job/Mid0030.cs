@@ -1,12 +1,13 @@
 ﻿namespace OpenProtocolInterpreter.Job
 {
     /// <summary>
-    /// MID: Job ID upload request
-    /// Description:
+    /// Job ID upload request
+    /// <para>
     ///     This is a request for a transmission of all the valid Job IDs of the controller.
     ///     The result of this command is a transmission of all the valid Job IDs.
-    /// Message sent by: Integrator
-    /// Answer: MID 0031 Job ID upload reply
+    /// </para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: <see cref="Mid0031"/> Job ID upload reply</para>
     /// </summary>
     public class Mid0030 : Mid, IJob, IIntegrator
     {

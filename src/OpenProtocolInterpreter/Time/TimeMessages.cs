@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Time
 {
+    /// <summary>
+    /// Template for <see cref="ITime"/> implementers.
+    /// </summary>
     internal class TimeMessages : MessagesTemplate
     {
         public TimeMessages() : base()

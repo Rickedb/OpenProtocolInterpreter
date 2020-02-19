@@ -4,12 +4,13 @@ using System.Collections.Generic;
 namespace OpenProtocolInterpreter.Statistic
 {
     /// <summary>
-    /// MID: Histogram upload reply
-    /// Description: 
+    /// Histogram upload reply
+    /// <para>
     ///    Histogram upload reply for the requested parameter set and for the requested histogram type. The
     ///    histogram uploaded is made of 9 bars according to Figure 22 Histogram example.
-    /// Message sent by: Controller
-    /// Answer: None
+    /// </para>
+    /// <para>Message sent by: Controller</para>
+    /// <para>Answer: None</para>
     /// </summary>
     public class Mid0301 : Mid, IStatistic, IController
     {

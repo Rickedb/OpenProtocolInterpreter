@@ -1,10 +1,10 @@
 ﻿namespace OpenProtocolInterpreter.Tightening
 {
     /// <summary>
-    /// MID: Last tightening result data acknowledge
-    /// Description: Acknowledgement of last tightening result data.
-    /// Message sent by: Integrator
-    /// Answer: None
+    /// Last tightening result data acknowledge
+    /// <para>Acknowledgement of last tightening result data.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: None</para>
     /// </summary>
     public class Mid0062 : Mid, ITightening, IIntegrator
     {

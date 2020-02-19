@@ -1,5 +1,9 @@
 ﻿namespace OpenProtocolInterpreter
 {
+    /// <summary>
+    /// Digital Input Numbers. Used in <see cref="IOInterface.Mid0220"/>, <see cref="IOInterface.Mid0221"/>, 
+    /// <see cref="IOInterface.Mid0223"/>, <see cref="IOInterface.Mid0224"/> and <see cref="IOInterface.Mid0225"/>.
+    /// </summary>
     public enum DigitalInputNumber
     {
         OFF = 0,

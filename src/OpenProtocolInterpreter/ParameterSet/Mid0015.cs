@@ -6,14 +6,15 @@ using System.Linq;
 namespace OpenProtocolInterpreter.ParameterSet
 {
     /// <summary>
-    /// MID: Parameter set selected
-    /// Description: 
+    /// Parameter set selected
+    /// <para>
     ///     A new parameter set is selected in the controller. 
     ///     The message includes the ID of the parameter set selected as well as the date and time of the 
-    ///     last change in the parameter set settings. This message is also sent as an immediate response to MID 0014 
+    ///     last change in the parameter set settings. This message is also sent as an immediate response to <see cref="Mid0014"/> 
     ///     Parameter set selected subscribe.
-    /// Message sent by: Controller
-    /// Answer: MID 0016 New parameter set selected acknowledge
+    /// </para>
+    /// <para>Message sent by: Controller</para>
+    /// <para>Answer: <see cref="Mid0016"/> New parameter set selected acknowledge</para>
     /// </summary>
     public class Mid0015 : Mid, IParameterSet, IController
     {

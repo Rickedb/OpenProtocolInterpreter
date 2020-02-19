@@ -4,16 +4,21 @@ using System.Collections.Generic;
 namespace OpenProtocolInterpreter.PowerMACS
 {
     /// <summary>
-    /// MID: Last PowerMACS tightening result data subscribe
-    /// Description: 
+    /// Last PowerMACS tightening result data subscribe
+    /// <para>
     ///    Set the subscription for the rundowns result. The result of this command will be the transmission of
     ///    the rundown result after the tightening is performed(push function).
+    /// </para>
+    /// <para>
     ///    This telegram is also used for a PowerMACS 4000 system running a press instead of a spindle.A
-    ///    press system only supports revision 4 and higher of the telegram and will answer with MID 0004,
+    ///    press system only supports revision 4 and higher of the telegram and will answer with <see cref="Communication.Mid0004"/>,
     ///    MID revision unsupported if a subscription is made with a lower revision.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted or 
-    ///         MID 0004 Command error, Subscription already exists or MID revision unsupported
+    /// </para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>
+    ///     Answer: <see cref="Communication.Mid0005"/> Command accepted or 
+    ///         <see cref="Communication.Mid0004"/> Command error, Subscription already exists or MID revision unsupported
+    /// </para>
     /// </summary>
     public class Mid0105 : Mid, IPowerMACS, IIntegrator
     {

@@ -5,13 +5,14 @@ using System.Linq;
 namespace OpenProtocolInterpreter.ParameterSet
 {
     /// <summary>
-    /// MID: Parameter set ID upload reply
-    /// Description: 
+    /// Parameter set ID upload reply
+    /// <para>
     ///     The transmission of all the valid parameter set IDs of the controller. In the revision 000-001 the data
     ///     field contains the number of valid parameter sets currently present in the controller, and the ID of each
     ///     parameter set present.In revision 2 is the number of stages on each Pset/Mset added.
-    /// Message sent by: Controller
-    /// Answer: None
+    /// </para>    
+    /// <para>Message sent by: Controller</para>
+    /// <para>Answer: None</para>
     /// </summary>
     public class Mid0011 : Mid, IParameterSet, IController
     {

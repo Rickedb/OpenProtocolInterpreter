@@ -1,12 +1,10 @@
 ﻿namespace OpenProtocolInterpreter.MotorTuning
 {
     /// <summary>
-    /// MID: Motor tuning result data unsubscribe
-    /// Description: 
-    ///     Reset the motor tuning result subscription.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted or 
-    ///         MID 0004 Command error, Motor Tuning result subscription does not exist
+    /// Motor tuning result data unsubscribe
+    /// <para>Reset the motor tuning result subscription.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted or <see cref="Communication.Mid0004"/> Command error, Motor Tuning result subscription does not exist</para>
     /// </summary>
     public class Mid0503 : Mid, IMotorTuning, IIntegrator
     {

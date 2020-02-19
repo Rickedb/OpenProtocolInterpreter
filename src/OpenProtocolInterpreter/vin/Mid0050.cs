@@ -3,12 +3,16 @@
 namespace OpenProtocolInterpreter.Vin
 {
     /// <summary>
-    /// MID: Vehicle ID Number download request
-    /// Description: 
-    ///     This message is replaced by MID 0150. MID 0050 is still supported.
-    ///     Used by the integrator to send a VIN number to the controller.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted or MID 0004 Command error, VIN input source not granted
+    /// Vehicle ID Number download request
+    /// <para>
+    ///     This message is replaced by <see cref="MultipleIdentifiers.Mid0150"/>. <see cref="Mid0050"/> is still supported.
+    /// </para>
+    /// <para>Used by the integrator to send a VIN number to the controller.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>
+    ///     Answer: <see cref="Communication.Mid0005"/> Command accepted or 
+    ///             <see cref="Communication.Mid0004"/> Command error, VIN input source not granted
+    /// </para>
     /// </summary>
     public class Mid0050 : Mid, IVin, IIntegrator
     {

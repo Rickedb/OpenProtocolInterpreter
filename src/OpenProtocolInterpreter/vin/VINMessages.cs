@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Vin
 {
+    /// <summary>
+    /// Template for <see cref="IVin"/> implementers.
+    /// </summary>
     internal class VinMessages : MessagesTemplate
     {
         public VinMessages() : base()

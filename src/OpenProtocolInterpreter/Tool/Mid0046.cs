@@ -4,14 +4,16 @@ using System.Collections.Generic;
 namespace OpenProtocolInterpreter.Tool
 {
     /// <summary>
-    /// MID: Set primary tool request
-    /// Description: 
-    ///     This message is sent by the integrator in order to set tool data.
-    ///     Warning 1: this MID requires programming control (see 4.4 Programming control).
-    ///     Warning 2: the new configuration will not be active until the next controller reboot!
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted or MID 0004 Command error, 
-    ///         Programming control not granted or Invalid data (value not supported by controller)
+    /// Set primary tool request
+    /// <para>This message is sent by the integrator in order to set tool data.</para>
+    /// <para>Warning 1: this MID requires programming control (see 4.4 Programming control).</para>
+    /// <para>Warning 2: the new configuration will not be active until the next controller reboot!</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>
+    ///     Answer: MID 0005 Command accepted or 
+    ///             MID 0004 Command error, Programming control not granted or 
+    ///                                     Invalid data (value not supported by controller)
+    /// </para>
     /// </summary>
     public class Mid0046 : Mid, ITool, IIntegrator
     {

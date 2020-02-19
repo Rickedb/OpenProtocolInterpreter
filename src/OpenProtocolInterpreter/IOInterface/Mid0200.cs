@@ -4,12 +4,13 @@ using System.Collections.Generic;
 namespace OpenProtocolInterpreter.IOInterface
 {
     /// <summary>
-    /// MID: Set externally controlled relays
-    /// Description: 
+    /// Set externally controlled relays
+    /// <para>
     ///     By using this message the integrator can control 10 relays (externally control relays). The station can
     ///     set, reset the relays or make them flashing.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted
+    /// </para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted</para>
     /// </summary>
     public class Mid0200 : Mid, IIOInterface, IIntegrator
     {

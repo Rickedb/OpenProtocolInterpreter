@@ -1,11 +1,9 @@
 ﻿namespace OpenProtocolInterpreter.Vin
 {
     /// <summary>
-    /// MID: Vehicle ID Number acknowledge
-    /// Description: 
-    ///     Vehicle ID Number acknowledge.
-    /// Message sent by: Integrator
-    /// Answer: None
+    /// Vehicle ID Number acknowledge
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: None</para>
     /// </summary>
     public class Mid0053 : Mid, IVin, IIntegrator
     {

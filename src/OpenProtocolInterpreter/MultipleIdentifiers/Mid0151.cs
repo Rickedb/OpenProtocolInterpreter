@@ -1,15 +1,19 @@
 ﻿namespace OpenProtocolInterpreter.MultipleIdentifiers
 {
     /// <summary>
-    /// MID: Multiple identifier and result parts subscribe
-    /// Description: 
+    /// Multiple identifier and result parts subscribe
+    /// <para>
     ///    This message is used by the integrator to set a subscription for the work order status, optional
-    ///    identifiers and result parts extracted from the identifiers received and accepted by the controller.The
-    ///    identifiers may have been received by the controller from one or several input sources (Serial,
-    ///    Ethernet, Field bus, ST scanner etc.).
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted or 
-    ///         MID 0004 Command error, Multiple identifier and result parts subscription already exists
+    ///    identifiers and result parts extracted from the identifiers received and accepted by the controller.
+    /// </para>   
+    /// <para>
+    ///    The identifiers may have been received by the controller from one 
+    ///    or several input sources (Serial, Ethernet, Field bus, ST scanner etc.).
+    /// </para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted or 
+    ///       <see cref="Communication.Mid0004"/> Command error, Multiple identifier and result parts subscription already exists
+    /// </para>        
     /// </summary>
     public class Mid0151 : Mid, IMultipleIdentifier, IIntegrator
     {

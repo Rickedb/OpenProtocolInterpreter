@@ -1,11 +1,10 @@
 ﻿namespace OpenProtocolInterpreter.MultipleIdentifiers
 {
     /// <summary>
-    /// MID: Multiple identifiers and result parts acknowledge
-    /// Description: 
-    ///    Acknowledgement of multiple identifiers and result parts upload.
-    /// Message sent by: Integrator
-    /// Answer: None
+    /// Multiple identifiers and result parts acknowledge
+    /// <para>Acknowledgement of multiple identifiers and result parts upload.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: None</para>
     /// </summary>
     public class Mid0153 : Mid, IMultipleIdentifier, IIntegrator
     {

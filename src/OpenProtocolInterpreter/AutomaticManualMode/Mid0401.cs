@@ -4,12 +4,13 @@ using System.Collections.Generic;
 namespace OpenProtocolInterpreter.AutomaticManualMode
 {
     /// <summary>
-    /// MID: Automatic/Manual mode
-    /// Description: 
+    /// Automatic/Manual mode
+    /// <para>
     ///     The operation mode in the controller has changed. 
     ///     The message includes the new operational mode of the controller.
-    /// Message sent by: Controller
-    /// Answer: MID 0402 Automatic/Manual mode acknowledge
+    /// </para>
+    /// <para>Message sent by: Controller</para>
+    /// <para>Answer: <see cref="Mid0402"/> Automatic/Manual mode acknowledge</para>
     /// </summary>
     public class Mid0401 : Mid, IAutomaticManualMode, IController
     {

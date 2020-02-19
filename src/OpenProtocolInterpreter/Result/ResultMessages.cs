@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Result
 {
+    /// <summary>
+    /// Template for <see cref="IResult"/> implementers.
+    /// </summary>
     internal class ResultMessages : MessagesTemplate
     {
         public ResultMessages() : base()

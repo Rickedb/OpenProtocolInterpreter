@@ -5,17 +5,21 @@ using OpenProtocolInterpreter.Converters;
 namespace OpenProtocolInterpreter.Result
 {
     /// <summary>
-    /// MID: Operation result object data
-    /// Description: 
+    /// Operation result object data
+    /// <para>
     ///     This message contains the cycle data for one object, both data for the whole process and data related to 
     ///     the different steps in the process.The user defined values are preconfigured in the controller via the 
     ///     configuration tool. The message uses the Variable Parameter pattern for transmission of the values.
-    ///     
+    /// </para>
+    /// <para>
     ///     Note: Only values that exist in the result will be sent.So the actual data received may vary between 
     ///     the cycles if the settings differ between different programs.
-    /// 
-    /// Message sent by: Controller
-    /// Answer: MID 1203 Operation result data acknowledge or MID 0005 with MID 1202 in the data field.
+    /// </para>
+    /// <para>Message sent by: Controller</para>
+    /// <para>
+    ///     Answer: <see cref="Mid1203"/> Operation result data acknowledge or 
+    ///             <see cref="Communication.Mid0005"/> with <see cref="Mid1202"/> in the data field.
+    /// </para>
     ///         
     ///         If the sequence number acknowledge functionality is used there is no need for these acknowledges.
     /// </summary>

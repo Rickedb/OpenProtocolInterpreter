@@ -6,11 +6,13 @@ using System.Linq;
 namespace OpenProtocolInterpreter.ParameterSet
 {
     /// <summary>
-    /// MID: Reset Parameter set batch counter
-    /// Description: 
-    ///     This message gives the possibility to reset the batch counter of the running parameter set, at run time.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted or MID 0004 Command error, Invalid data, or Parameter set not running
+    /// Reset Parameter set batch counter
+    /// <para>This message gives the possibility to reset the batch counter of the running parameter set, at run time.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>
+    ///     Answer: <see cref="Communication.Mid0005"/> Command accepted or 
+    ///     <see cref="Communication.Mid0004"/> Command error, Invalid data, or Parameter set not running
+    /// </para>
     /// </summary>
     public class Mid0020 : Mid, IParameterSet, IIntegrator
     {

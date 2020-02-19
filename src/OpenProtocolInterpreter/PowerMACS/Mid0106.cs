@@ -6,23 +6,28 @@ using System.Linq;
 namespace OpenProtocolInterpreter.PowerMACS
 {
     /// <summary>
-    /// MID: Last PowerMACS tightening result Station data
-    /// Description: 
+    /// Last PowerMACS tightening result Station data
+    /// <para>
     ///    This MID contains the station part and some of the Bolt data of the last result data. After this message
     ///    has been sent the integrator selects if it also wants to have the Bolt and step data.If this data is
-    ///    requested, then the integrator sends the message MID 0108 Last PowerMACS tightening result data
+    ///    requested, then the integrator sends the message <see cref="Mid0108"/> Last PowerMACS tightening result data
     ///    acknowledge, with the parameter Bolt Data set to TRUE. If only the station data is wanted the
     ///    parameter Bolt Data is set to FALSE.
+    /// </para>
+    /// <para>
     ///    This telegram is also used for Power MACS systems running a Press. The layout of the telegram is
     ///    exactly the same but some of the fields have slightly different definitions. The fields for Torque are
     ///    used for Force values and the fields for Angle are used for Stroke values. Press systems also use
     ///    different identifiers for the optional data on bolt and step level. A press system always use revision 4
     ///    or higher of the telegram
+    /// </para>
+    /// <para>
     ///    Note: All values that are undefined in the results will be sent as all spaces (ASCII 0x20). This will for
     ///    instance happen with the Torque Status if no measuring value for Bolt T was available for the
     ///    tightening.
-    /// Message sent by: Controller
-    /// Answer: MID 0108 Last Power MACS tightening result data acknowledge
+    /// </para>
+    /// <para>Message sent by: Controller</para>
+    /// <para>Answer: <see cref="Mid0108"/> Last Power MACS tightening result data acknowledge</para>
     /// </summary>
     public class Mid0106 : Mid, IPowerMACS, IController
     {

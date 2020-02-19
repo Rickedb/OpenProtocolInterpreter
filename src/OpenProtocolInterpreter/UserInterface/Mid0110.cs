@@ -3,15 +3,20 @@
 namespace OpenProtocolInterpreter.UserInterface
 {
     /// <summary>
-    /// MID: Display user text on compact
-    /// Description: 
+    /// Display user text on compact
+    /// <para>
     ///     By sending this message the integrator can display a text on the compact display. The text must be maximum 4 bytes long.
     ///     The characters that can be displayed are limited due to the hardware of the compact display.
+    /// </para>
+    /// <para>
     ///     Each character must fit into seven segments. This means for example that it is not possible to display an M on the compact display.
     ///     The text will be displayed until next tightening, new parameter set or Job selection, or alarm code.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted or 
-    ///         MID 0004 Command error, User text could not be displayed
+    /// </para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>
+    ///     Answer: <see cref="Communication.Mid0005"/> Command accepted or 
+    ///             <see cref="Communication.Mid0004"/> Command error, User text could not be displayed
+    /// </para>
     /// </summary>
     public class Mid0110 : Mid, IUserInterface, IIntegrator
     {

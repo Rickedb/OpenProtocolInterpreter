@@ -4,13 +4,13 @@ using System.Collections.Generic;
 namespace OpenProtocolInterpreter.IOInterface
 {
     /// <summary>
-    /// MID: Set digital input function
-    /// Description: 
+    /// Set digital input function
+    /// <para>
     ///     Set the digital input function with the digital input number. 
     ///     The digital input function numbers are defined in Table 80.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted or
-    ///         MID 0004 Command error, Invalid data
+    /// </para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted or <see cref="Communication.Mid0004"/> Command error, Invalid data</para>
     /// </summary>
     public class Mid0224 : Mid, IIOInterface, IIntegrator
     {
