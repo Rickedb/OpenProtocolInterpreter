@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace OpenProtocolInterpreter
 {
+    /// <summary>
+    /// Mid Interpreter initialization functions
+    /// </summary>
     public static class MidInterpreterMessagesExtensions
     {
         private static readonly Func<Type, Type, bool> DoesImplementInteface = (mid, desiredInterface) => desiredInterface.IsAssignableFrom(mid);

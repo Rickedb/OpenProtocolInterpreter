@@ -3,6 +3,10 @@ using System.Linq;
 
 namespace OpenProtocolInterpreter
 {
+    /// <summary>
+    /// Represents a single and raw Data Field in <see cref="Mid"/> before being abstracted 
+    /// to a typed field inside a mid entity
+    /// </summary>
     public class DataField
     {
         private readonly char _paddingChar;

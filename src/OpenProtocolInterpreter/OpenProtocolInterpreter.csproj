@@ -22,7 +22,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>C:\GitHub\OpenProtocolInterpreter\dist\lib\netstandard2.0\OpenProtocolInterpreter.xml</DocumentationFile>
+    <DocumentationFile>bin\release\OpenProtocolInterpreter.xml</DocumentationFile>
     <OutputPath></OutputPath>
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>

@@ -634,6 +634,17 @@
             </para>
             </summary>
         </member>
+        <member name="T:OpenProtocolInterpreter.DataField">
+            <summary>
+            Represents a single and raw Data Field in <see cref="T:OpenProtocolInterpreter.Mid"/> before being abstracted 
+            to a typed field inside a mid entity
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.DataType">
+            <summary>
+            Represents a Data Field unit's type
+            </summary>
+        </member>
         <member name="T:OpenProtocolInterpreter.AngleStatus">
             <summary>
             Angle status. Used in <see cref="T:OpenProtocolInterpreter.PowerMACS.BoltData"/>.
@@ -882,6 +893,16 @@
         <member name="T:OpenProtocolInterpreter.TorqueValuesUnit">
             <summary>
             Torque values unit. Used in <see cref="T:OpenProtocolInterpreter.Tightening.Mid0061"/> and <see cref="T:OpenProtocolInterpreter.Tightening.Mid0065"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.IController">
+            <summary>
+            Contract which every controller <see cref="T:OpenProtocolInterpreter.Mid"/> message implements.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.IIntegrator">
+            <summary>
+            Contract which every integrator <see cref="T:OpenProtocolInterpreter.Mid"/> message implements.
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.IOInterface.DigitalInput">
@@ -1602,6 +1623,22 @@
             </para>
             </summary>
         </member>
+        <member name="T:OpenProtocolInterpreter.Mid">
+            <summary>
+            Abstract class which every Mid should inherit, containing all of default data, such as <see cref="T:OpenProtocolInterpreter.Mid.Header"/> data and methods.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.MidInterpreter">
+            <summary>
+            Responsible for building and parsing any incoming Mid. 
+            Message templates initialization must be done with <see cref="T:OpenProtocolInterpreter.MidInterpreterMessagesExtensions"/> methods.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.MidInterpreterMessagesExtensions">
+            <summary>
+            Mid Interpreter initialization functions
+            </summary>
+        </member>
         <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseAllMessages(OpenProtocolInterpreter.MidInterpreter,OpenProtocolInterpreter.InterpreterMode)">
             <summary>
             Configure MidInterpreter to parse all available Mids of a mode
@@ -2220,21 +2257,22 @@
         </member>
         <member name="T:OpenProtocolInterpreter.ParameterSet.Mid0021">
             <summary>
-            MID: Lock at batch done subscribe
-            Description: 
-                A subscription for the Lock at batch done relay status.
-            Message sent by: Integrator
-            Answer: MID 0005 Command accepted or MID 0004 Command error
-            Message: MID 0022 relay status immediately after MID 0005 Command accepted
+            Lock at batch done subscribe
+            <para>A subscription for the Lock at batch done relay status.</para>
+            <para>Message sent by: Integrator</para>
+            <para>
+                Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or 
+                <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error
+            </para>
+            <para>Message: <see cref="T:OpenProtocolInterpreter.ParameterSet.Mid0022"/> relay status immediately after <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted</para>
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.ParameterSet.Mid0022">
             <summary>
-            MID: Lock at batch done upload
-            Description: 
-                This message gives the relay status for Lock at batch done.
-            Message sent by: Controller
-            Answer: MID 0023 Lock at batch done upload Ack
+            Lock at batch done upload
+            <para>This message gives the relay status for Lock at batch done.</para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.ParameterSet.Mid0023"/> Lock at batch done upload Ack</para>
             </summary>
         </member>
         <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0022.#ctor(System.Boolean,System.Nullable{System.Int32})">
@@ -2246,29 +2284,21 @@
         </member>
         <member name="T:OpenProtocolInterpreter.ParameterSet.Mid0023">
             <summary>
-            MID: Lock at batch done upload Acknowledge
-            Description: 
-                This message is an acknowledge to MID 0022.
-            Message sent by: Integrator
-            Answer: MID 0005 Command accepted
+            Lock at batch done upload Acknowledge
+            <para>This message is an acknowledge to <see cref="T:OpenProtocolInterpreter.ParameterSet.Mid0022"/>.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted</para>
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.ParameterSet.Mid0024">
             <summary>
-            MID: Lock at batch done unsubscribe
-            Description: 
-                Reset the subscription for Lock at batch done.
-            Message sent by: Integrator
-            Answer: MID 0005 Command accepted or MID 0004 Command error
-            </summary>
-        </member>
-        <member name="T:OpenProtocolInterpreter.ParameterSet.Mid0025">
-            <summary>
-            MID: Parameter user set download request
-            Description: 
-                Reset the subscription for Lock at batch done.
-            Message sent by: Integrator
-            Answer: MID 0005 Command accepted or MID 0004 Command error
+            Lock at batch done unsubscribe
+            <para>Reset the subscription for Lock at batch done.</para>
+            <para>Message sent by: Integrator</para>
+            <para>
+                Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or 
+                <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error
+            </para>
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.ParameterSet.Mid2500">
@@ -2291,11 +2321,12 @@
         </member>
         <member name="T:OpenProtocolInterpreter.ParameterSet.Mid2504">
             <summary>
-            MID: Select Parameter set, Dynamic Job Included
-            Description: 
-                Select a parameter set.
-            Message sent by: Integrator
-            Answer: MID 0005 Command accepted or MID 0004 Command error, Dynamic Job cannot be created, non-existing pset
+            Select Parameter set, Dynamic Job Included
+            <para>Message sent by: Integrator</para>
+            <para>
+                Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or
+                <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Dynamic Job cannot be created, non-existing pset
+            </para>
             </summary>
         </member>
         <member name="M:OpenProtocolInterpreter.ParameterSet.Mid2504.#ctor(System.Int32)">
@@ -2309,221 +2340,328 @@
             Validate all fields size
             </summary>
         </member>
+        <member name="T:OpenProtocolInterpreter.ParameterSet.ParameterSetMessages">
+            <summary>
+            Template for <see cref="T:OpenProtocolInterpreter.ParameterSet.IParameterSet"/> implementers.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.PLCUserData.IPLCUserData">
+            <summary>
+            PLC user data message category. Every PLC user data mid must implement <see cref="T:OpenProtocolInterpreter.PLCUserData.IPLCUserData"/>.
+            </summary>
+        </member>
         <member name="T:OpenProtocolInterpreter.PLCUserData.Mid0240">
             <summary>
-            MID: User data download
-            Description: 
-                Used by the integrator to send user data input to the PLC.
-            Message sent by: Integrator
-            Answer: MID 0005 Command accepted or 
-                    MID 0004 Command error, Invalid data, or Controller is not a sync master/station controller
+            User data download
+            <para>Used by the integrator to send user data input to the PLC.</para>
+            <para>Message sent by: Integrator</para>
+            <para>
+                Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or 
+                    <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Invalid data, or Controller is not a sync master/station controller
+            </para>
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.PLCUserData.Mid0241">
             <summary>
-            MID: User data subscribe
-            Description: 
-                Subscribe for user data. This command will activate the MID 0242 User data message to be sent when a
+            User data subscribe
+            <para>
+                Subscribe for user data. This command will activate the <see cref="T:OpenProtocolInterpreter.PLCUserData.Mid0242"/> User data message to be sent when a
                 change in the user data output has been detected.
-            Message sent by: Integrator
-            Answer: MID 0005 Command accepted or
-                    MID 0004 Command error, Subscription already exists, or
+            </para>
+            <para>Message sent by: Integrator</para>
+            <para>
+                Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or
+                    <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Subscription already exists, or
                     Controller is not a sync master/station controller
+            </para>
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.PLCUserData.Mid0242">
             <summary>
-            MID: User data download
-            Description: 
-                Used by the integrator to send user data input to the PLC.
-            Message sent by: Controller
-            Answer: MID 0243 User data acknowledge
+            User data download
+            <para>Used by the integrator to send user data input to the PLC.</para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.PLCUserData.Mid0243"/> User data acknowledge</para>
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.PLCUserData.Mid0243">
             <summary>
-            MID: User data acknowledge
-            Description: 
-                Acknowledgement of user data.
-            Message sent by: Integrator
-            Answer: None
+            User data acknowledge
+            <para>Acknowledgement of user data.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: None</para>
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.PLCUserData.Mid0244">
             <summary>
-            MID: User data unsubscribe
-            Description: 
-                Unsubscribe for the user data.
-            Message sent by: Integrator
-            Answer: MID 0005 Command accepted or 
-                    MID 0004 Command error, Subscription already exists
+            User data unsubscribe
+            <para>Unsubscribe for the user data.</para>
+            <para>Message sent by: Integrator</para>
+            <para>
+                Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or 
+                    <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Subscription already exists
+            </para>
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.PLCUserData.Mid0245">
             <summary>
-            MID: User data download with offset
-            Description: 
+            User data download with offset
+            <para>
                 Used by the integrator to send user data input to the PLC. 
-                The difference compared to MID 0240 User data download is that with this MID it is possible
+                The difference compared to <see cref="T:OpenProtocolInterpreter.PLCUserData.Mid0240"/> User data download is that with this MID it is possible
                 to specify an offset for the data written in the PLC. This makes it possible to have more than 
                 one device writing user data to the PLC on different data areas.
-                
+            </para>
+            <para>
                 The available address range in the PLC is still 13 000 – 13 099, i.e. 100 bytes. The offset parameter in
                 this MID specify the start address for the data in the PLC, i.e.the start address is 13 000 + Offset.
                 Since the highest address is still 13 099 this means the number of data bytes to send will be limited by
                 the offset. The maximum size of the user data will be (100 – offset) bytes, or 2 * (100 – offset) ASCII
                 characters in the telegram.
+            </para>
+            <para>
                 Only data that is sent in the user data field will be written to the PLC, the remaining data will 
                 be untouched.
+            </para>
+            <para>
                 This means for example that if the offset is 10 and the user data is 1234 the bytes with
                 address 13010 and 13011 will be updated (to 0x12 and 0x34) and the rest of the area will be
                 unchanged.
-            Message sent by: Integrator
-            Answer: MID 0005 Command accepted or
-            MID 0004 Command error, Invalid data, or
-            Controller is not a sync master/station controller or
-            MID revision not supported.
+            </para>    
+            <para>Message sent by: Integrator</para>
+            <para>
+                Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or
+                        <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Invalid data, or
+                            Controller is not a sync master/station controller or
+                            MID revision not supported.
+            </para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.PLCUserData.PLCUserDataMessages">
+            <summary>
+            Template for <see cref="T:OpenProtocolInterpreter.PLCUserData.IPLCUserData"/> implementers.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.PowerMACS.BoltData">
+            <summary>
+            Represents a Bolt entity
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.PowerMACS.BoltResult">
+            <summary>
+            Represents a Bolt Result entity
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.PowerMACS.IPowerMACS">
+            <summary>
+            PowerMACs message category. Every PowerMACs mid must implement <see cref="T:OpenProtocolInterpreter.PowerMACS.IPowerMACS"/>.
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.PowerMACS.Mid0105">
             <summary>
-            MID: Last PowerMACS tightening result data subscribe
-            Description: 
+            Last PowerMACS tightening result data subscribe
+            <para>
                Set the subscription for the rundowns result. The result of this command will be the transmission of
                the rundown result after the tightening is performed(push function).
+            </para>
+            <para>
                This telegram is also used for a PowerMACS 4000 system running a press instead of a spindle.A
-               press system only supports revision 4 and higher of the telegram and will answer with MID 0004,
+               press system only supports revision 4 and higher of the telegram and will answer with <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/>,
                MID revision unsupported if a subscription is made with a lower revision.
-            Message sent by: Integrator
-            Answer: MID 0005 Command accepted or 
-                    MID 0004 Command error, Subscription already exists or MID revision unsupported
+            </para>
+            <para>Message sent by: Integrator</para>
+            <para>
+                Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or 
+                    <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Subscription already exists or MID revision unsupported
+            </para>
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.PowerMACS.Mid0106">
             <summary>
-            MID: Last PowerMACS tightening result Station data
-            Description: 
+            Last PowerMACS tightening result Station data
+            <para>
                This MID contains the station part and some of the Bolt data of the last result data. After this message
                has been sent the integrator selects if it also wants to have the Bolt and step data.If this data is
-               requested, then the integrator sends the message MID 0108 Last PowerMACS tightening result data
+               requested, then the integrator sends the message <see cref="T:OpenProtocolInterpreter.PowerMACS.Mid0108"/> Last PowerMACS tightening result data
                acknowledge, with the parameter Bolt Data set to TRUE. If only the station data is wanted the
                parameter Bolt Data is set to FALSE.
+            </para>
+            <para>
                This telegram is also used for Power MACS systems running a Press. The layout of the telegram is
                exactly the same but some of the fields have slightly different definitions. The fields for Torque are
                used for Force values and the fields for Angle are used for Stroke values. Press systems also use
                different identifiers for the optional data on bolt and step level. A press system always use revision 4
                or higher of the telegram
+            </para>
+            <para>
                Note: All values that are undefined in the results will be sent as all spaces (ASCII 0x20). This will for
                instance happen with the Torque Status if no measuring value for Bolt T was available for the
                tightening.
-            Message sent by: Controller
-            Answer: MID 0108 Last Power MACS tightening result data acknowledge
+            </para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.PowerMACS.Mid0108"/> Last Power MACS tightening result data acknowledge</para>
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.PowerMACS.Mid0107">
             <summary>
-            MID: Last Power MACS tightening result Bolt data
-            Description: 
+            Last Power MACS tightening result Bolt data
+            <para>
                This message contains the cycle data for one Bolt, both Bolt data and step data. It is only sent if 
-               the acknowledgement of the message MID 0106 Last PowerMACS tightening result station data had the parameter 
+               the acknowledgement of the message <see cref="T:OpenProtocolInterpreter.PowerMACS.Mid0106"/> Last PowerMACS tightening result station data had the parameter 
                Bolt Data set to TRUE. The next Bolt data is sent if the acknowledgement has the parameter Bolt Data set to TRUE.
                This telegram is also used for Power MACS systems running a Press.The layout of the telegram is exactly the 
                same but some of the fields have slightly different definitions. The fields for Torque are used for Force values 
                and the fields for Angle are used for Stroke values. Press systems also use different identifiers for the optional 
                data on bolt and step level. Press systems always use revision 4 or higher of the telegram.Values in the fixed part
                that are undefined in the results will be sent as all spaces (ASCII 0x20). 
+            </para>
+            <para>
                This can happen with the Customer Error Code if this function is not activated.
+            </para>
+            <para>
                Note 2: The Bolt results and step results are only sent when the value exists in the result. This means,
                for example, that if no high limit is programmed for Peak T, then the value Peak T + will not be sent
                even if limits for Peak T are defined in the reporter.
-            Message sent by: Controller
-            Answer: MID 0108 Last PowerMACS tightening result data acknowledge
+            </para>   
+            <para>Message sent by: Controller</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.PowerMACS.Mid0108"/> Last PowerMACS tightening result data acknowledge</para>
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.PowerMACS.Mid0108">
             <summary>
-            MID: Last Power MACS tightening result data acknowledge
-            Description: 
+            Last Power MACS tightening result data acknowledge
+            <para>
                If Bolt Data is set to TRUE the next telegram with Bolt data is sent (if there are any left for this
                tightening). Otherwise no more Bolt data is sent for this tightening.
-               If only the station data is wanted Bolt Data must be set to FALSE in the acknowledgement of MID 0106
-               Last Power MACS tightening result Station data.
-            Message sent by: Integrator
-            Answer: None
+            </para>
+            <para>
+               If only the station data is wanted Bolt Data must be set to FALSE in the acknowledgement of 
+               <see cref="T:OpenProtocolInterpreter.PowerMACS.Mid0106"/> Last Power MACS tightening result Station data.
+            </para>   
+            <para>Message sent by: Integrator</para>
+            <para>Answer: None</para>
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.PowerMACS.Mid0109">
             <summary>
-            MID: Last Power MACS tightening result data unsubscribe
-            Description: 
-               Reset the last Power MACS tightening result subscription for the rundowns result.
-            Message sent by: Integrator
-            Answer: MID 0005 Command accepted or 
-                    MID 0004 Command error, Subscription does not exist
+            Last Power MACS tightening result data unsubscribe
+            <para>Reset the last Power MACS tightening result subscription for the rundowns result.</para>
+            <para>Message sent by: Integrator</para>
+            <para>
+                Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or 
+                    <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Subscription does not exist
+            </para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.PowerMACS.PowerMACSMessages">
+            <summary>
+            Template for <see cref="T:OpenProtocolInterpreter.PowerMACS.IPowerMACS"/> implementers.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.PowerMACS.SpecialValue">
+            <summary>
+            Represents a Special Value entity
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.PowerMACS.StepResult">
+            <summary>
+            Represents a Step Result entity
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Result.IResult">
+            <summary>
+            Result message category. Every result mid must implement <see cref="T:OpenProtocolInterpreter.Result.IResult"/>.
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.Result.Mid1201">
             <summary>
-            MID: Operation result Overall data
-            Description: 
+            Operation result Overall data
+            <para>
                 This MID contains the overall result data and some of the object data of the last tightening. 
-                In the subscription of this message it can be chosen to also start subscription of MID 1202 Operation result object data. 
+                In the subscription of this message it can be chosen to also start subscription of <see cref="T:OpenProtocolInterpreter.Result.Mid1202"/> Operation result object data. 
                 The user defined values is preconfigured in the controller via the configuration tool.
-            
-            Message sent by: Controller
-            Answer: MID 1203 Operation result data acknowledge or MID 0005 with MID 1201 in the data field.
-                    
-                    If the sequence number acknowledge functionality is used there is no need for these acknowledges.
+            </para>
+            <para>Message sent by: Controller</para>
+            <para>
+                Answer: <see cref="T:OpenProtocolInterpreter.Result.Mid1203"/> Operation result data acknowledge or 
+                        <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> with <see cref="T:OpenProtocolInterpreter.Result.Mid1201"/> in the data field.
+            </para>
+            <para>If the sequence number acknowledge functionality is used there is no need for these acknowledges.</para>
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.Result.Mid1202">
             <summary>
-            MID: Operation result object data
-            Description: 
+            Operation result object data
+            <para>
                 This message contains the cycle data for one object, both data for the whole process and data related to 
                 the different steps in the process.The user defined values are preconfigured in the controller via the 
                 configuration tool. The message uses the Variable Parameter pattern for transmission of the values.
-                
+            </para>
+            <para>
                 Note: Only values that exist in the result will be sent.So the actual data received may vary between 
                 the cycles if the settings differ between different programs.
-            
-            Message sent by: Controller
-            Answer: MID 1203 Operation result data acknowledge or MID 0005 with MID 1202 in the data field.
+            </para>
+            <para>Message sent by: Controller</para>
+            <para>
+                Answer: <see cref="T:OpenProtocolInterpreter.Result.Mid1203"/> Operation result data acknowledge or 
+                        <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> with <see cref="T:OpenProtocolInterpreter.Result.Mid1202"/> in the data field.
+            </para>
                     
                     If the sequence number acknowledge functionality is used there is no need for these acknowledges.
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.Result.Mid1203">
             <summary>
-            MID: Operation result data acknowledge
-            Description: 
-                Only Header is sent with no data fields.
-            
-            Message sent by: Integrator
-            Answer: None
+            Operation result data acknowledge
+            <para>Message sent by: Integrator</para>
+            <para>Answer: None</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Result.ObjectData">
+            <summary>
+            Represents an Object Data entity
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Result.ResultMessages">
+            <summary>
+            Template for <see cref="T:OpenProtocolInterpreter.Result.IResult"/> implementers.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Result.VariableDataField">
+            <summary>
+            Represents a Variable Data entity
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Statistic.IStatistic">
+            <summary>
+            Statistic message category. Every statistic mid must implement <see cref="T:OpenProtocolInterpreter.Statistic.IStatistic"/>.
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.Statistic.Mid0300">
             <summary>
-            MID: Histogram upload request
-            Description: 
+            Histogram upload request
+            <para>
                Request to upload a histogram from the controller for a certain parameter set.
                The histogram is calculated with all the tightening results currently present in 
                the controller’s memory and within the statistic acceptance window(statistic min and max limits) 
                for the requested parameter set.
-            Message sent by: Integrator
-            Answer: MID 0301, Histogram upload reply, or 
-                    MID 0004 Command error, No histogram available or Invalid data
+            </para>
+            <para>Message sent by: Integrator</para>
+            <para>
+                Answer: <see cref="T:OpenProtocolInterpreter.Statistic.Mid0301"/> Histogram upload reply, or 
+                    <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, No histogram available or Invalid data
+            </para>
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.Statistic.Mid0301">
             <summary>
-            MID: Histogram upload reply
-            Description: 
+            Histogram upload reply
+            <para>
                Histogram upload reply for the requested parameter set and for the requested histogram type. The
                histogram uploaded is made of 9 bars according to Figure 22 Histogram example.
-            Message sent by: Controller
-            Answer: None
+            </para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: None</para>
             </summary>
         </member>
         <member name="F:OpenProtocolInterpreter.Statistic.Mid0301.DataFields.MEAN_VALUE_HISTOGRAM">
@@ -2531,25 +2669,37 @@
             X-BAR
             </summary>
         </member>
+        <member name="T:OpenProtocolInterpreter.Statistic.StatisticMessages">
+            <summary>
+            Template for <see cref="T:OpenProtocolInterpreter.Statistic.IStatistic"/> implementers.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Tightening.ITightening">
+            <summary>
+            Tightening message category. Every tightening mid must implement <see cref="T:OpenProtocolInterpreter.Tightening.ITightening"/>.
+            </summary>
+        </member>
         <member name="T:OpenProtocolInterpreter.Tightening.Mid0060">
             <summary>
-            MID: Last tightening result data subscribe
-            Description: 
+            Last tightening result data subscribe
+            <para>
                 Set the subscription for the result tightenings. The result of this command will be the transmission of
                 the tightening result after the tightening is performed(push function). The MID revision in the header
-                is used to subscribe to different revisions of MID 0061 Last tightening result data upload reply.
-            
-            Message sent by: Integrator
-            Answer: MID 0005 Command accepted or MID 0004 Command error, Last tightening subscription already 
-                    exists or MID revision not supported
+                is used to subscribe to different revisions of <see cref="T:OpenProtocolInterpreter.Tightening.Mid0061"/> Last tightening result data upload reply.
+            </para>
+            <para>Message sent by: Integrator</para>
+            <para>
+                Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or 
+                        <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Last tightening subscription already exists or MID revision not supported
+            </para>
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.Tightening.Mid0061">
             <summary>
-            MID: Last tightening result data
-            Description: Upload the last tightening result.
-            Message sent by: Controller
-            Answer: MID 0062 Last tightening result data acknowledge
+            Last tightening result data
+            <para>Upload the last tightening result.</para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Tightening.Mid0062"/> Last tightening result data acknowledge</para>
             </summary>
         </member>
         <member name="P:OpenProtocolInterpreter.Tightening.Mid0061.TighteningErrorStatus2">
@@ -2566,61 +2716,89 @@
         </member>
         <member name="T:OpenProtocolInterpreter.Tightening.Mid0062">
             <summary>
-            MID: Last tightening result data acknowledge
-            Description: Acknowledgement of last tightening result data.
-            Message sent by: Integrator
-            Answer: None
+            Last tightening result data acknowledge
+            <para>Acknowledgement of last tightening result data.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: None</para>
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.Tightening.Mid0063">
             <summary>
-            MID: Last tightening result data unsubscribe
-            Description: Reset the last tightening result subscription.
-            Message sent by: Integrator
-            Answer: MID 0005 Command accepted or MID 0004 Command error, Last tightening result subscription does not exist
+            Last tightening result data unsubscribe
+            <para>Reset the last tightening result subscription.</para>
+            <para>Message sent by: Integrator</para>
+            <para>
+                Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or 
+                        <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Last tightening result subscription does not exist
+            </para>
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.Tightening.Mid0064">
             <summary>
-            MID: Old tightening result upload request
-            Description: This message is a request to upload a particular tightening result from the controller. The requested
-                         result is specified by its unique ID(tightening ID). This message is useful after a failure of the
-                         network in order to retrieve the missing result during the communication interruption.The integrator
-                         can see the missing results by always comparing the last tightening IDs of the two last received
-                         tightenings packets (parameter 23 in the result message).
-                         Requesting tightening ID zero is the same as requesting the latest tightening performed.
-            Message sent by: Integrator
-            Answer: MID 0065 Old tightening result upload reply 
-                    or MID 0004 Command error, Tightening ID requested not found,
-                    or MID revision not supported
+            Old tightening result upload request
+            <para>
+                This message is a request to upload a particular tightening result from the controller. The requested
+                result is specified by its unique ID(tightening ID). This message is useful after a failure of the
+                network in order to retrieve the missing result during the communication interruption.The integrator
+                can see the missing results by always comparing the last tightening IDs of the two last received
+                tightenings packets (parameter 23 in the result message).
+            </para>    
+            <para>
+                Requesting tightening ID zero is the same as requesting the latest tightening performed.
+            </para>
+            <para>Message sent by: Integrator</para>
+            <para>
+                Answer: <see cref="T:OpenProtocolInterpreter.Tightening.Mid0065"/> Old tightening result upload reply or 
+                        <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Tightening ID requested not found, or 
+                        MID revision not supported
+            </para>
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.Tightening.Mid0065">
             <summary>
-            MID: Old tightening result upload reply
-            Description: Old tightening upload.
-            Message sent by: Controller
-            Answer: None
+            Old tightening result upload reply
+            <para>Message sent by: Controller</para>
+            <para>Answer: None</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Tightening.StageResult">
+            <summary>
+            Represents a Stage Result entity
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Tightening.StrategyOptions">
+            <summary>
+            Represents a Strategy Options entity
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Tightening.TighteningErrorStatus">
+            <summary>
+            Represents a Tightening Error Status entity
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Tightening.TighteningMessages">
+            <summary>
+            Template for <see cref="T:OpenProtocolInterpreter.Tightening.ITightening"/> implementers.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Time.ITime">
+            <summary>
+            Time message category. Every time mid must implement <see cref="T:OpenProtocolInterpreter.Time.ITime"/>.
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.Time.Mid0080">
             <summary>
-            MID: Read time upload request
-            Description: 
-                Read time request.
-            
-            Message sent by: Integrator
-            Answer: MID 0081 Read time upload reply
+            Read time upload request
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Time.Mid0081"/> Read time upload reply</para>
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.Time.Mid0081">
             <summary>
-            MID: Read time upload reply
-            Description: 
-                Time upload reply from the controller.
-            
-            Message sent by: Controller
-            Answer: None
+            Read time upload reply
+            <para>Time upload reply from the controller.</para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: None</para>
             </summary>
         </member>
         <member name="M:OpenProtocolInterpreter.Time.Mid0081.#ctor(System.DateTime)">
@@ -2631,12 +2809,10 @@
         </member>
         <member name="T:OpenProtocolInterpreter.Time.Mid0082">
             <summary>
-            MID: Set Time
-            Description: 
-                Set the time in the controller.
-            
-            Message sent by: Integrator
-            Answer: None
+            Set Time
+            <para>Set the time in the controller.</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: None</para>
             </summary>
         </member>
         <member name="M:OpenProtocolInterpreter.Time.Mid0082.#ctor(System.DateTime)">
@@ -2645,23 +2821,33 @@
             </summary>
             <param name="time"></param>
         </member>
+        <member name="T:OpenProtocolInterpreter.Time.TimeMessages">
+            <summary>
+            Template for <see cref="T:OpenProtocolInterpreter.Time.ITime"/> implementers.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Tool.ITool">
+            <summary>
+            Tool message category. Every tool mid must implement <see cref="T:OpenProtocolInterpreter.Tool.ITool"/>.
+            </summary>
+        </member>
         <member name="T:OpenProtocolInterpreter.Tool.Mid0040">
             <summary>
-            MID: Tool data upload request
-            Description: 
-                A request for some of the data stored in the tool. The result of this command is the transmission of the
-                tool data.
-            Message sent by: Integrator
-            Answer: MID 0041 Tool data upload reply
+            Tool data upload request
+            <para>
+                A request for some of the data stored in the tool. The result of this command 
+                is the transmission of the tool data.
+            </para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Tool.Mid0041"/> Tool data upload reply</para>
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.Tool.Mid0041">
             <summary>
-            MID: Tool data upload reply
-            Description: 
-                Upload of tool data from the controller.
-            Message sent by: Controller
-            Answer: None
+            Tool data upload reply
+            <para>Upload of tool data from the controller.</para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: None</para>
             </summary>
         </member>
         <member name="M:OpenProtocolInterpreter.Tool.Mid0041.#ctor(System.String,System.Int64,System.DateTime,System.String,System.Int32)">
@@ -2796,40 +2982,46 @@
         </member>
         <member name="T:OpenProtocolInterpreter.Tool.Mid0042">
             <summary>
-            MID: Disable tool
-            Description: 
-                Disable tool.
-            Message sent by: Integrator
-            Answer: MID 0005 Command accepted
+            Disable tool
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted</para>
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.Tool.Mid0043">
             <summary>
-            MID: Enable tool
-            Description: 
-                Enable tool.
-            Message sent by: Integrator
-            Answer: MID 0005 Command accepted
+            Enable tool
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted</para>
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.Tool.Mid0044">
             <summary>
-            MID: Disconnect tool request
-            Description: 
+            Disconnect tool request
+            <para>
                 This command is sent by the integrator in order to request the possibility to disconnect the tool from
                 the controller.The command is rejected if the tool is currently used.
+            </para>
+            <para>
                 When the command is accepted the operator can disconnect the tool and replace it (hot swap).
-            Message sent by: Integrator
-            Answer: MID 0005 Command accepted or MID 0004 Command error, Tool currently in use
+            </para>    
+            <para>Message sent by: Integrator</para>
+            <para>
+                Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or 
+                        <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Tool currently in use
+            </para>
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.Tool.Mid0045">
             <summary>
-            MID: Set calibration value request
-            Description: 
+            Set calibration value request
+            <para>
                 This message is sent by the integrator in order to set the calibration value of the tool.
-            Message sent by: Integrator
-            Answer: MID 0005 Command accepted or MID 0004 Command error, Calibration failed
+            </para>
+            <para>Message sent by: Integrator</para>
+            <para>
+                Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or 
+                        <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Calibration failed
+            </para>
             </summary>
         </member>
         <member name="M:OpenProtocolInterpreter.Tool.Mid0045.#ctor(OpenProtocolInterpreter.CalibrationUnit,System.Decimal)">
@@ -2841,14 +3033,16 @@
         </member>
         <member name="T:OpenProtocolInterpreter.Tool.Mid0046">
             <summary>
-            MID: Set primary tool request
-            Description: 
-                This message is sent by the integrator in order to set tool data.
-                Warning 1: this MID requires programming control (see 4.4 Programming control).
-                Warning 2: the new configuration will not be active until the next controller reboot!
-            Message sent by: Integrator
-            Answer: MID 0005 Command accepted or MID 0004 Command error, 
-                    Programming control not granted or Invalid data (value not supported by controller)
+            Set primary tool request
+            <para>This message is sent by the integrator in order to set tool data.</para>
+            <para>Warning 1: this MID requires programming control (see 4.4 Programming control).</para>
+            <para>Warning 2: the new configuration will not be active until the next controller reboot!</para>
+            <para>Message sent by: Integrator</para>
+            <para>
+                Answer: MID 0005 Command accepted or 
+                        MID 0004 Command error, Programming control not granted or 
+                                                Invalid data (value not supported by controller)
+            </para>
             </summary>
         </member>
         <member name="M:OpenProtocolInterpreter.Tool.Mid0046.#ctor(OpenProtocolInterpreter.PrimaryTool)">
@@ -2859,25 +3053,26 @@
         </member>
         <member name="T:OpenProtocolInterpreter.Tool.Mid0047">
             <summary>
-            MID: Tool Pairing handling
-            Description: 
+            Tool Pairing handling
+            <para>
                 This message is sent by the integrator in order to Pair tools, to abort ongoing pairing, 
                 to Abort/Disconnect established connection and request for pairing status of the IRC-B or IRC-W tool types.
                 At pairing handling type, Start Pairing and Pairing Abort or Disconnect the controller must take program control 
                 and release when finished. MID 0048 will be uploaded during the pairing process at each change of the pairing stage.
-            Message sent by: Integrator
-            Answer: MID 0005 Command accepted at pairing status ACCEPTED
-                    MID 0004 Command error. See error codes. 
-                    MID 0048 Pairing status during the pairing process
+            </para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: </para>
+            <para><see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted at pairing status ACCEPTED</para>
+            <para><see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error. See error codes. </para>
+            <para><see cref="T:OpenProtocolInterpreter.Tool.Mid0048"/> Pairing status during the pairing process</para>
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.Tool.Mid0048">
             <summary>
-            MID: Tool Pairing status
-            Description: 
-                This message is sent by the controller in order to report the current status of the tool pairing.
-            Message sent by: Controller
-            Answer: N/A
+            Tool Pairing status
+            <para>This message is sent by the controller in order to report the current status of the tool pairing.</para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: None</para>
             </summary>
         </member>
         <member name="M:OpenProtocolInterpreter.Tool.Mid0048.#ctor(OpenProtocolInterpreter.PairingStatus,System.DateTime)">
@@ -2889,7 +3084,7 @@
         </member>
         <member name="T:OpenProtocolInterpreter.Tool.Mid0700">
             <summary>
-            MID: Tightening data download status
+            Tightening data download status
             Description: 
                 Used by controller to upload the status of tightening data download to an radio connected tool.
                 Must be subscribed for by generic MID 0008 and unsubscribed for with generic MID 0009.
@@ -2898,52 +3093,87 @@
             Answer: MID 0005 Command accepted
             </summary>
         </member>
+        <member name="T:OpenProtocolInterpreter.Tool.ToolMessages">
+            <summary>
+            Template for <see cref="T:OpenProtocolInterpreter.Tool.ITool"/> implementers.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.UserInterface.IUserInterface">
+            <summary>
+            User interface message category. Every user interface must implement <see cref="T:OpenProtocolInterpreter.UserInterface.IUserInterface"/>.
+            </summary>
+        </member>
         <member name="T:OpenProtocolInterpreter.UserInterface.Mid0110">
             <summary>
-            MID: Display user text on compact
-            Description: 
+            Display user text on compact
+            <para>
                 By sending this message the integrator can display a text on the compact display. The text must be maximum 4 bytes long.
                 The characters that can be displayed are limited due to the hardware of the compact display.
+            </para>
+            <para>
                 Each character must fit into seven segments. This means for example that it is not possible to display an M on the compact display.
                 The text will be displayed until next tightening, new parameter set or Job selection, or alarm code.
-            Message sent by: Integrator
-            Answer: MID 0005 Command accepted or 
-                    MID 0004 Command error, User text could not be displayed
+            </para>
+            <para>Message sent by: Integrator</para>
+            <para>
+                Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or 
+                        <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, User text could not be displayed
+            </para>
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.UserInterface.Mid0111">
             <summary>
-            MID: Display user text on graph
-            Description: 
+            Display user text on graph
+            <para>
                 By sending this message the integrator can display a text on the graphic display. 
                 The user can furthermore set the time for the text to be displayed and if the text 
                 should be acknowledged by the operator or not.
+            </para>
+            <para>
                 The text is divided into four lines with 25 ASCII characters each.If a line is shorter 
                 than 25 characters it must be right padded with blanks(SPC 0x20).
-                The first line is the text header and is in upper character.
-            Message sent by: Integrator
-            Answer: MID 0005 Command accepted or 
-                    MID 0004 Command error, User text could not be displayed
+            </para>
+            <para>The first line is the text header and is in upper character.</para>
+            <para>Message sent by: Integrator</para>
+            <para>
+                Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or 
+                        <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, User text could not be displayed
+            </para>
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.UserInterface.Mid0113">
             <summary>
-            MID: Flash green light on tool
-            Description: 
-                By sending this message the integrator can make the green light on the tool flash. The light on the tool
-                will flash until the operator pushes the tool trigger.
-            Message sent by: Integrator
-            Answer: MID 0005 Command accepted
+            Flash green light on tool
+            <para>
+                By sending this message the integrator can make the green light on the tool flash. 
+                The light on the tool will flash until the operator pushes the tool trigger.
+            </para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.UserInterface.UserInterfaceMessages">
+            <summary>
+            Template for <see cref="T:OpenProtocolInterpreter.UserInterface.IUserInterface"/> implementers.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Vin.IVin">
+            <summary>
+            Vin message category. Every vin mid must implement <see cref="T:OpenProtocolInterpreter.Vin.IVin"/>.
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.Vin.Mid0050">
             <summary>
-            MID: Vehicle ID Number download request
-            Description: 
-                This message is replaced by MID 0150. MID 0050 is still supported.
-                Used by the integrator to send a VIN number to the controller.
-            Message sent by: Integrator
-            Answer: MID 0005 Command accepted or MID 0004 Command error, VIN input source not granted
+            Vehicle ID Number download request
+            <para>
+                This message is replaced by <see cref="T:OpenProtocolInterpreter.MultipleIdentifiers.Mid0150"/>. <see cref="T:OpenProtocolInterpreter.Vin.Mid0050"/> is still supported.
+            </para>
+            <para>Used by the integrator to send a VIN number to the controller.</para>
+            <para>Message sent by: Integrator</para>
+            <para>
+                Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or 
+                        <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, VIN input source not granted
+            </para>
             </summary>
         </member>
         <member name="M:OpenProtocolInterpreter.Vin.Mid0050.#ctor(System.String)">
@@ -2959,37 +3189,48 @@
         </member>
         <member name="T:OpenProtocolInterpreter.Vin.Mid0051">
             <summary>
-            MID: Vehicle ID Number subscribe
-            Description: 
-                This message is used by the integrator to set a subscription for the current identifiers of the tightening
-                result.
-                The tightening result can be stamped with up to four identifiers:
-                    - VIN number
-                    - Identifier result part 2
-                    - Identifier result part 3
-                    - Identifier result part 4
-                The identifiers are received by the controller from several input sources, for example serial, Ethernet,
-                or field bus.
-                In revision 1 of the MID 0052 Vehicle ID Number, only the VIN number is transmitted.In revision 2, all
-                four possible identifiers are transmitted.
-            Message sent by: Integrator
-            Answer: MID 0005 Command accepted or MID 0004 Command error, VIN subscription already exists
+            Vehicle ID Number subscribe
+            <para>
+                This message is used by the integrator to set a subscription for the current 
+                identifiers of the tightening result.
+            </para>    
+            <para>The tightening result can be stamped with up to four identifiers:</para>
+            <list type="bullet">
+                <item>VIN number (identifier result part 1)</item>
+                <item>Identifier result part 2</item>
+                <item>Identifier result part 3</item>
+                <item>Identifier result part 4</item>
+            </list>
+            <para>
+                The identifiers are received by the controller from several input sources, 
+                for example serial, Ethernet, or field bus.
+            </para>
+            <para>In revision 1 of the <see cref="T:OpenProtocolInterpreter.Vin.Mid0052"/> Vehicle ID Number, only the VIN number is transmitted.</para>
+            <para>In revision 2, all four possible identifiers are transmitted.</para>
+            <para>Message sent by: Integrator</para>
+            <para>
+                Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or 
+                        <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, VIN subscription already exists
+            </para>
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.Vin.Mid0052">
             <summary>
-            MID: Vehicle ID Number
-            Description: 
-                Transmission of the current identifiers of the tightening by the controller to the subscriber.
-                The tightening result can be stamped with up to four identifiers:
-                    - VIN number(identifier result part 1)
-                    - Identifier result part 2
-                    - Identifier result part 3
-                    - Identifier result part 4
+            Vehicle ID Number
+            <para>Transmission of the current identifiers of the tightening by the controller to the subscriber.</para>
+            <para>The tightening result can be stamped with up to four identifiers:</para>
+            <list type="bullet">
+                <item>VIN number (identifier result part 1)</item>
+                <item>Identifier result part 2</item>
+                <item>Identifier result part 3</item>
+                <item>Identifier result part 4</item>
+            </list>
+            <para>
                 The identifiers are received by the controller from several input sources,
                 for example serial, Ethernet, or field bus.
-            Message sent by: Controller
-            Answer: MID 0053 Vehicle ID Number acknowledge
+            </para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Vin.Mid0053"/> Vehicle ID Number acknowledge</para>
             </summary>
         </member>
         <member name="M:OpenProtocolInterpreter.Vin.Mid0052.#ctor(System.String,System.Int32)">
@@ -3026,20 +3267,25 @@
         </member>
         <member name="T:OpenProtocolInterpreter.Vin.Mid0053">
             <summary>
-            MID: Vehicle ID Number acknowledge
-            Description: 
-                Vehicle ID Number acknowledge.
-            Message sent by: Integrator
-            Answer: None
+            Vehicle ID Number acknowledge
+            <para>Message sent by: Integrator</para>
+            <para>Answer: None</para>
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.Vin.Mid0054">
             <summary>
-            MID: Vehicle ID Number unsubscribe
-            Description: 
-                Reset the subscription for the current tightening identifiers.
-            Message sent by: Integrator
-            Answer: MID 0005 Command accepted or MID 0004 Command error, VIN subscription does not exist
+            Vehicle ID Number unsubscribe
+            <para>Reset the subscription for the current tightening identifiers.</para>
+            <para>Message sent by: Integrator</para>
+            <para>
+                Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or 
+                        <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, VIN subscription does not exist
+            </para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Vin.VinMessages">
+            <summary>
+            Template for <see cref="T:OpenProtocolInterpreter.Vin.IVin"/> implementers.
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.Messages.IMessagesTemplate">
