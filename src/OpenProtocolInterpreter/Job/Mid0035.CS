@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace OpenProtocolInterpreter.Job
 {
@@ -72,6 +73,36 @@ namespace OpenProtocolInterpreter.Job
         {
             get => (JobTighteningStatus)GetField(4, (int)DataFields.JOB_TIGHTENING_STATUS).GetValue(_intConverter.Convert);
             set => GetField(4, (int)DataFields.JOB_TIGHTENING_STATUS).SetValue(_intConverter.Convert, (int)value);
+        }
+        
+        public int JobSequenceNumber
+        {
+            get => GetField(5, (int)DataFields.JOB_SEQUENCE_NUMBER).GetValue(_intConverter.Convert);
+            set => GetField(5, (int)DataFields.JOB_SEQUENCE_NUMBER).SetValue(_intConverter.Convert, (int)value);
+        }
+        
+        public string VinNumber
+        {
+            get => GetField(5, (int) DataFields.VIN_NUMBER).Value;
+            set => GetField(5, (int)DataFields.VIN_NUMBER).SetValue(value);
+        }
+        
+        public string IdentifierResultPart2
+        {
+            get => GetField(5, (int) DataFields.IDENTIFIER_RESULT_PART2).Value;
+            set => GetField(5, (int)DataFields.IDENTIFIER_RESULT_PART2).SetValue(value);
+        }
+        
+        public string IdentifierResultPart3
+        {
+            get => GetField(5, (int) DataFields.IDENTIFIER_RESULT_PART3).Value;
+            set => GetField(5, (int)DataFields.IDENTIFIER_RESULT_PART3).SetValue(value);
+        }
+        
+        public string IdentifierResultPart4
+        {
+            get => GetField(5, (int) DataFields.IDENTIFIER_RESULT_PART4).Value;
+            set => GetField(5, (int)DataFields.IDENTIFIER_RESULT_PART4).SetValue(value);
         }
 
         public Mid0035() : this(LAST_REVISION)
@@ -203,23 +234,73 @@ namespace OpenProtocolInterpreter.Job
             errors = failed;
             return errors.Any();
         }
+        
+        public override byte[] PackBytes() => Encoding.ASCII.GetBytes(Pack());
+        
+        public override string Pack()
+        {
+            if (!RevisionsByFields.Any())
+                return BuildHeader();
+
+            string package = BuildHeader();
+            int prefixIndex = 1;
+            
+            if(HeaderData.Revision <= 1)  package += Pack(RevisionsByFields[1], ref prefixIndex);
+            else
+            {
+                for (int i = 2; i <= HeaderData.Revision; i++)
+                    package += Pack(RevisionsByFields[i], ref prefixIndex);
+            }
+
+            return package;
+        }
+        
+        protected override string BuildHeader()
+        {
+            if (RevisionsByFields.Any())
+            {
+                HeaderData.Length = 20;
+                HeaderData.Revision = HeaderData.Revision > 0 ? HeaderData.Revision : 1;
+                if (HeaderData.Revision == 1 )
+                {
+                    foreach (var dataField in RevisionsByFields[HeaderData.Revision])
+                        HeaderData.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
+                }
+                else
+                {
+                    int processUntil = HeaderData.Revision;
+
+                    for (int i = 2; i <= processUntil; i++)
+                        foreach (var dataField in RevisionsByFields[i])
+                            HeaderData.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
+                }
+            }
+            return HeaderData.ToString();
+        }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()
             {
-                {
-                    1, new List<DataField>()
-                            {
-                                new DataField((int)DataFields.JOB_ID, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.JOB_STATUS, 24, 1),
-                                new DataField((int)DataFields.JOB_BATCH_MODE, 27, 1),
-                                new DataField((int)DataFields.JOB_BATCH_SIZE, 30, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.JOB_BATCH_COUNTER, 36, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.TIMESTAMP, 42, 19)
-                            }
+                { 1, new List<DataField>()
+                    {
+                        new DataField((int)DataFields.JOB_ID, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                        new DataField((int)DataFields.JOB_STATUS, 24, 1),
+                        new DataField((int)DataFields.JOB_BATCH_MODE, 27, 1),
+                        new DataField((int)DataFields.JOB_BATCH_SIZE, 30, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                        new DataField((int)DataFields.JOB_BATCH_COUNTER, 36, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                        new DataField((int)DataFields.TIMESTAMP, 42, 19)
+                    }
                 },
-                { 2, new List<DataField>() },
+                { 2, new List<DataField>()
+                {
+                    new DataField((int)DataFields.JOB_ID, 20, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                    new DataField((int)DataFields.JOB_STATUS, 26, 1),
+                    new DataField((int)DataFields.JOB_BATCH_MODE, 29, 1),
+                    new DataField((int)DataFields.JOB_BATCH_SIZE, 32, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                    new DataField((int)DataFields.JOB_BATCH_COUNTER, 38, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                    new DataField((int)DataFields.TIMESTAMP, 44, 19)
+                } },
                 {
                     3, new  List<DataField>()
                             {
@@ -233,6 +314,16 @@ namespace OpenProtocolInterpreter.Job
                             {
                                 new DataField((int)DataFields.JOB_TIGHTENING_STATUS, 79, 2, ' ', DataField.PaddingOrientations.LEFT_PADDED)
                             }
+                },
+                {
+                    5, new  List<DataField>()
+                    {
+                        new DataField((int)DataFields.JOB_SEQUENCE_NUMBER, 83, 5, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                        new DataField((int)DataFields.VIN_NUMBER, 90 , 25, ' ', DataField.PaddingOrientations.LEFT_PADDED),
+                        new DataField((int)DataFields.IDENTIFIER_RESULT_PART2, 117, 25, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                        new DataField((int)DataFields.IDENTIFIER_RESULT_PART3, 144, 25, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                        new DataField((int)DataFields.IDENTIFIER_RESULT_PART4, 171, 25, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                    }
                 }
             };
         }
@@ -273,6 +364,12 @@ namespace OpenProtocolInterpreter.Job
         JOB_TOTAL_NUMBER_OF_STEPS,
         JOB_STEP_TYPE,
         //rev 4
-        JOB_TIGHTENING_STATUS
+        JOB_TIGHTENING_STATUS,
+        //rev5
+        JOB_SEQUENCE_NUMBER,
+        VIN_NUMBER,
+        IDENTIFIER_RESULT_PART2,
+        IDENTIFIER_RESULT_PART3,
+        IDENTIFIER_RESULT_PART4
     }
 }
