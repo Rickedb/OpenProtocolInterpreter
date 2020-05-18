@@ -1,5 +1,8 @@
 ﻿namespace OpenProtocolInterpreter.Tightening
 {
+    /// <summary>
+    /// Represents a Strategy Options entity
+    /// </summary>
     public class StrategyOptions
     {
         //Byte 0

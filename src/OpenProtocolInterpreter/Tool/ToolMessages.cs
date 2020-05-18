@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Tool
 {
+    /// <summary>
+    /// Template for <see cref="ITool"/> implementers.
+    /// </summary>
     internal class ToolMessages : MessagesTemplate
     {
         public ToolMessages() : base()

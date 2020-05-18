@@ -5,12 +5,10 @@ using System.Collections.Generic;
 namespace OpenProtocolInterpreter.Time
 {
     /// <summary>
-    /// MID: Read time upload reply
-    /// Description: 
-    ///     Time upload reply from the controller.
-    /// 
-    /// Message sent by: Controller
-    /// Answer: None
+    /// Read time upload reply
+    /// <para>Time upload reply from the controller.</para>
+    /// <para>Message sent by: Controller</para>
+    /// <para>Answer: None</para>
     /// </summary>
     public class Mid0081 : Mid, ITime, IController
     {

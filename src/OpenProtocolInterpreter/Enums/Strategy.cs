@@ -1,5 +1,8 @@
 ﻿namespace OpenProtocolInterpreter
 {
+    /// <summary>
+    /// Strategies. Used in <see cref="Tightening.Mid0061"/> and <see cref="Tightening.Mid0065"/>.
+    /// </summary>
     public enum Strategy
     {
         TORQUE_CONTROL = 1,

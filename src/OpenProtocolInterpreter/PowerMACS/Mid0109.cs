@@ -1,12 +1,13 @@
 ﻿namespace OpenProtocolInterpreter.PowerMACS
 {
     /// <summary>
-    /// MID: Last Power MACS tightening result data unsubscribe
-    /// Description: 
-    ///    Reset the last Power MACS tightening result subscription for the rundowns result.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted or 
-    ///         MID 0004 Command error, Subscription does not exist
+    /// Last Power MACS tightening result data unsubscribe
+    /// <para>Reset the last Power MACS tightening result subscription for the rundowns result.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>
+    ///     Answer: <see cref="Communication.Mid0005"/> Command accepted or 
+    ///         <see cref="Communication.Mid0004"/> Command error, Subscription does not exist
+    /// </para>
     /// </summary>
     public class Mid0109 : Mid, IPowerMACS, IIntegrator
     {

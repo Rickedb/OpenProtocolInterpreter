@@ -1,16 +1,18 @@
 ﻿namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
 {
     /// <summary>
-    /// MID: Open Protocol commands disabled subscribe
-    /// Description: 
+    /// Open Protocol commands disabled subscribe
+    /// <para>
     ///     Set the subscription for the Open Protocol commands disable digital input. This command will result in
     ///     transmission of the Open Protocol commands disable input status.When a subscription is set the Open
-    ///     Protocol commands disable digital input status is once uploaded(MID 0421) automatically.Thereafter,
+    ///     Protocol commands disable digital input status is once uploaded(<see cref="Mid0421"/>) automatically.Thereafter,
     ///     the status is uploaded each time the digital input status changes(push function).
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted or
-    ///         MID 0004 Command error, Open Protocol commands disabled
+    /// </para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted or
+    ///         <see cref="Communication.Mid0004"/> Command error, Open Protocol commands disabled
     ///         subscription already exists
+    /// </para>
     /// </summary>
     public class Mid0420 : Mid, IOpenProtocolCommandsDisabled, IIntegrator
     {

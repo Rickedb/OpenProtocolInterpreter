@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.MultipleIdentifiers
 {
+    /// <summary>
+    /// Template for <see cref="IMultipleIdentifier"/> implementers.
+    /// </summary>
     internal class MultipleIdentifierMessages : MessagesTemplate
     {
         public MultipleIdentifierMessages() : base()

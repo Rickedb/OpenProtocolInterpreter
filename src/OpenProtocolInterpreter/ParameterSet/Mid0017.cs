@@ -1,11 +1,13 @@
 ﻿namespace OpenProtocolInterpreter.ParameterSet
 {
     /// <summary>
-    /// MID: Parameter set selected unsubscribe
-    /// Description: 
-    ///     Reset the subscription for the parameter set selection.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted or MID 0004 Command error, Parameter set subscription does not exist
+    /// Parameter set selected unsubscribe
+    /// <para>Reset the subscription for the parameter set selection.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>
+    ///     Answer: <see cref="Communication.Mid0005"/> Command accepted or 
+    ///     <see cref="Communication.Mid0004"/> Command error, Parameter set subscription does not exist
+    /// </para>
     /// </summary>
     public class Mid0017 : Mid, IParameterSet, IIntegrator
     {

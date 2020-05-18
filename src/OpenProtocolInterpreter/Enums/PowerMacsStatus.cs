@@ -1,5 +1,8 @@
 ﻿namespace OpenProtocolInterpreter
 {
+    /// <summary>
+    /// Power Macs status. Used in <see cref="PowerMACS.Mid0106"/>.
+    /// </summary>
     public enum PowerMacsStatus
     {
         OK = 0,

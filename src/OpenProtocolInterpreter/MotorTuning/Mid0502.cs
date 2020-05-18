@@ -1,11 +1,10 @@
 ﻿namespace OpenProtocolInterpreter.MotorTuning
 {
     /// <summary>
-    /// MID: Motor tuning result data acknowledge
-    /// Description: 
-    ///     Acknowledgement of motor tuning result data.
-    /// Message sent by: Integrator
-    /// Answer: None
+    /// Motor tuning result data acknowledge
+    /// <para>Acknowledgement of motor tuning result data.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: None</para>
     /// </summary>
     public class Mid0502 : Mid, IMotorTuning, IIntegrator
     {

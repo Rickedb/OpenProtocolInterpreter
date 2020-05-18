@@ -4,16 +4,18 @@ using System.Collections.Generic;
 namespace OpenProtocolInterpreter.IOInterface
 {
     /// <summary>
-    /// MID: Reset digital input function
-    /// Description: 
+    /// Reset digital input function
+    /// <para>
     ///     Reset the digital input function with the digital input number. 
     ///     The digital input function numbers are defined in Table 80.
+    /// </para>    
+    /// <para>
     ///     This MID will only affect the digital input functions of tracking type.
     ///     The digital input functions with the type flank cannot be reset (for example reset the reset 
     ///     batch digital input function will have no effect).
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted or
-    ///         MID 0004 Command error, Invalid data
+    /// </para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted or <see cref="Communication.Mid0004"/> Command error, Invalid data</para>
     /// </summary>
     public class Mid0225 : Mid, IIOInterface, IIntegrator
     {

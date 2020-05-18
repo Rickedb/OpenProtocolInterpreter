@@ -1,12 +1,13 @@
 ﻿namespace OpenProtocolInterpreter.Tool
 {
     /// <summary>
-    /// MID: Tool data upload request
-    /// Description: 
-    ///     A request for some of the data stored in the tool. The result of this command is the transmission of the
-    ///     tool data.
-    /// Message sent by: Integrator
-    /// Answer: MID 0041 Tool data upload reply
+    /// Tool data upload request
+    /// <para>
+    ///     A request for some of the data stored in the tool. The result of this command 
+    ///     is the transmission of the tool data.
+    /// </para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: <see cref="Mid0041"/> Tool data upload reply</para>
     /// </summary>
     public class Mid0040 : Mid, ITool, IIntegrator
     {

@@ -6,11 +6,10 @@ using System.Linq;
 namespace OpenProtocolInterpreter.Job
 {
     /// <summary>
-    /// MID: Job data upload request
-    /// Description:
-    ///     Request to upload the data for a specific Job from the controller.
-    /// Message sent by: Integrator
-    /// Answer: MID 0033 Job data upload or MID 0004 Command error, Job ID not present
+    /// Job data upload request
+    /// <para>Request to upload the data for a specific Job from the controller.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: <see cref="Mid0033"/> Job data upload or <see cref="Communication.Mid0004"/> Command error, Job ID not present</para>
     /// </summary>
     public class Mid0032 : Mid, IJob, IIntegrator
     {

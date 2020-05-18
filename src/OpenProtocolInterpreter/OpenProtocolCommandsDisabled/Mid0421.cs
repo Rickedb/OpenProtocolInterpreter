@@ -1,18 +1,18 @@
 ﻿using OpenProtocolInterpreter.Converters;
-using System;
 using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
 {
     /// <summary>
-    /// MID: Open Protocol commands disabled
-    /// Description: 
+    /// Open Protocol commands disabled
+    /// <para>
     ///     Upload the status of the Open Protocol commands disable digital input. 
     ///     The data upload consists of one byte delivering the digital input status. 
     ///     The status is uploaded each time the “Open Protocol commands disable” digital 
     ///     input changes (push function).
-    /// Message sent by: Controller
-    /// Answer: MID 0422 Open Protocol commands disabled acknowledge
+    /// </para>    
+    /// <para>Message sent by: Controller</para>
+    /// <para>Answer: <see cref="Mid0422"/> Open Protocol commands disabled acknowledge</para>
     /// </summary>
     public class Mid0421 : Mid, IOpenProtocolCommandsDisabled, IController
     {

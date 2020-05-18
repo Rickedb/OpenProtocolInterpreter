@@ -5,11 +5,10 @@ using System.Linq;
 namespace OpenProtocolInterpreter.Job
 {
     /// <summary>
-    /// MID: Job data upload reply
-    /// Description:
-    ///     This message is sent as a reply to the MID 0032 Job data request.
-    /// Message sent by: Controller
-    /// Answer: None
+    /// Job data upload reply
+    /// <para>This message is sent as a reply to the <see cref="Mid0032"/> Job data request.</para>
+    /// <para>Message sent by: Controller</para>
+    /// <para>Answer: None</para>
     /// </summary>
     public class Mid0033 : Mid, IJob, IController
     {

@@ -1,10 +1,10 @@
 ﻿namespace OpenProtocolInterpreter.Job.Advanced
 {
     /// <summary>
-    /// MID: Job batch increment
-    /// Description: Increment the Job batch if there is a current running Job.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted
+    /// Job batch increment
+    /// <para>Increment the Job batch if there is a current running Job.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted</para>
     /// </summary>
     public class Mid0128 : Mid, IAdvancedJob, IIntegrator
     {

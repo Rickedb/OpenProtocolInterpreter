@@ -3,10 +3,12 @@
     /// <summary>
     /// The system type of the controller.
     /// <para>Possible values are:</para>
-    /// <para>000 = System type not set </para>
-    /// <para>001 = Power Focus 4000 </para>
-    /// <para>002 = Power MACS 4000 </para>
-    /// <para>003 = Power Focus 6000</para>
+    /// <list type="bullet">
+    ///     <item>000 = System type not set </item>
+    ///     <item>001 = Power Focus 4000 </item>
+    ///     <item>002 = Power MACS 4000 </item>
+    ///     <item>003 = Power Focus 6000</item>
+    /// </list>
     /// </summary>
     public enum SystemType
     {

@@ -6,12 +6,10 @@ using System.Linq;
 namespace OpenProtocolInterpreter.Job
 {
     /// <summary>
-    /// MID: Select Job
-    /// Description: 
-    ///     Message to select Job. If the requested ID is not present in the controller, then the command will 
-    ///     not be performed.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted or MID 0004 Command error, Job can not be set, or Invalid data
+    /// Select Job
+    /// <para>Message to select Job. If the requested ID is not present in the controller, then the command will not be performed.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted or <see cref="Communication.Mid0004"/> Command error, Job can not be set, or Invalid data</para>
     /// </summary>
     public class Mid0038 : Mid, IJob, IIntegrator
     {

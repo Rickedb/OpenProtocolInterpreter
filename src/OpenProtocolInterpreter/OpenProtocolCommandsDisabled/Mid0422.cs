@@ -1,11 +1,10 @@
 ﻿namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
 {
     /// <summary>
-    /// MID: Open Protocol commands disabled acknowledge
-    /// Description: 
-    ///     Acknowledgement of Open Protocol commands disabled upload.
-    /// Message sent by: Integrator
-    /// Answer: None
+    /// Open Protocol commands disabled acknowledge
+    /// <para>Acknowledgement of Open Protocol commands disabled upload.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: None</para>
     /// </summary>
     public class Mid0422 : Mid, IOpenProtocolCommandsDisabled, IIntegrator
     {

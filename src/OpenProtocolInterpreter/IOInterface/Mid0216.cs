@@ -4,17 +4,17 @@ using System.Collections.Generic;
 namespace OpenProtocolInterpreter.IOInterface
 {
     /// <summary>
-    /// MID: Relay function subscribe
-    /// Description: 
+    /// Relay function subscribe
+    /// <para>
     ///     Subscribe for one single relay function. The data field consists of three ASCII digits, the relay number,
     ///     which corresponds to the specific relay function.The relay numbers can be found in Table 101 above.
-    ///     At a subscription of a tracking event, MID 0217 Relay function immediately returns the current relay
+    ///     At a subscription of a tracking event, <see cref="Mid0217"/> Relay function immediately returns the current relay
     ///     status to the subscriber.
-    ///     MID 0216 can only subscribe for one single relay function at a time, but still, Open Protocol supports
+    ///     <see cref="Mid0216"/> can only subscribe for one single relay function at a time, but still, Open Protocol supports
     ///     keeping several relay function subscriptions simultaneously.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted or
-    ///         MID 0004 Command error, The relay function subscription already exists
+    /// </para>    
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted or <see cref="Communication.Mid0004"/> Command error, The relay function subscription already exists</para>
     /// </summary>
     public class Mid0216 : Mid, IIOInterface, IIntegrator
     {

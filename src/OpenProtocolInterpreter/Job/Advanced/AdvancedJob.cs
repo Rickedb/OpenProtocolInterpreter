@@ -1,5 +1,8 @@
 ﻿namespace OpenProtocolInterpreter.Job.Advanced
 {
+    /// <summary>
+    /// Represents a advanced job entity
+    /// </summary>
     public class AdvancedJob
     {
         public int ChannelId { get; set; }

@@ -3,11 +3,10 @@
 namespace OpenProtocolInterpreter.PLCUserData
 {
     /// <summary>
-    /// MID: User data download
-    /// Description: 
-    ///     Used by the integrator to send user data input to the PLC.
-    /// Message sent by: Controller
-    /// Answer: MID 0243 User data acknowledge
+    /// User data download
+    /// <para>Used by the integrator to send user data input to the PLC.</para>
+    /// <para>Message sent by: Controller</para>
+    /// <para>Answer: <see cref="Mid0243"/> User data acknowledge</para>
     /// </summary>
     public class Mid0242 : Mid, IPLCUserData, IController
     {

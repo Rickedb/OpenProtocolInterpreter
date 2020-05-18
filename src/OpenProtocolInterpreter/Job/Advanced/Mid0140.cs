@@ -5,18 +5,17 @@ using System.Linq;
 namespace OpenProtocolInterpreter.Job.Advanced
 {
     /// <summary>
-    /// MID: Execute dynamic Job request
-    /// Description: The integrator requests a dynamical Job to be executed i.e. the Job sent from the integrator is
-    /// immediately executed(if possible) by the controller but not saved in the memory.A dynamical Job
-    /// lifetime is the time for the Job to be executed.If the controller is powered off before the completion of
-    /// the Job, the dynamical Job is lost.
-    /// 
-    /// Do note the limitation when sending this message on a serial connection due to the size of the read buffer 
-    /// (256 bytes) in the controller. 
-    /// In such case the number of programs in the Job list is limited.
-    /// The following revisions are available for this MID.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted
+    /// Execute dynamic Job request
+    /// <para>
+    ///     The integrator requests a dynamical Job to be executed i.e. the Job sent from the integrator is
+    ///     immediately executed(if possible) by the controller but not saved in the memory.A dynamical Job
+    ///     lifetime is the time for the Job to be executed.If the controller is powered off before the completion of
+    ///     the Job, the dynamical Job is lost.
+    /// </para>
+    /// <para>Do note the limitation when sending this message on a serial connection due to the size of the read buffer (256 bytes) in the controller.</para>
+    /// <para>In such case the number of programs in the Job list is limited.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted</para>
     /// </summary>
     public class Mid0140 : Mid, IAdvancedJob, IIntegrator
     {

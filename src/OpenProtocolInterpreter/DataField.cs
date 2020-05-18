@@ -3,6 +3,10 @@ using System.Linq;
 
 namespace OpenProtocolInterpreter
 {
+    /// <summary>
+    /// Represents a single and raw Data Field in <see cref="Mid"/> before being abstracted 
+    /// to a typed field inside a mid entity
+    /// </summary>
     public class DataField
     {
         private readonly char _paddingChar;
@@ -47,7 +51,7 @@ namespace OpenProtocolInterpreter
 
         public virtual T GetValue<T>(Func<byte[], T> converter)
         {
-            if (!RawValue.Any())
+            if (RawValue == default || !RawValue.Any())
                 CachedValue = default(T);
             else if (IsValueNotCached<T>())
                 CachedValue = converter(RawValue);
@@ -66,7 +70,7 @@ namespace OpenProtocolInterpreter
         {
             CachedValue = null;
             RawValue = converter(_paddingChar, Size, _paddingOrientation, value);
-            Size = Value.Length;
+            Size = RawValue.Length;
         }
 
         public virtual void SetValue(string value)

@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.ApplicationController
 {
+    /// <summary>
+    /// Template for <see cref="IApplicationController"/> implementers.
+    /// </summary>
     internal class ApplicationControllerMessages : MessagesTemplate
     {
         public ApplicationControllerMessages() : base()

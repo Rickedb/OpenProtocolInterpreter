@@ -1,11 +1,10 @@
 ﻿namespace OpenProtocolInterpreter.Alarm
 {
     /// <summary>
-    /// MID: Alarm acknowledged on controller acknowledge
-    /// Description: 
-    ///      Acknowledgement of MID 0074 Alarm acknowledged on controller.
-    /// Message sent by: Integrator
-    /// Answer : None
+    /// Alarm acknowledged on controller acknowledge
+    /// <para>Acknowledgement of MID 0074 Alarm acknowledged on controller.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer : None</para>
     /// </summary>
     public class Mid0075 : Mid, IAlarm, IIntegrator
     {

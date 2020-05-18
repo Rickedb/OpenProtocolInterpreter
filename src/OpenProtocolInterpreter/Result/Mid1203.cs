@@ -1,12 +1,9 @@
 ﻿namespace OpenProtocolInterpreter.Result
 {
     /// <summary>
-    /// MID: Operation result data acknowledge
-    /// Description: 
-    ///     Only Header is sent with no data fields.
-    /// 
-    /// Message sent by: Integrator
-    /// Answer: None
+    /// Operation result data acknowledge
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: None</para>
     /// </summary>
     public class Mid1203 : Mid, IResult, IIntegrator
     {

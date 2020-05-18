@@ -4,17 +4,22 @@ using System.Collections.Generic;
 namespace OpenProtocolInterpreter.UserInterface
 {
     /// <summary>
-    /// MID: Display user text on graph
-    /// Description: 
+    /// Display user text on graph
+    /// <para>
     ///     By sending this message the integrator can display a text on the graphic display. 
     ///     The user can furthermore set the time for the text to be displayed and if the text 
     ///     should be acknowledged by the operator or not.
+    /// </para>
+    /// <para>
     ///     The text is divided into four lines with 25 ASCII characters each.If a line is shorter 
     ///     than 25 characters it must be right padded with blanks(SPC 0x20).
-    ///     The first line is the text header and is in upper character.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted or 
-    ///         MID 0004 Command error, User text could not be displayed
+    /// </para>
+    /// <para>The first line is the text header and is in upper character.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>
+    ///     Answer: <see cref="Communication.Mid0005"/> Command accepted or 
+    ///             <see cref="Communication.Mid0004"/> Command error, User text could not be displayed
+    /// </para>
     /// </summary>
     public class Mid0111 : Mid, IUserInterface, IIntegrator
     {

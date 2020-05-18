@@ -1,10 +1,10 @@
 ﻿namespace OpenProtocolInterpreter.Job.Advanced
 {
     /// <summary>
-    /// MID: Set Job line control start
-    /// Description: The integrator can set the line control start in the controller with this message.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted
+    /// Set Job line control start
+    /// <para>The integrator can set the line control start in the controller with this message.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted</para>
     /// </summary>
     public class Mid0131 : Mid, IAdvancedJob, IIntegrator
     {

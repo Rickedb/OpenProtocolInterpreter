@@ -1,5 +1,8 @@
 ﻿namespace OpenProtocolInterpreter.Tightening
 {
+    /// <summary>
+    /// Represents a Tightening Error Status entity
+    /// </summary>
     public class TighteningErrorStatus
     {
         //Byte 0

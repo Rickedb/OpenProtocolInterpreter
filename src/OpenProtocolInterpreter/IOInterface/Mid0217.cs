@@ -4,12 +4,13 @@ using System.Collections.Generic;
 namespace OpenProtocolInterpreter.IOInterface
 {
     /// <summary>
-    /// MID: Relay function
-    /// Description: 
+    /// Relay function
+    /// <para>
     ///     Upload of one specific relay function status, see Table 101.
-    ///     For tracking event functions, MID 0217 Relay function, is sent each time the relay status is changed. For
+    ///     For tracking event functions, <see cref="Mid0217"/> Relay function, is sent each time the relay status is changed. For
     ///     relay functions which are not tracking events, the upload is sent only when the relay is set high, i.e. the
     ///     data field “Relay function status” will always be 1 for such functions.
+    /// </para>
     /// Message sent by: Controller
     /// Answer: MID 0218 Relay function acknowledge
     /// </summary>

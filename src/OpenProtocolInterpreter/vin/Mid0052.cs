@@ -5,18 +5,21 @@ using System.Linq;
 namespace OpenProtocolInterpreter.Vin
 {
     /// <summary>
-    /// MID: Vehicle ID Number
-    /// Description: 
-    ///     Transmission of the current identifiers of the tightening by the controller to the subscriber.
-    ///     The tightening result can be stamped with up to four identifiers:
-    ///         - VIN number(identifier result part 1)
-    ///         - Identifier result part 2
-    ///         - Identifier result part 3
-    ///         - Identifier result part 4
+    /// Vehicle ID Number
+    /// <para>Transmission of the current identifiers of the tightening by the controller to the subscriber.</para>
+    /// <para>The tightening result can be stamped with up to four identifiers:</para>
+    /// <list type="bullet">
+    ///     <item>VIN number (identifier result part 1)</item>
+    ///     <item>Identifier result part 2</item>
+    ///     <item>Identifier result part 3</item>
+    ///     <item>Identifier result part 4</item>
+    /// </list>
+    /// <para>
     ///     The identifiers are received by the controller from several input sources,
     ///     for example serial, Ethernet, or field bus.
-    /// Message sent by: Controller
-    /// Answer: MID 0053 Vehicle ID Number acknowledge
+    /// </para>
+    /// <para>Message sent by: Controller</para>
+    /// <para>Answer: <see cref="Mid0053"/> Vehicle ID Number acknowledge</para>
     /// </summary>
     public class Mid0052 : Mid, IVin, IController
     {

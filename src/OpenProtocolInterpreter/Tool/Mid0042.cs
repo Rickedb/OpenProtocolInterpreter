@@ -1,11 +1,9 @@
 ﻿namespace OpenProtocolInterpreter.Tool
 {
     /// <summary>
-    /// MID: Disable tool
-    /// Description: 
-    ///     Disable tool.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted
+    /// Disable tool
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted</para>
     /// </summary>
     public class Mid0042 : Mid, ITool, IIntegrator
     {

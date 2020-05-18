@@ -6,12 +6,13 @@ using System.Linq;
 namespace OpenProtocolInterpreter.MultiSpindle
 {
     /// <summary>
-    /// MID: Multi-spindle status
-    /// Description: 
+    /// Multi-spindle status
+    /// <para>
     ///      The multi-spindle status is sent after each sync tightening. The multiple status contains the common
     ///      status of the multiple as well as the individual status of each spindle.
-    /// Message sent by: Controller
-    /// Answer : MID 0092 Multi-spindle status acknowledge
+    /// </para>
+    /// <para>Message sent by: Controller</para>
+    /// <para>Answer: <see cref="Mid0092"/> Multi-spindle status acknowledge</para>
     /// </summary>
     public class Mid0091 : Mid, IMultiSpindle, IController
     {
@@ -75,7 +76,6 @@ namespace OpenProtocolInterpreter.MultiSpindle
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
             var spindleField = GetField(1, (int)DataFields.SPINDLE_STATUS);
             spindleField.Size = package.Length - spindleField.Index - 2;
             base.Parse(package);

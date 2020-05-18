@@ -5,11 +5,13 @@ using System.Collections.Generic;
 namespace OpenProtocolInterpreter.ParameterSet
 {
     /// <summary>
-    /// MID: Parameter set data upload request
-    /// Description: 
-    ///     Request to upload parameter set data from the controller.
-    /// Message sent by: Integrator
-    /// Answer: MID 0013 Parameter set data upload reply, or MID 0004 Command error, Parameter set not present
+    /// Parameter set data upload request
+    /// <para>Request to upload parameter set data from the controller.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>
+    /// Answer: <see cref="Mid0013"/> Parameter set data upload reply, or 
+    ///         <see cref="Communication.Mid0004"/> Command error, Parameter set not present
+    /// </para>
     /// </summary>
     public class Mid0012 : Mid, IParameterSet, IIntegrator
     {

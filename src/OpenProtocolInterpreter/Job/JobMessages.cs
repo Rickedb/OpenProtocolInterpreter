@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Job
 {
+    /// <summary>
+    /// Template for <see cref="IJob"/> implementers.
+    /// </summary>
     internal class JobMessages : MessagesTemplate
     {
         public JobMessages() : base()

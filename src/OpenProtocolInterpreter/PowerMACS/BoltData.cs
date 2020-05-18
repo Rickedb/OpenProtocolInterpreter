@@ -1,5 +1,8 @@
 ﻿namespace OpenProtocolInterpreter.PowerMACS
 {
+    /// <summary>
+    /// Represents a Bolt entity
+    /// </summary>
     public class BoltData
     {
         public int OrdinalBoltNumber { get; set; }

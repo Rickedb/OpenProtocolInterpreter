@@ -1,15 +1,13 @@
 ﻿using OpenProtocolInterpreter.Converters;
-using System;
 using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.ParameterSet
 {
     /// <summary>
-    /// MID: Lock at batch done upload
-    /// Description: 
-    ///     This message gives the relay status for Lock at batch done.
-    /// Message sent by: Controller
-    /// Answer: MID 0023 Lock at batch done upload Ack
+    /// Lock at batch done upload
+    /// <para>This message gives the relay status for Lock at batch done.</para>
+    /// <para>Message sent by: Controller</para>
+    /// <para>Answer: <see cref="Mid0023"/> Lock at batch done upload Ack</para>
     /// </summary>
     public class Mid0022 : Mid, IParameterSet, IController
     {

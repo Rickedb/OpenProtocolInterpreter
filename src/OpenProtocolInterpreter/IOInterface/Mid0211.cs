@@ -4,12 +4,13 @@ using System.Collections.Generic;
 namespace OpenProtocolInterpreter.IOInterface
 {
     /// <summary>
-    /// MID: Status externally monitored inputs
-    /// Description: 
+    /// Status externally monitored inputs
+    /// <para>
     ///    Status for the eight externally monitored digital inputs. This message is sent to the subscriber every
     ///    time the status of at least one of the inputs has changed.
-    /// Message sent by: Controller
-    /// Answer: MID 0212 Status externally monitored inputs acknowledge
+    /// </para>
+    /// <para>Message sent by: Controller</para>
+    /// <para>Answer: <see cref="Mid0212"/> Status externally monitored inputs acknowledge</para>
     /// </summary>
     public class Mid0211 : Mid, IIOInterface, IController
     {

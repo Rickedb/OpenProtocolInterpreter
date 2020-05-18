@@ -1,11 +1,10 @@
 ﻿namespace OpenProtocolInterpreter.ApplicationSelector
 {
     /// <summary>
-    /// MID: Selector socket info acknowledge
-    /// Description:
-    ///     Acknowledgement of the MID 0251 Selector socket info.   
-    /// Message sent by: Integrator
-    /// Answer: None
+    /// Selector socket info acknowledge
+    /// <para>Acknowledgement of the <see cref="Mid0251"/> Selector socket info.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: None</para>
     /// </summary>
     public class Mid0252 : Mid, IApplicationSelector, IIntegrator
     {

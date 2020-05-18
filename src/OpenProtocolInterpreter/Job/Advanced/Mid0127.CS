@@ -1,10 +1,10 @@
 ﻿namespace OpenProtocolInterpreter.Job.Advanced
 {
     /// <summary>
-    /// MID: Abort Job
-    /// Description: Abort the current running job if there is one.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005
+    /// Abort Job
+    /// <para>Abort the current running job if there is one.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted</para>
     /// </summary>
     public class Mid0127 : Mid, IAdvancedJob, IIntegrator
     {

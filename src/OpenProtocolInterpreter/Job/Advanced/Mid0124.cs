@@ -1,11 +1,10 @@
 ﻿namespace OpenProtocolInterpreter.Job.Advanced
 {
     /// <summary>
-    /// MID: Job line control done
-    /// Description: This message tells the integrator that the Job has 
-    /// been completed before the alert level 2 was reached.
-    /// Message sent by: Controller
-    /// Answer: MID 0125 Job line control info acknowledged
+    /// Job line control done
+    /// <para>This message tells the integrator that the Job has been completed before the alert level 2 was reached.</para>
+    /// <para>Message sent by: Controller</para>
+    /// <para>Answer: <see cref="Mid0125"/> Job line control info acknowledged</para>
     /// </summary>
     public class Mid0124 : Mid, IAdvancedJob, IController
     {

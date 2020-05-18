@@ -6,11 +6,10 @@ using System.Linq;
 namespace OpenProtocolInterpreter.ParameterSet
 {
     /// <summary>
-    /// MID: Parameter set data upload reply
-    /// Description: 
-    ///     Upload of parameter set data reply.
-    /// Message sent by: Controller
-    /// Answer: None
+    /// Parameter set data upload reply
+    /// <para>Upload of parameter set data reply.</para>
+    /// <para>Message sent by: Controller</para>
+    /// <para>Answer: None</para>
     /// </summary>
     public class Mid0013 : Mid, IParameterSet, IController
     {

@@ -5,11 +5,10 @@ using System.Collections.Generic;
 namespace OpenProtocolInterpreter.Tool
 {
     /// <summary>
-    /// MID: Tool Pairing status
-    /// Description: 
-    ///     This message is sent by the controller in order to report the current status of the tool pairing.
-    /// Message sent by: Controller
-    /// Answer: N/A
+    /// Tool Pairing status
+    /// <para>This message is sent by the controller in order to report the current status of the tool pairing.</para>
+    /// <para>Message sent by: Controller</para>
+    /// <para>Answer: None</para>
     /// </summary>
     public class Mid0048 : Mid, ITool, IController
     {

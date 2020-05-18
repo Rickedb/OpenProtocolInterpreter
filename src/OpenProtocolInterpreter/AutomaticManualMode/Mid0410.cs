@@ -1,12 +1,13 @@
 ﻿namespace OpenProtocolInterpreter.AutomaticManualMode
 {
     /// <summary>
-    /// MID: AutoDisable settings request
-    /// Description: 
+    /// AutoDisable settings request
+    /// <para>
     ///     Request for AutoDisable settings. This request is intended to be used while 
     ///     running single parameter sets with batch and does not provide batch information while running Job.
-    /// Message sent by: Integrator
-    /// Answer: MID 0411 AutoDisable settings reply
+    /// </para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: <see cref="Mid0411"/> AutoDisable settings reply</para>
     /// </summary>
     public class Mid0410 : Mid, IAutomaticManualMode, IIntegrator
     {

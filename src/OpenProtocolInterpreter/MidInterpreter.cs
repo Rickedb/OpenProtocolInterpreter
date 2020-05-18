@@ -6,6 +6,10 @@ using System.Text;
 
 namespace OpenProtocolInterpreter
 {
+    /// <summary>
+    /// Responsible for building and parsing any incoming Mid. 
+    /// Message templates initialization must be done with <see cref="MidInterpreterMessagesExtensions"/> methods.
+    /// </summary>
     public class MidInterpreter
     {
         private readonly IList<IMessagesTemplate> _messagesTemplates;

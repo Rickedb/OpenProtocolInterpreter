@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.UserInterface
 {
+    /// <summary>
+    /// Template for <see cref="IUserInterface"/> implementers.
+    /// </summary>
     internal class UserInterfaceMessages : MessagesTemplate
     {
         public UserInterfaceMessages() : base()

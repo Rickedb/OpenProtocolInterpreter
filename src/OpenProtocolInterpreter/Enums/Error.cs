@@ -1,7 +1,7 @@
 ﻿namespace OpenProtocolInterpreter
 {
     /// <summary>
-    /// Enum that contains ALL MID 0004 errors
+    /// <see cref="Communication.Mid0004"/> possible errors.
     /// </summary>
     public enum Error
     {

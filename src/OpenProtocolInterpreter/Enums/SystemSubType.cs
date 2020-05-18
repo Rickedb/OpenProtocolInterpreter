@@ -5,8 +5,10 @@
     /// <para>For a Power Focus 4000 and PF 6000 system the valid subtypes are: </para>
     /// <para>001 = a normal tightening system</para>
     /// For a Power MACS 4000 system the valid subtypes are: 
-    /// <para>001 = a normal tightening system</para>
-    /// <para>002 = a system running presses instead of spindles.</para>
+    /// <list type="bullet">
+    ///     <item>001 = a normal tightening system</item>
+    ///     <item>002 = a system running presses instead of spindles.</item>
+    /// </list>
     /// </summary>
     public enum SystemSubType
     {

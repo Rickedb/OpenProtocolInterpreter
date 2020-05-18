@@ -1,5 +1,8 @@
 ﻿namespace OpenProtocolInterpreter
 {
+    /// <summary>
+    /// Torque values unit. Used in <see cref="Tightening.Mid0061"/> and <see cref="Tightening.Mid0065"/>.
+    /// </summary>
     public enum TorqueValuesUnit
     {
         NM = 1,

@@ -1,13 +1,17 @@
 ﻿namespace OpenProtocolInterpreter.ParameterSet
 {
     /// <summary>
-    /// MID: Parameter set selected subscribe
-    /// Description: 
-    ///     A subscription for the parameter set selection. Each time a new parameter set is selected the MID 0015
-    ///     Parameter set selected is sent to the integrator.Note that the immediate response is MID 0005 Command
-    ///     accepted and MID 0015 Parameter set selected with the current parameter set number selected.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted and MID 0015 Parameter set selected
+    /// Parameter set selected subscribe
+    /// <para>
+    ///     A subscription for the parameter set selection. Each time a new parameter set is selected the <see cref="Mid0015"/>
+    ///     Parameter set selected is sent to the integrator.
+    /// </para>
+    /// <para>
+    ///     Note that the immediate response is <see cref="Communication.Mid0005"/> Command
+    ///     accepted and <see cref="Mid0015"/> Parameter set selected with the current parameter set number selected.
+    /// </para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted and <see cref="Mid0015"/> Parameter set selected</para>
     /// </summary>
     public class Mid0014 : Mid, IParameterSet, IIntegrator
     {

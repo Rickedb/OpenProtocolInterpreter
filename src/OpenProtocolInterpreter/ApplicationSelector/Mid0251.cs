@@ -5,14 +5,15 @@ using System.Linq;
 namespace OpenProtocolInterpreter.ApplicationSelector
 {
     /// <summary>
-    /// MID: Selector socket info
-    /// Description:
+    /// Selector socket info
+    /// <para>
     ///     This message is sent each time a socket is lifted or put back in position. 
     ///     This MID contains the device ID of the selector the information is coming from, 
     ///     the number of sockets of the selector device, and the current status of each socket 
     ///     (lifted or not lifted).
-    /// Message sent by: Controller
-    /// Answer: MID 0252, Selector socket info acknowledge
+    /// </para>
+    /// <para>Message sent by: Controller</para>
+    /// <para>Answer: <see cref="Mid0252"/>, Selector socket info acknowledge</para>
     /// </summary>
     public class Mid0251 : Mid, IApplicationSelector, IController
     {

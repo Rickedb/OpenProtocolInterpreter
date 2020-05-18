@@ -6,11 +6,10 @@ using System.Linq;
 namespace OpenProtocolInterpreter.Job
 {
     /// <summary>
-    /// MID: Job restart
-    /// Description: 
-    ///     Job restart message.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted or MID 0004 Command error, Job not running, or Invalid data
+    /// Job restart
+    /// <para>Job restart message.</para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted or <see cref="Communication.Mid0004"/> Command error, Job not running, or Invalid data</para>
     /// </summary>
     public class Mid0039 : Mid, IJob, IIntegrator
     {

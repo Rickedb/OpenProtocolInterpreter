@@ -1,15 +1,18 @@
 ﻿using OpenProtocolInterpreter.Converters;
-using System;
 using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Tool
 {
     /// <summary>
-    /// MID: Set calibration value request
-    /// Description: 
+    /// Set calibration value request
+    /// <para>
     ///     This message is sent by the integrator in order to set the calibration value of the tool.
-    /// Message sent by: Integrator
-    /// Answer: MID 0005 Command accepted or MID 0004 Command error, Calibration failed
+    /// </para>
+    /// <para>Message sent by: Integrator</para>
+    /// <para>
+    ///     Answer: <see cref="Communication.Mid0005"/> Command accepted or 
+    ///             <see cref="Communication.Mid0004"/> Command error, Calibration failed
+    /// </para>
     /// </summary>
     public class Mid0045 : Mid, ITool, IIntegrator
     {

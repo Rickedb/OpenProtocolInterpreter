@@ -5,12 +5,11 @@ using System.Collections.Generic;
 namespace OpenProtocolInterpreter.Alarm
 {
     /// <summary>
-    /// MID: Alarm status
-    /// Description: 
-    ///      The alarm status is sent after an accepted subscription of the controller alarms. 
-    ///      This message is used to inform the integrator that an alarm is active on the controller at subscription time.
-    /// Message sent by: Controller
-    /// Answer : MID 0077 Alarm status acknowledge
+    /// Alarm status
+    /// <para>The alarm status is sent after an accepted subscription of the controller alarms. 
+    /// This message is used to inform the integrator that an alarm is active on the controller at subscription time.</para>
+    /// <para>Message sent by: Controller</para>
+    /// <para>Answer : <see cref="Mid0077"/> Alarm status acknowledge</para>
     /// </summary>
     public class Mid0076 : Mid, IAlarm, IController
     {
