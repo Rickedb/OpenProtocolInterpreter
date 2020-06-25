@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Messages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,6 +12,16 @@ namespace OpenProtocolInterpreter
     {
         private static readonly Func<Type, Type, bool> DoesImplementInteface = (mid, desiredInterface) => desiredInterface.IsAssignableFrom(mid);
         private static readonly Func<IEnumerable<Type>, Type, bool> IsValid = (mids, desiredInterface) => mids.All(x => DoesImplementInteface(x, desiredInterface) && x.IsSubclassOf(typeof(Mid)));
+
+        public static MidInterpreter UseMessageTemplate(this MidInterpreter midInterpreter, IDictionary<int, Type> midTypes)
+        {
+           if(midTypes.Values.Any(x => !x.IsSubclassOf(typeof(Mid))))
+                throw new ArgumentException("All mids must inherit Mid class", nameof(midTypes));
+
+            var customMessageTemplate = new CustomMessages(midTypes);
+            midInterpreter.UseTemplate(customMessageTemplate);
+            return midInterpreter;
+        }
 
         /// <summary>
         /// Configure MidInterpreter to parse all available Mids of a mode
