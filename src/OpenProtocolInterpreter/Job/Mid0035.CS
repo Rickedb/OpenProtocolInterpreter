@@ -73,6 +73,36 @@ namespace OpenProtocolInterpreter.Job
             get => (JobTighteningStatus)GetField(4, (int)DataFields.JOB_TIGHTENING_STATUS).GetValue(_intConverter.Convert);
             set => GetField(4, (int)DataFields.JOB_TIGHTENING_STATUS).SetValue(_intConverter.Convert, (int)value);
         }
+        //Rev 5
+        public int JobSequenceNumber
+        {
+            get => GetField(5, (int)DataFields.JOB_SEQUENCE_NUMBER).GetValue(_intConverter.Convert);
+            set => GetField(5, (int)DataFields.JOB_SEQUENCE_NUMBER).SetValue(_intConverter.Convert, (int)value);
+        }
+
+        public string VinNumber
+        {
+            get => GetField(5, (int)DataFields.VIN_NUMBER).Value;
+            set => GetField(5, (int)DataFields.VIN_NUMBER).SetValue(value);
+        }
+
+        public string IdentifierResultPart2
+        {
+            get => GetField(5, (int)DataFields.IDENTIFIER_RESULT_PART2).Value;
+            set => GetField(5, (int)DataFields.IDENTIFIER_RESULT_PART2).SetValue(value);
+        }
+
+        public string IdentifierResultPart3
+        {
+            get => GetField(5, (int)DataFields.IDENTIFIER_RESULT_PART3).Value;
+            set => GetField(5, (int)DataFields.IDENTIFIER_RESULT_PART3).SetValue(value);
+        }
+
+        public string IdentifierResultPart4
+        {
+            get => GetField(5, (int)DataFields.IDENTIFIER_RESULT_PART4).Value;
+            set => GetField(5, (int)DataFields.IDENTIFIER_RESULT_PART4).SetValue(value);
+        }
 
         public Mid0035() : this(LAST_REVISION)
         {
@@ -155,6 +185,11 @@ namespace OpenProtocolInterpreter.Job
         {
             JobTighteningStatus = jobTighteningStatus;
         }
+        public override string Pack()
+        {
+            HandleRevision();
+            return base.Pack();
+        }
 
         public override Mid Parse(string package)
         {
@@ -233,6 +268,16 @@ namespace OpenProtocolInterpreter.Job
                             {
                                 new DataField((int)DataFields.JOB_TIGHTENING_STATUS, 79, 2, ' ', DataField.PaddingOrientations.LEFT_PADDED)
                             }
+                },
+                {
+                    5, new  List<DataField>()
+                    {
+                        new DataField((int)DataFields.JOB_SEQUENCE_NUMBER, 83, 5, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                        new DataField((int)DataFields.VIN_NUMBER, 90 , 25, ' ', DataField.PaddingOrientations.LEFT_PADDED),
+                        new DataField((int)DataFields.IDENTIFIER_RESULT_PART2, 117, 25, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                        new DataField((int)DataFields.IDENTIFIER_RESULT_PART3, 144, 25, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                        new DataField((int)DataFields.IDENTIFIER_RESULT_PART4, 171, 25, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                    }
                 }
             };
         }
@@ -273,6 +318,12 @@ namespace OpenProtocolInterpreter.Job
         JOB_TOTAL_NUMBER_OF_STEPS,
         JOB_STEP_TYPE,
         //rev 4
-        JOB_TIGHTENING_STATUS
+        JOB_TIGHTENING_STATUS,
+        //rev5
+        JOB_SEQUENCE_NUMBER,
+        VIN_NUMBER,
+        IDENTIFIER_RESULT_PART2,
+        IDENTIFIER_RESULT_PART3,
+        IDENTIFIER_RESULT_PART4
     }
 }
