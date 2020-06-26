@@ -96,13 +96,24 @@
         </member>
         <member name="M:OpenProtocolInterpreter.Alarm.Mid0076.#ctor(System.Boolean,System.String,System.Boolean,System.Boolean,System.DateTime)">
             <summary>
-            Revision 1 constructor
+            Revision 1 and 2 constructor
             </summary>
             <param name="alarmStatus">0=no alarm is active, 1=an alarm is currently active</param>
             <param name="errorCode">The error code is specified by 4 ASCII characters. The error code begins with E and is followed by three digits. <para>Example: E851.</para></param>
             <param name="controllerReadyStatus">Controller ready status 1=OK, 0=NOK</param>
             <param name="toolReadyStatus">Tool ready status 1=OK, 0=NOK</param>
             <param name="time">Time stamp for the alarm</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Alarm.Mid0076.#ctor(System.Boolean,System.String,System.Boolean,System.Boolean,System.DateTime,OpenProtocolInterpreter.ToolHealth)">
+            <summary>
+            Revision 3 constructor
+            </summary>
+            <param name="alarmStatus">0=no alarm is active, 1=an alarm is currently active</param>
+            <param name="errorCode">The error code is specified by 4 ASCII characters. The error code begins with E and is followed by three digits. <para>Example: E851.</para></param>
+            <param name="controllerReadyStatus">Controller ready status 1=OK, 0=NOK</param>
+            <param name="toolReadyStatus">Tool ready status 1=OK, 0=NOK</param>
+            <param name="time">Time stamp for the alarm</param>
+            <param name="toolHealth">Tool Health</param>
         </member>
         <member name="T:OpenProtocolInterpreter.Alarm.Mid0077">
             <summary>
