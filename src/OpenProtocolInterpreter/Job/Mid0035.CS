@@ -185,11 +185,6 @@ namespace OpenProtocolInterpreter.Job
         {
             JobTighteningStatus = jobTighteningStatus;
         }
-        public override string Pack()
-        {
-            HandleRevision();
-            return base.Pack();
-        }
 
         public override Mid Parse(string package)
         {
