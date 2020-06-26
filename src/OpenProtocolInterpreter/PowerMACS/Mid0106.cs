@@ -82,8 +82,8 @@ namespace OpenProtocolInterpreter.PowerMACS
         }
         public bool SimpleStatus
         {
-            get => GetField(1, (int)DataFields.MODE_NUMBER).GetValue(_boolConverter.Convert);
-            set => GetField(1, (int)DataFields.MODE_NUMBER).SetValue(_boolConverter.Convert, value);
+            get => GetField(1, (int)DataFields.SIMPLE_STATUS).GetValue(_boolConverter.Convert);
+            set => GetField(1, (int)DataFields.SIMPLE_STATUS).SetValue(_boolConverter.Convert, value);
         }
         public PowerMacsStatus PMStatus
         {
