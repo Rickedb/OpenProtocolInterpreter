@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
-    <AssemblyVersion>3.2.0.0</AssemblyVersion>
-    <FileVersion>3.2.0.0</FileVersion>
-    <Version>3.2.0</Version>
+    <AssemblyVersion>3.2.1.0</AssemblyVersion>
+    <FileVersion>3.2.1.0</FileVersion>
+    <Version>3.2.1</Version>
     <Description>Converts the ugly package that came from Open Protocol TCP/IP or Serial to an object</Description>
     <Copyright>Copyright © 2020</Copyright>
     <Authors>Henrique Dal Bello Batista</Authors>
@@ -15,12 +15,7 @@
     <PackageTags>CSharp Open Protocol Atlas Copco</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageReleaseNotes>Bug Fixes:
-- Fixed Mid0106 Simple Status property
-
-New revisions:
-
-- Mid 0035 Revision 5
-- Mid 0076 Revisions 2 and 3</PackageReleaseNotes>
+- Fixed Mid0038 Revision 2 not packing</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
