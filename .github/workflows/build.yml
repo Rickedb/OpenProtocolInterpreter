@@ -14,7 +14,7 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@master
       with:
-        dotnet-version: '3.0.100-rc1-014190'
+        dotnet-version: '2.1.202'
     - name: Build library (.net core)
       run: dotnet build src/OpenProtocolInterpreter/OpenProtocolInterpreter.csproj --configuration release
     - name: Build and run .net core tests
