@@ -29,5 +29,28 @@ namespace MIDTesters.Job
             Assert.IsNotNull(mid.JobId);
             Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
         }
+
+        [TestMethod]
+        public void Mid0038Revision2()
+        {
+            string package = "00240038002         0001";
+            var mid = _midInterpreter.Parse<Mid0038>(package);
+
+            Assert.AreEqual(typeof(Mid0038), mid.GetType());
+            Assert.IsNotNull(mid.JobId);
+            Assert.AreEqual(package, mid.Pack());
+        }
+
+        [TestMethod]
+        public void Mid0038ByteRevision2()
+        {
+            string package = "00240038002         0001";
+            byte[] bytes = GetAsciiBytes(package);
+            var mid = _midInterpreter.Parse<Mid0038>(bytes);
+
+            Assert.AreEqual(typeof(Mid0038), mid.GetType());
+            Assert.IsNotNull(mid.JobId);
+            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+        }
     }
 }
