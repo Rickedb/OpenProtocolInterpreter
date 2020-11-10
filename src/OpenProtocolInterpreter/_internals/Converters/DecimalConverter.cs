@@ -8,7 +8,7 @@ namespace OpenProtocolInterpreter.Converters
         {
             decimal decimalValue = 0;
             if (value != null)
-                decimal.TryParse(value.ToString(), out decimalValue);
+                decimal.TryParse(value.Replace(',', '.'), out decimalValue);
 
             return decimalValue;
         }
