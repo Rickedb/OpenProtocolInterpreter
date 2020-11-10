@@ -1,5 +1,5 @@
+<img src="https://github.com/Rickedb/OpenProtocolInterpreter/blob/master/media/logo.png?raw=true" width="550" alt="Open Protocol Interpreter" />
 
-# OpenProtocolInterpreter  
 [![Build status](https://github.com/rickedb/openprotocolinterpreter/workflows/master/badge.svg)](https://github.com/Rickedb/OpenProtocolInterpreter/) 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/Rickedb/OpenProtocolIntepreter/master/LICENSE)
 > OpenProtocol communication utility
