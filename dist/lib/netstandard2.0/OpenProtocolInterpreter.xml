@@ -2713,11 +2713,6 @@
             <para>Answer: <see cref="T:OpenProtocolInterpreter.Tightening.Mid0062"/> Last tightening result data acknowledge</para>
             </summary>
         </member>
-        <member name="P:OpenProtocolInterpreter.Tightening.Mid0061.TighteningErrorStatus2">
-            <summary>
-            Still can't use because it has to work with BYTE ARRAY!!!
-            </summary>
-        </member>
         <member name="M:OpenProtocolInterpreter.Tightening.Mid0061.GetCurrentRevisionIndex">
             <summary>
             Obtain which revision we will work with for shared properties

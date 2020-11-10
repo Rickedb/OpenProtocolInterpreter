@@ -27,4 +27,4 @@ jobs:
       run: |
         dotnet build src/OpenProtocolInterpreter/OpenProtocolInterpreter.csproj --configuration release
         nuget setApiKey ${{ secrets.NUGET_API_KEY }}
-        nuget push src/OpenProtocolInterpreter/bin/release/OpenProtocolInterpreter.3.2.1.nupkg -Source https://api.nuget.org/v3/index.json -SkipDuplicate
+        nuget push src/OpenProtocolInterpreter/bin/release/OpenProtocolInterpreter.3.2.2.nupkg -Source https://api.nuget.org/v3/index.json -SkipDuplicate
