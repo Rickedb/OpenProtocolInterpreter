@@ -14,7 +14,7 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@master
       with:
-        dotnet-version: '3.0.100-rc1-014190'
+        dotnet-version: '2.1.202'
     - name: Build library (.net core)
       run: dotnet build src/OpenProtocolInterpreter/OpenProtocolInterpreter.csproj --configuration release
     - name: Build and run .net core tests
@@ -27,4 +27,4 @@ jobs:
       run: |
         dotnet build src/OpenProtocolInterpreter/OpenProtocolInterpreter.csproj --configuration release
         nuget setApiKey ${{ secrets.NUGET_API_KEY }}
-        nuget push src/OpenProtocolInterpreter/bin/release/OpenProtocolInterpreter.3.1.2.nupkg -Source https://api.nuget.org/v3/index.json -SkipDuplicate
+        nuget push src/OpenProtocolInterpreter/bin/release/OpenProtocolInterpreter.3.2.2.nupkg -Source https://api.nuget.org/v3/index.json -SkipDuplicate
