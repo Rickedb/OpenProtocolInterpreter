@@ -1,6 +1,6 @@
 <img src="https://github.com/Rickedb/OpenProtocolInterpreter/blob/master/media/logo.png?raw=true" width="550" alt="Open Protocol Interpreter" />
 
-<h1 align="center">
+<h1>
   <a href="https://opencollective.com/open-protocol-interpreter" alt="Financial Contributors on Open Collective">
     <img src="https://opencollective.com/open-protocol-interpreter/all/badge.svg?label=financial+contributors" />
   </a>
