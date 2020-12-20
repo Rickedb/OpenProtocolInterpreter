@@ -1,7 +1,17 @@
+<img src="https://github.com/Rickedb/OpenProtocolInterpreter/blob/master/media/logo.png?raw=true" width="550" alt="Open Protocol Interpreter" />
 
-# OpenProtocolInterpreter  
-[![Build status](https://github.com/rickedb/openprotocolinterpreter/workflows/master/badge.svg)](https://github.com/Rickedb/OpenProtocolInterpreter/) 
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/Rickedb/OpenProtocolIntepreter/master/LICENSE)
+<h1>
+  <a href="https://opencollective.com/open-protocol-interpreter" alt="Financial Contributors on Open Collective">
+    <img src="https://opencollective.com/open-protocol-interpreter/all/badge.svg?label=financial+contributors" />
+  </a>
+  <a href="https://github.com/Rickedb/OpenProtocolInterpreter/">
+    <img src="https://github.com/rickedb/openprotocolinterpreter/workflows/master/badge.svg" />
+  </a>
+  <a href="https://raw.githubusercontent.com/Rickedb/OpenProtocolIntepreter/master/LICENSE">
+    <img src= "https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT">
+  </a>
+</h1>
+
 > OpenProtocol communication utility
 
 > Missing OpenProtocolInterpreter v1.0.0 ? [>It's here!<](https://github.com/Rickedb/OpenProtocolInterpreter/releases/tag/1.0.0)
@@ -218,9 +228,7 @@ protected void BuildAndSendAcknowledge(Mid mid)
 Lot's of effort were given to this project and by seen people using it motivated me a lot to improve it more and more.
 
 Does it help you a lot? That's awesome and very rewarding!
-But if you wish, you can support and help to motivate the constant improving of this library:
-
-[![Donate with PayPal](https://raw.githubusercontent.com/stefan-niedermann/paypal-donate-button/master/paypal-donate-button.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=JZ4824WWGK7UL&item_name=Open+Protocol+Interpreter+contribution&currency_code=BRL&source=url)
+But if you wish, you can support and help to motivate the constant improving of this library by contributing in [OpenCollective](https://opencollective.com/open-protocol-interpreter).
 
 ### List of still unavailable Mids
 
