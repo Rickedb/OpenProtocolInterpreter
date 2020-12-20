@@ -10,19 +10,6 @@ namespace OpenProtocolInterpreter
     /// </summary>
     public static class MidInterpreterMessagesExtensions
     {
-        private static readonly Func<Type, Type, bool> DoesImplementInteface = (mid, desiredInterface) => desiredInterface.IsAssignableFrom(mid);
-        private static readonly Func<IEnumerable<Type>, Type, bool> IsValid = (mids, desiredInterface) => mids.All(x => DoesImplementInteface(x, desiredInterface) && x.IsSubclassOf(typeof(Mid)));
-
-        public static MidInterpreter UseMessageTemplate(this MidInterpreter midInterpreter, IDictionary<int, Type> midTypes)
-        {
-           if(midTypes.Values.Any(x => !x.IsSubclassOf(typeof(Mid))))
-                throw new ArgumentException("All mids must inherit Mid class", nameof(midTypes));
-
-            var customMessageTemplate = new CustomMessages(midTypes);
-            midInterpreter.UseTemplate(customMessageTemplate);
-            return midInterpreter;
-        }
-
         /// <summary>
         /// Configure MidInterpreter to parse all available Mids of a mode
         /// <para>Select Integrator if you're integrator or Controller if you're a controller</para>
@@ -69,31 +56,31 @@ namespace OpenProtocolInterpreter
         {
             if (mids.Any(x => !x.IsSubclassOf(typeof(Mid))))
                 throw new ArgumentException("All mids must inherit Mid class", nameof(mids));
-            
+
             return midInterpreter
-                .UseAlarmMessages(mids.Where(x=> DoesImplementInteface(x, typeof(Alarm.IAlarm))))
-                .UseApplicationControllerMessage(mids.Where(x => DoesImplementInteface(x, typeof(ApplicationController.IApplicationController))))
-                .UseApplicationSelectorMessages(mids.Where(x => DoesImplementInteface(x, typeof(ApplicationSelector.IApplicationSelector))))
-                .UseApplicationToolLocationSystemMessages(mids.Where(x => DoesImplementInteface(x, typeof(ApplicationToolLocationSystem.IApplicationToolLocationSystem))))
-                .UseAutomaticManualModeMessages(mids.Where(x => DoesImplementInteface(x, typeof(AutomaticManualMode.IAutomaticManualMode))))
-                .UseCommunicationMessages(mids.Where(x => DoesImplementInteface(x, typeof(Communication.ICommunication))))
-                .UseIOInterfaceMessages(mids.Where(x => DoesImplementInteface(x, typeof(IOInterface.IIOInterface))))
-                .UseJobMessages(mids.Where(x => DoesImplementInteface(x, typeof(Job.IJob))))
-                .UseAdvancedJobMessages(mids.Where(x => DoesImplementInteface(x, typeof(Job.Advanced.IAdvancedJob))))
-                .UseMotorTuningMessages(mids.Where(x => DoesImplementInteface(x, typeof(MotorTuning.IMotorTuning))))
-                .UseMultipleIdentifiersMessages(mids.Where(x => DoesImplementInteface(x, typeof(MultipleIdentifiers.IMultipleIdentifier))))
-                .UseMultiSpindleMessages(mids.Where(x => DoesImplementInteface(x, typeof(MultiSpindle.IMultiSpindle))))
-                .UseOpenProtocolCommandsDisabledMessages(mids.Where(x => DoesImplementInteface(x, typeof(OpenProtocolCommandsDisabled.IOpenProtocolCommandsDisabled))))
-                .UseParameterSetMessages(mids.Where(x => DoesImplementInteface(x, typeof(ParameterSet.IParameterSet))))
-                .UsePLCUserDataMessages(mids.Where(x => DoesImplementInteface(x, typeof(PLCUserData.IPLCUserData))))
-                .UsePowerMACSMessages(mids.Where(x => DoesImplementInteface(x, typeof(PowerMACS.IPowerMACS))))
-                .UseResultMessages(mids.Where(x => DoesImplementInteface(x, typeof(Result.IResult))))
-                .UseStatisticMessages(mids.Where(x => DoesImplementInteface(x, typeof(Statistic.IStatistic))))
-                .UseTighteningMessages(mids.Where(x => DoesImplementInteface(x, typeof(Tightening.ITightening))))
-                .UseTimeMessages(mids.Where(x => DoesImplementInteface(x, typeof(Time.ITime))))
-                .UseToolMessages(mids.Where(x => DoesImplementInteface(x, typeof(Tool.ITool))))
-                .UseUserInterfaceMessages(mids.Where(x => DoesImplementInteface(x, typeof(UserInterface.IUserInterface))))
-                .UseVinMessages(mids.Where(x => DoesImplementInteface(x, typeof(Vin.IVin))));
+                .UseAlarmMessages(mids.Where(x => DoesImplementInterface(x, typeof(Alarm.IAlarm))))
+                .UseApplicationControllerMessage(mids.Where(x => DoesImplementInterface(x, typeof(ApplicationController.IApplicationController))))
+                .UseApplicationSelectorMessages(mids.Where(x => DoesImplementInterface(x, typeof(ApplicationSelector.IApplicationSelector))))
+                .UseApplicationToolLocationSystemMessages(mids.Where(x => DoesImplementInterface(x, typeof(ApplicationToolLocationSystem.IApplicationToolLocationSystem))))
+                .UseAutomaticManualModeMessages(mids.Where(x => DoesImplementInterface(x, typeof(AutomaticManualMode.IAutomaticManualMode))))
+                .UseCommunicationMessages(mids.Where(x => DoesImplementInterface(x, typeof(Communication.ICommunication))))
+                .UseIOInterfaceMessages(mids.Where(x => DoesImplementInterface(x, typeof(IOInterface.IIOInterface))))
+                .UseJobMessages(mids.Where(x => DoesImplementInterface(x, typeof(Job.IJob))))
+                .UseAdvancedJobMessages(mids.Where(x => DoesImplementInterface(x, typeof(Job.Advanced.IAdvancedJob))))
+                .UseMotorTuningMessages(mids.Where(x => DoesImplementInterface(x, typeof(MotorTuning.IMotorTuning))))
+                .UseMultipleIdentifiersMessages(mids.Where(x => DoesImplementInterface(x, typeof(MultipleIdentifiers.IMultipleIdentifier))))
+                .UseMultiSpindleMessages(mids.Where(x => DoesImplementInterface(x, typeof(MultiSpindle.IMultiSpindle))))
+                .UseOpenProtocolCommandsDisabledMessages(mids.Where(x => DoesImplementInterface(x, typeof(OpenProtocolCommandsDisabled.IOpenProtocolCommandsDisabled))))
+                .UseParameterSetMessages(mids.Where(x => DoesImplementInterface(x, typeof(ParameterSet.IParameterSet))))
+                .UsePLCUserDataMessages(mids.Where(x => DoesImplementInterface(x, typeof(PLCUserData.IPLCUserData))))
+                .UsePowerMACSMessages(mids.Where(x => DoesImplementInterface(x, typeof(PowerMACS.IPowerMACS))))
+                .UseResultMessages(mids.Where(x => DoesImplementInterface(x, typeof(Result.IResult))))
+                .UseStatisticMessages(mids.Where(x => DoesImplementInterface(x, typeof(Statistic.IStatistic))))
+                .UseTighteningMessages(mids.Where(x => DoesImplementInterface(x, typeof(Tightening.ITightening))))
+                .UseTimeMessages(mids.Where(x => DoesImplementInterface(x, typeof(Time.ITime))))
+                .UseToolMessages(mids.Where(x => DoesImplementInterface(x, typeof(Tool.ITool))))
+                .UseUserInterfaceMessages(mids.Where(x => DoesImplementInterface(x, typeof(UserInterface.IUserInterface))))
+                .UseVinMessages(mids.Where(x => DoesImplementInterface(x, typeof(Vin.IVin))));
         }
 
 
@@ -105,13 +92,15 @@ namespace OpenProtocolInterpreter
 
         public static MidInterpreter UseAlarmMessages(this MidInterpreter midInterpreter, IEnumerable<Type> mids)
         {
-            if (mids.Any())
-            {
-                if (!IsValid(mids, typeof(Alarm.IAlarm)))
-                    throw new ArgumentException($"Types should inherit Mid class and must implement IAlarm interface");
+            ThrowIfInvalid<Alarm.IAlarm>(mids);
+            midInterpreter.UseTemplate<Alarm.AlarmMessages>(mids);
+            return midInterpreter;
+        }
 
-                midInterpreter.UseTemplate<Alarm.AlarmMessages>(mids);
-            }
+        public static MidInterpreter UseAlarmMessages(this MidInterpreter midInterpreter, IDictionary<int, Type> mids)
+        {
+            ThrowIfInvalid<Alarm.IAlarm>(mids);
+            midInterpreter.UseTemplate<Alarm.AlarmMessages>(mids);
             return midInterpreter;
         }
 
@@ -123,9 +112,14 @@ namespace OpenProtocolInterpreter
 
         public static MidInterpreter UseApplicationControllerMessage(this MidInterpreter midInterpreter, IEnumerable<Type> mids)
         {
-            if (!IsValid(mids, typeof(ApplicationController.IApplicationController)))
-                throw new ArgumentException($"Types should inherit Mid class and must implement IApplicationController interface");
+            ThrowIfInvalid<ApplicationController.IApplicationController>(mids);
+            midInterpreter.UseTemplate<ApplicationController.ApplicationControllerMessages>(mids);
+            return midInterpreter;
+        }
 
+        public static MidInterpreter UseApplicationControllerMessage(this MidInterpreter midInterpreter, IDictionary<int, Type> mids)
+        {
+            ThrowIfInvalid<ApplicationController.IApplicationController>(mids);
             midInterpreter.UseTemplate<ApplicationController.ApplicationControllerMessages>(mids);
             return midInterpreter;
         }
@@ -138,9 +132,14 @@ namespace OpenProtocolInterpreter
 
         public static MidInterpreter UseApplicationSelectorMessages(this MidInterpreter midInterpreter, IEnumerable<Type> mids)
         {
-            if (!IsValid(mids, typeof(ApplicationSelector.IApplicationSelector)))
-                throw new ArgumentException($"Types should inherit Mid class and must implement IApplicationSelector interface");
+            ThrowIfInvalid<ApplicationSelector.IApplicationSelector>(mids);
+            midInterpreter.UseTemplate<ApplicationSelector.ApplicationSelectorMessages>(mids);
+            return midInterpreter;
+        }
 
+        public static MidInterpreter UseApplicationSelectorMessages(this MidInterpreter midInterpreter, IDictionary<int, Type> mids)
+        {
+            ThrowIfInvalid<ApplicationSelector.IApplicationSelector>(mids);
             midInterpreter.UseTemplate<ApplicationSelector.ApplicationSelectorMessages>(mids);
             return midInterpreter;
         }
@@ -153,9 +152,14 @@ namespace OpenProtocolInterpreter
 
         public static MidInterpreter UseApplicationToolLocationSystemMessages(this MidInterpreter midInterpreter, IEnumerable<Type> mids)
         {
-            if (!IsValid(mids, typeof(ApplicationToolLocationSystem.IApplicationToolLocationSystem)))
-                throw new ArgumentException($"Types should inherit Mid class and must implement IApplicationToolLocationSystem interface");
+            ThrowIfInvalid<ApplicationToolLocationSystem.IApplicationToolLocationSystem>(mids);
+            midInterpreter.UseTemplate<ApplicationToolLocationSystem.ApplicationToolLocationSystemMessages>(mids);
+            return midInterpreter;
+        }
 
+        public static MidInterpreter UseApplicationToolLocationSystemMessages(this MidInterpreter midInterpreter, IDictionary<int, Type> mids)
+        {
+            ThrowIfInvalid<ApplicationToolLocationSystem.IApplicationToolLocationSystem>(mids);
             midInterpreter.UseTemplate<ApplicationToolLocationSystem.ApplicationToolLocationSystemMessages>(mids);
             return midInterpreter;
         }
@@ -168,9 +172,14 @@ namespace OpenProtocolInterpreter
 
         public static MidInterpreter UseAutomaticManualModeMessages(this MidInterpreter midInterpreter, IEnumerable<Type> mids)
         {
-            if (!IsValid(mids, typeof(AutomaticManualMode.IAutomaticManualMode)))
-                throw new ArgumentException($"Types should inherit Mid class and must implement IAutomaticManualMode interface");
+            ThrowIfInvalid<AutomaticManualMode.IAutomaticManualMode>(mids);
+            midInterpreter.UseTemplate<AutomaticManualMode.AutomaticManualModeMessages>(mids);
+            return midInterpreter;
+        }
 
+        public static MidInterpreter UseAutomaticManualModeMessages(this MidInterpreter midInterpreter, IDictionary<int, Type> mids)
+        {
+            ThrowIfInvalid<AutomaticManualMode.IAutomaticManualMode>(mids);
             midInterpreter.UseTemplate<AutomaticManualMode.AutomaticManualModeMessages>(mids);
             return midInterpreter;
         }
@@ -183,9 +192,14 @@ namespace OpenProtocolInterpreter
 
         public static MidInterpreter UseCommunicationMessages(this MidInterpreter midInterpreter, IEnumerable<Type> mids)
         {
-            if (!IsValid(mids, typeof(Communication.ICommunication)))
-                throw new ArgumentException($"Types should inherit Mid class and must implement ICommunication interface");
+            ThrowIfInvalid<Communication.ICommunication>(mids);
+            midInterpreter.UseTemplate<Communication.CommunicationMessages>(mids);
+            return midInterpreter;
+        }
 
+        public static MidInterpreter UseCommunicationMessages(this MidInterpreter midInterpreter, IDictionary<int, Type> mids)
+        {
+            ThrowIfInvalid<Communication.ICommunication>(mids);
             midInterpreter.UseTemplate<Communication.CommunicationMessages>(mids);
             return midInterpreter;
         }
@@ -198,9 +212,14 @@ namespace OpenProtocolInterpreter
 
         public static MidInterpreter UseIOInterfaceMessages(this MidInterpreter midInterpreter, IEnumerable<Type> mids)
         {
-            if (!IsValid(mids, typeof(IOInterface.IIOInterface)))
-                throw new ArgumentException($"Types should inherit Mid class and implement IIOInterface interface");
+            ThrowIfInvalid<IOInterface.IIOInterface>(mids);
+            midInterpreter.UseTemplate<IOInterface.IOInterfaceMessages>(mids);
+            return midInterpreter;
+        }
 
+        public static MidInterpreter UseIOInterfaceMessages(this MidInterpreter midInterpreter, IDictionary<int, Type> mids)
+        {
+            ThrowIfInvalid<IOInterface.IIOInterface>(mids);
             midInterpreter.UseTemplate<IOInterface.IOInterfaceMessages>(mids);
             return midInterpreter;
         }
@@ -213,9 +232,14 @@ namespace OpenProtocolInterpreter
 
         public static MidInterpreter UseJobMessages(this MidInterpreter midInterpreter, IEnumerable<Type> mids)
         {
-            if (!IsValid(mids, typeof(Job.IJob)))
-                throw new ArgumentException($"Types should inherit Mid class and must implement IJob interface");
+            ThrowIfInvalid<Job.IJob>(mids);
+            midInterpreter.UseTemplate<Job.JobMessages>(mids);
+            return midInterpreter;
+        }
 
+        public static MidInterpreter UseJobMessages(this MidInterpreter midInterpreter, IDictionary<int, Type> mids)
+        {
+            ThrowIfInvalid<Job.IJob>(mids);
             midInterpreter.UseTemplate<Job.JobMessages>(mids);
             return midInterpreter;
         }
@@ -228,9 +252,14 @@ namespace OpenProtocolInterpreter
 
         public static MidInterpreter UseAdvancedJobMessages(this MidInterpreter midInterpreter, IEnumerable<Type> mids)
         {
-            if (!IsValid(mids, typeof(Job.Advanced.IAdvancedJob)))
-                throw new ArgumentException($"Types should inherit Mid class and must implement IAdvancedJob interface");
+            ThrowIfInvalid<Job.Advanced.IAdvancedJob>(mids);
+            midInterpreter.UseTemplate<Job.Advanced.AdvancedJobMessages>(mids);
+            return midInterpreter;
+        }
 
+        public static MidInterpreter UseAdvancedJobMessages(this MidInterpreter midInterpreter, IDictionary<int, Type> mids)
+        {
+            ThrowIfInvalid<Job.Advanced.IAdvancedJob>(mids);
             midInterpreter.UseTemplate<Job.Advanced.AdvancedJobMessages>(mids);
             return midInterpreter;
         }
@@ -243,9 +272,14 @@ namespace OpenProtocolInterpreter
 
         public static MidInterpreter UseMotorTuningMessages(this MidInterpreter midInterpreter, IEnumerable<Type> mids)
         {
-            if (!IsValid(mids, typeof(MotorTuning.IMotorTuning)))
-                throw new ArgumentException($"Types should inherit Mid class and must implement IMotorTuning interface");
+            ThrowIfInvalid<MotorTuning.IMotorTuning>(mids);
+            midInterpreter.UseTemplate<MotorTuning.MotorTuningMessages>(mids);
+            return midInterpreter;
+        }
 
+        public static MidInterpreter UseMotorTuningMessages(this MidInterpreter midInterpreter, IDictionary<int, Type> mids)
+        {
+            ThrowIfInvalid<MotorTuning.IMotorTuning>(mids);
             midInterpreter.UseTemplate<MotorTuning.MotorTuningMessages>(mids);
             return midInterpreter;
         }
@@ -258,9 +292,14 @@ namespace OpenProtocolInterpreter
 
         public static MidInterpreter UseMultipleIdentifiersMessages(this MidInterpreter midInterpreter, IEnumerable<Type> mids)
         {
-            if (!IsValid(mids, typeof(MultipleIdentifiers.IMultipleIdentifier)))
-                throw new ArgumentException($"Types should inherit Mid class and must implement IMultipleIdentifier interface");
+            ThrowIfInvalid<MultipleIdentifiers.IMultipleIdentifier>(mids);
+            midInterpreter.UseTemplate<MultipleIdentifiers.MultipleIdentifierMessages>(mids);
+            return midInterpreter;
+        }
 
+        public static MidInterpreter UseMultipleIdentifiersMessages(this MidInterpreter midInterpreter, IDictionary<int, Type> mids)
+        {
+            ThrowIfInvalid<MultipleIdentifiers.IMultipleIdentifier>(mids);
             midInterpreter.UseTemplate<MultipleIdentifiers.MultipleIdentifierMessages>(mids);
             return midInterpreter;
         }
@@ -273,9 +312,14 @@ namespace OpenProtocolInterpreter
 
         public static MidInterpreter UseMultiSpindleMessages(this MidInterpreter midInterpreter, IEnumerable<Type> mids)
         {
-            if (!IsValid(mids, typeof(MultiSpindle.IMultiSpindle)))
-                throw new ArgumentException($"Types should inherit Mid class and implement IMultiSpindle interface");
+            ThrowIfInvalid<MultiSpindle.IMultiSpindle>(mids);
+            midInterpreter.UseTemplate<MultiSpindle.MultiSpindleMessages>(mids);
+            return midInterpreter;
+        }
 
+        public static MidInterpreter UseMultiSpindleMessages(this MidInterpreter midInterpreter, IDictionary<int, Type> mids)
+        {
+            ThrowIfInvalid<MultiSpindle.IMultiSpindle>(mids);
             midInterpreter.UseTemplate<MultiSpindle.MultiSpindleMessages>(mids);
             return midInterpreter;
         }
@@ -288,9 +332,14 @@ namespace OpenProtocolInterpreter
 
         public static MidInterpreter UseOpenProtocolCommandsDisabledMessages(this MidInterpreter midInterpreter, IEnumerable<Type> mids)
         {
-            if (!IsValid(mids, typeof(OpenProtocolCommandsDisabled.IOpenProtocolCommandsDisabled)))
-                throw new ArgumentException($"Types should inherit Mid class and must implement IOpenProtocolCommandsDisabled interface");
+            ThrowIfInvalid<OpenProtocolCommandsDisabled.IOpenProtocolCommandsDisabled>(mids);
+            midInterpreter.UseTemplate<OpenProtocolCommandsDisabled.OpenProtocolCommandsDisabledMessages>(mids);
+            return midInterpreter;
+        }
 
+        public static MidInterpreter UseOpenProtocolCommandsDisabledMessages(this MidInterpreter midInterpreter, IDictionary<int, Type> mids)
+        {
+            ThrowIfInvalid<OpenProtocolCommandsDisabled.IOpenProtocolCommandsDisabled>(mids);
             midInterpreter.UseTemplate<OpenProtocolCommandsDisabled.OpenProtocolCommandsDisabledMessages>(mids);
             return midInterpreter;
         }
@@ -303,9 +352,14 @@ namespace OpenProtocolInterpreter
 
         public static MidInterpreter UseParameterSetMessages(this MidInterpreter midInterpreter, IEnumerable<Type> mids)
         {
-            if (!IsValid(mids, typeof(ParameterSet.IParameterSet)))
-                throw new ArgumentException($"Types should inherit Mid class and must implement IParameterSet interface");
+            ThrowIfInvalid<ParameterSet.IParameterSet>(mids);
+            midInterpreter.UseTemplate<ParameterSet.ParameterSetMessages>(mids);
+            return midInterpreter;
+        }
 
+        public static MidInterpreter UseParameterSetMessages(this MidInterpreter midInterpreter, IDictionary<int, Type> mids)
+        {
+            ThrowIfInvalid<ParameterSet.IParameterSet>(mids);
             midInterpreter.UseTemplate<ParameterSet.ParameterSetMessages>(mids);
             return midInterpreter;
         }
@@ -318,9 +372,14 @@ namespace OpenProtocolInterpreter
 
         public static MidInterpreter UsePLCUserDataMessages(this MidInterpreter midInterpreter, IEnumerable<Type> mids)
         {
-            if (!IsValid(mids, typeof(PLCUserData.IPLCUserData)))
-                throw new ArgumentException($"Types should inherit Mid class and must implement IPLCUserData interface");
+            ThrowIfInvalid<PLCUserData.IPLCUserData>(mids);
+            midInterpreter.UseTemplate<PLCUserData.PLCUserDataMessages>(mids);
+            return midInterpreter;
+        }
 
+        public static MidInterpreter UsePLCUserDataMessages(this MidInterpreter midInterpreter, IDictionary<int, Type> mids)
+        {
+            ThrowIfInvalid<PLCUserData.IPLCUserData>(mids);
             midInterpreter.UseTemplate<PLCUserData.PLCUserDataMessages>(mids);
             return midInterpreter;
         }
@@ -333,9 +392,14 @@ namespace OpenProtocolInterpreter
 
         public static MidInterpreter UsePowerMACSMessages(this MidInterpreter midInterpreter, IEnumerable<Type> mids)
         {
-            if (!IsValid(mids, typeof(PowerMACS.IPowerMACS)))
-                throw new ArgumentException($"Types should inherit Mid class and must implement IPowerMACS interface");
+            ThrowIfInvalid<PowerMACS.IPowerMACS>(mids);
+            midInterpreter.UseTemplate<PowerMACS.PowerMACSMessages>(mids);
+            return midInterpreter;
+        }
 
+        public static MidInterpreter UsePowerMACSMessages(this MidInterpreter midInterpreter, IDictionary<int, Type> mids)
+        {
+            ThrowIfInvalid<PowerMACS.IPowerMACS>(mids);
             midInterpreter.UseTemplate<PowerMACS.PowerMACSMessages>(mids);
             return midInterpreter;
         }
@@ -348,9 +412,14 @@ namespace OpenProtocolInterpreter
 
         public static MidInterpreter UseResultMessages(this MidInterpreter midInterpreter, IEnumerable<Type> mids)
         {
-            if (!IsValid(mids, typeof(Result.IResult)))
-                throw new ArgumentException($"Types should inherit Mid class and must implement IResult interface");
+            ThrowIfInvalid<Result.IResult>(mids);
+            midInterpreter.UseTemplate<Result.ResultMessages>(mids);
+            return midInterpreter;
+        }
 
+        public static MidInterpreter UseResultMessages(this MidInterpreter midInterpreter, IDictionary<int, Type> mids)
+        {
+            ThrowIfInvalid<Result.IResult>(mids);
             midInterpreter.UseTemplate<Result.ResultMessages>(mids);
             return midInterpreter;
         }
@@ -363,9 +432,14 @@ namespace OpenProtocolInterpreter
 
         public static MidInterpreter UseStatisticMessages(this MidInterpreter midInterpreter, IEnumerable<Type> mids)
         {
-            if (!IsValid(mids, typeof(Statistic.IStatistic)))
-                throw new ArgumentException($"Types should inherit Mid class and must implement IStatistic interface");
+            ThrowIfInvalid<Statistic.IStatistic>(mids);
+            midInterpreter.UseTemplate<Statistic.StatisticMessages>(mids);
+            return midInterpreter;
+        }
 
+        public static MidInterpreter UseStatisticMessages(this MidInterpreter midInterpreter, IDictionary<int, Type> mids)
+        {
+            ThrowIfInvalid<Statistic.IStatistic>(mids);
             midInterpreter.UseTemplate<Statistic.StatisticMessages>(mids);
             return midInterpreter;
         }
@@ -378,9 +452,14 @@ namespace OpenProtocolInterpreter
 
         public static MidInterpreter UseTighteningMessages(this MidInterpreter midInterpreter, IEnumerable<Type> mids)
         {
-            if (!IsValid(mids, typeof(Tightening.ITightening)))
-                throw new ArgumentException($"Types should inherit Mid class and must implement ITightening interface");
+            ThrowIfInvalid<Tightening.ITightening>(mids);
+            midInterpreter.UseTemplate<Tightening.TighteningMessages>(mids);
+            return midInterpreter;
+        }
 
+        public static MidInterpreter UseTighteningMessages(this MidInterpreter midInterpreter, IDictionary<int, Type> mids)
+        {
+            ThrowIfInvalid<Tightening.ITightening>(mids);
             midInterpreter.UseTemplate<Tightening.TighteningMessages>(mids);
             return midInterpreter;
         }
@@ -393,9 +472,14 @@ namespace OpenProtocolInterpreter
 
         public static MidInterpreter UseTimeMessages(this MidInterpreter midInterpreter, IEnumerable<Type> mids)
         {
-            if (!IsValid(mids, typeof(Time.ITime)))
-                throw new ArgumentException($"Types should inherit Mid class and must implement ITime interface");
+            ThrowIfInvalid<Time.ITime>(mids);
+            midInterpreter.UseTemplate<Time.TimeMessages>(mids);
+            return midInterpreter;
+        }
 
+        public static MidInterpreter UseTimeMessages(this MidInterpreter midInterpreter, IDictionary<int, Type> mids)
+        {
+            ThrowIfInvalid<Time.ITime>(mids);
             midInterpreter.UseTemplate<Time.TimeMessages>(mids);
             return midInterpreter;
         }
@@ -408,9 +492,14 @@ namespace OpenProtocolInterpreter
 
         public static MidInterpreter UseToolMessages(this MidInterpreter midInterpreter, IEnumerable<Type> mids)
         {
-            if (!IsValid(mids, typeof(Tool.ITool)))
-                throw new ArgumentException($"Types should inherit Mid class and must implement ITool interface");
+            ThrowIfInvalid<Tool.ITool>(mids);
+            midInterpreter.UseTemplate<Tool.ToolMessages>(mids);
+            return midInterpreter;
+        }
 
+        public static MidInterpreter UseToolMessages(this MidInterpreter midInterpreter, IDictionary<int, Type> mids)
+        {
+            ThrowIfInvalid<Tool.ITool>(mids);
             midInterpreter.UseTemplate<Tool.ToolMessages>(mids);
             return midInterpreter;
         }
@@ -423,9 +512,14 @@ namespace OpenProtocolInterpreter
 
         public static MidInterpreter UseUserInterfaceMessages(this MidInterpreter midInterpreter, IEnumerable<Type> mids)
         {
-            if (!IsValid(mids, typeof(UserInterface.IUserInterface)))
-                throw new ArgumentException($"Types should inherit Mid class and must implement IUserInterface interface");
+            ThrowIfInvalid<UserInterface.IUserInterface>(mids);
+            midInterpreter.UseTemplate<UserInterface.UserInterfaceMessages>(mids);
+            return midInterpreter;
+        }
 
+        public static MidInterpreter UseUserInterfaceMessages(this MidInterpreter midInterpreter, IDictionary<int, Type> mids)
+        {
+            ThrowIfInvalid<UserInterface.IUserInterface>(mids);
             midInterpreter.UseTemplate<UserInterface.UserInterfaceMessages>(mids);
             return midInterpreter;
         }
@@ -438,11 +532,48 @@ namespace OpenProtocolInterpreter
 
         public static MidInterpreter UseVinMessages(this MidInterpreter midInterpreter, IEnumerable<Type> mids)
         {
-            if (!IsValid(mids, typeof(Vin.IVin)))
-                throw new ArgumentException($"Types should inherit Mid class and must implement IVin interface");
-
+            ThrowIfInvalid<Vin.IVin>(mids);
             midInterpreter.UseTemplate<Vin.VinMessages>(mids);
             return midInterpreter;
+        }
+
+        public static MidInterpreter UseVinMessages(this MidInterpreter midInterpreter, IDictionary<int, Type> mids)
+        {
+            ThrowIfInvalid<Vin.IVin>(mids);
+            midInterpreter.UseTemplate<Vin.VinMessages>(mids);
+            return midInterpreter;
+        }
+
+        public static MidInterpreter UseCustomMessage(this MidInterpreter midInterpreter, IDictionary<int, Type> mids)
+        {
+            if (mids.Values.Any(x => !x.IsSubclassOf(typeof(Mid))))
+                throw new ArgumentException("All mids must inherit Mid class", nameof(mids));
+
+            var customMessageTemplate = new CustomMessages(mids);
+            midInterpreter.UseTemplate(customMessageTemplate);
+            return midInterpreter;
+        }
+
+        private static bool IsValid(IEnumerable<Type> mids, Type desiredInterface)
+        {
+            return mids.All(x => DoesImplementInterface(x, desiredInterface) && x.IsSubclassOf(typeof(Mid)));
+        }
+
+        private static bool DoesImplementInterface(Type mid, Type desiredInterface)
+        {
+            return desiredInterface.IsAssignableFrom(mid);
+        }
+
+        private static void ThrowIfInvalid<T>(IEnumerable<Type> mids)
+        {
+            var type = typeof(T);
+            if (!IsValid(mids, type))
+                throw new ArgumentException($"Types should inherit Mid class and must implement {type.Name} interface", nameof(mids));
+        }
+
+        private static void ThrowIfInvalid<T>(IDictionary<int, Type> mids)
+        {
+            ThrowIfInvalid<T>(mids.Select(x => x.Value));
         }
     }
 }
