@@ -22,8 +22,8 @@ jobs:
       run: |
         dotnet build src/MIDTesters.Core/MIDTesters.Core.csproj
         dotnet test src/MIDTesters.Core/MIDTesters.Core.csproj
+    - uses: nuget/setup-nuget@v1
     - name: Publish NuGet Package
-      uses: nuget/setup-nuget@v1
       with:
         nuget-api-key: ${{ secrets.NUGET_API_KEY }}
       run: |
