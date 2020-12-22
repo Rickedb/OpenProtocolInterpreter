@@ -9,6 +9,20 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MIDTesters", "src\MIDTester
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MIDTesters.Core", "src\MIDTesters.Core\MIDTesters.Core.csproj", "{478EE366-16EE-4B94-9E83-87E955A600F5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution Files", "{889BF604-4813-4B35-A790-3170FF26F063}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{BDBD675F-8C53-4422-B3EA-8087BF245AB5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{CE8390CD-7EFE-43CC-A8DD-123F04D6045E}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build.yml = .github\workflows\build.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +44,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BDBD675F-8C53-4422-B3EA-8087BF245AB5} = {889BF604-4813-4B35-A790-3170FF26F063}
+		{CE8390CD-7EFE-43CC-A8DD-123F04D6045E} = {BDBD675F-8C53-4422-B3EA-8087BF245AB5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4EEC9517-6E55-467A-A590-2AA2DC26D360}

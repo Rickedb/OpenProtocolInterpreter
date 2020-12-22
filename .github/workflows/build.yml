@@ -4,6 +4,7 @@ on:
   push:
     branches:
     - master
+    - customization
 
 jobs:
   build:
@@ -22,9 +23,10 @@ jobs:
         dotnet build src/MIDTesters.Core/MIDTesters.Core.csproj
         dotnet test src/MIDTesters.Core/MIDTesters.Core.csproj
     - name: NuGet setup
-      uses: warrenbuckley/Setup-Nuget@v1
+      uses: nuget/setup-nuget@v1
     - name: Publish NuGet Package
+      with:
+        nuget-api-key: ${{ secrets.NUGET_API_KEY }}
       run: |
         dotnet build src/OpenProtocolInterpreter/OpenProtocolInterpreter.csproj --configuration release
-        nuget setApiKey ${{ secrets.NUGET_API_KEY }}
         nuget push src/OpenProtocolInterpreter/bin/release/OpenProtocolInterpreter.3.2.2.nupkg -Source https://api.nuget.org/v3/index.json -SkipDuplicate
