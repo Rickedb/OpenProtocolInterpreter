@@ -40,7 +40,7 @@ namespace OpenProtocolInterpreter.IOInterface
         /// <summary>
         /// Default Constructor
         /// </summary>
-        /// <param name="ackFlag">0=Ack needed, 1=No Ack needed</param>
+        /// <param name="noAckFlag">0=Ack needed, 1=No Ack needed</param>
         public Mid0217(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
         {
             _intConverter = new Int32Converter();
@@ -52,7 +52,7 @@ namespace OpenProtocolInterpreter.IOInterface
         /// </summary>
         /// <param name="relayNumber">Three ASCII digits corresponding to a relay function</param>
         /// <param name="relayStatus">One ASCII digit representing the relay function status <para>true = Active</para><para>false = Not Active</para></param>
-        /// <param name="ackFlag">0=Ack needed, 1=No Ack needed</param>
+        /// <param name="noAckFlag">0=Ack needed, 1=No Ack needed</param>
         public Mid0217(RelayNumber relayNumber, bool relayStatus, int? noAckFlag = 0) : this(noAckFlag)
         {
             RelayNumber = relayNumber;
