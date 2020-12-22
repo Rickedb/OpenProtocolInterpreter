@@ -39,7 +39,7 @@
             <param name="toolReadyStatus">Tool ready status</param>
             <param name="time">Time stamp for the alarm</param>
             <param name="revision">Revision (Default revision = 1)</param>
-            <param name="ackflag">Acknowledge flag (Default = 1)</param>
+            <param name="noAckFlag">Acknowledge flag (Default = 1)</param>
         </member>
         <member name="M:OpenProtocolInterpreter.Alarm.Mid0071.#ctor(System.String,System.Boolean,System.Boolean,System.DateTime,System.String,System.Int32,System.Nullable{System.Int32})">
             <summary>
@@ -51,7 +51,7 @@
             <param name="time">Time stamp for the alarm</param>
             <param name="alarmText">Alarm text. 50 ASCII characters</param>
             <param name="revision">Revision (Default revision = 1)</param>
-            <param name="ackflag">Acknowledge flag (Default = 1)</param>
+            <param name="noAckFlag">Acknowledge flag (Default = 1)</param>
         </member>
         <member name="T:OpenProtocolInterpreter.Alarm.Mid0072">
             <summary>
@@ -512,7 +512,7 @@
             <param name="systemType">The system type of the controller. 3 ASCII digits</param>
             <param name="systemSubType">The system subtype. 3 ASCII digits</param>
             <param name="sequenceNumberSupport">Flag sequence number handling supported if = 1</param>
-            <param name="linkHandlingSupport">Flag linking functionality handling supported if = 1.</param>
+            <param name="linkingHandlingSupport">Flag linking functionality handling supported if = 1.</param>
             <param name="revision">Revision number (default = 6)</param>
         </member>
         <member name="M:OpenProtocolInterpreter.Communication.Mid0002.Validate(System.Collections.Generic.IEnumerable{System.String}@)">
@@ -1051,7 +1051,7 @@
             <summary>
             Default Constructor
             </summary>
-            <param name="ackFlag">0=Ack needed, 1=No Ack needed</param>
+            <param name="noAckFlag">0=Ack needed, 1=No Ack needed</param>
         </member>
         <member name="M:OpenProtocolInterpreter.IOInterface.Mid0217.#ctor(OpenProtocolInterpreter.RelayNumber,System.Boolean,System.Nullable{System.Int32})">
             <summary>
@@ -1059,7 +1059,7 @@
             </summary>
             <param name="relayNumber">Three ASCII digits corresponding to a relay function</param>
             <param name="relayStatus">One ASCII digit representing the relay function status <para>true = Active</para><para>false = Not Active</para></param>
-            <param name="ackFlag">0=Ack needed, 1=No Ack needed</param>
+            <param name="noAckFlag">0=Ack needed, 1=No Ack needed</param>
         </member>
         <member name="T:OpenProtocolInterpreter.IOInterface.Mid0218">
             <summary>
@@ -1484,7 +1484,7 @@
             <param name="jobBatchSize">This parameter gives the total number of tightening in the Job.The Job batch size is four bytes long. Four ASCII characters, range 0000-9999.</param>
             <param name="jobBatchCounter">This parameter gives the current value of the Job batch counter.The Job is completed when the Job batch counter is equal to the Job batch size. The Job batch counter is four bytes long. Four ASCII characters, range 0000-9999.</param>
             <param name="timestamp">Time stamp for the Job info. The time stamp is 19 bytes long and is specified by 19 ASCII characters</param>
-            <param name="ackFlag">0=Ack needed, 1=No Ack needed</param>
+            <param name="noAckFlag">0=Ack needed, 1=No Ack needed</param>
             <param name="revision">Revision number (default = 2)</param>
         </member>
         <member name="M:OpenProtocolInterpreter.Job.Mid0035.#ctor(System.Int32,OpenProtocolInterpreter.JobStatus,OpenProtocolInterpreter.JobBatchMode,System.Int32,System.Int32,System.DateTime,System.Int32,System.Int32,System.Int32,System.Int32,System.Nullable{System.Int32})">
@@ -1504,7 +1504,7 @@
             <para>Reserved = 2-6</para>
             <para>For PF4000, PF3000 is zero reported.</para>
             </param>
-            <param name="ackFlag">0=Ack needed, 1=No Ack needed</param>
+            <param name="noAckFlag">0=Ack needed, 1=No Ack needed</param>
             <param name="revision">Revision number (default = 3)</param>
         </member>
         <member name="M:OpenProtocolInterpreter.Job.Mid0035.#ctor(System.Int32,OpenProtocolInterpreter.JobStatus,OpenProtocolInterpreter.JobBatchMode,System.Int32,System.Int32,System.DateTime,OpenProtocolInterpreter.JobTighteningStatus,System.Int32,System.Nullable{System.Int32})">
@@ -1518,7 +1518,7 @@
             <param name="jobBatchCounter">This parameter gives the current value of the Job batch counter.The Job is completed when the Job batch counter is equal to the Job batch size. The Job batch counter is four bytes long. Four ASCII characters, range 0000-9999.</param>
             <param name="timestamp">Time stamp for the Job info. The time stamp is 19 bytes long and is specified by 19 ASCII characters</param>
             <param name="jobTighteningStatus">The Job tightening status is specified by two ASCII character.</param>
-            <param name="ackFlag">0=Ack needed, 1=No Ack needed</param>
+            <param name="noAckFlag">0=Ack needed, 1=No Ack needed</param>
             <param name="revision">Revision number (default = 4)</param>
         </member>
         <member name="M:OpenProtocolInterpreter.Job.Mid0035.Validate(System.Collections.Generic.IEnumerable{System.String}@)">
@@ -1657,16 +1657,576 @@
             </summary>
             <param name="midInterpreter">MidInterpreter instance</param>
             <param name="mode">Are you the integrator or controller?</param>
-            <returns></returns>
+            <returns>MidInterpreter instance</returns>
         </member>
         <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseAllMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IEnumerable{System.Type})">
             <summary>
-            Configure MidInterpreter to parse all available Mids of a mode
-            <para>Select Integrator if you're integrator or Controller if you're a controller</para>
+            Configure MidInterpreter to parse all specified Mids in IEnumerable
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Mids that you want to be available for parsing</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseCustomMessage(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IDictionary{System.Int32,System.Type})">
+            <summary>
+            Add custom MIDs that are not specified in Open Protocol documentation.
+            <para>Might be used for weird controllers</para>
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Dictionary with Mid x your custom type</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseAlarmMessages(OpenProtocolInterpreter.MidInterpreter,OpenProtocolInterpreter.InterpreterMode)">
+            <summary>
+            Include <see cref="T:OpenProtocolInterpreter.Alarm.IAlarm"/> MIDs into interpreter
             </summary>
             <param name="midInterpreter">MidInterpreter instance</param>
             <param name="mode">Are you the integrator or controller?</param>
-            <returns></returns>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseAlarmMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>
+            Include only a specific collection of <see cref="T:OpenProtocolInterpreter.Alarm.IAlarm"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Mids that you want to be available for parsing</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseAlarmMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IDictionary{System.Int32,System.Type})">
+            <summary>
+            Add all if not added yet and override specified <see cref="T:OpenProtocolInterpreter.Alarm.IAlarm"/> Mids
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Dictionary with Mid x your custom type to override</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseApplicationControllerMessage(OpenProtocolInterpreter.MidInterpreter,OpenProtocolInterpreter.InterpreterMode)">
+            <summary>
+            Include <see cref="T:OpenProtocolInterpreter.ApplicationController.IApplicationController"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mode">Are you the integrator or controller?</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseApplicationControllerMessage(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>
+            Include only a specific collection of <see cref="T:OpenProtocolInterpreter.ApplicationController.IApplicationController"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Mids that you want to be available for parsing</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseApplicationControllerMessage(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IDictionary{System.Int32,System.Type})">
+            <summary>
+            Add all if not added yet and override specified <see cref="T:OpenProtocolInterpreter.ApplicationController.IApplicationController"/> Mids
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Dictionary with Mid x your custom type to override</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseApplicationSelectorMessages(OpenProtocolInterpreter.MidInterpreter,OpenProtocolInterpreter.InterpreterMode)">
+            <summary>
+            Include <see cref="T:OpenProtocolInterpreter.ApplicationSelector.IApplicationSelector"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mode">Are you the integrator or controller?</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseApplicationSelectorMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>
+            Include only a specific collection of <see cref="T:OpenProtocolInterpreter.ApplicationSelector.IApplicationSelector"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Mids that you want to be available for parsing</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseApplicationSelectorMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IDictionary{System.Int32,System.Type})">
+            <summary>
+            Add all if not added yet and override specified <see cref="T:OpenProtocolInterpreter.ApplicationSelector.IApplicationSelector"/> Mids
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Dictionary with Mid x your custom type to override</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseApplicationToolLocationSystemMessages(OpenProtocolInterpreter.MidInterpreter,OpenProtocolInterpreter.InterpreterMode)">
+            <summary>
+            Include <see cref="T:OpenProtocolInterpreter.ApplicationToolLocationSystem.IApplicationToolLocationSystem"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mode">Are you the integrator or controller?</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseApplicationToolLocationSystemMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>
+            Include only a specific collection of <see cref="T:OpenProtocolInterpreter.ApplicationToolLocationSystem.IApplicationToolLocationSystem"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Mids that you want to be available for parsing</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseApplicationToolLocationSystemMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IDictionary{System.Int32,System.Type})">
+            <summary>
+            Add all if not added yet and override specified <see cref="T:OpenProtocolInterpreter.ApplicationToolLocationSystem.IApplicationToolLocationSystem"/> Mids
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Dictionary with Mid x your custom type to override</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseAutomaticManualModeMessages(OpenProtocolInterpreter.MidInterpreter,OpenProtocolInterpreter.InterpreterMode)">
+            <summary>
+            Include <see cref="T:OpenProtocolInterpreter.AutomaticManualMode.IAutomaticManualMode"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mode">Are you the integrator or controller?</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseAutomaticManualModeMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>
+            Include only a specific collection of <see cref="T:OpenProtocolInterpreter.AutomaticManualMode.IAutomaticManualMode"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Mids that you want to be available for parsing</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseAutomaticManualModeMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IDictionary{System.Int32,System.Type})">
+            <summary>
+            Add all if not added yet and override specified <see cref="T:OpenProtocolInterpreter.AutomaticManualMode.IAutomaticManualMode"/> Mids
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Dictionary with Mid x your custom type to override</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseCommunicationMessages(OpenProtocolInterpreter.MidInterpreter,OpenProtocolInterpreter.InterpreterMode)">
+            <summary>
+            Include <see cref="T:OpenProtocolInterpreter.Communication.ICommunication"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mode">Are you the integrator or controller?</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseCommunicationMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>
+            Include only a specific collection of <see cref="T:OpenProtocolInterpreter.Communication.ICommunication"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Mids that you want to be available for parsing</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseCommunicationMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IDictionary{System.Int32,System.Type})">
+            <summary>
+            Add all if not added yet and override specified <see cref="T:OpenProtocolInterpreter.Communication.ICommunication"/> Mids
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Dictionary with Mid x your custom type to override</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseIOInterfaceMessages(OpenProtocolInterpreter.MidInterpreter,OpenProtocolInterpreter.InterpreterMode)">
+            <summary>
+            Include <see cref="T:OpenProtocolInterpreter.IOInterface.IIOInterface"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mode">Are you the integrator or controller?</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseIOInterfaceMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>
+            Include only a specific collection of <see cref="T:OpenProtocolInterpreter.IOInterface.IIOInterface"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Mids that you want to be available for parsing</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseIOInterfaceMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IDictionary{System.Int32,System.Type})">
+            <summary>
+            Add all if not added yet and override specified <see cref="T:OpenProtocolInterpreter.IOInterface.IIOInterface"/> Mids
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Dictionary with Mid x your custom type to override</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseJobMessages(OpenProtocolInterpreter.MidInterpreter,OpenProtocolInterpreter.InterpreterMode)">
+            <summary>
+            Include <see cref="T:OpenProtocolInterpreter.Job.IJob"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mode">Are you the integrator or controller?</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseJobMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>
+            Include only a specific collection of <see cref="T:OpenProtocolInterpreter.Job.IJob"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Mids that you want to be available for parsing</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseJobMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IDictionary{System.Int32,System.Type})">
+            <summary>
+            Add all if not added yet and override specified <see cref="T:OpenProtocolInterpreter.Job.IJob"/> Mids
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Dictionary with Mid x your custom type to override</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseAdvancedJobMessages(OpenProtocolInterpreter.MidInterpreter,OpenProtocolInterpreter.InterpreterMode)">
+            <summary>
+            Include <see cref="T:OpenProtocolInterpreter.Job.Advanced.IAdvancedJob"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mode">Are you the integrator or controller?</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseAdvancedJobMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>
+            Include only a specific collection of <see cref="T:OpenProtocolInterpreter.Job.Advanced.IAdvancedJob"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Mids that you want to be available for parsing</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseAdvancedJobMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IDictionary{System.Int32,System.Type})">
+            <summary>
+            Add all if not added yet and override specified <see cref="T:OpenProtocolInterpreter.Job.Advanced.IAdvancedJob"/> Mids
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Dictionary with Mid x your custom type to override</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseMotorTuningMessages(OpenProtocolInterpreter.MidInterpreter,OpenProtocolInterpreter.InterpreterMode)">
+            <summary>
+            Include <see cref="T:OpenProtocolInterpreter.MotorTuning.IMotorTuning"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mode">Are you the integrator or controller?</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseMotorTuningMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>
+            Include only a specific collection of <see cref="T:OpenProtocolInterpreter.MotorTuning.IMotorTuning"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Mids that you want to be available for parsing</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseMotorTuningMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IDictionary{System.Int32,System.Type})">
+            <summary>
+            Add all if not added yet and override specified <see cref="T:OpenProtocolInterpreter.MotorTuning.IMotorTuning"/> Mids
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Dictionary with Mid x your custom type to override</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseMultipleIdentifiersMessages(OpenProtocolInterpreter.MidInterpreter,OpenProtocolInterpreter.InterpreterMode)">
+            <summary>
+            Include <see cref="T:OpenProtocolInterpreter.MultipleIdentifiers.IMultipleIdentifier"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mode">Are you the integrator or controller?</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseMultipleIdentifiersMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>
+            Include only a specific collection of <see cref="T:OpenProtocolInterpreter.MultipleIdentifiers.IMultipleIdentifier"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Mids that you want to be available for parsing</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseMultipleIdentifiersMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IDictionary{System.Int32,System.Type})">
+            <summary>
+            Add all if not added yet and override specified <see cref="T:OpenProtocolInterpreter.MultipleIdentifiers.IMultipleIdentifier"/> Mids
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Dictionary with Mid x your custom type to override</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseMultiSpindleMessages(OpenProtocolInterpreter.MidInterpreter,OpenProtocolInterpreter.InterpreterMode)">
+            <summary>
+            Include <see cref="T:OpenProtocolInterpreter.MultiSpindle.IMultiSpindle"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mode">Are you the integrator or controller?</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseMultiSpindleMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>
+            Include only a specific collection of <see cref="T:OpenProtocolInterpreter.MultiSpindle.IMultiSpindle"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Mids that you want to be available for parsing</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseMultiSpindleMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IDictionary{System.Int32,System.Type})">
+            <summary>
+            Add all if not added yet and override specified <see cref="T:OpenProtocolInterpreter.MultiSpindle.IMultiSpindle"/> Mids
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Dictionary with Mid x your custom type to override</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseOpenProtocolCommandsDisabledMessages(OpenProtocolInterpreter.MidInterpreter,OpenProtocolInterpreter.InterpreterMode)">
+            <summary>
+            Include <see cref="T:OpenProtocolInterpreter.OpenProtocolCommandsDisabled.IOpenProtocolCommandsDisabled"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mode">Are you the integrator or controller?</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseOpenProtocolCommandsDisabledMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>
+            Include only a specific collection of <see cref="T:OpenProtocolInterpreter.OpenProtocolCommandsDisabled.IOpenProtocolCommandsDisabled"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Mids that you want to be available for parsing</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseOpenProtocolCommandsDisabledMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IDictionary{System.Int32,System.Type})">
+            <summary>
+            Add all if not added yet and override specified <see cref="T:OpenProtocolInterpreter.OpenProtocolCommandsDisabled.IOpenProtocolCommandsDisabled"/> Mids
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Dictionary with Mid x your custom type to override</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseParameterSetMessages(OpenProtocolInterpreter.MidInterpreter,OpenProtocolInterpreter.InterpreterMode)">
+            <summary>
+            Include <see cref="T:OpenProtocolInterpreter.ParameterSet.IParameterSet"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mode">Are you the integrator or controller?</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseParameterSetMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>
+            Include only a specific collection of <see cref="T:OpenProtocolInterpreter.ParameterSet.IParameterSet"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Mids that you want to be available for parsing</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseParameterSetMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IDictionary{System.Int32,System.Type})">
+            <summary>
+            Add all if not added yet and override specified <see cref="T:OpenProtocolInterpreter.ParameterSet.IParameterSet"/> Mids
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Dictionary with Mid x your custom type to override</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UsePLCUserDataMessages(OpenProtocolInterpreter.MidInterpreter,OpenProtocolInterpreter.InterpreterMode)">
+            <summary>
+            Include <see cref="T:OpenProtocolInterpreter.PLCUserData.IPLCUserData"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mode">Are you the integrator or controller?</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UsePLCUserDataMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>
+            Include only a specific collection of <see cref="T:OpenProtocolInterpreter.PLCUserData.IPLCUserData"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Mids that you want to be available for parsing</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UsePLCUserDataMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IDictionary{System.Int32,System.Type})">
+            <summary>
+            Add all if not added yet and override specified <see cref="T:OpenProtocolInterpreter.PLCUserData.IPLCUserData"/> Mids
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Dictionary with Mid x your custom type to override</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UsePowerMACSMessages(OpenProtocolInterpreter.MidInterpreter,OpenProtocolInterpreter.InterpreterMode)">
+            <summary>
+            Include <see cref="T:OpenProtocolInterpreter.PowerMACS.IPowerMACS"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mode">Are you the integrator or controller?</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UsePowerMACSMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>
+            Include only a specific collection of <see cref="T:OpenProtocolInterpreter.PowerMACS.IPowerMACS"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Mids that you want to be available for parsing</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UsePowerMACSMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IDictionary{System.Int32,System.Type})">
+            <summary>
+            Add all if not added yet and override specified <see cref="T:OpenProtocolInterpreter.PowerMACS.IPowerMACS"/> Mids
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Dictionary with Mid x your custom type to override</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseResultMessages(OpenProtocolInterpreter.MidInterpreter,OpenProtocolInterpreter.InterpreterMode)">
+            <summary>
+            Include <see cref="T:OpenProtocolInterpreter.Result.IResult"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mode">Are you the integrator or controller?</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseResultMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>
+            Include only a specific collection of <see cref="T:OpenProtocolInterpreter.Result.IResult"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Mids that you want to be available for parsing</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseResultMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IDictionary{System.Int32,System.Type})">
+            <summary>
+            Add all if not added yet and override specified <see cref="T:OpenProtocolInterpreter.Result.IResult"/> Mids
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Dictionary with Mid x your custom type to override</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseStatisticMessages(OpenProtocolInterpreter.MidInterpreter,OpenProtocolInterpreter.InterpreterMode)">
+            <summary>
+            Include <see cref="T:OpenProtocolInterpreter.Statistic.IStatistic"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mode">Are you the integrator or controller?</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseStatisticMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>
+            Include only a specific collection of <see cref="T:OpenProtocolInterpreter.Statistic.IStatistic"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Mids that you want to be available for parsing</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseStatisticMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IDictionary{System.Int32,System.Type})">
+            <summary>
+            Add all if not added yet and override specified <see cref="T:OpenProtocolInterpreter.Statistic.IStatistic"/> Mids
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Dictionary with Mid x your custom type to override</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseTighteningMessages(OpenProtocolInterpreter.MidInterpreter,OpenProtocolInterpreter.InterpreterMode)">
+            <summary>
+            Include <see cref="T:OpenProtocolInterpreter.Tightening.ITightening"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mode">Are you the integrator or controller?</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseTighteningMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>
+            Include only a specific collection of <see cref="T:OpenProtocolInterpreter.Tightening.ITightening"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Mids that you want to be available for parsing</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseTighteningMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IDictionary{System.Int32,System.Type})">
+            <summary>
+            Add all if not added yet and override specified <see cref="T:OpenProtocolInterpreter.Tightening.ITightening"/> Mids
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Dictionary with Mid x your custom type to override</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseTimeMessages(OpenProtocolInterpreter.MidInterpreter,OpenProtocolInterpreter.InterpreterMode)">
+            <summary>
+            Include <see cref="T:OpenProtocolInterpreter.Time.ITime"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mode">Are you the integrator or controller?</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseTimeMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>
+            Include only a specific collection of <see cref="T:OpenProtocolInterpreter.Time.ITime"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Mids that you want to be available for parsing</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseTimeMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IDictionary{System.Int32,System.Type})">
+            <summary>
+            Add all if not added yet and override specified <see cref="T:OpenProtocolInterpreter.Time.ITime"/> Mids
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Dictionary with Mid x your custom type to override</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseToolMessages(OpenProtocolInterpreter.MidInterpreter,OpenProtocolInterpreter.InterpreterMode)">
+            <summary>
+            Include <see cref="T:OpenProtocolInterpreter.Tool.ITool"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mode">Are you the integrator or controller?</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseToolMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>
+            Include only a specific collection of <see cref="T:OpenProtocolInterpreter.Tool.ITool"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Mids that you want to be available for parsing</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseToolMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IDictionary{System.Int32,System.Type})">
+            <summary>
+            Add all if not added yet and override specified <see cref="T:OpenProtocolInterpreter.Tool.ITool"/> Mids
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Dictionary with Mid x your custom type to override</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseUserInterfaceMessages(OpenProtocolInterpreter.MidInterpreter,OpenProtocolInterpreter.InterpreterMode)">
+            <summary>
+            Include <see cref="T:OpenProtocolInterpreter.UserInterface.IUserInterface"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mode">Are you the integrator or controller?</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseUserInterfaceMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>
+            Include only a specific collection of <see cref="T:OpenProtocolInterpreter.UserInterface.IUserInterface"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Mids that you want to be available for parsing</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseUserInterfaceMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IDictionary{System.Int32,System.Type})">
+            <summary>
+            Add all if not added yet and override specified <see cref="T:OpenProtocolInterpreter.UserInterface.IUserInterface"/> Mids
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Dictionary with Mid x your custom type to override</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseVinMessages(OpenProtocolInterpreter.MidInterpreter,OpenProtocolInterpreter.InterpreterMode)">
+            <summary>
+            Include <see cref="T:OpenProtocolInterpreter.Vin.IVin"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mode">Are you the integrator or controller?</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseVinMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>
+            Include only a specific collection of <see cref="T:OpenProtocolInterpreter.Vin.IVin"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Mids that you want to be available for parsing</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseVinMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IDictionary{System.Int32,System.Type})">
+            <summary>
+            Add all if not added yet and override specified <see cref="T:OpenProtocolInterpreter.Vin.IVin"/> Mids
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Dictionary with Mid x your custom type to override</param>
+            <returns>MidInterpreter instance</returns>
         </member>
         <member name="T:OpenProtocolInterpreter.MotorTuning.IMotorTuning">
             <summary>
@@ -2131,7 +2691,7 @@
             <summary>
             Revision 1 Constructor
             </summary>
-            <param name="ackFlag">0=Ack needed, 1=No Ack needed</param>
+            <param name="noAckFlag">0=Ack needed, 1=No Ack needed</param>
         </member>
         <member name="T:OpenProtocolInterpreter.ParameterSet.Mid0015">
             <summary>
@@ -2150,7 +2710,7 @@
             <summary>
             Constructor
             </summary>
-            <param name="ackFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
+            <param name="noAckFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
             <param name="revision">Range: 000-002</param>
         </member>
         <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0015.#ctor(System.Int32,System.DateTime,System.Nullable{System.Int32},System.Int32)">
@@ -2159,7 +2719,7 @@
             </summary>
             <param name="parameterSetId">Three ASCII digits, range 000-999</param>
             <param name="lastChangeInParameterSet">19 ASCII characters. YYYY-MM-DD:HH:MM:SS</param>
-            <param name="ackFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
+            <param name="noAckFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
             <param name="revision">Range: 000-002</param>
         </member>
         <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0015.#ctor(System.Int32,System.String,System.DateTime,OpenProtocolInterpreter.RotationDirection,System.Int32,System.Decimal,System.Decimal,System.Decimal,System.Int32,System.Int32,System.Int32,System.Decimal,System.Decimal,System.Nullable{System.Int32},System.Int32)">
@@ -2179,7 +2739,7 @@
             <param name="finalAngleTarget">The target angle is specified in degrees. 5 ASCII digits.Range: 00000-99999.</param>
             <param name="firstTarget">The torque first target is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
             <param name="startFinalAngle">The start final angle is the torque to reach the snug level.The start final angle is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
-            <param name="ackFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
+            <param name="noAckFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
             <param name="revision">Range: 000-002 (Default = 2)</param>
         </member>
         <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0015.Validate(System.Collections.Generic.IEnumerable{System.String}@)">
@@ -2291,7 +2851,7 @@
             Revision 1 Constructor
             </summary>
             <param name="relayStatus">Relay Status</param>
-            <param name="ackFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
+            <param name="noAckFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
         </member>
         <member name="T:OpenProtocolInterpreter.ParameterSet.Mid0023">
             <summary>
@@ -3331,6 +3891,12 @@
             <param name="mid">Mid number</param>
             <param name="package">package in bytes</param>
             <returns><see cref="T:OpenProtocolInterpreter.Mid"/> instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Messages.MessagesTemplate.AddOrUpdateTemplate(System.Collections.Generic.IDictionary{System.Int32,System.Type})">
+            <summary>
+            Update Mid instance it should instantiate
+            </summary>
+            <param name="types">Mid x Type key/value</param>
         </member>
         <member name="M:OpenProtocolInterpreter.Messages.MessagesTemplate.FilterSelectedMids(OpenProtocolInterpreter.InterpreterMode)">
             <summary>
