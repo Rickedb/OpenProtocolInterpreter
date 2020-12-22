@@ -93,6 +93,21 @@ namespace OpenProtocolInterpreter
             }
         }
 
+        internal void UseTemplate<T>(IDictionary<int, Type> types) where T : IMessagesTemplate
+        {
+            if (types.Any())
+            {
+                var instance = _messagesTemplates.FirstOrDefault(x => x.GetType().Equals(typeof(T)));
+                if(instance == default)
+                {
+                    instance = (IMessagesTemplate)Activator.CreateInstance(typeof(T), new object[] { types.Select(x=> x.Value) });
+                    UseTemplate(instance);
+                }
+
+                instance.AddOrUpdateTemplate(types);
+            }
+        }
+
         private IMessagesTemplate GetMessageTemplate(int mid)
         {
             if (!_fastAccessTemplate.TryGetValue(mid, out IMessagesTemplate template))

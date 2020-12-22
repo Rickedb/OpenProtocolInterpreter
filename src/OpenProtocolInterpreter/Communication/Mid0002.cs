@@ -220,7 +220,7 @@ namespace OpenProtocolInterpreter.Communication
         /// <param name="systemType">The system type of the controller. 3 ASCII digits</param>
         /// <param name="systemSubType">The system subtype. 3 ASCII digits</param>
         /// <param name="sequenceNumberSupport">Flag sequence number handling supported if = 1</param>
-        /// <param name="linkHandlingSupport">Flag linking functionality handling supported if = 1.</param>
+        /// <param name="linkingHandlingSupport">Flag linking functionality handling supported if = 1.</param>
         /// <param name="revision">Revision number (default = 6)</param>
         public Mid0002(int cellId, int channelId, string controllerName, string supplierCode, string openProtocolVersion, string controllerSoftwareVersion, string toolSoftwareVersion, string rbuType,
             string controllerSerialNumber, SystemType systemType, SystemSubType systemSubType, bool sequenceNumberSupport, bool linkingHandlingSupport, int revision = 6)

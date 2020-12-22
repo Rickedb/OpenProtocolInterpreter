@@ -125,7 +125,7 @@ namespace OpenProtocolInterpreter.Job
         /// <param name="jobBatchSize">This parameter gives the total number of tightening in the Job.The Job batch size is four bytes long. Four ASCII characters, range 0000-9999.</param>
         /// <param name="jobBatchCounter">This parameter gives the current value of the Job batch counter.The Job is completed when the Job batch counter is equal to the Job batch size. The Job batch counter is four bytes long. Four ASCII characters, range 0000-9999.</param>
         /// <param name="timestamp">Time stamp for the Job info. The time stamp is 19 bytes long and is specified by 19 ASCII characters</param>
-        /// <param name="ackFlag">0=Ack needed, 1=No Ack needed</param>
+        /// <param name="noAckFlag">0=Ack needed, 1=No Ack needed</param>
         /// <param name="revision">Revision number (default = 2)</param>
         public Mid0035(int jobId, JobStatus jobStatus, JobBatchMode jobBatchMode,
             int jobBatchSize, int jobBatchCounter, DateTime timestamp, int revision = 2, int? noAckFlag = 0) : this(revision, noAckFlag)
@@ -154,7 +154,7 @@ namespace OpenProtocolInterpreter.Job
         /// <para>Reserved = 2-6</para>
         /// <para>For PF4000, PF3000 is zero reported.</para>
         /// </param>
-        /// <param name="ackFlag">0=Ack needed, 1=No Ack needed</param>
+        /// <param name="noAckFlag">0=Ack needed, 1=No Ack needed</param>
         /// <param name="revision">Revision number (default = 3)</param>
         public Mid0035(int jobId, JobStatus jobStatus, JobBatchMode jobBatchMode,
            int jobBatchSize, int jobBatchCounter, DateTime timestamp, int jobCurrentStep, int jobTotalNumberOfSteps,
@@ -176,7 +176,7 @@ namespace OpenProtocolInterpreter.Job
         /// <param name="jobBatchCounter">This parameter gives the current value of the Job batch counter.The Job is completed when the Job batch counter is equal to the Job batch size. The Job batch counter is four bytes long. Four ASCII characters, range 0000-9999.</param>
         /// <param name="timestamp">Time stamp for the Job info. The time stamp is 19 bytes long and is specified by 19 ASCII characters</param>
         /// <param name="jobTighteningStatus">The Job tightening status is specified by two ASCII character.</param>
-        /// <param name="ackFlag">0=Ack needed, 1=No Ack needed</param>
+        /// <param name="noAckFlag">0=Ack needed, 1=No Ack needed</param>
         /// <param name="revision">Revision number (default = 4)</param>
         public Mid0035(int jobId, JobStatus jobStatus, JobBatchMode jobBatchMode,
            int jobBatchSize, int jobBatchCounter, DateTime timestamp, JobTighteningStatus jobTighteningStatus,
