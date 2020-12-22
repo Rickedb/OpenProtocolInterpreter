@@ -1,11 +1,11 @@
-name: build
+name: master
 
-on: 
+on:
   pull_request:
-    paths:
-      - 'src/*'
+    branches:
+      - master
   push:
-    branches-ignore:
+    branches:
       - master
 
 jobs:
@@ -31,3 +31,16 @@ jobs:
         run: |
           dotnet build src/MIDTesters.Core/MIDTesters.Core.csproj
           dotnet test src/MIDTesters.Core/MIDTesters.Core.csproj
+  publish:
+    needs: [build, test]
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Publish package
+        uses: nuget/setup-nuget@v1
+        with:
+          nuget-api-key: ${{ secrets.NUGET_API_KEY }}
+      - name: Publish NuGet
+        run: |
+          dotnet build src/OpenProtocolInterpreter/OpenProtocolInterpreter.csproj --configuration release
+          nuget push src/OpenProtocolInterpreter/bin/release/OpenProtocolInterpreter.3.2.2.nupkg -Source https://api.nuget.org/v3/index.json -SkipDuplicate
