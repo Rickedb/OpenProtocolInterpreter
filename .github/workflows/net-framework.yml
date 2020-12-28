@@ -15,19 +15,19 @@ jobs:
       - uses: actions/checkout@master
       - name: Setup .Net Framework
         uses: microsoft/setup-msbuild@v1.0.2
-      - name: Setup net standard
-        uses: actions/setup-dotnet@v1
-      - name: Build
-        run: msbuild src/OpenProtocolInterpreter/OpenProtocolInterpreter.csproj -p:Configuration=Release
+      - name: build
+        run: | 
+          msbuild src/OpenProtocolInterpreter/OpenProtocolInterpreter.csproj -t:restore
+          msbuild src/OpenProtocolInterpreter/OpenProtocolInterpreter.csproj -p:Configuration=Release
   test:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@master
       - name: Setup .Net Framework
         uses: microsoft/setup-msbuild@v1.0.2
-      - name: Setup net standard
-        uses: actions/setup-dotnet@v1
       - name: build
-        run: msbuild src/MIDTesters/MIDTesters.csproj
+        run: | 
+          msbuild src/MIDTesters/MIDTesters.csproj -t:restore
+          msbuild src/MIDTesters/MIDTesters.csproj
       - name: test
         run: vstest.console src/MIDTesters/bin/Debug/MIDTesters.dll
