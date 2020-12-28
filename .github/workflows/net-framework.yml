@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Setup .Net Framework
-        uses: microsoft/setup-msbuild@v1.0.2
+        uses: rickedb/setup-msbuild@dev
       - name: build
         run: | 
           msbuild src/MIDTesters/MIDTesters.csproj -t:restore
