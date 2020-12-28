@@ -1,0 +1,29 @@
+name: .Net Framework
+
+on: 
+  pull_request:
+    paths:
+      - 'src/*'
+  push:
+    branches-ignore:
+      - master
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Setup
+        uses: microsoft/setup-msbuild@v1.0.2
+      - name: Build
+        run: msbuild src/OpenProtocolInterpreter/OpenProtocolInterpreter.csproj --configuration release
+  test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Setup
+        uses: microsoft/setup-msbuild@v1.0.2
+      - name: build
+        run: msbuild src/MIDTesters/MIDTesters.csproj
+      - name: test
+        run: vstest.console src/MIDTesters/bin/Debug/MIDTesters.dll

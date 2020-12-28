@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MIDTesters", "src\MIDTester
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MIDTesters.Core", "src\MIDTesters.Core\MIDTesters.Core.csproj", "{478EE366-16EE-4B94-9E83-87E955A600F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenProtocolInterpreter.Ethernet.Integrator", "src\OpenProtocolInterpreter.Ethernet.Integrator\OpenProtocolInterpreter.Ethernet.Integrator.csproj", "{F8A01A2F-5BB3-42B6-B744-A6F36FD84027}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenProtocolInterpreter.Ethernet.Integrator", "src\OpenProtocolInterpreter.Ethernet.Integrator\OpenProtocolInterpreter.Ethernet.Integrator.csproj", "{F8A01A2F-5BB3-42B6-B744-A6F36FD84027}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution Files", "{889BF604-4813-4B35-A790-3170FF26F063}"
 	ProjectSection(SolutionItems) = preProject
@@ -22,7 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{BDBD
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{CE8390CD-7EFE-43CC-A8DD-123F04D6045E}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\build.yml = .github\workflows\build.yml
+		.github\workflows\dotnetcore.yml = .github\workflows\dotnetcore.yml
+		.github\workflows\net-framework.yml = .github\workflows\net-framework.yml
 		.github\workflows\release.yml = .github\workflows\release.yml
 	EndProjectSection
 EndProject
