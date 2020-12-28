@@ -30,4 +30,4 @@ jobs:
           msbuild src/MIDTesters/MIDTesters.csproj -t:restore
           msbuild src/MIDTesters/MIDTesters.csproj
       - name: test
-        run: vstest.console src/MIDTesters/bin/Debug/MIDTesters.dll
+        run: mstest src/MIDTesters/bin/Debug/MIDTesters.dll
