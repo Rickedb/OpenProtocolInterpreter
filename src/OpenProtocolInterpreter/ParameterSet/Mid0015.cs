@@ -99,7 +99,7 @@ namespace OpenProtocolInterpreter.ParameterSet
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="ackFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
+        /// <param name="noAckFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
         /// <param name="revision">Range: 000-002</param>
         public Mid0015(int revision = LAST_REVISION, int? noAckFlag = 0) : base(MID, revision, noAckFlag)
         {
@@ -113,7 +113,7 @@ namespace OpenProtocolInterpreter.ParameterSet
         /// </summary>
         /// <param name="parameterSetId">Three ASCII digits, range 000-999</param>
         /// <param name="lastChangeInParameterSet">19 ASCII characters. YYYY-MM-DD:HH:MM:SS</param>
-        /// <param name="ackFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
+        /// <param name="noAckFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
         /// <param name="revision">Range: 000-002</param>
         public Mid0015(int parameterSetId, DateTime lastChangeInParameterSet, int? noAckFlag = 0, int revision = 1)
             : this(revision, noAckFlag)
@@ -138,7 +138,7 @@ namespace OpenProtocolInterpreter.ParameterSet
         /// <param name="finalAngleTarget">The target angle is specified in degrees. 5 ASCII digits.Range: 00000-99999.</param>
         /// <param name="firstTarget">The torque first target is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
         /// <param name="startFinalAngle">The start final angle is the torque to reach the snug level.The start final angle is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
-        /// <param name="ackFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
+        /// <param name="noAckFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
         /// <param name="revision">Range: 000-002 (Default = 2)</param>
         public Mid0015(int parameterSetId, string parameterSetName, DateTime lastChangeInParameterSet, RotationDirection rotationDirection, int batchSize,
             decimal torqueMin, decimal torqueMax, decimal torqueFinalTarget, int angleMin, int angleMax, int finalAngleTarget, decimal firstTarget, decimal startFinalAngle,

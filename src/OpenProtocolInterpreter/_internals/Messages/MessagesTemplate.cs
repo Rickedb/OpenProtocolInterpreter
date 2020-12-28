@@ -51,6 +51,23 @@ namespace OpenProtocolInterpreter.Messages
         }
 
         /// <summary>
+        /// Update Mid instance it should instantiate
+        /// </summary>
+        /// <param name="types">Mid x Type key/value</param>
+        public void AddOrUpdateTemplate(IDictionary<int, Type> types)
+        {
+            foreach (var type in types)
+            {
+                if (_templates.ContainsKey(type.Key))
+                {
+                    _templates.Remove(type.Key);
+                }
+
+                _templates.Add(type.Key, new MidCompiledInstance(type.Value));
+            }
+        }
+
+        /// <summary>
         /// Filter dictionary to use only Mids from it's mode.
         /// </summary>
         /// <param name="mode">Current mode if <see cref="InterpreterMode.Controller"/>, <see cref="InterpreterMode.Integrator"/> or <see cref="InterpreterMode.Both"/>.</param>

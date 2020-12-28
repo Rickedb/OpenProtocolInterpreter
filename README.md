@@ -1,7 +1,17 @@
 <img src="https://github.com/Rickedb/OpenProtocolInterpreter/blob/master/media/logo.png?raw=true" width="550" alt="Open Protocol Interpreter" />
 
-[![Build status](https://github.com/rickedb/openprotocolinterpreter/workflows/master/badge.svg)](https://github.com/Rickedb/OpenProtocolInterpreter/) 
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/Rickedb/OpenProtocolIntepreter/master/LICENSE)
+<h1>
+  <a href="https://opencollective.com/open-protocol-interpreter" alt="Financial Contributors on Open Collective">
+    <img src="https://opencollective.com/open-protocol-interpreter/all/badge.svg?label=financial+contributors" />
+  </a>
+  <a href="https://github.com/Rickedb/OpenProtocolInterpreter/">
+    <img src="https://github.com/rickedb/openprotocolinterpreter/workflows/master/badge.svg" />
+  </a>
+  <a href="https://raw.githubusercontent.com/Rickedb/OpenProtocolIntepreter/master/LICENSE">
+    <img src= "https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT">
+  </a>
+</h1>
+
 > OpenProtocol communication utility
 
 > Missing OpenProtocolInterpreter v1.0.0 ? [>It's here!<](https://github.com/Rickedb/OpenProtocolInterpreter/releases/tag/1.0.0)
@@ -125,6 +135,93 @@ var myMid01 = myCustomInterpreter.Parse<Mid0001>(package);
 When you don't know which package will come, use ``` Parse ``` overload, not ``` Parse<DesiredMid> ```. If you want, take a look at the sample on this repository.
 > If necessary, there is a new overload where you can define if you're the controller or the integrator, which will automatically handle implemented mids
 
+#### MIDs Overriding
+
+Maybe you have a totally crazy controller that does not implement the Mid as the documentation says or you might want to inject your own Mid inheriting another Mid, 
+so you can customize it and add more properties to handle some conversions. Anyway, if you need that, it's possible to override!
+
+Here is an example:
+``` csharp
+//This will override Mid 81 with my custom Mid
+var _midInterpreter new MidInterpreter().UseAllMessages()
+                                        .UseTimeMessages(new Dictionary<int, Type>() { { 81, typeof(OverridedMid0081) } });
+
+
+public class OverridedMid0081 : Mid0081
+{
+    public string FormattedDate
+    {
+        get => Time.ToString("dd/MM/yyyy HH:mm:ss");
+        set => Time = DateTime.Parse(value);
+    }
+
+    public OverridedMid0081()
+    {
+        
+    }
+
+    public override string Pack()
+    {
+        Time = TestCustomMid.Now;
+        return base.Pack();
+    }
+}
+```
+
+#### Adding MIDs that are not in documentation
+
+Maybe your controller is weird and have unknown MID numbers, MIDs that are not in the documentation and you want to inject into MidInterpreter, there is a way:
+
+``` csharp
+var _midInterpreter new MidInterpreter().UseAllMessages()
+                                        .UseCustomMessage(new Dictionary<int, Type>() { { 83, typeof(NewMid0083) } });
+
+public class NewMid0083 : Mid
+{
+    private readonly IValueConverter<DateTime> _dateConverter;
+    private const int LAST_REVISION = 1;
+    public const int MID = 83;
+
+    public DateTime Time
+    {
+        get => GetField(1, (int)DataFields.TIME).GetValue(_dateConverter.Convert);
+        set => GetField(1, (int)DataFields.TIME).SetValue(_dateConverter.Convert, value);
+    }
+    public string TimeZone
+    {
+        get => GetField(1, (int)DataFields.TIMEZONE).Value;
+        set => GetField(1, (int)DataFields.TIMEZONE).SetValue(value);
+    }
+
+    public NewMid0083() : base(MID, LAST_REVISION)
+    {
+        _dateConverter = new DateConverter();
+    }
+
+    protected override Dictionary<int, List<DataField>> RegisterDatafields()
+    {
+        return new Dictionary<int, List<DataField>>()
+        {
+            {
+                1, new List<DataField>()
+                        {
+                            new DataField((int)DataFields.TIME, 20, 19),
+                            new DataField((int)DataFields.TIMEZONE, 41, 2)
+                        }
+            }
+        };
+    }
+
+    public enum DataFields
+    {
+        TIME,
+        TIMEZONE
+    }
+}
+```
+
+> **NOTE:** Custom messages might not perform as fast as other MIDs because they don't have optimizations for finding it
+
 #### Advanced Example
 
 Declared a delegate:
@@ -218,9 +315,7 @@ protected void BuildAndSendAcknowledge(Mid mid)
 Lot's of effort were given to this project and by seen people using it motivated me a lot to improve it more and more.
 
 Does it help you a lot? That's awesome and very rewarding!
-But if you wish, you can support and help to motivate the constant improving of this library:
-
-[![Donate with PayPal](https://raw.githubusercontent.com/stefan-niedermann/paypal-donate-button/master/paypal-donate-button.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=JZ4824WWGK7UL&item_name=Open+Protocol+Interpreter+contribution&currency_code=BRL&source=url)
+But if you wish, you can support and help to motivate the constant improving of this library by contributing in [OpenCollective](https://opencollective.com/open-protocol-interpreter).
 
 ### List of still unavailable Mids
 

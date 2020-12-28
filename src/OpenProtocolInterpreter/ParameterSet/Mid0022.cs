@@ -35,7 +35,7 @@ namespace OpenProtocolInterpreter.ParameterSet
         /// Revision 1 Constructor
         /// </summary>
         /// <param name="relayStatus">Relay Status</param>
-        /// <param name="ackFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
+        /// <param name="noAckFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
         public Mid0022(bool relayStatus, int? noAckFlag = 0) : this(noAckFlag)
         {
             RelayStatus = relayStatus;
