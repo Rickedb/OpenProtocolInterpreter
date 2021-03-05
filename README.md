@@ -1,6 +1,9 @@
 <img src="https://github.com/Rickedb/OpenProtocolInterpreter/blob/master/media/logo.png?raw=true" width="550" alt="Open Protocol Interpreter" />
 
 <h1>
+   <a href="https://www.buymeacoffee.com/openprotocolitp">
+    <img height="40" alt="Buy me a coffee" src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=openprotocolitp&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" />
+   </a>
   <a href="https://opencollective.com/open-protocol-interpreter" alt="Financial Contributors on Open Collective">
     <img src="https://opencollective.com/open-protocol-interpreter/all/badge.svg?label=financial+contributors" />
   </a>
@@ -12,6 +15,7 @@
   </a>
 </h1>
 
+  
 > OpenProtocol communication utility
 
 > Missing OpenProtocolInterpreter v1.0.0 ? [>It's here!<](https://github.com/Rickedb/OpenProtocolInterpreter/releases/tag/1.0.0)
