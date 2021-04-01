@@ -157,22 +157,22 @@ namespace OpenProtocolInterpreter.Converters
                 GradientMonitoringLow = GetBit(value[0], 5),
                 ReactionBarFailed = GetBit(value[0], 6),
                 SnugMax = GetBit(value[0], 7),
-                CycleAbort = GetBit(value[0], 8),
-                NeckingFailure = GetBit(value[0], 9),
-                EffectiveLoosening = GetBit(value[0], 10),
-                OverSpeed = GetBit(value[0], 11),
-                NoResidualTorque = GetBit(value[0], 12),
-                PositioningFail = GetBit(value[0], 13),
-                SnugMonLow = GetBit(value[0], 14),
-                SnugMonHigh = GetBit(value[0], 15),
-                DynamicMinCurrent = GetBit(value[0], 16),
-                DynamicMacCurrent = GetBit(value[0], 17),
-                LatentResult = GetBit(value[0], 18),
+                CycleAbort = GetBit(value[1], 0),
+                NeckingFailure = GetBit(value[1], 1),
+                EffectiveLoosening = GetBit(value[1], 2),
+                OverSpeed = GetBit(value[1], 3),
+                NoResidualTorque = GetBit(value[1], 4),
+                PositioningFail = GetBit(value[1], 5),
+                SnugMonLow = GetBit(value[1], 6),
+                SnugMonHigh = GetBit(value[1], 7),
+                DynamicMinCurrent = GetBit(value[2], 0),
+                DynamicMacCurrent = GetBit(value[2], 1),
+                LatentResult = GetBit(value[2], 2),
                 Reserved = new byte[10]
             };
 
             //set only 19 and 20 bytes to reserved
-            obj.Reserved[0] = SetByte(new bool[] { GetBit(value[0], 19), GetBit(value[0], 20), false, false, false, false, false, false });
+            obj.Reserved[0] = SetByte(new bool[] { GetBit(value[2], 3), GetBit(value[2], 4), false, false, false, false, false, false });
 
             return obj;
         }
