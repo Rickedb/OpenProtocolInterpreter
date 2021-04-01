@@ -150,6 +150,7 @@ namespace OpenProtocolInterpreter.Converters
         {
             var obj = new TighteningErrorStatus2()
             {
+                //byte 0
                 DriveDeactivated = GetBit(value[0], 1),
                 ToolStall = GetBit(value[0], 2),
                 DriveHot = GetBit(value[0], 3),
@@ -157,7 +158,8 @@ namespace OpenProtocolInterpreter.Converters
                 GradientMonitoringLow = GetBit(value[0], 5),
                 ReactionBarFailed = GetBit(value[0], 6),
                 SnugMax = GetBit(value[0], 7),
-                CycleAbort = GetBit(value[1], 0),
+                CycleAbort = GetBit(value[0], 8),
+                //byte 1
                 NeckingFailure = GetBit(value[1], 1),
                 EffectiveLoosening = GetBit(value[1], 2),
                 OverSpeed = GetBit(value[1], 3),
@@ -165,7 +167,8 @@ namespace OpenProtocolInterpreter.Converters
                 PositioningFail = GetBit(value[1], 5),
                 SnugMonLow = GetBit(value[1], 6),
                 SnugMonHigh = GetBit(value[1], 7),
-                DynamicMinCurrent = GetBit(value[2], 0),
+                DynamicMinCurrent = GetBit(value[1], 8),
+                //byte 2
                 DynamicMaxCurrent = GetBit(value[2], 1),
                 LatentResult = GetBit(value[2], 2),
                 Reserved = new byte[10]
