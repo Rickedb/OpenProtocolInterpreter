@@ -750,10 +750,10 @@ namespace MIDTesters.Tightening
 
             var tighteningErrorStatus2 = new byte[] //10 bytes long
             {
-                0x2A, //0010 1010
-                0x00, //Reserved from bit 7 to rest
-                0x00,
-                0x00,
+                0xAA, //1010 1010
+                0x03, //0000 0011 
+                0x02, //0000 0010
+                0x00, //Reserved from bit 19 to rest
                 0x00,
                 0x00,
                 0x00,
@@ -925,10 +925,10 @@ namespace MIDTesters.Tightening
 
             var tighteningErrorStatus2 = new byte[] //10 bytes long
             {
-                0x2A, //0010 1010
-                0x00, //Reserved from bit 7 to rest
-                0x00,
-                0x00,
+                0xAA, //1010 1010
+                0x03, //0000 0011 
+                0x02, //0000 0010
+                0x00, //Reserved from bit 19 to rest
                 0x00,
                 0x00,
                 0x00,
@@ -1106,10 +1106,10 @@ namespace MIDTesters.Tightening
 
             var tighteningErrorStatus2 = new byte[] //10 bytes long
             {
-                0x2A, //0010 1010
-                0x00, //Reserved from bit 7 to rest
-                0x00,
-                0x00,
+                0xAA, //1010 1010
+                0x03, //0000 0011 
+                0x02, //0000 0010
+                0x00, //Reserved from bit 19 to rest
                 0x00,
                 0x00,
                 0x00,
