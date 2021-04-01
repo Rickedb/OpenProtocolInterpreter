@@ -156,11 +156,23 @@ namespace OpenProtocolInterpreter.Converters
                 GradientMonitoringHigh = GetBit(value[0], 4),
                 GradientMonitoringLow = GetBit(value[0], 5),
                 ReactionBarFailed = GetBit(value[0], 6),
+                SnugMax = GetBit(value[0], 7),
+                CycleAbort = GetBit(value[0], 8),
+                NeckingFailure = GetBit(value[0], 9),
+                EffectiveLoosening = GetBit(value[0], 10),
+                OverSpeed = GetBit(value[0], 11),
+                NoResidualTorque = GetBit(value[0], 12),
+                PositioningFail = GetBit(value[0], 13),
+                SnugMonLow = GetBit(value[0], 14),
+                SnugMonHigh = GetBit(value[0], 15),
+                DynamicMinCurrent = GetBit(value[0], 16),
+                DynamicMacCurrent = GetBit(value[0], 17),
+                LatentResult = GetBit(value[0], 18),
                 Reserved = new byte[10]
             };
 
-            //set only 7 and 8 bytes to reserved
-            obj.Reserved[0] = SetByte(new bool[] { GetBit(value[0], 7), GetBit(value[0], 8), false, false, false, false, false, false });
+            //set only 19 and 20 bytes to reserved
+            obj.Reserved[0] = SetByte(new bool[] { GetBit(value[0], 19), GetBit(value[0], 20), false, false, false, false, false, false });
 
             return obj;
         }
