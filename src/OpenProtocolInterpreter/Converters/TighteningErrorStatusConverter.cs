@@ -192,11 +192,31 @@ namespace OpenProtocolInterpreter.Converters
                     value.GradientMonitoringHigh,
                     value.GradientMonitoringLow,
                     value.ReactionBarFailed,
-                    GetBit(value.Reserved[0], 7),
-                    GetBit(value.Reserved[0], 8)
+                    value.SnugMax,
+                    value.CycleAbort,
                 }),
-                value.Reserved[1],
-                value.Reserved[2],
+                SetByte(new bool[]
+                {
+                    value.NeckingFailure,
+                    value.EffectiveLoosening,
+                    value.OverSpeed,
+                    value.NoResidualTorque,
+                    value.PositioningFail,
+                    value.SnugMonLow,
+                    value.SnugMonHigh,
+                    value.DynamicMinCurrent,
+                }),
+                SetByte(new bool[]
+                {
+                    value.DynamicMaxCurrent,
+                    value.LatentResult,
+                    GetBit(value.Reserved[2], 3),
+                    GetBit(value.Reserved[2], 4),
+                    GetBit(value.Reserved[2], 5),
+                    GetBit(value.Reserved[2], 6),
+                    GetBit(value.Reserved[2], 7),
+                    GetBit(value.Reserved[2], 8)
+                }),
                 value.Reserved[3],
                 value.Reserved[4],
                 value.Reserved[5],
