@@ -166,7 +166,7 @@ namespace OpenProtocolInterpreter.Converters
                 SnugMonLow = GetBit(value[1], 6),
                 SnugMonHigh = GetBit(value[1], 7),
                 DynamicMinCurrent = GetBit(value[2], 0),
-                DynamicMacCurrent = GetBit(value[2], 1),
+                DynamicMaxCurrent = GetBit(value[2], 1),
                 LatentResult = GetBit(value[2], 2),
                 Reserved = new byte[10]
             };

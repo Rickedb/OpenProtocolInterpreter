@@ -61,7 +61,7 @@
         public bool SnugMonLow { get; set; }
         public bool SnugMonHigh { get; set; }
         public bool DynamicMinCurrent { get; set; }
-        public bool DynamicMacCurrent { get; set; }
+        public bool DynamicMaxCurrent { get; set; }
         public bool LatentResult { get; set; }
 
         //Bit 19-31
