@@ -150,17 +150,32 @@ namespace OpenProtocolInterpreter.Converters
         {
             var obj = new TighteningErrorStatus2()
             {
+                //byte 0
                 DriveDeactivated = GetBit(value[0], 1),
                 ToolStall = GetBit(value[0], 2),
                 DriveHot = GetBit(value[0], 3),
                 GradientMonitoringHigh = GetBit(value[0], 4),
                 GradientMonitoringLow = GetBit(value[0], 5),
                 ReactionBarFailed = GetBit(value[0], 6),
+                SnugMax = GetBit(value[0], 7),
+                CycleAbort = GetBit(value[0], 8),
+                //byte 1
+                NeckingFailure = GetBit(value[1], 1),
+                EffectiveLoosening = GetBit(value[1], 2),
+                OverSpeed = GetBit(value[1], 3),
+                NoResidualTorque = GetBit(value[1], 4),
+                PositioningFail = GetBit(value[1], 5),
+                SnugMonLow = GetBit(value[1], 6),
+                SnugMonHigh = GetBit(value[1], 7),
+                DynamicMinCurrent = GetBit(value[1], 8),
+                //byte 2
+                DynamicMaxCurrent = GetBit(value[2], 1),
+                LatentResult = GetBit(value[2], 2),
                 Reserved = new byte[10]
             };
 
-            //set only 7 and 8 bytes to reserved
-            obj.Reserved[0] = SetByte(new bool[] { GetBit(value[0], 7), GetBit(value[0], 8), false, false, false, false, false, false });
+            //set only 19 and 20 bytes to reserved
+            obj.Reserved[0] = SetByte(new bool[] { GetBit(value[2], 3), GetBit(value[2], 4), false, false, false, false, false, false });
 
             return obj;
         }
@@ -177,11 +192,31 @@ namespace OpenProtocolInterpreter.Converters
                     value.GradientMonitoringHigh,
                     value.GradientMonitoringLow,
                     value.ReactionBarFailed,
-                    GetBit(value.Reserved[0], 7),
-                    GetBit(value.Reserved[0], 8)
+                    value.SnugMax,
+                    value.CycleAbort,
                 }),
-                value.Reserved[1],
-                value.Reserved[2],
+                SetByte(new bool[]
+                {
+                    value.NeckingFailure,
+                    value.EffectiveLoosening,
+                    value.OverSpeed,
+                    value.NoResidualTorque,
+                    value.PositioningFail,
+                    value.SnugMonLow,
+                    value.SnugMonHigh,
+                    value.DynamicMinCurrent,
+                }),
+                SetByte(new bool[]
+                {
+                    value.DynamicMaxCurrent,
+                    value.LatentResult,
+                    GetBit(value.Reserved[2], 3),
+                    GetBit(value.Reserved[2], 4),
+                    GetBit(value.Reserved[2], 5),
+                    GetBit(value.Reserved[2], 6),
+                    GetBit(value.Reserved[2], 7),
+                    GetBit(value.Reserved[2], 8)
+                }),
                 value.Reserved[3],
                 value.Reserved[4],
                 value.Reserved[5],
