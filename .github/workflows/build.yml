@@ -2,8 +2,7 @@ name: build
 
 on: 
   pull_request:
-    paths:
-      - 'src/*'
+    types: [opened, synchronize]
   push:
     branches-ignore:
       - master
