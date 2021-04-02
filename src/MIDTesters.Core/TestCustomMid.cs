@@ -51,7 +51,7 @@ namespace MIDTesters.Core
     {
         public string FormattedDate
         {
-            get => Time.ToString("dd/MM/yyyy HH:mm:ss");
+            get => Time.ToString("dd'/'MM'/'yyyy HH:mm:ss");
             set => Time = DateTime.Parse(value);
         }
 
