@@ -123,7 +123,7 @@ namespace OpenProtocolInterpreter.Converters
         public byte[] ConvertToBytes(char paddingChar, int size, DataField.PaddingOrientations orientation, TighteningErrorStatus value) => ConvertToBytes(value);
     }
 
-    internal class TighteningErrorStatus2Converter : BitConverter, IValueConverter<TighteningErrorStatus2>
+    public class TighteningErrorStatus2Converter : BitConverter, IValueConverter<TighteningErrorStatus2>
     {
         private readonly IValueConverter<byte[]> _byteArrayConverter;
 
