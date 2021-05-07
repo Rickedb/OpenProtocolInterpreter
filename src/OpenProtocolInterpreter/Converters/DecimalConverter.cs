@@ -16,7 +16,7 @@ namespace OpenProtocolInterpreter.Converters
         {
             decimal decimalValue = 0;
             if (value != null)
-                decimal.TryParse(value.Replace(',', '.'), NumberStyles.AllowDecimalPoint, _formatProvider,  out decimalValue);
+                decimal.TryParse(value.Replace(',', '.'), NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign, _formatProvider,  out decimalValue);
 
             return decimalValue;
         }
