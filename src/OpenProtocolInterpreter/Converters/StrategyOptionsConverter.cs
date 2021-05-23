@@ -47,7 +47,7 @@ namespace OpenProtocolInterpreter.Converters
 
         public byte[] ConvertToBytes(StrategyOptions value)
         {
-            byte[] bytes = new byte[10];
+            byte[] bytes = new byte[5];
             bytes[0] = SetByte(new bool[]
             {
                 value.Torque,
@@ -71,7 +71,7 @@ namespace OpenProtocolInterpreter.Converters
                  false
             });
 
-            bytes[2] = bytes[3] = bytes[4] = bytes[5] = bytes[6] = bytes[7] = bytes[8] = bytes[9] = 0;
+            bytes[2] = bytes[3] = bytes[4] = bytes[5] = 0;
             return bytes;
         }
 
