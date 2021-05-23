@@ -109,7 +109,7 @@ namespace OpenProtocolInterpreter.ParameterSet
             decimal torqueFinalTarget, int minAngle, int maxAngle, int angleFinalTarget, int revision = 1) : this(revision)
         {
             ParameterSetId = parameterSetId;
-            ParameterSetName = ParameterSetName;
+            ParameterSetName = parameterSetName;
             RotationDirection = rotationDirection;
             BatchSize = batchSize;
             MinTorque = minTorque;
