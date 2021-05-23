@@ -66,5 +66,10 @@
 
         //Bit 19-31
         public byte[] Reserved { get; set; }
+
+        public TighteningErrorStatus2()
+        {
+            Reserved = new byte[10];
+        }
     }
 }
