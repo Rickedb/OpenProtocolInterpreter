@@ -55,7 +55,7 @@ namespace OpenProtocolInterpreter.ParameterSet
         {
             HeaderData = ProcessHeader(package);
 
-            GetField(1, (int)DataFields.EACH_PARAMETER_SET).Size = package.Length - GetField(1, (int)DataFields.EACH_PARAMETER_SET).Index;
+            GetField(1, (int)DataFields.EACH_PARAMETER_SET).Size = HeaderData.Length - GetField(1, (int)DataFields.EACH_PARAMETER_SET).Index;
             ProcessDataFields(package);
             ParameterSets = _intListConverter.Convert(GetField(1, (int)DataFields.EACH_PARAMETER_SET).Value).ToList();
             return this;
