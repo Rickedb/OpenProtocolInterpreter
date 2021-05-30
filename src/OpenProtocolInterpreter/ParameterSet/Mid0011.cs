@@ -23,8 +23,7 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public int TotalParameterSets
         {
-            get => GetField(1, (int)DataFields.TOTAL_PARAMETER_SETS).GetValue(_intConverter.Convert);
-            private set => GetField(1, (int)DataFields.TOTAL_PARAMETER_SETS).SetValue(_intConverter.Convert, value);
+            get => ParameterSets.Count;
         }
 
         public List<int> ParameterSets { get; set; }
@@ -44,7 +43,7 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public override string Pack()
         {
-            TotalParameterSets = ParameterSets.Count;
+            GetField(1, (int)DataFields.TOTAL_PARAMETER_SETS).SetValue(_intConverter.Convert, TotalParameterSets);
             var eachParameterField = GetField(1, (int)DataFields.EACH_PARAMETER_SET);
             eachParameterField.Value = _intListConverter.Convert(ParameterSets);
             eachParameterField.Size = eachParameterField.Value.Length;
