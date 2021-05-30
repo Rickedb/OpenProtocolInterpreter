@@ -222,9 +222,9 @@ namespace OpenProtocolInterpreter.Tightening
             _boolConverter = new BoolConverter();
             _decimalConverter = new DecimalTrucatedConverter(2);
             _dateConverter = new DateConverter();
-            _strategyOptionsConverter = new StrategyOptionsConverter(byteArrayConverter);
-            _tighteningErrorStatusConverter = new TighteningErrorStatusConverter(byteArrayConverter);
-            _tighteningErrorStatus2Converter = new TighteningErrorStatus2Converter(byteArrayConverter);
+            _strategyOptionsConverter = new StrategyOptionsConverter(byteArrayConverter, _intConverter);
+            _tighteningErrorStatusConverter = new TighteningErrorStatusConverter(byteArrayConverter, _intConverter);
+            _tighteningErrorStatus2Converter = new TighteningErrorStatus2Converter(byteArrayConverter, _intConverter);
         }
 
         protected override string BuildHeader()

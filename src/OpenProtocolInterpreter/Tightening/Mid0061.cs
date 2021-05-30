@@ -146,11 +146,7 @@ namespace OpenProtocolInterpreter.Tightening
             get => (Strategy)GetField(2, (int)DataFields.STRATEGY).GetValue(_intConverter.Convert);
             set => GetField(2, (int)DataFields.STRATEGY).SetValue(_intConverter.Convert, (int)value);
         }
-        public StrategyOptions StrategyOptions
-        {
-            get => GetField(2, (int)DataFields.STRATEGY_OPTIONS).GetValue(_strategyOptionsConverter.ConvertFromBytes);
-            set => GetField(2, (int)DataFields.STRATEGY_OPTIONS).SetRawValue(_strategyOptionsConverter.ConvertToBytes, value);
-        }
+        public StrategyOptions StrategyOptions { get; set; }
         public TighteningValueStatus RundownAngleStatus
         {
             get => (TighteningValueStatus)GetField(2, (int)DataFields.RUNDOWN_ANGLE_STATUS).GetValue(_intConverter.Convert);
@@ -176,11 +172,7 @@ namespace OpenProtocolInterpreter.Tightening
             get => (TighteningValueStatus)GetField(2, (int)DataFields.PREVAIL_TORQUE_COMPENSATE_STATUS).GetValue(_intConverter.Convert);
             set => GetField(2, (int)DataFields.PREVAIL_TORQUE_COMPENSATE_STATUS).SetValue(_intConverter.Convert, (int)value);
         }
-        public TighteningErrorStatus TighteningErrorStatus
-        {
-            get => GetField(2, (int)DataFields.TIGHTENING_ERROR_STATUS).GetValue(_tighteningErrorStatusConverter.ConvertFromBytes);
-            set => GetField(2, (int)DataFields.TIGHTENING_ERROR_STATUS).SetRawValue(_tighteningErrorStatusConverter.ConvertToBytes, value);
-        }
+        public TighteningErrorStatus TighteningErrorStatus { get; set; }
         public int RundownAngleMin
         {
             get => GetField(2, (int)DataFields.RUNDOWN_ANGLE_MIN).GetValue(_intConverter.Convert);
@@ -300,11 +292,7 @@ namespace OpenProtocolInterpreter.Tightening
             get => GetField(6, (int)DataFields.PREVAIL_TORQUE_COMPENSATE_VALUE).GetValue(_decimalConverter.Convert);
             set => GetField(6, (int)DataFields.PREVAIL_TORQUE_COMPENSATE_VALUE).SetValue(_decimalConverter.Convert, value);
         }
-        public TighteningErrorStatus2 TighteningErrorStatus2
-        {
-            get => GetField(6, (int)DataFields.TIGHTENING_ERROR_STATUS_2).GetValue(_tighteningErrorStatus2Converter.ConvertFromBytes);
-            set => GetField(6, (int)DataFields.TIGHTENING_ERROR_STATUS_2).SetRawValue(_tighteningErrorStatus2Converter.ConvertToBytes, value);
-        }
+        public TighteningErrorStatus2 TighteningErrorStatus2 { get; set; }
         //Rev 7 addition
         public decimal CompensatedAngle
         {
@@ -342,9 +330,9 @@ namespace OpenProtocolInterpreter.Tightening
             _boolConverter = new BoolConverter();
             _decimalConverter = new DecimalTrucatedConverter(2);
             _dateConverter = new DateConverter();
-            _strategyOptionsConverter = new StrategyOptionsConverter(byteArrayConverter);
-            _tighteningErrorStatusConverter = new TighteningErrorStatusConverter(byteArrayConverter);
-            _tighteningErrorStatus2Converter = new TighteningErrorStatus2Converter(byteArrayConverter);
+            _strategyOptionsConverter = new StrategyOptionsConverter(byteArrayConverter, _intConverter);
+            _tighteningErrorStatusConverter = new TighteningErrorStatusConverter(byteArrayConverter, _intConverter);
+            _tighteningErrorStatus2Converter = new TighteningErrorStatus2Converter(byteArrayConverter, _intConverter);
             _stageResultListConverter = new StageResultListConverter(_intConverter, _decimalConverter);
         }
 
@@ -383,15 +371,15 @@ namespace OpenProtocolInterpreter.Tightening
             string package = string.Empty;
             if (HeaderData.Revision > 1 && HeaderData.Revision != 999)
             {
-                var strategyOptionsField = GetField(2, (int)DataFields.STRATEGY_OPTIONS);
-                strategyOptionsField.SetValue(_intConverter.Convert, System.BitConverter.ToInt32(strategyOptionsField.RawValue, 0));
+                var strategyOptionsBytes = _strategyOptionsConverter.ConvertToBytes(StrategyOptions);
+                GetField(2, (int)DataFields.STRATEGY_OPTIONS).SetValue(_intConverter.Convert, System.BitConverter.ToInt32(strategyOptionsBytes, 0));
 
-                var tighteningErrorStatusField = GetField(2, (int)DataFields.TIGHTENING_ERROR_STATUS);
-                tighteningErrorStatusField.SetValue(_intConverter.Convert, System.BitConverter.ToInt32(tighteningErrorStatusField.RawValue, 0));
+                var tighteningErrorStatusBytes =_tighteningErrorStatusConverter.ConvertToBytes(TighteningErrorStatus);
+                GetField(2, (int)DataFields.TIGHTENING_ERROR_STATUS).SetValue(_intConverter.Convert, System.BitConverter.ToInt32(tighteningErrorStatusBytes, 0));
                 if (HeaderData.Revision > 5)
                 {
-                    var tighteningErrorStatus2Field = GetField(6, (int)DataFields.TIGHTENING_ERROR_STATUS_2);
-                    tighteningErrorStatus2Field.RawValue = System.BitConverter.GetBytes(_intConverter.Convert(tighteningErrorStatus2Field.Value));
+                    var tighteningErrorStatus2Bytes = _tighteningErrorStatus2Converter.ConvertToBytes(TighteningErrorStatus2);
+                    GetField(6, (int)DataFields.TIGHTENING_ERROR_STATUS_2).SetValue(_intConverter.Convert, System.BitConverter.ToInt32(tighteningErrorStatus2Bytes, 0));
                 }
 
                 if (HeaderData.Revision == 998)
@@ -437,6 +425,13 @@ namespace OpenProtocolInterpreter.Tightening
             }
             else
             {
+                GetField(2, (int)DataFields.STRATEGY_OPTIONS).SetRawValue(_strategyOptionsConverter.ConvertToBytes, StrategyOptions);
+                GetField(2, (int)DataFields.TIGHTENING_ERROR_STATUS).SetRawValue(_tighteningErrorStatusConverter.ConvertToBytes, TighteningErrorStatus);
+                if (HeaderData.Revision > 5)
+                {
+                    GetField(6, (int)DataFields.TIGHTENING_ERROR_STATUS_2).SetRawValue(_tighteningErrorStatus2Converter.ConvertToBytes, TighteningErrorStatus2);
+                }
+
                 int processUntil = HeaderData.Revision != 998 ? HeaderData.Revision : 6;
                 int prefixIndex = 1;
                 for (int i = 2; i <= processUntil; i++)
@@ -464,14 +459,14 @@ namespace OpenProtocolInterpreter.Tightening
             if (HeaderData.Revision > 1 && HeaderData.Revision != 999)
             {
                 var strategyOptionsField = GetField(2, (int)DataFields.STRATEGY_OPTIONS);
-                strategyOptionsField.RawValue = System.BitConverter.GetBytes(_intConverter.Convert(strategyOptionsField.Value));
+                StrategyOptions = _strategyOptionsConverter.Convert(strategyOptionsField.Value);
 
                 var tighteningErrorStatusField = GetField(2, (int)DataFields.TIGHTENING_ERROR_STATUS);
-                tighteningErrorStatusField.RawValue = System.BitConverter.GetBytes(_intConverter.Convert(tighteningErrorStatusField.Value));
+                TighteningErrorStatus = _tighteningErrorStatusConverter.Convert(tighteningErrorStatusField.Value);
                 if (HeaderData.Revision > 5)
                 {
                     var tighteningErrorStatus2Field = GetField(6, (int)DataFields.TIGHTENING_ERROR_STATUS_2);
-                    tighteningErrorStatus2Field.RawValue = System.BitConverter.GetBytes(_intConverter.Convert(tighteningErrorStatus2Field.Value));
+                    TighteningErrorStatus2 = _tighteningErrorStatus2Converter.Convert(tighteningErrorStatus2Field.Value);
                 }
 
                 if (HeaderData.Revision == 998)
@@ -506,6 +501,18 @@ namespace OpenProtocolInterpreter.Tightening
 
                 for (int i = 2; i <= processUntil; i++)
                     ProcessDataFields(package, RevisionsByFields[i]);
+
+                var strategyOptionsField = GetField(2, (int)DataFields.STRATEGY_OPTIONS);
+                StrategyOptions = _strategyOptionsConverter.ConvertFromBytes(strategyOptionsField.RawValue);
+
+                var tighteningErrorStatusField = GetField(2, (int)DataFields.TIGHTENING_ERROR_STATUS);
+                TighteningErrorStatus = _tighteningErrorStatusConverter.ConvertFromBytes(tighteningErrorStatusField.RawValue);
+
+                if (HeaderData.Revision > 5)
+                {
+                    var tighteningErrorStatus2Field = GetField(6, (int)DataFields.TIGHTENING_ERROR_STATUS_2);
+                    TighteningErrorStatus2 = _tighteningErrorStatus2Converter.ConvertFromBytes(tighteningErrorStatus2Field.RawValue);
+                }
             }
 
             return this;

@@ -5,15 +5,18 @@ namespace OpenProtocolInterpreter.Converters
     public class TighteningErrorStatusConverter : BitConverter, IValueConverter<TighteningErrorStatus>
     {
         private readonly IValueConverter<byte[]> _byteArrayConverter;
+        private readonly IValueConverter<int> _intConverter;
 
-        public TighteningErrorStatusConverter(IValueConverter<byte[]> byteArrayConverter)
+        public TighteningErrorStatusConverter(IValueConverter<byte[]> byteArrayConverter, IValueConverter<int> intConverter)
         {
             _byteArrayConverter = byteArrayConverter;
+            _intConverter = intConverter;
         }
 
         public TighteningErrorStatus Convert(string value)
         {
-            var bytes = _byteArrayConverter.Convert(value);
+            var intValue = _intConverter.Convert(value);
+            var bytes = System.BitConverter.GetBytes(intValue);
             return ConvertFromBytes(bytes);
         }
 
@@ -116,7 +119,6 @@ namespace OpenProtocolInterpreter.Converters
                 value.YieldTooFewSamples
             });
             bytes[4] = bytes[5] = bytes[6] = bytes[7] = bytes[8] = bytes[9] = 0;
-
             return bytes;
         }
 
@@ -126,15 +128,18 @@ namespace OpenProtocolInterpreter.Converters
     public class TighteningErrorStatus2Converter : BitConverter, IValueConverter<TighteningErrorStatus2>
     {
         private readonly IValueConverter<byte[]> _byteArrayConverter;
+        private readonly IValueConverter<int> _intConverter;
 
-        public TighteningErrorStatus2Converter(IValueConverter<byte[]> byteArrayConverter)
+        public TighteningErrorStatus2Converter(IValueConverter<byte[]> byteArrayConverter, IValueConverter<int> intConverter)
         {
             _byteArrayConverter = byteArrayConverter;
+            _intConverter = intConverter;
         }
 
         public TighteningErrorStatus2 Convert(string value)
         {
-            var bytes = _byteArrayConverter.Convert(value);
+            var intValue = _intConverter.Convert(value);
+            var bytes = System.BitConverter.GetBytes(intValue);
             return ConvertFromBytes(bytes);
         }
 
