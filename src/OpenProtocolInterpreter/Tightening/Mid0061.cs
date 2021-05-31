@@ -331,8 +331,8 @@ namespace OpenProtocolInterpreter.Tightening
             _decimalConverter = new DecimalTrucatedConverter(2);
             _dateConverter = new DateConverter();
             _strategyOptionsConverter = new StrategyOptionsConverter(byteArrayConverter, _intConverter);
-            _tighteningErrorStatusConverter = new TighteningErrorStatusConverter(byteArrayConverter, _intConverter);
-            _tighteningErrorStatus2Converter = new TighteningErrorStatus2Converter(byteArrayConverter, _intConverter);
+            _tighteningErrorStatusConverter = new TighteningErrorStatusConverter(byteArrayConverter, _longConverter);
+            _tighteningErrorStatus2Converter = new TighteningErrorStatus2Converter(byteArrayConverter, _longConverter);
             _stageResultListConverter = new StageResultListConverter(_intConverter, _decimalConverter);
         }
 
