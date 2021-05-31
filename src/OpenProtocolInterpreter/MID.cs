@@ -117,7 +117,12 @@ namespace OpenProtocolInterpreter
 
             int revision = HeaderData.Revision > 0 ? HeaderData.Revision : 1;
             for (int i = 1; i <= revision; i++)
-                ProcessDataFields(RevisionsByFields[i], package);
+            {
+                if (RevisionsByFields.ContainsKey(i))
+                {
+                    ProcessDataFields(RevisionsByFields[i], package);
+                }
+            }
         }
 
         protected virtual void ProcessDataFields(List<DataField> dataFields, string package)
