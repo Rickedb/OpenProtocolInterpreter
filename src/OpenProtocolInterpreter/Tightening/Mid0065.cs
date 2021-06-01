@@ -264,25 +264,6 @@ namespace OpenProtocolInterpreter.Tightening
             return package;
         }
 
-        public override Mid Parse(string package)
-        {
-            base.Parse(package);
-            if (HeaderData.Revision > 1)
-            {
-                var strategyOptionsField = GetField(2, (int)DataFields.STRATEGY_OPTIONS);
-                StrategyOptions = _strategyOptionsConverter.Convert(strategyOptionsField.Value);
-
-                var tighteningErrorStatusField = GetField(2, (int)DataFields.TIGHTENING_ERROR_STATUS);
-                TighteningErrorStatus = _tighteningErrorStatusConverter.Convert(tighteningErrorStatusField.Value);
-                if (HeaderData.Revision > 5)
-                {
-                    var tighteningErrorStatus2Field = GetField(6, (int)DataFields.TIGHTENING_ERROR_STATUS_2);
-                    TighteningErrorStatus2 = _tighteningErrorStatus2Converter.Convert(tighteningErrorStatus2Field.Value);
-                }
-            }
-            return this;
-        }
-
         protected override void ProcessDataFields(string package)
         {
             if (HeaderData.Revision == 1)
