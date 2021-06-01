@@ -1,4 +1,5 @@
 ﻿using OpenProtocolInterpreter.Tightening;
+using System.Text;
 
 namespace OpenProtocolInterpreter.Converters
 {
@@ -118,8 +119,9 @@ namespace OpenProtocolInterpreter.Converters
                 value.YieldNutOff,
                 value.YieldTooFewSamples
             });
-            bytes[4] = bytes[5] = bytes[6] = bytes[7] = bytes[8] = bytes[9] = 0;
-            return bytes;
+
+            var asciiLong = System.BitConverter.ToInt64(bytes, 0).ToString().PadLeft(10, '0');
+            return Encoding.ASCII.GetBytes(asciiLong);
         }
 
         public byte[] ConvertToBytes(char paddingChar, int size, DataField.PaddingOrientations orientation, TighteningErrorStatus value) => ConvertToBytes(value);
@@ -231,7 +233,8 @@ namespace OpenProtocolInterpreter.Converters
                 value.Reserved[9]
             };
 
-            return bytes;
+            var asciiLong = System.BitConverter.ToInt64(bytes, 0).ToString().PadLeft(10, '0');
+            return Encoding.ASCII.GetBytes(asciiLong);
         }
 
         public byte[] ConvertToBytes(char paddingChar, int size, DataField.PaddingOrientations orientation, TighteningErrorStatus2 value) => ConvertToBytes(value);

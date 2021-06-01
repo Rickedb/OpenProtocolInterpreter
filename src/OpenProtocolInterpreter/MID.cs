@@ -106,7 +106,7 @@ namespace OpenProtocolInterpreter
 
         public virtual Mid Parse(byte[] package)
         {
-            var pack = ToAscii(package); //Mostly ASCII encoding
+            var pack = ToAscii(package);
             return Parse(pack);
         }
 

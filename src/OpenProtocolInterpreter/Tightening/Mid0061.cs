@@ -369,17 +369,15 @@ namespace OpenProtocolInterpreter.Tightening
         public override string Pack()
         {
             string package = string.Empty;
+            int prefixIndex = 1;
             if (HeaderData.Revision > 1 && HeaderData.Revision != 999)
             {
-                var strategyOptionsBytes = _strategyOptionsConverter.ConvertToBytes(StrategyOptions);
-                GetField(2, (int)DataFields.STRATEGY_OPTIONS).SetValue(_intConverter.Convert, System.BitConverter.ToInt32(strategyOptionsBytes, 0));
+                GetField(2, (int)DataFields.STRATEGY_OPTIONS).SetValue(_strategyOptionsConverter.Convert, StrategyOptions);
+                GetField(2, (int)DataFields.TIGHTENING_ERROR_STATUS).SetValue(_tighteningErrorStatusConverter.Convert, TighteningErrorStatus);
 
-                var tighteningErrorStatusBytes =_tighteningErrorStatusConverter.ConvertToBytes(TighteningErrorStatus);
-                GetField(2, (int)DataFields.TIGHTENING_ERROR_STATUS).SetValue(_intConverter.Convert, System.BitConverter.ToInt32(tighteningErrorStatusBytes, 0));
                 if (HeaderData.Revision > 5)
                 {
-                    var tighteningErrorStatus2Bytes = _tighteningErrorStatus2Converter.ConvertToBytes(TighteningErrorStatus2);
-                    GetField(6, (int)DataFields.TIGHTENING_ERROR_STATUS_2).SetValue(_intConverter.Convert, System.BitConverter.ToInt32(tighteningErrorStatus2Bytes, 0));
+                    GetField(6, (int)DataFields.TIGHTENING_ERROR_STATUS_2).SetValue(_tighteningErrorStatus2Converter.Convert, TighteningErrorStatus2);
                 }
 
                 if (HeaderData.Revision == 998)
@@ -392,130 +390,23 @@ namespace OpenProtocolInterpreter.Tightening
 
                 package = BuildHeader();
                 int processUntil = HeaderData.Revision != 998 ? HeaderData.Revision : 6;
-                int prefixIndex = 1;
                 for (int i = 2; i <= processUntil; i++)
                 {
-                    package += BuildDataFieldsPackage(prefixIndex, RevisionsByFields[i]);
-                    prefixIndex += RevisionsByFields[i].Count(x => x.HasPrefix);
+                    package += Pack(RevisionsByFields[i], ref prefixIndex);
                 }
 
                 if (HeaderData.Revision == 998)
                 {
-                    package += BuildDataFieldsPackage(56, RevisionsByFields[998]);
+                    package += Pack(RevisionsByFields[998], ref prefixIndex);
                 }
             }
             else
             {
                 package = BuildHeader();
-                package += BuildDataFieldsPackage(1, RevisionsByFields[HeaderData.Revision]);
+                package += Pack(RevisionsByFields[HeaderData.Revision], ref prefixIndex);
             }
 
             return package;
-        }
-
-        public override byte[] PackBytes()
-        {
-            List<byte> bytes = new List<byte>();
-
-            bytes.AddRange(BuildRawHeader());
-            if (HeaderData.Revision == 1 || HeaderData.Revision == 999)
-            {
-                var asciiBytes = ToBytes(BuildDataFieldsPackage(1, RevisionsByFields[HeaderData.Revision]));
-                bytes.AddRange(asciiBytes);
-            }
-            else
-            {
-                GetField(2, (int)DataFields.STRATEGY_OPTIONS).SetRawValue(_strategyOptionsConverter.ConvertToBytes, StrategyOptions);
-                GetField(2, (int)DataFields.TIGHTENING_ERROR_STATUS).SetRawValue(_tighteningErrorStatusConverter.ConvertToBytes, TighteningErrorStatus);
-                if (HeaderData.Revision > 5)
-                {
-                    GetField(6, (int)DataFields.TIGHTENING_ERROR_STATUS_2).SetRawValue(_tighteningErrorStatus2Converter.ConvertToBytes, TighteningErrorStatus2);
-                }
-
-                int processUntil = HeaderData.Revision != 998 ? HeaderData.Revision : 6;
-                int prefixIndex = 1;
-                for (int i = 2; i <= processUntil; i++)
-                {
-                    var fieldBytes = BuildDataFieldsRawPackage(prefixIndex, RevisionsByFields[i]);
-                    bytes.AddRange(fieldBytes);
-                    prefixIndex += RevisionsByFields[i].Count(x => x.HasPrefix);
-                }
-
-                if (HeaderData.Revision == 998)
-                {
-                    NumberOfStageResults = StageResults.Count;
-                    GetField(998, (int)DataFields.STAGE_RESULT).SetValue(_stageResultListConverter.Convert(StageResults));
-                    var fieldBytes = BuildDataFieldsRawPackage(prefixIndex, RevisionsByFields[998]);
-                    bytes.AddRange(fieldBytes);
-                }
-            }
-
-            return bytes.ToArray();
-        }
-
-        public override Mid Parse(string package)
-        {
-            base.Parse(package);
-            if (HeaderData.Revision > 1 && HeaderData.Revision != 999)
-            {
-                var strategyOptionsField = GetField(2, (int)DataFields.STRATEGY_OPTIONS);
-                StrategyOptions = _strategyOptionsConverter.Convert(strategyOptionsField.Value);
-
-                var tighteningErrorStatusField = GetField(2, (int)DataFields.TIGHTENING_ERROR_STATUS);
-                TighteningErrorStatus = _tighteningErrorStatusConverter.Convert(tighteningErrorStatusField.Value);
-                if (HeaderData.Revision > 5)
-                {
-                    var tighteningErrorStatus2Field = GetField(6, (int)DataFields.TIGHTENING_ERROR_STATUS_2);
-                    TighteningErrorStatus2 = _tighteningErrorStatus2Converter.Convert(tighteningErrorStatus2Field.Value);
-                }
-
-                if (HeaderData.Revision == 998)
-                {
-                    var stageResultField = GetField(998, (int)DataFields.STAGE_RESULT);
-                    StageResults = _stageResultListConverter.Convert(stageResultField.Value).ToList();
-                }
-            }
-
-            return this;
-        }
-
-        public override Mid Parse(byte[] package)
-        {
-            var headerData = ToAscii(package.Take(20).ToArray());
-            HeaderData = ProcessHeader(headerData);
-            if (HeaderData.Revision == 1 || HeaderData.Revision == 999)
-            {
-                ProcessDataFields(package, RevisionsByFields[HeaderData.Revision]);
-            }
-            else
-            {
-                int processUntil = HeaderData.Revision;
-                if (HeaderData.Revision == 998)
-                {
-                    processUntil = 6;
-                    var stageResultField = GetField(998, (int)DataFields.STAGE_RESULT);
-                    stageResultField.Size = package.Length - stageResultField.Index - 2;
-                    ProcessDataFields(package, RevisionsByFields[998]);
-                    StageResults = _stageResultListConverter.Convert(stageResultField.Value).ToList();
-                }
-
-                for (int i = 2; i <= processUntil; i++)
-                    ProcessDataFields(package, RevisionsByFields[i]);
-
-                var strategyOptionsField = GetField(2, (int)DataFields.STRATEGY_OPTIONS);
-                StrategyOptions = _strategyOptionsConverter.ConvertFromBytes(strategyOptionsField.RawValue);
-
-                var tighteningErrorStatusField = GetField(2, (int)DataFields.TIGHTENING_ERROR_STATUS);
-                TighteningErrorStatus = _tighteningErrorStatusConverter.ConvertFromBytes(tighteningErrorStatusField.RawValue);
-
-                if (HeaderData.Revision > 5)
-                {
-                    var tighteningErrorStatus2Field = GetField(6, (int)DataFields.TIGHTENING_ERROR_STATUS_2);
-                    TighteningErrorStatus2 = _tighteningErrorStatus2Converter.ConvertFromBytes(tighteningErrorStatus2Field.RawValue);
-                }
-            }
-
-            return this;
         }
 
         protected override void ProcessDataFields(string package)
@@ -531,12 +422,25 @@ namespace OpenProtocolInterpreter.Tightening
                 {
                     processUntil = 6;
                     var stageResultField = GetField(998, (int)DataFields.STAGE_RESULT);
-                    stageResultField.Size = package.Length - stageResultField.Index - 2;
+                    stageResultField.Size = HeaderData.Length - stageResultField.Index - 2;
                     ProcessDataFields(RevisionsByFields[998], package);
+                    StageResults = _stageResultListConverter.Convert(stageResultField.Value).ToList();
                 }
 
                 for (int i = 2; i <= processUntil; i++)
                     ProcessDataFields(RevisionsByFields[i], package);
+
+                var strategyOptionsField = GetField(2, (int)DataFields.STRATEGY_OPTIONS);
+                StrategyOptions = _strategyOptionsConverter.Convert(strategyOptionsField.Value);
+
+                var tighteningErrorStatusField = GetField(2, (int)DataFields.TIGHTENING_ERROR_STATUS);
+                TighteningErrorStatus = _tighteningErrorStatusConverter.Convert(tighteningErrorStatusField.Value);
+
+                if (HeaderData.Revision > 5)
+                {
+                    var tighteningErrorStatus2Field = GetField(6, (int)DataFields.TIGHTENING_ERROR_STATUS_2);
+                    TighteningErrorStatus2 = _tighteningErrorStatus2Converter.Convert(tighteningErrorStatus2Field.Value);
+                }
             }
         }
 
@@ -703,67 +607,6 @@ namespace OpenProtocolInterpreter.Tightening
             if (HeaderData.Revision > 1)
                 return 2;
             return 1;
-        }
-
-        private void ProcessDataFields(byte[] package, List<DataField> fields)
-        {
-            foreach (var dataField in fields)
-                try
-                {
-                    IEnumerable<byte> value = Enumerable.Empty<byte>();
-                    value = GetValue(dataField, package);
-
-                    if (IsByteField(dataField))
-                        dataField.RawValue = value.ToArray();
-                    else
-                        dataField.Value = ToAscii(value.ToArray());
-                }
-                catch (ArgumentOutOfRangeException)
-                {
-                    //null value
-                }
-        }
-
-        private string BuildDataFieldsPackage(int prefixIndex, List<DataField> fields)
-        {
-            string package = string.Empty;
-            foreach (var dataField in fields)
-                if (dataField.HasPrefix)
-                {
-                    package += prefixIndex.ToString().PadLeft(2, '0') + dataField.Value;
-                    prefixIndex++;
-                }
-                else
-                    package += dataField.Value;
-
-            return package;
-        }
-
-        private byte[] BuildDataFieldsRawPackage(int prefixIndex, List<DataField> fields)
-        {
-            List<byte> bytes = new List<byte>();
-            foreach (var dataField in fields)
-            {
-                if (dataField.HasPrefix)
-                {
-                    var prefix = ToBytes(prefixIndex.ToString().PadLeft(2, '0'));
-                    bytes.AddRange(prefix);
-                    prefixIndex++;
-                }
-
-                if (IsByteField(dataField))
-                    bytes.AddRange(dataField.RawValue);
-                else
-                    bytes.AddRange(ToBytes(dataField.Value));
-            }
-
-            return bytes.ToArray();
-        }
-
-        private bool IsByteField(DataField dataField)
-        {
-            var field = (DataFields)dataField.Field;
-            return field == DataFields.STRATEGY_OPTIONS || field == DataFields.TIGHTENING_ERROR_STATUS || field == DataFields.TIGHTENING_ERROR_STATUS_2;
         }
 
         public enum DataFields
