@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenProtocolInterpreter.Tightening;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OpenProtocolInterpreter.Tightening;
 
 namespace MIDTesters.Tightening
 {
@@ -119,11 +118,11 @@ namespace MIDTesters.Tightening
 
             string untilStrategy = @"02260065002         01012345678902AIRBAG                   03000104002051006";
             bytes.AddRange(GetAsciiBytes(untilStrategy));
-            bytes.AddRange(strategyOptions);
+            bytes.AddRange(GetAsciiBytes(strategyOptions, 5));
 
             string untilTighteningErrorStatus = "07000008000009010011112013214115016217118";
             bytes.AddRange(GetAsciiBytes(untilTighteningErrorStatus));
-            bytes.AddRange(tighteningErrorStatus);
+            bytes.AddRange(GetAsciiBytes(tighteningErrorStatus, 10));
 
             string untilEnd = "19001000200036021002502200223000215240010252500012266553527ABCDEFG-123   282019-01-05:09:00:05";
             bytes.AddRange(GetAsciiBytes(untilEnd));
@@ -229,11 +228,11 @@ namespace MIDTesters.Tightening
 
             string untilStrategy = @"02330065003         01012345678902AIRBAG                   03000104002051006";
             bytes.AddRange(GetAsciiBytes(untilStrategy));
-            bytes.AddRange(strategyOptions);
+            bytes.AddRange(GetAsciiBytes(strategyOptions, 5));
 
             string untilTighteningErrorStatus = "07000008000009010011112013214115016217118";
             bytes.AddRange(GetAsciiBytes(untilTighteningErrorStatus));
-            bytes.AddRange(tighteningErrorStatus);
+            bytes.AddRange(GetAsciiBytes(tighteningErrorStatus, 10));
 
             string untilEnd = "19001000200036021002502200223000215240010252500012266553527ABCDEFG-123   282019-01-05:09:00:052973008";
             bytes.AddRange(GetAsciiBytes(untilEnd));
@@ -344,11 +343,11 @@ namespace MIDTesters.Tightening
 
             string untilStrategy = @"03140065004         01012345678902AIRBAG                   03000104002051006";
             bytes.AddRange(GetAsciiBytes(untilStrategy));
-            bytes.AddRange(strategyOptions);
+            bytes.AddRange(GetAsciiBytes(strategyOptions, 5));
 
             string untilTighteningErrorStatus = "07000008000009010011112013214115016217118";
             bytes.AddRange(GetAsciiBytes(untilTighteningErrorStatus));
-            bytes.AddRange(tighteningErrorStatus);
+            bytes.AddRange(GetAsciiBytes(tighteningErrorStatus, 10));
 
             string untilEnd = "19001000200036021002502200223000215240010252500012266553527ABCDEFG-123   282019-01-05:09:00:05297300831Identifier result part 2 32Identifier result part 3 33Identifier result part 4 ";
             bytes.AddRange(GetAsciiBytes(untilEnd));
@@ -463,11 +462,11 @@ namespace MIDTesters.Tightening
 
             string untilStrategy = @"03200065005         01012345678902AIRBAG                   03000104002051006";
             bytes.AddRange(GetAsciiBytes(untilStrategy));
-            bytes.AddRange(strategyOptions);
+            bytes.AddRange(GetAsciiBytes(strategyOptions, 5));
 
             string untilTighteningErrorStatus = "07000008000009010011112013214115016217118";
             bytes.AddRange(GetAsciiBytes(untilTighteningErrorStatus));
-            bytes.AddRange(tighteningErrorStatus);
+            bytes.AddRange(GetAsciiBytes(tighteningErrorStatus, 10));
 
             string untilEnd = "19001000200036021002502200223000215240010252500012266553527ABCDEFG-123   282019-01-05:09:00:05297300831Identifier result part 2 32Identifier result part 3 33Identifier result part 4 34E124";
             bytes.AddRange(GetAsciiBytes(untilEnd));
@@ -599,15 +598,15 @@ namespace MIDTesters.Tightening
 
             string untilStrategy = @"03400065006         01012345678902AIRBAG                   03000104002051006";
             bytes.AddRange(GetAsciiBytes(untilStrategy));
-            bytes.AddRange(strategyOptions);
+            bytes.AddRange(GetAsciiBytes(strategyOptions, 5));
 
             string untilTighteningErrorStatus = "07000008000009010011112013214115016217118";
             bytes.AddRange(GetAsciiBytes(untilTighteningErrorStatus));
-            bytes.AddRange(tighteningErrorStatus);
+            bytes.AddRange(GetAsciiBytes(tighteningErrorStatus, 10));
 
             string untilTighteningErrorStatus2 = "19001000200036021002502200223000215240010252500012266553527ABCDEFG-123   282019-01-05:09:00:05297300831Identifier result part 2 32Identifier result part 3 33Identifier result part 4 34E1243500510036";
             bytes.AddRange(GetAsciiBytes(untilTighteningErrorStatus2));
-            bytes.AddRange(tighteningErrorStatus2);
+            bytes.AddRange(GetAsciiBytes(tighteningErrorStatus2, 10));
             var mid = _midInterpreter.Parse<Mid0065>(bytes.ToArray());
 
             Assert.AreEqual(typeof(Mid0065), mid.GetType());

@@ -157,10 +157,10 @@ namespace MIDTesters.Tightening
 
             string untilStrategyOptions = "03850061002         010001020103airbag7                  04KPOL3456JKLO897          05000606003071208";
             bytes.AddRange(GetAsciiBytes(untilStrategyOptions));
-            bytes.AddRange(strategyOptions);
+            bytes.AddRange(GetAsciiBytes(strategyOptions, 5));
             string untilTighteningErrorStatus = "09000010000011012013114015216117018219120";
             bytes.AddRange(GetAsciiBytes(untilTighteningErrorStatus));
-            bytes.AddRange(tighteningErrorStatus);
+            bytes.AddRange(GetAsciiBytes(tighteningErrorStatus, 10));
             string untilEnd = "2100084022001400230012002400073925000002609999270000028000002900000300999931050003200033050340453500001036000125370005483800001039999900405555004142949672954265500436053544ABCDEFG-123456452001-06-02:09:54:09462001-05-29:12:34:33";
 
             bytes.AddRange(GetAsciiBytes(untilEnd));
@@ -298,10 +298,10 @@ namespace MIDTesters.Tightening
 
             string untilStrategyOptions = "04190061003         010001020103airbag7                  04KPOL3456JKLO897          05000606003071208";
             bytes.AddRange(GetAsciiBytes(untilStrategyOptions));
-            bytes.AddRange(strategyOptions);
+            bytes.AddRange(GetAsciiBytes(strategyOptions, 5));
             string untilTighteningErrorStatus = "09000010000011012013114015216117018219120";
             bytes.AddRange(GetAsciiBytes(untilTighteningErrorStatus));
-            bytes.AddRange(tighteningErrorStatus);
+            bytes.AddRange(GetAsciiBytes(tighteningErrorStatus, 10));
             string untilEnd = "2100084022001400230012002400073925000002609999270000028000002900000300999931050003200033050340453500001036000125370005483800001039999900405555004142949672954265500436053544ABCDEFG-123456452001-06-02:09:54:09462001-05-29:12:34:3347Test Parameter Set       4824905";
 
             bytes.AddRange(GetAsciiBytes(untilEnd));
@@ -445,10 +445,10 @@ namespace MIDTesters.Tightening
 
             string untilStrategyOptions = "05000061004         010001020103airbag7                  04KPOL3456JKLO897          05000606003071208";
             bytes.AddRange(GetAsciiBytes(untilStrategyOptions));
-            bytes.AddRange(strategyOptions);
+            bytes.AddRange(GetAsciiBytes(strategyOptions, 5));
             string untilTighteningErrorStatus = "09000010000011012013114015216117018219120";
             bytes.AddRange(GetAsciiBytes(untilTighteningErrorStatus));
-            bytes.AddRange(tighteningErrorStatus);
+            bytes.AddRange(GetAsciiBytes(tighteningErrorStatus, 10));
             string untilEnd = "2100084022001400230012002400073925000002609999270000028000002900000300999931050003200033050340453500001036000125370005483800001039999900405555004142949672954265500436053544ABCDEFG-123456452001-06-02:09:54:09462001-05-29:12:34:3347Test Parameter Set       482490550Identifier result part 2 51Identifier result part 3 52Identifier result part 4 ";
 
             bytes.AddRange(GetAsciiBytes(untilEnd));
@@ -596,10 +596,10 @@ namespace MIDTesters.Tightening
 
             string untilStrategyOptions = "05060061005         010001020103airbag7                  04KPOL3456JKLO897          05000606003071208";
             bytes.AddRange(GetAsciiBytes(untilStrategyOptions));
-            bytes.AddRange(strategyOptions);
+            bytes.AddRange(GetAsciiBytes(strategyOptions, 5));
             string untilTighteningErrorStatus = "09000010000011012013114015216117018219120";
             bytes.AddRange(GetAsciiBytes(untilTighteningErrorStatus));
-            bytes.AddRange(tighteningErrorStatus);
+            bytes.AddRange(GetAsciiBytes(tighteningErrorStatus, 10));
             string untilEnd = "2100084022001400230012002400073925000002609999270000028000002900000300999931050003200033050340453500001036000125370005483800001039999900405555004142949672954265500436053544ABCDEFG-123456452001-06-02:09:54:09462001-05-29:12:34:3347Test Parameter Set       482490550Identifier result part 2 51Identifier result part 3 52Identifier result part 4 53E124";
 
             bytes.AddRange(GetAsciiBytes(untilEnd));
@@ -764,15 +764,15 @@ namespace MIDTesters.Tightening
 
             string untilStrategyOptions = "05260061006         010001020103airbag7                  04KPOL3456JKLO897          05000606003071208";
             bytes.AddRange(GetAsciiBytes(untilStrategyOptions));
-            bytes.AddRange(strategyOptions);
+            bytes.AddRange(GetAsciiBytes(strategyOptions, 5));
 
             string untilTighteningErrorStatus = "09000010000011012013114015216117018219120";
             bytes.AddRange(GetAsciiBytes(untilTighteningErrorStatus));
-            bytes.AddRange(tighteningErrorStatus);
+            bytes.AddRange(GetAsciiBytes(tighteningErrorStatus, 10));
 
             string untilTighteningErrorStatus2 = "2100084022001400230012002400073925000002609999270000028000002900000300999931050003200033050340453500001036000125370005483800001039999900405555004142949672954265500436053544ABCDEFG-123456452001-06-02:09:54:09462001-05-29:12:34:3347Test Parameter Set       482490550Identifier result part 2 51Identifier result part 3 52Identifier result part 4 53E1245400150055";
             bytes.AddRange(GetAsciiBytes(untilTighteningErrorStatus2));
-            bytes.AddRange(tighteningErrorStatus2);
+            bytes.AddRange(GetAsciiBytes(tighteningErrorStatus2, 10));
 
             var mid = _midInterpreter.Parse<Mid0061>(bytes.ToArray());
 
@@ -939,15 +939,15 @@ namespace MIDTesters.Tightening
 
             string untilStrategyOptions = "05440061007         010001020103airbag7                  04KPOL3456JKLO897          05000606003071208";
             bytes.AddRange(GetAsciiBytes(untilStrategyOptions));
-            bytes.AddRange(strategyOptions);
+            bytes.AddRange(GetAsciiBytes(strategyOptions, 5));
 
             string untilTighteningErrorStatus = "09000010000011012013114015216117018219120";
             bytes.AddRange(GetAsciiBytes(untilTighteningErrorStatus));
-            bytes.AddRange(tighteningErrorStatus);
+            bytes.AddRange(GetAsciiBytes(tighteningErrorStatus, 10));
 
             string untilTighteningErrorStatus2 = "2100084022001400230012002400073925000002609999270000028000002900000300999931050003200033050340453500001036000125370005483800001039999900405555004142949672954265500436053544ABCDEFG-123456452001-06-02:09:54:09462001-05-29:12:34:3347Test Parameter Set       482490550Identifier result part 2 51Identifier result part 3 52Identifier result part 4 53E1245400150055";
             bytes.AddRange(GetAsciiBytes(untilTighteningErrorStatus2));
-            bytes.AddRange(tighteningErrorStatus2);
+            bytes.AddRange(GetAsciiBytes(tighteningErrorStatus2, 10));
 
             string untilEnd = "560010000570999900";
             bytes.AddRange(GetAsciiBytes(untilEnd));
@@ -1120,15 +1120,15 @@ namespace MIDTesters.Tightening
 
             string untilStrategyOptions = "05580061998         010001020103airbag7                  04KPOL3456JKLO897          05000606003071208";
             bytes.AddRange(GetAsciiBytes(untilStrategyOptions));
-            bytes.AddRange(strategyOptions);
+            bytes.AddRange(GetAsciiBytes(strategyOptions, 5));
 
             string untilTighteningErrorStatus = "09000010000011012013114015216117018219120";
             bytes.AddRange(GetAsciiBytes(untilTighteningErrorStatus));
-            bytes.AddRange(tighteningErrorStatus);
+            bytes.AddRange(GetAsciiBytes(tighteningErrorStatus, 10));
 
             string untilTighteningErrorStatus2 = "2100084022001400230012002400073925000002609999270000028000002900000300999931050003200033050340453500001036000125370005483800001039999900405555004142949672954265500436053544ABCDEFG-123456452001-06-02:09:54:09462001-05-29:12:34:3347Test Parameter Set       482490550Identifier result part 2 51Identifier result part 3 52Identifier result part 4 53E1245400150055";
             bytes.AddRange(GetAsciiBytes(untilTighteningErrorStatus2));
-            bytes.AddRange(tighteningErrorStatus2);
+            bytes.AddRange(GetAsciiBytes(tighteningErrorStatus2, 10));
 
             string untilEnd = "56025702580200000010001200000080";
             bytes.AddRange(GetAsciiBytes(untilEnd));

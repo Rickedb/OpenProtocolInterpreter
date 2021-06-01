@@ -1,4 +1,5 @@
 ﻿using OpenProtocolInterpreter.Tightening;
+using System.Text;
 
 namespace OpenProtocolInterpreter.Converters
 {
@@ -74,8 +75,8 @@ namespace OpenProtocolInterpreter.Converters
                  false
             });
 
-            bytes[2] = bytes[3] = bytes[4] = 0;
-            return bytes;
+            var asciiInt = System.BitConverter.ToInt32(bytes, 0).ToString().PadLeft(5, '0');
+            return Encoding.ASCII.GetBytes(asciiInt);
         }
 
         public byte[] ConvertToBytes(char paddingChar, int size, DataField.PaddingOrientations orientation, StrategyOptions value) => ConvertToBytes(value);
