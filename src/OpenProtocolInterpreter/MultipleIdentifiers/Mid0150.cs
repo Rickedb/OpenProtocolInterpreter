@@ -13,6 +13,8 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
         private const int LAST_REVISION = 1;
         public const int MID = 150;
 
+        private int identifierDataSize;
+
         public string IdentifierData
         {
             get => GetField(1, (int)DataFields.IDENTIFIER_DATA).Value;
@@ -21,8 +23,9 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
 
         public Mid0150() : base(MID, LAST_REVISION) { }
 
-        public Mid0150(string identifierData) : this()
+        public Mid0150(string identifierData) : base(MID, LAST_REVISION)
         {
+            identifierDataSize = identifierData.Length;
             IdentifierData = identifierData;
         }
 
