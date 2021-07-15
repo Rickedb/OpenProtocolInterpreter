@@ -1,6 +1,7 @@
 ﻿using OpenProtocolInterpreter.Converters;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Schema;
 
 namespace OpenProtocolInterpreter.Job
 {
@@ -141,6 +142,8 @@ namespace OpenProtocolInterpreter.Job
         public override string Pack()
         {
             HandleRevisions();
+            NumberOfParameterSets = ParameterSetList.Count;
+
             _parameterSetListConverter = new ParameterSetListConverter(_intConverter, _boolConverter, HeaderData.Revision);
             var psetListField = GetField(1, (int)DataFields.PARAMETER_SET_LIST);
             psetListField.Size = ParameterSetList.Count * ((HeaderData.Revision < 3) ? 12 : 44);
@@ -154,7 +157,7 @@ namespace OpenProtocolInterpreter.Job
             HandleRevisions();
             _parameterSetListConverter = new ParameterSetListConverter(_intConverter, _boolConverter, HeaderData.Revision);
             var jobListField = GetField(1, (int)DataFields.PARAMETER_SET_LIST);
-            jobListField.Size = package.Length - jobListField.Index - 2;
+            jobListField.Size = HeaderData.Length - jobListField.Index - 2;
             base.Parse(package);
             ParameterSetList = _parameterSetListConverter.Convert(jobListField.Value).ToList();
             return this;
