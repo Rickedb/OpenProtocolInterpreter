@@ -78,7 +78,7 @@ namespace OpenProtocolInterpreter.Job
 
             _jobListConverter = new JobIdListConverter(_intConverter, HeaderData.Revision);
             var eachJobField = GetField(1, (int)DataFields.EACH_JOB_ID);
-            eachJobField.Size = package.Length - eachJobField.Index;
+            eachJobField.Size = HeaderData.Length - eachJobField.Index;
             base.Parse(package);
             JobIds = _jobListConverter.Convert(eachJobField.Value).ToList();
             return this;
