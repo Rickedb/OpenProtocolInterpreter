@@ -214,11 +214,11 @@ namespace OpenProtocolInterpreter.Job
 
         private int GetEachParameterSetSize()
         {
-            return HeaderData.Revision switch
+            switch(HeaderData.Revision)
             {
-                3 => 44,
-                4 => 49,
-                _ => 12,
+                case 3: return 44;
+                case 4: return 49;
+                default: return 12;
             };
         }
 
