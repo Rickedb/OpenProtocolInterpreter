@@ -1,6 +1,7 @@
 ﻿using OpenProtocolInterpreter.Converters;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Schema;
 
 namespace OpenProtocolInterpreter.Job
 {
@@ -15,7 +16,7 @@ namespace OpenProtocolInterpreter.Job
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;
         private IValueConverter<IEnumerable<ParameterSet>> _parameterSetListConverter;
-        private const int LAST_REVISION = 3;
+        private const int LAST_REVISION = 4;
         public const int MID = 33;
 
         public int JobId
@@ -141,9 +142,11 @@ namespace OpenProtocolInterpreter.Job
         public override string Pack()
         {
             HandleRevisions();
+            NumberOfParameterSets = ParameterSetList.Count;
+
             _parameterSetListConverter = new ParameterSetListConverter(_intConverter, _boolConverter, HeaderData.Revision);
             var psetListField = GetField(1, (int)DataFields.PARAMETER_SET_LIST);
-            psetListField.Size = ParameterSetList.Count * ((HeaderData.Revision < 3) ? 12 : 44);
+            psetListField.Size = ParameterSetList.Count * GetEachParameterSetSize();
             psetListField.Value = _parameterSetListConverter.Convert(ParameterSetList);
             return base.Pack();
         }
@@ -154,7 +157,7 @@ namespace OpenProtocolInterpreter.Job
             HandleRevisions();
             _parameterSetListConverter = new ParameterSetListConverter(_intConverter, _boolConverter, HeaderData.Revision);
             var jobListField = GetField(1, (int)DataFields.PARAMETER_SET_LIST);
-            jobListField.Size = package.Length - jobListField.Index - 2;
+            jobListField.Size = HeaderData.Length - jobListField.Index - 2;
             base.Parse(package);
             ParameterSetList = _parameterSetListConverter.Convert(jobListField.Value).ToList();
             return this;
@@ -181,7 +184,10 @@ namespace OpenProtocolInterpreter.Job
                                     new DataField((int)DataFields.NUMBER_OF_PARAMETER_SETS, 85, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
                                     new DataField((int)DataFields.PARAMETER_SET_LIST, 89, 0) // defined at runtime
                                 }
-                    }
+                    },
+                    { 2, new List<DataField>() },
+                    { 3, new List<DataField>() },
+                    { 4, new List<DataField>() }
                 };
         }
 
@@ -206,6 +212,16 @@ namespace OpenProtocolInterpreter.Job
             }
         }
 
+        private int GetEachParameterSetSize()
+        {
+            switch(HeaderData.Revision)
+            {
+                case 3: return 44;
+                case 4: return 49;
+                default: return 12;
+            };
+        }
+
         public enum DataFields
         {
             JOB_ID,
@@ -220,7 +236,9 @@ namespace OpenProtocolInterpreter.Job
             TOOL_LOOSENING,
             RESERVED,
             NUMBER_OF_PARAMETER_SETS,
-            PARAMETER_SET_LIST
+            PARAMETER_SET_LIST,
+            //rev 3
+
         }
 
     }
