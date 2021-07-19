@@ -13,8 +13,6 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
         private const int LAST_REVISION = 1;
         public const int MID = 150;
 
-        private int identifierDataSize;
-
         public string IdentifierData
         {
             get => GetField(1, (int)DataFields.IDENTIFIER_DATA).Value;
@@ -23,16 +21,21 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
 
         public Mid0150() : base(MID, LAST_REVISION) { }
 
-        public Mid0150(string identifierData) : base(MID, LAST_REVISION)
+        public Mid0150(string identifierData) : this()
         {
-            identifierDataSize = identifierData.Length;
             IdentifierData = identifierData;
+        }
+
+        public override string Pack()
+        {
+            GetField(1, (int)DataFields.IDENTIFIER_DATA).Size = IdentifierData.Length;
+            return base.Pack();
         }
 
         public override Mid Parse(string package)
         {
             HeaderData = ProcessHeader(package);
-            GetField(1, (int)DataFields.IDENTIFIER_DATA).Size = package.Length - 20;
+            GetField(1, (int)DataFields.IDENTIFIER_DATA).Size = HeaderData.Length - 20;
             ProcessDataFields(package);
             return this;
         }
@@ -44,7 +47,7 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.IDENTIFIER_DATA, 20, identifierDataSize, false)
+                        new DataField((int)DataFields.IDENTIFIER_DATA, 20, 0, false)
                     }
                 }
             };
