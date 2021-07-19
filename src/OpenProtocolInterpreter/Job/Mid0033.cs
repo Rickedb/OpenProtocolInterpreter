@@ -16,7 +16,7 @@ namespace OpenProtocolInterpreter.Job
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;
         private IValueConverter<IEnumerable<ParameterSet>> _parameterSetListConverter;
-        private const int LAST_REVISION = 3;
+        private const int LAST_REVISION = 4;
         public const int MID = 33;
 
         public int JobId
@@ -146,7 +146,7 @@ namespace OpenProtocolInterpreter.Job
 
             _parameterSetListConverter = new ParameterSetListConverter(_intConverter, _boolConverter, HeaderData.Revision);
             var psetListField = GetField(1, (int)DataFields.PARAMETER_SET_LIST);
-            psetListField.Size = ParameterSetList.Count * ((HeaderData.Revision < 3) ? 12 : 44);
+            psetListField.Size = ParameterSetList.Count * GetEachParameterSetSize();
             psetListField.Value = _parameterSetListConverter.Convert(ParameterSetList);
             return base.Pack();
         }
@@ -184,7 +184,10 @@ namespace OpenProtocolInterpreter.Job
                                     new DataField((int)DataFields.NUMBER_OF_PARAMETER_SETS, 85, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
                                     new DataField((int)DataFields.PARAMETER_SET_LIST, 89, 0) // defined at runtime
                                 }
-                    }
+                    },
+                    { 2, new List<DataField>() },
+                    { 3, new List<DataField>() },
+                    { 4, new List<DataField>() }
                 };
         }
 
@@ -209,6 +212,16 @@ namespace OpenProtocolInterpreter.Job
             }
         }
 
+        private int GetEachParameterSetSize()
+        {
+            return HeaderData.Revision switch
+            {
+                3 => 44,
+                4 => 49,
+                _ => 12,
+            };
+        }
+
         public enum DataFields
         {
             JOB_ID,
@@ -223,7 +236,9 @@ namespace OpenProtocolInterpreter.Job
             TOOL_LOOSENING,
             RESERVED,
             NUMBER_OF_PARAMETER_SETS,
-            PARAMETER_SET_LIST
+            PARAMETER_SET_LIST,
+            //rev 3
+
         }
 
     }

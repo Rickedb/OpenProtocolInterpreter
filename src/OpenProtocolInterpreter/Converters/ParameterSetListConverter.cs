@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ExceptionServices;
 
 namespace OpenProtocolInterpreter.Converters
 {
@@ -36,17 +37,26 @@ namespace OpenProtocolInterpreter.Converters
 
                     if (_revision > 2)
                     {
-                        pset.Socket = _intConverter.Convert(fields[4]);
                         pset.JobStepName = fields[5];
                         pset.JobStepType = _intConverter.Convert(fields[6]);
+
+                        if (_revision > 3)
+                        {
+                            pset.IdentifierNumber = _intConverter.Convert(fields[4]);
+                            pset.MaxCoherentNok = _intConverter.Convert(fields[7]);
+                        }
+                        else
+                        {
+                            pset.Socket = _intConverter.Convert(fields[4]);
+                        }
                     }
 
                     psets.Add(pset);
                 }
             }
-
             return psets;
         }
+
         public override string Convert(IEnumerable<Job.ParameterSet> value)
         {
             if (!value.Any())
@@ -55,7 +65,6 @@ namespace OpenProtocolInterpreter.Converters
             }
 
             var packages = new List<string>();
-
             foreach (var pset in value)
             {
                 var eachPset = new List<string>()
@@ -68,9 +77,18 @@ namespace OpenProtocolInterpreter.Converters
 
                 if (_revision > 2)
                 {
-                    eachPset.Add(_intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, pset.Socket));
+                    if (_revision > 3)
+                        eachPset.Add(_intConverter.Convert('0', 4, DataField.PaddingOrientations.LEFT_PADDED, pset.IdentifierNumber));
+                    else
+                        eachPset.Add(_intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, pset.Socket));
+
                     eachPset.Add(pset.JobStepName.PadRight(25));
                     eachPset.Add(_intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, pset.JobStepType));
+
+                    if(_revision > 3)
+                    {
+                        eachPset.Add(_intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, pset.MaxCoherentNok));
+                    }
                 }
 
                 packages.Add(string.Join(":", eachPset));
