@@ -18,6 +18,7 @@ namespace OpenProtocolInterpreter.Communication
     public class Mid0002 : Mid, ICommunication, IController
     {
         private readonly IValueConverter<int> _intConverter;
+        private readonly IValueConverter<long> _longConverter;
         private readonly IValueConverter<bool> _boolConverter;
         private const int LAST_REVISION = 6;
         public const int MID = 2;
@@ -100,6 +101,35 @@ namespace OpenProtocolInterpreter.Communication
             get => GetField(6, (int)DataFields.LINKING_HANDLING_SUPPORT).GetValue(_boolConverter.Convert);
             set => GetField(6, (int)DataFields.LINKING_HANDLING_SUPPORT).SetValue(_boolConverter.Convert, value);
         }
+        /// <summary>
+        /// <para>Station ID for PF6000</para>
+        /// <para>Cell ID for PF4000</para>
+        /// </summary>
+        public long StationCellId 
+        {
+            get => GetField(6, (int)DataFields.STATION_CELL_ID).GetValue(_longConverter.Convert);
+            set => GetField(6, (int)DataFields.STATION_CELL_ID).SetValue(_longConverter.Convert, value);
+        }
+        /// <summary>
+        /// <para>Station ID for PF6000</para>
+        /// <para>Cell ID for PF4000</para>
+        /// </summary>
+        public string StationCellName
+        {
+            get => GetField(6, (int)DataFields.STATION_CELL_NAME).Value;
+            set => GetField(6, (int)DataFields.STATION_CELL_NAME).SetValue(value);
+        }
+        public string ClientId
+        {
+            get => GetField(6, (int)DataFields.CLIENT_ID).Value;
+            set => GetField(6, (int)DataFields.CLIENT_ID).SetValue(value);
+        }
+        //Rev 7
+        public bool OptionalKeepAlive 
+        {
+            get => GetField(7, (int)DataFields.OPTIONAL_KEEP_ALIVE).GetValue(_boolConverter.Convert);
+            set => GetField(7, (int)DataFields.OPTIONAL_KEEP_ALIVE).SetValue(_boolConverter.Convert, value);
+        }
 
         public Mid0002() : this(LAST_REVISION)
         {
@@ -109,6 +139,7 @@ namespace OpenProtocolInterpreter.Communication
         public Mid0002(int revision = LAST_REVISION) : base(MID, revision)
         {
             _intConverter = new Int32Converter();
+            _longConverter = new Int64Converter();
             _boolConverter = new BoolConverter();
         }
 
@@ -221,14 +252,56 @@ namespace OpenProtocolInterpreter.Communication
         /// <param name="systemSubType">The system subtype. 3 ASCII digits</param>
         /// <param name="sequenceNumberSupport">Flag sequence number handling supported if = 1</param>
         /// <param name="linkingHandlingSupport">Flag linking functionality handling supported if = 1.</param>
+        /// <param name="stationCellId">The station id/Cell Id is a unique id for each station. 10 ASCII digits.</param>
+        /// <param name="stationCellName">The station/Cell name is 25 bytes long and specified by 25 ASCII characters.</param>
+        /// <param name="clientId">The Connection Client ID.1 byte 1 ASCII digit. Used at several connections towards a one channel controller.</param>
         /// <param name="revision">Revision number (default = 6)</param>
         public Mid0002(int cellId, int channelId, string controllerName, string supplierCode, string openProtocolVersion, string controllerSoftwareVersion, string toolSoftwareVersion, string rbuType,
-            string controllerSerialNumber, SystemType systemType, SystemSubType systemSubType, bool sequenceNumberSupport, bool linkingHandlingSupport, int revision = 6)
+            string controllerSerialNumber, SystemType systemType, SystemSubType systemSubType, bool sequenceNumberSupport, bool linkingHandlingSupport, long stationCellId,
+            string stationCellName, string clientId, int revision = 6)
             : this(cellId, channelId, controllerName, supplierCode, openProtocolVersion, controllerSoftwareVersion,
                   toolSoftwareVersion, rbuType, controllerSerialNumber, systemType, systemSubType, revision)
         {
             SequenceNumberSupport = sequenceNumberSupport;
             LinkingHandlingSupport = linkingHandlingSupport;
+            StationCellId = stationCellId;
+            StationCellName = stationCellName;
+            ClientId = clientId;
+        }
+
+        /// <summary>
+        /// Revision 6 Constructor
+        /// </summary>
+        /// <param name="cellId">The cell ID is four bytes long specified by four ASCII digits. Range: 0000-9999.</param>
+        /// <param name="channelId">The channel ID is two bytes long specified by two ASCII digits. Range: 00-20.</param>
+        /// <param name="controllerName">The controller name is 25 bytes long and specified by 25 ASCII characters.</param>
+        /// <param name="supplierCode">ACT (supplier code for Atlas Copco Tools) specified by three ASCII characters.</param>
+        /// <param name="openProtocolVersion">Open Protocol version. 19 ASCII characters. This version mirrors the IMPLEMENTED version of the Open Protocol and is hence not the same as the version of the specification.This is caused by, for instance, the possibility of implementation done of only a subset of the protocol.</param>
+        /// <param name="controllerSoftwareVersion">The controller software version. 19 ASCII characters.</param>
+        /// <param name="toolSoftwareVersion">The tool software version. 19 ASCII characters.</param>
+        /// <param name="rbuType">The RBU Type. 24 ASCII characters.</param>
+        /// <param name="controllerSerialNumber">The Controller Serial Number. 10 ASCII characters.</param>
+        /// <param name="systemType">The system type of the controller. 3 ASCII digits</param>
+        /// <param name="systemSubType">The system subtype. 3 ASCII digits</param>
+        /// <param name="sequenceNumberSupport">Flag sequence number handling supported if = 1</param>
+        /// <param name="linkingHandlingSupport">Flag linking functionality handling supported if = 1.</param>
+        /// <param name="stationCellId">The station id/Cell Id is a unique id for each station. 10 ASCII digits.</param>
+        /// <param name="stationCellName">The station/Cell name is 25 bytes long and specified by 25 ASCII characters.</param>
+        /// <param name="clientId">The Connection Client ID.1 byte 1 ASCII digit. Used at several connections towards a one channel controller.</param>
+        /// <param name="optionalKeepAlive">
+        /// Telling if optional keep alive will be used or not. 
+        /// <para>0=Use Keep alive (Keep alive is mandatory)</para> 
+        /// <para>1=Ignore Keep alive (Keep alive is optional)</para>
+        /// </param>
+        /// <param name="revision">Revision number (default = 6)</param>
+        public Mid0002(int cellId, int channelId, string controllerName, string supplierCode, string openProtocolVersion, string controllerSoftwareVersion, string toolSoftwareVersion, string rbuType,
+            string controllerSerialNumber, SystemType systemType, SystemSubType systemSubType, bool sequenceNumberSupport, bool linkingHandlingSupport, long stationCellId,
+            string stationCellName, string clientId, bool optionalKeepAlive, int revision = 7)
+            : this(cellId, channelId, controllerName, supplierCode, openProtocolVersion, controllerSoftwareVersion,
+                  toolSoftwareVersion, rbuType, controllerSerialNumber, systemType, systemSubType, sequenceNumberSupport, linkingHandlingSupport, stationCellId,
+                  stationCellName, clientId, revision)
+        {
+            OptionalKeepAlive = optionalKeepAlive;
         }
 
         /// <summary>
@@ -316,7 +389,16 @@ namespace OpenProtocolInterpreter.Communication
                     6, new  List<DataField>()
                             {
                                 new DataField((int)DataFields.SEQUENCE_NUMBER_SUPPORT, 173, 1),
-                                new DataField((int)DataFields.LINKING_HANDLING_SUPPORT, 176, 1)
+                                new DataField((int)DataFields.LINKING_HANDLING_SUPPORT, 176, 1),
+                                new DataField((int)DataFields.STATION_CELL_ID, 179, 10),
+                                new DataField((int)DataFields.STATION_CELL_NAME, 191, 25),
+                                new DataField((int)DataFields.CLIENT_ID, 218, 1)
+                            }
+                },
+                {
+                    7, new  List<DataField>()
+                            {
+                                new DataField((int)DataFields.OPTIONAL_KEEP_ALIVE, 221, 1)
                             }
                 }
             };
@@ -342,7 +424,12 @@ namespace OpenProtocolInterpreter.Communication
             SYSTEM_SUBTYPE,
             //Rev 6
             SEQUENCE_NUMBER_SUPPORT,
-            LINKING_HANDLING_SUPPORT
+            LINKING_HANDLING_SUPPORT,
+            STATION_CELL_ID,
+            STATION_CELL_NAME,
+            CLIENT_ID,
+            //Rev 7
+            OPTIONAL_KEEP_ALIVE
         }
     }
 }

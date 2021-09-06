@@ -220,6 +220,10 @@
       <Project>{b022dfc7-f264-48b2-94c0-8984ffcf3a91}</Project>
       <Name>OpenProtocolInterpreter</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OpenProtocolInterpreter\OpenProtocolInterpreter.csproj">
+      <Project>{b022dfc7-f264-48b2-94c0-8984ffcf3a91}</Project>
+      <Name>OpenProtocolInterpreter</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
