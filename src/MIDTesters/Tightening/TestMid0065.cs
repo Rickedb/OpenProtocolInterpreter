@@ -838,6 +838,10 @@ namespace MIDTesters.Tightening
             Assert.IsNotNull(mid.TighteningErrorStatus2);
             Assert.AreNotEqual(0, mid.StationId);
             Assert.IsNotNull(mid.StationName);
+            Assert.AreNotEqual(0, mid.StartFinalAngle);
+            Assert.IsNotNull(mid.PostViewTorqueActivated);
+            Assert.AreNotEqual(0, mid.PostViewTorqueHigh);
+            Assert.AreNotEqual(0, mid.PostViewTorqueLow);
             Assert.AreEqual(package, mid.Pack());
         }
 
@@ -937,6 +941,10 @@ namespace MIDTesters.Tightening
             Assert.IsNotNull(mid.TighteningErrorStatus2);
             Assert.AreNotEqual(0, mid.StationId);
             Assert.IsNotNull(mid.StationName);
+            Assert.AreNotEqual(0, mid.StartFinalAngle);
+            Assert.IsNotNull(mid.PostViewTorqueActivated);
+            Assert.AreNotEqual(0, mid.PostViewTorqueHigh);
+            Assert.AreNotEqual(0, mid.PostViewTorqueLow);
             Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
         }
     }
