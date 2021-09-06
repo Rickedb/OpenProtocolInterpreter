@@ -21,7 +21,7 @@ namespace OpenProtocolInterpreter.Tightening
         private readonly IValueConverter<TighteningErrorStatus> _tighteningErrorStatusConverter;
         private readonly IValueConverter<TighteningErrorStatus2> _tighteningErrorStatus2Converter;
         public const int MID = 65;
-        private const int LAST_REVISION = 6;
+        private const int LAST_REVISION = 7;
 
         public long TighteningId
         {
@@ -196,6 +196,17 @@ namespace OpenProtocolInterpreter.Tightening
             set => GetField(6, (int)DataFields.PREVAIL_TORQUE_COMPENSATE_VALUE).SetValue(_decimalConverter.Convert, value);
         }
         public TighteningErrorStatus2 TighteningErrorStatus2 { get; set; }
+        //Rev 7
+        public long StationId
+        {
+            get => GetField(7, (int)DataFields.STATION_ID).GetValue(_longConverter.Convert);
+            set => GetField(7, (int)DataFields.STATION_ID).SetValue(_longConverter.Convert, value);
+        }
+        public string StationName
+        {
+            get => GetField(7, (int)DataFields.STATION_NAME).Value;
+            set => GetField(7, (int)DataFields.STATION_NAME).SetValue(value);
+        }
 
         public Mid0065() : this(LAST_REVISION)
         {
@@ -371,6 +382,13 @@ namespace OpenProtocolInterpreter.Tightening
                                 new DataField((int)DataFields.PREVAIL_TORQUE_COMPENSATE_VALUE, 320, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
                                 new DataField((int)DataFields.TIGHTENING_ERROR_STATUS_2, 328, 10, '0', DataField.PaddingOrientations.LEFT_PADDED)
                             }
+                },
+                {
+                    7, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.STATION_ID, 340, 10, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.STATION_NAME, 352, 25)
+                            }
                 }
             };
         }
@@ -419,7 +437,10 @@ namespace OpenProtocolInterpreter.Tightening
             CUSTOMER_TIGHTENING_ERROR_CODE,
             //Rev 6 Additions
             PREVAIL_TORQUE_COMPENSATE_VALUE,
-            TIGHTENING_ERROR_STATUS_2
+            TIGHTENING_ERROR_STATUS_2,
+            //Rev 7 Additions
+            STATION_ID,
+            STATION_NAME
         }
     }
 }
