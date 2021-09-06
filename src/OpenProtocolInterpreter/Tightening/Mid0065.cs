@@ -207,6 +207,27 @@ namespace OpenProtocolInterpreter.Tightening
             get => GetField(7, (int)DataFields.STATION_NAME).Value;
             set => GetField(7, (int)DataFields.STATION_NAME).SetValue(value);
         }
+        //Rev 8
+        public decimal StartFinalAngle
+        {
+            get => GetField(8, (int)DataFields.START_FINAL_ANGLE).GetValue(_decimalConverter.Convert);
+            set => GetField(8, (int)DataFields.START_FINAL_ANGLE).SetValue(_decimalConverter.Convert, value);
+        }
+        public PostViewTorque PostViewTorqueActivated
+        {
+            get => (PostViewTorque)GetField(8, (int)DataFields.POST_VIEW_TORQUE_ACTIVATED).GetValue(_intConverter.Convert);
+            set => GetField(8, (int)DataFields.POST_VIEW_TORQUE_ACTIVATED).SetValue(_intConverter.Convert, (int)value);
+        }
+        public decimal PostViewTorqueHigh
+        {
+            get => GetField(8, (int)DataFields.POST_VIEW_TORQUE_HIGH).GetValue(_decimalConverter.Convert);
+            set => GetField(8, (int)DataFields.POST_VIEW_TORQUE_HIGH).SetValue(_decimalConverter.Convert, value);
+        }
+        public decimal PostViewTorqueLow
+        {
+            get => GetField(8, (int)DataFields.POST_VIEW_TORQUE_LOW).GetValue(_decimalConverter.Convert);
+            set => GetField(8, (int)DataFields.POST_VIEW_TORQUE_LOW).SetValue(_decimalConverter.Convert, value);
+        }
 
         public Mid0065() : this(LAST_REVISION)
         {
@@ -389,6 +410,15 @@ namespace OpenProtocolInterpreter.Tightening
                                 new DataField((int)DataFields.STATION_ID, 340, 10, '0', DataField.PaddingOrientations.LEFT_PADDED),
                                 new DataField((int)DataFields.STATION_NAME, 352, 25)
                             }
+                },
+                {
+                    8, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.START_FINAL_ANGLE, 379, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.POST_VIEW_TORQUE_ACTIVATED, 387, 1),
+                                new DataField((int)DataFields.POST_VIEW_TORQUE_HIGH, 390, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.POST_VIEW_TORQUE_LOW, 398, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                            }
                 }
             };
         }
@@ -440,7 +470,12 @@ namespace OpenProtocolInterpreter.Tightening
             TIGHTENING_ERROR_STATUS_2,
             //Rev 7 Additions
             STATION_ID,
-            STATION_NAME
-        }
+            STATION_NAME,
+            //Rev 8 Additions
+            START_FINAL_ANGLE,
+            POST_VIEW_TORQUE_ACTIVATED,
+            POST_VIEW_TORQUE_HIGH,
+            POST_VIEW_TORQUE_LOW
+    }
     }
 }
