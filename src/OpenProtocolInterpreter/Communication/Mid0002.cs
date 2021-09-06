@@ -20,7 +20,7 @@ namespace OpenProtocolInterpreter.Communication
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<long> _longConverter;
         private readonly IValueConverter<bool> _boolConverter;
-        private const int LAST_REVISION = 6;
+        private const int LAST_REVISION = 7;
         public const int MID = 2;
 
         public int CellId
