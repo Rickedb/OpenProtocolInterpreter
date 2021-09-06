@@ -390,7 +390,7 @@ namespace OpenProtocolInterpreter.Communication
                             {
                                 new DataField((int)DataFields.SEQUENCE_NUMBER_SUPPORT, 173, 1),
                                 new DataField((int)DataFields.LINKING_HANDLING_SUPPORT, 176, 1),
-                                new DataField((int)DataFields.STATION_CELL_ID, 179, 10),
+                                new DataField((int)DataFields.STATION_CELL_ID, 179, 10, '0', DataField.PaddingOrientations.LEFT_PADDED),
                                 new DataField((int)DataFields.STATION_CELL_NAME, 191, 25),
                                 new DataField((int)DataFields.CLIENT_ID, 218, 1)
                             }
