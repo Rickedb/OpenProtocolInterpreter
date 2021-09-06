@@ -125,6 +125,10 @@ namespace OpenProtocolInterpreter.Communication
             set => GetField(6, (int)DataFields.CLIENT_ID).SetValue(value);
         }
         //Rev 7
+        /// <summary>
+        /// <para>False = Use Keep alive (Keep alive is mandatory)</para> 
+        /// <para>True = Ignore Keep alive (Keep alive is optional)</para>
+        /// </summary>
         public bool OptionalKeepAlive 
         {
             get => GetField(7, (int)DataFields.OPTIONAL_KEEP_ALIVE).GetValue(_boolConverter.Convert);
@@ -290,8 +294,8 @@ namespace OpenProtocolInterpreter.Communication
         /// <param name="clientId">The Connection Client ID.1 byte 1 ASCII digit. Used at several connections towards a one channel controller.</param>
         /// <param name="optionalKeepAlive">
         /// Telling if optional keep alive will be used or not. 
-        /// <para>0=Use Keep alive (Keep alive is mandatory)</para> 
-        /// <para>1=Ignore Keep alive (Keep alive is optional)</para>
+        /// <para>False=Use Keep alive (Keep alive is mandatory)</para> 
+        /// <para>True=Ignore Keep alive (Keep alive is optional)</para>
         /// </param>
         /// <param name="revision">Revision number (default = 6)</param>
         public Mid0002(int cellId, int channelId, string controllerName, string supplierCode, string openProtocolVersion, string controllerSoftwareVersion, string toolSoftwareVersion, string rbuType,
