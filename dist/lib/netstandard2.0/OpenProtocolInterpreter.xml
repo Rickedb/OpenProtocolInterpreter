@@ -432,6 +432,24 @@
             <para>002 = a system running presses instead of spindles.</para>
             </summary>
         </member>
+        <member name="P:OpenProtocolInterpreter.Communication.Mid0002.StationCellId">
+            <summary>
+            <para>Station ID for PF6000</para>
+            <para>Cell ID for PF4000</para>
+            </summary>
+        </member>
+        <member name="P:OpenProtocolInterpreter.Communication.Mid0002.StationCellName">
+            <summary>
+            <para>Station ID for PF6000</para>
+            <para>Cell ID for PF4000</para>
+            </summary>
+        </member>
+        <member name="P:OpenProtocolInterpreter.Communication.Mid0002.OptionalKeepAlive">
+            <summary>
+            <para>False = Use Keep alive (Keep alive is mandatory)</para> 
+            <para>True = Ignore Keep alive (Keep alive is optional)</para>
+            </summary>
+        </member>
         <member name="M:OpenProtocolInterpreter.Communication.Mid0002.#ctor(System.Int32,System.Int32,System.String,System.Int32)">
             <summary>
             Revision 1 Constructor
@@ -496,7 +514,7 @@
             <param name="systemSubType">The system subtype. 3 ASCII digits</param>
             <param name="revision">Revision number (default = 5)</param>
         </member>
-        <member name="M:OpenProtocolInterpreter.Communication.Mid0002.#ctor(System.Int32,System.Int32,System.String,System.String,System.String,System.String,System.String,System.String,System.String,OpenProtocolInterpreter.SystemType,OpenProtocolInterpreter.SystemSubType,System.Boolean,System.Boolean,System.Int32)">
+        <member name="M:OpenProtocolInterpreter.Communication.Mid0002.#ctor(System.Int32,System.Int32,System.String,System.String,System.String,System.String,System.String,System.String,System.String,OpenProtocolInterpreter.SystemType,OpenProtocolInterpreter.SystemSubType,System.Boolean,System.Boolean,System.Int64,System.String,System.String,System.Int32)">
             <summary>
             Revision 6 Constructor
             </summary>
@@ -513,6 +531,36 @@
             <param name="systemSubType">The system subtype. 3 ASCII digits</param>
             <param name="sequenceNumberSupport">Flag sequence number handling supported if = 1</param>
             <param name="linkingHandlingSupport">Flag linking functionality handling supported if = 1.</param>
+            <param name="stationCellId">The station id/Cell Id is a unique id for each station. 10 ASCII digits.</param>
+            <param name="stationCellName">The station/Cell name is 25 bytes long and specified by 25 ASCII characters.</param>
+            <param name="clientId">The Connection Client ID.1 byte 1 ASCII digit. Used at several connections towards a one channel controller.</param>
+            <param name="revision">Revision number (default = 6)</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Communication.Mid0002.#ctor(System.Int32,System.Int32,System.String,System.String,System.String,System.String,System.String,System.String,System.String,OpenProtocolInterpreter.SystemType,OpenProtocolInterpreter.SystemSubType,System.Boolean,System.Boolean,System.Int64,System.String,System.String,System.Boolean,System.Int32)">
+            <summary>
+            Revision 6 Constructor
+            </summary>
+            <param name="cellId">The cell ID is four bytes long specified by four ASCII digits. Range: 0000-9999.</param>
+            <param name="channelId">The channel ID is two bytes long specified by two ASCII digits. Range: 00-20.</param>
+            <param name="controllerName">The controller name is 25 bytes long and specified by 25 ASCII characters.</param>
+            <param name="supplierCode">ACT (supplier code for Atlas Copco Tools) specified by three ASCII characters.</param>
+            <param name="openProtocolVersion">Open Protocol version. 19 ASCII characters. This version mirrors the IMPLEMENTED version of the Open Protocol and is hence not the same as the version of the specification.This is caused by, for instance, the possibility of implementation done of only a subset of the protocol.</param>
+            <param name="controllerSoftwareVersion">The controller software version. 19 ASCII characters.</param>
+            <param name="toolSoftwareVersion">The tool software version. 19 ASCII characters.</param>
+            <param name="rbuType">The RBU Type. 24 ASCII characters.</param>
+            <param name="controllerSerialNumber">The Controller Serial Number. 10 ASCII characters.</param>
+            <param name="systemType">The system type of the controller. 3 ASCII digits</param>
+            <param name="systemSubType">The system subtype. 3 ASCII digits</param>
+            <param name="sequenceNumberSupport">Flag sequence number handling supported if = 1</param>
+            <param name="linkingHandlingSupport">Flag linking functionality handling supported if = 1.</param>
+            <param name="stationCellId">The station id/Cell Id is a unique id for each station. 10 ASCII digits.</param>
+            <param name="stationCellName">The station/Cell name is 25 bytes long and specified by 25 ASCII characters.</param>
+            <param name="clientId">The Connection Client ID.1 byte 1 ASCII digit. Used at several connections towards a one channel controller.</param>
+            <param name="optionalKeepAlive">
+            Telling if optional keep alive will be used or not. 
+            <para>False=Use Keep alive (Keep alive is mandatory)</para> 
+            <para>True=Ignore Keep alive (Keep alive is optional)</para>
+            </param>
             <param name="revision">Revision number (default = 6)</param>
         </member>
         <member name="M:OpenProtocolInterpreter.Communication.Mid0002.Validate(System.Collections.Generic.IEnumerable{System.String}@)">
@@ -727,6 +775,11 @@
             Light commands. Used in <see cref="T:OpenProtocolInterpreter.ApplicationSelector.Mid0254"/> and <see cref="T:OpenProtocolInterpreter.ApplicationSelector.Mid0255"/>.
             </summary>
         </member>
+        <member name="T:OpenProtocolInterpreter.LinkCommunicationError">
+            <summary>
+            Error codes. Used in <see cref="T:OpenProtocolInterpreter.LinkCommunication.Mid9998"/>.
+            </summary>
+        </member>
         <member name="T:OpenProtocolInterpreter.MotorRotation">
             <summary>
             Motor rotations. Used in <see cref="T:OpenProtocolInterpreter.Tool.Mid0041"/>.
@@ -795,6 +848,11 @@
         <member name="F:OpenProtocolInterpreter.PairingStatus.UNREADY">
             <summary>
             Pairing never done before or disconnected
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.PostViewTorque">
+            <summary>
+            Post View Torque. Used in <see cref="T:OpenProtocolInterpreter.Tightening.Mid0065"/>.
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.PowerMacsStatus">
@@ -1521,6 +1579,25 @@
             <param name="noAckFlag">0=Ack needed, 1=No Ack needed</param>
             <param name="revision">Revision number (default = 4)</param>
         </member>
+        <member name="M:OpenProtocolInterpreter.Job.Mid0035.#ctor(System.Int32,OpenProtocolInterpreter.JobStatus,OpenProtocolInterpreter.JobBatchMode,System.Int32,System.Int32,System.DateTime,OpenProtocolInterpreter.JobTighteningStatus,System.Int32,System.String,System.String,System.String,System.String,System.Int32,System.Nullable{System.Int32})">
+            <summary>
+            Revision 5 Constructor
+            </summary>
+            <param name="jobId">The Job ID is specified by two/four ASCII characters, range 00-99/0000-9999 <para>*Depend on revision</para></param>
+            <param name="jobStatus">The Job batch status is specified by one ASCII character.</param>
+            <param name="jobBatchMode">The Job batch mode is the way to count the tightening in a Job only the OK or both OK and NOK.</param>
+            <param name="jobBatchSize">This parameter gives the total number of tightening in the Job.The Job batch size is four bytes long. Four ASCII characters, range 0000-9999.</param>
+            <param name="jobBatchCounter">This parameter gives the current value of the Job batch counter.The Job is completed when the Job batch counter is equal to the Job batch size. The Job batch counter is four bytes long. Four ASCII characters, range 0000-9999.</param>
+            <param name="timestamp">Time stamp for the Job info. The time stamp is 19 bytes long and is specified by 19 ASCII characters</param>
+            <param name="jobTighteningStatus">The Job tightening status is specified by two ASCII character.</param>
+            <param name="jobSequenceNumber">The Job sequence number is unique for each Job.</param>
+            <param name="vinNumber">The VIN number is 25 bytes long and is specified by 25 ASCII characters.</param>
+            <param name="identifierResultPart2">The identifier result part 2 is 25 bytes long and is specified by 25 ASCII characters.</param>
+            <param name="identifierResultPart3">The identifier result part 3 is 25 bytes long and is specified by 25 ASCII characters.</param>
+            <param name="identifierResultPart4">The identifier result part 4 is 25 bytes long and is specified by 25 ASCII characters.</param>
+            <param name="noAckFlag">0=Ack needed, 1=No Ack needed</param>
+            <param name="revision">Revision number (default = 4)</param>
+        </member>
         <member name="M:OpenProtocolInterpreter.Job.Mid0035.Validate(System.Collections.Generic.IEnumerable{System.String}@)">
             <summary>
             Validate all fields size
@@ -1619,9 +1696,17 @@
             <para>
                 Is sent immediately after the message is received on application link level and if the check of the
                 header is found to be ok.
-                The acknowledge substitute the use of NoAck flag and all subscription data special acknowledging.
+            </para>
+            <para>
+            The acknowledge substitute the use of NoAck flag and all subscription data special acknowledging.
             </para>
             </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.LinkCommunication.Mid9997.#ctor(System.Int32)">
+            <summary>
+            Revision 1 Constructor
+            </summary>
+            <param name="midNumber">Acknowledged MID number</param>
         </member>
         <member name="T:OpenProtocolInterpreter.LinkCommunication.Mid9998">
             <summary>
@@ -1632,7 +1717,17 @@
                 This message is sent immediately after the message is received on application link level and if the check of the header is found to be wrong in any way.
                 The acknowledge substitute the use of NoAck flag and all subscription data special acknowledging.
             </para>
+            <para>
+            The acknowledge substitute the use of NoAck flag and all subscription data special acknowledging.
+            </para>
             </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.LinkCommunication.Mid9998.#ctor(System.Int32,OpenProtocolInterpreter.LinkCommunicationError)">
+            <summary>
+            Revision 1 Constructor
+            </summary>
+            <param name="midNumber">MID number to which the acknowledgment error belongs to</param>
+            <param name="errorCode">Error code for the sent message</param>
         </member>
         <member name="T:OpenProtocolInterpreter.Mid">
             <summary>
@@ -1887,6 +1982,30 @@
         <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseAdvancedJobMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IDictionary{System.Int32,System.Type})">
             <summary>
             Add all if not added yet and override specified <see cref="T:OpenProtocolInterpreter.Job.Advanced.IAdvancedJob"/> Mids
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Dictionary with Mid x your custom type to override</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseLinkCommunicationMessages(OpenProtocolInterpreter.MidInterpreter,OpenProtocolInterpreter.InterpreterMode)">
+            <summary>
+            Include <see cref="T:OpenProtocolInterpreter.LinkCommunication.ILinkCommunication"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mode">Are you the integrator or controller?</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseLinkCommunicationMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>
+            Include only a specific collection of <see cref="T:OpenProtocolInterpreter.LinkCommunication.ILinkCommunication"/> MIDs into interpreter
+            </summary>
+            <param name="midInterpreter">MidInterpreter instance</param>
+            <param name="mids">Mids that you want to be available for parsing</param>
+            <returns>MidInterpreter instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidInterpreterMessagesExtensions.UseLinkCommunicationMessages(OpenProtocolInterpreter.MidInterpreter,System.Collections.Generic.IDictionary{System.Int32,System.Type})">
+            <summary>
+            Add all if not added yet and override specified <see cref="T:OpenProtocolInterpreter.LinkCommunication.ILinkCommunication"/> Mids
             </summary>
             <param name="midInterpreter">MidInterpreter instance</param>
             <param name="mids">Dictionary with Mid x your custom type to override</param>
@@ -3657,6 +3776,23 @@
                 No extra data is needed and no historical data is applicable.
             Message sent by: Controller
             Answer: MID 0005 Command accepted
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Tool.Mid0701">
+            <summary>
+            Tool list upload reply
+            <para>
+                Upload a list of connected tools from controller.
+            </para>    
+            <para>Message sent by: Controller</para>
+            <para>Answer: None</para>
+            <para>The list will contain all tools that are connected to the controller or station.</para>
+            <para>To request the data <see cref="T:OpenProtocolInterpreter.Communication.Mid0006"/> Application data message request without any extra data is used.</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Tool.ToolData">
+            <summary>
+            Represents a Tool
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.Tool.ToolMessages">

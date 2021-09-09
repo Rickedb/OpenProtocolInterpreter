@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
-    <AssemblyVersion>3.5.0.0</AssemblyVersion>
-    <FileVersion>3.5.0.0</FileVersion>
-    <Version>3.5.0</Version>
+    <AssemblyVersion>3.6.0.0</AssemblyVersion>
+    <FileVersion>3.6.0.0</FileVersion>
+    <Version>3.6.0</Version>
     <Description>Converts the ugly package that came from Open Protocol to an object</Description>
     <Copyright>Copyright © 2021</Copyright>
     <Authors>Henrique Dal Bello Batista</Authors>
@@ -14,13 +14,21 @@
     <RepositoryUrl>https://github.com/Rickedb/OpenProtocolInterpreter</RepositoryUrl>
     <PackageTags>CSharp Open Protocol Atlas Copco</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReleaseNotes>New revisions:
-- Revision 4 for Mid 0033
+    <PackageReleaseNotes>New Mids:
 
-Bugfixes: 
-- Do not generate semicolon (;) when Mid0033 ParameterSetList is empty
-- Fixed KeyNotFoundException when packing Mid0033 with revisions &gt; 1
-- Fixed avoiding NUL character for Mid0031 and Mid0150</PackageReleaseNotes>
+- Mid0701
+- Mid9997
+- Mid9998
+
+New revisions:
+
+- Mid0002 - revisions 6 and 7
+- Mid0061 - revision 8
+- Mid0065 - revisions 7 and 8
+
+Fixes:
+
+- Fixed default last revision for Mid0035</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 
