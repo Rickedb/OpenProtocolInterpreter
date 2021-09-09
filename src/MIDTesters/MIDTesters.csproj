@@ -203,6 +203,7 @@
     <Compile Include="Tool\TestMid0046.cs" />
     <Compile Include="Tool\TestMid0047.cs" />
     <Compile Include="Tool\TestMid0048.cs" />
+    <Compile Include="Tool\TestMid0701.cs" />
     <Compile Include="UserInterface\TestMid0110.cs" />
     <Compile Include="UserInterface\TestMid0111.cs" />
     <Compile Include="UserInterface\TestMid0113.cs" />
