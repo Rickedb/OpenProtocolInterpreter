@@ -22,7 +22,7 @@ namespace OpenProtocolInterpreter.Tightening
         private readonly IValueConverter<TighteningErrorStatus> _tighteningErrorStatusConverter;
         private readonly IValueConverter<TighteningErrorStatus2> _tighteningErrorStatus2Converter;
         private readonly IValueConverter<IEnumerable<StageResult>> _stageResultListConverter;
-        private const int LAST_REVISION = 7;
+        private const int LAST_REVISION = 8;
         public const int MID = 61;
 
         public int CellId
@@ -304,6 +304,27 @@ namespace OpenProtocolInterpreter.Tightening
             get => GetField(7, (int)DataFields.FINAL_ANGLE_DECIMAL).GetValue(_decimalConverter.Convert);
             set => GetField(7, (int)DataFields.FINAL_ANGLE_DECIMAL).SetValue(_decimalConverter.Convert, value);
         }
+        //Rev 8 addition
+        public decimal StartFinalAngle
+        {
+            get => GetField(8, (int)DataFields.START_FINAL_ANGLE).GetValue(_decimalConverter.Convert);
+            set => GetField(8, (int)DataFields.START_FINAL_ANGLE).SetValue(_decimalConverter.Convert, value);
+        }
+        public PostViewTorque PostViewTorqueActivated
+        {
+            get => (PostViewTorque)GetField(8, (int)DataFields.POST_VIEW_TORQUE_ACTIVATED).GetValue(_intConverter.Convert);
+            set => GetField(8, (int)DataFields.POST_VIEW_TORQUE_ACTIVATED).SetValue(_intConverter.Convert, (int)value);
+        }
+        public decimal PostViewTorqueHigh
+        {
+            get => GetField(8, (int)DataFields.POST_VIEW_TORQUE_HIGH).GetValue(_decimalConverter.Convert);
+            set => GetField(8, (int)DataFields.POST_VIEW_TORQUE_HIGH).SetValue(_decimalConverter.Convert, value);
+        }
+        public decimal PostViewTorqueLow
+        {
+            get => GetField(8, (int)DataFields.POST_VIEW_TORQUE_LOW).GetValue(_decimalConverter.Convert);
+            set => GetField(8, (int)DataFields.POST_VIEW_TORQUE_LOW).SetValue(_decimalConverter.Convert, value);
+        }
         //Rev 998 addition
         public int NumberOfStagesInMultistage
         {
@@ -565,6 +586,15 @@ namespace OpenProtocolInterpreter.Tightening
                             }
                 },
                 {
+                    8, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.START_FINAL_ANGLE, 544, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.POST_VIEW_TORQUE_ACTIVATED, 552, 1),
+                                new DataField((int)DataFields.POST_VIEW_TORQUE_HIGH, 555, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.POST_VIEW_TORQUE_LOW, 563, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                            }
+                },
+                {
                     998, new List<DataField>()
                             {
                                 new DataField((int)DataFields.NUMBER_OF_STAGES_IN_MULTISTAGE, 526, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
@@ -674,6 +704,11 @@ namespace OpenProtocolInterpreter.Tightening
             //Rev 7
             COMPENSATED_ANGLE,
             FINAL_ANGLE_DECIMAL,
+            //Rev 8
+            START_FINAL_ANGLE,
+            POST_VIEW_TORQUE_ACTIVATED,
+            POST_VIEW_TORQUE_HIGH,
+            POST_VIEW_TORQUE_LOW,
             //Rev 998 (Go over 7)
             NUMBER_OF_STAGES_IN_MULTISTAGE,
             NUMBER_OF_STAGE_RESULTS,

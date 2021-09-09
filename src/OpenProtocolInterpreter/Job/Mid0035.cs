@@ -19,7 +19,7 @@ namespace OpenProtocolInterpreter.Job
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<DateTime> _datetimeConverter;
         public const int MID = 35;
-        private const int LAST_REVISION = 4;
+        private const int LAST_REVISION = 5;
 
         public int JobId
         {
@@ -184,6 +184,36 @@ namespace OpenProtocolInterpreter.Job
             : this(jobId, jobStatus, jobBatchMode, jobBatchSize, jobBatchCounter, timestamp, revision, noAckFlag)
         {
             JobTighteningStatus = jobTighteningStatus;
+        }
+
+        /// <summary>
+        /// Revision 5 Constructor
+        /// </summary>
+        /// <param name="jobId">The Job ID is specified by two/four ASCII characters, range 00-99/0000-9999 <para>*Depend on revision</para></param>
+        /// <param name="jobStatus">The Job batch status is specified by one ASCII character.</param>
+        /// <param name="jobBatchMode">The Job batch mode is the way to count the tightening in a Job only the OK or both OK and NOK.</param>
+        /// <param name="jobBatchSize">This parameter gives the total number of tightening in the Job.The Job batch size is four bytes long. Four ASCII characters, range 0000-9999.</param>
+        /// <param name="jobBatchCounter">This parameter gives the current value of the Job batch counter.The Job is completed when the Job batch counter is equal to the Job batch size. The Job batch counter is four bytes long. Four ASCII characters, range 0000-9999.</param>
+        /// <param name="timestamp">Time stamp for the Job info. The time stamp is 19 bytes long and is specified by 19 ASCII characters</param>
+        /// <param name="jobTighteningStatus">The Job tightening status is specified by two ASCII character.</param>
+        /// <param name="jobSequenceNumber">The Job sequence number is unique for each Job.</param>
+        /// <param name="vinNumber">The VIN number is 25 bytes long and is specified by 25 ASCII characters.</param>
+        /// <param name="identifierResultPart2">The identifier result part 2 is 25 bytes long and is specified by 25 ASCII characters.</param>
+        /// <param name="identifierResultPart3">The identifier result part 3 is 25 bytes long and is specified by 25 ASCII characters.</param>
+        /// <param name="identifierResultPart4">The identifier result part 4 is 25 bytes long and is specified by 25 ASCII characters.</param>
+        /// <param name="noAckFlag">0=Ack needed, 1=No Ack needed</param>
+        /// <param name="revision">Revision number (default = 4)</param>
+        public Mid0035(int jobId, JobStatus jobStatus, JobBatchMode jobBatchMode,
+           int jobBatchSize, int jobBatchCounter, DateTime timestamp, JobTighteningStatus jobTighteningStatus,
+           int jobSequenceNumber, string vinNumber, string identifierResultPart2, string identifierResultPart3,
+           string identifierResultPart4, int revision = 5, int? noAckFlag = 0)
+            : this(jobId, jobStatus, jobBatchMode, jobBatchSize, jobBatchCounter, timestamp, jobTighteningStatus, revision, noAckFlag)
+        {
+            JobSequenceNumber = jobSequenceNumber;
+            VinNumber = vinNumber;
+            IdentifierResultPart2 = identifierResultPart2;
+            IdentifierResultPart3 = identifierResultPart3;
+            IdentifierResultPart4 = identifierResultPart4;
         }
 
         public override Mid Parse(string package)

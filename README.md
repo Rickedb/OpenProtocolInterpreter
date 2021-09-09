@@ -326,7 +326,6 @@ But if you wish, you can support and help to motivate the constant improving of 
  - Mid 0009;
  - Mid 0066;
  - Mid 0700;
- - Mid 0701;
  - Mid 0702;
  - Mid 0703;
  - Mid 0900;
@@ -347,9 +346,7 @@ But if you wish, you can support and help to motivate the constant improving of 
  - Mid 2603;
  - Mid 2604;
  - Mid 2605;
- - Mid 2606;
- - Mid 9997;
- - Mid 9998.
+ - Mid 2606.
 
 Feel free to fork and contribute to add any of those mids.
 
