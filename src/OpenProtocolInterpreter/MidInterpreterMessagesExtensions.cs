@@ -7,6 +7,7 @@ using OpenProtocolInterpreter.Communication;
 using OpenProtocolInterpreter.IOInterface;
 using OpenProtocolInterpreter.Job;
 using OpenProtocolInterpreter.Job.Advanced;
+using OpenProtocolInterpreter.LinkCommunication;
 using OpenProtocolInterpreter.MotorTuning;
 using OpenProtocolInterpreter.MultipleIdentifiers;
 using OpenProtocolInterpreter.MultiSpindle;
@@ -51,6 +52,7 @@ namespace OpenProtocolInterpreter
                 .UseIOInterfaceMessages(mode)
                 .UseJobMessages(mode)
                 .UseAdvancedJobMessages(mode)
+                .UseLinkCommunicationMessages(mode)
                 .UseMotorTuningMessages(mode)
                 .UseMultipleIdentifiersMessages(mode)
                 .UseMultiSpindleMessages(mode)
@@ -88,6 +90,7 @@ namespace OpenProtocolInterpreter
                 .UseIOInterfaceMessages(mids.Where(x => DoesImplementInterface(x, typeof(IIOInterface))))
                 .UseJobMessages(mids.Where(x => DoesImplementInterface(x, typeof(IJob))))
                 .UseAdvancedJobMessages(mids.Where(x => DoesImplementInterface(x, typeof(IAdvancedJob))))
+                .UseLinkCommunicationMessages(mids.Where(x => DoesImplementInterface(x, typeof(ILinkCommunication))))
                 .UseMotorTuningMessages(mids.Where(x => DoesImplementInterface(x, typeof(IMotorTuning))))
                 .UseMultipleIdentifiersMessages(mids.Where(x => DoesImplementInterface(x, typeof(IMultipleIdentifier))))
                 .UseMultiSpindleMessages(mids.Where(x => DoesImplementInterface(x, typeof(IMultiSpindle))))
@@ -460,6 +463,44 @@ namespace OpenProtocolInterpreter
         {
             ThrowIfInvalid<IAdvancedJob>(mids);
             midInterpreter.UseTemplate<AdvancedJobMessages>(mids);
+            return midInterpreter;
+        }
+
+        /// <summary>
+        /// Include <see cref="ILinkCommunication"/> MIDs into interpreter
+        /// </summary>
+        /// <param name="midInterpreter">MidInterpreter instance</param>
+        /// <param name="mode">Are you the integrator or controller?</param>
+        /// <returns>MidInterpreter instance</returns>
+        public static MidInterpreter UseLinkCommunicationMessages(this MidInterpreter midInterpreter, InterpreterMode mode = InterpreterMode.Both)
+        {
+            midInterpreter.UseTemplate<LinkCommunicationMessages>(mode);
+            return midInterpreter;
+        }
+
+        /// <summary>
+        /// Include only a specific collection of <see cref="ILinkCommunication"/> MIDs into interpreter
+        /// </summary>
+        /// <param name="midInterpreter">MidInterpreter instance</param>
+        /// <param name="mids">Mids that you want to be available for parsing</param>
+        /// <returns>MidInterpreter instance</returns>
+        public static MidInterpreter UseLinkCommunicationMessages(this MidInterpreter midInterpreter, IEnumerable<Type> mids)
+        {
+            ThrowIfInvalid<ILinkCommunication>(mids);
+            midInterpreter.UseTemplate<LinkCommunicationMessages>(mids);
+            return midInterpreter;
+        }
+
+        /// <summary>
+        /// Add all if not added yet and override specified <see cref="ILinkCommunication"/> Mids
+        /// </summary>
+        /// <param name="midInterpreter">MidInterpreter instance</param>
+        /// <param name="mids">Dictionary with Mid x your custom type to override</param>
+        /// <returns>MidInterpreter instance</returns>
+        public static MidInterpreter UseLinkCommunicationMessages(this MidInterpreter midInterpreter, IDictionary<int, Type> mids)
+        {
+            ThrowIfInvalid<ILinkCommunication>(mids);
+            midInterpreter.UseTemplate<LinkCommunicationMessages>(mids);
             return midInterpreter;
         }
 
@@ -965,7 +1006,7 @@ namespace OpenProtocolInterpreter
         /// <returns>MidInterpreter instance</returns>
         public static MidInterpreter UseVinMessages(this MidInterpreter midInterpreter, InterpreterMode mode = InterpreterMode.Both)
         {
-            midInterpreter.UseTemplate<Vin.VinMessages>(mode);
+            midInterpreter.UseTemplate<VinMessages>(mode);
             return midInterpreter;
         }
 

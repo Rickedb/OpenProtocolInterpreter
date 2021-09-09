@@ -128,6 +128,7 @@
     <Compile Include="Job\TestMid0038.cs" />
     <Compile Include="Job\TestMid0039.cs" />
     <Compile Include="KeepAlive\TestMid9999.cs" />
+    <Compile Include="LinkCommunication\TestMid9998.cs" />
     <Compile Include="MIDsTests.cs" />
     <Compile Include="MidTester.cs" />
     <Compile Include="MotorTuning\TestMid0500.cs" />
@@ -213,9 +214,7 @@
     <Compile Include="Vin\TestMid0053.cs" />
     <Compile Include="Vin\TestMid0054.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="LinkCommunication\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\OpenProtocolInterpreter\OpenProtocolInterpreter.csproj">
       <Project>{b022dfc7-f264-48b2-94c0-8984ffcf3a91}</Project>
