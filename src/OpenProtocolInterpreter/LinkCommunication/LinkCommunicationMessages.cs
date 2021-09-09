@@ -10,6 +10,7 @@ namespace OpenProtocolInterpreter.LinkCommunication
         {
             _templates = new Dictionary<int, MidCompiledInstance>()
             {
+                { Mid9997.MID, new MidCompiledInstance(typeof(Mid9997)) },
                 { Mid9998.MID, new MidCompiledInstance(typeof(Mid9998)) }
             };
         }
