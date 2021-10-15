@@ -51,12 +51,12 @@ namespace OpenProtocolInterpreter.Tightening
         public TighteningValueStatus TorqueStatus
         {
             get => (TighteningValueStatus)GetField(GetCurrentRevisionIndex(), (int)DataFields.TORQUE_STATUS).GetValue(_intConverter.Convert);
-            set => GetField(GetCurrentRevisionIndex(), (int)DataFields.BATCH_COUNTER).SetValue(_intConverter.Convert, (int)value);
+            set => GetField(GetCurrentRevisionIndex(), (int)DataFields.TORQUE_STATUS).SetValue(_intConverter.Convert, (int)value);
         }
         public TighteningValueStatus AngleStatus
         {
             get => (TighteningValueStatus)GetField(GetCurrentRevisionIndex(), (int)DataFields.ANGLE_STATUS).GetValue(_intConverter.Convert);
-            set => GetField(GetCurrentRevisionIndex(), (int)DataFields.BATCH_COUNTER).SetValue(_intConverter.Convert, (int)value);
+            set => GetField(GetCurrentRevisionIndex(), (int)DataFields.ANGLE_STATUS).SetValue(_intConverter.Convert, (int)value);
         }
         public decimal Torque
         {
