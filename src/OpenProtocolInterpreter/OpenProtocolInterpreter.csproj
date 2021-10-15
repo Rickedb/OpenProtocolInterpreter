@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
-    <AssemblyVersion>3.6.1.0</AssemblyVersion>
-    <FileVersion>3.6.1.0</FileVersion>
-    <Version>3.6.1</Version>
+    <AssemblyVersion>3.6.2.0</AssemblyVersion>
+    <FileVersion>3.6.2.0</FileVersion>
+    <Version>3.6.2</Version>
     <Description>Converts the ugly package that came from Open Protocol to an object</Description>
     <Copyright>Copyright © 2021</Copyright>
     <Authors>Henrique Dal Bello Batista</Authors>
@@ -16,7 +16,9 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageReleaseNotes>Fixes:
 
-- Fixed Mid0245 references and set default value for User Data</PackageReleaseNotes>
+- Fixed Mid0064 constructor to use long instead of int
+- Fixed Mid0076 revision 1 and 2 constructor, by adding a revision parameter to select between revision 1 or 2
+- Fixed Mid0065 set method from properties TorqueStatus and AngleStatus</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 

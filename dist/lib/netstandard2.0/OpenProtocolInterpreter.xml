@@ -94,7 +94,7 @@
             <para>Answer : <see cref="T:OpenProtocolInterpreter.Alarm.Mid0077"/> Alarm status acknowledge</para>
             </summary>
         </member>
-        <member name="M:OpenProtocolInterpreter.Alarm.Mid0076.#ctor(System.Boolean,System.String,System.Boolean,System.Boolean,System.DateTime)">
+        <member name="M:OpenProtocolInterpreter.Alarm.Mid0076.#ctor(System.Boolean,System.String,System.Boolean,System.Boolean,System.DateTime,System.Int32)">
             <summary>
             Revision 1 and 2 constructor
             </summary>
@@ -103,6 +103,7 @@
             <param name="controllerReadyStatus">Controller ready status 1=OK, 0=NOK</param>
             <param name="toolReadyStatus">Tool ready status 1=OK, 0=NOK</param>
             <param name="time">Time stamp for the alarm</param>
+            <param name="revision">Desired revision, default equals to 2</param>
         </member>
         <member name="M:OpenProtocolInterpreter.Alarm.Mid0076.#ctor(System.Boolean,System.String,System.Boolean,System.Boolean,System.DateTime,OpenProtocolInterpreter.ToolHealth)">
             <summary>
