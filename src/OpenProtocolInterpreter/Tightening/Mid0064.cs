@@ -44,7 +44,7 @@ namespace OpenProtocolInterpreter.Tightening
             _longConverter = new Int64Converter();
         }
 
-        public Mid0064(int tighteningId, int revision = LAST_REVISION) : this(revision)
+        public Mid0064(long tighteningId, int revision = LAST_REVISION) : this(revision)
         {
             TighteningId = tighteningId;
         }
