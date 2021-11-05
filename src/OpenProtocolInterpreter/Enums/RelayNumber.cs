@@ -21,6 +21,7 @@
         JOB_NOK = 13,
         JOB_RUNNING = 14,
 
+        TOOL_HEALTH_OK = 17,
         POWER_FOCUS_READY = 18,
         TOOL_READY = 19,
         TOOL_START_SWITCH = 20,
