@@ -1,4 +1,5 @@
 ﻿using OpenProtocolInterpreter.Emulator.Controller.Drivers;
+using OpenProtocolInterpreter.Emulator.Controller.Events;
 using OpenProtocolInterpreter.Job;
 using OpenProtocolInterpreter.Tightening;
 using OpenProtocolInterpreter.Vin;
@@ -18,6 +19,7 @@ namespace OpenProtocolInterpreter.Emulator.Controller
         {
             InitializeComponent();
             _driver = new AtlasCopcoControllerDriver();
+            _driver.MessageReceived += OnMessageReceived;
             _driver.LogHandler += OnLog;
             _driver.ClientConnected += OnClientConnected;
             _driver.ClientDisconnected += OnClientDisconnected;
@@ -45,6 +47,26 @@ namespace OpenProtocolInterpreter.Emulator.Controller
             JobBatchModeComboBox.DataSource = new List<JobBatchMode>() { JobBatchMode.ONLY_OK_TIGHTENINGS, JobBatchMode.OK_AND_NOK_TIGHTENINGS };
         }
 
+        private async void OnMessageReceived(object sender, MidMessageEvent e)
+        {
+            switch (e.Mid)
+            {
+                case Mid0050 mid0050:
+                    Invoke(new Action(() =>
+                    {
+                        VinNumberTextBox.Text = mid0050.VinNumber;
+                    }));
+                    await _driver.SendAsync(e.ClientIpPort, new Mid0052(mid0050.VinNumber));
+                    break;
+                case Mid0038 mid0038:
+                    Invoke(new Action(() =>
+                    {
+                        JobIdTextBox.Text = Job_JobIdTextBox.Text = mid0038.JobId.ToString();
+                    }));
+                    break;
+            }
+        }
+
         private void OnClientConnected(object sender, string e)
         {
             ClientIpPort = e;
@@ -52,7 +74,7 @@ namespace OpenProtocolInterpreter.Emulator.Controller
 
         private void OnClientDisconnected(object sender, string e)
         {
-            
+
         }
 
         private async void StartStopServerButton_Click(object sender, EventArgs e)

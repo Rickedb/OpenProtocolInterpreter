@@ -19,7 +19,8 @@ namespace OpenProtocolInterpreter.Emulator.Controller.Drivers
         private readonly SimpleTcpServer _server;
         private readonly MidInterpreter _midInterpreter;
         private readonly IList<string> _connectedClients;
-        private readonly IDictionary<int, Func<Mid, Mid>> _replies;
+        private readonly IDictionary<int, Func<Mid, Mid>> _autoReplies;
+        private readonly Dictionary<int, Action<string, Mid>> _handlers;
 
         public event EventHandler<string> ClientConnected;
         public event EventHandler<string> ClientDisconnected;
@@ -34,13 +35,15 @@ namespace OpenProtocolInterpreter.Emulator.Controller.Drivers
             _server = new SimpleTcpServer("127.0.0.1", 4545);
             _server.Settings.IdleClientTimeoutMs = 10000;
             _midInterpreter = new MidInterpreter().UseAllMessages(InterpreterMode.Controller);
-            _replies = new Dictionary<int, Func<Mid, Mid>>()
+            _autoReplies = new Dictionary<int, Func<Mid, Mid>>()
             {
                 { Mid0001.MID, mid => OnCommunicationStart((Mid0001)mid) },
-                { Mid0034.MID,mid => OnSubscription(mid) },
-                { Mid0051.MID,mid => OnSubscription(mid) },
-                { Mid0060.MID, mid => OnSubscription(mid) },
-                { Mid0070.MID, mid => OnSubscription(mid) },
+                { Mid0034.MID,mid => PositiveAcknowledge(mid) },
+                { Mid0038.MID,mid => PositiveAcknowledge(mid) },
+                { Mid0050.MID, mid => PositiveAcknowledge(mid) },
+                { Mid0051.MID, mid => PositiveAcknowledge(mid) },
+                { Mid0060.MID, mid => PositiveAcknowledge(mid) },
+                { Mid0070.MID, mid => PositiveAcknowledge(mid) },
                 { Mid9999.MID, mid => new Mid9999() }
             };
         }
@@ -64,7 +67,8 @@ namespace OpenProtocolInterpreter.Emulator.Controller.Drivers
             return new Mid0002(1, 1, "New Controller");
         }
 
-        protected virtual Mid OnSubscription(Mid mid) => new Mid0005(mid.HeaderData.Mid);
+        protected virtual Mid PositiveAcknowledge(Mid mid) => new Mid0005(mid.HeaderData.Mid);
+        protected virtual Mid NegativeAcknowledge(Mid mid) => new Mid0004(mid.HeaderData.Mid, Error.COMMAND_FAILED);
 
         private void OnClientConnected(object sender, ClientConnectedEventArgs e)
         {
@@ -83,7 +87,7 @@ namespace OpenProtocolInterpreter.Emulator.Controller.Drivers
         private void OnDataReceived(object sender, DataReceivedEventArgs e)
         {
             var mid = _midInterpreter.Parse(e.Data);
-            if(_replies.TryGetValue(mid.HeaderData.Mid, out var responseCreator))
+            if(_autoReplies.TryGetValue(mid.HeaderData.Mid, out var responseCreator))
             {
                 var responseMid = responseCreator(mid);
                 var bytes = responseMid.PackBytes();
