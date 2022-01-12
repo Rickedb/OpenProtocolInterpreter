@@ -9,7 +9,7 @@ namespace OpenProtocolInterpreter
     {
         NM = 1,
         LBF_FT = 2,
-        LBF_LN = 3,
+        LBF_IN = 3,
         KPM = 4,
         KGF_CM = 5,
         OZF_IN = 6,
