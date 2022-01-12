@@ -10,7 +10,7 @@ namespace OpenProtocolInterpreter
     /// </summary>
     public abstract class Mid
     {
-        public Dictionary<int, List<DataField>> RevisionsByFields { get; set; }
+        protected Dictionary<int, List<DataField>> RevisionsByFields { get; }
         public Header HeaderData { get; set; }
 
         public Mid(Header header)
