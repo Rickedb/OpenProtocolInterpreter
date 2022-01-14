@@ -18,92 +18,119 @@ namespace OpenProtocolInterpreter.Tool
         private readonly IValueConverter<DateTime> _dateConverter;
         private readonly IValueConverter<decimal> _decimalConverter;
         private readonly IValueConverter<OpenEndDatas> _openEndDataConverter;
-        private const int LAST_REVISION = 5;
+        private const int LAST_REVISION = 7;
         public const int MID = 41;
 
         public string ToolSerialNumber
         {
-            get => GetField(1,(int)DataFields.TOOL_SERIAL_NUMBER).Value;
-            set => GetField(1,(int)DataFields.TOOL_SERIAL_NUMBER).SetValue(value);
+            get => GetField(1, (int)DataFields.TOOL_SERIAL_NUMBER).Value;
+            set => GetField(1, (int)DataFields.TOOL_SERIAL_NUMBER).SetValue(value);
         }
         public long ToolNumberOfTightenings
-        { 
-            get => GetField(1,(int)DataFields.TOOL_NUMBER_OF_TIGHTENINGS).GetValue(_longConverter.Convert);
-            set => GetField(1,(int)DataFields.TOOL_NUMBER_OF_TIGHTENINGS).SetValue(_longConverter.Convert, value);
+        {
+            get => GetField(1, (int)DataFields.TOOL_NUMBER_OF_TIGHTENINGS).GetValue(_longConverter.Convert);
+            set => GetField(1, (int)DataFields.TOOL_NUMBER_OF_TIGHTENINGS).SetValue(_longConverter.Convert, value);
         }
         public DateTime LastCalibrationDate
         {
-            get => GetField(1,(int)DataFields.LAST_CALIBRATION_DATE).GetValue(_dateConverter.Convert);
-            set => GetField(1,(int)DataFields.LAST_CALIBRATION_DATE).SetValue(_dateConverter.Convert, value);
+            get => GetField(1, (int)DataFields.LAST_CALIBRATION_DATE).GetValue(_dateConverter.Convert);
+            set => GetField(1, (int)DataFields.LAST_CALIBRATION_DATE).SetValue(_dateConverter.Convert, value);
         }
         public string ControllerSerialNumber
         {
-            get => GetField(1,(int)DataFields.CONTROLLER_SERIAL_NUMBER).Value;
-            set => GetField(1,(int)DataFields.CONTROLLER_SERIAL_NUMBER).SetValue(value);
+            get => GetField(1, (int)DataFields.CONTROLLER_SERIAL_NUMBER).Value;
+            set => GetField(1, (int)DataFields.CONTROLLER_SERIAL_NUMBER).SetValue(value);
         }
         //Rev 2
         public decimal CalibrationValue
         {
-            get => GetField(2,(int)DataFields.CALIBRATION_VALUE).GetValue(_decimalConverter.Convert);
-            set => GetField(2,(int)DataFields.CALIBRATION_VALUE).SetValue(_decimalConverter.Convert, value);
+            get => GetField(2, (int)DataFields.CALIBRATION_VALUE).GetValue(_decimalConverter.Convert);
+            set => GetField(2, (int)DataFields.CALIBRATION_VALUE).SetValue(_decimalConverter.Convert, value);
         }
         public DateTime LastServiceDate
         {
-            get => GetField(2,(int)DataFields.LAST_SERVICE_DATE).GetValue(_dateConverter.Convert);
-            set => GetField(2,(int)DataFields.LAST_SERVICE_DATE).SetValue(_dateConverter.Convert, value);
+            get => GetField(2, (int)DataFields.LAST_SERVICE_DATE).GetValue(_dateConverter.Convert);
+            set => GetField(2, (int)DataFields.LAST_SERVICE_DATE).SetValue(_dateConverter.Convert, value);
         }
         public long TighteningsSinceService
         {
-            get => GetField(2,(int)DataFields.TIGHTENINGS_SINCE_SERVICE).GetValue(_longConverter.Convert);
-            set => GetField(2,(int)DataFields.TIGHTENINGS_SINCE_SERVICE).SetValue(_longConverter.Convert, value);
+            get => GetField(2, (int)DataFields.TIGHTENINGS_SINCE_SERVICE).GetValue(_longConverter.Convert);
+            set => GetField(2, (int)DataFields.TIGHTENINGS_SINCE_SERVICE).SetValue(_longConverter.Convert, value);
         }
         public ToolType ToolType
         {
-            get => (ToolType)GetField(2,(int)DataFields.TOOL_TYPE).GetValue(_intConverter.Convert);
-            set => GetField(2,(int)DataFields.TOOL_TYPE).SetValue(_intConverter.Convert, (int)value);
+            get => (ToolType)GetField(2, (int)DataFields.TOOL_TYPE).GetValue(_intConverter.Convert);
+            set => GetField(2, (int)DataFields.TOOL_TYPE).SetValue(_intConverter.Convert, (int)value);
         }
         public int MotorSize
         {
-            get => GetField(2,(int)DataFields.MOTOR_SIZE).GetValue(_intConverter.Convert);
-            set => GetField(2,(int)DataFields.MOTOR_SIZE).SetValue(_intConverter.Convert, value);
+            get => GetField(2, (int)DataFields.MOTOR_SIZE).GetValue(_intConverter.Convert);
+            set => GetField(2, (int)DataFields.MOTOR_SIZE).SetValue(_intConverter.Convert, value);
         }
         public OpenEndDatas OpenEndData
         {
-            get => GetField(2,(int)DataFields.OPEN_END_DATA).GetValue(_openEndDataConverter.Convert);
-            set => GetField(2,(int)DataFields.OPEN_END_DATA).SetValue(_openEndDataConverter.Convert, value);
+            get => GetField(2, (int)DataFields.OPEN_END_DATA).GetValue(_openEndDataConverter.Convert);
+            set => GetField(2, (int)DataFields.OPEN_END_DATA).SetValue(_openEndDataConverter.Convert, value);
         }
         public string ControllerSoftwareVersion
         {
-            get => GetField(2,(int)DataFields.CONTROLLER_SOFTWARE_VERSION).Value;
-            set => GetField(2,(int)DataFields.CONTROLLER_SOFTWARE_VERSION).SetValue(value);
+            get => GetField(2, (int)DataFields.CONTROLLER_SOFTWARE_VERSION).Value;
+            set => GetField(2, (int)DataFields.CONTROLLER_SOFTWARE_VERSION).SetValue(value);
         }
         //Rev 3
         public decimal ToolMaxTorque
         {
-            get => GetField(3,(int)DataFields.TOOL_MAX_TORQUE).GetValue(_decimalConverter.Convert);
-            set => GetField(3,(int)DataFields.TOOL_MAX_TORQUE).SetValue(_decimalConverter.Convert, value);
+            get => GetField(3, (int)DataFields.TOOL_MAX_TORQUE).GetValue(_decimalConverter.Convert);
+            set => GetField(3, (int)DataFields.TOOL_MAX_TORQUE).SetValue(_decimalConverter.Convert, value);
         }
         public decimal GearRatio
         {
-            get => GetField(3,(int)DataFields.GEAR_RATIO).GetValue(_decimalConverter.Convert);
-            set => GetField(3,(int)DataFields.GEAR_RATIO).SetValue(_decimalConverter.Convert, value);
+            get => GetField(3, (int)DataFields.GEAR_RATIO).GetValue(_decimalConverter.Convert);
+            set => GetField(3, (int)DataFields.GEAR_RATIO).SetValue(_decimalConverter.Convert, value);
         }
         public decimal ToolFullSpeed
         {
-            get => GetField(3,(int)DataFields.TOOL_FULL_SPEED).GetValue(_decimalConverter.Convert);
-            set => GetField(3,(int)DataFields.TOOL_FULL_SPEED).SetValue(_decimalConverter.Convert, value);
+            get => GetField(3, (int)DataFields.TOOL_FULL_SPEED).GetValue(_decimalConverter.Convert);
+            set => GetField(3, (int)DataFields.TOOL_FULL_SPEED).SetValue(_decimalConverter.Convert, value);
         }
         //Rev 4
         public PrimaryTool PrimaryTool
         {
-            get => (PrimaryTool)GetField(4,(int)DataFields.PRIMARY_TOOL).GetValue(_intConverter.Convert);
-            set => GetField(4,(int)DataFields.PRIMARY_TOOL).SetValue(_intConverter.Convert, (int)value);
+            get => (PrimaryTool)GetField(4, (int)DataFields.PRIMARY_TOOL).GetValue(_intConverter.Convert);
+            set => GetField(4, (int)DataFields.PRIMARY_TOOL).SetValue(_intConverter.Convert, (int)value);
         }
         //Rev 5
         public string ToolModel
         {
-            get => GetField(5,(int)DataFields.TOOL_MODEL).Value;
-            set => GetField(5,(int)DataFields.TOOL_MODEL).SetValue(value);
+            get => GetField(5, (int)DataFields.TOOL_MODEL).Value;
+            set => GetField(5, (int)DataFields.TOOL_MODEL).SetValue(value);
+        }
+        //Rev 6
+        public int ToolNumber
+        {
+            get => GetField(6, (int)DataFields.TOOL_NUMBER).GetValue(_intConverter.Convert);
+            set => GetField(6, (int)DataFields.TOOL_NUMBER).SetValue(_intConverter.Convert, value);
+        }
+        public string ToolArticleNumber
+        {
+            get => GetField(6, (int)DataFields.TOOL_ARTICLE_NUMBER).Value;
+            set => GetField(6, (int)DataFields.TOOL_ARTICLE_NUMBER).SetValue(value);
+        }
+        //Rev 7
+        public decimal RundownMinSpeed
+        {
+            get => GetField(7, (int)DataFields.RUNDOWN_MIN_SPEED).GetValue(_decimalConverter.Convert);
+            set => GetField(7, (int)DataFields.RUNDOWN_MIN_SPEED).SetValue(_decimalConverter.Convert, value);
+        }
+        public decimal DownshiftMaxSpeed
+        {
+            get => GetField(7, (int)DataFields.DOWNSHIFT_MAX_SPEED).GetValue(_decimalConverter.Convert);
+            set => GetField(7, (int)DataFields.DOWNSHIFT_MAX_SPEED).SetValue(_decimalConverter.Convert, value);
+        }
+        public decimal DownshiftMinSpeed
+        {
+            get => GetField(7, (int)DataFields.DOWNSHIFT_MIN_SPEED).GetValue(_decimalConverter.Convert);
+            set => GetField(7, (int)DataFields.DOWNSHIFT_MIN_SPEED).SetValue(_decimalConverter.Convert, value);
         }
 
         public Mid0041() : this(LAST_REVISION)
@@ -128,7 +155,7 @@ namespace OpenProtocolInterpreter.Tool
         /// <param name="lastCalibrationDate">19 ASCII characters.</param>
         /// <param name="controllerSerialNumber">10 ASCII characters</param>
         /// <param name="revision">Revision number (default = 1)</param>
-        public Mid0041(string toolSerialNumber, long toolNumberOfTightenings,  DateTime lastCalibrationDate, 
+        public Mid0041(string toolSerialNumber, long toolNumberOfTightenings, DateTime lastCalibrationDate,
             string controllerSerialNumber, int revision = 1) : this(revision)
         {
             ToolSerialNumber = toolSerialNumber;
@@ -160,10 +187,10 @@ namespace OpenProtocolInterpreter.Tool
         /// <para>The third digit indicates motor rotation: 0=normal,1=inverted.</para></param>
         /// <param name="controllerSoftwareVersion">The software version is specified by 19 ASCII characters.</param>
         /// <param name="revision">Revision number (default = 2)</param>
-        public Mid0041(string toolSerialNumber, long toolNumberOfTightenings, DateTime lastCalibrationDate, 
+        public Mid0041(string toolSerialNumber, long toolNumberOfTightenings, DateTime lastCalibrationDate,
             string controllerSerialNumber, decimal calibrationValue, DateTime lastServiceDate,
             long tighteningsSinceService, ToolType toolType, int motorSize, OpenEndDatas openEndData,
-            string controllerSoftwareVersion, int revision = 2) 
+            string controllerSoftwareVersion, int revision = 2)
             : this(toolSerialNumber, toolNumberOfTightenings, lastCalibrationDate, controllerSerialNumber, revision)
         {
             CalibrationValue = calibrationValue;
@@ -205,10 +232,10 @@ namespace OpenProtocolInterpreter.Tool
         public Mid0041(string toolSerialNumber, long toolNumberOfTightenings, DateTime lastCalibrationDate,
             string controllerSerialNumber, decimal calibrationValue, DateTime lastServiceDate,
             long tighteningsSinceService, ToolType toolType, int motorSize, OpenEndDatas openEndData,
-            string controllerSoftwareVersion, decimal toolMaxTorque, decimal gearRatio, decimal toolFullSpeed, 
-            int revision = 3) : this(toolSerialNumber, toolNumberOfTightenings, lastCalibrationDate, 
-                                        controllerSerialNumber, calibrationValue, lastServiceDate, 
-                                        tighteningsSinceService, toolType, motorSize, openEndData, 
+            string controllerSoftwareVersion, decimal toolMaxTorque, decimal gearRatio, decimal toolFullSpeed,
+            int revision = 3) : this(toolSerialNumber, toolNumberOfTightenings, lastCalibrationDate,
+                                        controllerSerialNumber, calibrationValue, lastServiceDate,
+                                        tighteningsSinceService, toolType, motorSize, openEndData,
                                         controllerSoftwareVersion, revision)
         {
             ToolMaxTorque = toolMaxTorque;
@@ -248,8 +275,8 @@ namespace OpenProtocolInterpreter.Tool
             string controllerSerialNumber, decimal calibrationValue, DateTime lastServiceDate,
             long tighteningsSinceService, ToolType toolType, int motorSize, OpenEndDatas openEndData,
             string controllerSoftwareVersion, decimal toolMaxTorque, decimal gearRatio, decimal toolFullSpeed,
-            PrimaryTool primaryTool, int revision = 4) 
-            : this(toolSerialNumber, toolNumberOfTightenings, lastCalibrationDate, controllerSerialNumber, 
+            PrimaryTool primaryTool, int revision = 4)
+            : this(toolSerialNumber, toolNumberOfTightenings, lastCalibrationDate, controllerSerialNumber,
                   calibrationValue, lastServiceDate, tighteningsSinceService, toolType, motorSize, openEndData,
                   controllerSoftwareVersion, toolMaxTorque, gearRatio, toolFullSpeed, revision)
         {
@@ -289,12 +316,112 @@ namespace OpenProtocolInterpreter.Tool
             string controllerSerialNumber, decimal calibrationValue, DateTime lastServiceDate,
             long tighteningsSinceService, ToolType toolType, int motorSize, OpenEndDatas openEndData,
             string controllerSoftwareVersion, decimal toolMaxTorque, decimal gearRatio, decimal toolFullSpeed,
-            PrimaryTool primaryTool, string toolModel , int revision = 5) 
-            : this(toolSerialNumber, toolNumberOfTightenings, lastCalibrationDate, controllerSerialNumber, 
+            PrimaryTool primaryTool, string toolModel, int revision = 5)
+            : this(toolSerialNumber, toolNumberOfTightenings, lastCalibrationDate, controllerSerialNumber,
                   calibrationValue, lastServiceDate, tighteningsSinceService, toolType, motorSize, openEndData,
                   controllerSoftwareVersion, toolMaxTorque, gearRatio, toolFullSpeed, primaryTool, revision)
         {
             ToolModel = toolModel;
+        }
+
+        /// <summary>
+        /// Revision 6 Constructor
+        /// </summary>
+        /// <param name="toolSerialNumber">14 ASCII characters</param>
+        /// <param name="toolNumberOfTightenings">10 ASCII digits. Max 4294967295</param>
+        /// <param name="lastCalibrationDate">19 ASCII characters.</param>
+        /// <param name="controllerSerialNumber">10 ASCII characters</param>
+        /// <param name="calibrationValue">The tool calibration value is multiplied by 100 and sent as an integer (2 decimals truncated). Six ASCII digits.</param>
+        /// <param name="lastServiceDate">19 ASCII characters.</param>
+        /// <param name="tighteningsSinceService">The number of tightenings since last service is specified by 10 ASCII digits. Max 4294967295.</param>
+        /// <param name="toolType">The tool type is specified by 2 ASCII digits</param>
+        /// <param name="motorSize">The motor size is specified by 2 ASCII digits, range 00-99.
+        /// <para>00 = no motor, 01-99 = motor size xx in Atlas Copco
+        /// nomenclature, or motor size = 10xx in Atlas Copco nomenclature </para>
+        /// <para>(certain numbers correspond to 2
+        /// different motor sizes, for example 62 for both motor
+        /// size 62 and motor size 1062)</para></param>
+        /// <param name="openEndData">The open end data is specified by 3 ASCII digits. 
+        /// <para>The first digit represents the “use open end”: 1=true, 0=false.</para>
+        /// <para>The second digit indicates the tightening direction: 0=CW, 1=CCW.</para>
+        /// <para>The third digit indicates motor rotation: 0=normal,1=inverted.</para>
+        /// </param>
+        /// <param name="controllerSoftwareVersion">The software version is specified by 19 ASCII characters.</param>
+        /// <param name="toolMaxTorque">The tool max toque value is multiplied by 100 and sent as an integer(2 decimals truncated). Six ASCII digits.</param>
+        /// <param name="gearRatio">The gear ratio value is multiplied by 100 and sent as an integer(2 decimals truncated). Six ASCII digits.</param>
+        /// <param name="toolFullSpeed">The tool full speed value is multiplied by 100 and sent as an integer(2 decimals truncated). Six ASCII digits.</param>
+        /// <param name="primaryTool">Primary tool. The primary tool is two byte-long and specified by two ASCII digits.</param>
+        /// <param name="toolModel">12 ASCII characters with padding at the end of the string if needed.The padding is done spaces.</param>
+        /// <param name="toolNumber">
+        ///     The number of the tool. It is the same number as the tool numbers sent in <see cref="Mid0701"/> (Tool List Upload) 
+        ///     <para>In systems with only 1 tool the number sent will always be <c>0001</c></para>
+        /// </param>
+        /// <param name="toolArticleNumber">Tool article number</param>
+        /// <param name="revision">Revision number (default = 6)</param>
+        public Mid0041(string toolSerialNumber, long toolNumberOfTightenings, DateTime lastCalibrationDate,
+            string controllerSerialNumber, decimal calibrationValue, DateTime lastServiceDate,
+            long tighteningsSinceService, ToolType toolType, int motorSize, OpenEndDatas openEndData,
+            string controllerSoftwareVersion, decimal toolMaxTorque, decimal gearRatio, decimal toolFullSpeed,
+            PrimaryTool primaryTool, string toolModel, int toolNumber, string toolArticleNumber, int revision = 6)
+            : this(toolSerialNumber, toolNumberOfTightenings, lastCalibrationDate, controllerSerialNumber,
+                  calibrationValue, lastServiceDate, tighteningsSinceService, toolType, motorSize, openEndData,
+                  controllerSoftwareVersion, toolMaxTorque, gearRatio, toolFullSpeed, primaryTool, toolModel, revision)
+        {
+            ToolNumber = toolNumber;
+            ToolArticleNumber = toolArticleNumber;
+        }
+
+        /// <summary>
+        /// Revision 7 Constructor
+        /// </summary>
+        /// <param name="toolSerialNumber">14 ASCII characters</param>
+        /// <param name="toolNumberOfTightenings">10 ASCII digits. Max 4294967295</param>
+        /// <param name="lastCalibrationDate">19 ASCII characters.</param>
+        /// <param name="controllerSerialNumber">10 ASCII characters</param>
+        /// <param name="calibrationValue">The tool calibration value is multiplied by 100 and sent as an integer (2 decimals truncated). Six ASCII digits.</param>
+        /// <param name="lastServiceDate">19 ASCII characters.</param>
+        /// <param name="tighteningsSinceService">The number of tightenings since last service is specified by 10 ASCII digits. Max 4294967295.</param>
+        /// <param name="toolType">The tool type is specified by 2 ASCII digits</param>
+        /// <param name="motorSize">The motor size is specified by 2 ASCII digits, range 00-99.
+        /// <para>00 = no motor, 01-99 = motor size xx in Atlas Copco
+        /// nomenclature, or motor size = 10xx in Atlas Copco nomenclature </para>
+        /// <para>(certain numbers correspond to 2
+        /// different motor sizes, for example 62 for both motor
+        /// size 62 and motor size 1062)</para></param>
+        /// <param name="openEndData">The open end data is specified by 3 ASCII digits. 
+        /// <para>The first digit represents the “use open end”: 1=true, 0=false.</para>
+        /// <para>The second digit indicates the tightening direction: 0=CW, 1=CCW.</para>
+        /// <para>The third digit indicates motor rotation: 0=normal,1=inverted.</para>
+        /// </param>
+        /// <param name="controllerSoftwareVersion">The software version is specified by 19 ASCII characters.</param>
+        /// <param name="toolMaxTorque">The tool max toque value is multiplied by 100 and sent as an integer(2 decimals truncated). Six ASCII digits.</param>
+        /// <param name="gearRatio">The gear ratio value is multiplied by 100 and sent as an integer(2 decimals truncated). Six ASCII digits.</param>
+        /// <param name="toolFullSpeed">The tool full speed value is multiplied by 100 and sent as an integer(2 decimals truncated). Six ASCII digits.</param>
+        /// <param name="primaryTool">Primary tool. The primary tool is two byte-long and specified by two ASCII digits.</param>
+        /// <param name="toolModel">12 ASCII characters with padding at the end of the string if needed.The padding is done spaces.</param>
+        /// <param name="toolNumber">
+        ///     The number of the tool. It is the same number as the tool numbers sent in <see cref="Mid0701"/> (Tool List Upload) 
+        ///     <para>In systems with only 1 tool the number sent will always be <c>0001</c></para>
+        /// </param>
+        /// <param name="toolArticleNumber">30 ASCII characters</param>
+        /// <param name="rundownMinSpeed">The rundown min speed value is multiplied by 100 and sent as an integer(2 decimals truncated).6 ASCII digits</param>
+        /// <param name="downshiftMaxSpeed">The downshift max speed value is multiplied by 100 and sent as an integer(2 decimals truncated).6 ASCII digits</param>
+        /// <param name="downshiftMinSpeed">The downshift min speed value is multiplied by 100 and sent as an integer(2 decimals truncated).6 ASCII digits</param>
+        /// <param name="revision">Revision number (default = 7)</param>
+        public Mid0041(string toolSerialNumber, long toolNumberOfTightenings, DateTime lastCalibrationDate,
+            string controllerSerialNumber, decimal calibrationValue, DateTime lastServiceDate,
+            long tighteningsSinceService, ToolType toolType, int motorSize, OpenEndDatas openEndData,
+            string controllerSoftwareVersion, decimal toolMaxTorque, decimal gearRatio, decimal toolFullSpeed,
+            PrimaryTool primaryTool, string toolModel, int toolNumber, string toolArticleNumber, 
+            decimal rundownMinSpeed, decimal downshiftMaxSpeed, decimal downshiftMinSpeed, int revision = 7)
+            : this(toolSerialNumber, toolNumberOfTightenings, lastCalibrationDate, controllerSerialNumber,
+                  calibrationValue, lastServiceDate, tighteningsSinceService, toolType, motorSize, openEndData,
+                  controllerSoftwareVersion, toolMaxTorque, gearRatio, toolFullSpeed, primaryTool, toolModel, 
+                  toolNumber, toolArticleNumber, revision)
+        {
+            RundownMinSpeed = rundownMinSpeed;
+            DownshiftMaxSpeed = downshiftMaxSpeed;
+            DownshiftMinSpeed = downshiftMinSpeed;
         }
 
         /// <summary>
@@ -376,6 +503,21 @@ namespace OpenProtocolInterpreter.Tool
                             {
                                 new DataField((int)DataFields.TOOL_MODEL, 184, 12, ' ')
                             }
+                },
+                {
+                    6, new  List<DataField>()
+                            {
+                                new DataField((int)DataFields.TOOL_NUMBER, 198, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.TOOL_ARTICLE_NUMBER, 204, 30, ' ')
+                            }
+                },
+                {
+                    7, new  List<DataField>()
+                            {
+                                new DataField((int)DataFields.RUNDOWN_MIN_SPEED, 236, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.DOWNSHIFT_MAX_SPEED, 244, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.DOWNSHIFT_MIN_SPEED, 252, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                            }
                 }
             };
         }
@@ -400,8 +542,15 @@ namespace OpenProtocolInterpreter.Tool
             TOOL_FULL_SPEED,
             //Rev 4
             PRIMARY_TOOL,
-            //Rev 5,
-            TOOL_MODEL
+            //Rev 5
+            TOOL_MODEL,
+            //Rev 6
+            TOOL_NUMBER,
+            TOOL_ARTICLE_NUMBER,
+            //Rev 7
+            RUNDOWN_MIN_SPEED,
+            DOWNSHIFT_MAX_SPEED,
+            DOWNSHIFT_MIN_SPEED
         }
 
         public class OpenEndDatas

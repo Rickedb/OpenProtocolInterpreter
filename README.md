@@ -52,7 +52,7 @@ OpenProtocolInterpreter is a **library that converts the ugly string** that came
 
 **[If you're curious, just take a look at their documentation.](https://github.com/Rickedb/OpenProtocolIntepreter/blob/master/docs/OpenProtocol_Specification.pdf)**
 
-## Changelog for version 3.0.0
+## Changelog for version 3.0.0 or greater
 
  1. Reworked on how to instantiate a Mid class when parsing to fix a bug where the parse method updates the same instance instead of creating a new;
  2. Pack methods added to MidInterpreter as Pack(Mid mid) and PackBytes(Mid mid);

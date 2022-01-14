@@ -27,10 +27,15 @@ namespace OpenProtocolInterpreter.Result
         private readonly IValueConverter<IEnumerable<ObjectData>> _objectDataListConverter;
         private readonly IValueConverter<IEnumerable<VariableDataField>> _varDataFieldListConverter;
 
-        private const int LAST_REVISION = 1;
+        private const int LAST_REVISION = 2;
         public const int MID = 1201;
 
-        public Mid1201() : base(MID, LAST_REVISION)
+        public Mid1201() : this(LAST_REVISION)
+        {
+
+        }
+
+        public Mid1201(int revision = LAST_REVISION) : base(MID, revision)
         {
             _intConverter = new Int32Converter();
             _dateConverter = new DateConverter();

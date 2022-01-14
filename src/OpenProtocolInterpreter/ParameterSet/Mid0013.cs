@@ -15,69 +15,76 @@ namespace OpenProtocolInterpreter.ParameterSet
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<decimal> _decimalConverter;
-        private const int LAST_REVISION = 2;
+        private readonly IValueConverter<DateTime> _dateConverter;
+        private const int LAST_REVISION = 5;
         public const int MID = 13;
 
         public int ParameterSetId
         {
-            get => GetField(1,(int)DataFields.PARAMETER_SET_ID).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.PARAMETER_SET_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.PARAMETER_SET_ID).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.PARAMETER_SET_ID).SetValue(_intConverter.Convert, value);
         }
         public string ParameterSetName
         {
-            get => GetField(1,(int)DataFields.PARAMETER_SET_NAME).Value;
-            set => GetField(1,(int)DataFields.PARAMETER_SET_NAME).SetValue(value);
+            get => GetField(1, (int)DataFields.PARAMETER_SET_NAME).Value;
+            set => GetField(1, (int)DataFields.PARAMETER_SET_NAME).SetValue(value);
         }
         public RotationDirection RotationDirection
         {
-            get => (RotationDirection)GetField(1,(int)DataFields.ROTATION_DIRECTION).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.ROTATION_DIRECTION).SetValue(_intConverter.Convert, (int)value);
+            get => (RotationDirection)GetField(1, (int)DataFields.ROTATION_DIRECTION).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.ROTATION_DIRECTION).SetValue(_intConverter.Convert, (int)value);
         }
         public int BatchSize
         {
-            get => GetField(1,(int)DataFields.BATCH_SIZE).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.BATCH_SIZE).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.BATCH_SIZE).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.BATCH_SIZE).SetValue(_intConverter.Convert, value);
         }
         public decimal MinTorque
         {
-            get => GetField(1,(int)DataFields.MIN_TORQUE).GetValue(_decimalConverter.Convert);
-            set => GetField(1,(int)DataFields.MIN_TORQUE).SetValue(_decimalConverter.Convert, value);
+            get => GetField(1, (int)DataFields.MIN_TORQUE).GetValue(_decimalConverter.Convert);
+            set => GetField(1, (int)DataFields.MIN_TORQUE).SetValue(_decimalConverter.Convert, value);
         }
         public decimal MaxTorque
         {
-            get => GetField(1,(int)DataFields.MAX_TORQUE).GetValue(_decimalConverter.Convert);
-            set => GetField(1,(int)DataFields.MAX_TORQUE).SetValue(_decimalConverter.Convert, value);
+            get => GetField(1, (int)DataFields.MAX_TORQUE).GetValue(_decimalConverter.Convert);
+            set => GetField(1, (int)DataFields.MAX_TORQUE).SetValue(_decimalConverter.Convert, value);
         }
         public decimal TorqueFinalTarget
         {
-            get => GetField(1,(int)DataFields.TORQUE_FINAL_TARGET).GetValue(_decimalConverter.Convert);
-            set => GetField(1,(int)DataFields.TORQUE_FINAL_TARGET).SetValue(_decimalConverter.Convert, value);
+            get => GetField(1, (int)DataFields.TORQUE_FINAL_TARGET).GetValue(_decimalConverter.Convert);
+            set => GetField(1, (int)DataFields.TORQUE_FINAL_TARGET).SetValue(_decimalConverter.Convert, value);
         }
         public int MinAngle
         {
-            get => GetField(1,(int)DataFields.MIN_ANGLE).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.MIN_ANGLE).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.MIN_ANGLE).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.MIN_ANGLE).SetValue(_intConverter.Convert, value);
         }
         public int MaxAngle
         {
-            get => GetField(1,(int)DataFields.MAX_ANGLE).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.MAX_ANGLE).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.MAX_ANGLE).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.MAX_ANGLE).SetValue(_intConverter.Convert, value);
         }
         public int AngleFinalTarget
         {
-            get => GetField(1,(int)DataFields.ANGLE_FINAL_TARGET).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.ANGLE_FINAL_TARGET).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.ANGLE_FINAL_TARGET).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.ANGLE_FINAL_TARGET).SetValue(_intConverter.Convert, value);
         }
         //Rev 2
         public decimal FirstTarget
         {
-            get => GetField(2,(int)DataFields.FIRST_TARGET).GetValue(_decimalConverter.Convert);
-            set => GetField(2,(int)DataFields.FIRST_TARGET).SetValue(_decimalConverter.Convert, value);
+            get => GetField(2, (int)DataFields.FIRST_TARGET).GetValue(_decimalConverter.Convert);
+            set => GetField(2, (int)DataFields.FIRST_TARGET).SetValue(_decimalConverter.Convert, value);
         }
         public decimal StartFinalAngle
         {
-            get => GetField(2,(int)DataFields.START_FINAL_TARGET).GetValue(_decimalConverter.Convert);
-            set => GetField(2,(int)DataFields.START_FINAL_TARGET).SetValue(_decimalConverter.Convert, value);
+            get => GetField(2, (int)DataFields.START_FINAL_TARGET).GetValue(_decimalConverter.Convert);
+            set => GetField(2, (int)DataFields.START_FINAL_TARGET).SetValue(_decimalConverter.Convert, value);
+        }
+        //Rev 5
+        public DateTime LastChangeInParameterSet
+        {
+            get => GetField(5, (int)DataFields.LAST_CHANGE_IN_PARAMETER_SET).GetValue(_dateConverter.Convert);
+            set => GetField(5, (int)DataFields.LAST_CHANGE_IN_PARAMETER_SET).SetValue(_dateConverter.Convert, value);
         }
 
         public Mid0013() : this(LAST_REVISION)
@@ -89,6 +96,7 @@ namespace OpenProtocolInterpreter.ParameterSet
         {
             _intConverter = new Int32Converter();
             _decimalConverter = new DecimalTrucatedConverter(2);
+            _dateConverter = new DateConverter();
         }
 
         /// <summary>
@@ -105,7 +113,7 @@ namespace OpenProtocolInterpreter.ParameterSet
         /// <param name="maxAngle">The angle max value is five bytes long and is specified by five ASCII digits.Range: 00000-99999.</param>
         /// <param name="angleFinalTarget">The target angle is specified in degrees. 5 ASCII digits. Range: 00000-99999.</param>
         /// <param name="revision">Revision number (default = 1)</param>
-        public Mid0013(int parameterSetId, string parameterSetName, RotationDirection rotationDirection, int batchSize, decimal minTorque, decimal maxTorque, 
+        public Mid0013(int parameterSetId, string parameterSetName, RotationDirection rotationDirection, int batchSize, decimal minTorque, decimal maxTorque,
             decimal torqueFinalTarget, int minAngle, int maxAngle, int angleFinalTarget, int revision = 1) : this(revision)
         {
             ParameterSetId = parameterSetId;
@@ -136,13 +144,38 @@ namespace OpenProtocolInterpreter.ParameterSet
         /// <param name="firstTarget">The torque first target is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
         /// <param name="startFinalAngle">The start final angle is the torque to reach the snug level. The start final angle is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
         /// <param name="revision">Revision number (default = 1)</param>
-        public Mid0013(int parameterSetId, string parameterSetName, RotationDirection rotationDirection, int batchSize, decimal minTorque, decimal maxTorque, 
-            decimal torqueFinalTarget, int minAngle, int maxAngle, int angleFinalTarget, decimal firstTarget, decimal startFinalAngle, int revision = 2) 
-            : this(parameterSetId, parameterSetName, rotationDirection, batchSize, minTorque, maxTorque, 
+        public Mid0013(int parameterSetId, string parameterSetName, RotationDirection rotationDirection, int batchSize, decimal minTorque, decimal maxTorque,
+            decimal torqueFinalTarget, int minAngle, int maxAngle, int angleFinalTarget, decimal firstTarget, decimal startFinalAngle, int revision = 2)
+            : this(parameterSetId, parameterSetName, rotationDirection, batchSize, minTorque, maxTorque,
                   torqueFinalTarget, minAngle, maxAngle, angleFinalTarget, revision)
         {
             FirstTarget = firstTarget;
             StartFinalAngle = startFinalAngle;
+        }
+
+        /// <summary>
+        /// Revision 5 Constructor
+        /// </summary>
+        /// <param name="parameterSetId">Three ASCII digits, range 000-999</param>
+        /// <param name="parameterSetName">25 ASCII characters. Right padded with space if name is less than 25 characters.</param>
+        /// <param name="rotationDirection">1=CW (Clockwise), 2=CCW (Counter Clockwise)</param>
+        /// <param name="batchSize">2 ASCII digits, range 00-99</param>
+        /// <param name="minTorque">The torque min limit is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
+        /// <param name="maxTorque">The torque max limit is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
+        /// <param name="torqueFinalTarget">The torque final target is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
+        /// <param name="minAngle">The angle min value is five bytes long and is specified by five ASCII digits.Range: 00000-99999.</param>
+        /// <param name="maxAngle">The angle max value is five bytes long and is specified by five ASCII digits.Range: 00000-99999.</param>
+        /// <param name="angleFinalTarget">The target angle is specified in degrees. 5 ASCII digits. Range: 00000-99999.</param>
+        /// <param name="firstTarget">The torque first target is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
+        /// <param name="startFinalAngle">The start final angle is the torque to reach the snug level. The start final angle is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
+        /// <param name="lastChangeInParameterSet">Date of last change in parameter set setting</param>
+        /// <param name="revision">Revision number (default = 1)</param>
+        public Mid0013(int parameterSetId, string parameterSetName, RotationDirection rotationDirection, int batchSize, decimal minTorque, decimal maxTorque,
+            decimal torqueFinalTarget, int minAngle, int maxAngle, int angleFinalTarget, decimal firstTarget, decimal startFinalAngle, DateTime lastChangeInParameterSet, int revision = 5)
+            : this(parameterSetId, parameterSetName, rotationDirection, batchSize, minTorque, maxTorque,
+                  torqueFinalTarget, minAngle, maxAngle, angleFinalTarget, firstTarget, startFinalAngle, revision)
+        {
+            LastChangeInParameterSet = lastChangeInParameterSet;
         }
 
         /// <summary>
@@ -194,6 +227,18 @@ namespace OpenProtocolInterpreter.ParameterSet
                                 new DataField((int)DataFields.FIRST_TARGET, 104, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
                                 new DataField((int)DataFields.START_FINAL_TARGET, 112, 6, '0', DataField.PaddingOrientations.LEFT_PADDED)
                             }
+                },
+                {
+                    3, new  List<DataField>()
+                },
+                {
+                    4, new  List<DataField>()
+                },
+                {
+                    5, new  List<DataField>()
+                            {
+                                new DataField((int)DataFields.LAST_CHANGE_IN_PARAMETER_SET, 120, 19),
+                            }
                 }
             };
         }
@@ -212,7 +257,9 @@ namespace OpenProtocolInterpreter.ParameterSet
             ANGLE_FINAL_TARGET,
             //Rev 2
             FIRST_TARGET,
-            START_FINAL_TARGET
+            START_FINAL_TARGET,
+            //Rev 5
+            LAST_CHANGE_IN_PARAMETER_SET
         }
     }
 }
