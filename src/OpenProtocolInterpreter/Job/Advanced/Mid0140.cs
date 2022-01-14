@@ -194,12 +194,12 @@ namespace OpenProtocolInterpreter.Job.Advanced
         private int GetJobListSize()
         {
             var revision = GetNormalizedRevision();
-            return revision switch
+            switch(revision)
             {
-                2 => 52,
-                3 => 63,
-                999 => 18,
-                _ => 15,
+                case 2: return 52;
+                case 3: return 63;
+                case 999: return 18;
+                default: return 15;
             };
         }
 
