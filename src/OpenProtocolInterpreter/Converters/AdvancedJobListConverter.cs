@@ -6,7 +6,6 @@ namespace OpenProtocolInterpreter.Converters
     public class AdvancedJobListConverter : AsciiConverter<IEnumerable<AdvancedJob>>
     {
         private readonly IValueConverter<int> _intConverter;
-        private readonly IValueConverter<bool> _boolConverter|;
         private readonly int _revision;
 
         public AdvancedJobListConverter(IValueConverter<int> intConverter, int revision)
