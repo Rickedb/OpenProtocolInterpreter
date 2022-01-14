@@ -21,6 +21,7 @@
         JOB_NOK = 13,
         JOB_RUNNING = 14,
 
+        TOOL_HEALTH_OK = 17,
         POWER_FOCUS_READY = 18,
         TOOL_READY = 19,
         TOOL_START_SWITCH = 20,
@@ -55,6 +56,7 @@
         TOOL_RED_LIGHT = 52,
         TOOL_GREEN_LIGHT = 53,
         TOOL_YELLOW_LIGHT = 54,
+
         RUNNING_PSET_BIT_4 = 59,
         RUNNING_PSET_BIT_5 = 60,
         RUNNING_PSET_BIT_6 = 61,
@@ -205,6 +207,49 @@
 
         MIDDLE_COURSE_TRIGGER_ACTIVE = 351,
         FRONT_TRIGGER_ACTIVE = 352,
-        REVERSE_TRIGGER_ACTIVE = 353
+        REVERSE_TRIGGER_ACTIVE = 353,
+        RUNNING_JOB_BIT_9 = 354,
+        TOOL_UNLOCKED = 355,
+        /// <summary>
+        /// Indicates that the connection to the Atlas Copco license server has been lost or the synchronization has failed. 
+        /// The signal is cleared when the License manager synchronization has been done successfully
+        /// </summary>
+        LICENSE_SERVER_CONNECTION_LOST = 356,
+        /// <summary>
+        /// Tightening not disabled by external source
+        /// </summary>
+        TIGHTENING_EXTERNALLY_ENABLED = 357,
+        /// <summary>
+        /// Tightening disabled by external source
+        /// </summary>
+        TIGHTENING_EXTERNALLY_DISABLED = 358,
+        /// <summary>
+        /// Loosening not disabled by external source
+        /// </summary>
+        LOOSENING_EXTERNALLY_ENABLED = 359,
+        /// <summary>
+        /// Loosening disabled by external source
+        /// </summary>
+        LOOSENING_EXTERNALLY_DISABLED = 360,
+        /// <summary>
+        /// Multistep tightening program has ended, torque has fallen below Program end torque configured.
+        /// </summary>
+        PROGRAM_END = 361,
+        /// <summary>
+        /// Oil level supervision configured in the tool maintenance to remind the users when it is time to fill up oil in a pulse tool.
+        /// </summary>
+        PULSE_TOOL_ALARM_OIL_LEVEL_EMPTY = 362,
+        /// <summary>
+        /// Indicates high tightening time resulting in NOK tightening
+        /// </summary>
+        TIGHTENING_TIME_HIGH = 363,
+        /// <summary>
+        /// Indicates low tightening time resulting in NOK tightening
+        /// </summary>
+        TIGHTENING_TIME_LOW = 364,
+        /// <summary>
+        /// Output signal tracking the function button state. The signal is set when the function button is pressed and is cleared when the function button is released.
+        /// </summary>
+        TOOL_FUNCTION_BUTTON_PRESSED = 365
     }
 }

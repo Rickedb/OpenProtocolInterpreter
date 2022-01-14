@@ -22,99 +22,105 @@ namespace OpenProtocolInterpreter.Job.Advanced
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;
         private IValueConverter<IEnumerable<AdvancedJob>> _jobListConverter;
-        private const int LAST_REVISION = 1;
+        private const int LAST_REVISION = 3;
         public const int MID = 140;
 
         public int JobId
         {
-            get => GetField(1, (int)DataFields.JOB_ID).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.JOB_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(GetNormalizedRevision(), (int)DataFields.JOB_ID).GetValue(_intConverter.Convert);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.JOB_ID).SetValue(_intConverter.Convert, value);
         }
         public string JobName
         {
-            get => GetField(1, (int)DataFields.JOB_NAME).Value;
-            set => GetField(1, (int)DataFields.JOB_NAME).SetValue(value);
+            get => GetField(GetNormalizedRevision(), (int)DataFields.JOB_NAME).Value;
+            set => GetField(GetNormalizedRevision(), (int)DataFields.JOB_NAME).SetValue(value);
         }
         public int NumberOfParameterSets
         {
-            get => GetField(1, (int)DataFields.NUMBER_OF_PARAMETER_SETS).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.NUMBER_OF_PARAMETER_SETS).SetValue(_intConverter.Convert, value);
+            get => GetField(GetNormalizedRevision(), (int)DataFields.NUMBER_OF_PARAMETER_SETS).GetValue(_intConverter.Convert);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.NUMBER_OF_PARAMETER_SETS).SetValue(_intConverter.Convert, value);
         }
         public List<AdvancedJob> JobList { get; set; }
         public ForcedOrder ForcedOrder
         {
-            get => (ForcedOrder)GetField(1, (int)DataFields.FORCED_ORDER).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.FORCED_ORDER).SetValue(_intConverter.Convert, (int)value);
+            get => (ForcedOrder)GetField(GetNormalizedRevision(), (int)DataFields.FORCED_ORDER).GetValue(_intConverter.Convert);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.FORCED_ORDER).SetValue(_intConverter.Convert, (int)value);
         }
         public bool LockAtJobDone
         {
-            get => GetField(1, (int)DataFields.LOCK_AT_JOB_DONE).GetValue(_boolConverter.Convert);
-            set => GetField(1, (int)DataFields.LOCK_AT_JOB_DONE).SetValue(_boolConverter.Convert, value);
+            get => GetField(GetNormalizedRevision(), (int)DataFields.LOCK_AT_JOB_DONE).GetValue(_boolConverter.Convert);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.LOCK_AT_JOB_DONE).SetValue(_boolConverter.Convert, value);
         }
         public ToolLoosening ToolLoosening
         {
-            get => (ToolLoosening)GetField(1, (int)DataFields.TOOL_LOOSENING).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.TOOL_LOOSENING).SetValue(_intConverter.Convert, (int)value);
+            get => (ToolLoosening)GetField(GetNormalizedRevision(), (int)DataFields.TOOL_LOOSENING).GetValue(_intConverter.Convert);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.TOOL_LOOSENING).SetValue(_intConverter.Convert, (int)value);
         }
         public bool RepeatJob
         {
-            get => GetField(1, (int)DataFields.REPEAT_JOB).GetValue(_boolConverter.Convert);
-            set => GetField(1, (int)DataFields.REPEAT_JOB).SetValue(_boolConverter.Convert, value);
+            get => GetField(GetNormalizedRevision(), (int)DataFields.REPEAT_JOB).GetValue(_boolConverter.Convert);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.REPEAT_JOB).SetValue(_boolConverter.Convert, value);
         }
         public BatchMode BatchMode
         {
-            get => (BatchMode)GetField(1, (int)DataFields.JOB_BATCH_MODE).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.JOB_BATCH_MODE).SetValue(_intConverter.Convert, (int)value);
+            get => (BatchMode)GetField(GetNormalizedRevision(), (int)DataFields.JOB_BATCH_MODE).GetValue(_intConverter.Convert);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.JOB_BATCH_MODE).SetValue(_intConverter.Convert, (int)value);
         }
         public bool BatchStatusAtIncrement
         {
-            get => GetField(1, (int)DataFields.BATCH_STATUS_AT_INCREMENT).GetValue(_boolConverter.Convert);
-            set => GetField(1, (int)DataFields.BATCH_STATUS_AT_INCREMENT).SetValue(_boolConverter.Convert, value);
+            get => GetField(GetNormalizedRevision(), (int)DataFields.BATCH_STATUS_AT_INCREMENT).GetValue(_boolConverter.Convert);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.BATCH_STATUS_AT_INCREMENT).SetValue(_boolConverter.Convert, value);
         }
         public bool DecrementBatchAtOkLoosening
         {
-            get => GetField(1, (int)DataFields.DECREMENT_BATCH_AT_OK_LOOSENING).GetValue(_boolConverter.Convert);
-            set => GetField(1, (int)DataFields.DECREMENT_BATCH_AT_OK_LOOSENING).SetValue(_boolConverter.Convert, value);
+            get => GetField(GetNormalizedRevision(), (int)DataFields.DECREMENT_BATCH_AT_OK_LOOSENING).GetValue(_boolConverter.Convert);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.DECREMENT_BATCH_AT_OK_LOOSENING).SetValue(_boolConverter.Convert, value);
         }
         public int MaxTimeForFirstTightening
         {
-            get => GetField(1, (int)DataFields.MAX_TIME_FOR_FIRST_TIGHTENING).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.MAX_TIME_FOR_FIRST_TIGHTENING).SetValue(_intConverter.Convert, value);
+            get => GetField(GetNormalizedRevision(), (int)DataFields.MAX_TIME_FOR_FIRST_TIGHTENING).GetValue(_intConverter.Convert);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.MAX_TIME_FOR_FIRST_TIGHTENING).SetValue(_intConverter.Convert, value);
         }
         public int MaxTimeToCompleteJob
         {
-            get => GetField(1, (int)DataFields.MAX_TIME_TO_COMPLETE_JOB).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.MAX_TIME_TO_COMPLETE_JOB).SetValue(_intConverter.Convert, value);
+            get => GetField(GetNormalizedRevision(), (int)DataFields.MAX_TIME_TO_COMPLETE_JOB).GetValue(_intConverter.Convert);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.MAX_TIME_TO_COMPLETE_JOB).SetValue(_intConverter.Convert, value);
         }
         public int DisplayResultAtAutoSelect
         {
-            get => GetField(1, (int)DataFields.DISPLAY_RESULT_AT_AUTO_SELECT).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.DISPLAY_RESULT_AT_AUTO_SELECT).SetValue(_intConverter.Convert, value);
+            get => GetField(GetNormalizedRevision(), (int)DataFields.DISPLAY_RESULT_AT_AUTO_SELECT).GetValue(_intConverter.Convert);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.DISPLAY_RESULT_AT_AUTO_SELECT).SetValue(_intConverter.Convert, value);
         }
         public bool UsingLineControl
         {
-            get => GetField(1, (int)DataFields.USE_LINE_CONTROL).GetValue(_boolConverter.Convert);
-            set => GetField(1, (int)DataFields.USE_LINE_CONTROL).SetValue(_boolConverter.Convert, value);
+            get => GetField(GetNormalizedRevision(), (int)DataFields.USE_LINE_CONTROL).GetValue(_boolConverter.Convert);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.USE_LINE_CONTROL).SetValue(_boolConverter.Convert, value);
         }
         public IdentifierPart IdentifierResultPart
         {
-            get => (IdentifierPart)GetField(1, (int)DataFields.IDENTIFIER_RESULT_PART).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.IDENTIFIER_RESULT_PART).SetValue(_intConverter.Convert, (int)value);
+            get => (IdentifierPart)GetField(GetNormalizedRevision(), (int)DataFields.IDENTIFIER_RESULT_PART).GetValue(_intConverter.Convert);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.IDENTIFIER_RESULT_PART).SetValue(_intConverter.Convert, (int)value);
         }
         public bool ResultOfNonTightenings
         {
-            get => GetField(1, (int)DataFields.RESULT_OF_NON_TIGHTENINGS).GetValue(_boolConverter.Convert);
-            set => GetField(1, (int)DataFields.RESULT_OF_NON_TIGHTENINGS).SetValue(_boolConverter.Convert, value);
+            get => GetField(GetNormalizedRevision(), (int)DataFields.RESULT_OF_NON_TIGHTENINGS).GetValue(_boolConverter.Convert);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.RESULT_OF_NON_TIGHTENINGS).SetValue(_boolConverter.Convert, value);
         }
         public bool ResetAllIdentifiersAtJobDone
         {
-            get => GetField(1, (int)DataFields.RESET_ALL_IDENTIFIERS_AT_JOB_DONE).GetValue(_boolConverter.Convert);
-            set => GetField(1, (int)DataFields.RESET_ALL_IDENTIFIERS_AT_JOB_DONE).SetValue(_boolConverter.Convert, value);
+            get => GetField(GetNormalizedRevision(), (int)DataFields.RESET_ALL_IDENTIFIERS_AT_JOB_DONE).GetValue(_boolConverter.Convert);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.RESET_ALL_IDENTIFIERS_AT_JOB_DONE).SetValue(_boolConverter.Convert, value);
         }
         public Reserved Reserved
         {
-            get => (Reserved)GetField(1, (int)DataFields.RESERVED).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.RESERVED).SetValue(_intConverter.Convert, (int)value);
+            get => (Reserved)GetField(GetNormalizedRevision(), (int)DataFields.RESERVED).GetValue(_intConverter.Convert);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.RESERVED).SetValue(_intConverter.Convert, (int)value);
+        }
+
+        public int JobSequenceNumber
+        {
+            get => GetField(GetNormalizedRevision(), (int)DataFields.JOB_SEQUENCE_NUMBER).GetValue(_intConverter.Convert);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.JOB_SEQUENCE_NUMBER).SetValue(_intConverter.Convert, value);
         }
 
         public Mid0140() : this(LAST_REVISION)
@@ -127,41 +133,74 @@ namespace OpenProtocolInterpreter.Job.Advanced
             JobList = new List<AdvancedJob>();
             _intConverter = new Int32Converter();
             _boolConverter = new BoolConverter();
-            _jobListConverter = new AdvancedJobListConverter(_intConverter, _boolConverter, revision);
+            _jobListConverter = new AdvancedJobListConverter(_intConverter, revision);
         }
 
         public override string Pack()
         {
-            GetField(1, (int)DataFields.JOB_LIST).Size = JobList.Count * ((HeaderData.Revision == 999) ? 18 : 15);
+            var revision = GetNormalizedRevision();
+            var jobListField = GetField(revision, (int)DataFields.JOB_LIST);
+            jobListField.Size = JobList.Count * GetJobListSize();
             AdjustDataFieldsIndexes();
-            GetField(1, (int)DataFields.JOB_LIST).Value = _jobListConverter.Convert(JobList);
+            jobListField.Value = _jobListConverter.Convert(JobList);
             return base.Pack();
         }
 
         public override Mid Parse(string package)
         {
             HeaderData = ProcessHeader(package);
-            _jobListConverter = new AdvancedJobListConverter(_intConverter, _boolConverter, HeaderData.Revision);
+            _jobListConverter = new AdvancedJobListConverter(_intConverter, HeaderData.Revision);
             int length = HeaderData.Length;
-            foreach (var rev in RevisionsByFields[1])
+            var revision = GetNormalizedRevision();
+            foreach (var rev in RevisionsByFields[revision])
                 length -= rev.Size;
 
-            GetField(1, (int)DataFields.JOB_LIST).Size = length;
+            var jobListField = GetField(revision, (int)DataFields.JOB_LIST);
+            jobListField.Size = length;
             AdjustDataFieldsIndexes();
             base.ProcessDataFields(package);
-            JobList = _jobListConverter.Convert(GetField(1, (int)DataFields.JOB_LIST).Value).ToList();
+            JobList = _jobListConverter.Convert(jobListField.Value).ToList();
             return this;
         }
 
         private void AdjustDataFieldsIndexes()
         {
-            int index = GetField(1, (int)DataFields.JOB_LIST).Index + GetField(1, (int)DataFields.JOB_LIST).Size + 2;
-            for (int i = (int)DataFields.FORCED_ORDER; i < RevisionsByFields[1].Count; i++)
+            var revision = GetNormalizedRevision();
+            var jobListField = GetField(revision, (int)DataFields.JOB_LIST);
+            jobListField.Size = NumberOfParameterSets * GetJobListSize();
+            int index = jobListField.Index + jobListField.Size + 2;
+            int startAt = revision != 2 ? (int)DataFields.FORCED_ORDER : (int)DataFields.JOB_SEQUENCE_NUMBER;
+            foreach (var field in RevisionsByFields[revision])
             {
-                GetField(1, i).Index = index;
-                index += 2 + GetField(1, i).Size;
+                if (field.Field >= startAt)
+                {
+                    field.Index = index;
+                    index += 2 + field.Size;
+                }
             }
-            GetField(1, (int)DataFields.JOB_LIST).Size = NumberOfParameterSets * 15;
+
+        }
+
+        private int GetNormalizedRevision()
+        {
+            if (HeaderData.Revision == 999)
+            {
+                return 1;
+            }
+
+            return HeaderData.Revision;
+        }
+
+        private int GetJobListSize()
+        {
+            var revision = GetNormalizedRevision();
+            return revision switch
+            {
+                2 => 52,
+                3 => 63,
+                999 => 18,
+                _ => 15,
+            };
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -191,6 +230,36 @@ namespace OpenProtocolInterpreter.Job.Advanced
                                         new DataField((int)DataFields.RESET_ALL_IDENTIFIERS_AT_JOB_DONE, 0, 1),
                                         new DataField((int)DataFields.RESERVED, 0, 1)
                                 }
+                    },
+                    {
+                        2, new List<DataField>()
+                                {
+                                        new DataField((int)DataFields.JOB_ID, 20, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                        new DataField((int)DataFields.JOB_NAME, 26, 25, ' '),
+                                        new DataField((int)DataFields.NUMBER_OF_PARAMETER_SETS, 53, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                        new DataField((int)DataFields.JOB_LIST, 57, 0),
+                                        new DataField((int)DataFields.JOB_SEQUENCE_NUMBER, 0, 5),
+                                }
+                    },
+                    {
+                        3, new List<DataField>()
+                                {
+                                        new DataField((int)DataFields.JOB_ID, 20, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                        new DataField((int)DataFields.JOB_NAME, 26, 25, ' '),
+                                        new DataField((int)DataFields.NUMBER_OF_PARAMETER_SETS, 53, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                        new DataField((int)DataFields.JOB_LIST, 57, 0),
+                                        new DataField((int)DataFields.FORCED_ORDER, 0, 1),
+                                        new DataField((int)DataFields.LOCK_AT_JOB_DONE, 0, 1),
+                                        new DataField((int)DataFields.MAX_TIME_FOR_FIRST_TIGHTENING, 0, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                        new DataField((int)DataFields.MAX_TIME_TO_COMPLETE_JOB, 0, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                        new DataField((int)DataFields.DISPLAY_RESULT_AT_AUTO_SELECT, 0, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                        new DataField((int)DataFields.USE_LINE_CONTROL, 0, 1),
+                                        new DataField((int)DataFields.IDENTIFIER_RESULT_PART, 0, 1),
+                                        new DataField((int)DataFields.RESULT_OF_NON_TIGHTENINGS, 0, 1),
+                                        new DataField((int)DataFields.RESET_ALL_IDENTIFIERS_AT_JOB_DONE, 0, 1),
+                                        new DataField((int)DataFields.RESERVED, 0, 1),
+                                        new DataField((int)DataFields.JOB_SEQUENCE_NUMBER, 0, 5)
+                                }
                     }
                 };
         }
@@ -215,7 +284,10 @@ namespace OpenProtocolInterpreter.Job.Advanced
             IDENTIFIER_RESULT_PART,
             RESULT_OF_NON_TIGHTENINGS,
             RESET_ALL_IDENTIFIERS_AT_JOB_DONE,
-            RESERVED
+            RESERVED,
+
+            //Rev 2
+            JOB_SEQUENCE_NUMBER
         }
     }
 }

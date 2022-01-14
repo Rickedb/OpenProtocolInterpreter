@@ -16,7 +16,7 @@ namespace OpenProtocolInterpreter.ParameterSet
     public class Mid0012 : Mid, IParameterSet, IIntegrator
     {
         private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 4;
+        private const int LAST_REVISION = 5;
         public const int MID = 12;
 
         public int ParameterSetId
@@ -41,7 +41,7 @@ namespace OpenProtocolInterpreter.ParameterSet
         }
 
         /// <summary>
-        /// Revision 1 and 2 Constructor
+        /// Revision 1, 2 and 5 Constructor
         /// </summary>
         /// <param name="parameterSetId">Parameter Set Id. Three ASCII digits. Range: 000-999</param>
         /// <param name="revision">Revision</param>

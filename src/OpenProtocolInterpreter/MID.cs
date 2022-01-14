@@ -10,7 +10,7 @@ namespace OpenProtocolInterpreter
     /// </summary>
     public abstract class Mid
     {
-        public Dictionary<int, List<DataField>> RevisionsByFields { get; set; }
+        protected Dictionary<int, List<DataField>> RevisionsByFields { get; }
         public Header HeaderData { get; set; }
 
         public Mid(Header header)
@@ -42,8 +42,13 @@ namespace OpenProtocolInterpreter
             {
                 HeaderData.Length = 20;
                 for (int i = 1; i <= (HeaderData.Revision > 0 ? HeaderData.Revision : 1); i++)
-                    foreach (var dataField in RevisionsByFields[i])
-                        HeaderData.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
+                {
+                    if (RevisionsByFields.TryGetValue(i, out var dataFields))
+                    {
+                        foreach (var dataField in dataFields)
+                            HeaderData.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
+                    }
+                }
             }
             return HeaderData.ToString();
         }
@@ -56,7 +61,12 @@ namespace OpenProtocolInterpreter
             string package = BuildHeader();
             int prefixIndex = 1;
             for (int i = 1; i <= (HeaderData.Revision > 0 ? HeaderData.Revision : 1); i++)
-                package += Pack(RevisionsByFields[i], ref prefixIndex);
+            {
+                if (RevisionsByFields.TryGetValue(i, out var dataFields))
+                {
+                    package += Pack(dataFields, ref prefixIndex);
+                }
+            }
 
             return package;
         }
@@ -84,7 +94,7 @@ namespace OpenProtocolInterpreter
 
         protected virtual Header ProcessHeader(string package)
         {
-            Header header = new Header
+            var header = new Header
             {
                 Length = Convert.ToInt32(package.Substring(0, 4)),
                 Mid = Convert.ToInt32(package.Substring(4, 4)),
