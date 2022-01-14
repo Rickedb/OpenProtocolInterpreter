@@ -710,6 +710,11 @@
             Angle status. Used in <see cref="T:OpenProtocolInterpreter.PowerMACS.BoltData"/>.
             </summary>
         </member>
+        <member name="T:OpenProtocolInterpreter.AutoSelect">
+            <summary>
+            Auto Select. Used in <see cref="T:OpenProtocolInterpreter.Job.Advanced.Mid0140"/> in <see cref="T:OpenProtocolInterpreter.Job.Advanced.AdvancedJob"/> .
+            </summary>
+        </member>
         <member name="T:OpenProtocolInterpreter.BatchMode">
             <summary>
             Batch Mode. Used in <see cref="T:OpenProtocolInterpreter.Job.Advanced.Mid0140"/>
@@ -720,15 +725,55 @@
             Batch Status. Used in <see cref="T:OpenProtocolInterpreter.Tightening.Mid0061"/> and <see cref="T:OpenProtocolInterpreter.Tightening.Mid0065"/>.
             </summary>
         </member>
+        <member name="T:OpenProtocolInterpreter.BatchStatusAtIncrement">
+            /// <summary>
+            Batch Status at Increment. Used in <see cref="T:OpenProtocolInterpreter.Job.Advanced.Mid0140"/> in <see cref="T:OpenProtocolInterpreter.Job.Advanced.AdvancedJob"/> .
+            </summary>
+        </member>
         <member name="T:OpenProtocolInterpreter.CalibrationUnit">
             <summary>
             Calibration Units. Used in <see cref="T:OpenProtocolInterpreter.Tool.Mid0045"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.CurrentBatchStatus">
+            <summary>
+            Current Batch Status. Used in <see cref="T:OpenProtocolInterpreter.Job.Advanced.Mid0140"/> in <see cref="T:OpenProtocolInterpreter.Job.Advanced.AdvancedJob"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.DecrementBatchAfterLoosening">
+            /// <summary>
+            Decrement batch after loosening/OK tightening. Used in <see cref="T:OpenProtocolInterpreter.Job.Advanced.Mid0140"/> in <see cref="T:OpenProtocolInterpreter.Job.Advanced.AdvancedJob"/> .
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.DigitalInputNumber">
             <summary>
             Digital Input Numbers. Used in <see cref="T:OpenProtocolInterpreter.IOInterface.Mid0220"/>, <see cref="T:OpenProtocolInterpreter.IOInterface.Mid0221"/>, 
             <see cref="T:OpenProtocolInterpreter.IOInterface.Mid0223"/>, <see cref="T:OpenProtocolInterpreter.IOInterface.Mid0224"/> and <see cref="T:OpenProtocolInterpreter.IOInterface.Mid0225"/>.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.DisableType">
+            <summary>
+            Disable types. Used in <see cref="T:OpenProtocolInterpreter.Tool.Mid0042"/>.
+            </summary>
+        </member>
+        <member name="F:OpenProtocolInterpreter.DisableType.DISABLE">
+            <summary>
+            This is the same function as the revision 1 functionality. The tool is locked and cannot be started.
+            </summary>
+        </member>
+        <member name="F:OpenProtocolInterpreter.DisableType.INHIBIT_NOK">
+            <summary>
+            Will not run in the next tightening but will be included in the final result with status NOK
+            </summary>
+        </member>
+        <member name="F:OpenProtocolInterpreter.DisableType.INHIBIT_OK">
+            <summary>
+            ill not run in the next tightening but will be included in the final result with status OK
+            </summary>
+        </member>
+        <member name="F:OpenProtocolInterpreter.DisableType.INHIBIT_NO_RESULT">
+            <summary>
+            Will not run in the next tightening and will not be included in the final result
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.Error">
@@ -869,6 +914,57 @@
         <member name="T:OpenProtocolInterpreter.RelayNumber">
             <summary>
             Relay Numbers. Used in <see cref="T:OpenProtocolInterpreter.IOInterface.Mid0216"/>, <see cref="T:OpenProtocolInterpreter.IOInterface.Mid0217"/>, <see cref="T:OpenProtocolInterpreter.IOInterface.Mid0219"/> and <see cref="T:OpenProtocolInterpreter.IOInterface.Relay"/>
+            </summary>
+        </member>
+        <member name="F:OpenProtocolInterpreter.RelayNumber.LICENSE_SERVER_CONNECTION_LOST">
+            <summary>
+            Indicates that the connection to the Atlas Copco license server has been lost or the synchronization has failed. 
+            The signal is cleared when the License manager synchronization has been done successfully
+            </summary>
+        </member>
+        <member name="F:OpenProtocolInterpreter.RelayNumber.TIGHTENING_EXTERNALLY_ENABLED">
+            <summary>
+            Tightening not disabled by external source
+            </summary>
+        </member>
+        <member name="F:OpenProtocolInterpreter.RelayNumber.TIGHTENING_EXTERNALLY_DISABLED">
+            <summary>
+            Tightening disabled by external source
+            </summary>
+        </member>
+        <member name="F:OpenProtocolInterpreter.RelayNumber.LOOSENING_EXTERNALLY_ENABLED">
+            <summary>
+            Loosening not disabled by external source
+            </summary>
+        </member>
+        <member name="F:OpenProtocolInterpreter.RelayNumber.LOOSENING_EXTERNALLY_DISABLED">
+            <summary>
+            Loosening disabled by external source
+            </summary>
+        </member>
+        <member name="F:OpenProtocolInterpreter.RelayNumber.PROGRAM_END">
+            <summary>
+            Multistep tightening program has ended, torque has fallen below Program end torque configured.
+            </summary>
+        </member>
+        <member name="F:OpenProtocolInterpreter.RelayNumber.PULSE_TOOL_ALARM_OIL_LEVEL_EMPTY">
+            <summary>
+            Oil level supervision configured in the tool maintenance to remind the users when it is time to fill up oil in a pulse tool.
+            </summary>
+        </member>
+        <member name="F:OpenProtocolInterpreter.RelayNumber.TIGHTENING_TIME_HIGH">
+            <summary>
+            Indicates high tightening time resulting in NOK tightening
+            </summary>
+        </member>
+        <member name="F:OpenProtocolInterpreter.RelayNumber.TIGHTENING_TIME_LOW">
+            <summary>
+            Indicates low tightening time resulting in NOK tightening
+            </summary>
+        </member>
+        <member name="F:OpenProtocolInterpreter.RelayNumber.TOOL_FUNCTION_BUTTON_PRESSED">
+            <summary>
+            Output signal tracking the function button state. The signal is set when the function button is pressed and is cleared when the function button is released.
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.RelayStatus">
@@ -1234,6 +1330,107 @@
             Represents a advanced job entity
             </summary>
         </member>
+        <member name="M:OpenProtocolInterpreter.Job.Advanced.AdvancedJob.#ctor">
+            <summary>
+            Represents a advanced job entity
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Job.Advanced.AdvancedJob.#ctor(System.Int32,System.Int32,OpenProtocolInterpreter.AutoSelect,System.Int32,System.Int32)">
+            <summary>
+            Revision 1 constructor
+            </summary>
+            <param name="channelId">two ASCII characters, range 00-99</param>
+            <param name="programId">parameter set ID or Multistage ID, three ASCII characters, range 000-999</param>
+            <param name="autoSelect">One ASCII character,
+                <para>0=None</para>
+                <para>1=Auto Next Change</para> 
+                <para>2=I/O</para> 
+                <para>6=Fieldbus</para> 
+                <para>8=Socket tray</para>
+            </param>
+            <param name="batchSize">Two ASCII characters, range 00-99</param>
+            <param name="maxCoherentNok">Two ASCII characters, range 00-99</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Job.Advanced.AdvancedJob.#ctor(System.Int32,System.Int32,OpenProtocolInterpreter.AutoSelect,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Int32)">
+            <summary>
+            Revision 2 constructor
+            </summary>
+            <param name="channelId">two ASCII characters, range 00-99</param>
+            <param name="programId">parameter set ID or Multistage ID, three ASCII characters, range 000-999</param>
+            <param name="autoSelect">One ASCII character,
+                <para>0=None</para>
+                <para>1=Auto Next Change</para> 
+                <para>2=I/O</para> 
+                <para>6=Fieldbus</para> 
+                <para>8=Socket tray</para>
+            </param>
+            <param name="batchSize">Two ASCII characters, range 00-99</param>
+            <param name="maxCoherentNok">Two ASCII characters, range 00-99</param>
+            <param name="batchCounter">Two ASCII characters, range 00-99</param>
+            <param name="identifierNumber">Four ASCII characters, range 0000-9999 (Socket(s), EndFitting(s)…)</param>
+            <param name="jobStepName">25 ASCII characters</param>
+            <param name="jobStepType">Two ASCII characters, range 00-99</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Job.Advanced.AdvancedJob.#ctor(System.Int32,System.Int32,OpenProtocolInterpreter.AutoSelect,System.Int32,System.Int32,System.Int32,System.Int32,System.String,System.Int32,OpenProtocolInterpreter.ToolLoosening,OpenProtocolInterpreter.BatchMode,OpenProtocolInterpreter.BatchStatusAtIncrement,OpenProtocolInterpreter.DecrementBatchAfterLoosening,OpenProtocolInterpreter.CurrentBatchStatus)">
+            <summary>
+            Revision 3 constructor
+            </summary>
+            <param name="channelId">two ASCII characters, range 00-99</param>
+            <param name="programId">parameter set ID or Multistage ID, three ASCII characters, range 000-999</param>
+            <param name="autoSelect">One ASCII character,
+                <para>0=None</para>
+                <para>1=Auto Next Change</para> 
+                <para>2=I/O</para> 
+                <para>6=Fieldbus</para> 
+                <para>8=Socket tray</para>
+            </param>
+            <param name="batchSize">Two ASCII characters, range 00-99</param>
+            <param name="maxCoherentNok">Two ASCII characters, range 00-99</param>
+            <param name="batchCounter">Two ASCII characters, range 00-99</param>
+            <param name="identifierNumber">Four ASCII characters, range 0000-9999 (Socket(s), EndFitting(s)…)</param>
+            <param name="jobStepName">25 ASCII characters</param>
+            <param name="jobStepType">Two ASCII characters, range 00-99</param>
+            <param name="toolLoosening">1 ASCII character.
+                <para>0=Enable</para> 
+                <para>1=Disable</para>
+                <para>2=Enable only on NOK tightening</para>
+            </param>
+            <param name="jobBatchMode">1 ASCII character. 
+                <para>0=only the OK tightenings are counted</para>
+                <para>1=both the OK and NOK tightenings are counted</para>
+            </param>
+            <param name="batchStatusAtIncrement">1 ASCII character. Batch status after performing an increment or a bypass parameter set: 
+                <para>0=OK</para>
+                <para>1=NOK</para>
+            </param>
+            <param name="decrementBatchAfterLoosening">1 ASCII character.
+                <para>0=Never</para>
+                <para>1=Always</para>
+                <para>2=After OK</para>
+            </param>
+            <param name="currentBatchStatus">1 ASCII character: 
+                <para>0=Not started</para>
+                <para>1=OK</para>
+                <para>2=NOK</para>
+            </param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Job.Advanced.AdvancedJob.#ctor(System.Int32,System.Int32,OpenProtocolInterpreter.AutoSelect,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Revision 999 constructor
+            </summary>
+            <param name="channelId">two ASCII characters, range 00-99</param>
+            <param name="programId">parameter set ID or Multistage ID, three ASCII characters, range 000-999</param>
+            <param name="autoSelect">One ASCII character,
+                <para>0=None</para>
+                <para>1=Auto Next Change</para> 
+                <para>2=I/O</para> 
+                <para>6=Fieldbus</para> 
+                <para>8=Socket tray</para>
+            </param>
+            <param name="batchSize">Two ASCII characters, range 00-99</param>
+            <param name="maxCoherentNok">Two ASCII characters, range 00-99</param>
+            <param name="batchCounter">Two ASCII characters, range 00-99</param>
+        </member>
         <member name="T:OpenProtocolInterpreter.Job.Advanced.AdvancedJobMessages">
             <summary>
             Template for <see cref="T:OpenProtocolInterpreter.Job.Advanced.IAdvancedJob"/> implementers.
@@ -1457,13 +1654,13 @@
         </member>
         <member name="M:OpenProtocolInterpreter.Job.Mid0032.#ctor(System.Int32,System.Int32)">
             <summary>
-            Revision 1 or 2 setter
+            Revision 1, 2, 3 and 4 constructor
             </summary>
             <param name="jobId">
                 Revision 1 range: 00-99 
                 <para>Revision 2 range: 0000-9999</para>
             </param>
-            <param name="revision">Revision number (default = 3)</param>
+            <param name="revision">Revision number (default = 4)</param>
         </member>
         <member name="M:OpenProtocolInterpreter.Job.Mid0032.Validate(System.Collections.Generic.IEnumerable{System.String}@)">
             <summary>
@@ -2727,7 +2924,7 @@
         </member>
         <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0012.#ctor(System.Int32,System.Int32)">
             <summary>
-            Revision 1 and 2 Constructor
+            Revision 1, 2 and 5 Constructor
             </summary>
             <param name="parameterSetId">Parameter Set Id. Three ASCII digits. Range: 000-999</param>
             <param name="revision">Revision</param>
@@ -2785,6 +2982,25 @@
             <param name="angleFinalTarget">The target angle is specified in degrees. 5 ASCII digits. Range: 00000-99999.</param>
             <param name="firstTarget">The torque first target is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
             <param name="startFinalAngle">The start final angle is the torque to reach the snug level. The start final angle is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
+            <param name="revision">Revision number (default = 1)</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0013.#ctor(System.Int32,System.String,OpenProtocolInterpreter.RotationDirection,System.Int32,System.Decimal,System.Decimal,System.Decimal,System.Int32,System.Int32,System.Int32,System.Decimal,System.Decimal,System.DateTime,System.Int32)">
+            <summary>
+            Revision 5 Constructor
+            </summary>
+            <param name="parameterSetId">Three ASCII digits, range 000-999</param>
+            <param name="parameterSetName">25 ASCII characters. Right padded with space if name is less than 25 characters.</param>
+            <param name="rotationDirection">1=CW (Clockwise), 2=CCW (Counter Clockwise)</param>
+            <param name="batchSize">2 ASCII digits, range 00-99</param>
+            <param name="minTorque">The torque min limit is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
+            <param name="maxTorque">The torque max limit is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
+            <param name="torqueFinalTarget">The torque final target is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
+            <param name="minAngle">The angle min value is five bytes long and is specified by five ASCII digits.Range: 00000-99999.</param>
+            <param name="maxAngle">The angle max value is five bytes long and is specified by five ASCII digits.Range: 00000-99999.</param>
+            <param name="angleFinalTarget">The target angle is specified in degrees. 5 ASCII digits. Range: 00000-99999.</param>
+            <param name="firstTarget">The torque first target is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
+            <param name="startFinalAngle">The start final angle is the torque to reach the snug level. The start final angle is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
+            <param name="lastChangeInParameterSet">Date of last change in parameter set setting</param>
             <param name="revision">Revision number (default = 1)</param>
         </member>
         <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0013.Validate(System.Collections.Generic.IEnumerable{System.String}@)">
@@ -3528,6 +3744,13 @@
             <para>Answer: <see cref="T:OpenProtocolInterpreter.Tool.Mid0041"/> Tool data upload reply</para>
             </summary>
         </member>
+        <member name="M:OpenProtocolInterpreter.Tool.Mid0040.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Revision 6 and 7 constructor
+            </summary>
+            <param name="toolNumber">The number of the tool to send tool data for. It is the same number as the tool numbers sent in <see cref="T:OpenProtocolInterpreter.Tool.Mid0701"/> (Tool List Upload)</param>
+            <param name="revision">Revision</param>
+        </member>
         <member name="T:OpenProtocolInterpreter.Tool.Mid0041">
             <summary>
             Tool data upload reply
@@ -3661,6 +3884,81 @@
             <param name="toolModel">12 ASCII characters with padding at the end of the string if needed.The padding is done spaces.</param>
             <param name="revision">Revision number (default = 5)</param>
         </member>
+        <member name="M:OpenProtocolInterpreter.Tool.Mid0041.#ctor(System.String,System.Int64,System.DateTime,System.String,System.Decimal,System.DateTime,System.Int64,OpenProtocolInterpreter.ToolType,System.Int32,OpenProtocolInterpreter.Tool.Mid0041.OpenEndDatas,System.String,System.Decimal,System.Decimal,System.Decimal,OpenProtocolInterpreter.PrimaryTool,System.String,System.Int32,System.String,System.Int32)">
+            <summary>
+            Revision 6 Constructor
+            </summary>
+            <param name="toolSerialNumber">14 ASCII characters</param>
+            <param name="toolNumberOfTightenings">10 ASCII digits. Max 4294967295</param>
+            <param name="lastCalibrationDate">19 ASCII characters.</param>
+            <param name="controllerSerialNumber">10 ASCII characters</param>
+            <param name="calibrationValue">The tool calibration value is multiplied by 100 and sent as an integer (2 decimals truncated). Six ASCII digits.</param>
+            <param name="lastServiceDate">19 ASCII characters.</param>
+            <param name="tighteningsSinceService">The number of tightenings since last service is specified by 10 ASCII digits. Max 4294967295.</param>
+            <param name="toolType">The tool type is specified by 2 ASCII digits</param>
+            <param name="motorSize">The motor size is specified by 2 ASCII digits, range 00-99.
+            <para>00 = no motor, 01-99 = motor size xx in Atlas Copco
+            nomenclature, or motor size = 10xx in Atlas Copco nomenclature </para>
+            <para>(certain numbers correspond to 2
+            different motor sizes, for example 62 for both motor
+            size 62 and motor size 1062)</para></param>
+            <param name="openEndData">The open end data is specified by 3 ASCII digits. 
+            <para>The first digit represents the “use open end”: 1=true, 0=false.</para>
+            <para>The second digit indicates the tightening direction: 0=CW, 1=CCW.</para>
+            <para>The third digit indicates motor rotation: 0=normal,1=inverted.</para>
+            </param>
+            <param name="controllerSoftwareVersion">The software version is specified by 19 ASCII characters.</param>
+            <param name="toolMaxTorque">The tool max toque value is multiplied by 100 and sent as an integer(2 decimals truncated). Six ASCII digits.</param>
+            <param name="gearRatio">The gear ratio value is multiplied by 100 and sent as an integer(2 decimals truncated). Six ASCII digits.</param>
+            <param name="toolFullSpeed">The tool full speed value is multiplied by 100 and sent as an integer(2 decimals truncated). Six ASCII digits.</param>
+            <param name="primaryTool">Primary tool. The primary tool is two byte-long and specified by two ASCII digits.</param>
+            <param name="toolModel">12 ASCII characters with padding at the end of the string if needed.The padding is done spaces.</param>
+            <param name="toolNumber">
+                The number of the tool. It is the same number as the tool numbers sent in <see cref="T:OpenProtocolInterpreter.Tool.Mid0701"/> (Tool List Upload) 
+                <para>In systems with only 1 tool the number sent will always be <c>0001</c></para>
+            </param>
+            <param name="toolArticleNumber">Tool article number</param>
+            <param name="revision">Revision number (default = 6)</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Tool.Mid0041.#ctor(System.String,System.Int64,System.DateTime,System.String,System.Decimal,System.DateTime,System.Int64,OpenProtocolInterpreter.ToolType,System.Int32,OpenProtocolInterpreter.Tool.Mid0041.OpenEndDatas,System.String,System.Decimal,System.Decimal,System.Decimal,OpenProtocolInterpreter.PrimaryTool,System.String,System.Int32,System.String,System.Decimal,System.Decimal,System.Decimal,System.Int32)">
+            <summary>
+            Revision 7 Constructor
+            </summary>
+            <param name="toolSerialNumber">14 ASCII characters</param>
+            <param name="toolNumberOfTightenings">10 ASCII digits. Max 4294967295</param>
+            <param name="lastCalibrationDate">19 ASCII characters.</param>
+            <param name="controllerSerialNumber">10 ASCII characters</param>
+            <param name="calibrationValue">The tool calibration value is multiplied by 100 and sent as an integer (2 decimals truncated). Six ASCII digits.</param>
+            <param name="lastServiceDate">19 ASCII characters.</param>
+            <param name="tighteningsSinceService">The number of tightenings since last service is specified by 10 ASCII digits. Max 4294967295.</param>
+            <param name="toolType">The tool type is specified by 2 ASCII digits</param>
+            <param name="motorSize">The motor size is specified by 2 ASCII digits, range 00-99.
+            <para>00 = no motor, 01-99 = motor size xx in Atlas Copco
+            nomenclature, or motor size = 10xx in Atlas Copco nomenclature </para>
+            <para>(certain numbers correspond to 2
+            different motor sizes, for example 62 for both motor
+            size 62 and motor size 1062)</para></param>
+            <param name="openEndData">The open end data is specified by 3 ASCII digits. 
+            <para>The first digit represents the “use open end”: 1=true, 0=false.</para>
+            <para>The second digit indicates the tightening direction: 0=CW, 1=CCW.</para>
+            <para>The third digit indicates motor rotation: 0=normal,1=inverted.</para>
+            </param>
+            <param name="controllerSoftwareVersion">The software version is specified by 19 ASCII characters.</param>
+            <param name="toolMaxTorque">The tool max toque value is multiplied by 100 and sent as an integer(2 decimals truncated). Six ASCII digits.</param>
+            <param name="gearRatio">The gear ratio value is multiplied by 100 and sent as an integer(2 decimals truncated). Six ASCII digits.</param>
+            <param name="toolFullSpeed">The tool full speed value is multiplied by 100 and sent as an integer(2 decimals truncated). Six ASCII digits.</param>
+            <param name="primaryTool">Primary tool. The primary tool is two byte-long and specified by two ASCII digits.</param>
+            <param name="toolModel">12 ASCII characters with padding at the end of the string if needed.The padding is done spaces.</param>
+            <param name="toolNumber">
+                The number of the tool. It is the same number as the tool numbers sent in <see cref="T:OpenProtocolInterpreter.Tool.Mid0701"/> (Tool List Upload) 
+                <para>In systems with only 1 tool the number sent will always be <c>0001</c></para>
+            </param>
+            <param name="toolArticleNumber">30 ASCII characters</param>
+            <param name="rundownMinSpeed">The rundown min speed value is multiplied by 100 and sent as an integer(2 decimals truncated).6 ASCII digits</param>
+            <param name="downshiftMaxSpeed">The downshift max speed value is multiplied by 100 and sent as an integer(2 decimals truncated).6 ASCII digits</param>
+            <param name="downshiftMinSpeed">The downshift min speed value is multiplied by 100 and sent as an integer(2 decimals truncated).6 ASCII digits</param>
+            <param name="revision">Revision number (default = 7)</param>
+        </member>
         <member name="M:OpenProtocolInterpreter.Tool.Mid0041.Validate(System.Collections.Generic.IEnumerable{System.String}@)">
             <summary>
             Validate all fields size
@@ -3673,12 +3971,33 @@
             <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted</para>
             </summary>
         </member>
+        <member name="M:OpenProtocolInterpreter.Tool.Mid0042.#ctor(System.Int32,OpenProtocolInterpreter.DisableType,System.Int32)">
+            <summary>
+            Revision 2 constructor
+            </summary>
+            <param name="toolNumber">The number of the tool to disable. It is the same number as the tool numbers sent in <see cref="T:OpenProtocolInterpreter.Tool.Mid0701"/> (Tool List Upload)</param>
+            <param name="disableType">
+                The type of disable:
+                <para>00 = Disable(lock)</para>
+                <para>01 = Inhibit NOK</para>
+                <para>02 = Inhibit OK</para>
+                <para>03 = Inhibit No result</para>
+            </param>
+            <param name="revision">Revision</param>
+        </member>
         <member name="T:OpenProtocolInterpreter.Tool.Mid0043">
             <summary>
             Enable tool
             <para>Message sent by: Integrator</para>
             <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted</para>
             </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Tool.Mid0043.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Revision 2 constructor
+            </summary>
+            <param name="toolNumber">The number of the tool to disable. It is the same number as the tool numbers sent in <see cref="T:OpenProtocolInterpreter.Tool.Mid0701"/> (Tool List Upload)</param>
+            <param name="revision">Revision</param>
         </member>
         <member name="T:OpenProtocolInterpreter.Tool.Mid0044">
             <summary>
@@ -3710,12 +4029,22 @@
             </para>
             </summary>
         </member>
-        <member name="M:OpenProtocolInterpreter.Tool.Mid0045.#ctor(OpenProtocolInterpreter.CalibrationUnit,System.Decimal)">
+        <member name="M:OpenProtocolInterpreter.Tool.Mid0045.#ctor(OpenProtocolInterpreter.CalibrationUnit,System.Decimal,System.Int32)">
             <summary>
-            Revision 1 Constructor
+            Revision 1 constructor
             </summary>
             <param name="calibrationValueUnit">The unit in which the calibration value is sent. The calibration value unit is one byte long and specified by one ASCII digit.</param>
             <param name="calibrationValue">The calibration value is multiplied by 100 and sent as an integer (2 decimals truncated). The calibration value is six bytes long and is specified by six ASCII digits.</param>
+            <param name="revision">Revision</param>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Tool.Mid0045.#ctor(OpenProtocolInterpreter.CalibrationUnit,System.Decimal,System.Int32,System.Int32)">
+            <summary>
+            Revision 2 constructor
+            </summary>
+            <param name="calibrationValueUnit">The unit in which the calibration value is sent. The calibration value unit is one byte long and specified by one ASCII digit.</param>
+            <param name="calibrationValue">The calibration value is multiplied by 100 and sent as an integer (2 decimals truncated). The calibration value is six bytes long and is specified by six ASCII digits.</param>
+            <param name="channelNumber">The number of the channel to set the calibration value.</param>
+            <param name="revision">Revision</param>
         </member>
         <member name="T:OpenProtocolInterpreter.Tool.Mid0046">
             <summary>
