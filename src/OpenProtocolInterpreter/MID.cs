@@ -90,7 +90,7 @@ namespace OpenProtocolInterpreter
             return package;
         }
 
-        protected virtual Dictionary<int, List<DataField>> RegisterDatafields() => new Dictionary<int, List<DataField>>();
+        protected virtual Dictionary<int, List<DataField>> RegisterDatafields() => new();
 
         protected virtual Header ProcessHeader(string package)
         {
