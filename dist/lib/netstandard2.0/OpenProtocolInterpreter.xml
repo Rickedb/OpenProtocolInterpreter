@@ -1932,6 +1932,25 @@
             Abstract class which every Mid should inherit, containing all of default data, such as <see cref="T:OpenProtocolInterpreter.Mid.Header"/> data and methods.
             </summary>
         </member>
+        <member name="T:OpenProtocolInterpreter.MidExtensions">
+            <summary>
+            Mid Extensions functions
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidExtensions.PackWithNul(OpenProtocolInterpreter.Mid)">
+            <summary>
+            <see cref="M:OpenProtocolInterpreter.Mid.Pack"/> then concatenate NUL charactor to it`s end
+            </summary>
+            <param name="mid">Mid instance</param>
+            <returns>Mid's package in string with NUL character</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidExtensions.PackBytesWithNul(OpenProtocolInterpreter.Mid)">
+            <summary>
+            <see cref="M:OpenProtocolInterpreter.Mid.PackBytes"/> then concatenate NUL charactor to it`s end
+            </summary>
+            <param name="mid">Mid instance</param>
+            <returns>Mid's package in bytes with NUL character</returns>
+        </member>
         <member name="T:OpenProtocolInterpreter.MidInterpreter">
             <summary>
             Responsible for building and parsing any incoming Mid. 
