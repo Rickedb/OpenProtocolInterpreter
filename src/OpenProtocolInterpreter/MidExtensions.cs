@@ -9,21 +9,6 @@ namespace OpenProtocolInterpreter
     public static class MidExtensions
     {
         /// <summary>
-        /// Get RevisionByFields property from Mid
-        /// </summary>
-        /// <param name="mid">Mid instance</param>
-        /// <returns><RevisionByFields dictionary</returns>
-        public static IDictionary<int, List<DataField>> GetRevisionByFields(this Mid mid)
-        {
-            if (mid == default)
-            {
-                return default;
-            }
-
-            return mid.RevisionsByFields;
-        }
-
-        /// <summary>
         /// <see cref="Mid.Pack"/> then concatenate NUL charactor to it`s end
         /// </summary>
         /// <param name="mid">Mid instance</param>
