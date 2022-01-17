@@ -26,6 +26,14 @@ namespace MIDTesters
         }
 
         [TestMethod]
+        public void TestPackWithNul()
+        {
+            var package = new Mid0001(true).PackWithNul();
+            Assert.IsNotNull(package);
+            Assert.AreEqual('\0', package[package.Length - 1]);
+        }
+
+        [TestMethod]
         public void TestPackBytesWithNul()
         {
             var bytes = new Mid0001(true).PackBytesWithNul();
