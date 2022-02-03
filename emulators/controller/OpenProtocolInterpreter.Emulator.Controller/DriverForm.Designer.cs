@@ -78,6 +78,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.CellIdTextBox = new System.Windows.Forms.TextBox();
             this.JobTab = new System.Windows.Forms.TabPage();
+            this.SendJobInfoButton = new System.Windows.Forms.Button();
             this.label28 = new System.Windows.Forms.Label();
             this.JobBatchCounterTextBox = new System.Windows.Forms.TextBox();
             this.JobBatchModeComboBox = new System.Windows.Forms.ComboBox();
@@ -93,17 +94,22 @@
             this.label23 = new System.Windows.Forms.Label();
             this.IdentifierPart1TextBox = new System.Windows.Forms.TextBox();
             this.SendVinNumberButton = new System.Windows.Forms.Button();
-            this.SendJobInfoButton = new System.Windows.Forms.Button();
+            this.label29 = new System.Windows.Forms.Label();
+            this.ServerPortNumeric = new System.Windows.Forms.NumericUpDown();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.ConnectedStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabControl1.SuspendLayout();
             this.TighteningTab.SuspendLayout();
             this.JobTab.SuspendLayout();
             this.VinMessagesTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ServerPortNumeric)).BeginInit();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // StartStopServerButton
             // 
             this.StartStopServerButton.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.StartStopServerButton.Location = new System.Drawing.Point(744, 417);
+            this.StartStopServerButton.Location = new System.Drawing.Point(748, 406);
             this.StartStopServerButton.Name = "StartStopServerButton";
             this.StartStopServerButton.Size = new System.Drawing.Size(149, 67);
             this.StartStopServerButton.TabIndex = 0;
@@ -613,6 +619,17 @@
             this.JobTab.Text = "Job";
             this.JobTab.UseVisualStyleBackColor = true;
             // 
+            // SendJobInfoButton
+            // 
+            this.SendJobInfoButton.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.SendJobInfoButton.Location = new System.Drawing.Point(666, 311);
+            this.SendJobInfoButton.Name = "SendJobInfoButton";
+            this.SendJobInfoButton.Size = new System.Drawing.Size(205, 43);
+            this.SendJobInfoButton.TabIndex = 46;
+            this.SendJobInfoButton.Text = "Send Job Info";
+            this.SendJobInfoButton.UseVisualStyleBackColor = true;
+            this.SendJobInfoButton.Click += new System.EventHandler(this.SendJobInfoButton_Click);
+            // 
             // label28
             // 
             this.label28.AutoSize = true;
@@ -756,22 +773,61 @@
             this.SendVinNumberButton.UseVisualStyleBackColor = true;
             this.SendVinNumberButton.Click += new System.EventHandler(this.SendVinNumberButton_Click);
             // 
-            // SendJobInfoButton
+            // label29
             // 
-            this.SendJobInfoButton.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.SendJobInfoButton.Location = new System.Drawing.Point(666, 311);
-            this.SendJobInfoButton.Name = "SendJobInfoButton";
-            this.SendJobInfoButton.Size = new System.Drawing.Size(205, 43);
-            this.SendJobInfoButton.TabIndex = 46;
-            this.SendJobInfoButton.Text = "Send Job Info";
-            this.SendJobInfoButton.UseVisualStyleBackColor = true;
-            this.SendJobInfoButton.Click += new System.EventHandler(this.SendJobInfoButton_Click);
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(622, 430);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(32, 15);
+            this.label29.TabIndex = 46;
+            this.label29.Text = "Port:";
+            // 
+            // ServerPortNumeric
+            // 
+            this.ServerPortNumeric.Location = new System.Drawing.Point(622, 448);
+            this.ServerPortNumeric.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.ServerPortNumeric.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.ServerPortNumeric.Name = "ServerPortNumeric";
+            this.ServerPortNumeric.Size = new System.Drawing.Size(120, 23);
+            this.ServerPortNumeric.TabIndex = 47;
+            this.ServerPortNumeric.Value = new decimal(new int[] {
+            4545,
+            0,
+            0,
+            0});
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ConnectedStatusLabel});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 474);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(909, 22);
+            this.statusStrip1.TabIndex = 48;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // ConnectedStatusLabel
+            // 
+            this.ConnectedStatusLabel.Name = "ConnectedStatusLabel";
+            this.ConnectedStatusLabel.Size = new System.Drawing.Size(79, 17);
+            this.ConnectedStatusLabel.Text = "Disconnected";
             // 
             // DriverForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(909, 496);
+            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.ServerPortNumeric);
+            this.Controls.Add(this.label29);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.StartStopServerButton);
             this.Name = "DriverForm";
@@ -783,7 +839,11 @@
             this.JobTab.PerformLayout();
             this.VinMessagesTab.ResumeLayout(false);
             this.VinMessagesTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ServerPortNumeric)).EndInit();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -855,5 +915,9 @@
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.TextBox Job_JobIdTextBox;
         private System.Windows.Forms.Button SendJobInfoButton;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.NumericUpDown ServerPortNumeric;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel ConnectedStatusLabel;
     }
 }

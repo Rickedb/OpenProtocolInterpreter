@@ -1,10 +1,12 @@
-﻿using OpenProtocolInterpreter.Emulator.Controller.Drivers;
+﻿using OpenProtocolInterpreter.Communication;
+using OpenProtocolInterpreter.Emulator.Controller.Drivers;
 using OpenProtocolInterpreter.Emulator.Controller.Events;
 using OpenProtocolInterpreter.Job;
 using OpenProtocolInterpreter.Tightening;
 using OpenProtocolInterpreter.Vin;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace OpenProtocolInterpreter.Emulator.Controller
@@ -51,6 +53,13 @@ namespace OpenProtocolInterpreter.Emulator.Controller
         {
             switch (e.Mid)
             {
+                case Mid0001 mid0001:
+                    Invoke(new Action(() =>
+                    {
+                        ConnectedStatusLabel.Text = "Connected";
+                        ConnectedStatusLabel.BackColor = Color.Green;
+                    }));
+                    break;
                 case Mid0050 mid0050:
                     Invoke(new Action(() =>
                     {
@@ -79,7 +88,8 @@ namespace OpenProtocolInterpreter.Emulator.Controller
 
         private async void StartStopServerButton_Click(object sender, EventArgs e)
         {
-            await _driver.StartAsync();
+            ServerPortNumeric.ReadOnly = true;
+            await _driver.StartAsync((int)ServerPortNumeric.Value);
         }
 
         private void OnLog(object sender, string e)

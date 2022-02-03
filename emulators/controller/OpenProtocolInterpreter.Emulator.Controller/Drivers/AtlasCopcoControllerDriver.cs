@@ -16,11 +16,11 @@ namespace OpenProtocolInterpreter.Emulator.Controller.Drivers
 {
     public class AtlasCopcoControllerDriver
     {
-        private readonly SimpleTcpServer _server;
         private readonly MidInterpreter _midInterpreter;
         private readonly IList<string> _connectedClients;
         private readonly IDictionary<int, Func<Mid, Mid>> _autoReplies;
         private readonly Dictionary<int, Action<string, Mid>> _handlers;
+        private SimpleTcpServer Server;
 
         public event EventHandler<string> ClientConnected;
         public event EventHandler<string> ClientDisconnected;
@@ -32,8 +32,6 @@ namespace OpenProtocolInterpreter.Emulator.Controller.Drivers
         public AtlasCopcoControllerDriver()
         {
             _connectedClients = new List<string>();
-            _server = new SimpleTcpServer("127.0.0.1", 4545);
-            _server.Settings.IdleClientTimeoutMs = 10000;
             _midInterpreter = new MidInterpreter().UseAllMessages(InterpreterMode.Controller);
             _autoReplies = new Dictionary<int, Func<Mid, Mid>>()
             {
@@ -48,18 +46,20 @@ namespace OpenProtocolInterpreter.Emulator.Controller.Drivers
             };
         }
 
-        public Task StartAsync()
+        public Task StartAsync(int port)
         {
-            _server.Events.ClientConnected += OnClientConnected;
-            _server.Events.ClientDisconnected += OnClientDisconnected;
-            _server.Events.DataReceived += OnDataReceived;
-            return _server.StartAsync();
+            Server = new SimpleTcpServer("127.0.0.1", port);
+            Server.Settings.IdleClientTimeoutMs = 10000;
+            Server.Events.ClientConnected += OnClientConnected;
+            Server.Events.ClientDisconnected += OnClientDisconnected;
+            Server.Events.DataReceived += OnDataReceived;
+            return Server.StartAsync();
         }
 
         public async Task SendAsync(string ipPort, Mid mid)
         {
             var data = mid.PackBytes();
-            await _server.SendAsync(ipPort, data);
+            await Server.SendAsync(ipPort, data);
         }
 
         protected virtual Mid OnCommunicationStart(Mid0001 mid)
@@ -91,7 +91,7 @@ namespace OpenProtocolInterpreter.Emulator.Controller.Drivers
             {
                 var responseMid = responseCreator(mid);
                 var bytes = responseMid.PackBytes();
-                _server.Send(e.IpPort, bytes);
+                Server.Send(e.IpPort, bytes);
             }
             MessageReceived?.Invoke(this, new MidMessageEvent
             {
