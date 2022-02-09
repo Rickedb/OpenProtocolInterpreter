@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenProtocolInterpreter;
 using OpenProtocolInterpreter.Vin;
 
 namespace MIDTesters.Vin
@@ -40,7 +41,7 @@ namespace MIDTesters.Vin
 
             Assert.AreEqual(typeof(Mid0052), mid.GetType());
             Assert.IsNotNull(mid.VinNumber);
-            Assert.AreEqual(package, mid.Pack());
+            Assert.AreEqual(package, mid.PackWithNul());
         }
 
         [TestMethod]
@@ -52,7 +53,7 @@ namespace MIDTesters.Vin
 
             Assert.AreEqual(typeof(Mid0052), mid.GetType());
             Assert.IsNotNull(mid.VinNumber);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            Assert.IsTrue(mid.PackBytesWithNul().SequenceEqual(bytes));
         }
 
         [TestMethod]
