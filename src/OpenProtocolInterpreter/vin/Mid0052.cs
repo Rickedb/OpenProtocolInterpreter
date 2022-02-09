@@ -108,7 +108,7 @@ namespace OpenProtocolInterpreter.Vin
             {
                 var vinNumberField = GetField(1, (int)DataFields.VIN_NUMBER);
                 vinNumberField.HasPrefix = true;
-                vinNumberField.Size = package.Length - 103;
+                vinNumberField.Size = HeaderData.Length - 103;
                 if (vinNumberField.Size > 25)
                 {
                     int addedSize = vinNumberField.Size - 25;
@@ -118,7 +118,7 @@ namespace OpenProtocolInterpreter.Vin
                 }
             }
             else
-                GetField(1, (int)DataFields.VIN_NUMBER).Size = package.Length - 20;
+                GetField(1, (int)DataFields.VIN_NUMBER).Size = HeaderData.Length - 20;
             ProcessDataFields(package);
             return this;
         }

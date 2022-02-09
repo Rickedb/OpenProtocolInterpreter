@@ -35,7 +35,7 @@ namespace MIDTesters.Vin
         [TestMethod]
         public void Mid0052Revision1VehicleIdLengthLower()
         {
-            string package = "00450052001         VehicleIdNumber          ";
+            string package = "00450052001         VehicleIdNumber          \0";
             var mid = _midInterpreter.Parse<Mid0052>(package);
 
             Assert.AreEqual(typeof(Mid0052), mid.GetType());
@@ -46,7 +46,7 @@ namespace MIDTesters.Vin
         [TestMethod]
         public void Mid0052ByteRevision1VehicleIdLengthLower()
         {
-            string package = "00450052001         VehicleIdNumber          ";
+            string package = "00450052001         VehicleIdNumber          \0";
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0052>(bytes);
 
