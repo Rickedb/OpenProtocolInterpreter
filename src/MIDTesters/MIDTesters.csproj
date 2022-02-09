@@ -194,6 +194,7 @@
     <Compile Include="Tightening\TestMid0063.cs" />
     <Compile Include="Tightening\TestMid0064.cs" />
     <Compile Include="Tightening\TestMid0065.cs" />
+    <Compile Include="Tightening\TestMid0066.cs" />
     <Compile Include="Time\TestMid0080.cs" />
     <Compile Include="Time\TestMid0081.cs" />
     <Compile Include="Time\TestMid0082.cs" />
