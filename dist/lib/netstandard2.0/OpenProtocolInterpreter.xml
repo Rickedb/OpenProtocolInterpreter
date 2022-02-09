@@ -3682,6 +3682,20 @@
             <para>Answer: None</para>
             </summary>
         </member>
+        <member name="T:OpenProtocolInterpreter.Tightening.Mid0066">
+            <summary>
+            Number of offline results
+            <para>Number of results when offline</para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: None</para>
+            </summary>
+        </member>
+        <member name="M:OpenProtocolInterpreter.Tightening.Mid0066.#ctor(System.Int32)">
+            <summary>
+            Revision 1 constructor
+            </summary>
+            <param name="numberOfOfflineResults">2 ASCII digits. Max 99</param>
+        </member>
         <member name="T:OpenProtocolInterpreter.Tightening.StageResult">
             <summary>
             Represents a Stage Result entity
