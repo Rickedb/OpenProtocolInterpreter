@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31717.71
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenProtocolInterpreter.Emulator.Controller", "OpenProtocolInterpreter.Emulator.Controller\OpenProtocolInterpreter.Emulator.Controller.csproj", "{0D6F2748-A8A2-417A-900F-DF27AA99CB7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenProtocolInterpreter.Emulator.Controller", "OpenProtocolInterpreter.Emulator.Controller\OpenProtocolInterpreter.Emulator.Controller.csproj", "{0D6F2748-A8A2-417A-900F-DF27AA99CB7A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenProtocolInterpreter.Emulator.AutomaticControllers", "OpenProtocolInterpreter.Emulator.AutomaticControllers\OpenProtocolInterpreter.Emulator.AutomaticControllers.csproj", "{61B2F6F5-B0CF-498C-9590-C1F5C7930B75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenProtocolInterpreter.Emulator.Drivers", "OpenProtocolInterpreter.Emulator.Drivers\OpenProtocolInterpreter.Emulator.Drivers.csproj", "{7DC1D9C6-445D-4F64-AD94-FFD17186AAA1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{0D6F2748-A8A2-417A-900F-DF27AA99CB7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D6F2748-A8A2-417A-900F-DF27AA99CB7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D6F2748-A8A2-417A-900F-DF27AA99CB7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61B2F6F5-B0CF-498C-9590-C1F5C7930B75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61B2F6F5-B0CF-498C-9590-C1F5C7930B75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61B2F6F5-B0CF-498C-9590-C1F5C7930B75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61B2F6F5-B0CF-498C-9590-C1F5C7930B75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DC1D9C6-445D-4F64-AD94-FFD17186AAA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DC1D9C6-445D-4F64-AD94-FFD17186AAA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DC1D9C6-445D-4F64-AD94-FFD17186AAA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DC1D9C6-445D-4F64-AD94-FFD17186AAA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OpenProtocolInterpreter" Version="4.1.0" />
+    <PackageReference Include="SuperSimpleTcp" Version="2.5.0.2" />
+  </ItemGroup>
+
+</Project>
