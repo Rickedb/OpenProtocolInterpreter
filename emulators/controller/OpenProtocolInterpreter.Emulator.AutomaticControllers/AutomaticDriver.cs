@@ -1,66 +1,180 @@
-﻿using OpenProtocolInterpreter.Communication;
+﻿using OpenProtocolInterpreter.Alarm;
+using OpenProtocolInterpreter.Communication;
 using OpenProtocolInterpreter.Emulator.Drivers;
-using OpenProtocolInterpreter.Emulator.Drivers.Events;
 using OpenProtocolInterpreter.Job;
+using OpenProtocolInterpreter.Job.Advanced;
 using OpenProtocolInterpreter.Tightening;
 using OpenProtocolInterpreter.Vin;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OpenProtocolInterpreter.Emulator.AutomaticControllers
 {
-    internal class AutomaticDriver
+    internal class AutomaticDriver : AtlasCopcoControllerDriver
     {
         private readonly ControllerConfiguration _configuration;
-        private readonly AtlasCopcoControllerDriver _driver;
         private readonly Random _random;
         private readonly System.Threading.Timer _timer;
-        private int TighteningsSent;
+        private readonly List<int> _jobIdList = new() { 1, 2, 3 };
+        private readonly List<Mid0061> _tighteningsPerformed;
+        private string CurrentVinNumber;
+        private int OkTighteningSentInJob;
+        private int CurrentJobId;
 
         public AutomaticDriver(ControllerConfiguration configuration)
+            : base(configuration.ControllerName)
         {
             _configuration = configuration;
-            _driver = new AtlasCopcoControllerDriver(_configuration.ControllerName);
-            TighteningsSent = 0;
+            OkTighteningSentInJob = 0;
+            _tighteningsPerformed = new List<Mid0061>();
+            _random = new Random();
             _timer = new System.Threading.Timer(new TimerCallback(OnTimer), null, Timeout.Infinite, Timeout.Infinite);
-        }
-
-        public void Start()
-        {
-            _driver.StartAsync(_configuration.Port);
-            _driver.MessageReceived += OnMessageReceived;
-            var delay = _random.Next(_configuration.MinTighteningDelay, _configuration.MaxTighteningDelay);
-            _timer.Change(, Timeout.Infinite);
-        }
-
-        private async void OnMessageReceived(object sender, MidMessageEvent e)
-        {
-            switch (e.Mid)
+            AddOrUpdateReply(new Dictionary<int, Func<Mid, Mid>>()
             {
-                case Mid0050 mid0050:
-                    await _driver.SendAsync(e.ClientIpPort, new Mid0052(mid0050.VinNumber));
-                    break;
-                case Mid0038 mid0038:
-                    await _driver.SendAsync(e.ClientIpPort, new Mid0005(mid0038.HeaderData.Mid));
-                    var delay = _random.Next(_configuration.MinTighteningDelay, _configuration.MaxTighteningDelay);
-                    _timer.Change(delay, Timeout.Infinite);
-                    break;
-            }
+                { Mid0030.MID, mid => new Mid0031(_jobIdList.Count, _jobIdList) },
+                { Mid0034.MID, mid => PositiveAcknowledge(mid) },
+                { Mid0038.MID, mid => OnJobSelected((Mid0038)mid) },
+                { Mid0050.MID, mid => OnVinDownloadRequest((Mid0050)mid) },
+                { Mid0051.MID, mid => PositiveAcknowledge(mid) },
+                { Mid0060.MID, mid => PositiveAcknowledge(mid) },
+                { Mid0064.MID, mid => OnOldTighteningRequest((Mid0064)mid) },
+                { Mid0070.MID, mid => PositiveAcknowledge(mid) },
+                { Mid0127.MID, mid => OnJobAbort((Mid0127)mid) }
+            });
         }
+
+        public Task StartAsync()
+        {
+            return StartAsync(_configuration.Port);
+        }
+
         private async void OnTimer(object? obj)
         {
-            var mid61 = new Mid0061();
-            foreach(var client in _driver.ConnectedClients)
+            var angleStatus = (TighteningValueStatus)(_configuration.TighteningStrategy == Strategy.Random ? _random.Next(0, 2) : 1);
+            var torqueStatus = (TighteningValueStatus)(_configuration.TighteningStrategy == Strategy.Random ? _random.Next(0, 2) : 1);
+            var tighteningStatus = angleStatus == TighteningValueStatus.OK && torqueStatus == TighteningValueStatus.OK;
+
+            if (tighteningStatus || OkTighteningSentInJob == 0)
             {
-                await _driver.SendAsync(client, mid61);
+                OkTighteningSentInJob++;
+            }
+            var mid61 = new Mid0061(1)
+            {
+                CellId = 1,
+                ChannelId = 1,
+                TorqueControllerName = _configuration.ControllerName,
+                VinNumber = CurrentVinNumber,
+                JobId = CurrentJobId,
+                ParameterSetId = 1,
+                BatchSize = 5,
+                BatchCounter = OkTighteningSentInJob,
+                TighteningStatus = tighteningStatus,
+                TorqueStatus = torqueStatus,
+                AngleStatus = angleStatus,
+                TorqueMinLimit = 100,
+                TorqueMaxLimit = 300,
+                TorqueFinalTarget = 200,
+                Torque = GenerateFakeTorqueAngleValue(torqueStatus, 100, 300),
+                AngleMinLimit = 60,
+                AngleMaxLimit = 360,
+                AngleFinalTarget = 220,
+                Angle = GenerateFakeTorqueAngleValue(angleStatus, 60, 360),
+                Timestamp = DateTime.Now,
+                LastChangeInParameterSet = DateTime.Today,
+                BatchStatus = OkTighteningSentInJob >= 5 ? BatchStatus.OK : BatchStatus.RUNNING,
+                TighteningId = _tighteningsPerformed.Count + 1
+            };
+            _tighteningsPerformed.Add(mid61);
+            foreach (var client in ConnectedClients)
+            {
+                await SendAsync(client, mid61);
             }
 
-            TighteningsSent++;
+            var mid35 = new Mid0035(1)
+            {
+                JobId = CurrentJobId,
+                VinNumber = CurrentVinNumber,
+                JobBatchMode = JobBatchMode.ONLY_OK_TIGHTENINGS,
+                JobBatchSize = 5,
+                JobBatchCounter = OkTighteningSentInJob,
+                TimeStamp = DateTime.Now
+            };
+
+            if (OkTighteningSentInJob >= 5)
+            {
+                OkTighteningSentInJob = 0;
+                CurrentJobId = 0;
+                mid35.JobStatus = JobStatus.OK;
+                _timer.Change(Timeout.Infinite, Timeout.Infinite);
+            }
+            else
+            {
+                mid35.JobStatus = JobStatus.NOT_COMPLETED;
+                var delay = _random.Next(_configuration.MinTighteningDelay, _configuration.MaxTighteningDelay);
+                _timer.Change(delay, Timeout.Infinite);
+            }
+
+            foreach (var client in ConnectedClients)
+            {
+                await SendAsync(client, mid35);
+            }
+        }
+
+        private Mid OnJobSelected(Mid0038 mid)
+        {
+            CurrentJobId = mid.JobId;
+            OkTighteningSentInJob = 0;
             var delay = _random.Next(_configuration.MinTighteningDelay, _configuration.MaxTighteningDelay);
             _timer.Change(delay, Timeout.Infinite);
+            return PositiveAcknowledge(mid);
+        }
+
+        private Mid OnVinDownloadRequest(Mid0050 mid)
+        {
+            CurrentVinNumber = mid.VinNumber;
+            return PositiveAcknowledge(mid);
+        }
+
+        private Mid OnOldTighteningRequest(Mid0064 mid)
+        {
+            if (_tighteningsPerformed.Count < mid.TighteningId || _tighteningsPerformed.Count == 0)
+            {
+                return new Mid0004(mid.HeaderData.Mid, Error.TIGHTENING_ID_REQUESTED_NOT_FOUND);
+            }
+
+            var id = (mid.TighteningId > 0 ? (int)mid.TighteningId : _tighteningsPerformed.Count) - 1;
+            var tightening = _tighteningsPerformed[id];
+            var oldTightening = new Mid0065(1)
+            {
+                TighteningId = tightening.TighteningId,
+                VinNumber = tightening.VinNumber,
+                ParameterSetId = tightening.ParameterSetId,
+                BatchCounter = tightening.BatchCounter,
+                TighteningStatus = tightening.TighteningStatus,
+                TorqueStatus = tightening.TorqueStatus,
+                AngleStatus = tightening.AngleStatus,
+                Torque = tightening.Torque,
+                Angle = tightening.Angle,
+                Timestamp = tightening.Timestamp,
+                BatchStatus = tightening.BatchStatus
+            };
+            return oldTightening;
+        }
+
+        private Mid OnJobAbort(Mid0127 mid)
+        {
+            CurrentJobId = 0;
+            OkTighteningSentInJob = 0;
+            _timer.Change(Timeout.Infinite, Timeout.Infinite);
+            return PositiveAcknowledge(mid);
+        }
+
+        private int GenerateFakeTorqueAngleValue(TighteningValueStatus status, int min, int max)
+        {
+            return status switch
+            {
+                TighteningValueStatus.LOW => _random.Next(0, min),
+                TighteningValueStatus.HIGH => _random.Next(max, max + 200),
+                _ => _random.Next(min, max),
+            };
         }
     }
 }

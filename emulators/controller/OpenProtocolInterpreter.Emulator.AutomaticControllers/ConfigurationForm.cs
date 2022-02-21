@@ -37,8 +37,8 @@ namespace OpenProtocolInterpreter.Emulator.AutomaticControllers
                     if (row.Index < ConfigurationGrid.Rows.Count - 1)
                     {
                         var configuration = GetFromRow(row);
-                        var driver = new AtlasCopcoControllerDriver(configuration.ControllerName);
-                        driver.StartAsync(configuration.Port);
+                        var driver = new AutomaticDriver(configuration);
+                        driver.StartAsync();
                     }
                 }
                 btnStartStopServer.Text = "Stop Server";
@@ -46,23 +46,6 @@ namespace OpenProtocolInterpreter.Emulator.AutomaticControllers
             else
             {
                 btnStartStopServer.Text = "Start Server";
-            }
-        }
-
-        private async void OnMessageReceived(object sender, MidMessageEvent e)
-        {
-            switch (e.Mid)
-            {
-                case Mid0001 mid0001:
-                    //Invoke(new Action(() =>
-                    //{
-                    //    ConnectedStatusLabel.Text = "Connected";
-                    //    ConnectedStatusLabel.BackColor = Color.Green;
-                    //}));
-                    break;
-                case Mid0050 mid0050:
-                    await e.Driver.SendAsync(e.ClientIpPort, new Mid0052(mid0050.VinNumber));
-                    break;
             }
         }
 
@@ -94,7 +77,21 @@ namespace OpenProtocolInterpreter.Emulator.AutomaticControllers
             ConfigurationGrid.Rows.AddRange(rows);
         }
 
-        private void ConfigurationForm_FormClosing(object sender, FormClosingEventArgs e)
+        private ControllerConfiguration GetFromRow(DataGridViewRow row)
+        {
+            return new ControllerConfiguration()
+            {
+                ControllerName = row.Cells.GetString("ControllerName"),
+                Port = row.Cells.GetInt("Port"),
+                TighteningStrategy = row.Cells.GetEnum<Strategy>("TighteningStrategy"),
+                JobStrategy = row.Cells.GetEnum<Strategy>("JobStrategy"),
+                MinTighteningDelay = row.Cells.GetInt("MinTighteningDelay"),
+                MaxTighteningDelay = row.Cells.GetInt("MaxTighteningDelay"),
+                Enabled = row.Cells.GetBool("Enabled")
+            };
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
         {
             var collection = _database.GetCollection<ControllerConfiguration>();
             collection.DeleteAll();
@@ -109,18 +106,25 @@ namespace OpenProtocolInterpreter.Emulator.AutomaticControllers
             }
         }
 
-        private ControllerConfiguration GetFromRow(DataGridViewRow row)
+        private void OnAutoCreateControllers_Click(object sender, EventArgs e)
         {
-            return new ControllerConfiguration()
+            ConfigurationGrid.Rows.Clear();
+            var defaultPort = 4545;
+            var rdn = new Random();
+            for(int i = 0; i < numericTotalControllers.Value; i++)
             {
-                ControllerName = row.Cells.GetString("ControllerName"),
-                Port = row.Cells.GetInt("Port"),
-                TighteningStrategy = row.Cells.GetEnum<Strategy>("TighteningStrategy"),
-                JobStrategy = row.Cells.GetEnum<Strategy>("JobStrategy"),
-                MinTighteningDelay = row.Cells.GetInt("MinTighteningDelay"),
-                MaxTighteningDelay = row.Cells.GetInt("MaxTighteningDelay"),
-                Enabled = row.Cells.GetBool("Enabled")
-            };
+                var minDelay = rdn.Next(100, 10000);
+                var maxDelay = rdn.Next(minDelay, 10000);
+                ConfigurationGrid.Rows.Add(
+                    $"Controller {i}",
+                    defaultPort + i,
+                    Strategy.Random.ToString(),
+                    Strategy.OnlyOk.ToString(),
+                    minDelay,
+                    maxDelay,
+                    true,
+                    "View Logs");
+            }
         }
     }
 }
