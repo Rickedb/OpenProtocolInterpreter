@@ -21,7 +21,7 @@ namespace MIDTesters.Tool
         }
 
         [TestMethod]
-        public void Mid0047ByteRevision1()
+        public void Mid0048ByteRevision1()
         {
             string package = "00450048001         0107022017-12-01:20:12:45";
             byte[] bytes = GetAsciiBytes(package);

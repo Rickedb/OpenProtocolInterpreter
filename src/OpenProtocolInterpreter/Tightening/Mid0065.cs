@@ -21,7 +21,7 @@ namespace OpenProtocolInterpreter.Tightening
         private readonly IValueConverter<TighteningErrorStatus> _tighteningErrorStatusConverter;
         private readonly IValueConverter<TighteningErrorStatus2> _tighteningErrorStatus2Converter;
         public const int MID = 65;
-        private const int LAST_REVISION = 6;
+        private const int LAST_REVISION = 7;
 
         public long TighteningId
         {
@@ -51,12 +51,12 @@ namespace OpenProtocolInterpreter.Tightening
         public TighteningValueStatus TorqueStatus
         {
             get => (TighteningValueStatus)GetField(GetCurrentRevisionIndex(), (int)DataFields.TORQUE_STATUS).GetValue(_intConverter.Convert);
-            set => GetField(GetCurrentRevisionIndex(), (int)DataFields.BATCH_COUNTER).SetValue(_intConverter.Convert, (int)value);
+            set => GetField(GetCurrentRevisionIndex(), (int)DataFields.TORQUE_STATUS).SetValue(_intConverter.Convert, (int)value);
         }
         public TighteningValueStatus AngleStatus
         {
             get => (TighteningValueStatus)GetField(GetCurrentRevisionIndex(), (int)DataFields.ANGLE_STATUS).GetValue(_intConverter.Convert);
-            set => GetField(GetCurrentRevisionIndex(), (int)DataFields.BATCH_COUNTER).SetValue(_intConverter.Convert, (int)value);
+            set => GetField(GetCurrentRevisionIndex(), (int)DataFields.ANGLE_STATUS).SetValue(_intConverter.Convert, (int)value);
         }
         public decimal Torque
         {
@@ -89,11 +89,7 @@ namespace OpenProtocolInterpreter.Tightening
             get => (Strategy)GetField(2, (int)DataFields.STRATEGY).GetValue(_intConverter.Convert);
             set => GetField(2, (int)DataFields.STRATEGY).SetValue(_intConverter.Convert, (int)value);
         }
-        public StrategyOptions StrategyOptions
-        {
-            get => GetField(2, (int)DataFields.STRATEGY_OPTIONS).GetValue(_strategyOptionsConverter.ConvertFromBytes);
-            set => GetField(2, (int)DataFields.STRATEGY_OPTIONS).SetRawValue(_strategyOptionsConverter.ConvertToBytes, value);
-        }
+        public StrategyOptions StrategyOptions { get; set; }
         public int BatchSize
         {
             get => GetField(2, (int)DataFields.BATCH_SIZE).GetValue(_intConverter.Convert);
@@ -124,11 +120,7 @@ namespace OpenProtocolInterpreter.Tightening
             get => (TighteningValueStatus)GetField(2, (int)DataFields.PREVAIL_TORQUE_COMPENSATE_STATUS).GetValue(_intConverter.Convert);
             set => GetField(2, (int)DataFields.PREVAIL_TORQUE_COMPENSATE_STATUS).SetValue(_intConverter.Convert, (int)value);
         }
-        public TighteningErrorStatus TighteningErrorStatus
-        {
-            get => GetField(2, (int)DataFields.TIGHTENING_ERROR_STATUS).GetValue(_tighteningErrorStatusConverter.ConvertFromBytes);
-            set => GetField(2, (int)DataFields.TIGHTENING_ERROR_STATUS).SetRawValue(_tighteningErrorStatusConverter.ConvertToBytes, value);
-        }
+        public TighteningErrorStatus TighteningErrorStatus { get; set; }
         public int RundownAngle
         {
             get => GetField(2, (int)DataFields.RUNDOWN_ANGLE).GetValue(_intConverter.Convert);
@@ -203,10 +195,38 @@ namespace OpenProtocolInterpreter.Tightening
             get => GetField(6, (int)DataFields.PREVAIL_TORQUE_COMPENSATE_VALUE).GetValue(_decimalConverter.Convert);
             set => GetField(6, (int)DataFields.PREVAIL_TORQUE_COMPENSATE_VALUE).SetValue(_decimalConverter.Convert, value);
         }
-        public TighteningErrorStatus2 TighteningErrorStatus2
+        public TighteningErrorStatus2 TighteningErrorStatus2 { get; set; }
+        //Rev 7
+        public long StationId
         {
-            get => GetField(6, (int)DataFields.TIGHTENING_ERROR_STATUS_2).GetValue(_tighteningErrorStatus2Converter.ConvertFromBytes);
-            set => GetField(6, (int)DataFields.TIGHTENING_ERROR_STATUS_2).SetRawValue(_tighteningErrorStatus2Converter.ConvertToBytes, value);
+            get => GetField(7, (int)DataFields.STATION_ID).GetValue(_longConverter.Convert);
+            set => GetField(7, (int)DataFields.STATION_ID).SetValue(_longConverter.Convert, value);
+        }
+        public string StationName
+        {
+            get => GetField(7, (int)DataFields.STATION_NAME).Value;
+            set => GetField(7, (int)DataFields.STATION_NAME).SetValue(value);
+        }
+        //Rev 8
+        public decimal StartFinalAngle
+        {
+            get => GetField(8, (int)DataFields.START_FINAL_ANGLE).GetValue(_decimalConverter.Convert);
+            set => GetField(8, (int)DataFields.START_FINAL_ANGLE).SetValue(_decimalConverter.Convert, value);
+        }
+        public PostViewTorque PostViewTorqueActivated
+        {
+            get => (PostViewTorque)GetField(8, (int)DataFields.POST_VIEW_TORQUE_ACTIVATED).GetValue(_intConverter.Convert);
+            set => GetField(8, (int)DataFields.POST_VIEW_TORQUE_ACTIVATED).SetValue(_intConverter.Convert, (int)value);
+        }
+        public decimal PostViewTorqueHigh
+        {
+            get => GetField(8, (int)DataFields.POST_VIEW_TORQUE_HIGH).GetValue(_decimalConverter.Convert);
+            set => GetField(8, (int)DataFields.POST_VIEW_TORQUE_HIGH).SetValue(_decimalConverter.Convert, value);
+        }
+        public decimal PostViewTorqueLow
+        {
+            get => GetField(8, (int)DataFields.POST_VIEW_TORQUE_LOW).GetValue(_decimalConverter.Convert);
+            set => GetField(8, (int)DataFields.POST_VIEW_TORQUE_LOW).SetValue(_decimalConverter.Convert, value);
         }
 
         public Mid0065() : this(LAST_REVISION)
@@ -222,9 +242,9 @@ namespace OpenProtocolInterpreter.Tightening
             _boolConverter = new BoolConverter();
             _decimalConverter = new DecimalTrucatedConverter(2);
             _dateConverter = new DateConverter();
-            _strategyOptionsConverter = new StrategyOptionsConverter(byteArrayConverter);
-            _tighteningErrorStatusConverter = new TighteningErrorStatusConverter(byteArrayConverter);
-            _tighteningErrorStatus2Converter = new TighteningErrorStatus2Converter(byteArrayConverter);
+            _strategyOptionsConverter = new StrategyOptionsConverter(byteArrayConverter, _intConverter);
+            _tighteningErrorStatusConverter = new TighteningErrorStatusConverter(byteArrayConverter, _longConverter);
+            _tighteningErrorStatus2Converter = new TighteningErrorStatus2Converter(byteArrayConverter, _longConverter);
         }
 
         protected override string BuildHeader()
@@ -248,70 +268,58 @@ namespace OpenProtocolInterpreter.Tightening
             return HeaderData.ToString();
         }
 
-        [Obsolete("Use PackBytes(), this method will convert everything to ASCII, which will break packages above revision 1 because of byte fields")]
-#pragma warning disable CS0809 // Obsolete member overrides non-obsolete member
         public override string Pack()
-#pragma warning restore CS0809 // Obsolete member overrides non-obsolete member
         {
             string package = BuildHeader();
+            int prefixIndex = 1;
             if (HeaderData.Revision > 1)
             {
-                int? processUntil = HeaderData.Revision;
-                int prefixIndex = 1;
+                GetField(2, (int)DataFields.STRATEGY_OPTIONS).SetValue(_strategyOptionsConverter.Convert, StrategyOptions);
+                GetField(2, (int)DataFields.TIGHTENING_ERROR_STATUS).SetValue(_tighteningErrorStatusConverter.Convert, TighteningErrorStatus);
+
+                if (HeaderData.Revision > 5)
+                {
+                    GetField(6, (int)DataFields.TIGHTENING_ERROR_STATUS_2).SetValue(_tighteningErrorStatus2Converter.Convert, TighteningErrorStatus2);
+                }
+
+                int processUntil = HeaderData.Revision;
                 for (int i = 2; i <= processUntil; i++)
                 {
-                    package += BuildDataFieldsPackage(prefixIndex, RevisionsByFields[i]);
-                    prefixIndex += RevisionsByFields[i].Count(x => x.HasPrefix);
+                    package += Pack(RevisionsByFields[i], ref prefixIndex);
                 }
             }
             else
-                package += BuildDataFieldsPackage(1, RevisionsByFields[1]);
+            {
+                package += Pack(RevisionsByFields[HeaderData.Revision], ref prefixIndex);
+            }
 
             return package;
         }
 
-        public override byte[] PackBytes()
+        protected override void ProcessDataFields(string package)
         {
-            List<byte> bytes = new List<byte>();
-
-            bytes.AddRange(BuildRawHeader());
-            if (HeaderData.Revision > 1)
+            if (HeaderData.Revision == 1)
             {
-                int? processUntil = HeaderData.Revision;
-                int prefixIndex = 1;
-                for (int i = 2; i <= processUntil; i++)
-                {
-                    var fieldBytes = BuildDataFieldsRawPackage(prefixIndex, RevisionsByFields[i]);
-                    bytes.AddRange(fieldBytes);
-                    prefixIndex += RevisionsByFields[i].Count(x => x.HasPrefix);
-                }
+                ProcessDataFields(RevisionsByFields[HeaderData.Revision], package);
             }
             else
-                bytes.AddRange(BuildDataFieldsRawPackage(1, RevisionsByFields[1]));
-
-            return bytes.ToArray();
-        }
-
-        [Obsolete("Use Parse(byte[] package), this method will parse everything as ASCII, which will break packages above revision 1 because of byte fields")]
-#pragma warning disable CS0809 // Obsolete member overrides non-obsolete member
-        public override Mid Parse(string package) => base.Parse(package);
-#pragma warning restore CS0809 // Obsolete member overrides non-obsolete member
-
-        public override Mid Parse(byte[] package)
-        {
-            var headerData = ToAscii(package.Take(20).ToArray());
-            HeaderData = ProcessHeader(headerData);
-            if (HeaderData.Revision > 1)
             {
                 int processUntil = HeaderData.Revision;
                 for (int i = 2; i <= processUntil; i++)
-                    ProcessDataFields(package, RevisionsByFields[i]);
+                    ProcessDataFields(RevisionsByFields[i], package);
 
+                var strategyOptionsField = GetField(2, (int)DataFields.STRATEGY_OPTIONS);
+                StrategyOptions = _strategyOptionsConverter.Convert(strategyOptionsField.Value);
+
+                var tighteningErrorStatusField = GetField(2, (int)DataFields.TIGHTENING_ERROR_STATUS);
+                TighteningErrorStatus = _tighteningErrorStatusConverter.Convert(tighteningErrorStatusField.Value);
+
+                if (HeaderData.Revision > 5)
+                {
+                    var tighteningErrorStatus2Field = GetField(6, (int)DataFields.TIGHTENING_ERROR_STATUS_2);
+                    TighteningErrorStatus2 = _tighteningErrorStatus2Converter.Convert(tighteningErrorStatus2Field.Value);
+                }
             }
-            else
-                ProcessDataFields(package, RevisionsByFields[HeaderData.Revision]);
-
-            return this;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -343,7 +351,7 @@ namespace OpenProtocolInterpreter.Tightening
                                 new DataField((int)DataFields.JOB_ID, 59, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
                                 new DataField((int)DataFields.PARAMETER_SET_ID, 65, 3, '0', DataField.PaddingOrientations.LEFT_PADDED),
                                 new DataField((int)DataFields.STRATEGY, 70, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.STRATEGY_OPTIONS, 74, 5),
+                                new DataField((int)DataFields.STRATEGY_OPTIONS, 74, 5, '0', DataField.PaddingOrientations.LEFT_PADDED),
                                 new DataField((int)DataFields.BATCH_SIZE, 81, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
                                 new DataField((int)DataFields.BATCH_COUNTER, 87, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
                                 new DataField((int)DataFields.TIGHTENING_STATUS, 93, 1),
@@ -355,7 +363,7 @@ namespace OpenProtocolInterpreter.Tightening
                                 new DataField((int)DataFields.SELFTAP_STATUS, 111, 1),
                                 new DataField((int)DataFields.PREVAIL_TORQUE_MONITORING_STATUS, 114, 1),
                                 new DataField((int)DataFields.PREVAIL_TORQUE_COMPENSATE_STATUS, 117, 1),
-                                new DataField((int)DataFields.TIGHTENING_ERROR_STATUS, 120, 10),
+                                new DataField((int)DataFields.TIGHTENING_ERROR_STATUS, 120, 10, '0', DataField.PaddingOrientations.LEFT_PADDED),
                                 new DataField((int)DataFields.TORQUE, 132, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
                                 new DataField((int)DataFields.ANGLE, 140, 5, '0', DataField.PaddingOrientations.LEFT_PADDED),
                                 new DataField((int)DataFields.RUNDOWN_ANGLE, 147, 5, '0', DataField.PaddingOrientations.LEFT_PADDED),
@@ -393,91 +401,29 @@ namespace OpenProtocolInterpreter.Tightening
                     6, new List<DataField>()
                             {
                                 new DataField((int)DataFields.PREVAIL_TORQUE_COMPENSATE_VALUE, 320, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.TIGHTENING_ERROR_STATUS_2, 328, 10, ' ')
+                                new DataField((int)DataFields.TIGHTENING_ERROR_STATUS_2, 328, 10, '0', DataField.PaddingOrientations.LEFT_PADDED)
+                            }
+                },
+                {
+                    7, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.STATION_ID, 340, 10, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.STATION_NAME, 352, 25)
+                            }
+                },
+                {
+                    8, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.START_FINAL_ANGLE, 379, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.POST_VIEW_TORQUE_ACTIVATED, 387, 1),
+                                new DataField((int)DataFields.POST_VIEW_TORQUE_HIGH, 390, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.POST_VIEW_TORQUE_LOW, 398, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
                             }
                 }
             };
         }
 
-        protected override void ProcessDataFields(string package)
-        {
-            if (HeaderData.Revision > 1)
-            {
-                int? processUntil = HeaderData.Revision;
-                for (int i = 2; i <= processUntil; i++)
-                    ProcessDataFields(package, RevisionsByFields[i]);
-            }
-            else
-                ProcessDataFields(package, RevisionsByFields[1]);
-        }
-
-        private void ProcessDataFields(byte[] package, List<DataField> fields)
-        {
-            foreach (var dataField in fields)
-                try
-                {
-                    IEnumerable<byte> value = Enumerable.Empty<byte>();
-                    value = GetValue(dataField, package);
-
-                    if (IsByteField(dataField))
-                        dataField.RawValue = value.ToArray();
-                    else
-                        dataField.Value = ToAscii(value.ToArray());
-                }
-                catch (ArgumentOutOfRangeException)
-                {
-                    //null value
-                }
-        }
         private int GetCurrentRevisionIndex() => (HeaderData.Revision > 1) ? 2 : 1;
-
-        private void ProcessDataFields(string package, List<DataField> fields)
-        {
-            foreach (var dataField in fields)
-                dataField.Value = GetValue(dataField, package);
-        }
-
-        private string BuildDataFieldsPackage(int prefixIndex, List<DataField> fields)
-        {
-            string package = string.Empty;
-            foreach (var dataField in fields)
-                if (dataField.HasPrefix)
-                {
-                    package += prefixIndex.ToString().PadLeft(2, '0') + dataField.Value;
-                    prefixIndex++;
-                }
-                else
-                    package += dataField.Value;
-
-            return package;
-        }
-
-        private byte[] BuildDataFieldsRawPackage(int prefixIndex, List<DataField> fields)
-        {
-            List<byte> bytes = new List<byte>();
-            foreach (var dataField in fields)
-            {
-                if (dataField.HasPrefix)
-                {
-                    var prefix = ToBytes(prefixIndex.ToString().PadLeft(2, '0'));
-                    bytes.AddRange(prefix);
-                    prefixIndex++;
-                }
-
-                if (IsByteField(dataField))
-                    bytes.AddRange(dataField.RawValue);
-                else
-                    bytes.AddRange(ToBytes(dataField.Value));
-            }
-
-            return bytes.ToArray();
-        }
-
-        private bool IsByteField(DataField dataField)
-        {
-            var field = (DataFields)dataField.Field;
-            return field == DataFields.STRATEGY_OPTIONS || field == DataFields.TIGHTENING_ERROR_STATUS || field == DataFields.TIGHTENING_ERROR_STATUS_2;
-        }
 
         public enum DataFields
         {
@@ -521,7 +467,15 @@ namespace OpenProtocolInterpreter.Tightening
             CUSTOMER_TIGHTENING_ERROR_CODE,
             //Rev 6 Additions
             PREVAIL_TORQUE_COMPENSATE_VALUE,
-            TIGHTENING_ERROR_STATUS_2
-        }
+            TIGHTENING_ERROR_STATUS_2,
+            //Rev 7 Additions
+            STATION_ID,
+            STATION_NAME,
+            //Rev 8 Additions
+            START_FINAL_ANGLE,
+            POST_VIEW_TORQUE_ACTIVATED,
+            POST_VIEW_TORQUE_HIGH,
+            POST_VIEW_TORQUE_LOW
+    }
     }
 }

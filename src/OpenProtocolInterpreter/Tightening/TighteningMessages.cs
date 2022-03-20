@@ -18,7 +18,8 @@ namespace OpenProtocolInterpreter.Tightening
                 { Mid0062.MID, new MidCompiledInstance(typeof(Mid0062)) },
                 { Mid0063.MID, new MidCompiledInstance(typeof(Mid0063)) },
                 { Mid0064.MID, new MidCompiledInstance(typeof(Mid0064)) },
-                { Mid0065.MID, new MidCompiledInstance(typeof(Mid0065)) }
+                { Mid0065.MID, new MidCompiledInstance(typeof(Mid0065)) },
+                { Mid0066.MID, new MidCompiledInstance(typeof(Mid0066)) }
             };
         }
 
@@ -32,6 +33,6 @@ namespace OpenProtocolInterpreter.Tightening
             FilterSelectedMids(mode);
         }
 
-        public override bool IsAssignableTo(int mid) => mid > 59 && mid < 66;
+        public override bool IsAssignableTo(int mid) => mid > 59 && mid < 67;
     }
 }

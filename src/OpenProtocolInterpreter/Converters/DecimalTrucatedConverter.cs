@@ -11,7 +11,7 @@ namespace OpenProtocolInterpreter.Converters
         {
             _decimalPointsMultiplier = 1;
             for (int i = 0; i < decimalPoints; i++)
-                _decimalPointsMultiplier = _decimalPointsMultiplier * 10m;
+                _decimalPointsMultiplier *= 10m;
             _decimalPoints = decimalPoints;
         }
 

@@ -43,8 +43,8 @@ namespace OpenProtocolInterpreter.PLCUserData
 
         public int Offset
         {
-            get => GetField(1, (int)DataFields.USER_DATA).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.USER_DATA).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.OFFSET).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.OFFSET).SetValue(_intConverter.Convert, value);
         }
         public string UserData
         {
@@ -55,6 +55,10 @@ namespace OpenProtocolInterpreter.PLCUserData
         public Mid0245() : base(MID, LAST_REVISION)
         {
             _intConverter = new Int32Converter();
+            if (string.IsNullOrEmpty(UserData))
+            {
+                UserData = string.Empty.PadRight(2);
+            }
         }
 
         public Mid0245(int offset, string userData) : this()
@@ -72,7 +76,7 @@ namespace OpenProtocolInterpreter.PLCUserData
         public override Mid Parse(string package)
         {
             HeaderData = ProcessHeader(package);
-            GetField(1, (int)DataFields.USER_DATA).Size = package.Length - 23;
+            GetField(1, (int)DataFields.USER_DATA).Size = HeaderData.Length - 23;
             ProcessDataFields(package);
             return this;
         }
@@ -85,7 +89,7 @@ namespace OpenProtocolInterpreter.PLCUserData
                     1, new List<DataField>()
                     {
                         new DataField((int)DataFields.OFFSET, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
-                        new DataField((int)DataFields.USER_DATA, 23, 200, ' ', DataField.PaddingOrientations.RIGHT_PADDED, false)
+                        new DataField((int)DataFields.USER_DATA, 23, 2, ' ', DataField.PaddingOrientations.RIGHT_PADDED, false)
                     }
                 }
             };

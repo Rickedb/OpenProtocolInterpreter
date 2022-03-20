@@ -245,6 +245,7 @@ namespace OpenProtocolInterpreter.PowerMACS
             SYSTEM_SUB_TYPE
         }
 
+        //TODO: Rename to PowerMacsStatus and move outside MID0107 class
         public enum PowerMacsStatuses
         {
             OK = 0,

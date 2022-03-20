@@ -14,7 +14,7 @@ namespace OpenProtocolInterpreter.Job
     public class Mid0032 : Mid, IJob, IIntegrator
     {
         private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 3;
+        private const int LAST_REVISION = 4;
         public const int MID = 32;
 
         public int JobId
@@ -35,14 +35,17 @@ namespace OpenProtocolInterpreter.Job
         }
 
         /// <summary>
-        /// Revision 1 or 2 setter
+        /// Revision 1, 2, 3 and 4 constructor
         /// </summary>
         /// <param name="jobId">
         ///     Revision 1 range: 00-99 
         ///     <para>Revision 2 range: 0000-9999</para>
         /// </param>
-        /// <param name="revision">Revision number (default = 3)</param>
-        public Mid0032(int jobId, int revision = 2) : this(revision) => JobId = jobId;
+        /// <param name="revision">Revision number (default = 4)</param>
+        public Mid0032(int jobId, int revision = LAST_REVISION) : this(revision)
+        {
+            JobId = jobId;
+        }
 
         public override Mid Parse(string package)
         {
@@ -62,9 +65,7 @@ namespace OpenProtocolInterpreter.Job
                             {
                                 new DataField((int)DataFields.JOB_ID, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
                             }
-                },
-                { 2, new List<DataField>() },
-                { 3, new List<DataField>() }
+                }
             };
         }
 

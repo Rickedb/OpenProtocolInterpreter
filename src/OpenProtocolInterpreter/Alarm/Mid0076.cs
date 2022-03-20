@@ -71,7 +71,8 @@ namespace OpenProtocolInterpreter.Alarm
         /// <param name="controllerReadyStatus">Controller ready status 1=OK, 0=NOK</param>
         /// <param name="toolReadyStatus">Tool ready status 1=OK, 0=NOK</param>
         /// <param name="time">Time stamp for the alarm</param>
-        public Mid0076(bool alarmStatus, string errorCode, bool controllerReadyStatus, bool toolReadyStatus, DateTime time) : this()
+        /// <param name="revision">Desired revision, default equals to 2</param>
+        public Mid0076(bool alarmStatus, string errorCode, bool controllerReadyStatus, bool toolReadyStatus, DateTime time, int revision = 2) : this(revision)
         {
             AlarmStatus = alarmStatus;
             ErrorCode = errorCode;
@@ -90,7 +91,7 @@ namespace OpenProtocolInterpreter.Alarm
         /// <param name="time">Time stamp for the alarm</param>
         /// <param name="toolHealth">Tool Health</param>
         public Mid0076(bool alarmStatus, string errorCode, bool controllerReadyStatus, bool toolReadyStatus, DateTime time, ToolHealth toolHealth)
-            : this(alarmStatus, errorCode, controllerReadyStatus, toolReadyStatus, time)
+            : this(alarmStatus, errorCode, controllerReadyStatus, toolReadyStatus, time, LAST_REVISION)
         {
             ToolHealth = toolHealth;
         }

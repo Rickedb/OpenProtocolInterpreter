@@ -51,8 +51,25 @@
         public bool GradientMonitoringHigh { get; set; }
         public bool GradientMonitoringLow { get; set; }
         public bool ReactionBarFailed { get; set; }
+        public bool SnugMax { get; set; }
+        public bool CycleAbort { get; set; }
+        public bool NeckingFailure { get; set; }
+        public bool EffectiveLoosening { get; set; }
+        public bool OverSpeed { get; set; }
+        public bool NoResidualTorque { get; set; }
+        public bool PositioningFail { get; set; }
+        public bool SnugMonLow { get; set; }
+        public bool SnugMonHigh { get; set; }
+        public bool DynamicMinCurrent { get; set; }
+        public bool DynamicMaxCurrent { get; set; }
+        public bool LatentResult { get; set; }
 
-        //Bit 6-31 
+        //Bit 19-31
         public byte[] Reserved { get; set; }
+
+        public TighteningErrorStatus2()
+        {
+            Reserved = new byte[10];
+        }
     }
 }

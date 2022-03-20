@@ -7,11 +7,11 @@
         protected byte SetByte(bool[] values)
         {
             byte result = 0;
-            int index = 8 - values.Length;
+            int index = 9 - values.Length;
             foreach (bool b in values)
             {
                 if (b)
-                    result |= (byte)(1 << (7 - index));
+                    result |= (byte)(1 << (index - 1));
 
                 index++;
             }

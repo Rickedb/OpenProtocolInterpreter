@@ -16,8 +16,8 @@ namespace OpenProtocolInterpreter.Alarm
 
         public string ErrorCode
         {
-            get => GetField(1,(int)DataFields.ERROR_CODE).Value;
-            set => GetField(1,(int)DataFields.ERROR_CODE).SetValue(value);
+            get => GetField(1, (int)DataFields.ERROR_CODE).Value;
+            set => GetField(1, (int)DataFields.ERROR_CODE).SetValue(value);
         }
 
         public Mid0074() : this(LAST_REVISION)
@@ -25,11 +25,28 @@ namespace OpenProtocolInterpreter.Alarm
 
         }
 
-        public Mid0074(int revision = LAST_REVISION) : base(MID, revision) { }
+        public Mid0074(int revision = LAST_REVISION) : base(MID, revision)
+        {
+
+        }
 
         public Mid0074(string errorCode, int revision = LAST_REVISION) : this(revision)
         {
             ErrorCode = errorCode;
+        }
+
+        public override string Pack()
+        {
+            RevisionsByFields[1][(int)DataFields.ERROR_CODE].Size = HeaderData.Revision == 1 ? 4 : 5;
+            return base.Pack();
+        }
+
+        public override Mid Parse(string package)
+        {
+            HeaderData = ProcessHeader(package);
+            RevisionsByFields[1][(int)DataFields.ERROR_CODE].Size = HeaderData.Revision == 1 ? 4 : 5;
+            ProcessDataFields(package);
+            return this;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

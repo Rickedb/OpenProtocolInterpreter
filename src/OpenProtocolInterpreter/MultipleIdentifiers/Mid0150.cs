@@ -26,10 +26,16 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
             IdentifierData = identifierData;
         }
 
+        public override string Pack()
+        {
+            GetField(1, (int)DataFields.IDENTIFIER_DATA).Size = IdentifierData.Length;
+            return base.Pack();
+        }
+
         public override Mid Parse(string package)
         {
             HeaderData = ProcessHeader(package);
-            GetField(1, (int)DataFields.IDENTIFIER_DATA).Size = package.Length - 20;
+            GetField(1, (int)DataFields.IDENTIFIER_DATA).Size = HeaderData.Length - 20;
             ProcessDataFields(package);
             return this;
         }
@@ -41,7 +47,7 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.IDENTIFIER_DATA, 20, 100, false)
+                        new DataField((int)DataFields.IDENTIFIER_DATA, 20, 0, false)
                     }
                 }
             };

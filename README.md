@@ -1,6 +1,9 @@
 <img src="https://github.com/Rickedb/OpenProtocolInterpreter/blob/master/media/logo.png?raw=true" width="550" alt="Open Protocol Interpreter" />
 
 <h1>
+   <a href="https://www.buymeacoffee.com/openprotocolitp">
+    <img height="40" alt="Buy me a coffee" src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=openprotocolitp&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" />
+   </a>
   <a href="https://opencollective.com/open-protocol-interpreter" alt="Financial Contributors on Open Collective">
     <img src="https://opencollective.com/open-protocol-interpreter/all/badge.svg?label=financial+contributors" />
   </a>
@@ -12,6 +15,7 @@
   </a>
 </h1>
 
+  
 > OpenProtocol communication utility
 
 > Missing OpenProtocolInterpreter v1.0.0 ? [>It's here!<](https://github.com/Rickedb/OpenProtocolInterpreter/releases/tag/1.0.0)
@@ -48,7 +52,7 @@ OpenProtocolInterpreter is a **library that converts the ugly string** that came
 
 **[If you're curious, just take a look at their documentation.](https://github.com/Rickedb/OpenProtocolIntepreter/blob/master/docs/OpenProtocol_Specification.pdf)**
 
-## Changelog for version 3.0.0
+## Changelog for version 3.0.0 or greater
 
  1. Reworked on how to instantiate a Mid class when parsing to fix a bug where the parse method updates the same instance instead of creating a new;
  2. Pack methods added to MidInterpreter as Pack(Mid mid) and PackBytes(Mid mid);
@@ -320,9 +324,19 @@ But if you wish, you can support and help to motivate the constant improving of 
 ### List of still unavailable Mids
 
  - Mid 0009;
+ - Mid 0066;
  - Mid 0700;
+ - Mid 0702;
+ - Mid 0703;
  - Mid 0900;
  - Mid 0901;
+ - Mid 1000;
+ - Mid 1001;
+ - Mid 1601;
+ - Mid 1602;
+ - Mid 1900;
+ - Mid 1901;
+ - Mid 2100;
  - Mid 2500;
  - Mid 2501;
  - Mid 2505;
@@ -332,9 +346,7 @@ But if you wish, you can support and help to motivate the constant improving of 
  - Mid 2603;
  - Mid 2604;
  - Mid 2605;
- - Mid 2606;
- - Mid 9997;
- - Mid 9998.
+ - Mid 2606.
 
 Feel free to fork and contribute to add any of those mids.
 

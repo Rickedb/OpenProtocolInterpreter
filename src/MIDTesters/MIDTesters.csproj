@@ -8,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MIDTesters</RootNamespace>
     <AssemblyName>MIDTesters</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -128,8 +128,11 @@
     <Compile Include="Job\TestMid0038.cs" />
     <Compile Include="Job\TestMid0039.cs" />
     <Compile Include="KeepAlive\TestMid9999.cs" />
+    <Compile Include="LinkCommunication\TestMid9997.cs" />
+    <Compile Include="LinkCommunication\TestMid9998.cs" />
     <Compile Include="MIDsTests.cs" />
     <Compile Include="MidTester.cs" />
+	<Compile Include="TestMidExtensions.cs" />
     <Compile Include="MotorTuning\TestMid0500.cs" />
     <Compile Include="MotorTuning\TestMid0501.cs" />
     <Compile Include="MotorTuning\TestMid0502.cs" />
@@ -191,6 +194,7 @@
     <Compile Include="Tightening\TestMid0063.cs" />
     <Compile Include="Tightening\TestMid0064.cs" />
     <Compile Include="Tightening\TestMid0065.cs" />
+    <Compile Include="Tightening\TestMid0066.cs" />
     <Compile Include="Time\TestMid0080.cs" />
     <Compile Include="Time\TestMid0081.cs" />
     <Compile Include="Time\TestMid0082.cs" />
@@ -203,6 +207,7 @@
     <Compile Include="Tool\TestMid0046.cs" />
     <Compile Include="Tool\TestMid0047.cs" />
     <Compile Include="Tool\TestMid0048.cs" />
+    <Compile Include="Tool\TestMid0701.cs" />
     <Compile Include="UserInterface\TestMid0110.cs" />
     <Compile Include="UserInterface\TestMid0111.cs" />
     <Compile Include="UserInterface\TestMid0113.cs" />
@@ -212,10 +217,12 @@
     <Compile Include="Vin\TestMid0053.cs" />
     <Compile Include="Vin\TestMid0054.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="LinkCommunication\" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\OpenProtocolInterpreter\OpenProtocolInterpreter.csproj">
+      <Project>{b022dfc7-f264-48b2-94c0-8984ffcf3a91}</Project>
+      <Name>OpenProtocolInterpreter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OpenProtocolInterpreter\OpenProtocolInterpreter.csproj">
       <Project>{b022dfc7-f264-48b2-94c0-8984ffcf3a91}</Project>
       <Name>OpenProtocolInterpreter</Name>

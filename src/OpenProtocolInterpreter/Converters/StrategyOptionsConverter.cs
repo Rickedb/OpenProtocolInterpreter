@@ -1,19 +1,23 @@
 ﻿using OpenProtocolInterpreter.Tightening;
+using System.Text;
 
 namespace OpenProtocolInterpreter.Converters
 {
     public class StrategyOptionsConverter : BitConverter, IValueConverter<StrategyOptions>
     {
         private readonly IValueConverter<byte[]> _byteArrayConverter;
+        private readonly IValueConverter<int> _intConverter;
 
-        public StrategyOptionsConverter(IValueConverter<byte[]> byteArrayConverter)
+        public StrategyOptionsConverter(IValueConverter<byte[]> byteArrayConverter, IValueConverter<int> intConverter)
         {
             _byteArrayConverter = byteArrayConverter;
+            _intConverter = intConverter;
         }
 
         public StrategyOptions Convert(string value)
         {
-            var bytes = _byteArrayConverter.Convert(value);
+            var intValue = _intConverter.Convert(value);
+            var bytes = System.BitConverter.GetBytes(intValue);
             return ConvertFromBytes(bytes);
         }
 
@@ -47,7 +51,7 @@ namespace OpenProtocolInterpreter.Converters
 
         public byte[] ConvertToBytes(StrategyOptions value)
         {
-            byte[] bytes = new byte[10];
+            byte[] bytes = new byte[5];
             bytes[0] = SetByte(new bool[]
             {
                 value.Torque,
@@ -71,8 +75,8 @@ namespace OpenProtocolInterpreter.Converters
                  false
             });
 
-            bytes[2] = bytes[3] = bytes[4] = bytes[5] = bytes[6] = bytes[7] = bytes[8] = bytes[9] = 0;
-            return bytes;
+            var asciiInt = System.BitConverter.ToInt32(bytes, 0).ToString().PadLeft(5, '0');
+            return Encoding.ASCII.GetBytes(asciiInt);
         }
 
         public byte[] ConvertToBytes(char paddingChar, int size, DataField.PaddingOrientations orientation, StrategyOptions value) => ConvertToBytes(value);

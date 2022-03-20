@@ -41,6 +41,7 @@
         FIELDBUS_DIGIN_4 = 35,
         FLASH_TOOL_GREEN_LIGHT = 36,
 
+        MANUAL_MODE = 43,
         PARAMETER_SET_SELECT_BIT_4 = 45,
         PARAMETER_SET_SELECT_BIT_5 = 46,
         PARAMETER_SET_SELECT_BIT_6 = 47,
@@ -118,6 +119,11 @@
         XML_EMERGENCY_MODE = 135,
         MFU_TEST = 136,
         TOOL_IN_PARK_POSITION = 137,
+        ENABLE_OPERATION = 138,
+        STOP_TIGHTENING = 139,
+        START_LOOSENING_PULSE = 140,
+
+        /* 141-149 => Free to use (how to handle?) */
 
         PULSOR_TOOL_ENABLE = 150,
         PERFORM_AIR_HOSE_TEST = 151,

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenProtocolInterpreter;
 using OpenProtocolInterpreter.Vin;
 
 namespace MIDTesters.Vin
@@ -35,24 +36,24 @@ namespace MIDTesters.Vin
         [TestMethod]
         public void Mid0052Revision1VehicleIdLengthLower()
         {
-            string package = "00450052001         VehicleIdNumber          ";
+            string package = "00450052001         VehicleIdNumber          \0";
             var mid = _midInterpreter.Parse<Mid0052>(package);
 
             Assert.AreEqual(typeof(Mid0052), mid.GetType());
             Assert.IsNotNull(mid.VinNumber);
-            Assert.AreEqual(package, mid.Pack());
+            Assert.AreEqual(package, mid.PackWithNul());
         }
 
         [TestMethod]
         public void Mid0052ByteRevision1VehicleIdLengthLower()
         {
-            string package = "00450052001         VehicleIdNumber          ";
+            string package = "00450052001         VehicleIdNumber          \0";
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0052>(bytes);
 
             Assert.AreEqual(typeof(Mid0052), mid.GetType());
             Assert.IsNotNull(mid.VinNumber);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            Assert.IsTrue(mid.PackBytesWithNul().SequenceEqual(bytes));
         }
 
         [TestMethod]
