@@ -48,73 +48,81 @@ namespace OpenProtocolInterpreter.Emulator.AutomaticControllers
 
         private async void OnTimer(object? obj)
         {
-            var angleStatus = (TighteningValueStatus)(_configuration.TighteningStrategy == Strategy.Random ? _random.Next(0, 2) : 1);
-            var torqueStatus = (TighteningValueStatus)(_configuration.TighteningStrategy == Strategy.Random ? _random.Next(0, 2) : 1);
-            var tighteningStatus = angleStatus == TighteningValueStatus.OK && torqueStatus == TighteningValueStatus.OK;
+            try
+            {
 
-            if (tighteningStatus || OkTighteningSentInJob == 0)
-            {
-                OkTighteningSentInJob++;
-            }
-            var mid61 = new Mid0061(1)
-            {
-                CellId = 1,
-                ChannelId = 1,
-                TorqueControllerName = _configuration.ControllerName,
-                VinNumber = CurrentVinNumber,
-                JobId = CurrentJobId,
-                ParameterSetId = 1,
-                BatchSize = 5,
-                BatchCounter = OkTighteningSentInJob,
-                TighteningStatus = tighteningStatus,
-                TorqueStatus = torqueStatus,
-                AngleStatus = angleStatus,
-                TorqueMinLimit = 100,
-                TorqueMaxLimit = 300,
-                TorqueFinalTarget = 200,
-                Torque = GenerateFakeTorqueAngleValue(torqueStatus, 100, 300),
-                AngleMinLimit = 60,
-                AngleMaxLimit = 360,
-                AngleFinalTarget = 220,
-                Angle = GenerateFakeTorqueAngleValue(angleStatus, 60, 360),
-                Timestamp = DateTime.Now,
-                LastChangeInParameterSet = DateTime.Today,
-                BatchStatus = OkTighteningSentInJob >= 5 ? BatchStatus.OK : BatchStatus.RUNNING,
-                TighteningId = _tighteningsPerformed.Count + 1
-            };
-            _tighteningsPerformed.Add(mid61);
-            foreach (var client in ConnectedClients)
-            {
-                await SendAsync(client, mid61);
-            }
+                var angleStatus = (TighteningValueStatus)(_configuration.TighteningStrategy == Strategy.Random ? _random.Next(0, 2) : 1);
+                var torqueStatus = (TighteningValueStatus)(_configuration.TighteningStrategy == Strategy.Random ? _random.Next(0, 2) : 1);
+                var tighteningStatus = angleStatus == TighteningValueStatus.OK && torqueStatus == TighteningValueStatus.OK;
 
-            var mid35 = new Mid0035(1)
-            {
-                JobId = CurrentJobId,
-                VinNumber = CurrentVinNumber,
-                JobBatchMode = JobBatchMode.ONLY_OK_TIGHTENINGS,
-                JobBatchSize = 5,
-                JobBatchCounter = OkTighteningSentInJob,
-                TimeStamp = DateTime.Now
-            };
+                if (tighteningStatus || OkTighteningSentInJob == 0)
+                {
+                    OkTighteningSentInJob++;
+                }
+                var mid61 = new Mid0061(1)
+                {
+                    CellId = 1,
+                    ChannelId = 1,
+                    TorqueControllerName = _configuration.ControllerName,
+                    VinNumber = CurrentVinNumber,
+                    JobId = CurrentJobId,
+                    ParameterSetId = 1,
+                    BatchSize = 5,
+                    BatchCounter = OkTighteningSentInJob,
+                    TighteningStatus = tighteningStatus,
+                    TorqueStatus = torqueStatus,
+                    AngleStatus = angleStatus,
+                    TorqueMinLimit = 100,
+                    TorqueMaxLimit = 300,
+                    TorqueFinalTarget = 200,
+                    Torque = GenerateFakeTorqueAngleValue(torqueStatus, 100, 300),
+                    AngleMinLimit = 60,
+                    AngleMaxLimit = 360,
+                    AngleFinalTarget = 220,
+                    Angle = GenerateFakeTorqueAngleValue(angleStatus, 60, 360),
+                    Timestamp = DateTime.Now,
+                    LastChangeInParameterSet = DateTime.Today,
+                    BatchStatus = OkTighteningSentInJob >= 5 ? BatchStatus.OK : BatchStatus.RUNNING,
+                    TighteningId = _tighteningsPerformed.Count + 1
+                };
+                _tighteningsPerformed.Add(mid61);
+                foreach (var client in ConnectedClients)
+                {
+                    await SendAsync(client, mid61);
+                }
 
-            if (OkTighteningSentInJob >= 5)
-            {
-                OkTighteningSentInJob = 0;
-                CurrentJobId = 0;
-                mid35.JobStatus = JobStatus.OK;
-                _timer.Change(Timeout.Infinite, Timeout.Infinite);
-            }
-            else
-            {
-                mid35.JobStatus = JobStatus.NOT_COMPLETED;
-                var delay = _random.Next(_configuration.MinTighteningDelay, _configuration.MaxTighteningDelay);
-                _timer.Change(delay, Timeout.Infinite);
-            }
+                var mid35 = new Mid0035(1)
+                {
+                    JobId = CurrentJobId,
+                    VinNumber = CurrentVinNumber,
+                    JobBatchMode = JobBatchMode.ONLY_OK_TIGHTENINGS,
+                    JobBatchSize = 5,
+                    JobBatchCounter = OkTighteningSentInJob,
+                    TimeStamp = DateTime.Now
+                };
 
-            foreach (var client in ConnectedClients)
+                if (OkTighteningSentInJob >= 5)
+                {
+                    OkTighteningSentInJob = 0;
+                    CurrentJobId = 0;
+                    mid35.JobStatus = JobStatus.OK;
+                    _timer.Change(Timeout.Infinite, Timeout.Infinite);
+                }
+                else
+                {
+                    mid35.JobStatus = JobStatus.NOT_COMPLETED;
+                    var delay = _random.Next(_configuration.MinTighteningDelay, _configuration.MaxTighteningDelay);
+                    _timer.Change(delay, Timeout.Infinite);
+                }
+
+                foreach (var client in ConnectedClients)
+                {
+                    await SendAsync(client, mid35);
+                }
+            }
+            catch
             {
-                await SendAsync(client, mid35);
+
             }
         }
 

@@ -1,19 +1,6 @@
 ﻿using LiteDB;
-using OpenProtocolInterpreter.Communication;
-using OpenProtocolInterpreter.Emulator.Drivers;
-using OpenProtocolInterpreter.Emulator.Drivers.Events;
-using OpenProtocolInterpreter.Job;
-using OpenProtocolInterpreter.Vin;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace OpenProtocolInterpreter.Emulator.AutomaticControllers
 {
@@ -30,7 +17,7 @@ namespace OpenProtocolInterpreter.Emulator.AutomaticControllers
 
         private void OnStartStopServer_Click(object sender, EventArgs e)
         {
-            if(btnStartStopServer.Text == "Start Server")
+            if (btnStartStopServer.Text == "Start Server")
             {
                 foreach (DataGridViewRow row in ConfigurationGrid.Rows)
                 {
@@ -106,12 +93,26 @@ namespace OpenProtocolInterpreter.Emulator.AutomaticControllers
             }
         }
 
-        private void OnAutoCreateControllers_Click(object sender, EventArgs e)
+        private async void OnAutoCreateControllers_Click(object sender, EventArgs e)
         {
+            var client = new HttpClient()
+            {
+                BaseAddress = new Uri("http://localhost:5000")
+            };
+
+            var dcController = new
+            {
+                Hostname = "TDCT118M2",
+                FtpFolder = "/",
+
+                Enabled = true
+            };
+
+            var r = await client.PostAsync("/v1/dc-controller", GetContent(dcController));
             ConfigurationGrid.Rows.Clear();
             var defaultPort = 4545;
             var rdn = new Random();
-            for(int i = 0; i < numericTotalControllers.Value; i++)
+            for (int i = 0; i < numericTotalControllers.Value; i++)
             {
                 var minDelay = rdn.Next(100, 10000);
                 var maxDelay = rdn.Next(minDelay, 10000);
@@ -124,7 +125,22 @@ namespace OpenProtocolInterpreter.Emulator.AutomaticControllers
                     maxDelay,
                     true,
                     "View Logs");
+                var vs = new
+                {
+                    VirtualStationNumber = $"TDCT118M2-VS{(i + 1).ToString().PadLeft(2, '0')}",
+                    IpOrHostname = "127.0.0.1",
+                    Port = defaultPort + i,
+                    InTryOut = true,
+                    Enabled = true
+                };
+                var response = await client.PostAsync("/v1/dc-controller/TDCT118M2/virtual-station", GetContent(vs));
             }
+        }
+
+        private StringContent GetContent(object obj)
+        {
+            var json = System.Text.Json.JsonSerializer.Serialize(obj);
+            return new StringContent(json, Encoding.UTF8, "application/json");
         }
     }
 }
