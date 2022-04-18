@@ -49,7 +49,7 @@ namespace OpenProtocolInterpreter.Alarm
 
         }
 
-        public Mid0071(int revision = LAST_REVISION, int? noAckFlag = 0) : base(MID, revision, noAckFlag)
+        public Mid0071(int revision = LAST_REVISION) : base(MID, revision)
         {
             _boolConverter = new BoolConverter();
             _dateConverter = new DateConverter();
@@ -64,8 +64,7 @@ namespace OpenProtocolInterpreter.Alarm
         /// <param name="toolReadyStatus">Tool ready status</param>
         /// <param name="time">Time stamp for the alarm</param>
         /// <param name="revision">Revision (Default revision = 1)</param>
-        /// <param name="noAckFlag">Acknowledge flag (Default = 1)</param>
-        public Mid0071(string errorCode, bool controllerReadyStatus, bool toolReadyStatus, DateTime time, int revision = 1, int? noAckFlag = 0) : this(revision, noAckFlag)
+        public Mid0071(string errorCode, bool controllerReadyStatus, bool toolReadyStatus, DateTime time, int revision = 1) : this(revision)
         {
             ErrorCode = errorCode;
             ControllerReadyStatus = controllerReadyStatus;
@@ -82,16 +81,15 @@ namespace OpenProtocolInterpreter.Alarm
         /// <param name="time">Time stamp for the alarm</param>
         /// <param name="alarmText">Alarm text. 50 ASCII characters</param>
         /// <param name="revision">Revision (Default revision = 1)</param>
-        /// <param name="noAckFlag">Acknowledge flag (Default = 1)</param>
-        public Mid0071(string errorCode, bool controllerReadyStatus, bool toolReadyStatus, DateTime time, string alarmText, int revision = 2, int? noAckFlag = 0)
-            : this(errorCode, controllerReadyStatus, toolReadyStatus, time, revision, noAckFlag)
+        public Mid0071(string errorCode, bool controllerReadyStatus, bool toolReadyStatus, DateTime time, string alarmText, int revision = 2)
+            : this(errorCode, controllerReadyStatus, toolReadyStatus, time, revision)
         {
             AlarmText = alarmText;
         }
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
+            Header = ProcessHeader(package);
             HandleRevision();
             ProcessDataFields(package);
             return this;
@@ -122,7 +120,7 @@ namespace OpenProtocolInterpreter.Alarm
         private void HandleRevision()
         {
             var errorCodeField = GetField(1, (int)DataFields.ERROR_CODE);
-            if (HeaderData.Revision > 1)
+            if (Header.Revision > 1)
             {
                 errorCodeField.Size = 5;
             }

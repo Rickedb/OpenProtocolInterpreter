@@ -102,7 +102,7 @@ namespace OpenProtocolInterpreter.Result
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
+            Header = ProcessHeader(package);
             int totalObjectData = _intConverter.Convert(GetValue(GetField(1, (int)DataFields.NUMBER_OF_OBJECTS), package));
 
             var objectDataField = GetField(1, (int)DataFields.OBJECT_DATA);

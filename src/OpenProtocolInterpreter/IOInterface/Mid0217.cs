@@ -32,16 +32,7 @@ namespace OpenProtocolInterpreter.IOInterface
             set => GetField(1,(int)DataFields.RELAY_STATUS).SetValue(_boolConverter.Convert, value);
         }
 
-        public Mid0217() : this(0)
-        {
-
-        }
-
-        /// <summary>
-        /// Default Constructor
-        /// </summary>
-        /// <param name="noAckFlag">0=Ack needed, 1=No Ack needed</param>
-        public Mid0217(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
+        public Mid0217() : base(MID, LAST_REVISION)
         {
             _intConverter = new Int32Converter();
             _boolConverter = new BoolConverter();
@@ -52,8 +43,7 @@ namespace OpenProtocolInterpreter.IOInterface
         /// </summary>
         /// <param name="relayNumber">Three ASCII digits corresponding to a relay function</param>
         /// <param name="relayStatus">One ASCII digit representing the relay function status <para>true = Active</para><para>false = Not Active</para></param>
-        /// <param name="noAckFlag">0=Ack needed, 1=No Ack needed</param>
-        public Mid0217(RelayNumber relayNumber, bool relayStatus, int? noAckFlag = 0) : this(noAckFlag)
+        public Mid0217(RelayNumber relayNumber, bool relayStatus) : this()
         {
             RelayNumber = relayNumber;
             RelayStatus = relayStatus;

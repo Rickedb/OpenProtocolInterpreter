@@ -37,14 +37,14 @@ namespace OpenProtocolInterpreter.Alarm
 
         public override string Pack()
         {
-            RevisionsByFields[1][(int)DataFields.ERROR_CODE].Size = HeaderData.Revision == 1 ? 4 : 5;
+            RevisionsByFields[1][(int)DataFields.ERROR_CODE].Size = Header.Revision == 1 ? 4 : 5;
             return base.Pack();
         }
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
-            RevisionsByFields[1][(int)DataFields.ERROR_CODE].Size = HeaderData.Revision == 1 ? 4 : 5;
+            Header = ProcessHeader(package);
+            RevisionsByFields[1][(int)DataFields.ERROR_CODE].Size = Header.Revision == 1 ? 4 : 5;
             ProcessDataFields(package);
             return this;
         }

@@ -58,7 +58,7 @@ namespace OpenProtocolInterpreter.Communication
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
+            Header = ProcessHeader(package);
             GetField(1, (int)DataFields.EXTRA_DATA).Size = package.Length - 29;
             ProcessDataFields(package);
             return this;

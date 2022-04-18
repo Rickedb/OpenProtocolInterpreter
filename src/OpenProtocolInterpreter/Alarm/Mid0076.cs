@@ -98,7 +98,7 @@ namespace OpenProtocolInterpreter.Alarm
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
+            Header = ProcessHeader(package);
             HandleRevision();
             ProcessDataFields(package);
             return this;
@@ -133,7 +133,7 @@ namespace OpenProtocolInterpreter.Alarm
         private void HandleRevision()
         {
             var errorCodeField = GetField(1, (int)DataFields.ERROR_CODE);
-            errorCodeField.Size = HeaderData.Revision > 1 ? 5 : 4;
+            errorCodeField.Size = Header.Revision > 1 ? 5 : 4;
 
             int index = errorCodeField.Index + errorCodeField.Size;
             for (int i = (int)DataFields.CONTROLLER_READY_STATUS; i < RevisionsByFields[1].Count; i++)

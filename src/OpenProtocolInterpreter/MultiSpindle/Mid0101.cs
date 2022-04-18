@@ -153,16 +153,16 @@ namespace OpenProtocolInterpreter.MultiSpindle
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
+            Header = ProcessHeader(package);
             var spindleOrPressesField = GetField(1, (int)DataFields.NUMBER_OF_SPINDLES_OR_PRESSES);
             int spindleOrPresses = _intConverter.Convert(package.Substring(spindleOrPressesField.Index + 2, spindleOrPressesField.Size));
             var spindesOrPressesStatusField = GetField(1, (int)DataFields.SPINDLES_OR_PRESSES_STATUS);
             spindesOrPressesStatusField.Size = spindleOrPresses * 18;
-            if(HeaderData.Revision > 3)
+            if(Header.Revision > 3)
             {
                 var systemSubTypeField = GetField(4, (int)DataFields.SYSTEM_SUB_TYPE);
                 systemSubTypeField.Index = spindesOrPressesStatusField.Index + spindesOrPressesStatusField.Size + 2;
-                if(HeaderData.Revision > 4)
+                if(Header.Revision > 4)
                 {
                     GetField(5, (int)DataFields.JOB_SEQUENCE_NUMBER).Index = systemSubTypeField.Index + systemSubTypeField.Size + 2;
                 }

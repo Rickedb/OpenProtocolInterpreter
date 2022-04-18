@@ -15,7 +15,7 @@ namespace MIDTesters.ApplicationToolLocationSystem
             var mid = _midInterpreter.Parse<Mid0262>(package);
 
             Assert.AreEqual(typeof(Mid0262), mid.GetType());
-            Assert.IsNotNull(mid.HeaderData.NoAckFlag);
+            Assert.IsNotNull(mid.Header.NoAckFlag);
             Assert.IsNotNull(mid.ToolTagId);
             Assert.AreEqual(package, mid.Pack());
         }
@@ -28,7 +28,7 @@ namespace MIDTesters.ApplicationToolLocationSystem
             var mid = _midInterpreter.Parse<Mid0262>(bytes);
 
             Assert.AreEqual(typeof(Mid0262), mid.GetType());
-            Assert.IsNotNull(mid.HeaderData.NoAckFlag);
+            Assert.IsNotNull(mid.Header.NoAckFlag);
             Assert.IsNotNull(mid.ToolTagId);
             Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
         }

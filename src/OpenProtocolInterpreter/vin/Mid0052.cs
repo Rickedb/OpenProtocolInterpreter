@@ -93,7 +93,7 @@ namespace OpenProtocolInterpreter.Vin
         public override string Pack()
         {
             var vinNumberField = GetField(1, (int)DataFields.VIN_NUMBER);
-            if (HeaderData.Revision > 1)
+            if (Header.Revision > 1)
                 vinNumberField.HasPrefix = true;
 
             //Can be up to 40 bytes long
@@ -103,12 +103,12 @@ namespace OpenProtocolInterpreter.Vin
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
-            if (HeaderData.Revision > 1)
+            Header = ProcessHeader(package);
+            if (Header.Revision > 1)
             {
                 var vinNumberField = GetField(1, (int)DataFields.VIN_NUMBER);
                 vinNumberField.HasPrefix = true;
-                vinNumberField.Size = HeaderData.Length - 103;
+                vinNumberField.Size = Header.Length - 103;
                 if (vinNumberField.Size > 25)
                 {
                     int addedSize = vinNumberField.Size - 25;
@@ -118,7 +118,7 @@ namespace OpenProtocolInterpreter.Vin
                 }
             }
             else
-                GetField(1, (int)DataFields.VIN_NUMBER).Size = HeaderData.Length - 20;
+                GetField(1, (int)DataFields.VIN_NUMBER).Size = Header.Length - 20;
             ProcessDataFields(package);
             return this;
         }
@@ -130,7 +130,7 @@ namespace OpenProtocolInterpreter.Vin
         {
             List<string> failed = new List<string>();
 
-            if (HeaderData.Revision == 1)
+            if (Header.Revision == 1)
             {
                 if (VinNumber.Length > 45)
                     failed.Add(new ArgumentOutOfRangeException(nameof(VinNumber), "Max of 45 characters").Message);

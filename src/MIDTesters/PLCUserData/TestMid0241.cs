@@ -15,7 +15,7 @@ namespace MIDTesters.PLCUserData
             var mid = _midInterpreter.Parse<Mid0241>(package);
 
             Assert.AreEqual(typeof(Mid0241), mid.GetType());
-            Assert.IsNotNull(mid.HeaderData.NoAckFlag);
+            Assert.IsNotNull(mid.Header.NoAckFlag);
             Assert.AreEqual(package, mid.Pack());
         }
 
@@ -27,7 +27,7 @@ namespace MIDTesters.PLCUserData
             var mid = _midInterpreter.Parse(bytes);
 
             Assert.AreEqual(typeof(Mid0241), mid.GetType());
-            Assert.IsNotNull(mid.HeaderData.NoAckFlag);
+            Assert.IsNotNull(mid.Header.NoAckFlag);
             Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
         }
     }

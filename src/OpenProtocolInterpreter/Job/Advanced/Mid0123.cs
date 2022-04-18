@@ -12,11 +12,9 @@
         private const int LAST_REVISION = 1;
         public const int MID = 123;
 
-        public Mid0123() : this(0)
+        public Mid0123() : base(MID, LAST_REVISION)
         {
 
         }
-
-        public Mid0123(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) { }
     }
 }

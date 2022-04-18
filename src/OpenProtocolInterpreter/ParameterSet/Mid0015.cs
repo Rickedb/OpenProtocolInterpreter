@@ -26,13 +26,13 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public int ParameterSetId
         {
-            get => GetField(HeaderData.Revision, (int)DataFields.PARAMETER_SET_ID).GetValue(_intConverter.Convert);
-            set => GetField(HeaderData.Revision, (int)DataFields.PARAMETER_SET_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(Header.Revision, (int)DataFields.PARAMETER_SET_ID).GetValue(_intConverter.Convert);
+            set => GetField(Header.Revision, (int)DataFields.PARAMETER_SET_ID).SetValue(_intConverter.Convert, value);
         }
         public DateTime LastChangeInParameterSet
         {
-            get => GetField(HeaderData.Revision, (int)DataFields.LAST_CHANGE_IN_PARAMETER_SET).GetValue(_datetimeConverter.Convert);
-            set => GetField(HeaderData.Revision, (int)DataFields.LAST_CHANGE_IN_PARAMETER_SET).SetValue(_datetimeConverter.Convert, value);
+            get => GetField(Header.Revision, (int)DataFields.LAST_CHANGE_IN_PARAMETER_SET).GetValue(_datetimeConverter.Convert);
+            set => GetField(Header.Revision, (int)DataFields.LAST_CHANGE_IN_PARAMETER_SET).SetValue(_datetimeConverter.Convert, value);
         }
         //Rev 2
         public string ParameterSetName
@@ -99,9 +99,8 @@ namespace OpenProtocolInterpreter.ParameterSet
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="noAckFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
         /// <param name="revision">Range: 000-002</param>
-        public Mid0015(int revision = LAST_REVISION, int? noAckFlag = 0) : base(MID, revision, noAckFlag)
+        public Mid0015(int revision = LAST_REVISION) : base(MID, revision)
         {
             _intConverter = new Int32Converter();
             _datetimeConverter = new DateConverter();
@@ -113,10 +112,9 @@ namespace OpenProtocolInterpreter.ParameterSet
         /// </summary>
         /// <param name="parameterSetId">Three ASCII digits, range 000-999</param>
         /// <param name="lastChangeInParameterSet">19 ASCII characters. YYYY-MM-DD:HH:MM:SS</param>
-        /// <param name="noAckFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
         /// <param name="revision">Range: 000-002</param>
-        public Mid0015(int parameterSetId, DateTime lastChangeInParameterSet, int? noAckFlag = 0, int revision = 1)
-            : this(revision, noAckFlag)
+        public Mid0015(int parameterSetId, DateTime lastChangeInParameterSet, int revision = 1)
+            : this(revision)
         {
             ParameterSetId = parameterSetId;
             LastChangeInParameterSet = lastChangeInParameterSet;
@@ -138,11 +136,10 @@ namespace OpenProtocolInterpreter.ParameterSet
         /// <param name="finalAngleTarget">The target angle is specified in degrees. 5 ASCII digits.Range: 00000-99999.</param>
         /// <param name="firstTarget">The torque first target is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
         /// <param name="startFinalAngle">The start final angle is the torque to reach the snug level.The start final angle is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
-        /// <param name="noAckFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
         /// <param name="revision">Range: 000-002 (Default = 2)</param>
         public Mid0015(int parameterSetId, string parameterSetName, DateTime lastChangeInParameterSet, RotationDirection rotationDirection, int batchSize,
-            decimal torqueMin, decimal torqueMax, decimal torqueFinalTarget, int angleMin, int angleMax, int finalAngleTarget, decimal firstTarget, decimal startFinalAngle,
-            int? noAckFlag = 0, int revision = 2) : this(parameterSetId, lastChangeInParameterSet, noAckFlag, revision)
+            decimal torqueMin, decimal torqueMax, decimal torqueFinalTarget, int angleMin, int angleMax, int finalAngleTarget, decimal firstTarget, 
+            decimal startFinalAngle, int revision = 2) : this(parameterSetId, lastChangeInParameterSet, revision)
         {
             ParameterSetName = parameterSetName;
             RotationDirection = rotationDirection;
@@ -159,24 +156,24 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         protected override string BuildHeader()
         {
-            HeaderData.Length = 20;
-            foreach (var dataField in RevisionsByFields[HeaderData.Revision])
-                HeaderData.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
+            Header.Length = 20;
+            foreach (var dataField in RevisionsByFields[Header.Revision])
+                Header.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
 
-            return HeaderData.ToString();
+            return Header.ToString();
         }
 
         public override string Pack()
         {
             int index = 1;
-            return BuildHeader() + base.Pack(RevisionsByFields[HeaderData.Revision], ref index);
+            return BuildHeader() + base.Pack(RevisionsByFields[Header.Revision], ref index);
         }
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
-            HeaderData.Revision = HeaderData.Revision > 0 ? HeaderData.Revision : 1;
-            ProcessDataFields(RevisionsByFields[HeaderData.Revision], package);
+            Header = ProcessHeader(package);
+            Header.Revision = Header.Revision > 0 ? Header.Revision : 1;
+            ProcessDataFields(RevisionsByFields[Header.Revision], package);
             return this;
         }
 

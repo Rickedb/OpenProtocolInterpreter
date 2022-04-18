@@ -118,7 +118,7 @@ namespace OpenProtocolInterpreter.PowerMACS
 
         }
 
-        public Mid0106(int revision = LAST_REVISION, int? noAckFlag = 0) : base(MID, revision, noAckFlag)
+        public Mid0106(int revision = LAST_REVISION) : base(MID, revision)
         {
             _intConverter = new Int32Converter();
             _boolConverter = new BoolConverter();
@@ -141,7 +141,7 @@ namespace OpenProtocolInterpreter.PowerMACS
 
             string package = BuildHeader();
             int prefixIndex = 1;
-            for (int i = 1; i <= (HeaderData.Revision > 0 ? HeaderData.Revision : 1); i++)
+            for (int i = 1; i <= (Header.Revision > 0 ? Header.Revision : 1); i++)
                 foreach (var dataField in RevisionsByFields[i])
                 {
                     if (dataField.Field == (int)DataFields.NUMBER_OF_SPECIAL_VALUES)
@@ -161,7 +161,7 @@ namespace OpenProtocolInterpreter.PowerMACS
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
+            Header = ProcessHeader(package);
 
             int numberOfBolts = _intConverter.Convert(package.Substring(GetField(1, (int)DataFields.NUMBER_OF_BOLTS).Index + 2, GetField(1, (int)DataFields.NUMBER_OF_BOLTS).Size));
             GetField(1, (int)DataFields.BOLT_DATA).Size *= numberOfBolts;
@@ -171,7 +171,7 @@ namespace OpenProtocolInterpreter.PowerMACS
 
             var specialValues = GetField(1, (int)DataFields.SPECIAL_VALUES);
             specialValues.Index = numberOfSpecialValuesField.Index + numberOfSpecialValuesField.Size + 2;
-            if (HeaderData.Revision > 3)
+            if (Header.Revision > 3)
             {
                 specialValues.Size = package.Length - GetField(4, (int)DataFields.SYSTEM_SUB_TYPE).Size - 2;
                 GetField(4, (int)DataFields.SYSTEM_SUB_TYPE).Index = specialValues.Index + specialValues.Size;

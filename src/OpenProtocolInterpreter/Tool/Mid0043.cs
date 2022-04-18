@@ -36,7 +36,7 @@ namespace OpenProtocolInterpreter.Tool
         /// </summary>
         /// <param name="toolNumber">The number of the tool to disable. It is the same number as the tool numbers sent in <see cref="Mid0701"/> (Tool List Upload)</param>
         /// <param name="revision">Revision</param>
-        public Mid0043(int toolNumber, int revision = 2) : this(revision)
+        public Mid0043(int toolNumber, int revision = LAST_REVISION) : this(revision)
         {
             ToolNumber = toolNumber;
         }

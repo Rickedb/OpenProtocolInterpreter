@@ -37,13 +37,13 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
 
         public int AutoDisableSetting
         {
-            get => GetField(1,(int)DataFields.AUTO_DISABLE_SETTING).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.AUTO_DISABLE_SETTING).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.AUTO_DISABLE_SETTING).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.AUTO_DISABLE_SETTING).SetValue(_intConverter.Convert, value);
         }
         public int CurrentBatch
         {
-            get => GetField(1,(int)DataFields.CURRENT_BATCH).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.CURRENT_BATCH).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.CURRENT_BATCH).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.CURRENT_BATCH).SetValue(_intConverter.Convert, value);
         }
 
         public Mid0411() : base(MID, LAST_REVISION)

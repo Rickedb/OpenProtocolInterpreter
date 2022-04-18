@@ -14,7 +14,7 @@ namespace MIDTesters.ParameterSet
             var mid = _midInterpreter.Parse<Mid0022>(package);
 
             Assert.AreEqual(typeof(Mid0022), mid.GetType());
-            Assert.IsNotNull(mid.HeaderData.NoAckFlag);
+            Assert.IsNotNull(mid.Header.NoAckFlag);
             Assert.IsNotNull(mid.RelayStatus);
             Assert.AreEqual(package, mid.Pack());
         }
@@ -27,7 +27,7 @@ namespace MIDTesters.ParameterSet
             var mid = _midInterpreter.Parse<Mid0022>(bytes);
 
             Assert.AreEqual(typeof(Mid0022), mid.GetType());
-            Assert.IsNotNull(mid.HeaderData.NoAckFlag);
+            Assert.IsNotNull(mid.Header.NoAckFlag);
             Assert.IsNotNull(mid.RelayStatus);
             Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
         }

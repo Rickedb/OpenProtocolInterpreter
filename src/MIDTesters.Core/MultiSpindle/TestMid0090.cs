@@ -15,7 +15,7 @@ namespace MIDTesters.MultiSpindle
             var mid = _midInterpreter.Parse(pack);
 
             Assert.AreEqual(typeof(Mid0090), mid.GetType());
-            Assert.IsNotNull(mid.HeaderData.NoAckFlag);
+            Assert.IsNotNull(mid.Header.NoAckFlag);
             Assert.AreEqual(pack, mid.Pack());
         }
 
@@ -27,7 +27,7 @@ namespace MIDTesters.MultiSpindle
             var mid = _midInterpreter.Parse(bytes);
 
             Assert.AreEqual(typeof(Mid0090), mid.GetType());
-            Assert.IsNotNull(mid.HeaderData.NoAckFlag);
+            Assert.IsNotNull(mid.Header.NoAckFlag);
             Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
         }
     }

@@ -15,7 +15,7 @@ namespace MIDTesters.ApplicationSelector
             var mid = _midInterpreter.Parse<Mid0251>(package);
 
             Assert.AreEqual(typeof(Mid0251), mid.GetType());
-            Assert.IsNotNull(mid.HeaderData.NoAckFlag);
+            Assert.IsNotNull(mid.Header.NoAckFlag);
             Assert.IsNotNull(mid.DeviceId);
             Assert.IsNotNull(mid.NumberOfSockets);
             Assert.IsNotNull(mid.SocketStatus);
@@ -30,7 +30,7 @@ namespace MIDTesters.ApplicationSelector
             var mid = _midInterpreter.Parse<Mid0251>(bytes);
 
             Assert.AreEqual(typeof(Mid0251), mid.GetType());
-            Assert.IsNotNull(mid.HeaderData.NoAckFlag);
+            Assert.IsNotNull(mid.Header.NoAckFlag);
             Assert.IsNotNull(mid.DeviceId);
             Assert.IsNotNull(mid.NumberOfSockets);
             Assert.IsNotNull(mid.SocketStatus);

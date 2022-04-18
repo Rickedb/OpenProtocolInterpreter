@@ -15,7 +15,7 @@ namespace MIDTesters.OpenProtocolCommandsDisabled
             var mid = _midInterpreter.Parse(package);
 
             Assert.AreEqual(typeof(Mid0420), mid.GetType());
-            Assert.IsNotNull(mid.HeaderData.NoAckFlag);
+            Assert.IsNotNull(mid.Header.NoAckFlag);
             Assert.AreEqual(package, mid.Pack());
         }
 

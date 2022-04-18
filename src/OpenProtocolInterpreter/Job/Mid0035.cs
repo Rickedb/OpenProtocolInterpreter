@@ -6,8 +6,7 @@ using System.Linq;
 namespace OpenProtocolInterpreter.Job
 {
     /// <summary>
-    /// <para>MID: Job info</para>
-    /// <para>Description:</para>
+    /// <para>Job info</para>
     ///     <para>The Job info subscriber will receive a Job info message after a Job has been selected and after each
     ///     tightening performed in the Job.The Job info consists of the ID of the currently running Job, the Job
     ///     status, the Job batch mode, the Job batch size and the Job batch counter.</para>
@@ -218,7 +217,7 @@ namespace OpenProtocolInterpreter.Job
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
+            Header = ProcessHeader(package);
             HandleRevision();
             ProcessDataFields(package);
             return this;
@@ -231,7 +230,7 @@ namespace OpenProtocolInterpreter.Job
         {
             List<string> failed = new List<string>();
 
-            if (HeaderData.Revision == 1)
+            if (Header.Revision == 1)
             {
                 if (JobId < 0 || JobId > 99)
                     failed.Add(new ArgumentOutOfRangeException(nameof(JobId), "Range: 00-99").Message);
@@ -248,7 +247,7 @@ namespace OpenProtocolInterpreter.Job
             if (JobBatchCounter < 0 || JobBatchCounter > 9999)
                 failed.Add(new ArgumentOutOfRangeException(nameof(JobBatchCounter), "Range: 0000-9999").Message);
 
-            if (HeaderData.Revision == 3)
+            if (Header.Revision == 3)
             {
                 if (JobCurrentStep < 0 || JobCurrentStep > 999)
                     failed.Add(new ArgumentOutOfRangeException(nameof(JobCurrentStep), "Range: 000-999").Message);
@@ -310,7 +309,7 @@ namespace OpenProtocolInterpreter.Job
         private void HandleRevision()
         {
             var jobIdField = GetField(1, (int)DataFields.JOB_ID);
-            if (HeaderData.Revision > 1)
+            if (Header.Revision > 1)
             {
                 jobIdField.Size = 4;
             }

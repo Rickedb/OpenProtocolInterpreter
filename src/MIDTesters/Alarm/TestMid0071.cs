@@ -14,7 +14,7 @@ namespace MIDTesters.Alarm
             var mid = _midInterpreter.Parse<Mid0071>(pack);
 
             Assert.AreEqual(typeof(Mid0071), mid.GetType());
-            Assert.IsNotNull(mid.HeaderData.NoAckFlag);
+            Assert.IsNotNull(mid.Header.NoAckFlag);
             Assert.IsNotNull(mid.ErrorCode);
             Assert.IsNotNull(mid.ControllerReadyStatus);
             Assert.IsNotNull(mid.ToolReadyStatus);
@@ -30,7 +30,7 @@ namespace MIDTesters.Alarm
             var mid = _midInterpreter.Parse<Mid0071>(bytes);
 
             Assert.AreEqual(typeof(Mid0071), mid.GetType());
-            Assert.IsNotNull(mid.HeaderData.NoAckFlag);
+            Assert.IsNotNull(mid.Header.NoAckFlag);
             Assert.IsNotNull(mid.ErrorCode);
             Assert.IsNotNull(mid.ControllerReadyStatus);
             Assert.IsNotNull(mid.ToolReadyStatus);
@@ -45,7 +45,7 @@ namespace MIDTesters.Alarm
             var mid = _midInterpreter.Parse<Mid0071>(pack);
 
             Assert.AreEqual(typeof(Mid0071), mid.GetType());
-            Assert.IsNotNull(mid.HeaderData.NoAckFlag);
+            Assert.IsNotNull(mid.Header.NoAckFlag);
             Assert.IsNotNull(mid.ErrorCode);
             Assert.IsNotNull(mid.ControllerReadyStatus);
             Assert.IsNotNull(mid.ToolReadyStatus);
@@ -62,7 +62,7 @@ namespace MIDTesters.Alarm
             var mid = _midInterpreter.Parse<Mid0071>(bytes);
 
             Assert.AreEqual(typeof(Mid0071), mid.GetType());
-            Assert.IsNotNull(mid.HeaderData.NoAckFlag);
+            Assert.IsNotNull(mid.Header.NoAckFlag);
             Assert.IsNotNull(mid.ErrorCode);
             Assert.IsNotNull(mid.ControllerReadyStatus);
             Assert.IsNotNull(mid.ToolReadyStatus);

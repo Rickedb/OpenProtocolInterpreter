@@ -150,7 +150,7 @@ namespace OpenProtocolInterpreter.PowerMACS
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
+            Header = ProcessHeader(package);
 
             int numberOfBoltResults = _intConverter.Convert(GetValue(GetField(1, (int)DataFields.NUMBER_OF_BOLT_RESULTS), package));
             var boltResultField = GetField(1, (int)DataFields.BOLT_RESULTS);

@@ -75,8 +75,8 @@ namespace OpenProtocolInterpreter.PLCUserData
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
-            GetField(1, (int)DataFields.USER_DATA).Size = HeaderData.Length - 23;
+            Header = ProcessHeader(package);
+            GetField(1, (int)DataFields.USER_DATA).Size = Header.Length - 23;
             ProcessDataFields(package);
             return this;
         }

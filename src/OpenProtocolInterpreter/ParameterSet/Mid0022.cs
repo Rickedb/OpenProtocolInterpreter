@@ -21,22 +21,17 @@ namespace OpenProtocolInterpreter.ParameterSet
             set => GetField(1, (int)DataFields.RELAY_STATUS).SetValue(_boolConverter.Convert, value);
         }
 
-        public Mid0022() : this(0)
-        {
-
-        }
-
-        public Mid0022(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
+        public Mid0022() : base(MID, LAST_REVISION)
         {
             _boolConverter = new BoolConverter();
+
         }
 
         /// <summary>
         /// Revision 1 Constructor
         /// </summary>
         /// <param name="relayStatus">Relay Status</param>
-        /// <param name="noAckFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
-        public Mid0022(bool relayStatus, int? noAckFlag = 0) : this(noAckFlag)
+        public Mid0022(bool relayStatus) : this()
         {
             RelayStatus = relayStatus;
         }

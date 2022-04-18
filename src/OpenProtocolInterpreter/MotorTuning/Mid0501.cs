@@ -21,21 +21,16 @@ namespace OpenProtocolInterpreter.MotorTuning
         /// </summary>
         public bool MotorTuneResult
         {
-            get => GetField(1,(int)DataFields.MOTOR_TUNE_RESULT).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.MOTOR_TUNE_RESULT).SetValue(_boolConverter.Convert, value);
+            get => GetField(1, (int)DataFields.MOTOR_TUNE_RESULT).GetValue(_boolConverter.Convert);
+            set => GetField(1, (int)DataFields.MOTOR_TUNE_RESULT).SetValue(_boolConverter.Convert, value);
         }
 
-        public Mid0501() : this(0)
-        {
-
-        }
-
-        public Mid0501(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
+        public Mid0501() : base(MID, LAST_REVISION)
         {
             _boolConverter = new BoolConverter();
         }
 
-        public Mid0501(bool motorTuneResult, int? noAckFlag = 0) : this(noAckFlag)
+        public Mid0501(bool motorTuneResult) : this()
         {
             MotorTuneResult = motorTuneResult;
         }

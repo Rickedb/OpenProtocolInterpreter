@@ -62,23 +62,23 @@ namespace OpenProtocolInterpreter.Job
 
         public override string Pack()
         {
-            _jobListConverter = new JobIdListConverter(_intConverter, HeaderData.Revision);
+            _jobListConverter = new JobIdListConverter(_intConverter, Header.Revision);
             TotalJobs = JobIds.Count;
 
             var eachJobField = GetField(1, (int)DataFields.EACH_JOB_ID);
-            eachJobField.Size = (HeaderData.Revision > 1 ? 4 : 2) * TotalJobs;
+            eachJobField.Size = (Header.Revision > 1 ? 4 : 2) * TotalJobs;
             eachJobField.Value = _jobListConverter.Convert(JobIds);
             return base.Pack();
         }
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
+            Header = ProcessHeader(package);
             HandleRevisions();
 
-            _jobListConverter = new JobIdListConverter(_intConverter, HeaderData.Revision);
+            _jobListConverter = new JobIdListConverter(_intConverter, Header.Revision);
             var eachJobField = GetField(1, (int)DataFields.EACH_JOB_ID);
-            eachJobField.Size = HeaderData.Length - eachJobField.Index;
+            eachJobField.Size = Header.Length - eachJobField.Index;
             base.Parse(package);
             JobIds = _jobListConverter.Convert(eachJobField.Value).ToList();
             return this;
@@ -106,7 +106,7 @@ namespace OpenProtocolInterpreter.Job
         {
             List<string> failed = new List<string>();
 
-            if (HeaderData.Revision > 1)
+            if (Header.Revision > 1)
             {
                 if (TotalJobs < 0 || TotalJobs > 9999)
                     failed.Add(new ArgumentOutOfRangeException(nameof(TotalJobs), "Range: 0000-9999").Message);
@@ -136,7 +136,7 @@ namespace OpenProtocolInterpreter.Job
 
         private void HandleRevisions()
         {
-            if (HeaderData.Revision > 1)
+            if (Header.Revision > 1)
             {
                 GetField(1, (int)DataFields.EACH_JOB_ID).Index = 24;
                 GetField(1, (int)DataFields.NUMBER_OF_JOBS).Size = 4;

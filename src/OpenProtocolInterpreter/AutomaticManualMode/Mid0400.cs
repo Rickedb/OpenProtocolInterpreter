@@ -17,11 +17,11 @@
         private const int LAST_REVISION = 1;
         public const int MID = 400;
 
-        public Mid0400() : this(0)
+        public Mid0400() : this(false)
         {
 
         }
 
-        public Mid0400(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) { }
+        public Mid0400(bool noAckFlag = false) : base(MID, LAST_REVISION, noAckFlag) { }
     }
 }

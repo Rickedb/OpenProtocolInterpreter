@@ -44,8 +44,8 @@ namespace OpenProtocolInterpreter.Vin
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
-            GetField(1, (int)DataFields.VIN_NUMBER).Size = HeaderData.Length - 20;
+            Header = ProcessHeader(package);
+            GetField(1, (int)DataFields.VIN_NUMBER).Size = Header.Length - 20;
             ProcessDataFields(package);
             return this;
         }

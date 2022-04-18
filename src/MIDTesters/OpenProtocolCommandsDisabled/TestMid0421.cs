@@ -15,7 +15,7 @@ namespace MIDTesters.OpenProtocolCommandsDisabled
             var mid = _midInterpreter.Parse<Mid0421>(package);
 
             Assert.AreEqual(typeof(Mid0421), mid.GetType());
-            Assert.IsNotNull(mid.HeaderData.NoAckFlag);
+            Assert.IsNotNull(mid.Header.NoAckFlag);
             Assert.IsNotNull(mid.DigitalInputStatus);
             Assert.AreEqual(package, mid.Pack());
         }
@@ -28,7 +28,7 @@ namespace MIDTesters.OpenProtocolCommandsDisabled
             var mid = _midInterpreter.Parse<Mid0421>(bytes);
 
             Assert.AreEqual(typeof(Mid0421), mid.GetType());
-            Assert.IsNotNull(mid.HeaderData.NoAckFlag);
+            Assert.IsNotNull(mid.Header.NoAckFlag);
             Assert.IsNotNull(mid.DigitalInputStatus);
             Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
         }

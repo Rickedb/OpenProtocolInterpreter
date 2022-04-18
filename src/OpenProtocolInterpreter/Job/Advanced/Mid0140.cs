@@ -148,9 +148,9 @@ namespace OpenProtocolInterpreter.Job.Advanced
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
-            _jobListConverter = new AdvancedJobListConverter(_intConverter, HeaderData.Revision);
-            int length = HeaderData.Length;
+            Header = ProcessHeader(package);
+            _jobListConverter = new AdvancedJobListConverter(_intConverter, Header.Revision);
+            int length = Header.Length;
             var revision = GetNormalizedRevision();
             foreach (var rev in RevisionsByFields[revision])
                 length -= rev.Size;
@@ -183,12 +183,12 @@ namespace OpenProtocolInterpreter.Job.Advanced
 
         private int GetNormalizedRevision()
         {
-            if (HeaderData.Revision == 999)
+            if (Header.Revision == 999)
             {
                 return 1;
             }
 
-            return HeaderData.Revision;
+            return Header.Revision;
         }
 
         private int GetJobListSize()

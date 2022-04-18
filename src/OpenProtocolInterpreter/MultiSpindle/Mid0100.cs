@@ -46,7 +46,12 @@ namespace OpenProtocolInterpreter.MultiSpindle
 
         }
 
-        public Mid0100(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0100(bool noAckFlag = false) : this(LAST_REVISION, noAckFlag)
+        {
+
+        }
+
+        public Mid0100(int revision = LAST_REVISION, bool noAckFlag = false) : base(MID, revision, noAckFlag)
         {
             _longConverter = new Int64Converter();
             _boolConverter = new BoolConverter();

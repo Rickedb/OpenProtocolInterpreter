@@ -11,27 +11,23 @@ namespace OpenProtocolInterpreter
     public abstract class Mid
     {
         protected Dictionary<int, List<DataField>> RevisionsByFields { get; }
-        public Header HeaderData { get; set; }
+        public Header Header { get; set; }
 
         public Mid(Header header)
         {
-            HeaderData = header;
+            Header = header;
             RevisionsByFields = RegisterDatafields();
         }
 
-        public Mid(int mid, int revision, int? noAckFlag = null, int? spindleID = null, int? stationID = null, IEnumerable<DataField> usedAs = null)
+        public Mid(int mid, int revision, bool noAckFlag = false): this(new Header()
         {
-            HeaderData = new Header()
-            {
-                Length = 20,
-                Mid = mid,
-                Revision = revision,
-                NoAckFlag = noAckFlag,
-                SpindleID = spindleID,
-                StationID = stationID,
-                UsedAs = usedAs
-            };
-            RevisionsByFields = RegisterDatafields();
+            Length = 20,
+            Mid = mid,
+            Revision = revision,
+            NoAckFlag = noAckFlag
+        })
+        {
+
         }
 
         protected virtual byte[] BuildRawHeader() => ToBytes(BuildHeader());
@@ -40,17 +36,17 @@ namespace OpenProtocolInterpreter
         {
             if (RevisionsByFields.Any())
             {
-                HeaderData.Length = 20;
-                for (int i = 1; i <= (HeaderData.Revision > 0 ? HeaderData.Revision : 1); i++)
+                Header.Length = 20;
+                for (int i = 1; i <= (Header.Revision > 0 ? Header.Revision : 1); i++)
                 {
                     if (RevisionsByFields.TryGetValue(i, out var dataFields))
                     {
                         foreach (var dataField in dataFields)
-                            HeaderData.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
+                            Header.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
                     }
                 }
             }
-            return HeaderData.ToString();
+            return Header.ToString();
         }
 
         public virtual string Pack()
@@ -60,7 +56,7 @@ namespace OpenProtocolInterpreter
 
             string package = BuildHeader();
             int prefixIndex = 1;
-            for (int i = 1; i <= (HeaderData.Revision > 0 ? HeaderData.Revision : 1); i++)
+            for (int i = 1; i <= (Header.Revision > 0 ? Header.Revision : 1); i++)
             {
                 if (RevisionsByFields.TryGetValue(i, out var dataFields))
                 {
@@ -94,22 +90,32 @@ namespace OpenProtocolInterpreter
 
         protected virtual Header ProcessHeader(string package)
         {
+            if(package.Length < 20)
+            {
+                package = package.PadRight(20, ' ');
+            }
+
             var header = new Header
             {
                 Length = Convert.ToInt32(package.Substring(0, 4)),
                 Mid = Convert.ToInt32(package.Substring(4, 4)),
-                Revision = (package.Length >= 11 && !string.IsNullOrWhiteSpace(package.Substring(8, 3))) ? Convert.ToInt32(package.Substring(8, 3)) : 0,
-                NoAckFlag = (package.Length >= 12 && !string.IsNullOrWhiteSpace(package.Substring(11, 1))) ? (int?)Convert.ToInt32(package.Substring(11, 1)) : null,
-                StationID = (package.Length >= 14 && !string.IsNullOrWhiteSpace(package.Substring(12, 2))) ? (int?)Convert.ToInt32(package.Substring(12, 2)) : null,
-                SpindleID = (package.Length >= 16 && !string.IsNullOrWhiteSpace(package.Substring(14, 2))) ? (int?)Convert.ToInt32(package.Substring(14, 2)) : null
+                NoAckFlag = !string.IsNullOrWhiteSpace(package.Substring(11, 1)),
+                StationID = int.TryParse(package.Substring(12, 2), out var stationId) ? stationId : null,
+                SpindleID = int.TryParse(package.Substring(14, 2), out var spindleId) ? spindleId : null,
+                SequenceNumber = int.TryParse(package.Substring(16, 2), out var sequenceNumber) ? sequenceNumber : null,
+                NumberOfMessages = int.TryParse(package.Substring(18, 1), out var numberOfMessages) ? numberOfMessages : null,
+                MessageNumber = int.TryParse(package.Substring(19, 1), out var messageNumber) ? messageNumber : null
             };
 
+            var revisionAscii = package.Substring(8, 3);
+            int.TryParse(revisionAscii, out var revision);
+            header.Revision = revision > 0 ? revision : 1;
             return header;
         }
 
         public virtual Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
+            Header = ProcessHeader(package);
             ProcessDataFields(package);
             return this;
         }
@@ -125,7 +131,7 @@ namespace OpenProtocolInterpreter
             if (!RevisionsByFields.Any())
                 return;
 
-            int revision = HeaderData.Revision > 0 ? HeaderData.Revision : 1;
+            int revision = Header.Revision > 0 ? Header.Revision : 1;
             for (int i = 1; i <= revision; i++)
             {
                 if (RevisionsByFields.ContainsKey(i))
@@ -180,35 +186,5 @@ namespace OpenProtocolInterpreter
 
         protected byte[] ToBytes(string value) => Encoding.ASCII.GetBytes(value);
 
-        public class Header
-        {
-            public int Length { get; internal set; }
-            public int Mid { get; internal set; }
-            public int Revision { get; internal set; }
-            public int? NoAckFlag { get; set; }
-            public int? SpindleID { get; set; }
-            public int? StationID { get; set; }
-            public IEnumerable<DataField> UsedAs { get; set; }
-
-            public override string ToString()
-            {
-                string header = string.Empty;
-                header += Length.ToString().PadLeft(4, '0');
-                header += Mid.ToString().PadLeft(4, '0');
-                header += (Revision > 0) ? Revision.ToString().PadLeft(3, '0') : string.Empty.PadLeft(3, ' ');
-                header += NoAckFlag.ToString().PadLeft(1, ' ');
-                header += (StationID != null) ? StationID.ToString().PadLeft(2, '0') : StationID.ToString().PadLeft(2, ' ');
-                header += (SpindleID != null) ? SpindleID.ToString().PadLeft(2, '0') : SpindleID.ToString().PadLeft(2, ' ');
-                string usedAs = "    ";
-                if (UsedAs != null)
-                {
-                    usedAs = string.Empty;
-                    foreach (DataField field in UsedAs)
-                        usedAs += field.Value.ToString();
-                }
-                header += usedAs;
-                return header;
-            }
-        }
     }
 }

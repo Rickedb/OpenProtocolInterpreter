@@ -52,9 +52,9 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
+            Header = ProcessHeader(package);
 
-            GetField(1, (int)DataFields.EACH_PARAMETER_SET).Size = HeaderData.Length - GetField(1, (int)DataFields.EACH_PARAMETER_SET).Index;
+            GetField(1, (int)DataFields.EACH_PARAMETER_SET).Size = Header.Length - GetField(1, (int)DataFields.EACH_PARAMETER_SET).Index;
             ProcessDataFields(package);
             ParameterSets = _intListConverter.Convert(GetField(1, (int)DataFields.EACH_PARAMETER_SET).Value).ToList();
             return this;

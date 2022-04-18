@@ -74,7 +74,7 @@ namespace OpenProtocolInterpreter.Result
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
+            Header = ProcessHeader(package);
             var variableDataField = GetField(1, (int)DataFields.VARIABLE_DATA_FIELDS);
             variableDataField.Size = package.Length - variableDataField.Index;
             ProcessDataFields(package);

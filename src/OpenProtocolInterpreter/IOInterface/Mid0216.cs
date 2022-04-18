@@ -28,17 +28,17 @@ namespace OpenProtocolInterpreter.IOInterface
             set => GetField(1,(int)DataFields.RELAY_NUMBER).SetValue(_intConverter.Convert, (int)value);
         }
 
-        public Mid0216() : this(0)
+        public Mid0216() : this(false)
         {
 
         }
 
-        public Mid0216(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
+        public Mid0216(bool noAckFlag = false) : base(MID, LAST_REVISION, noAckFlag)
         {
             _intConverter = new Int32Converter();
         }
 
-        public Mid0216(RelayNumber relayNumber, int? noAckFlag = 0) : this(noAckFlag)
+        public Mid0216(RelayNumber relayNumber, bool noAckFlag = false) : this(noAckFlag)
         {
             RelayNumber = relayNumber;
         }

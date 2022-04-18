@@ -34,8 +34,8 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
-            GetField(1, (int)DataFields.IDENTIFIER_DATA).Size = HeaderData.Length - 20;
+            Header = ProcessHeader(package);
+            GetField(1, (int)DataFields.IDENTIFIER_DATA).Size = Header.Length - 20;
             ProcessDataFields(package);
             return this;
         }

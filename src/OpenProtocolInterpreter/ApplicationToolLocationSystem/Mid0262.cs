@@ -19,12 +19,10 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
             set => GetField(1,(int)DataFields.TOOL_TAG_ID).SetValue(value);
         }
 
-        public Mid0262() : this(0)
+        public Mid0262() : base(MID, LAST_REVISION)
         {
 
         }
-
-        public Mid0262(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) {  }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

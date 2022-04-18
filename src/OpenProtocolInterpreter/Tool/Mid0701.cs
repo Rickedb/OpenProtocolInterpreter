@@ -50,10 +50,10 @@ namespace OpenProtocolInterpreter.Tool
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
+            Header = ProcessHeader(package);
 
             var eachToolField = GetField(1, (int)DataFields.EACH_TOOL);
-            eachToolField.Size = HeaderData.Length - eachToolField.Index;
+            eachToolField.Size = Header.Length - eachToolField.Index;
             ProcessDataFields(package);
             Tools = _toolListConverter.Convert(eachToolField.Value).ToList();
             return this;

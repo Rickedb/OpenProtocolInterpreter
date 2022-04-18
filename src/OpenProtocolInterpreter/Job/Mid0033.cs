@@ -144,7 +144,7 @@ namespace OpenProtocolInterpreter.Job
             HandleRevisions();
             NumberOfParameterSets = ParameterSetList.Count;
 
-            _parameterSetListConverter = new ParameterSetListConverter(_intConverter, _boolConverter, HeaderData.Revision);
+            _parameterSetListConverter = new ParameterSetListConverter(_intConverter, _boolConverter, Header.Revision);
             var psetListField = GetField(1, (int)DataFields.PARAMETER_SET_LIST);
             psetListField.Size = ParameterSetList.Count * GetEachParameterSetSize();
             psetListField.Value = _parameterSetListConverter.Convert(ParameterSetList);
@@ -153,11 +153,11 @@ namespace OpenProtocolInterpreter.Job
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
+            Header = ProcessHeader(package);
             HandleRevisions();
-            _parameterSetListConverter = new ParameterSetListConverter(_intConverter, _boolConverter, HeaderData.Revision);
+            _parameterSetListConverter = new ParameterSetListConverter(_intConverter, _boolConverter, Header.Revision);
             var jobListField = GetField(1, (int)DataFields.PARAMETER_SET_LIST);
-            jobListField.Size = HeaderData.Length - jobListField.Index - 2;
+            jobListField.Size = Header.Length - jobListField.Index - 2;
             base.Parse(package);
             ParameterSetList = _parameterSetListConverter.Convert(jobListField.Value).ToList();
             return this;
@@ -194,7 +194,7 @@ namespace OpenProtocolInterpreter.Job
         private void HandleRevisions()
         {
             var jobIdField = GetField(1, (int)DataFields.JOB_ID);
-            if (HeaderData.Revision > 1)
+            if (Header.Revision > 1)
             {
                 jobIdField.Size = 4;
             }
@@ -214,7 +214,7 @@ namespace OpenProtocolInterpreter.Job
 
         private int GetEachParameterSetSize()
         {
-            switch(HeaderData.Revision)
+            switch(Header.Revision)
             {
                 case 3: return 44;
                 case 4: return 49;

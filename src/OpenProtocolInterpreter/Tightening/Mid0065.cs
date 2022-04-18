@@ -251,38 +251,38 @@ namespace OpenProtocolInterpreter.Tightening
         {
             if (RevisionsByFields.Any())
             {
-                HeaderData.Length = 20;
-                HeaderData.Revision = HeaderData.Revision > 0 ? HeaderData.Revision : 1;
-                if (HeaderData.Revision > 1)
+                Header.Length = 20;
+                Header.Revision = Header.Revision > 0 ? Header.Revision : 1;
+                if (Header.Revision > 1)
                 {
-                    for (int i = 2; i <= HeaderData.Revision; i++)
+                    for (int i = 2; i <= Header.Revision; i++)
                         foreach (var dataField in RevisionsByFields[i])
-                            HeaderData.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
+                            Header.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
                 }
                 else
                 {
                     foreach (var dataField in RevisionsByFields[1])
-                        HeaderData.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
+                        Header.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
                 }
             }
-            return HeaderData.ToString();
+            return Header.ToString();
         }
 
         public override string Pack()
         {
             string package = BuildHeader();
             int prefixIndex = 1;
-            if (HeaderData.Revision > 1)
+            if (Header.Revision > 1)
             {
                 GetField(2, (int)DataFields.STRATEGY_OPTIONS).SetValue(_strategyOptionsConverter.Convert, StrategyOptions);
                 GetField(2, (int)DataFields.TIGHTENING_ERROR_STATUS).SetValue(_tighteningErrorStatusConverter.Convert, TighteningErrorStatus);
 
-                if (HeaderData.Revision > 5)
+                if (Header.Revision > 5)
                 {
                     GetField(6, (int)DataFields.TIGHTENING_ERROR_STATUS_2).SetValue(_tighteningErrorStatus2Converter.Convert, TighteningErrorStatus2);
                 }
 
-                int processUntil = HeaderData.Revision;
+                int processUntil = Header.Revision;
                 for (int i = 2; i <= processUntil; i++)
                 {
                     package += Pack(RevisionsByFields[i], ref prefixIndex);
@@ -290,7 +290,7 @@ namespace OpenProtocolInterpreter.Tightening
             }
             else
             {
-                package += Pack(RevisionsByFields[HeaderData.Revision], ref prefixIndex);
+                package += Pack(RevisionsByFields[Header.Revision], ref prefixIndex);
             }
 
             return package;
@@ -298,13 +298,13 @@ namespace OpenProtocolInterpreter.Tightening
 
         protected override void ProcessDataFields(string package)
         {
-            if (HeaderData.Revision == 1)
+            if (Header.Revision == 1)
             {
-                ProcessDataFields(RevisionsByFields[HeaderData.Revision], package);
+                ProcessDataFields(RevisionsByFields[Header.Revision], package);
             }
             else
             {
-                int processUntil = HeaderData.Revision;
+                int processUntil = Header.Revision;
                 for (int i = 2; i <= processUntil; i++)
                     ProcessDataFields(RevisionsByFields[i], package);
 
@@ -314,7 +314,7 @@ namespace OpenProtocolInterpreter.Tightening
                 var tighteningErrorStatusField = GetField(2, (int)DataFields.TIGHTENING_ERROR_STATUS);
                 TighteningErrorStatus = _tighteningErrorStatusConverter.Convert(tighteningErrorStatusField.Value);
 
-                if (HeaderData.Revision > 5)
+                if (Header.Revision > 5)
                 {
                     var tighteningErrorStatus2Field = GetField(6, (int)DataFields.TIGHTENING_ERROR_STATUS_2);
                     TighteningErrorStatus2 = _tighteningErrorStatus2Converter.Convert(tighteningErrorStatus2Field.Value);
@@ -423,7 +423,7 @@ namespace OpenProtocolInterpreter.Tightening
             };
         }
 
-        private int GetCurrentRevisionIndex() => (HeaderData.Revision > 1) ? 2 : 1;
+        private int GetCurrentRevisionIndex() => (Header.Revision > 1) ? 2 : 1;
 
         public enum DataFields
         {

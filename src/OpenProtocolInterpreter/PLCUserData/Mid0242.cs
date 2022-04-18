@@ -19,14 +19,12 @@ namespace OpenProtocolInterpreter.PLCUserData
             set => GetField(1, (int)DataFields.USER_DATA).SetValue(value);
         }
 
-        public Mid0242() : this(0)
+        public Mid0242() : base(MID, LAST_REVISION)
         {
 
         }
 
-        public Mid0242(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) { }
-
-        public Mid0242(string userData, int? noAckFlag = 0) : this(noAckFlag)
+        public Mid0242(string userData) : this()
         {
             UserData = userData;
         }
@@ -39,7 +37,7 @@ namespace OpenProtocolInterpreter.PLCUserData
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
+            Header = ProcessHeader(package);
             GetField(1, (int)DataFields.USER_DATA).Size = package.Length - 20;
             ProcessDataFields(package);
             return this;
