@@ -94,21 +94,25 @@ namespace OpenProtocolInterpreter
                 package = package.PadRight(20, ' ');
             }
 
+            static bool IsNotEmptyOrZero(string package, out int value)
+            {
+                value = 0;
+                return !string.IsNullOrWhiteSpace(package) && (int.TryParse(package, out value) && value > 0);
+            }
+
             var header = new Header
             {
                 Length = Convert.ToInt32(package.Substring(0, 4)),
                 Mid = Convert.ToInt32(package.Substring(4, 4)),
+                Revision = IsNotEmptyOrZero(package.Substring(8, 3), out var revision) ? revision : 1,
                 NoAckFlag = !string.IsNullOrWhiteSpace(package.Substring(11, 1)),
-                StationID = int.TryParse(package.Substring(12, 2), out var stationId) ? stationId : null,
-                SpindleID = int.TryParse(package.Substring(14, 2), out var spindleId) ? spindleId : null,
-                SequenceNumber = int.TryParse(package.Substring(16, 2), out var sequenceNumber) ? sequenceNumber : null,
-                NumberOfMessages = int.TryParse(package.Substring(18, 1), out var numberOfMessages) ? numberOfMessages : null,
-                MessageNumber = int.TryParse(package.Substring(19, 1), out var messageNumber) ? messageNumber : null
+                StationID = int.TryParse(package.Substring(12, 2), out var stationId) ? stationId : 1,
+                SpindleID = int.TryParse(package.Substring(14, 2), out var spindleId) ? spindleId : 1,
+                SequenceNumber = IsNotEmptyOrZero(package.Substring(16, 2), out var sequenceNumber) ? sequenceNumber : null,
+                NumberOfMessages = IsNotEmptyOrZero(package.Substring(18, 1), out var numberOfMessages) ? numberOfMessages : null,
+                MessageNumber = IsNotEmptyOrZero(package.Substring(19, 1), out var messageNumber) ? messageNumber : null
             };
 
-            var revisionAscii = package.Substring(8, 3);
-            int.TryParse(revisionAscii, out var revision);
-            header.Revision = revision > 0 ? revision : 1;
             return header;
         }
 

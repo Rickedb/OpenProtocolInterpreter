@@ -52,6 +52,10 @@ namespace OpenProtocolInterpreter.Vin
 
         }
 
+        public Mid0052(Header header) : base(header)
+        {
+        }
+
         public Mid0052(int revision = LAST_REVISION) : base(MID, revision) { }
 
         /// <summary>
