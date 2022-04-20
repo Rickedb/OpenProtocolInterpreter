@@ -27,6 +27,10 @@ namespace OpenProtocolInterpreter.Vin
 
         public Mid0050() : base(MID, LAST_REVISION) { }
 
+        public Mid0050(Header header) : base(header)
+        {
+        }
+
         /// <summary>
         /// Revision 1 Constructor
         /// </summary>

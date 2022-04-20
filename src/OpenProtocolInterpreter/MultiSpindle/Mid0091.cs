@@ -45,7 +45,16 @@ namespace OpenProtocolInterpreter.MultiSpindle
         }
         public List<SpindleStatus> SpindlesStatus { get; set; }
 
-        public Mid0091() : base(MID, LAST_REVISION)
+        public Mid0091() : this(new Header()
+        {
+            Mid = MID,
+            Revision = LAST_REVISION
+        })
+        {
+
+        }
+
+        public Mid0091(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
             _boolConverter = new BoolConverter();

@@ -46,7 +46,16 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
             set => GetField(1, (int)DataFields.CURRENT_BATCH).SetValue(_intConverter.Convert, value);
         }
 
-        public Mid0411() : base(MID, LAST_REVISION)
+        public Mid0411() : base(new Header()
+        {
+            Mid= MID,
+            Revision = LAST_REVISION
+        })
+        {
+            
+        }
+
+        public Mid0411(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
         }

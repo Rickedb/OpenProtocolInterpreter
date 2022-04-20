@@ -21,13 +21,12 @@ namespace OpenProtocolInterpreter
 
         public Mid(int mid, int revision, bool noAckFlag = false): this(new Header()
         {
-            Length = 20,
             Mid = mid,
             Revision = revision,
             NoAckFlag = noAckFlag
         })
         {
-
+            
         }
 
         protected virtual byte[] BuildRawHeader() => ToBytes(BuildHeader());

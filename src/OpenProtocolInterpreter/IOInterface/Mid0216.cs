@@ -33,9 +33,19 @@ namespace OpenProtocolInterpreter.IOInterface
 
         }
 
-        public Mid0216(bool noAckFlag = false) : base(MID, LAST_REVISION, noAckFlag)
+        public Mid0216(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
+        }
+
+        public Mid0216(bool noAckFlag = false) : this(new Header()
+        {
+            Mid = MID,
+            Revision = LAST_REVISION,
+            NoAckFlag = noAckFlag
+        })
+        {
+            
         }
 
         public Mid0216(RelayNumber relayNumber, bool noAckFlag = false) : this(noAckFlag)

@@ -21,10 +21,17 @@ namespace OpenProtocolInterpreter.ParameterSet
             set => GetField(1, (int)DataFields.RELAY_STATUS).SetValue(_boolConverter.Convert, value);
         }
 
-        public Mid0022() : base(MID, LAST_REVISION)
+        public Mid0022() : this(new Header()
+        {
+            Mid = MID, 
+            Revision = LAST_REVISION
+        })
+        {
+        }
+
+        public Mid0022(Header header) : base(header)
         {
             _boolConverter = new BoolConverter();
-
         }
 
         /// <summary>

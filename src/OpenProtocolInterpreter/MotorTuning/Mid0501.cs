@@ -25,7 +25,15 @@ namespace OpenProtocolInterpreter.MotorTuning
             set => GetField(1, (int)DataFields.MOTOR_TUNE_RESULT).SetValue(_boolConverter.Convert, value);
         }
 
-        public Mid0501() : base(MID, LAST_REVISION)
+        public Mid0501() : this(new Header()
+        {
+            Mid = MID,
+            Revision = LAST_REVISION
+        })
+        {
+        }
+
+        public Mid0501(Header header) : base(header)
         {
             _boolConverter = new BoolConverter();
         }

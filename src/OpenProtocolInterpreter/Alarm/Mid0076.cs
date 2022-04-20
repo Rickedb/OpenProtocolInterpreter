@@ -55,12 +55,21 @@ namespace OpenProtocolInterpreter.Alarm
 
         }
 
-        public Mid0076(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0076(Header header) : base(header)
         {
             _boolConverter = new BoolConverter();
             _dateConverter = new DateConverter();
             _intConverter = new Int32Converter();
             HandleRevision();
+        }
+
+        public Mid0076(int revision = LAST_REVISION) : this(new Header() 
+        {
+            Mid = MID,
+            Revision = revision
+        })
+        {
+            
         }
 
         /// <summary>

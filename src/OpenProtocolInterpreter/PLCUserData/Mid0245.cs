@@ -52,7 +52,15 @@ namespace OpenProtocolInterpreter.PLCUserData
             set => GetField(1, (int)DataFields.USER_DATA).SetValue(value);
         }
 
-        public Mid0245() : base(MID, LAST_REVISION)
+        public Mid0245() : this(new Header()
+        {
+            Mid = MID, 
+            Revision = LAST_REVISION
+        })
+        {
+        }
+
+        public Mid0245(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
             if (string.IsNullOrEmpty(UserData))

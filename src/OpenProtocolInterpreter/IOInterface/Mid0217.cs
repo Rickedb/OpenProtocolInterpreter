@@ -23,16 +23,25 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public RelayNumber RelayNumber
         {
-            get => (RelayNumber)GetField(1,(int)DataFields.RELAY_NUMBER).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.RELAY_NUMBER).SetValue(_intConverter.Convert, (int)value);
+            get => (RelayNumber)GetField(1, (int)DataFields.RELAY_NUMBER).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.RELAY_NUMBER).SetValue(_intConverter.Convert, (int)value);
         }
         public bool RelayStatus
         {
-            get => GetField(1,(int)DataFields.RELAY_STATUS).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.RELAY_STATUS).SetValue(_boolConverter.Convert, value);
+            get => GetField(1, (int)DataFields.RELAY_STATUS).GetValue(_boolConverter.Convert);
+            set => GetField(1, (int)DataFields.RELAY_STATUS).SetValue(_boolConverter.Convert, value);
         }
 
-        public Mid0217() : base(MID, LAST_REVISION)
+        public Mid0217() : this(new Header()
+        {
+            Mid = MID,
+            Revision = LAST_REVISION
+        })
+        {
+
+        }
+
+        public Mid0217(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
             _boolConverter = new BoolConverter();
@@ -58,7 +67,7 @@ namespace OpenProtocolInterpreter.IOInterface
                     {
                         new DataField((int)DataFields.RELAY_NUMBER, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED),
                         new DataField((int)DataFields.RELAY_STATUS, 25, 1)
-                    }   
+                    }
                 }
             };
         }

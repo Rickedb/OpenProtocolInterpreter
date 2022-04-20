@@ -24,6 +24,10 @@ namespace OpenProtocolInterpreter.PLCUserData
 
         public Mid0240() : base(MID, LAST_REVISION) { }
 
+        public Mid0240(Header header) : base(header)
+        {
+        }
+
         public Mid0240(string userData) : this()
         {
             UserData = userData;

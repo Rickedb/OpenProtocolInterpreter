@@ -22,5 +22,9 @@
         {
 
         }
+
+        public Mid0122(Header header) : base(header)
+        {
+        }
     }
 }

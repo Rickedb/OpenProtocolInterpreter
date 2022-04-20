@@ -108,7 +108,7 @@ namespace OpenProtocolInterpreter.Job
 
         }
 
-        public Mid0035(int revision = LAST_REVISION, int? noAckFlag = 0) : base(MID, revision, noAckFlag)
+        public Mid0035(int revision = LAST_REVISION) : base(MID, revision)
         {
             _intConverter = new Int32Converter();
             _datetimeConverter = new DateConverter();
@@ -127,7 +127,7 @@ namespace OpenProtocolInterpreter.Job
         /// <param name="noAckFlag">0=Ack needed, 1=No Ack needed</param>
         /// <param name="revision">Revision number (default = 2)</param>
         public Mid0035(int jobId, JobStatus jobStatus, JobBatchMode jobBatchMode,
-            int jobBatchSize, int jobBatchCounter, DateTime timestamp, int revision = 2, int? noAckFlag = 0) : this(revision, noAckFlag)
+            int jobBatchSize, int jobBatchCounter, DateTime timestamp, int revision = 2) : this(revision)
         {
             JobId = jobId;
             JobStatus = jobStatus;
@@ -157,8 +157,8 @@ namespace OpenProtocolInterpreter.Job
         /// <param name="revision">Revision number (default = 3)</param>
         public Mid0035(int jobId, JobStatus jobStatus, JobBatchMode jobBatchMode,
            int jobBatchSize, int jobBatchCounter, DateTime timestamp, int jobCurrentStep, int jobTotalNumberOfSteps,
-           int jobStepType, int revision = 3, int? noAckFlag = 0)
-            : this(jobId, jobStatus, jobBatchMode, jobBatchSize, jobBatchCounter, timestamp, revision, noAckFlag)
+           int jobStepType, int revision = 3)
+            : this(jobId, jobStatus, jobBatchMode, jobBatchSize, jobBatchCounter, timestamp, revision)
         {
             JobCurrentStep = jobCurrentStep;
             JobTotalNumberOfSteps = jobTotalNumberOfSteps;
@@ -179,8 +179,7 @@ namespace OpenProtocolInterpreter.Job
         /// <param name="revision">Revision number (default = 4)</param>
         public Mid0035(int jobId, JobStatus jobStatus, JobBatchMode jobBatchMode,
            int jobBatchSize, int jobBatchCounter, DateTime timestamp, JobTighteningStatus jobTighteningStatus,
-           int revision = 4, int? noAckFlag = 0)
-            : this(jobId, jobStatus, jobBatchMode, jobBatchSize, jobBatchCounter, timestamp, revision, noAckFlag)
+           int revision = 4) : this(jobId, jobStatus, jobBatchMode, jobBatchSize, jobBatchCounter, timestamp, revision)
         {
             JobTighteningStatus = jobTighteningStatus;
         }
@@ -205,8 +204,8 @@ namespace OpenProtocolInterpreter.Job
         public Mid0035(int jobId, JobStatus jobStatus, JobBatchMode jobBatchMode,
            int jobBatchSize, int jobBatchCounter, DateTime timestamp, JobTighteningStatus jobTighteningStatus,
            int jobSequenceNumber, string vinNumber, string identifierResultPart2, string identifierResultPart3,
-           string identifierResultPart4, int revision = 5, int? noAckFlag = 0)
-            : this(jobId, jobStatus, jobBatchMode, jobBatchSize, jobBatchCounter, timestamp, jobTighteningStatus, revision, noAckFlag)
+           string identifierResultPart4, int revision = 5)
+            : this(jobId, jobStatus, jobBatchMode, jobBatchSize, jobBatchCounter, timestamp, jobTighteningStatus, revision)
         {
             JobSequenceNumber = jobSequenceNumber;
             VinNumber = vinNumber;

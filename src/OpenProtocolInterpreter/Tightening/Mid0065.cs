@@ -234,7 +234,7 @@ namespace OpenProtocolInterpreter.Tightening
 
         }
 
-        public Mid0065(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0065(Header header) : base(header)
         {
             var byteArrayConverter = new ByteArrayConverter();
             _intConverter = new Int32Converter();
@@ -245,6 +245,14 @@ namespace OpenProtocolInterpreter.Tightening
             _strategyOptionsConverter = new StrategyOptionsConverter(byteArrayConverter, _intConverter);
             _tighteningErrorStatusConverter = new TighteningErrorStatusConverter(byteArrayConverter, _longConverter);
             _tighteningErrorStatus2Converter = new TighteningErrorStatus2Converter(byteArrayConverter, _longConverter);
+        }
+
+        public Mid0065(int revision = LAST_REVISION) : this(new Header()
+        {
+            Mid = MID, 
+            Revision = revision
+        })
+        {
         }
 
         protected override string BuildHeader()

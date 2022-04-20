@@ -26,7 +26,15 @@ namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
             set => GetField(1,(int)DataFields.DIGITAL_INPUT_STATUS).SetValue(_boolConverter.Convert, value);
         }
 
-        public Mid0421() : base(MID, LAST_REVISION)
+        public Mid0421() : this(new Header()
+        {
+            Mid = MID, 
+            Revision = LAST_REVISION
+        })
+        {
+        }
+
+        public Mid0421(Header header) : base(header)
         {
             _boolConverter = new BoolConverter();
         }

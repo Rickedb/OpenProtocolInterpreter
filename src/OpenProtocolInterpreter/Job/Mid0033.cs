@@ -86,13 +86,21 @@ namespace OpenProtocolInterpreter.Job
 
         }
 
-        public Mid0033(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0033(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
             _boolConverter = new BoolConverter();
             if (ParameterSetList == null)
                 ParameterSetList = new List<ParameterSet>();
             HandleRevisions();
+        }
+
+        public Mid0033(int revision = LAST_REVISION) : this(new Header()
+        {
+            Mid = MID,
+            Revision = revision
+        })
+        {
         }
 
         /// <summary>

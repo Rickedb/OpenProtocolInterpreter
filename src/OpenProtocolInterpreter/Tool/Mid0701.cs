@@ -24,7 +24,15 @@ namespace OpenProtocolInterpreter.Tool
         public int TotalTools { get => Tools.Count; }
         public List<ToolData> Tools { get; set; }
 
-        public Mid0701() : base(MID, LAST_REVISION)
+        public Mid0701() : this(new Header()
+        {
+            Mid = MID, 
+            Revision = LAST_REVISION
+        })
+        {
+        }
+
+        public Mid0701(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
             _toolListConverter = new ToolListConverter(_intConverter);

@@ -92,11 +92,19 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         }
 
-        public Mid0013(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0013(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
             _decimalConverter = new DecimalTrucatedConverter(2);
             _dateConverter = new DateConverter();
+        }
+
+        public Mid0013(int revision = LAST_REVISION) : this(new Header()
+        {
+            Mid = MID, 
+            Revision = revision
+        })
+        {
         }
 
         /// <summary>

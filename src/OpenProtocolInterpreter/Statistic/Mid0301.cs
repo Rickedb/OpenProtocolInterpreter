@@ -90,7 +90,15 @@ namespace OpenProtocolInterpreter.Statistic
             set => GetField(1,(int)DataFields.BAR_9).SetValue(_intConverter.Convert, value);
         }
 
-        public Mid0301() : base(MID, LAST_REVISION)
+        public Mid0301() : this(new Header()
+        {
+            Mid = MID, 
+            Revision = LAST_REVISION
+        })
+        {
+        }
+
+        public Mid0301(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
             _decimalConverter = new DecimalTrucatedConverter(2);

@@ -118,7 +118,16 @@ namespace OpenProtocolInterpreter.PowerMACS
         }
         public List<SpecialValue> SpecialValues { get; set; }
 
-        public Mid0107() : base(MID, LAST_REVISION)
+        public Mid0107() : this(new Header()
+        {
+            Mid = MID, 
+            Revision = LAST_REVISION
+        })
+        {
+            
+        }
+
+        public Mid0107(Header header) : base(header)
         {
             _boolConverter = new BoolConverter();
             _intConverter = new Int32Converter();

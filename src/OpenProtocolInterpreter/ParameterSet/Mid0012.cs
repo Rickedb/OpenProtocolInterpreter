@@ -35,7 +35,15 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         }
 
-        public Mid0012(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0012(int revision = LAST_REVISION) : this(new Header()
+        {
+            Mid = MID,
+            Revision = revision
+        })
+        {
+        }
+
+        public Mid0012(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
         }

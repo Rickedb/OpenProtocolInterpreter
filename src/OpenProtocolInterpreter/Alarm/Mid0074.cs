@@ -30,6 +30,11 @@ namespace OpenProtocolInterpreter.Alarm
 
         }
 
+        public Mid0074(Header header) : base(header)
+        {
+
+        }
+
         public Mid0074(string errorCode, int revision = LAST_REVISION) : this(revision)
         {
             ErrorCode = errorCode;

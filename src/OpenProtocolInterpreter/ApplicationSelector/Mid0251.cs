@@ -34,7 +34,16 @@ namespace OpenProtocolInterpreter.ApplicationSelector
         }
         public List<bool> SocketStatus { get; set; }
 
-        public Mid0251() : base(MID, LAST_REVISION)
+        public Mid0251() : this(new Header()
+        {
+            Mid = MID,
+            Revision = LAST_REVISION
+        })
+        {
+            
+        }
+
+        public Mid0251(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
             _boolListConverter = new SocketStatusConverter(new BoolConverter());

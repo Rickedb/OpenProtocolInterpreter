@@ -16,6 +16,11 @@
 
         }
 
+        public Mid0070(Header header) : base(header)
+        {
+
+        }
+
         public Mid0070(int revision = LAST_REVISION, bool noAckFlag = false) : base(MID, revision, noAckFlag)
         {
 

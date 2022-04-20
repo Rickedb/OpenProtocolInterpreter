@@ -30,9 +30,17 @@ namespace OpenProtocolInterpreter.Tool
         {
         }
 
-        public Mid0042(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0042(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
+        }
+
+        public Mid0042(int revision = LAST_REVISION) : this(new Header()
+        {
+            Mid = MID,
+            Revision = revision
+        })
+        {
         }
 
         /// <summary>

@@ -96,15 +96,23 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="revision">Range: 000-002</param>
-        public Mid0015(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0015(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
             _datetimeConverter = new DateConverter();
             _decimalConverter = new DecimalTrucatedConverter(2);
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="revision">Range: 000-002</param>
+        public Mid0015(int revision = LAST_REVISION) : this(new Header()
+        {
+            Mid = MID,
+            Revision = revision
+        })
+        {
         }
 
         /// <summary>

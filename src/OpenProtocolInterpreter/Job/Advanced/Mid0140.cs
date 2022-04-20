@@ -128,13 +128,23 @@ namespace OpenProtocolInterpreter.Job.Advanced
 
         }
 
-        public Mid0140(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0140(Header header) : base(header)
         {
             JobList = new List<AdvancedJob>();
             _intConverter = new Int32Converter();
             _boolConverter = new BoolConverter();
-            _jobListConverter = new AdvancedJobListConverter(_intConverter, revision);
+            _jobListConverter = new AdvancedJobListConverter(_intConverter, header.Revision);
         }
+
+        public Mid0140(int revision = LAST_REVISION) : this(new Header()
+        {
+            Mid = MID,
+            Revision = revision
+        })
+        {
+
+        }
+
 
         public override string Pack()
         {
@@ -194,7 +204,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
         private int GetJobListSize()
         {
             var revision = GetNormalizedRevision();
-            switch(revision)
+            switch (revision)
             {
                 case 2: return 52;
                 case 3: return 63;

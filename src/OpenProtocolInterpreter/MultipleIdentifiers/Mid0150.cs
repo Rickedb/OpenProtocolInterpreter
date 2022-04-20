@@ -19,7 +19,17 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
             set => GetField(1, (int)DataFields.IDENTIFIER_DATA).SetValue(value);
         }
 
-        public Mid0150() : base(MID, LAST_REVISION) { }
+        public Mid0150() : this(new Header()
+        {
+            Mid = MID,
+            Revision = LAST_REVISION
+        }) 
+        { 
+        }
+
+        public Mid0150(Header header) : base(header)
+        {
+        }
 
         public Mid0150(string identifierData) : this()
         {

@@ -19,6 +19,10 @@
 
         }
 
+        public Mid0034(Header header) : base(header)
+        {
+        }
+
         /// <summary>
         /// Revision 1 to 4 Constructor
         /// </summary>

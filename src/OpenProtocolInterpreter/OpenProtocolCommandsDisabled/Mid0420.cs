@@ -25,5 +25,9 @@
         }
 
         public Mid0420(bool noAckFlag = false) : base(MID, LAST_REVISION, noAckFlag) { }
+
+        public Mid0420(Header header) : base(header)
+        {
+        }
     }
 }

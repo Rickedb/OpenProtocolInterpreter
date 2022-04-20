@@ -30,6 +30,10 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public Mid0011() : base(MID, LAST_REVISION)
         {
+        }
+
+        public Mid0011(Header header) : base(header)
+        {
             _intConverter = new Int32Converter();
             _intListConverter = new ParameterSetIdListConverter(_intConverter);
             if (ParameterSets == null)

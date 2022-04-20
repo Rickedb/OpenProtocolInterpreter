@@ -24,6 +24,11 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
 
         }
 
+        public Mid0262(Header header) : base(header)
+        {
+
+        }
+
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()

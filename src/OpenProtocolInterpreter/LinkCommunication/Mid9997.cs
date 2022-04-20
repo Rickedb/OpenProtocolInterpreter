@@ -27,9 +27,18 @@ namespace OpenProtocolInterpreter.LinkCommunication
             set => GetField(1, (int)DataFields.MID_NUMBER).SetValue(_intConverter.Convert, value);
         }
 
-        public Mid9997() :base(MID, LAST_REVISION)
+
+        public Mid9997(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
+        }
+
+        public Mid9997() : this(new Header()
+        {
+            Mid = MID,
+            Revision = LAST_REVISION
+        })
+        {
         }
 
         /// <summary>

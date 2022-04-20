@@ -58,7 +58,15 @@ namespace OpenProtocolInterpreter.UserInterface
             set => GetField(1,(int)DataFields.LINE_4).SetValue(value);
         }
 
-        public Mid0111() : base(MID, LAST_REVISION)
+        public Mid0111() : this(new Header()
+        {
+            Mid = MID, 
+            Revision = LAST_REVISION
+        })
+        {
+        }
+
+        public Mid0111(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
         }

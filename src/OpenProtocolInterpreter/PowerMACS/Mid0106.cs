@@ -118,7 +118,7 @@ namespace OpenProtocolInterpreter.PowerMACS
 
         }
 
-        public Mid0106(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0106(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
             _boolConverter = new BoolConverter();
@@ -128,6 +128,14 @@ namespace OpenProtocolInterpreter.PowerMACS
                 BoltsData = new List<BoltData>();
             if (SpecialValues == null)
                 SpecialValues = new List<SpecialValue>();
+        }
+
+        public Mid0106(int revision = LAST_REVISION) : this(new Header()
+        {
+            Mid = MID, 
+            Revision = revision
+        })
+        {
         }
 
         public override string Pack()

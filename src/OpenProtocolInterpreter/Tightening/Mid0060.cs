@@ -27,5 +27,9 @@
         {
 
         }
+
+        public Mid0060(Header header) : base(header)
+        {
+        }
     }
 }

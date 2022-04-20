@@ -26,8 +26,8 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public DigitalInputNumber DigitalInputNumber
         {
-            get => (DigitalInputNumber)GetField(1,(int)DataFields.DIGITAL_INPUT_NUMBER).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.DIGITAL_INPUT_NUMBER).SetValue(_intConverter.Convert, (int)value);
+            get => (DigitalInputNumber)GetField(1, (int)DataFields.DIGITAL_INPUT_NUMBER).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.DIGITAL_INPUT_NUMBER).SetValue(_intConverter.Convert, (int)value);
         }
 
         public Mid0220() : this(false)
@@ -35,9 +35,19 @@ namespace OpenProtocolInterpreter.IOInterface
 
         }
 
-        public Mid0220(bool noAckFlag = false) : base(MID, LAST_REVISION, noAckFlag)
+        public Mid0220(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
+        }
+
+        public Mid0220(bool noAckFlag = false) : this(new Header()
+        {
+            Mid = MID,
+            Revision = LAST_REVISION,
+            NoAckFlag = noAckFlag
+        })
+        {
+
         }
 
         public Mid0220(DigitalInputNumber digitalInputNumber, bool noAckFlag = false) : this(noAckFlag)

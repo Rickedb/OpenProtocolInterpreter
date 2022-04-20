@@ -50,7 +50,7 @@ namespace OpenProtocolInterpreter.IOInterface
 
         }
 
-        public Mid0215(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0215(Header header) : base(header)
         {
             var boolConverter = new BoolConverter();
             _intConverter = new Int32Converter();
@@ -58,6 +58,15 @@ namespace OpenProtocolInterpreter.IOInterface
             _digitalInputListConverter = new DigitalInputListConverter(_intConverter, boolConverter);
             Relays = new List<Relay>();
             DigitalInputs = new List<DigitalInput>();
+        }
+
+        public Mid0215(int revision = LAST_REVISION) : this(new Header()
+        {
+            Mid = MID,
+            Revision = revision
+        })
+        {
+
         }
 
         protected override string BuildHeader()

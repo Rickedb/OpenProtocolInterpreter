@@ -134,13 +134,21 @@ namespace OpenProtocolInterpreter.MultiSpindle
 
         }
 
-        public Mid0101(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0101(Header header) : base(header)
         {
             _boolConverter = new BoolConverter();
             _intConverter = new Int32Converter();
             _dateConverter = new DateConverter();
             _decimalConverter = new DecimalTrucatedConverter(2);
             _spindleOrPressStatusListConverter = new SpindleOrPressStatusListConverter(_intConverter, _boolConverter, _decimalConverter);
+        }
+
+        public Mid0101(int revision = LAST_REVISION) : this(new Header()
+        {
+            Mid = MID,
+            Revision = revision
+        })
+        {
         }
 
         public override string Pack()
