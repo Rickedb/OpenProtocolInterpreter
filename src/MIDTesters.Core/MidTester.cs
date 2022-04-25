@@ -30,7 +30,7 @@ namespace MIDTesters
                 mid.Header.Revision = 0;
             }
 
-            mid.Header.StationID = mid.Header.SpindleID = null;
+            mid.Header.StationId = mid.Header.SpindleId = null;
             Assert.AreEqual(expected, mid.Pack());
         }
 
@@ -41,7 +41,7 @@ namespace MIDTesters
                 mid.Header.Revision = 0;
             }
 
-            mid.Header.StationID = mid.Header.SpindleID = null;
+            mid.Header.StationId = mid.Header.SpindleId = null;
             Assert.IsTrue(mid.PackBytes().SequenceEqual(expected));
         }
     }

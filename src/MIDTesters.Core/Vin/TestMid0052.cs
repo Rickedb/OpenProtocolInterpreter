@@ -37,7 +37,7 @@ namespace MIDTesters.Vin
             var mid = _midInterpreter.Parse<Mid0052>(package);
 
             Assert.IsNotNull(mid.VinNumber);
-            mid.Header.StationID = mid.Header.SpindleID = null;
+            mid.Header.StationId = mid.Header.SpindleId = null;
             Assert.AreEqual(package, mid.PackWithNul());
         }
 
@@ -49,7 +49,7 @@ namespace MIDTesters.Vin
             var mid = _midInterpreter.Parse<Mid0052>(bytes);
 
             Assert.IsNotNull(mid.VinNumber);
-            mid.Header.StationID = mid.Header.SpindleID = null;
+            mid.Header.StationId = mid.Header.SpindleId = null;
             Assert.IsTrue(mid.PackBytesWithNul().SequenceEqual(bytes));
         }
 

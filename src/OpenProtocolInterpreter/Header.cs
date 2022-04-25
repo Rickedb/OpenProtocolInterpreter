@@ -38,12 +38,12 @@
         /// The station the message is addressed to in the case of controller with multi-station configuration.
         /// <para>Note: Two spaces are considered as station 1</para>
         /// </summary>
-        public int? StationID { get; set; }
+        public int? StationId { get; set; }
         /// <summary>
         /// The spindle the message is addressed to in the case several spindles are connected to the same controller.
         /// <para>Note: Two spaces are considered as spindle 1</para>
         /// </summary>
-        public int? SpindleID { get; set; }
+        public int? SpindleId { get; set; }
 
         /// <summary>
         /// For acknowledging on "Link Level" with MIDs 0997 and 0998.
@@ -75,8 +75,8 @@
             header += Mid.ToString().PadLeft(4, '0');
             header += (Revision > 0) ? Revision.ToString().PadLeft(3, '0') : "   ";
             header += NoAckFlag ? "1" : " ";
-            header += (StationID != null) ? StationID.ToString().PadLeft(2, '0') : string.Empty.PadLeft(2, ' ');
-            header += (SpindleID != null) ? SpindleID.ToString().PadLeft(2, '0') : string.Empty.PadLeft(2, ' ');
+            header += (StationId != null) ? StationId.ToString().PadLeft(2, '0') : string.Empty.PadLeft(2, ' ');
+            header += (SpindleId != null) ? SpindleId.ToString().PadLeft(2, '0') : string.Empty.PadLeft(2, ' ');
             header += (SequenceNumber > 0) ? SequenceNumber.ToString().PadLeft(2, '0') : string.Empty.PadLeft(2, ' ');
             header += NumberOfMessages.ToString().PadLeft(1, ' ');
             header += MessageNumber.ToString().PadLeft(1, ' ');
