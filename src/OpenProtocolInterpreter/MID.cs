@@ -108,9 +108,9 @@ namespace OpenProtocolInterpreter
                 NoAckFlag = !string.IsNullOrWhiteSpace(package.Substring(11, 1)),
                 StationId = int.TryParse(package.Substring(12, 2), out var stationId) ? stationId : 1,
                 SpindleId = int.TryParse(package.Substring(14, 2), out var spindleId) ? spindleId : 1,
-                SequenceNumber = IsNotEmptyOrZero(package.Substring(16, 2), out var sequenceNumber) ? sequenceNumber : null,
-                NumberOfMessages = IsNotEmptyOrZero(package.Substring(18, 1), out var numberOfMessages) ? numberOfMessages : null,
-                MessageNumber = IsNotEmptyOrZero(package.Substring(19, 1), out var messageNumber) ? messageNumber : null
+                SequenceNumber = IsNotEmptyOrZero(package.Substring(16, 2), out var sequenceNumber) ? sequenceNumber : default(int?),
+                NumberOfMessages = IsNotEmptyOrZero(package.Substring(18, 1), out var numberOfMessages) ? numberOfMessages : default(int?),
+                MessageNumber = IsNotEmptyOrZero(package.Substring(19, 1), out var messageNumber) ? messageNumber : default(int?)
             };
 
             return header;
