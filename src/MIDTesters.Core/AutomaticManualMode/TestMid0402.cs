@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.AutomaticManualMode;
 
 namespace MIDTesters.AutomaticManualMode
 {
     [TestClass]
-    public class TestMid0402 : MidTester
+    public class TestMid0402 : DefaultMidTests<Mid0402>
     {
         [TestMethod]
         public void Mid0402Revision1()
@@ -15,7 +13,7 @@ namespace MIDTesters.AutomaticManualMode
             var mid = _midInterpreter.Parse(package);
 
             Assert.AreEqual(typeof(Mid0402), mid.GetType());
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid, true);
         }
 
         [TestMethod]
@@ -26,7 +24,7 @@ namespace MIDTesters.AutomaticManualMode
             var mid = _midInterpreter.Parse(bytes);
 
             Assert.AreEqual(typeof(Mid0402), mid.GetType());
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid, true);
         }
     }
 }

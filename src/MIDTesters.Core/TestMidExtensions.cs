@@ -2,14 +2,14 @@
 using OpenProtocolInterpreter;
 using OpenProtocolInterpreter.Communication;
 
-namespace MIDTesters.Core
+namespace MIDTesters
 {
     [TestClass]
     public class TestMidExtensions
     {
         public TestMidExtensions()
         {
-            
+
         }
 
         [TestMethod]

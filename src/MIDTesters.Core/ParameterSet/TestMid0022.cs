@@ -5,7 +5,7 @@ using System.Linq;
 namespace MIDTesters.ParameterSet
 {
     [TestClass]
-    public class TestMid0022 : MidTester
+    public class TestMid0022 : DefaultMidTests<Mid0022>
     {
         [TestMethod]
         public void Mid0022Revision1()
@@ -13,10 +13,9 @@ namespace MIDTesters.ParameterSet
             string package = "00210022   1        1";
             var mid = _midInterpreter.Parse<Mid0022>(package);
 
-            Assert.AreEqual(typeof(Mid0022), mid.GetType());
-            Assert.IsNotNull(mid.Header.NoAckFlag);
+            Assert.IsTrue(mid.Header.NoAckFlag);
             Assert.IsNotNull(mid.RelayStatus);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid, true);
         }
 
         [TestMethod]
@@ -26,10 +25,9 @@ namespace MIDTesters.ParameterSet
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0022>(bytes);
 
-            Assert.AreEqual(typeof(Mid0022), mid.GetType());
-            Assert.IsNotNull(mid.Header.NoAckFlag);
+            Assert.IsTrue(mid.Header.NoAckFlag);
             Assert.IsNotNull(mid.RelayStatus);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid, true);
         }
     }
 }

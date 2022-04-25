@@ -1,11 +1,12 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Communication;
 
-namespace MIDTesters.Core
+namespace MIDTesters
 {
     [TestClass]
     public class TestMidHeader : MidTester
     {
+        
         [TestMethod]
         public void TestRevisionEmpty()
         {

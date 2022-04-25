@@ -6,7 +6,7 @@ using OpenProtocolInterpreter.ParameterSet;
 namespace MIDTesters.ParameterSet
 {
     [TestClass]
-    public class TestMid0014 : MidTester
+    public class TestMid0014 : DefaultMidTests<Mid0014>
     {
         [TestMethod]
         public void Mid0014Revision1()
@@ -15,7 +15,7 @@ namespace MIDTesters.ParameterSet
             var mid = _midInterpreter.Parse(package);
 
             Assert.AreEqual(typeof(Mid0014), mid.GetType());
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid, true);
         }
 
         [TestMethod]
@@ -26,7 +26,7 @@ namespace MIDTesters.ParameterSet
             var mid = _midInterpreter.Parse(bytes);
 
             Assert.AreEqual(typeof(Mid0014), mid.GetType());
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid, true);
         }
     }
 }

@@ -6,7 +6,7 @@ using OpenProtocolInterpreter.AutomaticManualMode;
 namespace MIDTesters.AutomaticManualMode
 {
     [TestClass]
-    public class TestMid0403 : MidTester
+    public class TestMid0403 : DefaultMidTests<Mid0403>
     {
         [TestMethod]
         public void Mid0403Revision1()
@@ -15,7 +15,7 @@ namespace MIDTesters.AutomaticManualMode
             var mid = _midInterpreter.Parse(package);
 
             Assert.AreEqual(typeof(Mid0403), mid.GetType());
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid, true);
         }
 
         [TestMethod]
@@ -26,7 +26,7 @@ namespace MIDTesters.AutomaticManualMode
             var mid = _midInterpreter.Parse(bytes);
 
             Assert.AreEqual(typeof(Mid0403), mid.GetType());
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid, true);
         }
     }
 }

@@ -1,11 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.MultiSpindle;
-using System.Linq;
 
 namespace MIDTesters.MultiSpindle
 {
     [TestClass]
-    public class TestMid0100 : MidTester
+    public class TestMid0100 : DefaultMidTests<Mid0100>
     {
         [TestMethod]
         public void Mid0100Revision1()
@@ -14,7 +13,7 @@ namespace MIDTesters.MultiSpindle
             var mid = _midInterpreter.Parse(pack);
 
             Assert.AreEqual(typeof(Mid0100), mid.GetType());
-            Assert.AreEqual(pack, mid.Pack());
+            AssertEqualPackages(pack, mid);
         }
 
         [TestMethod]
@@ -25,7 +24,7 @@ namespace MIDTesters.MultiSpindle
             var mid = _midInterpreter.Parse(bytes);
 
             Assert.AreEqual(typeof(Mid0100), mid.GetType());
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
 
         [TestMethod]
@@ -36,7 +35,7 @@ namespace MIDTesters.MultiSpindle
 
             Assert.AreEqual(typeof(Mid0100), mid.GetType());
             Assert.IsNotNull(mid.DataNumberSystem);
-            Assert.AreEqual(pack, mid.Pack());
+            AssertEqualPackages(pack, mid);
         }
 
         [TestMethod]
@@ -48,7 +47,7 @@ namespace MIDTesters.MultiSpindle
 
             Assert.AreEqual(typeof(Mid0100), mid.GetType());
             Assert.IsNotNull(mid.DataNumberSystem);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
 
         [TestMethod]
@@ -60,7 +59,7 @@ namespace MIDTesters.MultiSpindle
             Assert.AreEqual(typeof(Mid0100), mid.GetType());
             Assert.IsNotNull(mid.DataNumberSystem);
             Assert.IsNotNull(mid.SendOnlyNewData);
-            Assert.AreEqual(pack, mid.Pack());
+            AssertEqualPackages(pack, mid);
         }
 
         [TestMethod]
@@ -73,7 +72,7 @@ namespace MIDTesters.MultiSpindle
             Assert.AreEqual(typeof(Mid0100), mid.GetType());
             Assert.IsNotNull(mid.DataNumberSystem);
             Assert.IsNotNull(mid.SendOnlyNewData);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
     }
 }

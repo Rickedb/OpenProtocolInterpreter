@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.ApplicationSelector;
 
 namespace MIDTesters.ApplicationSelector
 {
     [TestClass]
-    public class TestMid0255 : MidTester
+    public class TestMid0255 : DefaultMidTests<Mid0255>
     {
         [TestMethod]
         public void Mid0255Revision1()
@@ -14,10 +12,9 @@ namespace MIDTesters.ApplicationSelector
             string package = "00340255            01510221112022";
             var mid = _midInterpreter.Parse<Mid0255>(package);
 
-            Assert.AreEqual(typeof(Mid0255), mid.GetType());
             Assert.IsNotNull(mid.DeviceId);
             Assert.IsNotNull(mid.RedLights);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid, true);
         }
 
         [TestMethod]
@@ -27,10 +24,9 @@ namespace MIDTesters.ApplicationSelector
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0255>(bytes);
 
-            Assert.AreEqual(typeof(Mid0255), mid.GetType());
             Assert.IsNotNull(mid.DeviceId);
             Assert.IsNotNull(mid.RedLights);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid, true);
         }
     }
 }

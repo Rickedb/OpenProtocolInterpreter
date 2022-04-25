@@ -1,11 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.KeepAlive;
-using System.Linq;
 
 namespace MIDTesters.KeepAlive
 {
     [TestClass]
-    public class TestMid9999 : MidTester
+    public class TestMid9999 : DefaultMidTests<Mid9999>
     {
         [TestMethod]
         public void Mid9999Revision1()
@@ -14,7 +13,7 @@ namespace MIDTesters.KeepAlive
             var mid = _midInterpreter.Parse(package);
 
             Assert.AreEqual(typeof(Mid9999), mid.GetType());
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
 
         [TestMethod]
@@ -25,7 +24,7 @@ namespace MIDTesters.KeepAlive
             var mid = _midInterpreter.Parse(bytes);
 
             Assert.AreEqual(typeof(Mid9999), mid.GetType());
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
     }
 }

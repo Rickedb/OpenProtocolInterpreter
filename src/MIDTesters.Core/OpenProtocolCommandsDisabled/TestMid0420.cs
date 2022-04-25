@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.OpenProtocolCommandsDisabled;
 
 namespace MIDTesters.OpenProtocolCommandsDisabled
 {
     [TestClass]
-    public class TestMid0420 : MidTester
+    public class TestMid0420 : DefaultMidTests<Mid0420>
     {
         [TestMethod]
         public void Mid0420Revision1()
@@ -15,8 +13,8 @@ namespace MIDTesters.OpenProtocolCommandsDisabled
             var mid = _midInterpreter.Parse(package);
 
             Assert.AreEqual(typeof(Mid0420), mid.GetType());
-            Assert.IsNotNull(mid.Header.NoAckFlag);
-            Assert.AreEqual(package, mid.Pack());
+            Assert.IsTrue(mid.Header.NoAckFlag);
+            AssertEqualPackages(package, mid, true);
         }
 
         [TestMethod]
@@ -27,7 +25,8 @@ namespace MIDTesters.OpenProtocolCommandsDisabled
             var mid = _midInterpreter.Parse(bytes);
 
             Assert.AreEqual(typeof(Mid0420), mid.GetType());
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            Assert.IsTrue(mid.Header.NoAckFlag);
+            AssertEqualPackages(bytes, mid, true);
         }
     }
 }

@@ -1,11 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.MultiSpindle;
-using System.Linq;
 
 namespace MIDTesters.MultiSpindle
 {
     [TestClass]
-    public class TestMid0101 : MidTester
+    public class TestMid0101 : DefaultMidTests<Mid0101>
     {
         [TestMethod]
         public void Mid0101Revisions1To3()
@@ -32,7 +31,7 @@ namespace MIDTesters.MultiSpindle
             Assert.IsNotNull(mid.SyncTighteningId);
             Assert.IsNotNull(mid.SyncOverallStatus);
             Assert.IsNotNull(mid.SpindlesOrPressesStatus);
-            Assert.AreEqual(pack, mid.Pack());
+            AssertEqualPackages(pack, mid);
         }
 
         [TestMethod]
@@ -61,7 +60,7 @@ namespace MIDTesters.MultiSpindle
             Assert.IsNotNull(mid.SyncTighteningId);
             Assert.IsNotNull(mid.SyncOverallStatus);
             Assert.IsNotNull(mid.SpindlesOrPressesStatus);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
 
         [TestMethod]
@@ -90,7 +89,7 @@ namespace MIDTesters.MultiSpindle
             Assert.IsNotNull(mid.SyncOverallStatus);
             Assert.IsNotNull(mid.SpindlesOrPressesStatus);
             Assert.IsNotNull(mid.SystemSubType);
-            Assert.AreEqual(pack, mid.Pack());
+            AssertEqualPackages(pack, mid);
         }
 
         [TestMethod]
@@ -120,7 +119,7 @@ namespace MIDTesters.MultiSpindle
             Assert.IsNotNull(mid.SyncOverallStatus);
             Assert.IsNotNull(mid.SpindlesOrPressesStatus);
             Assert.IsNotNull(mid.SystemSubType);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
 
         [TestMethod]
@@ -150,7 +149,7 @@ namespace MIDTesters.MultiSpindle
             Assert.IsNotNull(mid.SpindlesOrPressesStatus);
             Assert.IsNotNull(mid.SystemSubType);
             Assert.IsNotNull(mid.JobSequenceNumber);
-            Assert.AreEqual(pack, mid.Pack());
+            AssertEqualPackages(pack, mid);
         }
 
         [TestMethod]
@@ -181,7 +180,7 @@ namespace MIDTesters.MultiSpindle
             Assert.IsNotNull(mid.SpindlesOrPressesStatus);
             Assert.IsNotNull(mid.SystemSubType);
             Assert.IsNotNull(mid.JobSequenceNumber);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
     }
 }

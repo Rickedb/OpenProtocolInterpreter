@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Time;
 
 namespace MIDTesters.Time
 {
     [TestClass]
-    public class TestMid0080 : MidTester
+    public class TestMid0080 : DefaultMidTests<Mid0080>
     {
         [TestMethod]
         public void Mid0080AllRevisions()
@@ -15,7 +13,7 @@ namespace MIDTesters.Time
             var mid = _midInterpreter.Parse(pack);
 
             Assert.AreEqual(typeof(Mid0080), mid.GetType());
-            Assert.AreEqual(pack, mid.Pack());
+            AssertEqualPackages(pack, mid, true);
         }
 
         [TestMethod]
@@ -26,7 +24,7 @@ namespace MIDTesters.Time
             var mid = _midInterpreter.Parse(bytes);
 
             Assert.AreEqual(typeof(Mid0080), mid.GetType());
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid, true);
         }
     }
 }

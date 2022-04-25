@@ -1,21 +1,19 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.PLCUserData;
 
 namespace MIDTesters.PLCUserData
 {
     [TestClass]
-    public class TestMid0243 : MidTester
+    public class TestMid0243 : DefaultMidTests<Mid0243>
     {
         [TestMethod]
         public void Mid0243Revision1()
         {
             string package = "00200243            ";
-            var mid = _midInterpreter.Parse<Mid0243>(package);
+            var mid = _midInterpreter.Parse(package);
 
             Assert.AreEqual(typeof(Mid0243), mid.GetType());
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid, true);
         }
 
         [TestMethod]
@@ -26,7 +24,7 @@ namespace MIDTesters.PLCUserData
             var mid = _midInterpreter.Parse(bytes);
 
             Assert.AreEqual(typeof(Mid0243), mid.GetType());
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid, true);
         }
     }
 }

@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.IOInterface;
 
 namespace MIDTesters.IOInterface
 {
     [TestClass]
-    public class TestMid0210 : MidTester
+    public class TestMid0210 : DefaultMidTests<Mid0210>
     {
         [TestMethod]
         public void Mid0210Revision1()
@@ -15,8 +13,8 @@ namespace MIDTesters.IOInterface
             var mid = _midInterpreter.Parse(package);
 
             Assert.AreEqual(typeof(Mid0210), mid.GetType());
-            Assert.IsNotNull(mid.Header.NoAckFlag);
-            Assert.AreEqual(package, mid.Pack());
+            Assert.IsTrue(mid.Header.NoAckFlag);
+            AssertEqualPackages(package, mid, true);
         }
 
         [TestMethod]
@@ -27,8 +25,8 @@ namespace MIDTesters.IOInterface
             var mid = _midInterpreter.Parse(bytes);
 
             Assert.AreEqual(typeof(Mid0210), mid.GetType());
-            Assert.IsNotNull(mid.Header.NoAckFlag);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            Assert.IsTrue(mid.Header.NoAckFlag);
+            AssertEqualPackages(bytes, mid, true);
         }
     }
 }

@@ -6,7 +6,7 @@ using OpenProtocolInterpreter.ApplicationSelector;
 namespace MIDTesters.ApplicationSelector
 {
     [TestClass]
-    public class TestMid0250 : MidTester
+    public class TestMid0250 : DefaultMidTests<Mid0250>
     {
         [TestMethod]
         public void Mid0250Revision1()
@@ -15,8 +15,8 @@ namespace MIDTesters.ApplicationSelector
             var mid = _midInterpreter.Parse(package);
 
             Assert.AreEqual(typeof(Mid0250), mid.GetType());
-            Assert.IsNotNull(mid.Header.NoAckFlag);
-            Assert.AreEqual(package, mid.Pack());
+            Assert.IsTrue(mid.Header.NoAckFlag);
+            AssertEqualPackages(package, mid, true);
         }
 
         [TestMethod]
@@ -27,8 +27,8 @@ namespace MIDTesters.ApplicationSelector
             var mid = _midInterpreter.Parse(bytes);
 
             Assert.AreEqual(typeof(Mid0250), mid.GetType());
-            Assert.IsNotNull(mid.Header.NoAckFlag);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            Assert.IsTrue(mid.Header.NoAckFlag);
+            AssertEqualPackages(bytes, mid, true);
         }
     }
 }
