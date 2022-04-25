@@ -74,7 +74,7 @@
             string header = Length.ToString().PadLeft(4, '0');
             header += Mid.ToString().PadLeft(4, '0');
             header += (Revision > 0) ? Revision.ToString().PadLeft(3, '0') : "   ";
-            header += NoAckFlag ? "0" : " ";
+            header += NoAckFlag ? "1" : " ";
             header += (StationID != null) ? StationID.ToString().PadLeft(2, '0') : string.Empty.PadLeft(2, ' ');
             header += (SpindleID != null) ? SpindleID.ToString().PadLeft(2, '0') : string.Empty.PadLeft(2, ' ');
             header += (SequenceNumber > 0) ? SequenceNumber.ToString().PadLeft(2, '0') : string.Empty.PadLeft(2, ' ');

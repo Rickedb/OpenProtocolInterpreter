@@ -28,7 +28,11 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public List<int> ParameterSets { get; set; }
 
-        public Mid0011() : base(MID, LAST_REVISION)
+        public Mid0011() : this(new Header()
+        {
+            Mid = MID, 
+            Revision = LAST_REVISION
+        })
         {
         }
 

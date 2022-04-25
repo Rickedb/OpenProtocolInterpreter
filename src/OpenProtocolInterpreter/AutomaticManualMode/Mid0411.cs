@@ -46,7 +46,7 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
             set => GetField(1, (int)DataFields.CURRENT_BATCH).SetValue(_intConverter.Convert, value);
         }
 
-        public Mid0411() : base(new Header()
+        public Mid0411() : this(new Header()
         {
             Mid= MID,
             Revision = LAST_REVISION
