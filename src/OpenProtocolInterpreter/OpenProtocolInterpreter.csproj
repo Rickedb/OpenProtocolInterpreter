@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
-    <AssemblyVersion>4.2.0.0</AssemblyVersion>
-    <FileVersion>4.2.0.0</FileVersion>
-    <Version>4.2.0</Version>
+    <AssemblyVersion>5.0.0.0</AssemblyVersion>
+    <FileVersion>5.0.0.0</FileVersion>
+    <Version>5.0.0</Version>
     <Description>Converts the ugly package that came from Open Protocol to an object</Description>
     <Copyright>Copyright © 2022</Copyright>
     <Authors>Henrique Dal Bello Batista</Authors>
@@ -14,13 +14,11 @@
     <RepositoryUrl>https://github.com/Rickedb/OpenProtocolInterpreter</RepositoryUrl>
     <PackageTags>CSharp Open Protocol Atlas Copco</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReleaseNotes>New Mids:
+    <PackageReleaseNotes>Breaking changes:
 
-- Mid0066
-
-Bug fixes:
-
-- Mid0052 adding NUL character as part of VinNumber</PackageReleaseNotes>
+- Header property name changed in Mids from HeaderData to Header
+- Header is now fully mapped and not set as "UsedAs" as before
+- Revisions which are empty or zeroed, are converted to rev 1. (this is only applied when parsing, not when packing)</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 

@@ -30,7 +30,7 @@
             <para>Answer: <see cref="T:OpenProtocolInterpreter.Alarm.Mid0072"/> Alarm acknowledge</para>
             </summary>
         </member>
-        <member name="M:OpenProtocolInterpreter.Alarm.Mid0071.#ctor(System.String,System.Boolean,System.Boolean,System.DateTime,System.Int32,System.Nullable{System.Int32})">
+        <member name="M:OpenProtocolInterpreter.Alarm.Mid0071.#ctor(System.String,System.Boolean,System.Boolean,System.DateTime,System.Int32)">
             <summary>
             Constructor for Revision 1
             </summary>
@@ -39,9 +39,8 @@
             <param name="toolReadyStatus">Tool ready status</param>
             <param name="time">Time stamp for the alarm</param>
             <param name="revision">Revision (Default revision = 1)</param>
-            <param name="noAckFlag">Acknowledge flag (Default = 1)</param>
         </member>
-        <member name="M:OpenProtocolInterpreter.Alarm.Mid0071.#ctor(System.String,System.Boolean,System.Boolean,System.DateTime,System.String,System.Int32,System.Nullable{System.Int32})">
+        <member name="M:OpenProtocolInterpreter.Alarm.Mid0071.#ctor(System.String,System.Boolean,System.Boolean,System.DateTime,System.String,System.Int32)">
             <summary>
             Constructor for Revision 2
             </summary>
@@ -51,7 +50,6 @@
             <param name="time">Time stamp for the alarm</param>
             <param name="alarmText">Alarm text. 50 ASCII characters</param>
             <param name="revision">Revision (Default revision = 1)</param>
-            <param name="noAckFlag">Acknowledge flag (Default = 1)</param>
         </member>
         <member name="T:OpenProtocolInterpreter.Alarm.Mid0072">
             <summary>
@@ -1061,6 +1059,71 @@
             Torque values unit. Used in <see cref="T:OpenProtocolInterpreter.Tightening.Mid0061"/> and <see cref="T:OpenProtocolInterpreter.Tightening.Mid0065"/>.
             </summary>
         </member>
+        <member name="T:OpenProtocolInterpreter.Header">
+            <summary>
+            Represents a Mid header
+            </summary>
+        </member>
+        <member name="P:OpenProtocolInterpreter.Header.Length">
+            <summary>
+            Length of the header plus the data field excluding the NUL termination.
+            </summary>
+        </member>
+        <member name="P:OpenProtocolInterpreter.Header.Mid">
+            <summary>
+            The MID describes how to interpret the message
+            </summary>
+        </member>
+        <member name="P:OpenProtocolInterpreter.Header.Revision">
+            <summary>
+            The MID Revision is unique per MID and is used in case different versions are available for the same MID. 
+            Using the revision number the integrator can subscribe or ask for different versions of the same MID.
+            <para>
+                Note: The default MID Revision is 1. There is three different ways to get it, either send three spaces or 000 or 001.
+            </para>
+            </summary>
+        </member>
+        <member name="P:OpenProtocolInterpreter.Header.NoAckFlag">
+            <summary>
+            Define if subscriber will acknowledge each "push" message sent by controller (reliable mode) or just push without waiting for a receive acknowledgement from subscriber (unreliable mode)
+            <para>Notes:</para>
+            <list type="number">
+                <item>Works only for subscription Mids</item>
+                <item>Not used when using sequence number handling</item>
+            </list>
+            </summary>
+        </member>
+        <member name="P:OpenProtocolInterpreter.Header.StationId">
+            <summary>
+            The station the message is addressed to in the case of controller with multi-station configuration.
+            <para>Note: Two spaces are considered as station 1</para>
+            </summary>
+        </member>
+        <member name="P:OpenProtocolInterpreter.Header.SpindleId">
+            <summary>
+            The spindle the message is addressed to in the case several spindles are connected to the same controller.
+            <para>Note: Two spaces are considered as spindle 1</para>
+            </summary>
+        </member>
+        <member name="P:OpenProtocolInterpreter.Header.SequenceNumber">
+            <summary>
+            For acknowledging on "Link Level" with MIDs 0997 and 0998.
+            <para>Note: Not used if space or zero</para>
+            </summary>
+        </member>
+        <member name="P:OpenProtocolInterpreter.Header.NumberOfMessages">
+            <summary>
+            Linking function can be 1 to 9 (possible to send 9*9999 bytes messages).
+            <para>Used when the message length is overflowing the max length of 9999.</para>
+            <para>Note: Not used if space or zero.</para>
+            </summary>
+        </member>
+        <member name="P:OpenProtocolInterpreter.Header.MessageNumber">
+            <summary>
+            Linking function, can be 1 to 9 at message length > 9999.
+            <para>Note: Not used if space or zero</para>
+            </summary>
+        </member>
         <member name="T:OpenProtocolInterpreter.IController">
             <summary>
             Contract which every controller <see cref="T:OpenProtocolInterpreter.Mid"/> message implements.
@@ -1202,19 +1265,12 @@
             Answer: MID 0218 Relay function acknowledge
             </summary>
         </member>
-        <member name="M:OpenProtocolInterpreter.IOInterface.Mid0217.#ctor(System.Nullable{System.Int32})">
-            <summary>
-            Default Constructor
-            </summary>
-            <param name="noAckFlag">0=Ack needed, 1=No Ack needed</param>
-        </member>
-        <member name="M:OpenProtocolInterpreter.IOInterface.Mid0217.#ctor(OpenProtocolInterpreter.RelayNumber,System.Boolean,System.Nullable{System.Int32})">
+        <member name="M:OpenProtocolInterpreter.IOInterface.Mid0217.#ctor(OpenProtocolInterpreter.RelayNumber,System.Boolean)">
             <summary>
             Revision 1 Constructor
             </summary>
             <param name="relayNumber">Three ASCII digits corresponding to a relay function</param>
             <param name="relayStatus">One ASCII digit representing the relay function status <para>true = Active</para><para>false = Not Active</para></param>
-            <param name="noAckFlag">0=Ack needed, 1=No Ack needed</param>
         </member>
         <member name="T:OpenProtocolInterpreter.IOInterface.Mid0218">
             <summary>
@@ -1712,17 +1768,16 @@
             <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command Accepted or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Job info subscription already exists</para>
             </summary>
         </member>
-        <member name="M:OpenProtocolInterpreter.Job.Mid0034.#ctor(System.Int32,System.Nullable{System.Int32})">
+        <member name="M:OpenProtocolInterpreter.Job.Mid0034.#ctor(System.Int32,System.Boolean)">
             <summary>
             Revision 1 to 4 Constructor
             </summary>
-            <param name="noAckFlag">0=Ack needed, 1=No Ack needed</param>
+            <param name="noAckFlag">False=Ack needed, True=No Ack needed</param>
             <param name="revision">Revision number (default = 4)</param>
         </member>
         <member name="T:OpenProtocolInterpreter.Job.Mid0035">
             <summary>
-            <para>MID: Job info</para>
-            <para>Description:</para>
+            <para>Job info</para>
                 <para>The Job info subscriber will receive a Job info message after a Job has been selected and after each
                 tightening performed in the Job.The Job info consists of the ID of the currently running Job, the Job
                 status, the Job batch mode, the Job batch size and the Job batch counter.</para>
@@ -1730,7 +1785,7 @@
             <para>Answer: <see cref="T:OpenProtocolInterpreter.Job.Mid0036"/></para>
             </summary>
         </member>
-        <member name="M:OpenProtocolInterpreter.Job.Mid0035.#ctor(System.Int32,OpenProtocolInterpreter.JobStatus,OpenProtocolInterpreter.JobBatchMode,System.Int32,System.Int32,System.DateTime,System.Int32,System.Nullable{System.Int32})">
+        <member name="M:OpenProtocolInterpreter.Job.Mid0035.#ctor(System.Int32,OpenProtocolInterpreter.JobStatus,OpenProtocolInterpreter.JobBatchMode,System.Int32,System.Int32,System.DateTime,System.Int32)">
             <summary>
             Revision 1 and 2 Constructor
             </summary>
@@ -1743,7 +1798,7 @@
             <param name="noAckFlag">0=Ack needed, 1=No Ack needed</param>
             <param name="revision">Revision number (default = 2)</param>
         </member>
-        <member name="M:OpenProtocolInterpreter.Job.Mid0035.#ctor(System.Int32,OpenProtocolInterpreter.JobStatus,OpenProtocolInterpreter.JobBatchMode,System.Int32,System.Int32,System.DateTime,System.Int32,System.Int32,System.Int32,System.Int32,System.Nullable{System.Int32})">
+        <member name="M:OpenProtocolInterpreter.Job.Mid0035.#ctor(System.Int32,OpenProtocolInterpreter.JobStatus,OpenProtocolInterpreter.JobBatchMode,System.Int32,System.Int32,System.DateTime,System.Int32,System.Int32,System.Int32,System.Int32)">
             <summary>
             Revision 3
             </summary>
@@ -1763,7 +1818,7 @@
             <param name="noAckFlag">0=Ack needed, 1=No Ack needed</param>
             <param name="revision">Revision number (default = 3)</param>
         </member>
-        <member name="M:OpenProtocolInterpreter.Job.Mid0035.#ctor(System.Int32,OpenProtocolInterpreter.JobStatus,OpenProtocolInterpreter.JobBatchMode,System.Int32,System.Int32,System.DateTime,OpenProtocolInterpreter.JobTighteningStatus,System.Int32,System.Nullable{System.Int32})">
+        <member name="M:OpenProtocolInterpreter.Job.Mid0035.#ctor(System.Int32,OpenProtocolInterpreter.JobStatus,OpenProtocolInterpreter.JobBatchMode,System.Int32,System.Int32,System.DateTime,OpenProtocolInterpreter.JobTighteningStatus,System.Int32)">
             <summary>
             Revision 4 Constructor
             </summary>
@@ -1777,7 +1832,7 @@
             <param name="noAckFlag">0=Ack needed, 1=No Ack needed</param>
             <param name="revision">Revision number (default = 4)</param>
         </member>
-        <member name="M:OpenProtocolInterpreter.Job.Mid0035.#ctor(System.Int32,OpenProtocolInterpreter.JobStatus,OpenProtocolInterpreter.JobBatchMode,System.Int32,System.Int32,System.DateTime,OpenProtocolInterpreter.JobTighteningStatus,System.Int32,System.String,System.String,System.String,System.String,System.Int32,System.Nullable{System.Int32})">
+        <member name="M:OpenProtocolInterpreter.Job.Mid0035.#ctor(System.Int32,OpenProtocolInterpreter.JobStatus,OpenProtocolInterpreter.JobBatchMode,System.Int32,System.Int32,System.DateTime,OpenProtocolInterpreter.JobTighteningStatus,System.Int32,System.String,System.String,System.String,System.String,System.Int32)">
             <summary>
             Revision 5 Constructor
             </summary>
@@ -1929,7 +1984,7 @@
         </member>
         <member name="T:OpenProtocolInterpreter.Mid">
             <summary>
-            Abstract class which every Mid should inherit, containing all of default data, such as <see cref="T:OpenProtocolInterpreter.Mid.Header"/> data and methods.
+            Abstract class which every Mid should inherit, containing all of default data, such as <see cref="P:OpenProtocolInterpreter.Mid.Header"/> data and methods.
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.MidExtensions">
@@ -3042,11 +3097,11 @@
             <para>Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted and <see cref="T:OpenProtocolInterpreter.ParameterSet.Mid0015"/> Parameter set selected</para>
             </summary>
         </member>
-        <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0014.#ctor(System.Nullable{System.Int32})">
+        <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0014.#ctor(System.Boolean)">
             <summary>
             Revision 1 Constructor
             </summary>
-            <param name="noAckFlag">0=Ack needed, 1=No Ack needed</param>
+            <param name="noAckFlag">False=Ack needed, True=No Ack needed</param>
         </member>
         <member name="T:OpenProtocolInterpreter.ParameterSet.Mid0015">
             <summary>
@@ -3061,23 +3116,21 @@
             <para>Answer: <see cref="T:OpenProtocolInterpreter.ParameterSet.Mid0016"/> New parameter set selected acknowledge</para>
             </summary>
         </member>
-        <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0015.#ctor(System.Int32,System.Nullable{System.Int32})">
+        <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0015.#ctor(System.Int32)">
             <summary>
             Constructor
             </summary>
-            <param name="noAckFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
             <param name="revision">Range: 000-002</param>
         </member>
-        <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0015.#ctor(System.Int32,System.DateTime,System.Nullable{System.Int32},System.Int32)">
+        <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0015.#ctor(System.Int32,System.DateTime,System.Int32)">
             <summary>
             Revision 1 Constructor
             </summary>
             <param name="parameterSetId">Three ASCII digits, range 000-999</param>
             <param name="lastChangeInParameterSet">19 ASCII characters. YYYY-MM-DD:HH:MM:SS</param>
-            <param name="noAckFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
             <param name="revision">Range: 000-002</param>
         </member>
-        <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0015.#ctor(System.Int32,System.String,System.DateTime,OpenProtocolInterpreter.RotationDirection,System.Int32,System.Decimal,System.Decimal,System.Decimal,System.Int32,System.Int32,System.Int32,System.Decimal,System.Decimal,System.Nullable{System.Int32},System.Int32)">
+        <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0015.#ctor(System.Int32,System.String,System.DateTime,OpenProtocolInterpreter.RotationDirection,System.Int32,System.Decimal,System.Decimal,System.Decimal,System.Int32,System.Int32,System.Int32,System.Decimal,System.Decimal,System.Int32)">
             <summary>
              Revision 2 Constructor
             </summary>
@@ -3094,7 +3147,6 @@
             <param name="finalAngleTarget">The target angle is specified in degrees. 5 ASCII digits.Range: 00000-99999.</param>
             <param name="firstTarget">The torque first target is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
             <param name="startFinalAngle">The start final angle is the torque to reach the snug level.The start final angle is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
-            <param name="noAckFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
             <param name="revision">Range: 000-002 (Default = 2)</param>
         </member>
         <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0015.Validate(System.Collections.Generic.IEnumerable{System.String}@)">
@@ -3201,12 +3253,11 @@
             <para>Answer: <see cref="T:OpenProtocolInterpreter.ParameterSet.Mid0023"/> Lock at batch done upload Ack</para>
             </summary>
         </member>
-        <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0022.#ctor(System.Boolean,System.Nullable{System.Int32})">
+        <member name="M:OpenProtocolInterpreter.ParameterSet.Mid0022.#ctor(System.Boolean)">
             <summary>
             Revision 1 Constructor
             </summary>
             <param name="relayStatus">Relay Status</param>
-            <param name="noAckFlag">0=Ack needed, 1=No Ack needed (Default = 1)</param>
         </member>
         <member name="T:OpenProtocolInterpreter.ParameterSet.Mid0023">
             <summary>
