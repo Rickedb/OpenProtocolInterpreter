@@ -11,6 +11,12 @@
         private const int LAST_REVISION = 1;
         public const int MID = 157;
 
-        public Mid0157() : base(MID, LAST_REVISION) { }
+        public Mid0157() : base(MID, LAST_REVISION) 
+        {
+        }
+
+        public Mid0157(Header header) : base(header)
+        {
+        }
     }
 }

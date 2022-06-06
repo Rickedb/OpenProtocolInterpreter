@@ -15,7 +15,7 @@ namespace MIDTesters.Tightening
             Assert.AreEqual(typeof(Mid0066), mid.GetType());
             Assert.IsNotNull(mid.NumberOfOfflineResults);
             Assert.AreEqual(14, mid.NumberOfOfflineResults);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
 
         [TestMethod]
@@ -28,7 +28,7 @@ namespace MIDTesters.Tightening
             Assert.AreEqual(typeof(Mid0066), mid.GetType());
             Assert.IsNotNull(mid.NumberOfOfflineResults);
             Assert.AreEqual(14, mid.NumberOfOfflineResults);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
     }
 }

@@ -19,7 +19,17 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
             set => GetField(1, (int)DataFields.IDENTIFIER_DATA).SetValue(value);
         }
 
-        public Mid0150() : base(MID, LAST_REVISION) { }
+        public Mid0150() : this(new Header()
+        {
+            Mid = MID,
+            Revision = LAST_REVISION
+        }) 
+        { 
+        }
+
+        public Mid0150(Header header) : base(header)
+        {
+        }
 
         public Mid0150(string identifierData) : this()
         {
@@ -34,8 +44,8 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
-            GetField(1, (int)DataFields.IDENTIFIER_DATA).Size = HeaderData.Length - 20;
+            Header = ProcessHeader(package);
+            GetField(1, (int)DataFields.IDENTIFIER_DATA).Size = Header.Length - 20;
             ProcessDataFields(package);
             return this;
         }

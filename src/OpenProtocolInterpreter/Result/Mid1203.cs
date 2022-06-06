@@ -12,7 +12,10 @@
 
         public Mid1203() : base(MID, LAST_REVISION)
         {
+        }
 
+        public Mid1203(Header header) : base(header)
+        {
         }
     }
 }

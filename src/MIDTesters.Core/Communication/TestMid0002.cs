@@ -1,11 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Communication;
-using System.Linq;
 
 namespace MIDTesters.Communication
 {
     [TestClass]
-    public class TestMid0002 : MidTester
+    public class TestMid0002 : DefaultMidTests<Mid0002>
     {
         [TestMethod]
         public void Mid0002Revision1()
@@ -13,11 +12,10 @@ namespace MIDTesters.Communication
             string pack = @"00570002001         010001020103Airbag1                  ";
             var mid = _midInterpreter.Parse<Mid0002>(pack);
 
-            Assert.AreEqual(typeof(Mid0002), mid.GetType());
             Assert.IsNotNull(mid.CellId);
             Assert.IsNotNull(mid.ChannelId);
             Assert.IsNotNull(mid.ControllerName);
-            Assert.AreEqual(pack, mid.Pack());
+            AssertEqualPackages(pack, mid);
         }
 
         [TestMethod]
@@ -27,11 +25,10 @@ namespace MIDTesters.Communication
             byte[] bytes = GetAsciiBytes(pack);
             var mid = _midInterpreter.Parse<Mid0002>(bytes);
 
-            Assert.AreEqual(typeof(Mid0002), mid.GetType());
             Assert.IsNotNull(mid.CellId);
             Assert.IsNotNull(mid.ChannelId);
             Assert.IsNotNull(mid.ControllerName);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
 
         [TestMethod]
@@ -44,7 +41,7 @@ namespace MIDTesters.Communication
             Assert.IsNotNull(mid.ChannelId);
             Assert.IsNotNull(mid.ControllerName);
             Assert.IsNotNull(mid.SupplierCode);
-            Assert.AreEqual(pack, mid.Pack());
+            AssertEqualPackages(pack, mid);
         }
 
         [TestMethod]
@@ -58,7 +55,7 @@ namespace MIDTesters.Communication
             Assert.IsNotNull(mid.ChannelId);
             Assert.IsNotNull(mid.ControllerName);
             Assert.IsNotNull(mid.SupplierCode);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
 
         [TestMethod]
@@ -74,7 +71,7 @@ namespace MIDTesters.Communication
             Assert.IsNotNull(mid.OpenProtocolVersion);
             Assert.IsNotNull(mid.ControllerSoftwareVersion);
             Assert.IsNotNull(mid.ToolSoftwareVersion);
-            Assert.AreEqual(pack, mid.Pack());
+            AssertEqualPackages(pack, mid);
         }
 
         [TestMethod]
@@ -91,7 +88,7 @@ namespace MIDTesters.Communication
             Assert.IsNotNull(mid.OpenProtocolVersion);
             Assert.IsNotNull(mid.ControllerSoftwareVersion);
             Assert.IsNotNull(mid.ToolSoftwareVersion);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
 
         [TestMethod]
@@ -109,7 +106,7 @@ namespace MIDTesters.Communication
             Assert.IsNotNull(mid.ToolSoftwareVersion);
             Assert.IsNotNull(mid.RBUType);
             Assert.IsNotNull(mid.ControllerSerialNumber);
-            Assert.AreEqual(pack, mid.Pack());
+            AssertEqualPackages(pack, mid);
         }
 
         [TestMethod]
@@ -128,7 +125,7 @@ namespace MIDTesters.Communication
             Assert.IsNotNull(mid.ToolSoftwareVersion);
             Assert.IsNotNull(mid.RBUType);
             Assert.IsNotNull(mid.ControllerSerialNumber);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
 
         [TestMethod]
@@ -148,7 +145,7 @@ namespace MIDTesters.Communication
             Assert.IsNotNull(mid.ControllerSerialNumber);
             Assert.IsNotNull(mid.SystemType);
             Assert.IsNotNull(mid.SystemSubType);
-            Assert.AreEqual(pack, mid.Pack());
+            AssertEqualPackages(pack, mid);
         }
 
         [TestMethod]
@@ -169,7 +166,7 @@ namespace MIDTesters.Communication
             Assert.IsNotNull(mid.ControllerSerialNumber);
             Assert.IsNotNull(mid.SystemType);
             Assert.IsNotNull(mid.SystemSubType);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
 
         [TestMethod]
@@ -179,7 +176,7 @@ namespace MIDTesters.Communication
             var mid = _midInterpreter.Parse<Mid0002>(pack);
 
             Assert.IsNotNull(mid.CellId);
-            Assert.IsNotNull(mid.ChannelId);
+            Assert.IsNotNull(mid.ChannelId); 
             Assert.IsNotNull(mid.ControllerName);
             Assert.IsNotNull(mid.SupplierCode);
             Assert.IsNotNull(mid.OpenProtocolVersion);
@@ -194,7 +191,7 @@ namespace MIDTesters.Communication
             Assert.AreNotEqual(0, mid.StationCellId);
             Assert.IsNotNull(mid.StationCellName);
             Assert.IsNotNull(mid.ClientId);
-            Assert.AreEqual(pack, mid.Pack());
+            AssertEqualPackages(pack, mid);
         }
 
         [TestMethod]
@@ -220,7 +217,7 @@ namespace MIDTesters.Communication
             Assert.AreNotEqual(0, mid.StationCellId);
             Assert.IsNotNull(mid.StationCellName);
             Assert.IsNotNull(mid.ClientId);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
 
         [TestMethod]
@@ -246,7 +243,7 @@ namespace MIDTesters.Communication
             Assert.IsNotNull(mid.StationCellName);
             Assert.IsNotNull(mid.ClientId);
             Assert.IsNotNull(mid.OptionalKeepAlive);
-            Assert.AreEqual(pack, mid.Pack());
+            AssertEqualPackages(pack, mid);
         }
 
         [TestMethod]
@@ -273,7 +270,7 @@ namespace MIDTesters.Communication
             Assert.IsNotNull(mid.StationCellName);
             Assert.IsNotNull(mid.ClientId);
             Assert.IsNotNull(mid.OptionalKeepAlive);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
     }
 }

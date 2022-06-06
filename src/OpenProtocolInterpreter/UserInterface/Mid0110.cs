@@ -34,6 +34,10 @@ namespace OpenProtocolInterpreter.UserInterface
 
         }
 
+        public Mid0110(Header header) : base(header)
+        {
+        }
+
         public Mid0110(string userText) : this()
         {
             UserText = userText;

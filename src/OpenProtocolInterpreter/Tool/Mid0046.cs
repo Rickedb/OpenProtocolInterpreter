@@ -27,7 +27,15 @@ namespace OpenProtocolInterpreter.Tool
             set => GetField(1,(int)DataFields.PRIMARY_TOOL).SetValue(_intConverter.Convert, (int)value);
         }
 
-        public Mid0046() : base(MID, LAST_REVISION)
+        public Mid0046() : this(new Header()
+        {
+            Mid = MID, 
+            Revision = LAST_REVISION
+        })
+        {
+        }
+
+        public Mid0046(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
         }

@@ -30,22 +30,6 @@ namespace OpenProtocolInterpreter.Result
         private const int LAST_REVISION = 2;
         public const int MID = 1201;
 
-        public Mid1201() : this(LAST_REVISION)
-        {
-
-        }
-
-        public Mid1201(int revision = LAST_REVISION) : base(MID, revision)
-        {
-            _intConverter = new Int32Converter();
-            _dateConverter = new DateConverter();
-            _boolConverter = new BoolConverter();
-            _objectDataListConverter = new ObjectDataListConverter(_intConverter, _boolConverter);
-            _varDataFieldListConverter = new VariableDataFieldListConverter(_intConverter);
-            ObjectDataList = new List<ObjectData>();
-            VariableDataFields = new List<VariableDataField>();
-        }
-
         public int TotalNumberOfMessages
         {
             get => GetField(1, (int)DataFields.TOTAL_MESSAGES).GetValue(_intConverter.Convert);
@@ -89,6 +73,29 @@ namespace OpenProtocolInterpreter.Result
         public List<ObjectData> ObjectDataList { get; set; }
         public List<VariableDataField> VariableDataFields { get; set; }
 
+        public Mid1201() : this(LAST_REVISION)
+        {
+
+        }
+
+        public Mid1201(Header header) : base(header)
+        {
+            _intConverter = new Int32Converter();
+            _dateConverter = new DateConverter();
+            _boolConverter = new BoolConverter();
+            _objectDataListConverter = new ObjectDataListConverter(_intConverter, _boolConverter);
+            _varDataFieldListConverter = new VariableDataFieldListConverter(_intConverter);
+            ObjectDataList = new List<ObjectData>();
+            VariableDataFields = new List<VariableDataField>();
+        }
+
+        public Mid1201(int revision = LAST_REVISION) : this(new Header()
+        {
+            Mid = MID,
+            Revision = revision
+        })
+        {
+        }
 
         public override string Pack()
         {
@@ -102,7 +109,7 @@ namespace OpenProtocolInterpreter.Result
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
+            Header = ProcessHeader(package);
             int totalObjectData = _intConverter.Convert(GetValue(GetField(1, (int)DataFields.NUMBER_OF_OBJECTS), package));
 
             var objectDataField = GetField(1, (int)DataFields.OBJECT_DATA);

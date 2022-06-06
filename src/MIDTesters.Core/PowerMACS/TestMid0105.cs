@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.PowerMACS;
 
 namespace MIDTesters.PowerMACS
 {
     [TestClass]
-    public class TestMid0105 : MidTester
+    public class TestMid0105 : DefaultMidTests<Mid0105>
     {
         [TestMethod]
         public void Mid0105Revision1()
@@ -15,7 +13,7 @@ namespace MIDTesters.PowerMACS
             var mid = _midInterpreter.Parse(pack);
 
             Assert.AreEqual(typeof(Mid0105), mid.GetType());
-            Assert.AreEqual(pack, mid.Pack());
+            AssertEqualPackages(pack, mid);
         }
 
         [TestMethod]
@@ -26,7 +24,7 @@ namespace MIDTesters.PowerMACS
             var mid = _midInterpreter.Parse(bytes);
 
             Assert.AreEqual(typeof(Mid0105), mid.GetType());
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
 
         [TestMethod]
@@ -35,9 +33,8 @@ namespace MIDTesters.PowerMACS
             string pack = @"003001050021        4294967295";
             var mid = _midInterpreter.Parse<Mid0105>(pack);
 
-            Assert.AreEqual(typeof(Mid0105), mid.GetType());
             Assert.IsNotNull(mid.DataNumberSystem);
-            Assert.AreEqual(pack, mid.Pack());
+            AssertEqualPackages(pack, mid);
         }
 
         [TestMethod]
@@ -47,9 +44,8 @@ namespace MIDTesters.PowerMACS
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0105>(bytes);
 
-            Assert.AreEqual(typeof(Mid0105), mid.GetType());
             Assert.IsNotNull(mid.DataNumberSystem);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
 
         [TestMethod]
@@ -58,10 +54,9 @@ namespace MIDTesters.PowerMACS
             string pack = @"003101050031        42949672951";
             var mid = _midInterpreter.Parse<Mid0105>(pack);
 
-            Assert.AreEqual(typeof(Mid0105), mid.GetType());
             Assert.IsNotNull(mid.DataNumberSystem);
             Assert.IsNotNull(mid.SendOnlyNewData);
-            Assert.AreEqual(pack, mid.Pack());
+            AssertEqualPackages(pack, mid);
         }
 
         [TestMethod]
@@ -71,10 +66,9 @@ namespace MIDTesters.PowerMACS
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0105>(bytes);
 
-            Assert.AreEqual(typeof(Mid0105), mid.GetType());
             Assert.IsNotNull(mid.DataNumberSystem);
             Assert.IsNotNull(mid.SendOnlyNewData);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
 
         [TestMethod]
@@ -83,10 +77,9 @@ namespace MIDTesters.PowerMACS
             string pack = @"003101050041        32949672951";
             var mid = _midInterpreter.Parse<Mid0105>(pack);
 
-            Assert.AreEqual(typeof(Mid0105), mid.GetType());
             Assert.IsNotNull(mid.DataNumberSystem);
             Assert.IsNotNull(mid.SendOnlyNewData);
-            Assert.AreEqual(pack, mid.Pack());
+            AssertEqualPackages(pack, mid);
         }
 
         [TestMethod]
@@ -96,10 +89,9 @@ namespace MIDTesters.PowerMACS
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0105>(bytes);
 
-            Assert.AreEqual(typeof(Mid0105), mid.GetType());
             Assert.IsNotNull(mid.DataNumberSystem);
             Assert.IsNotNull(mid.SendOnlyNewData);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
     }
 }

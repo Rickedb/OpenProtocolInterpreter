@@ -22,7 +22,15 @@ namespace OpenProtocolInterpreter.Time
             set => GetField(1,(int)DataFields.TIME).SetValue(_dateConverter.Convert, value);
         }
 
-        public Mid0082() : base(MID, LAST_REVISION)
+        public Mid0082() : this(new Header()
+        {
+            Mid = MID, 
+            Revision = LAST_REVISION
+        })
+        {
+        }
+
+        public Mid0082(Header header) : base(header)
         {
             _dateConverter = new DateConverter();
         }

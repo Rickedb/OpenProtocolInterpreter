@@ -41,10 +41,18 @@ namespace OpenProtocolInterpreter.Tool
         {
         }
 
-        public Mid0045(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0045(Header header) : base(header)
         {
             _decimalConverter = new DecimalTrucatedConverter(2);
             _intConverter = new Int32Converter();
+        }
+
+        public Mid0045(int revision = LAST_REVISION) : this(new Header()
+        {
+            Mid = MID,
+            Revision = revision
+        })
+        {
         }
 
         /// <summary>

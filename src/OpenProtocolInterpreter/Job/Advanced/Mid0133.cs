@@ -12,5 +12,9 @@
         public const int MID = 133;
 
         public Mid0133() : base(MID, LAST_REVISION) { }
+
+        public Mid0133(Header header) : base(header)
+        {
+        }
     }
 }

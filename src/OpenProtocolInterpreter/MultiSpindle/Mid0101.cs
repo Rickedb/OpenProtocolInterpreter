@@ -134,13 +134,21 @@ namespace OpenProtocolInterpreter.MultiSpindle
 
         }
 
-        public Mid0101(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0101(Header header) : base(header)
         {
             _boolConverter = new BoolConverter();
             _intConverter = new Int32Converter();
             _dateConverter = new DateConverter();
             _decimalConverter = new DecimalTrucatedConverter(2);
             _spindleOrPressStatusListConverter = new SpindleOrPressStatusListConverter(_intConverter, _boolConverter, _decimalConverter);
+        }
+
+        public Mid0101(int revision = LAST_REVISION) : this(new Header()
+        {
+            Mid = MID,
+            Revision = revision
+        })
+        {
         }
 
         public override string Pack()
@@ -153,16 +161,16 @@ namespace OpenProtocolInterpreter.MultiSpindle
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
+            Header = ProcessHeader(package);
             var spindleOrPressesField = GetField(1, (int)DataFields.NUMBER_OF_SPINDLES_OR_PRESSES);
             int spindleOrPresses = _intConverter.Convert(package.Substring(spindleOrPressesField.Index + 2, spindleOrPressesField.Size));
             var spindesOrPressesStatusField = GetField(1, (int)DataFields.SPINDLES_OR_PRESSES_STATUS);
             spindesOrPressesStatusField.Size = spindleOrPresses * 18;
-            if(HeaderData.Revision > 3)
+            if(Header.Revision > 3)
             {
                 var systemSubTypeField = GetField(4, (int)DataFields.SYSTEM_SUB_TYPE);
                 systemSubTypeField.Index = spindesOrPressesStatusField.Index + spindesOrPressesStatusField.Size + 2;
-                if(HeaderData.Revision > 4)
+                if(Header.Revision > 4)
                 {
                     GetField(5, (int)DataFields.JOB_SEQUENCE_NUMBER).Index = systemSubTypeField.Index + systemSubTypeField.Size + 2;
                 }

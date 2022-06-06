@@ -25,7 +25,16 @@ namespace OpenProtocolInterpreter.Job.Advanced
             set => GetField(1,(int)DataFields.JOB_OFF_STATUS).SetValue(_boolConverter.Convert, value);
         }
 
-        public Mid0130() : base(MID, LAST_REVISION)
+        public Mid0130() : this(new Header()
+        {
+            Mid = MID, 
+            Revision = LAST_REVISION
+        })
+        {
+            
+        }
+
+        public Mid0130(Header header) : base(header)
         {
             _boolConverter = new BoolConverter();
         }

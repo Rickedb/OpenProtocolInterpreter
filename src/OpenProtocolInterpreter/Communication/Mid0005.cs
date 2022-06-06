@@ -36,7 +36,19 @@ namespace OpenProtocolInterpreter.Communication
             set => GetField(1, (int)DataFields.MID_ACCEPTED).SetValue(_intConverter.Convert, value);
         }
 
-        public Mid0005() : base(MID, LAST_REVISION) => _intConverter = new Int32Converter();
+        public Mid0005() : this(new Header()
+        {
+            Mid= MID,
+            Revision = LAST_REVISION
+        })
+        {
+
+        }
+
+        public Mid0005(Header header) : base(header)
+        {
+            _intConverter = new Int32Converter();
+        }
 
         /// <summary>
         /// Revision 1 Constructor

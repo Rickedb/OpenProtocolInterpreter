@@ -34,7 +34,15 @@ namespace OpenProtocolInterpreter.Statistic
             set => GetField(1,(int)DataFields.HISTOGRAM_TYPE).SetValue(_intConverter.Convert, (int)value);
         }
 
-        public Mid0300() : base(MID, LAST_REVISION)
+        public Mid0300() : this(new Header()
+        {
+            Mid = MID, 
+            Revision = LAST_REVISION
+        })
+        {
+        }
+
+        public Mid0300(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
         }

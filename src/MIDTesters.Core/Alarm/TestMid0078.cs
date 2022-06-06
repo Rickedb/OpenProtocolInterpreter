@@ -6,7 +6,7 @@ using OpenProtocolInterpreter.Alarm;
 namespace MIDTesters.Alarm
 {
     [TestClass]
-    public class TestMid0078 : MidTester
+    public class TestMid0078 : DefaultMidTests<Mid0078>
     {
         [TestMethod]
         public void Mid0078AllRevisions()
@@ -15,7 +15,7 @@ namespace MIDTesters.Alarm
             var mid = _midInterpreter.Parse(pack);
 
             Assert.AreEqual(typeof(Mid0078), mid.GetType());
-            Assert.AreEqual(pack, mid.Pack());
+            AssertEqualPackages(pack, mid, true);
         }
 
         [TestMethod]
@@ -26,7 +26,7 @@ namespace MIDTesters.Alarm
             var mid = _midInterpreter.Parse(bytes);
 
             Assert.AreEqual(typeof(Mid0078), mid.GetType());
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid, true);
         }
     }
 }

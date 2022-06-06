@@ -343,7 +343,7 @@ namespace OpenProtocolInterpreter.Tightening
 
         }
 
-        public Mid0061(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0061(Header header) : base(header)
         {
             var byteArrayConverter = new ByteArrayConverter();
             _intConverter = new Int32Converter();
@@ -357,51 +357,59 @@ namespace OpenProtocolInterpreter.Tightening
             _stageResultListConverter = new StageResultListConverter(_intConverter, _decimalConverter);
         }
 
+        public Mid0061(int revision = LAST_REVISION) : this(new Header()
+        {
+            Mid = MID, 
+            Revision = revision
+        })
+        {
+        }
+
         protected override string BuildHeader()
         {
             if (RevisionsByFields.Any())
             {
-                HeaderData.Length = 20;
-                HeaderData.Revision = HeaderData.Revision > 0 ? HeaderData.Revision : 1;
-                if (HeaderData.Revision == 1 || HeaderData.Revision == 999)
+                Header.Length = 20;
+                Header.Revision = Header.Revision > 0 ? Header.Revision : 1;
+                if (Header.Revision == 1 || Header.Revision == 999)
                 {
-                    foreach (var dataField in RevisionsByFields[HeaderData.Revision])
-                        HeaderData.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
+                    foreach (var dataField in RevisionsByFields[Header.Revision])
+                        Header.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
                 }
                 else
                 {
-                    int processUntil = HeaderData.Revision != 998 ? HeaderData.Revision : 6;
+                    int processUntil = Header.Revision != 998 ? Header.Revision : 6;
 
                     for (int i = 2; i <= processUntil; i++)
                         foreach (var dataField in RevisionsByFields[i])
-                            HeaderData.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
+                            Header.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
 
-                    if (HeaderData.Revision == 998)
+                    if (Header.Revision == 998)
                     {
                         GetField(998, (int)DataFields.STAGE_RESULT).Size = StageResults.Count * 11;
                         foreach (var dataField in RevisionsByFields[998])
-                            HeaderData.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
+                            Header.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
                     }
                 }
             }
-            return HeaderData.ToString();
+            return Header.ToString();
         }
 
         public override string Pack()
         {
             string package = string.Empty;
             int prefixIndex = 1;
-            if (HeaderData.Revision > 1 && HeaderData.Revision != 999)
+            if (Header.Revision > 1 && Header.Revision != 999)
             {
                 GetField(2, (int)DataFields.STRATEGY_OPTIONS).SetValue(_strategyOptionsConverter.Convert, StrategyOptions);
                 GetField(2, (int)DataFields.TIGHTENING_ERROR_STATUS).SetValue(_tighteningErrorStatusConverter.Convert, TighteningErrorStatus);
 
-                if (HeaderData.Revision > 5)
+                if (Header.Revision > 5)
                 {
                     GetField(6, (int)DataFields.TIGHTENING_ERROR_STATUS_2).SetValue(_tighteningErrorStatus2Converter.Convert, TighteningErrorStatus2);
                 }
 
-                if (HeaderData.Revision == 998)
+                if (Header.Revision == 998)
                 {
                     NumberOfStageResults = StageResults.Count;
                     var stageResultField = GetField(998, (int)DataFields.STAGE_RESULT);
@@ -410,13 +418,13 @@ namespace OpenProtocolInterpreter.Tightening
                 }
 
                 package = BuildHeader();
-                int processUntil = HeaderData.Revision != 998 ? HeaderData.Revision : 6;
+                int processUntil = Header.Revision != 998 ? Header.Revision : 6;
                 for (int i = 2; i <= processUntil; i++)
                 {
                     package += Pack(RevisionsByFields[i], ref prefixIndex);
                 }
 
-                if (HeaderData.Revision == 998)
+                if (Header.Revision == 998)
                 {
                     package += Pack(RevisionsByFields[998], ref prefixIndex);
                 }
@@ -424,7 +432,7 @@ namespace OpenProtocolInterpreter.Tightening
             else
             {
                 package = BuildHeader();
-                package += Pack(RevisionsByFields[HeaderData.Revision], ref prefixIndex);
+                package += Pack(RevisionsByFields[Header.Revision], ref prefixIndex);
             }
 
             return package;
@@ -432,18 +440,18 @@ namespace OpenProtocolInterpreter.Tightening
 
         protected override void ProcessDataFields(string package)
         {
-            if (HeaderData.Revision == 1 || HeaderData.Revision == 999)
+            if (Header.Revision == 1 || Header.Revision == 999)
             {
-                ProcessDataFields(RevisionsByFields[HeaderData.Revision], package);
+                ProcessDataFields(RevisionsByFields[Header.Revision], package);
             }
             else
             {
-                int processUntil = HeaderData.Revision;
-                if (HeaderData.Revision == 998)
+                int processUntil = Header.Revision;
+                if (Header.Revision == 998)
                 {
                     processUntil = 6;
                     var stageResultField = GetField(998, (int)DataFields.STAGE_RESULT);
-                    stageResultField.Size = HeaderData.Length - stageResultField.Index - 2;
+                    stageResultField.Size = Header.Length - stageResultField.Index - 2;
                     ProcessDataFields(RevisionsByFields[998], package);
                     StageResults = _stageResultListConverter.Convert(stageResultField.Value).ToList();
                 }
@@ -457,7 +465,7 @@ namespace OpenProtocolInterpreter.Tightening
                 var tighteningErrorStatusField = GetField(2, (int)DataFields.TIGHTENING_ERROR_STATUS);
                 TighteningErrorStatus = _tighteningErrorStatusConverter.Convert(tighteningErrorStatusField.Value);
 
-                if (HeaderData.Revision > 5)
+                if (Header.Revision > 5)
                 {
                     var tighteningErrorStatus2Field = GetField(6, (int)DataFields.TIGHTENING_ERROR_STATUS_2);
                     TighteningErrorStatus2 = _tighteningErrorStatus2Converter.Convert(tighteningErrorStatus2Field.Value);
@@ -631,10 +639,10 @@ namespace OpenProtocolInterpreter.Tightening
         /// <returns>Datafield Revision Index</returns>
         private int GetCurrentRevisionIndex()
         {
-            if (HeaderData.Revision == 999)
+            if (Header.Revision == 999)
                 return 999;
 
-            if (HeaderData.Revision > 1)
+            if (Header.Revision > 1)
                 return 2;
             return 1;
         }

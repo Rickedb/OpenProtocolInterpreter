@@ -1,11 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Communication;
-using System.Linq;
 
 namespace MIDTesters.Communication
 {
     [TestClass]
-    public class TestMid0003 : MidTester
+    public class TestMid0003 : DefaultMidTests<Mid0003>
     {
         [TestMethod]
         public void Mid0003Revision1()
@@ -13,8 +12,7 @@ namespace MIDTesters.Communication
             string pack = @"00200003001         ";
             var mid = _midInterpreter.Parse<Mid0003>(pack);
 
-            Assert.AreEqual(typeof(Mid0003), mid.GetType());
-            Assert.AreEqual(pack, mid.Pack());
+            AssertEqualPackages(pack, mid);
         }
 
         [TestMethod]
@@ -24,8 +22,7 @@ namespace MIDTesters.Communication
             byte[] bytes = GetAsciiBytes(pack);
             var mid = _midInterpreter.Parse<Mid0003>(bytes);
 
-            Assert.AreEqual(typeof(Mid0003), mid.GetType());
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
     }
 }

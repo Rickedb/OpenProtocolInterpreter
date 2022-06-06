@@ -69,7 +69,16 @@ namespace OpenProtocolInterpreter.IOInterface
             set => GetField(1,(int)DataFields.STATUS_RELAY_10).SetValue(_intConverter.Convert, (int)value);
         }
 
-        public Mid0200() : base(MID, LAST_REVISION)
+        public Mid0200() : this(new Header()
+        {
+            Mid = MID, 
+            Revision = LAST_REVISION
+        })
+        {
+            
+        }
+
+        public Mid0200(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
         }

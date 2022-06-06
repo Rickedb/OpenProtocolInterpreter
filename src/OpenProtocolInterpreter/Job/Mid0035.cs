@@ -6,8 +6,7 @@ using System.Linq;
 namespace OpenProtocolInterpreter.Job
 {
     /// <summary>
-    /// <para>MID: Job info</para>
-    /// <para>Description:</para>
+    /// <para>Job info</para>
     ///     <para>The Job info subscriber will receive a Job info message after a Job has been selected and after each
     ///     tightening performed in the Job.The Job info consists of the ID of the currently running Job, the Job
     ///     status, the Job batch mode, the Job batch size and the Job batch counter.</para>
@@ -109,7 +108,15 @@ namespace OpenProtocolInterpreter.Job
 
         }
 
-        public Mid0035(int revision = LAST_REVISION, int? noAckFlag = 0) : base(MID, revision, noAckFlag)
+        public Mid0035(Header header) : base(header)
+        {
+        }
+
+        public Mid0035(int revision = LAST_REVISION) : this(new Header()
+        {
+            Mid = MID, 
+            Revision = revision
+        })
         {
             _intConverter = new Int32Converter();
             _datetimeConverter = new DateConverter();
@@ -128,7 +135,7 @@ namespace OpenProtocolInterpreter.Job
         /// <param name="noAckFlag">0=Ack needed, 1=No Ack needed</param>
         /// <param name="revision">Revision number (default = 2)</param>
         public Mid0035(int jobId, JobStatus jobStatus, JobBatchMode jobBatchMode,
-            int jobBatchSize, int jobBatchCounter, DateTime timestamp, int revision = 2, int? noAckFlag = 0) : this(revision, noAckFlag)
+            int jobBatchSize, int jobBatchCounter, DateTime timestamp, int revision = 2) : this(revision)
         {
             JobId = jobId;
             JobStatus = jobStatus;
@@ -158,8 +165,8 @@ namespace OpenProtocolInterpreter.Job
         /// <param name="revision">Revision number (default = 3)</param>
         public Mid0035(int jobId, JobStatus jobStatus, JobBatchMode jobBatchMode,
            int jobBatchSize, int jobBatchCounter, DateTime timestamp, int jobCurrentStep, int jobTotalNumberOfSteps,
-           int jobStepType, int revision = 3, int? noAckFlag = 0)
-            : this(jobId, jobStatus, jobBatchMode, jobBatchSize, jobBatchCounter, timestamp, revision, noAckFlag)
+           int jobStepType, int revision = 3)
+            : this(jobId, jobStatus, jobBatchMode, jobBatchSize, jobBatchCounter, timestamp, revision)
         {
             JobCurrentStep = jobCurrentStep;
             JobTotalNumberOfSteps = jobTotalNumberOfSteps;
@@ -180,8 +187,7 @@ namespace OpenProtocolInterpreter.Job
         /// <param name="revision">Revision number (default = 4)</param>
         public Mid0035(int jobId, JobStatus jobStatus, JobBatchMode jobBatchMode,
            int jobBatchSize, int jobBatchCounter, DateTime timestamp, JobTighteningStatus jobTighteningStatus,
-           int revision = 4, int? noAckFlag = 0)
-            : this(jobId, jobStatus, jobBatchMode, jobBatchSize, jobBatchCounter, timestamp, revision, noAckFlag)
+           int revision = 4) : this(jobId, jobStatus, jobBatchMode, jobBatchSize, jobBatchCounter, timestamp, revision)
         {
             JobTighteningStatus = jobTighteningStatus;
         }
@@ -206,8 +212,8 @@ namespace OpenProtocolInterpreter.Job
         public Mid0035(int jobId, JobStatus jobStatus, JobBatchMode jobBatchMode,
            int jobBatchSize, int jobBatchCounter, DateTime timestamp, JobTighteningStatus jobTighteningStatus,
            int jobSequenceNumber, string vinNumber, string identifierResultPart2, string identifierResultPart3,
-           string identifierResultPart4, int revision = 5, int? noAckFlag = 0)
-            : this(jobId, jobStatus, jobBatchMode, jobBatchSize, jobBatchCounter, timestamp, jobTighteningStatus, revision, noAckFlag)
+           string identifierResultPart4, int revision = 5)
+            : this(jobId, jobStatus, jobBatchMode, jobBatchSize, jobBatchCounter, timestamp, jobTighteningStatus, revision)
         {
             JobSequenceNumber = jobSequenceNumber;
             VinNumber = vinNumber;
@@ -218,7 +224,7 @@ namespace OpenProtocolInterpreter.Job
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
+            Header = ProcessHeader(package);
             HandleRevision();
             ProcessDataFields(package);
             return this;
@@ -231,7 +237,7 @@ namespace OpenProtocolInterpreter.Job
         {
             List<string> failed = new List<string>();
 
-            if (HeaderData.Revision == 1)
+            if (Header.Revision == 1)
             {
                 if (JobId < 0 || JobId > 99)
                     failed.Add(new ArgumentOutOfRangeException(nameof(JobId), "Range: 00-99").Message);
@@ -248,7 +254,7 @@ namespace OpenProtocolInterpreter.Job
             if (JobBatchCounter < 0 || JobBatchCounter > 9999)
                 failed.Add(new ArgumentOutOfRangeException(nameof(JobBatchCounter), "Range: 0000-9999").Message);
 
-            if (HeaderData.Revision == 3)
+            if (Header.Revision == 3)
             {
                 if (JobCurrentStep < 0 || JobCurrentStep > 999)
                     failed.Add(new ArgumentOutOfRangeException(nameof(JobCurrentStep), "Range: 000-999").Message);
@@ -310,7 +316,7 @@ namespace OpenProtocolInterpreter.Job
         private void HandleRevision()
         {
             var jobIdField = GetField(1, (int)DataFields.JOB_ID);
-            if (HeaderData.Revision > 1)
+            if (Header.Revision > 1)
             {
                 jobIdField.Size = 4;
             }

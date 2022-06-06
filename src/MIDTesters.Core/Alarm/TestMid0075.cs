@@ -1,20 +1,19 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Alarm;
-using System.Linq;
 
 namespace MIDTesters.Alarm
 {
     [TestClass]
-    public class TestMid0075 : MidTester
+    public class TestMid0075 : DefaultMidTests<Mid0075>
     {
         [TestMethod]
         public void Mid0075AllRevisions()
         {
             string pack = @"00200075001         ";
-            var mid = _midInterpreter.Parse<Mid0075>(pack);
+            var mid = _midInterpreter.Parse(pack);
 
             Assert.AreEqual(typeof(Mid0075), mid.GetType());
-            Assert.AreEqual(pack, mid.Pack());
+            AssertEqualPackages(pack, mid);
         }
 
         [TestMethod]
@@ -22,10 +21,10 @@ namespace MIDTesters.Alarm
         {
             string pack = @"00200075001         ";
             byte[] bytes = GetAsciiBytes(pack);
-            var mid = _midInterpreter.Parse<Mid0075>(bytes);
+            var mid = _midInterpreter.Parse(bytes);
 
             Assert.AreEqual(typeof(Mid0075), mid.GetType());
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
     }
 }

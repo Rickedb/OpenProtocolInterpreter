@@ -15,14 +15,18 @@
         private const int LAST_REVISION = 1;
         public const int MID = 90;
 
-        public Mid0090() : this(0)
+        public Mid0090() : this(false)
         {
 
         }
 
-        public Mid0090(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
+        public Mid0090(bool noAckFlag = false) : base(MID, LAST_REVISION, noAckFlag)
         {
 
+        }
+
+        public Mid0090(Header header) : base(header)
+        {
         }
     }
 }

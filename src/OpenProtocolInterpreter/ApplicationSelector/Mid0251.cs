@@ -34,12 +34,16 @@ namespace OpenProtocolInterpreter.ApplicationSelector
         }
         public List<bool> SocketStatus { get; set; }
 
-        public Mid0251() : this(0)
+        public Mid0251() : this(new Header()
         {
-
+            Mid = MID,
+            Revision = LAST_REVISION
+        })
+        {
+            
         }
 
-        public Mid0251(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
+        public Mid0251(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
             _boolListConverter = new SocketStatusConverter(new BoolConverter());
@@ -47,7 +51,7 @@ namespace OpenProtocolInterpreter.ApplicationSelector
                 SocketStatus = new List<bool>();
         }
 
-        public Mid0251(int deviceId, int numberOfSockets, IEnumerable<bool> socketStatus, int? noAckFlag = 0) : this(noAckFlag)
+        public Mid0251(int deviceId, int numberOfSockets, IEnumerable<bool> socketStatus) : this()
         {
             DeviceId = deviceId;
             NumberOfSockets = numberOfSockets;
@@ -63,7 +67,7 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
+            Header = ProcessHeader(package);
 
             GetField(1, (int)DataFields.SOCKET_STATUS).Size = package.Length - 30;
             ProcessDataFields(package);

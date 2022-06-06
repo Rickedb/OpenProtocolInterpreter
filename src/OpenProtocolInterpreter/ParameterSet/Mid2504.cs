@@ -25,7 +25,19 @@ namespace OpenProtocolInterpreter.ParameterSet
             set => GetField(1,(int)DataFields.PARAMETER_SET_ID).SetValue(_intConverter.Convert, value);
         }
 
-        public Mid2504() : base(MID, LAST_REVISION) => _intConverter = new Int32Converter();
+        public Mid2504() : this(new Header()
+        {
+            Mid = MID, 
+            Revision = LAST_REVISION
+        })
+        {
+
+        }
+
+        public Mid2504(Header header) : base(header)
+        {
+            _intConverter = new Int32Converter();
+        }
 
         /// <summary>
         /// Revision 1 Constructor

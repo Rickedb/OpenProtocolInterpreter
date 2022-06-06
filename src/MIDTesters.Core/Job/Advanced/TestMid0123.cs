@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Job.Advanced;
-using System.Linq;
 
 namespace MIDTesters.Job.Advanced
 {
@@ -8,7 +7,7 @@ namespace MIDTesters.Job.Advanced
     /// Summary description for TestMid0123
     /// </summary>
     [TestClass]
-    public class TestMid0123 : MidTester
+    public class TestMid0123 : DefaultMidTests<Mid0123>
     {
         [TestMethod]
         public void Mid0123Revision1()
@@ -17,8 +16,8 @@ namespace MIDTesters.Job.Advanced
             var mid = _midInterpreter.Parse(package);
 
             Assert.AreEqual(typeof(Mid0123), mid.GetType());
-            Assert.IsNotNull(mid.HeaderData.NoAckFlag);
-            Assert.AreEqual(package, mid.Pack());
+            Assert.IsTrue(mid.Header.NoAckFlag);
+            AssertEqualPackages(package, mid, true);
         }
 
         [TestMethod]
@@ -29,8 +28,8 @@ namespace MIDTesters.Job.Advanced
             var mid = _midInterpreter.Parse(bytes);
 
             Assert.AreEqual(typeof(Mid0123), mid.GetType());
-            Assert.IsNotNull(mid.HeaderData.NoAckFlag);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            Assert.IsTrue(mid.Header.NoAckFlag);
+            AssertEqualPackages(bytes, mid, true);
         }
     }
 }

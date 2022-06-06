@@ -21,11 +21,20 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public RelayNumber RelayNumber
         {
-            get => (RelayNumber)GetField(1,(int)DataFields.RELAY_NUMBER).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.RELAY_NUMBER).SetValue(_intConverter.Convert, (int)value);
+            get => (RelayNumber)GetField(1, (int)DataFields.RELAY_NUMBER).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.RELAY_NUMBER).SetValue(_intConverter.Convert, (int)value);
         }
 
-        public Mid0219() : base(MID, LAST_REVISION)
+        public Mid0219() : this(new Header()
+        {
+            Mid = MID,
+            Revision = LAST_REVISION,
+        })
+        {
+
+        }
+
+        public Mid0219(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
         }

@@ -52,7 +52,15 @@ namespace OpenProtocolInterpreter.PLCUserData
             set => GetField(1, (int)DataFields.USER_DATA).SetValue(value);
         }
 
-        public Mid0245() : base(MID, LAST_REVISION)
+        public Mid0245() : this(new Header()
+        {
+            Mid = MID, 
+            Revision = LAST_REVISION
+        })
+        {
+        }
+
+        public Mid0245(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
             if (string.IsNullOrEmpty(UserData))
@@ -75,8 +83,8 @@ namespace OpenProtocolInterpreter.PLCUserData
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
-            GetField(1, (int)DataFields.USER_DATA).Size = HeaderData.Length - 23;
+            Header = ProcessHeader(package);
+            GetField(1, (int)DataFields.USER_DATA).Size = Header.Length - 23;
             ProcessDataFields(package);
             return this;
         }

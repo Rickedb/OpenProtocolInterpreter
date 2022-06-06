@@ -35,7 +35,15 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         }
 
-        public Mid0012(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0012(int revision = LAST_REVISION) : this(new Header()
+        {
+            Mid = MID,
+            Revision = revision
+        })
+        {
+        }
+
+        public Mid0012(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
         }
@@ -70,7 +78,7 @@ namespace OpenProtocolInterpreter.ParameterSet
             if (ParameterSetId < 1 || ParameterSetId > 999)
                 failed.Add(new ArgumentOutOfRangeException(nameof(ParameterSetId), "Range: 000-999").Message);
 
-            if (HeaderData.Revision > 2)
+            if (Header.Revision > 2)
                 if (ParameterSetFileVersion < 0 || ParameterSetFileVersion > 99999999)
                     failed.Add(new ArgumentOutOfRangeException(nameof(ParameterSetFileVersion), "Range: 00000000-99999999").Message);
 

@@ -1,11 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.ParameterSet;
-using System.Linq;
 
 namespace MIDTesters.ParameterSet
 {
     [TestClass]
-    public class TestMid0010 : MidTester
+    public class TestMid0010 : DefaultMidTests<Mid0010>
     {
         [TestMethod]
         public void Mid0010AllRevisions()
@@ -14,7 +13,7 @@ namespace MIDTesters.ParameterSet
             var mid = _midInterpreter.Parse(package);
 
             Assert.AreEqual(typeof(Mid0010), mid.GetType());
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
 
         [TestMethod]
@@ -25,7 +24,7 @@ namespace MIDTesters.ParameterSet
             var mid = _midInterpreter.Parse(bytes);
 
             Assert.AreEqual(typeof(Mid0010), mid.GetType());
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse(package);
 
             Assert.AreEqual(typeof(Mid0060), mid.GetType());
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
 
         [TestMethod]
@@ -26,7 +26,7 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse(bytes);
 
             Assert.AreEqual(typeof(Mid0060), mid.GetType());
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
     }
 }

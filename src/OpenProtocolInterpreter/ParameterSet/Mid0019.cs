@@ -31,7 +31,15 @@ namespace OpenProtocolInterpreter.ParameterSet
             set => GetField(1,(int)DataFields.BATCH_SIZE).SetValue(_intConverter.Convert, value);
         }
 
-        public Mid0019() : base(MID, LAST_REVISION)
+        public Mid0019() : this(new Header()
+        {
+            Mid = MID, 
+            Revision = LAST_REVISION
+        })
+        {
+        }
+
+        public Mid0019(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
         }

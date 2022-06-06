@@ -16,5 +16,10 @@
         {
 
         }
+
+        public Mid0078(Header header) : base(header)
+        {
+
+        }
     }
 }

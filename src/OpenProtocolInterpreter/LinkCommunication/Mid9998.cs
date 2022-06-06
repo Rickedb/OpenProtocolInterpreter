@@ -32,7 +32,16 @@ namespace OpenProtocolInterpreter.LinkCommunication
             set => GetField(1, (int)DataFields.ERROR_CODE).SetValue(_intConverter.Convert, (int)value);
         }
 
-        public Mid9998() : base(MID, LAST_REVISION)
+        public Mid9998() : this(new Header()
+        {
+            Mid = MID,
+            Revision = LAST_REVISION
+        })
+        {
+            
+        }
+
+        public Mid9998(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
         }
