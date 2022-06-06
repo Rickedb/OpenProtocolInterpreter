@@ -18,24 +18,18 @@
   
 > OpenProtocol communication utility
 
-> Missing OpenProtocolInterpreter v1.0.0 ? [>It's here!<](https://github.com/Rickedb/OpenProtocolInterpreter/releases/tag/1.0.0)
-
-> Missing OpenProtocolInterpreter v2.2.1 ? [>It's here!<](https://github.com/Rickedb/OpenProtocolInterpreter/releases/tag/2.2.1)
-
  1. [What is Open Protocol at all?](#what-is-open-protocol-at-all) 
  2. [What is OpenProtocolInterpreter?](#what-is-openprotocolinterpreter)
- 3. [Changelog version 3.0.0](#changelog-for-version-3.0.0)
- 4. [How does it work?](#how-does-it-work)
- 5. [Usage examples](#lets-see-some-examples-of-usage)
- 6. [Available on package managers](#get-it-on-nuget)
- 7. [Advanced section](#advanced-section)
+ 3. [How does it work?](#how-does-it-work)
+ 4. [Usage examples](#lets-see-some-examples-of-usage)
+ 5. [Available on package managers](#get-it-on-nuget)
+ 6. [Advanced section](#advanced-section)
     * [How it was built?](#how-it-was-built)
     * [Customization](#mids-identifying-customization)
     * [Advanced example](#advanced-example)
-8. [Tips](#tips)
-9. [Contribute to the project](#contribute-to-the-project)
-10. [Still unavailable mids](#list-of-still-unavailable-mids)
-11. [Next steps](#next-steps) 
+7. [Tips](#tips)
+8. [Contribute to the project](#contribute-to-the-project)
+9. [Still unavailable mids](#list-of-still-unavailable-mids)
 
 
 ## What is Open Protocol at all?
@@ -51,14 +45,6 @@ OpenProtocolInterpreter is a **library that converts the ugly string** that came
 *"Substringing"* packages is such a boring thing to do, so let OpenProtocolIntepreter do it for you!
 
 **[If you're curious, just take a look at their documentation.](https://github.com/Rickedb/OpenProtocolIntepreter/blob/master/docs/OpenProtocol_Specification.pdf)**
-
-## Changelog for version 3.0.0 or greater
-
- 1. Reworked on how to instantiate a Mid class when parsing to fix a bug where the parse method updates the same instance instead of creating a new;
- 2. Pack methods added to MidInterpreter as Pack(Mid mid) and PackBytes(Mid mid);
- 3. Added extension methods to MidInterpreter to use the desired Mids/Message parsers;
- 4. Now you can instantiate MidIntepreter telling if you're the Controller or the Integrator;
- 5. Upgraded it from .net framework 4.5.1 to .net standard 2.0 to include .net core projects;
 
 ## How does it work?
 
@@ -349,8 +335,3 @@ But if you wish, you can support and help to motivate the constant improving of 
  - Mid 2606.
 
 Feel free to fork and contribute to add any of those mids.
-
-### Next Steps
-
- 1. Add missing mids;
- 2. Create wiki.
