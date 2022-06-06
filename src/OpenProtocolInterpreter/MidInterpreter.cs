@@ -14,6 +14,7 @@ namespace OpenProtocolInterpreter
     {
         private readonly IList<IMessagesTemplate> _messagesTemplates;
         private readonly IDictionary<int, IMessagesTemplate> _fastAccessTemplate;
+
         public MidInterpreter()
         {
             _messagesTemplates = new List<IMessagesTemplate>();

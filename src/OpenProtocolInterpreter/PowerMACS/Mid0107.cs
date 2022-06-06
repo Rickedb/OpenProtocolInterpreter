@@ -118,7 +118,16 @@ namespace OpenProtocolInterpreter.PowerMACS
         }
         public List<SpecialValue> SpecialValues { get; set; }
 
-        public Mid0107() : base(MID, LAST_REVISION)
+        public Mid0107() : this(new Header()
+        {
+            Mid = MID, 
+            Revision = LAST_REVISION
+        })
+        {
+            
+        }
+
+        public Mid0107(Header header) : base(header)
         {
             _boolConverter = new BoolConverter();
             _intConverter = new Int32Converter();
@@ -150,7 +159,7 @@ namespace OpenProtocolInterpreter.PowerMACS
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
+            Header = ProcessHeader(package);
 
             int numberOfBoltResults = _intConverter.Convert(GetValue(GetField(1, (int)DataFields.NUMBER_OF_BOLT_RESULTS), package));
             var boltResultField = GetField(1, (int)DataFields.BOLT_RESULTS);

@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Statistic;
 
 namespace MIDTesters.Statistic
 {
     [TestClass]
-    public class TestMid0300 : MidTester
+    public class TestMid0300 : DefaultMidTests<Mid0300>
     {
         [TestMethod]
         public void Mid0300Revision1()
@@ -14,10 +12,9 @@ namespace MIDTesters.Statistic
             string package = "00290300            010020202";
             var mid = _midInterpreter.Parse<Mid0300>(package);
 
-            Assert.AreEqual(typeof(Mid0300), mid.GetType());
             Assert.IsNotNull(mid.ParameterSetId);
             Assert.IsNotNull(mid.HistogramType);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid, true);
         }
 
         [TestMethod]
@@ -27,10 +24,9 @@ namespace MIDTesters.Statistic
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0300>(bytes);
 
-            Assert.AreEqual(typeof(Mid0300), mid.GetType());
             Assert.IsNotNull(mid.ParameterSetId);
             Assert.IsNotNull(mid.HistogramType);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid, true);
         }
     }
 }

@@ -32,7 +32,16 @@ namespace OpenProtocolInterpreter.ApplicationSelector
         }
         public List<LightCommand> RedLights { get; set; }
 
-        public Mid0255() : base(MID, LAST_REVISION)
+        public Mid0255() : this(new Header()
+        {
+            Mid = MID,
+            Revision = LAST_REVISION
+        })
+        {
+           
+        }
+
+        public Mid0255(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
             _lightsConverter = new LightCommandListConverter(_intConverter);

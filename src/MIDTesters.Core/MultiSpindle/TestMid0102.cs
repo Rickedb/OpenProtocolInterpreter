@@ -5,7 +5,7 @@ using System.Linq;
 namespace MIDTesters.MultiSpindle
 {
     [TestClass]
-    public class TestMid0102 : MidTester
+    public class TestMid0102 : DefaultMidTests<Mid0102>
     {
         [TestMethod]
         public void Mid0102Revision1()
@@ -14,7 +14,7 @@ namespace MIDTesters.MultiSpindle
             var mid = _midInterpreter.Parse(pack);
 
             Assert.AreEqual(typeof(Mid0102), mid.GetType());
-            Assert.AreEqual(pack, mid.Pack());
+            AssertEqualPackages(pack, mid, true);
         }
 
         [TestMethod]
@@ -25,7 +25,7 @@ namespace MIDTesters.MultiSpindle
             var mid = _midInterpreter.Parse(bytes);
 
             Assert.AreEqual(typeof(Mid0102), mid.GetType());
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid, true);
         }
     }
 }

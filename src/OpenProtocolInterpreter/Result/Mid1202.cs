@@ -58,7 +58,15 @@ namespace OpenProtocolInterpreter.Result
 
         public List<VariableDataField> VariableDataFields { get; set; }
 
-        public Mid1202() : base(MID, LAST_REVISION)
+        public Mid1202() : this(new Header()
+        {
+            Mid = MID,
+            Revision = LAST_REVISION
+        })
+        {
+        }
+
+        public Mid1202(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
             _variableDataFieldListConverter = new VariableDataFieldListConverter(_intConverter);
@@ -74,7 +82,7 @@ namespace OpenProtocolInterpreter.Result
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
+            Header = ProcessHeader(package);
             var variableDataField = GetField(1, (int)DataFields.VARIABLE_DATA_FIELDS);
             variableDataField.Size = package.Length - variableDataField.Index;
             ProcessDataFields(package);

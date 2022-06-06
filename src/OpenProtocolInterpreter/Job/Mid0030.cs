@@ -20,5 +20,9 @@
         }
 
         public Mid0030(int revision = LAST_REVISION) : base(MID, revision) { }
+
+        public Mid0030(Header header) : base(header)
+        {
+        }
     }
 }

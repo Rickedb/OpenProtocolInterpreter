@@ -25,7 +25,16 @@ namespace OpenProtocolInterpreter.IOInterface
             set => GetField(1,(int)DataFields.DIGITAL_INPUT_NUMBER).SetValue(_intConverter.Convert, (int)value);
         }
 
-        public Mid0223() : base(MID, LAST_REVISION)
+        public Mid0223() : this(new Header()
+        {
+            Mid = MID, 
+            Revision = LAST_REVISION
+        })
+        {
+            
+        }
+
+        public Mid0223(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
         }

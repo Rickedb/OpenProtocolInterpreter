@@ -39,9 +39,17 @@ namespace OpenProtocolInterpreter.Tightening
 
         }
 
-        public Mid0064(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0064(Header header) : base(header)
         {
             _longConverter = new Int64Converter();
+        }
+
+        public Mid0064(int revision = LAST_REVISION) : this(new Header()
+        {
+            Mid = MID,
+            Revision = revision
+        })
+        {
         }
 
         public Mid0064(long tighteningId, int revision = LAST_REVISION) : this(revision)

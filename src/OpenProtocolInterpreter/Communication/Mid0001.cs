@@ -26,9 +26,18 @@ namespace OpenProtocolInterpreter.Communication
 
         }
 
-        public Mid0001(int revision = 6) : base(MID, revision)
+        public Mid0001(Header header) : base(header)
         {
             _boolConverter = new BoolConverter();
+        }
+
+        public Mid0001(int revision = 6) : this(new Header()
+        {
+            Mid = MID,
+            Revision = revision
+        })
+        {
+
         }
 
         public Mid0001(bool optionalKeepAlive, int revision = 7) : this(revision)

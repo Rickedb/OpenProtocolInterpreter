@@ -1,21 +1,19 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.ApplicationController;
 
 namespace MIDTesters.ApplicationController
 {
     [TestClass]
-    public class TestMid0270 : MidTester
+    public class TestMid0270 : DefaultMidTests<Mid0270>
     {
         [TestMethod]
         public void Mid0270Revision1()
         {
             string package = "00200270001         ";
-            var mid = _midInterpreter.Parse(package);
+            var mid = _midInterpreter.Parse<Mid0270>(package);
 
             Assert.AreEqual(typeof(Mid0270), mid.GetType());
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
 
         [TestMethod]
@@ -26,7 +24,7 @@ namespace MIDTesters.ApplicationController
             var mid = _midInterpreter.Parse(bytes);
 
             Assert.AreEqual(typeof(Mid0270), mid.GetType());
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
     }
 }

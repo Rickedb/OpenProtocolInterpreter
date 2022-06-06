@@ -28,10 +28,18 @@ namespace OpenProtocolInterpreter.Job
 
         }
 
-        public Mid0039(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0039(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
             HandleRevisions();
+        }
+
+        public Mid0039(int revision = LAST_REVISION) : this(new Header()
+        {
+            Mid = MID,
+            Revision = revision
+        })
+        {
         }
 
         /// <summary>
@@ -46,7 +54,7 @@ namespace OpenProtocolInterpreter.Job
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
+            Header = ProcessHeader(package);
             HandleRevisions();
             ProcessDataFields(package);
             return this;
@@ -73,7 +81,7 @@ namespace OpenProtocolInterpreter.Job
         {
             List<string> failed = new List<string>();
 
-            if (HeaderData.Revision == 1)
+            if (Header.Revision == 1)
             {
                 if (JobId < 0 || JobId > 99)
                     failed.Add(new ArgumentOutOfRangeException(nameof(JobId), "Range: 00-99").Message);
@@ -90,7 +98,7 @@ namespace OpenProtocolInterpreter.Job
 
         private void HandleRevisions()
         {
-            if (HeaderData.Revision == 1)
+            if (Header.Revision == 1)
             {
                 GetField(1, (int)DataFields.JOB_ID).Size = 2;
             }

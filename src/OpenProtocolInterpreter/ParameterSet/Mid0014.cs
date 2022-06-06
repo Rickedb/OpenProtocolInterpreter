@@ -18,7 +18,7 @@
         private const int LAST_REVISION = 1;
         public const int MID = 14;
 
-        public Mid0014() : this(0)
+        public Mid0014() : this(false)
         {
 
         }
@@ -26,10 +26,14 @@
         /// <summary>
         /// Revision 1 Constructor
         /// </summary>
-        /// <param name="noAckFlag">0=Ack needed, 1=No Ack needed</param>
-        public Mid0014(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) 
+        /// <param name="noAckFlag">False=Ack needed, True=No Ack needed</param>
+        public Mid0014(bool noAckFlag = false) : base(MID, LAST_REVISION, noAckFlag) 
         { 
         
+        }
+
+        public Mid0014(Header header) : base(header)
+        {
         }
     }
 }

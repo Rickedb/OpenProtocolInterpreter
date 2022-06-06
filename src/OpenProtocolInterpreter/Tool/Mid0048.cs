@@ -28,7 +28,15 @@ namespace OpenProtocolInterpreter.Tool
             set => GetField(1,(int)DataFields.TIMESTAMP).SetValue(_dateConverter.Convert, value);
         }
 
-        public Mid0048() : base(MID, LAST_REVISION)
+        public Mid0048() : this(new Header()
+        {
+            Mid = MID,
+            Revision = LAST_REVISION
+        })
+        {
+        }
+
+        public Mid0048(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
             _dateConverter = new DateConverter();

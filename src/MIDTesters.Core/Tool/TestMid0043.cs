@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Tool;
 
 namespace MIDTesters.Tool
 {
     [TestClass]
-    public class TestMid0043 : MidTester
+    public class TestMid0043 : DefaultMidTests<Mid0043>
     {
         [TestMethod]
         public void Mid0043Revision1()
@@ -15,7 +13,7 @@ namespace MIDTesters.Tool
             var mid = _midInterpreter.Parse(package);
 
             Assert.AreEqual(typeof(Mid0043), mid.GetType());
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid, true);
         }
 
         [TestMethod]
@@ -26,7 +24,7 @@ namespace MIDTesters.Tool
             var mid = _midInterpreter.Parse(bytes);
 
             Assert.AreEqual(typeof(Mid0043), mid.GetType());
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid, true);
         }
 
         [TestMethod]
@@ -35,9 +33,8 @@ namespace MIDTesters.Tool
             string package = "00260043002         010042";
             var mid = _midInterpreter.Parse<Mid0043>(package);
 
-            Assert.AreEqual(typeof(Mid0043), mid.GetType());
             Assert.IsNotNull(mid.ToolNumber);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
 
         [TestMethod]
@@ -47,9 +44,8 @@ namespace MIDTesters.Tool
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0043>(bytes);
 
-            Assert.AreEqual(typeof(Mid0043), mid.GetType());
             Assert.IsNotNull(mid.ToolNumber);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
     }
 }

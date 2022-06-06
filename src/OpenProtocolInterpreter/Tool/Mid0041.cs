@@ -138,6 +138,10 @@ namespace OpenProtocolInterpreter.Tool
 
         }
 
+        public Mid0041(Header header) : base(header)
+        {
+        }
+
         public Mid0041(int revision = LAST_REVISION) : base(MID, revision)
         {
             _intConverter = new Int32Converter();
@@ -438,7 +442,7 @@ namespace OpenProtocolInterpreter.Tool
             if (ControllerSerialNumber.Length > 10)
                 failed.Add(new ArgumentOutOfRangeException(nameof(ControllerSerialNumber), "Max of 10 characters").Message);
 
-            if (HeaderData.Revision > 1) //Rev 2
+            if (Header.Revision > 1) //Rev 2
             {
                 if (TighteningsSinceService < 0 || TighteningsSinceService > 4294967295)
                     failed.Add(new ArgumentOutOfRangeException(nameof(TighteningsSinceService), "Range: 0000000000-4294967295").Message);
@@ -449,7 +453,7 @@ namespace OpenProtocolInterpreter.Tool
                 if (ControllerSoftwareVersion.Length > 19)
                     failed.Add(new ArgumentOutOfRangeException(nameof(ControllerSoftwareVersion), "Max of 19 characters").Message);
 
-                if (HeaderData.Revision > 4) //Rev 5
+                if (Header.Revision > 4) //Rev 5
                 {
                     if (ToolModel.Length > 12)
                         failed.Add(new ArgumentOutOfRangeException(nameof(ToolModel), "Max of 12 characters").Message);

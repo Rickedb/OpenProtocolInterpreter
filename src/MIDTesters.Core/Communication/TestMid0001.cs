@@ -1,11 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Communication;
-using System.Linq;
 
 namespace MIDTesters.Communication
 {
     [TestClass]
-    public class TestMid0001 : MidTester
+    public class TestMid0001 : DefaultMidTests<Mid0001>
     {
         [TestMethod]
         public void Mid0001AllRevisions()
@@ -14,7 +13,7 @@ namespace MIDTesters.Communication
             var mid = _midInterpreter.Parse(package);
 
             Assert.AreEqual(typeof(Mid0001), mid.GetType());
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
 
         [TestMethod]
@@ -25,7 +24,7 @@ namespace MIDTesters.Communication
             var mid = _midInterpreter.Parse(bytes);
 
             Assert.AreEqual(typeof(Mid0001), mid.GetType());
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
 
         [TestMethod]
@@ -34,9 +33,8 @@ namespace MIDTesters.Communication
             var package = "00230001007         011";
             var mid = _midInterpreter.Parse<Mid0001>(package);
 
-            Assert.AreEqual(typeof(Mid0001), mid.GetType());
             Assert.IsNotNull(mid.OptionalKeepAlive);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
 
         [TestMethod]
@@ -46,9 +44,8 @@ namespace MIDTesters.Communication
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0001>(bytes);
 
-            Assert.AreEqual(typeof(Mid0001), mid.GetType());
             Assert.IsNotNull(mid.OptionalKeepAlive);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
     }
 }

@@ -13,5 +13,9 @@
 
         public Mid0260() : base(MID, LAST_REVISION) { }
 
+        public Mid0260(Header header) : base(header)
+        {
+
+        }
     }
 }

@@ -128,13 +128,23 @@ namespace OpenProtocolInterpreter.Job.Advanced
 
         }
 
-        public Mid0140(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0140(Header header) : base(header)
         {
             JobList = new List<AdvancedJob>();
             _intConverter = new Int32Converter();
             _boolConverter = new BoolConverter();
-            _jobListConverter = new AdvancedJobListConverter(_intConverter, revision);
+            _jobListConverter = new AdvancedJobListConverter(_intConverter, header.Revision);
         }
+
+        public Mid0140(int revision = LAST_REVISION) : this(new Header()
+        {
+            Mid = MID,
+            Revision = revision
+        })
+        {
+
+        }
+
 
         public override string Pack()
         {
@@ -148,9 +158,9 @@ namespace OpenProtocolInterpreter.Job.Advanced
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
-            _jobListConverter = new AdvancedJobListConverter(_intConverter, HeaderData.Revision);
-            int length = HeaderData.Length;
+            Header = ProcessHeader(package);
+            _jobListConverter = new AdvancedJobListConverter(_intConverter, Header.Revision);
+            int length = Header.Length;
             var revision = GetNormalizedRevision();
             foreach (var rev in RevisionsByFields[revision])
                 length -= rev.Size;
@@ -183,18 +193,18 @@ namespace OpenProtocolInterpreter.Job.Advanced
 
         private int GetNormalizedRevision()
         {
-            if (HeaderData.Revision == 999)
+            if (Header.Revision == 999)
             {
                 return 1;
             }
 
-            return HeaderData.Revision;
+            return Header.Revision;
         }
 
         private int GetJobListSize()
         {
             var revision = GetNormalizedRevision();
-            switch(revision)
+            switch (revision)
             {
                 case 2: return 52;
                 case 3: return 63;

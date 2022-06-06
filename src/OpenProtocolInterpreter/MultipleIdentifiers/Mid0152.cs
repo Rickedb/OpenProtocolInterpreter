@@ -27,7 +27,15 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
         public IdentifierStatus ThirdIdentifierStatus { get; set; }
         public IdentifierStatus FourthIdentifierStatus { get; set; }
 
-        public Mid0152() : base(MID, LAST_REVISION)
+        public Mid0152() : this(new Header()
+        {
+            Mid = MID,
+            Revision = LAST_REVISION
+        })
+        {
+        }
+
+        public Mid0152(Header header) : base(header)
         {
             _identifierStatusConverter = new IdentifierStatusConverter(new Int32Converter(), new BoolConverter());
         }

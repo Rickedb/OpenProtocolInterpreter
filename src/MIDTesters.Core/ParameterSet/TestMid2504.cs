@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.ParameterSet;
 
 namespace MIDTesters.ParameterSet
 {
     [TestClass]
-    public class TestMid2504 : MidTester
+    public class TestMid2504 : DefaultMidTests<Mid2504>
     {
         [TestMethod]
         public void Mid2504Revision1()
@@ -14,9 +12,8 @@ namespace MIDTesters.ParameterSet
             string package = "00232504001         010";
             var mid = _midInterpreter.Parse<Mid2504>(package);
 
-            Assert.AreEqual(typeof(Mid2504), mid.GetType());
             Assert.IsNotNull(mid.ParameterSetId);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
 
         [TestMethod]
@@ -26,9 +23,8 @@ namespace MIDTesters.ParameterSet
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid2504>(bytes);
 
-            Assert.AreEqual(typeof(Mid2504), mid.GetType());
             Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
     }
 }

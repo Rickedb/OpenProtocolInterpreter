@@ -43,7 +43,16 @@ namespace OpenProtocolInterpreter.Communication
             set => GetField(1, (int)DataFields.EXTRA_DATA).SetValue(value);
         }
 
-        public Mid0006() : base(MID, LAST_REVISION)
+        public Mid0006() : this(new Header()
+        {
+            Mid = MID, 
+            Revision = LAST_REVISION
+        })
+        {
+            
+        }
+
+        public Mid0006(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
         }
@@ -58,7 +67,7 @@ namespace OpenProtocolInterpreter.Communication
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
+            Header = ProcessHeader(package);
             GetField(1, (int)DataFields.EXTRA_DATA).Size = package.Length - 29;
             ProcessDataFields(package);
             return this;

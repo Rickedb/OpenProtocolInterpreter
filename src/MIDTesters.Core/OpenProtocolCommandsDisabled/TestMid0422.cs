@@ -6,7 +6,7 @@ using OpenProtocolInterpreter.OpenProtocolCommandsDisabled;
 namespace MIDTesters.OpenProtocolCommandsDisabled
 {
     [TestClass]
-    public class TestMid0422 : MidTester
+    public class TestMid0422 : DefaultMidTests<Mid0422>
     {
         [TestMethod]
         public void Mid0422Revision1()
@@ -15,7 +15,7 @@ namespace MIDTesters.OpenProtocolCommandsDisabled
             var mid = _midInterpreter.Parse(package);
 
             Assert.AreEqual(typeof(Mid0422), mid.GetType());
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid, true);
         }
 
         [TestMethod]
@@ -26,7 +26,7 @@ namespace MIDTesters.OpenProtocolCommandsDisabled
             var mid = _midInterpreter.Parse(bytes);
 
             Assert.AreEqual(typeof(Mid0422), mid.GetType());
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid, true);
         }
     }
 }

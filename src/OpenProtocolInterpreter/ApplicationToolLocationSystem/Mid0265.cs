@@ -26,7 +26,16 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
             set => GetField(1,(int)DataFields.TOOL_STATUS).SetValue(_intConverter.Convert, (int)value);
         }
 
-        public Mid0265() : base(MID, LAST_REVISION)
+        public Mid0265() : this(new Header()
+        {
+            Mid = MID,
+            Revision = LAST_REVISION
+        })
+        {
+            
+        }
+
+        public Mid0265(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
         }

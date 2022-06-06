@@ -26,9 +26,17 @@ namespace OpenProtocolInterpreter.Tool
 
         }
 
-        public Mid0043(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0043(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
+        }
+
+        public Mid0043(int revision = LAST_REVISION) : this(new Header()
+        {
+            Mid = MID, 
+            Revision = revision
+        })
+        {
         }
 
         /// <summary>
@@ -36,7 +44,7 @@ namespace OpenProtocolInterpreter.Tool
         /// </summary>
         /// <param name="toolNumber">The number of the tool to disable. It is the same number as the tool numbers sent in <see cref="Mid0701"/> (Tool List Upload)</param>
         /// <param name="revision">Revision</param>
-        public Mid0043(int toolNumber, int revision = 2) : this(revision)
+        public Mid0043(int toolNumber, int revision = LAST_REVISION) : this(revision)
         {
             ToolNumber = toolNumber;
         }

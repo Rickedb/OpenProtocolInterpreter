@@ -24,13 +24,13 @@ namespace OpenProtocolInterpreter.Job.Advanced
 
         public int ChannelId
         {
-            get => GetField(2,(int)DataFields.CHANNEL_ID).GetValue(_intConverter.Convert);
-            set => GetField(2,(int)DataFields.CHANNEL_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(2, (int)DataFields.CHANNEL_ID).GetValue(_intConverter.Convert);
+            set => GetField(2, (int)DataFields.CHANNEL_ID).SetValue(_intConverter.Convert, value);
         }
         public int ParameterSetId
         {
-            get => GetField(2,(int)DataFields.PARAMETER_SET_ID).GetValue(_intConverter.Convert);
-            set => GetField(2,(int)DataFields.PARAMETER_SET_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(2, (int)DataFields.PARAMETER_SET_ID).GetValue(_intConverter.Convert);
+            set => GetField(2, (int)DataFields.PARAMETER_SET_ID).SetValue(_intConverter.Convert, value);
         }
 
         public Mid0129() : this(LAST_REVISION)
@@ -38,9 +38,18 @@ namespace OpenProtocolInterpreter.Job.Advanced
 
         }
 
-        public Mid0129(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0129(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
+        }
+
+        public Mid0129(int revision = LAST_REVISION) : this(new Header()
+        {
+            Mid = MID,
+            Revision = revision
+        })
+        {
+            
         }
 
         public Mid0129(int channelId, int parameterSetId, int revision = 2) : this(revision)
@@ -48,6 +57,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
             ChannelId = channelId;
             ParameterSetId = parameterSetId;
         }
+
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

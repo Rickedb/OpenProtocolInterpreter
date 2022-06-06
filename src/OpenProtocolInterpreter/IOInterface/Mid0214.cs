@@ -29,12 +29,19 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public Mid0214() : this(LAST_REVISION)
         {
-
         }
 
-        public Mid0214(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0214(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
+        }
+
+        public Mid0214(int revision = LAST_REVISION) : this(new Header()
+        {
+            Mid = MID,
+            Revision = revision
+        })
+        {
         }
 
         public Mid0214(int deviceNumber, int revision = LAST_REVISION) : this(revision)

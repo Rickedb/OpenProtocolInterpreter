@@ -29,9 +29,17 @@ namespace OpenProtocolInterpreter.Tool
 
         }
 
-        public Mid0040(int revision = 7) : base(MID, revision)
+        public Mid0040(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
+        }
+
+        public Mid0040(int revision = LAST_REVISION) : this(new Header()
+        {
+            Mid = MID, 
+            Revision = revision
+        })
+        {
         }
 
         /// <summary>
@@ -39,7 +47,7 @@ namespace OpenProtocolInterpreter.Tool
         /// </summary>
         /// <param name="toolNumber">The number of the tool to send tool data for. It is the same number as the tool numbers sent in <see cref="Mid0701"/> (Tool List Upload)</param>
         /// <param name="revision">Revision</param>
-        public Mid0040(int toolNumber, int revision = 7) : this(revision)
+        public Mid0040(int toolNumber, int revision = LAST_REVISION) : this(revision)
         {
             ToolNumber = toolNumber;
         }

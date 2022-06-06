@@ -43,10 +43,24 @@ namespace OpenProtocolInterpreter.PowerMACS
 
         }
 
-        public Mid0105(int revision = LAST_REVISION, int? noAckFlag = 0) : base(MID, revision, noAckFlag)
+        public Mid0105(Header header) : base(header)
         {
             _boolConverter = new BoolConverter();
             _intConverter = new Int32Converter();
+        }
+
+        public Mid0105(bool noAckFlag = false) : this(LAST_REVISION, noAckFlag)
+        {
+            
+        }
+
+        public Mid0105(int revision = LAST_REVISION, bool noAckFlag = false) : this(new Header()
+        {
+            Mid = MID, 
+            Revision = revision, 
+            NoAckFlag = noAckFlag
+        })
+        {
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

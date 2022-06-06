@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Job.Advanced;
 
 namespace MIDTesters.Job.Advanced
 {
     [TestClass]
-    public class TestMid0120 : MidTester
+    public class TestMid0120 : DefaultMidTests<Mid0120>
     {
         [TestMethod]
         public void Mid0120Revision1()
@@ -15,8 +13,8 @@ namespace MIDTesters.Job.Advanced
             var mid = _midInterpreter.Parse(package);
 
             Assert.AreEqual(typeof(Mid0120), mid.GetType());
-            Assert.IsNotNull(mid.HeaderData.NoAckFlag);
-            Assert.AreEqual(package, mid.Pack());
+            Assert.IsTrue(mid.Header.NoAckFlag);
+            AssertEqualPackages(package, mid, true);
         }
 
         [TestMethod]
@@ -27,8 +25,8 @@ namespace MIDTesters.Job.Advanced
             var mid = _midInterpreter.Parse(bytes);
 
             Assert.AreEqual(typeof(Mid0120), mid.GetType());
-            Assert.IsNotNull(mid.HeaderData.NoAckFlag);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            Assert.IsTrue(mid.Header.NoAckFlag);
+            AssertEqualPackages(bytes, mid, true);
         }
     }
 }

@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.ParameterSet;
 
 namespace MIDTesters.ParameterSet
 {
     [TestClass]
-    public class TestMid0012 : MidTester
+    public class TestMid0012 : DefaultMidTests<Mid0012>
     {
         [TestMethod]
         public void Mid0012Revision1()
@@ -14,9 +12,8 @@ namespace MIDTesters.ParameterSet
             string pack = @"00230012            002";
             var mid = _midInterpreter.Parse<Mid0012>(pack);
 
-            Assert.AreEqual(typeof(Mid0012), mid.GetType());
             Assert.IsNotNull(mid.ParameterSetId);
-            Assert.AreEqual(pack, mid.Pack());
+            AssertEqualPackages(pack, mid, true);
         }
 
         [TestMethod]
@@ -26,9 +23,8 @@ namespace MIDTesters.ParameterSet
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0012>(bytes);
 
-            Assert.AreEqual(typeof(Mid0012), mid.GetType());
             Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid, true);
         }
 
         [TestMethod]
@@ -37,9 +33,8 @@ namespace MIDTesters.ParameterSet
             string pack = @"00230012002         002";
             var mid = _midInterpreter.Parse<Mid0012>(pack);
 
-            Assert.AreEqual(typeof(Mid0012), mid.GetType());
             Assert.IsNotNull(mid.ParameterSetId);
-            Assert.AreEqual(pack, mid.Pack());
+            AssertEqualPackages(pack, mid);
         }
 
         [TestMethod]
@@ -49,9 +44,8 @@ namespace MIDTesters.ParameterSet
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0012>(bytes);
 
-            Assert.AreEqual(typeof(Mid0012), mid.GetType());
             Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
 
         [TestMethod]
@@ -60,10 +54,9 @@ namespace MIDTesters.ParameterSet
             string pack = @"00310012003         00212345678";
             var mid = _midInterpreter.Parse<Mid0012>(pack);
 
-            Assert.AreEqual(typeof(Mid0012), mid.GetType());
             Assert.IsNotNull(mid.ParameterSetId);
             Assert.IsNotNull(mid.ParameterSetFileVersion);
-            Assert.AreEqual(pack, mid.Pack());
+            AssertEqualPackages(pack, mid);
         }
 
         [TestMethod]
@@ -73,10 +66,9 @@ namespace MIDTesters.ParameterSet
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0012>(bytes);
 
-            Assert.AreEqual(typeof(Mid0012), mid.GetType());
             Assert.IsNotNull(mid.ParameterSetId);
             Assert.IsNotNull(mid.ParameterSetFileVersion);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
 
         [TestMethod]
@@ -85,10 +77,9 @@ namespace MIDTesters.ParameterSet
             string pack = @"00310012004         00212345678";
             var mid = _midInterpreter.Parse<Mid0012>(pack);
 
-            Assert.AreEqual(typeof(Mid0012), mid.GetType());
             Assert.IsNotNull(mid.ParameterSetId);
             Assert.IsNotNull(mid.ParameterSetFileVersion);
-            Assert.AreEqual(pack, mid.Pack());
+            AssertEqualPackages(pack, mid);
         }
 
         [TestMethod]
@@ -98,10 +89,9 @@ namespace MIDTesters.ParameterSet
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0012>(bytes);
 
-            Assert.AreEqual(typeof(Mid0012), mid.GetType());
             Assert.IsNotNull(mid.ParameterSetId);
             Assert.IsNotNull(mid.ParameterSetFileVersion);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
     }
 }

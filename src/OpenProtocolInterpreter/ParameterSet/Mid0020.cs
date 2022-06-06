@@ -22,11 +22,22 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public int ParameterSetId
         {
-            get => GetField(1,(int)DataFields.PARAMETER_SET_ID).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.PARAMETER_SET_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.PARAMETER_SET_ID).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.PARAMETER_SET_ID).SetValue(_intConverter.Convert, value);
         }
 
-        public Mid0020() : base(MID, LAST_REVISION) => _intConverter = new Int32Converter();
+        public Mid0020() : this(new Header()
+        {
+            Mid = MID,
+            Revision = LAST_REVISION
+        })
+        {
+        }
+
+        public Mid0020(Header header) : base(header)
+        {
+            _intConverter = new Int32Converter();
+        }
 
         public Mid0020(int parameterSetId) : this() => ParameterSetId = parameterSetId;
 

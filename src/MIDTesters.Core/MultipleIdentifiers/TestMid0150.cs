@@ -1,11 +1,10 @@
-﻿using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.MultipleIdentifiers;
 
 namespace MIDTesters.MultipleIdentifiers
 {
     [TestClass]
-    public class TestMid0150 : MidTester
+    public class TestMid0150 : DefaultMidTests<Mid0150>
     {
         [TestMethod]
         public void Mid0150Revision1()
@@ -15,9 +14,8 @@ namespace MIDTesters.MultipleIdentifiers
             var mid = _midInterpreter.Parse<Mid0150>(package);
 
             var mid0150 = new Mid0150(identifier);
-            Assert.AreEqual(typeof(Mid0150), mid.GetType());
             Assert.IsNotNull(mid.IdentifierData);
-            Assert.AreEqual(mid0150.Pack(), mid.Pack());
+            AssertEqualPackages(package, mid0150);
         }
 
         [TestMethod]
@@ -29,9 +27,8 @@ namespace MIDTesters.MultipleIdentifiers
             var mid = _midInterpreter.Parse<Mid0150>(bytes);
 
             var mid0150 = new Mid0150(identifier);
-            Assert.AreEqual(typeof(Mid0150), mid.GetType());
             Assert.IsNotNull(mid.IdentifierData);
-            Assert.IsTrue(mid0150.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid0150);
         }
     }
 }

@@ -45,12 +45,16 @@ namespace OpenProtocolInterpreter.MultiSpindle
         }
         public List<SpindleStatus> SpindlesStatus { get; set; }
 
-        public Mid0091() : this(0)
+        public Mid0091() : this(new Header()
+        {
+            Mid = MID,
+            Revision = LAST_REVISION
+        })
         {
 
         }
 
-        public Mid0091(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
+        public Mid0091(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
             _boolConverter = new BoolConverter();
@@ -60,10 +64,11 @@ namespace OpenProtocolInterpreter.MultiSpindle
                 SpindlesStatus = new List<SpindleStatus>();
         }
 
-        public Mid0091(int numberOfSpindles, int syncTighteningId, DateTime time, bool syncOverallStatus, IEnumerable<SpindleStatus> spindleStatus, int? noAckFlag = 0) : this(noAckFlag)
+        public Mid0091(int numberOfSpindles, int syncTighteningId, DateTime time, bool syncOverallStatus, IEnumerable<SpindleStatus> spindleStatus) : this()
         {
             NumberOfSpindles = numberOfSpindles;
             SyncTighteningId = syncTighteningId;
+            SyncOverallStatus = syncOverallStatus;
             Time = time;
             SpindlesStatus = spindleStatus.ToList();
         }

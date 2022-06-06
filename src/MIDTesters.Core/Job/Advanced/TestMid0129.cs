@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Job.Advanced;
 
 namespace MIDTesters.Job.Advanced
 {
     [TestClass]
-    public class TestMid0129 : MidTester
+    public class TestMid0129 : DefaultMidTests<Mid0129>
     {
         [TestMethod]
         public void Mid0129Revision1()
@@ -15,7 +13,7 @@ namespace MIDTesters.Job.Advanced
             var mid = _midInterpreter.Parse(package);
 
             Assert.AreEqual(typeof(Mid0129), mid.GetType());
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid, true);
         }
 
         [TestMethod]
@@ -26,7 +24,7 @@ namespace MIDTesters.Job.Advanced
             var mid = _midInterpreter.Parse(bytes);
 
             Assert.AreEqual(typeof(Mid0129), mid.GetType());
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid, true);
         }
 
         [TestMethod]
@@ -35,10 +33,9 @@ namespace MIDTesters.Job.Advanced
             string package = "00290129002         010302123";
             var mid = _midInterpreter.Parse<Mid0129>(package);
 
-            Assert.AreEqual(typeof(Mid0129), mid.GetType());
             Assert.IsNotNull(mid.ChannelId);
             Assert.IsNotNull(mid.ParameterSetId);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
 
         [TestMethod]
@@ -48,10 +45,9 @@ namespace MIDTesters.Job.Advanced
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0129>(bytes);
 
-            Assert.AreEqual(typeof(Mid0129), mid.GetType());
             Assert.IsNotNull(mid.ChannelId);
             Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
     }
 }

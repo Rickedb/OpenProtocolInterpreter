@@ -46,10 +46,24 @@ namespace OpenProtocolInterpreter.MultiSpindle
 
         }
 
-        public Mid0100(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0100(Header header) : base(header)
         {
             _longConverter = new Int64Converter();
             _boolConverter = new BoolConverter();
+        }
+
+        public Mid0100(bool noAckFlag = false) : this(LAST_REVISION, noAckFlag)
+        {
+
+        }
+
+        public Mid0100(int revision = LAST_REVISION, bool noAckFlag = false) : this(new Header()
+        {
+            Mid = MID,
+            Revision = revision,
+            NoAckFlag = noAckFlag
+        })
+        {
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

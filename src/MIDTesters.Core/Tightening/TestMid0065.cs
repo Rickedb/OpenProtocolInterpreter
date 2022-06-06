@@ -26,7 +26,7 @@ namespace MIDTesters.Tightening
             Assert.IsNotNull(mid.Angle);
             Assert.IsNotNull(mid.Timestamp);
             Assert.IsNotNull(mid.BatchStatus);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
 
         [TestMethod]
@@ -48,7 +48,7 @@ namespace MIDTesters.Tightening
             Assert.IsNotNull(mid.Angle);
             Assert.IsNotNull(mid.Timestamp);
             Assert.IsNotNull(mid.BatchStatus);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
 
         [TestMethod]
@@ -85,7 +85,7 @@ namespace MIDTesters.Tightening
             Assert.IsNotNull(mid.SyncTighteningId);
             Assert.IsNotNull(mid.ToolSerialNumber);
             Assert.IsNotNull(mid.Timestamp);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
 
         [TestMethod]
@@ -156,7 +156,7 @@ namespace MIDTesters.Tightening
             Assert.IsNotNull(mid.SyncTighteningId);
             Assert.IsNotNull(mid.ToolSerialNumber);
             Assert.IsNotNull(mid.Timestamp);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
 
         [TestMethod]
@@ -195,7 +195,7 @@ namespace MIDTesters.Tightening
             Assert.IsNotNull(mid.Timestamp);
             Assert.IsNotNull(mid.TorqueValuesUnit);
             Assert.IsNotNull(mid.ResultType);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
 
         [TestMethod]
@@ -268,7 +268,7 @@ namespace MIDTesters.Tightening
             Assert.IsNotNull(mid.Timestamp);
             Assert.IsNotNull(mid.TorqueValuesUnit);
             Assert.IsNotNull(mid.ResultType);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
 
         [TestMethod]
@@ -310,7 +310,7 @@ namespace MIDTesters.Tightening
             Assert.IsNotNull(mid.IdentifierResultPart2);
             Assert.IsNotNull(mid.IdentifierResultPart3);
             Assert.IsNotNull(mid.IdentifierResultPart4);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
 
         [TestMethod]
@@ -386,7 +386,7 @@ namespace MIDTesters.Tightening
             Assert.IsNotNull(mid.IdentifierResultPart2);
             Assert.IsNotNull(mid.IdentifierResultPart3);
             Assert.IsNotNull(mid.IdentifierResultPart4);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
 
         [TestMethod]
@@ -429,7 +429,7 @@ namespace MIDTesters.Tightening
             Assert.IsNotNull(mid.IdentifierResultPart3);
             Assert.IsNotNull(mid.IdentifierResultPart4);
             Assert.IsNotNull(mid.CustomerTighteningErrorCode);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
 
         [TestMethod]
@@ -506,7 +506,7 @@ namespace MIDTesters.Tightening
             Assert.IsNotNull(mid.IdentifierResultPart3);
             Assert.IsNotNull(mid.IdentifierResultPart4);
             Assert.IsNotNull(mid.CustomerTighteningErrorCode);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
 
         [TestMethod]
@@ -551,7 +551,7 @@ namespace MIDTesters.Tightening
             Assert.IsNotNull(mid.CustomerTighteningErrorCode);
             Assert.IsNotNull(mid.PrevailTorqueCompensateValue);
             Assert.IsNotNull(mid.TighteningErrorStatus2);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
 
         [TestMethod]
@@ -645,7 +645,7 @@ namespace MIDTesters.Tightening
             Assert.IsNotNull(mid.CustomerTighteningErrorCode);
             Assert.IsNotNull(mid.PrevailTorqueCompensateValue);
             Assert.IsNotNull(mid.TighteningErrorStatus2);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
 
         [TestMethod]
@@ -692,7 +692,7 @@ namespace MIDTesters.Tightening
             Assert.IsNotNull(mid.TighteningErrorStatus2);
             Assert.AreNotEqual(0, mid.StationId);
             Assert.IsNotNull(mid.StationName);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
 
         [TestMethod]
@@ -748,7 +748,7 @@ namespace MIDTesters.Tightening
             string untilTighteningErrorStatus2 = "19001000200036021002502200223000215240010252500012266553527ABCDEFG-123   282019-01-05:09:00:05297300831Identifier result part 2 32Identifier result part 3 33Identifier result part 4 34E1243500510036";
             bytes.AddRange(GetAsciiBytes(untilTighteningErrorStatus2));
             bytes.AddRange(GetAsciiBytes(tighteningErrorStatus2, 10));
-
+            
             string untilEnd = "37429496729538Station Name             ";
             bytes.AddRange(GetAsciiBytes(untilEnd));
             var mid = _midInterpreter.Parse<Mid0065>(bytes.ToArray());
@@ -791,7 +791,7 @@ namespace MIDTesters.Tightening
             Assert.IsNotNull(mid.TighteningErrorStatus2);
             Assert.AreNotEqual(0, mid.StationId);
             Assert.IsNotNull(mid.StationName);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
 
         [TestMethod]
@@ -842,7 +842,7 @@ namespace MIDTesters.Tightening
             Assert.IsNotNull(mid.PostViewTorqueActivated);
             Assert.AreNotEqual(0, mid.PostViewTorqueHigh);
             Assert.AreNotEqual(0, mid.PostViewTorqueLow);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
 
         [TestMethod]
@@ -945,7 +945,7 @@ namespace MIDTesters.Tightening
             Assert.IsNotNull(mid.PostViewTorqueActivated);
             Assert.AreNotEqual(0, mid.PostViewTorqueHigh);
             Assert.AreNotEqual(0, mid.PostViewTorqueLow);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
     }
 }

@@ -24,8 +24,8 @@ namespace OpenProtocolInterpreter.PowerMACS
 
         public bool BoltData
         {
-            get => GetField(1,(int)DataFields.BOLT_DATA).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.BOLT_DATA).SetValue(_boolConverter.Convert, value);
+            get => GetField(1, (int)DataFields.BOLT_DATA).GetValue(_boolConverter.Convert);
+            set => GetField(1, (int)DataFields.BOLT_DATA).SetValue(_boolConverter.Convert, value);
         }
 
         public Mid0108() : this(LAST_REVISION)
@@ -33,9 +33,17 @@ namespace OpenProtocolInterpreter.PowerMACS
 
         }
 
-        public Mid0108(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0108(Header header) : base(header)
         {
             _boolConverter = new BoolConverter();
+        }
+
+        public Mid0108(int revision = LAST_REVISION) : this(new Header()
+        {
+            Mid = MID,
+            Revision = revision
+        })
+        {
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

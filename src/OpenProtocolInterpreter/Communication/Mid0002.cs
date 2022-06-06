@@ -140,11 +140,20 @@ namespace OpenProtocolInterpreter.Communication
 
         }
 
-        public Mid0002(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0002(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
             _longConverter = new Int64Converter();
             _boolConverter = new BoolConverter();
+        }
+
+        public Mid0002(int revision = LAST_REVISION) : this(new Header()
+        {
+            Mid= MID, 
+            Revision = revision
+        })
+        {
+            
         }
 
         /// <summary>
@@ -322,12 +331,12 @@ namespace OpenProtocolInterpreter.Communication
             if (ControllerName.Length > 25)
                 failed.Add(new ArgumentOutOfRangeException(nameof(ControllerName), "Max of 20 characters").Message);
 
-            if (HeaderData.Revision > 1) //Rev 2
+            if (Header.Revision > 1) //Rev 2
             {
                 if (SupplierCode.Length > 3)
                     failed.Add(new ArgumentOutOfRangeException(nameof(SupplierCode), "Max of 3 characters").Message);
 
-                if (HeaderData.Revision > 2) //Rev 3
+                if (Header.Revision > 2) //Rev 3
                 {
                     if (OpenProtocolVersion.Length > 19)
                         failed.Add(new ArgumentOutOfRangeException(nameof(OpenProtocolVersion), "Max of 19 characters").Message);
@@ -336,7 +345,7 @@ namespace OpenProtocolInterpreter.Communication
                     if (ToolSoftwareVersion.Length > 19)
                         failed.Add(new ArgumentOutOfRangeException(nameof(ToolSoftwareVersion), "Max of 19 characters").Message);
 
-                    if (HeaderData.Revision == 4) //Rev 4
+                    if (Header.Revision == 4) //Rev 4
                     {
                         if (RBUType.Length > 24)
                             failed.Add(new ArgumentOutOfRangeException(nameof(RBUType), "Max of 24 characters").Message);

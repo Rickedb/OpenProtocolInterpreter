@@ -5,7 +5,7 @@ using OpenProtocolInterpreter.Time;
 using System;
 using System.Collections.Generic;
 
-namespace MIDTesters.Core
+namespace MIDTesters
 {
     [TestClass]
     public class TestCustomMid : MidTester
@@ -29,7 +29,7 @@ namespace MIDTesters.Core
             Assert.IsNotNull(mid.Time);
             Assert.IsNotNull(mid.FormattedDate);
             Assert.AreEqual(mid.FormattedDate, "01/12/2017 20:12:45");
-            Assert.AreEqual($"00390081            {Now:yyyy-MM-dd:HH:mm:ss}", mid.Pack());
+            AssertEqualPackages($"00390081            {Now:yyyy-MM-dd:HH:mm:ss}", mid, true);
         }
 
         [TestMethod]
@@ -43,7 +43,7 @@ namespace MIDTesters.Core
             Assert.AreEqual(typeof(NewMid0083), mid.GetType());
             Assert.IsNotNull(mid.Time);
             Assert.IsNotNull(mid.TimeZone);
-            Assert.AreEqual(pack, mid.Pack());
+            AssertEqualPackages(pack, mid, true);
         }
     }
 

@@ -24,6 +24,10 @@ namespace OpenProtocolInterpreter.PLCUserData
 
         public Mid0240() : base(MID, LAST_REVISION) { }
 
+        public Mid0240(Header header) : base(header)
+        {
+        }
+
         public Mid0240(string userData) : this()
         {
             UserData = userData;
@@ -37,7 +41,7 @@ namespace OpenProtocolInterpreter.PLCUserData
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
+            Header = ProcessHeader(package);
             GetField(1, (int)DataFields.USER_DATA).Size = package.Length - 20;
             ProcessDataFields(package);
             return this;

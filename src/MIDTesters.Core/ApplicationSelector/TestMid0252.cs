@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.ApplicationSelector;
 
 namespace MIDTesters.ApplicationSelector
 {
     [TestClass]
-    public class TestMid0252 : MidTester
+    public class TestMid0252 : DefaultMidTests<Mid0252>
     {
         [TestMethod]
         public void Mid0252Revision1()
@@ -15,7 +13,7 @@ namespace MIDTesters.ApplicationSelector
             var mid = _midInterpreter.Parse(package);
 
             Assert.AreEqual(typeof(Mid0252), mid.GetType());
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid, true);
         }
 
         [TestMethod]
@@ -26,7 +24,7 @@ namespace MIDTesters.ApplicationSelector
             var mid = _midInterpreter.Parse(bytes);
 
             Assert.AreEqual(typeof(Mid0252), mid.GetType());
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid, true);
         }
     }
 }

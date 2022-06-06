@@ -1,13 +1,12 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter;
 using OpenProtocolInterpreter.Vin;
+using System.Linq;
 
 namespace MIDTesters.Vin
 {
     [TestClass]
-    public class TestMid0052 : MidTester
+    public class TestMid0052 : DefaultMidTests<Mid0052>
     {
 
         [TestMethod]
@@ -16,9 +15,8 @@ namespace MIDTesters.Vin
             string package = "00470052001         VehicleIdNumberHigherThan25";
             var mid = _midInterpreter.Parse<Mid0052>(package);
 
-            Assert.AreEqual(typeof(Mid0052), mid.GetType());
             Assert.IsNotNull(mid.VinNumber);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
 
         [TestMethod]
@@ -28,9 +26,8 @@ namespace MIDTesters.Vin
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0052>(bytes);
 
-            Assert.AreEqual(typeof(Mid0052), mid.GetType());
             Assert.IsNotNull(mid.VinNumber);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
 
         [TestMethod]
@@ -39,8 +36,8 @@ namespace MIDTesters.Vin
             string package = "00450052001         VehicleIdNumber          \0";
             var mid = _midInterpreter.Parse<Mid0052>(package);
 
-            Assert.AreEqual(typeof(Mid0052), mid.GetType());
             Assert.IsNotNull(mid.VinNumber);
+            mid.Header.StationId = mid.Header.SpindleId = null;
             Assert.AreEqual(package, mid.PackWithNul());
         }
 
@@ -51,8 +48,8 @@ namespace MIDTesters.Vin
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0052>(bytes);
 
-            Assert.AreEqual(typeof(Mid0052), mid.GetType());
             Assert.IsNotNull(mid.VinNumber);
+            mid.Header.StationId = mid.Header.SpindleId = null;
             Assert.IsTrue(mid.PackBytesWithNul().SequenceEqual(bytes));
         }
 
@@ -62,12 +59,11 @@ namespace MIDTesters.Vin
             string package = "01300052002         01VehicleIdNumberHigherThan2502IdentifierPart2          03IdentifierPart3          04IdentifierPart4          ";
             var mid = _midInterpreter.Parse<Mid0052>(package);
 
-            Assert.AreEqual(typeof(Mid0052), mid.GetType());
             Assert.IsNotNull(mid.VinNumber);
             Assert.IsNotNull(mid.IdentifierResultPart2);
             Assert.IsNotNull(mid.IdentifierResultPart3);
             Assert.IsNotNull(mid.IdentifierResultPart4);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
 
         [TestMethod]
@@ -77,12 +73,11 @@ namespace MIDTesters.Vin
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0052>(bytes);
 
-            Assert.AreEqual(typeof(Mid0052), mid.GetType());
             Assert.IsNotNull(mid.VinNumber);
             Assert.IsNotNull(mid.IdentifierResultPart2);
             Assert.IsNotNull(mid.IdentifierResultPart3);
             Assert.IsNotNull(mid.IdentifierResultPart4);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
 
         [TestMethod]
@@ -91,12 +86,11 @@ namespace MIDTesters.Vin
             string package = "01280052002         01VehicleIdNumber          02IdentifierPart2          03IdentifierPart3          04IdentifierPart4          ";
             var mid = _midInterpreter.Parse<Mid0052>(package);
 
-            Assert.AreEqual(typeof(Mid0052), mid.GetType());
             Assert.IsNotNull(mid.VinNumber);
             Assert.IsNotNull(mid.IdentifierResultPart2);
             Assert.IsNotNull(mid.IdentifierResultPart3);
             Assert.IsNotNull(mid.IdentifierResultPart4);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
 
         [TestMethod]
@@ -106,12 +100,11 @@ namespace MIDTesters.Vin
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0052>(bytes);
 
-            Assert.AreEqual(typeof(Mid0052), mid.GetType());
             Assert.IsNotNull(mid.VinNumber);
             Assert.IsNotNull(mid.IdentifierResultPart2);
             Assert.IsNotNull(mid.IdentifierResultPart3);
             Assert.IsNotNull(mid.IdentifierResultPart4);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
     }
 }

@@ -28,8 +28,8 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public int IODeviceId
         {
-            get => GetField(HeaderData.Revision, (int)DataFields.IO_DEVICE_ID).GetValue(_intConverter.Convert);
-            set => GetField(HeaderData.Revision, (int)DataFields.IO_DEVICE_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(Header.Revision, (int)DataFields.IO_DEVICE_ID).GetValue(_intConverter.Convert);
+            set => GetField(Header.Revision, (int)DataFields.IO_DEVICE_ID).SetValue(_intConverter.Convert, value);
         }
         public List<Relay> Relays { get; set; }
         public List<DigitalInput> DigitalInputs { get; set; }
@@ -50,7 +50,7 @@ namespace OpenProtocolInterpreter.IOInterface
 
         }
 
-        public Mid0215(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0215(Header header) : base(header)
         {
             var boolConverter = new BoolConverter();
             _intConverter = new Int32Converter();
@@ -60,21 +60,30 @@ namespace OpenProtocolInterpreter.IOInterface
             DigitalInputs = new List<DigitalInput>();
         }
 
+        public Mid0215(int revision = LAST_REVISION) : this(new Header()
+        {
+            Mid = MID,
+            Revision = revision
+        })
+        {
+
+        }
+
         protected override string BuildHeader()
         {
             if (RevisionsByFields.Any())
             {
-                HeaderData.Length = 20;
-                var revision = HeaderData.Revision > 0 ? HeaderData.Revision : 1;
+                Header.Length = 20;
+                var revision = Header.Revision > 0 ? Header.Revision : 1;
                 foreach (var dataField in RevisionsByFields[revision])
-                    HeaderData.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
+                    Header.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
             }
-            return HeaderData.ToString();
+            return Header.ToString();
         }
 
         public override string Pack()
         {
-            if (HeaderData.Revision > 1)
+            if (Header.Revision > 1)
             {
                 NumberOfRelays = Relays.Count;
                 NumberOfDigitalInputs = DigitalInputs.Count;
@@ -90,14 +99,14 @@ namespace OpenProtocolInterpreter.IOInterface
             }
             else
             {
-                HeaderData.Revision = 1;
+                Header.Revision = 1;
                 GetField(1, (int)DataFields.RELAY_LIST).Value = _relayListConverter.Convert(Relays);
                 GetField(1, (int)DataFields.DIGITAL_INPUT_LIST).Value = _digitalInputListConverter.Convert(DigitalInputs);
             }
 
             string pkg = BuildHeader();
             int prefixIndex = 1;
-            foreach (var field in RevisionsByFields[HeaderData.Revision])
+            foreach (var field in RevisionsByFields[Header.Revision])
             {
                 pkg += prefixIndex.ToString().PadLeft(2, '0') + field.Value;
                 prefixIndex++;
@@ -107,11 +116,11 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
+            Header = ProcessHeader(package);
             DataField relayListField;
             DataField digitalListField;
 
-            if (HeaderData.Revision > 1)
+            if (Header.Revision > 1)
             {
                 relayListField = GetField(2, (int)DataFields.RELAY_LIST);
                 digitalListField = GetField(2, (int)DataFields.DIGITAL_INPUT_LIST);

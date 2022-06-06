@@ -21,7 +21,15 @@ namespace OpenProtocolInterpreter.Tightening
             set => GetField(1, (int)DataFields.NUMBER_OF_OFFLINE_RESULTS).SetValue(_intConverter.Convert, value);
         }
 
-        public Mid0066() : base(MID, LAST_REVISION)
+        public Mid0066() : this(new Header()
+        {
+            Mid = MID, 
+            Revision = LAST_REVISION
+        })
+        {
+        }
+
+        public Mid0066(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
         }

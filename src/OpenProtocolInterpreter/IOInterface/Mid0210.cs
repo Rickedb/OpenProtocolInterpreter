@@ -20,11 +20,15 @@
         private const int LAST_REVISION = 1;
         public const int MID = 210;
 
-        public Mid0210() : this(0)
+        public Mid0210() : this(false)
         {
 
         }
 
-        public Mid0210(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) { }
+        public Mid0210(bool noAckFlag = false) : base(MID, LAST_REVISION, noAckFlag) { }
+
+        public Mid0210(Header header) : base(header)
+        {
+        }
     }
 }
