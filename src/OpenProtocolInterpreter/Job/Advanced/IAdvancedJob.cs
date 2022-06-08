@@ -3,7 +3,7 @@
     /// <summary>
     /// Advanced job message category. Every Advanced job mid must implement <see cref="IAdvancedJob"/>.
     /// </summary>
-    internal interface IAdvancedJob
+    public interface IAdvancedJob
     {
     }
 }
