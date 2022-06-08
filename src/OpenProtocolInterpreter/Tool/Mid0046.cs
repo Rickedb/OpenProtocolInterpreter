@@ -10,16 +10,18 @@ namespace OpenProtocolInterpreter.Tool
     /// <para>Warning 2: the new configuration will not be active until the next controller reboot!</para>
     /// <para>Message sent by: Integrator</para>
     /// <para>
-    ///     Answer: MID 0005 Command accepted or 
-    ///             MID 0004 Command error, Programming control not granted or 
-    ///                                     Invalid data (value not supported by controller)
+    ///     Answer: <see cref="Communication.Mid0005"/> Command accepted or 
+    ///             <see cref="Communication.Mid0004"/> Command error, Programming control not granted or 
+    ///                                                 Invalid data (value not supported by controller)
     /// </para>
     /// </summary>
-    public class Mid0046 : Mid, ITool, IIntegrator
+    public class Mid0046 : Mid, ITool, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 1;
         public const int MID = 46;
+
+        public IEnumerable<Error> PossibleErrors => new Error[] { Error.PROGRAMMING_CONTROL_NOT_GRANTED, Error.INVALID_DATA };
 
         public PrimaryTool PrimaryTool
         {

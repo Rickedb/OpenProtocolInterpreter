@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.MultiSpindle
+﻿using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.MultiSpindle
 {
     /// <summary>
     /// Multi-spindle status subscribe
@@ -10,10 +12,16 @@
     ///         or Multi-spindle status subscription already exists
     /// </para>
     /// </summary>
-    public class Mid0090 : Mid, IMultiSpindle, IIntegrator
+    public class Mid0090 : Mid, IMultiSpindle, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
         private const int LAST_REVISION = 1;
         public const int MID = 90;
+
+        public IEnumerable<Error> PossibleErrors => new Error[] 
+        { 
+            Error.CONTROLLER_IS_NOT_A_SYNC_MASTER_OR_STATION_CONTROLLER, 
+            Error.MULTI_SPINDLE_STATUS_SUBSCRIPTION_ALREADY_EXISTS 
+        };
 
         public Mid0090() : this(false)
         {

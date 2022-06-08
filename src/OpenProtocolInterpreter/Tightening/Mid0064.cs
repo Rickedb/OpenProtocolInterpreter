@@ -22,11 +22,13 @@ namespace OpenProtocolInterpreter.Tightening
     ///             MID revision not supported
     /// </para>
     /// </summary>
-    public class Mid0064 : Mid, ITightening, IIntegrator
+    public class Mid0064 : Mid, ITightening, IIntegrator, IDeclinableCommand
     {
         private readonly IValueConverter<long> _longConverter;
         private const int LAST_REVISION = 6;
         public const int MID = 64;
+
+        public IEnumerable<Error> PossibleErrors => new Error[] { Error.TIGHTENING_ID_REQUESTED_NOT_FOUND, Error.MID_REVISION_UNSUPPORTED };
 
         public long TighteningId
         {

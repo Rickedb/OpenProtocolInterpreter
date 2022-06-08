@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
+﻿using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
 {
     /// <summary>
     /// Open Protocol commands disabled subscribe
@@ -14,10 +16,12 @@
     ///         subscription already exists
     /// </para>
     /// </summary>
-    public class Mid0420 : Mid, IOpenProtocolCommandsDisabled, IIntegrator
+    public class Mid0420 : Mid, IOpenProtocolCommandsDisabled, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
         private const int LAST_REVISION = 1;
         public const int MID = 420;
+
+        public IEnumerable<Error> PossibleErrors => new Error[] { Error.OPEN_PROTOCOL_COMMANDS_DISABLED_SUBSCRIPTION_ALREADY_EXISTS };
 
         public Mid0420() : this(false)
         {

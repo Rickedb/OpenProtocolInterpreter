@@ -8,10 +8,12 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
     /// <para>Message sent by: Integrator</para>
     ///<para>Answer: <see cref="Communication.Mid0005"/> Command accepted or <see cref="Communication.Mid0004"/> Command error, Identifier input source not granted</para> 
     /// </summary>
-    public class Mid0150 : Mid, IMultipleIdentifier, IIntegrator
+    public class Mid0150 : Mid, IMultipleIdentifier, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
         private const int LAST_REVISION = 1;
         public const int MID = 150;
+
+        public IEnumerable<Error> PossibleErrors => new Error[] { Error.IDENTIFIER_INPUT_SOURCE_NOT_GRANTED };
 
         public string IdentifierData
         {

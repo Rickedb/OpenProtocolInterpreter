@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.ParameterSet
+﻿using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.ParameterSet
 {
     /// <summary>
     /// Lock at batch done subscribe
@@ -10,10 +12,12 @@
     /// </para>
     /// <para>Message: <see cref="Mid0022"/> relay status immediately after <see cref="Communication.Mid0005"/> Command accepted</para>
     /// </summary>
-    public class Mid0021 : Mid, IParameterSet, IIntegrator
+    public class Mid0021 : Mid, IParameterSet, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
         private const int LAST_REVISION = 1;
         public const int MID = 21;
+
+        public IEnumerable<Error> PossibleErrors => new Error[] { Error.LOCK_AT_BATCH_DONE_SUBSCRIPTION_ALREADY_EXISTS };
 
         public Mid0021() : this(false)
         {

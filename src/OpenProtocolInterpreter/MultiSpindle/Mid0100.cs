@@ -22,12 +22,19 @@ namespace OpenProtocolInterpreter.MultiSpindle
     ///     Multi-spindle result subscription already exists or MID revision unsupported
     /// </para>
     /// </summary>
-    public class Mid0100 : Mid, IMultiSpindle, IIntegrator
+    public class Mid0100 : Mid, IMultiSpindle, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
         private readonly IValueConverter<long> _longConverter;
         private readonly IValueConverter<bool> _boolConverter;
         private const int LAST_REVISION = 4;
         public const int MID = 100;
+
+        public IEnumerable<Error> PossibleErrors => new Error[] 
+        { 
+            Error.CONTROLLER_IS_NOT_A_SYNC_MASTER_OR_STATION_CONTROLLER,
+            Error.MULTI_SPINDLE_RESULT_SUBSCRIPTION_ALREADY_EXISTS,
+            Error.MID_REVISION_UNSUPPORTED
+        };
 
         public long DataNumberSystem
         {

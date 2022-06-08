@@ -29,7 +29,7 @@ namespace OpenProtocolInterpreter.PowerMACS
     /// <para>Message sent by: Controller</para>
     /// <para>Answer: <see cref="Mid0108"/> Last Power MACS tightening result data acknowledge</para>
     /// </summary>
-    public class Mid0106 : Mid, IPowerMACS, IController
+    public class Mid0106 : Mid, IPowerMACS, IController, IAcknowledgeable
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;
@@ -137,6 +137,8 @@ namespace OpenProtocolInterpreter.PowerMACS
         })
         {
         }
+
+        public Mid GetAcknowledge() => new Mid0108(Header.Revision);
 
         public override string Pack()
         {

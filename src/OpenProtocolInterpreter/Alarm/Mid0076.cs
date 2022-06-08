@@ -9,9 +9,9 @@ namespace OpenProtocolInterpreter.Alarm
     /// <para>The alarm status is sent after an accepted subscription of the controller alarms. 
     /// This message is used to inform the integrator that an alarm is active on the controller at subscription time.</para>
     /// <para>Message sent by: Controller</para>
-    /// <para>Answer : <see cref="Mid0077"/> Alarm status acknowledge</para>
+    /// <para>Answer: <see cref="Mid0077"/> Alarm status acknowledge</para>
     /// </summary>
-    public class Mid0076 : Mid, IAlarm, IController
+    public class Mid0076 : Mid, IAlarm, IController, IAcknowledgeable
     {
         private readonly IValueConverter<bool> _boolConverter;
         private readonly IValueConverter<int> _intConverter;
@@ -104,6 +104,8 @@ namespace OpenProtocolInterpreter.Alarm
         {
             ToolHealth = toolHealth;
         }
+
+        public Mid GetAcknowledge() => new Mid0077();
 
         public override Mid Parse(string package)
         {

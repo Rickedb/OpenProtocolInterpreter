@@ -20,12 +20,14 @@ namespace OpenProtocolInterpreter.PowerMACS
     ///         <see cref="Communication.Mid0004"/> Command error, Subscription already exists or MID revision unsupported
     /// </para>
     /// </summary>
-    public class Mid0105 : Mid, IPowerMACS, IIntegrator
+    public class Mid0105 : Mid, IPowerMACS, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
         private readonly IValueConverter<bool> _boolConverter;
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 4;
         public const int MID = 105;
+
+        public IEnumerable<Error> PossibleErrors => new Error[] { Error.SUBSCRIPTION_ALREADY_EXISTS, Error.MID_REVISION_UNSUPPORTED };
 
         public int DataNumberSystem
         {

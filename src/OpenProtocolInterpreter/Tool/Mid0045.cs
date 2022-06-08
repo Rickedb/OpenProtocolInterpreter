@@ -14,12 +14,14 @@ namespace OpenProtocolInterpreter.Tool
     ///             <see cref="Communication.Mid0004"/> Command error, Calibration failed
     /// </para>
     /// </summary>
-    public class Mid0045 : Mid, ITool, IIntegrator
+    public class Mid0045 : Mid, ITool, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
         private readonly IValueConverter<decimal> _decimalConverter;
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 2;
         public const int MID = 45;
+
+        public IEnumerable<Error> PossibleErrors => new Error[] { Error.CALIBRATION_FAILED };
 
         public CalibrationUnit CalibrationValueUnit
         {

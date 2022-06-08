@@ -14,7 +14,7 @@ namespace OpenProtocolInterpreter.MultiSpindle
     /// <para>Message sent by: Controller</para>
     /// <para>Answer: <see cref="Mid0092"/> Multi-spindle status acknowledge</para>
     /// </summary>
-    public class Mid0091 : Mid, IMultiSpindle, IController
+    public class Mid0091 : Mid, IMultiSpindle, IController, IAcknowledgeable
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;
@@ -87,6 +87,8 @@ namespace OpenProtocolInterpreter.MultiSpindle
             SpindlesStatus = _spindlesStatusConverter.Convert(spindleField.Value).ToList();
             return this;
         }
+
+        public Mid GetAcknowledge() => new Mid0092();
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

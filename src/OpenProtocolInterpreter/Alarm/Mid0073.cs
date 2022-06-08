@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.Alarm
+﻿using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.Alarm
 {
     /// <summary>
     /// Alarm unsubscribe
@@ -6,10 +8,12 @@
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted or <see cref="Communication.Mid0004"/> Command error, Alarm subscription does not exist</para>
     /// </summary>
-    public class Mid0073 : Mid, IAlarm, IIntegrator
+    public class Mid0073 : Mid, IAlarm, IIntegrator, IUnsubscription, IAcceptableCommand, IDeclinableCommand
     {
         private const int LAST_REVISION = 2;
         public const int MID = 73;
+
+        public IEnumerable<Error> PossibleErrors => new Error[] { Error.ALARM_SUBSCRIPTION_DOESNT_EXISTS };
 
         public Mid0073() : this(LAST_REVISION)
         {

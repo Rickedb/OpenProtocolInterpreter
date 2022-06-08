@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.PLCUserData
+﻿using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.PLCUserData
 {
     /// <summary>
     /// User data unsubscribe
@@ -9,10 +11,12 @@
     ///         <see cref="Communication.Mid0004"/> Command error, Subscription already exists
     /// </para>
     /// </summary>
-    public class Mid0244 : Mid, IPLCUserData, IIntegrator
+    public class Mid0244 : Mid, IPLCUserData, IIntegrator, IUnsubscription, IAcceptableCommand, IDeclinableCommand
     {
         private const int LAST_REVISION = 1;
         public const int MID = 244;
+        //todo check enums
+        public IEnumerable<Error> PossibleErrors => new Error[] { Error.SUBSCRIPTION_DOESNT_EXISTS };
 
         public Mid0244() : base(MID, LAST_REVISION) { }
 

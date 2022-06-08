@@ -18,10 +18,12 @@ namespace OpenProtocolInterpreter.UserInterface
     ///             <see cref="Communication.Mid0004"/> Command error, User text could not be displayed
     /// </para>
     /// </summary>
-    public class Mid0110 : Mid, IUserInterface, IIntegrator
+    public class Mid0110 : Mid, IUserInterface, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
         private const int LAST_REVISION = 1;
         public const int MID = 110;
+
+        public IEnumerable<Error> PossibleErrors => new Error[] { Error.User_t };
 
         public string UserText
         {

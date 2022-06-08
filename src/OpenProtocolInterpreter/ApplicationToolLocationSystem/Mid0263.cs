@@ -6,7 +6,7 @@
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: None</para>
     /// </summary>
-    public class Mid0263 : Mid, IApplicationToolLocationSystem, IIntegrator
+    public class Mid0263 : Mid, IApplicationToolLocationSystem, IIntegrator, IAcknowledge
     {
         private const int LAST_REVISION = 1;
         public const int MID = 263;

@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.Job
+﻿using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.Job
 {
     /// <summary>
     /// Job Info Subscribe
@@ -9,10 +11,12 @@
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: <see cref="Communication.Mid0005"/> Command Accepted or <see cref="Communication.Mid0004"/> Command error, Job info subscription already exists</para>
     /// </summary>
-    public class Mid0034 : Mid, IJob, IIntegrator
+    public class Mid0034 : Mid, IJob, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
         private const int LAST_REVISION = 4;
         public const int MID = 34;
+
+        public IEnumerable<Error> PossibleErrors => new Error[] { Error.JOB_INFO_SUBSCRIPTION_ALREADY_EXISTS };
 
         public Mid0034() : this(LAST_REVISION)
         {

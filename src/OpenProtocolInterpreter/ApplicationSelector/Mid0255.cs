@@ -18,12 +18,14 @@ namespace OpenProtocolInterpreter.ApplicationSelector
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted or <see cref="Communication.Mid0004"/> Command error, Faulty IO device ID</para>
     /// </summary>
-    public class Mid0255 : Mid, IApplicationSelector, IIntegrator
+    public class Mid0255 : Mid, IApplicationSelector, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
         private readonly IValueConverter<IEnumerable<LightCommand>> _lightsConverter;
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 1;
         public const int MID = 255;
+
+        public IEnumerable<Error> PossibleErrors => new Error[] { Error.FAULTY_IO_DEVICE_ID };
 
         public int DeviceId
         {

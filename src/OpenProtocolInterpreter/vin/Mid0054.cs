@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.Vin
+﻿using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.Vin
 {
     /// <summary>
     /// Vehicle ID Number unsubscribe
@@ -9,10 +11,12 @@
     ///             <see cref="Communication.Mid0004"/> Command error, VIN subscription does not exist
     /// </para>
     /// </summary>
-    public class Mid0054 : Mid, IVin, IIntegrator
+    public class Mid0054 : Mid, IVin, IIntegrator, IUnsubscription, IAcceptableCommand, IDeclinableCommand
     {
         private const int LAST_REVISION = 1;
         public const int MID = 54;
+
+        public IEnumerable<Error> PossibleErrors => new Error[] { Error.VIN_UPLOAD_SUBSCRIPTION_DOESNT_EXISTS };
 
         public Mid0054() : this(LAST_REVISION)
         {

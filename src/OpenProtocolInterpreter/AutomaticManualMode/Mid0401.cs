@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
     /// <para>Message sent by: Controller</para>
     /// <para>Answer: <see cref="Mid0402"/> Automatic/Manual mode acknowledge</para>
     /// </summary>
-    public class Mid0401 : Mid, IAutomaticManualMode, IController
+    public class Mid0401 : Mid, IAutomaticManualMode, IController, IAcknowledgeable
     {
         private readonly IValueConverter<bool> _boolConverter;
         private const int LAST_REVISION = 1;
@@ -46,6 +46,8 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
         {
             ManualAutomaticMode = manualAutomaticMode;
         }
+
+        public Mid GetAcknowledge() => new Mid0402();
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

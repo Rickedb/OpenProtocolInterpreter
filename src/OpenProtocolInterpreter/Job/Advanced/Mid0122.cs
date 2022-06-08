@@ -13,7 +13,7 @@
     /// <para>Message sent by: Controller</para>
     /// <para>Answer: <see cref="Mid0125"/> Job line control info acknowledged</para>
     /// </summary>
-    public class Mid0122 : Mid, IAdvancedJob, IController
+    public class Mid0122 : Mid, IAdvancedJob, IController, IAcknowledgeable
     {
         private const int LAST_REVISION = 1;
         public const int MID = 122;
@@ -26,5 +26,7 @@
         public Mid0122(Header header) : base(header)
         {
         }
+
+        public Mid GetAcknowledge() => new Mid0125();
     }
 }

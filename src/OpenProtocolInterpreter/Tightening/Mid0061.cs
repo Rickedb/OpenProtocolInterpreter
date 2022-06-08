@@ -11,7 +11,7 @@ namespace OpenProtocolInterpreter.Tightening
     /// <para>Message sent by: Controller</para>
     /// <para>Answer: <see cref="Mid0062"/> Last tightening result data acknowledge</para>
     /// </summary>
-    public class Mid0061 : Mid, ITightening, IController
+    public class Mid0061 : Mid, ITightening, IController, IAcknowledgeable
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<long> _longConverter;
@@ -364,6 +364,8 @@ namespace OpenProtocolInterpreter.Tightening
         })
         {
         }
+
+        public Mid GetAcknowledge() => new Mid0062(Header.Revision);
 
         protected override string BuildHeader()
         {

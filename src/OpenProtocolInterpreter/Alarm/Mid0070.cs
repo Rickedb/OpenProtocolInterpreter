@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.Alarm
+﻿using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.Alarm
 {
     /// <summary>
     /// Alarm subscribe
@@ -6,22 +8,24 @@
     /// <para>Message sent by Integrator</para>
     /// <para>Answers: <see cref="Communication.Mid0005"/> Command accepted or <see cref="Communication.Mid0004"/> Command error, Alarm subscription already exists</para>
     /// </summary>
-    public class Mid0070 : Mid, IAlarm, IIntegrator
+    public class Mid0070 : Mid, IAlarm, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
         private const int LAST_REVISION = 2;
         public const int MID = 70;
+
+        public IEnumerable<Error> PossibleErrors => new Error[] { Error.ALARM_SUBSCRIPTION_ALREADY_EXISTS };
 
         public Mid0070() : this(LAST_REVISION)
         {
 
         }
 
-        public Mid0070(Header header) : base(header)
+        public Mid0070(int revision = LAST_REVISION, bool noAckFlag = false) : base(MID, revision, noAckFlag)
         {
 
         }
 
-        public Mid0070(int revision = LAST_REVISION, bool noAckFlag = false) : base(MID, revision, noAckFlag)
+        public Mid0070(Header header) : base(header)
         {
 
         }

@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.ParameterSet
+﻿using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.ParameterSet
 {
     /// <summary>
     /// Parameter set selected unsubscribe
@@ -9,10 +11,12 @@
     ///     <see cref="Communication.Mid0004"/> Command error, Parameter set subscription does not exist
     /// </para>
     /// </summary>
-    public class Mid0017 : Mid, IParameterSet, IIntegrator
+    public class Mid0017 : Mid, IParameterSet, IIntegrator, IUnsubscription, IAcceptableCommand, IDeclinableCommand
     {
         private const int LAST_REVISION = 1;
         public const int MID = 17;
+
+        public IEnumerable<Error> PossibleErrors => new Error[] { Error.PARAMETER_SET_SELECTION_SUBSCRIPTION_DOESNT_EXISTS };
 
         public Mid0017() : base(MID, LAST_REVISION) { }
 

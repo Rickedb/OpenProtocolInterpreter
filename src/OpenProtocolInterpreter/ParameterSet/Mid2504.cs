@@ -13,11 +13,13 @@ namespace OpenProtocolInterpreter.ParameterSet
     ///     <see cref="Communication.Mid0004"/> Command error, Dynamic Job cannot be created, non-existing pset
     /// </para>
     /// </summary>
-    public class Mid2504 : Mid, IParameterSet, IIntegrator
+    public class Mid2504 : Mid, IParameterSet, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 1;
         public const int MID = 2504;
+
+        public IEnumerable<Error> PossibleErrors => new Error[] { Error.PARAMETER_SET_ID_NOT_PRESENT };
 
         public int ParameterSetId
         {

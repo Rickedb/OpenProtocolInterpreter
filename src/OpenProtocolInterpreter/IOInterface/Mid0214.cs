@@ -15,11 +15,13 @@ namespace OpenProtocolInterpreter.IOInterface
     ///         <see cref="Communication.Mid0004"/> Command error, Faulty IO device ID, or IO device not connected
     /// </para>
     /// </summary>
-    public class Mid0214 : Mid, IIOInterface, IIntegrator
+    public class Mid0214 : Mid, IIOInterface, IIntegrator, IDeclinableCommand
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 2;
         public const int MID = 214;
+
+        public IEnumerable<Error> PossibleErrors => new Error[] { Error.FAULTY_IO_DEVICE_ID, Error.IO_DEVICE_NOT_CONNECTED };
 
         public int DeviceNumber
         {

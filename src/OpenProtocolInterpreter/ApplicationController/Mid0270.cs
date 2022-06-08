@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.ApplicationController
+﻿using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.ApplicationController
 {
     /// <summary>
     /// Controller reboot request 
@@ -11,10 +13,12 @@
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted or <see cref="Communication.Mid0004"/> Command error, Programming control not granted</para>
     /// </summary>
-    public class Mid0270 : Mid, IApplicationController, IIntegrator
+    public class Mid0270 : Mid, IApplicationController, IIntegrator, IAcceptableCommand, IDeclinableCommand 
     {
         private const int LAST_REVISION = 1;
         public const int MID = 270;
+
+        public IEnumerable<Error> PossibleErrors => new Error[] { Error.PROGRAMMING_CONTROL_NOT_GRANTED };
 
         public Mid0270() : base(MID, LAST_REVISION) 
         { 

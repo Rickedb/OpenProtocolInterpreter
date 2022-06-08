@@ -14,10 +14,12 @@ namespace OpenProtocolInterpreter.Vin
     ///             <see cref="Communication.Mid0004"/> Command error, VIN input source not granted
     /// </para>
     /// </summary>
-    public class Mid0050 : Mid, IVin, IIntegrator
+    public class Mid0050 : Mid, IVin, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
         private const int LAST_REVISION = 1;
         public const int MID = 50;
+
+        public IEnumerable<Error> PossibleErrors => new Error[] { Error.VIN_INPUT_SOURCE_NOT_GRANTED };
 
         public string VinNumber
         {

@@ -9,7 +9,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted</para>
     /// </summary>
-    public class Mid0130 : Mid, IAdvancedJob, IIntegrator
+    public class Mid0130 : Mid, IAdvancedJob, IIntegrator, IAcceptableCommand
     {
         private readonly IValueConverter<bool> _boolConverter;
         private const int LAST_REVISION = 1;
