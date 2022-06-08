@@ -14,7 +14,7 @@ namespace OpenProtocolInterpreter.MotorTuning
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: <see cref="Communication.Mid0004"/> Command error, Motor Tuning subscription already exists or MID revision not supported</para>
     /// </summary>
-    public class Mid0500 : Mid, IMotorTuning, IIntegrator, ISubscription, IDeclinableCommand
+    public class Mid0500 : Mid, IMotorTuning, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
         private const int LAST_REVISION = 1;
         public const int MID = 500;

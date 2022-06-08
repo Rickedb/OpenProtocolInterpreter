@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// </para>
     /// <para>Message: <see cref="Mid0022"/> relay status immediately after <see cref="Communication.Mid0005"/> Command accepted</para>
     /// </summary>
-    public class Mid0021 : Mid, IParameterSet, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
+    public class Mid0021 : Mid, IParameterSet, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand, IAnswerableBy<Mid0022>
     {
         private const int LAST_REVISION = 1;
         public const int MID = 21;

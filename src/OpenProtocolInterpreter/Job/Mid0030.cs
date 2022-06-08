@@ -9,7 +9,7 @@
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: <see cref="Mid0031"/> Job ID upload reply</para>
     /// </summary>
-    public class Mid0030 : Mid, IJob, IIntegrator
+    public class Mid0030 : Mid, IJob, IIntegrator, IAnswerableBy<Mid0031>
     {
         private const int LAST_REVISION = 2;
         public const int MID = 30;

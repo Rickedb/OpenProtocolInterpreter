@@ -8,7 +8,7 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
     /// <para>Message sent by: Controller</para>
     /// <para>Answer: <see cref="Mid0262"/> Tool tag ID or <see cref="Communication.Mid0004"/> Command error, Tool tag ID unknown or MID revision unsupported.</para>
     /// </summary>
-    public class Mid0260 : Mid, IApplicationToolLocationSystem, IController, IAcceptableCommand, IDeclinableCommand
+    public class Mid0260 : Mid, IApplicationToolLocationSystem, IController, IAnswerableBy<Mid0262>, IDeclinableCommand
     {
         private const int LAST_REVISION = 1;
         public const int MID = 260;

@@ -9,6 +9,26 @@ namespace OpenProtocolInterpreter
     /// </summary>
     public static class MidExtensions
     {
+        public static string PackAnswer<TMid>(this IAnswerableBy<TMid> _, TMid answerMid) where TMid : Mid
+        {
+            return answerMid.Pack();
+        }
+
+        public static byte[] PackReplyBytes<TMid>(this IAnswerableBy<TMid> _, TMid answerMid) where TMid : Mid
+        {
+            return answerMid.PackBytes();
+        }
+
+        public static string PackReplyWithNul<TMid>(this IAnswerableBy<TMid> _, TMid answerMid) where TMid : Mid
+        {
+            return answerMid.PackWithNul();
+        }
+
+        public static byte[] PackReplyBytesWithNul<TMid>(this IAnswerableBy<TMid> _, TMid answerMid) where TMid : Mid
+        {
+            return answerMid.PackBytesWithNul();
+        }
+
         /// <summary>
         /// 
         /// </summary>

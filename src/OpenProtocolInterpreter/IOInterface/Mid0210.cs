@@ -17,7 +17,7 @@ namespace OpenProtocolInterpreter.IOInterface
     ///     <see cref="Mid0211"/> Status externally monitored inputs.
     /// </para>
     /// </summary>
-    public class Mid0210 : Mid, IIOInterface, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
+    public class Mid0210 : Mid, IIOInterface, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand, IAnswerableBy<Mid0211>
     {
         private const int LAST_REVISION = 1;
         public const int MID = 210;

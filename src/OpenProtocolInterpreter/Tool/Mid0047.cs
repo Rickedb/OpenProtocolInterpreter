@@ -17,7 +17,7 @@ namespace OpenProtocolInterpreter.Tool
     /// <para><see cref="Communication.Mid0004"/> Command error. See error codes. </para>
     /// <para><see cref="Mid0048"/> Pairing status during the pairing process</para>
     /// </summary>
-    public class Mid0047 : Mid, ITool, IIntegrator, IAcceptableCommand, IDeclinableCommand
+    public class Mid0047 : Mid, ITool, IIntegrator, IAcceptableCommand, IDeclinableCommand, IAnswerableBy<Mid0048>
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 1;

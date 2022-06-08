@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.Tool
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: <see cref="Mid0041"/> Tool data upload reply</para>
     /// </summary>
-    public class Mid0040 : Mid, ITool, IIntegrator
+    public class Mid0040 : Mid, ITool, IIntegrator, IAnswerableBy<Mid0041>
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 7;

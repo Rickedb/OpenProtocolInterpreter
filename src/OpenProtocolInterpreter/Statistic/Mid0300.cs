@@ -17,7 +17,7 @@ namespace OpenProtocolInterpreter.Statistic
     ///         <see cref="Communication.Mid0004"/> Command error, No histogram available or Invalid data
     /// </para>
     /// </summary>
-    public class Mid0300 : Mid, IStatistic, IIntegrator, IDeclinableCommand
+    public class Mid0300 : Mid, IStatistic, IIntegrator, IAnswerableBy<Mid0301>, IDeclinableCommand
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 1;

@@ -22,7 +22,7 @@ namespace OpenProtocolInterpreter.Tightening
     ///             MID revision not supported
     /// </para>
     /// </summary>
-    public class Mid0064 : Mid, ITightening, IIntegrator, IDeclinableCommand
+    public class Mid0064 : Mid, ITightening, IIntegrator, IAnswerableBy<Mid0065>, IDeclinableCommand
     {
         private readonly IValueConverter<long> _longConverter;
         private const int LAST_REVISION = 6;

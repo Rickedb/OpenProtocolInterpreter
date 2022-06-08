@@ -13,7 +13,7 @@
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted and <see cref="Mid0015"/> Parameter set selected</para>
     /// </summary>
-    public class Mid0014 : Mid, IParameterSet, IIntegrator, ISubscription, IAcceptableCommand
+    public class Mid0014 : Mid, IParameterSet, IIntegrator, ISubscription, IAcceptableCommand, IAnswerableBy<Mid0015>
     {
         private const int LAST_REVISION = 1;
         public const int MID = 14;
