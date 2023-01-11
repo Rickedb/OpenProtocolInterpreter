@@ -44,7 +44,7 @@ namespace OpenProtocolInterpreter
         /// <summary>
         /// Generates reply <see cref="Mid"/> instance accordingly with a received mid.
         /// </summary>
-        /// <typeparam name="TMid"><see cref="Mid"/> instance and <see cref="IAnswerableBy<>"/> implementer</typeparam>
+        /// <typeparam name="TMid"><see cref="Mid"/> instance implementing another Mid response</typeparam>
         /// <returns>A new <see cref="Mid"/> instance</returns>
         public static TMid GetReply<TMid>(this IAnswerableBy<TMid> _) where TMid : Mid, new()
         {
@@ -54,7 +54,7 @@ namespace OpenProtocolInterpreter
         /// <summary>
         /// Generates reply <see cref="Mid"/> instance accordingly with a received mid.
         /// </summary>
-        /// <typeparam name="TMid"><see cref="Mid"/> instance and <see cref="IAnswerableBy<>"/> implementer</typeparam>
+        /// <typeparam name="TMid"><see cref="Mid"/> instance implementing another Mid response</typeparam>
         /// <param name="revision">Desired reply revision</param>
         /// <returns>A new <see cref="Mid"/> instance</returns>
         public static TMid GetReply<TMid>(this IAnswerableBy<TMid> mid, int revision) where TMid : Mid, new()
