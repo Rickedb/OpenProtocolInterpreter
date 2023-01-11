@@ -19,7 +19,7 @@ namespace OpenProtocolInterpreter.MotorTuning
         private const int LAST_REVISION = 1;
         public const int MID = 500;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.SUBSCRIPTION_ALREADY_EXISTS, Error.MID_REVISION_UNSUPPORTED};
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SUBSCRIPTION_ALREADY_EXISTS, Error.MID_REVISION_UNSUPPORTED};
 
         public Mid0500() : this(false) 
         { 

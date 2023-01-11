@@ -22,7 +22,7 @@ namespace OpenProtocolInterpreter.Tool
         private const int LAST_REVISION = 1;
         public const int MID = 44;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.TOOL_CURRENTLY_IN_USE };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.TOOL_CURRENTLY_IN_USE };
 
         public Mid0044() : base(MID, LAST_REVISION)
         {

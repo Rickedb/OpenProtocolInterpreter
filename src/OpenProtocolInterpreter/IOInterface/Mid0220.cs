@@ -24,7 +24,7 @@ namespace OpenProtocolInterpreter.IOInterface
         private const int LAST_REVISION = 1;
         public const int MID = 220;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.dig };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] {  };
 
         public DigitalInputNumber DigitalInputNumber
         {

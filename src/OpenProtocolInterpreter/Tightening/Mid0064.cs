@@ -28,7 +28,7 @@ namespace OpenProtocolInterpreter.Tightening
         private const int LAST_REVISION = 6;
         public const int MID = 64;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.TIGHTENING_ID_REQUESTED_NOT_FOUND, Error.MID_REVISION_UNSUPPORTED };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.TIGHTENING_ID_REQUESTED_NOT_FOUND, Error.MID_REVISION_UNSUPPORTED };
 
         public long TighteningId
         {

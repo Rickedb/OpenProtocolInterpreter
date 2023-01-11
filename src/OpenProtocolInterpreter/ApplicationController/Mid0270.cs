@@ -18,7 +18,7 @@ namespace OpenProtocolInterpreter.ApplicationController
         private const int LAST_REVISION = 1;
         public const int MID = 270;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.PROGRAMMING_CONTROL_NOT_GRANTED };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.PROGRAMMING_CONTROL_NOT_GRANTED };
 
         public Mid0270() : base(MID, LAST_REVISION) 
         { 

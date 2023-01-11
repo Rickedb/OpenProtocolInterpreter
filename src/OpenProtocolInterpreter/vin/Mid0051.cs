@@ -32,7 +32,7 @@ namespace OpenProtocolInterpreter.Vin
         private const int LAST_REVISION = 2;
         public const int MID = 51;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.VIN_UPLOAD_SUBSCRIPTION_ALREADY_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.VIN_UPLOAD_SUBSCRIPTION_ALREADY_EXISTS };
 
         public Mid0051() : this(LAST_REVISION)
         {

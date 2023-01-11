@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
         private const int LAST_REVISION = 1;
         public const int MID = 261;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] 
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] 
         { 
             Error.TOOL_TAG_ID_UNKNOWN, 
             Error.SUBSCRIPTION_ALREADY_EXISTS, 

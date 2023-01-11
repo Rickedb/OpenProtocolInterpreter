@@ -21,7 +21,7 @@ namespace OpenProtocolInterpreter.Tool
         private const int LAST_REVISION = 1;
         public const int MID = 46;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.PROGRAMMING_CONTROL_NOT_GRANTED, Error.INVALID_DATA };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.PROGRAMMING_CONTROL_NOT_GRANTED, Error.INVALID_DATA };
 
         public PrimaryTool PrimaryTool
         {

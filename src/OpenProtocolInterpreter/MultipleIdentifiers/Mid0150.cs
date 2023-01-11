@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
         private const int LAST_REVISION = 1;
         public const int MID = 150;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.IDENTIFIER_INPUT_SOURCE_NOT_GRANTED };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.IDENTIFIER_INPUT_SOURCE_NOT_GRANTED };
 
         public string IdentifierData
         {

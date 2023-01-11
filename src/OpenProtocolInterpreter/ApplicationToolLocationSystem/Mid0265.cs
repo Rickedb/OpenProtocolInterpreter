@@ -15,7 +15,7 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
         private const int LAST_REVISION = 1;
         public const int MID = 265;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.MID_REVISION_UNSUPPORTED };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.MID_REVISION_UNSUPPORTED };
 
         public string ToolTagId
         {

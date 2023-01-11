@@ -27,7 +27,7 @@ namespace OpenProtocolInterpreter.PowerMACS
         private const int LAST_REVISION = 4;
         public const int MID = 105;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.SUBSCRIPTION_ALREADY_EXISTS, Error.MID_REVISION_UNSUPPORTED };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SUBSCRIPTION_ALREADY_EXISTS, Error.MID_REVISION_UNSUPPORTED };
 
         public int DataNumberSystem
         {

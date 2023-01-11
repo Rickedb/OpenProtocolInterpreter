@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.ApplicationSelector
         public const int MID = 253;
         private const int LAST_REVISION = 1;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.SELECTOR_SOCKET_INFO_SUBSCRIPTION_DOESNT_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SELECTOR_SOCKET_INFO_SUBSCRIPTION_DOESNT_EXISTS };
 
         public Mid0253() : base(MID, LAST_REVISION) { }
 

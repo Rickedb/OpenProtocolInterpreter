@@ -17,7 +17,7 @@ namespace OpenProtocolInterpreter.Job
         private const int LAST_REVISION = 2;
         public const int MID = 38;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.JOB_CANNOT_BE_SET, Error.INVALID_DATA };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JOB_CANNOT_BE_SET, Error.INVALID_DATA };
 
         public int JobId
         {

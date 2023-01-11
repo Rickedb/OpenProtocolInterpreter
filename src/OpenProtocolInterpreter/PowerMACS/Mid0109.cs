@@ -16,7 +16,7 @@ namespace OpenProtocolInterpreter.PowerMACS
         private const int LAST_REVISION = 1;
         public const int MID = 109;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.SUBSCRIPTION_DOESNT_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SUBSCRIPTION_DOESNT_EXISTS };
 
         public Mid0109() : this(LAST_REVISION)
         {

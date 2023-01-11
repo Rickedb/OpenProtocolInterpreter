@@ -23,7 +23,7 @@ namespace OpenProtocolInterpreter.UserInterface
         private const int LAST_REVISION = 1;
         public const int MID = 110;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.User_t };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { };
 
         public string UserText
         {

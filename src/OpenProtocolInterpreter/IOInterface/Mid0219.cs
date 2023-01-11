@@ -19,7 +19,7 @@ namespace OpenProtocolInterpreter.IOInterface
         private const int LAST_REVISION = 1;
         public const int MID = 219;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.RELAY_FUNCTION_SUBSCRIPTION_DOESNT_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.RELAY_FUNCTION_SUBSCRIPTION_DOESNT_EXISTS };
 
         public RelayNumber RelayNumber
         {

@@ -23,7 +23,7 @@ namespace OpenProtocolInterpreter.Statistic
         private const int LAST_REVISION = 1;
         public const int MID = 300;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.NO_HISTOGRAM_AVAILABLE, Error.INVALID_DATA };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.NO_HISTOGRAM_AVAILABLE, Error.INVALID_DATA };
 
         public int ParameterSetId
         {

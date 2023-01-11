@@ -19,7 +19,7 @@ namespace OpenProtocolInterpreter.ParameterSet
         private const int LAST_REVISION = 1;
         public const int MID = 18;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.PARAMETER_SET_CANNOT_BE_SET };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.PARAMETER_SET_CANNOT_BE_SET };
 
         public int ParameterSetId
         {

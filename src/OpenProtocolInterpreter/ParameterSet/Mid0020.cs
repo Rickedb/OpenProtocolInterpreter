@@ -20,7 +20,7 @@ namespace OpenProtocolInterpreter.ParameterSet
         private const int LAST_REVISION = 1;
         public const int MID = 20;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.INVALID_DATA, Error.PARAMETER_SET_NOT_RUNNING };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.INVALID_DATA, Error.PARAMETER_SET_NOT_RUNNING };
 
         public int ParameterSetId
         {

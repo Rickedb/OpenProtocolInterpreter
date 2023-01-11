@@ -21,7 +21,7 @@ namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
         private const int LAST_REVISION = 1;
         public const int MID = 420;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.OPEN_PROTOCOL_COMMANDS_DISABLED_SUBSCRIPTION_ALREADY_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.OPEN_PROTOCOL_COMMANDS_DISABLED_SUBSCRIPTION_ALREADY_EXISTS };
 
         public Mid0420() : this(false)
         {

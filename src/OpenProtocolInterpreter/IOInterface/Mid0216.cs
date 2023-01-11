@@ -22,7 +22,7 @@ namespace OpenProtocolInterpreter.IOInterface
         private const int LAST_REVISION = 1;
         public const int MID = 216;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.RELAY_FUNCTION_SUBSCRIPTION_ALREADY_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.RELAY_FUNCTION_SUBSCRIPTION_ALREADY_EXISTS };
 
         public RelayNumber RelayNumber
         {

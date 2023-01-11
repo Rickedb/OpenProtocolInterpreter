@@ -21,7 +21,7 @@ namespace OpenProtocolInterpreter.Tool
         private const int LAST_REVISION = 2;
         public const int MID = 45;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.CALIBRATION_FAILED };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.CALIBRATION_FAILED };
 
         public CalibrationUnit CalibrationValueUnit
         {

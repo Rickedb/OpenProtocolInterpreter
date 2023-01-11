@@ -15,7 +15,7 @@ namespace OpenProtocolInterpreter.Communication
         private const int LAST_REVISION = 7;
         public const int MID = 1;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.CLIENT_ALREADY_CONNECTED, Error.MID_REVISION_UNSUPPORTED };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.CLIENT_ALREADY_CONNECTED, Error.MID_REVISION_UNSUPPORTED };
 
         public bool OptionalKeepAlive
         {

@@ -16,7 +16,7 @@ namespace OpenProtocolInterpreter.Job
         private const int LAST_REVISION = 4;
         public const int MID = 34;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.JOB_INFO_SUBSCRIPTION_ALREADY_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JOB_INFO_SUBSCRIPTION_ALREADY_EXISTS };
 
         public Mid0034() : this(LAST_REVISION)
         {

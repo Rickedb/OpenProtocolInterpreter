@@ -16,7 +16,7 @@ namespace OpenProtocolInterpreter.PLCUserData
         private const int LAST_REVISION = 1;
         public const int MID = 240;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.INVALID_DATA, Error.CONTROLLER_IS_NOT_A_SYNC_MASTER_OR_STATION_CONTROLLER };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.INVALID_DATA, Error.CONTROLLER_IS_NOT_A_SYNC_MASTER_OR_STATION_CONTROLLER };
 
         public string UserData
         {

@@ -20,7 +20,7 @@ namespace OpenProtocolInterpreter.Tightening
         private const int LAST_REVISION = 7;
         public const int MID = 60;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.LAST_TIGHTENING_RESULT_SUBSCRIPTION_ALREADY_EXISTS, Error.MID_REVISION_UNSUPPORTED };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.LAST_TIGHTENING_RESULT_SUBSCRIPTION_ALREADY_EXISTS, Error.MID_REVISION_UNSUPPORTED };
 
         public Mid0060() : this(LAST_REVISION)
         {

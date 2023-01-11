@@ -22,7 +22,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
         private const int LAST_REVISION = 2;
         public const int MID = 129;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.JOB_BATCH_DECREMENT_FAILED };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JOB_BATCH_DECREMENT_FAILED };
 
         public int ChannelId
         {

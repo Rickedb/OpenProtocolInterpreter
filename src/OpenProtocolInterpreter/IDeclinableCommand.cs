@@ -7,6 +7,6 @@ namespace OpenProtocolInterpreter
     /// </summary>
     public interface IDeclinableCommand
     {
-        IEnumerable<Error> PossibleErrors { get; }
+        IEnumerable<Error> DocumentedPossibleErrors { get; }
     }
 }

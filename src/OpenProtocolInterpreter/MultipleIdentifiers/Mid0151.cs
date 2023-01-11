@@ -22,7 +22,7 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
         private const int LAST_REVISION = 1;
         public const int MID = 151;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.SUBSCRIPTION_ALREADY_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SUBSCRIPTION_ALREADY_EXISTS };
 
         public Mid0151() : this(false)
         {

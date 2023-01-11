@@ -19,7 +19,7 @@ namespace OpenProtocolInterpreter.Vin
         private const int LAST_REVISION = 1;
         public const int MID = 50;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.VIN_INPUT_SOURCE_NOT_GRANTED };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.VIN_INPUT_SOURCE_NOT_GRANTED };
 
         public string VinNumber
         {

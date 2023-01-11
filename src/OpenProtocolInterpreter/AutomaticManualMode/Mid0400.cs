@@ -19,7 +19,7 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
         private const int LAST_REVISION = 1;
         public const int MID = 400;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.AUTOMATIC_MANUAL_MODE_SUBSCRIBE_ALREADY_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.AUTOMATIC_MANUAL_MODE_SUBSCRIBE_ALREADY_EXISTS };
 
         public Mid0400() : this(false)
         {

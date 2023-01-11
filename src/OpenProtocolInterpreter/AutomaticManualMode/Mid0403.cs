@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
         private const int LAST_REVISION = 1;
         public const int MID = 403;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.AUTOMATIC_MANUAL_MODE_SUBSCRIBE_DOESNT_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.AUTOMATIC_MANUAL_MODE_SUBSCRIBE_DOESNT_EXISTS };
 
 
         public Mid0403() : base(MID, LAST_REVISION) { }

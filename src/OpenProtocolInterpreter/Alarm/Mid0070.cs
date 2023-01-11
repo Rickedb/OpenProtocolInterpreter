@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.Alarm
         private const int LAST_REVISION = 2;
         public const int MID = 70;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.ALARM_SUBSCRIPTION_ALREADY_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.ALARM_SUBSCRIPTION_ALREADY_EXISTS };
 
         public Mid0070() : this(LAST_REVISION)
         {

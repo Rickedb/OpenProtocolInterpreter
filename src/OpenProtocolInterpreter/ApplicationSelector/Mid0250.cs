@@ -17,7 +17,7 @@ namespace OpenProtocolInterpreter.ApplicationSelector
         private const int LAST_REVISION = 1;
         public const int MID = 250;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.SELECTOR_SOCKET_INFO_SUBSCRIPTION_ALREADY_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SELECTOR_SOCKET_INFO_SUBSCRIPTION_ALREADY_EXISTS };
 
         public Mid0250() : this(false)
         {

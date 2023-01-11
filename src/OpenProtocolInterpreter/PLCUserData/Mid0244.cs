@@ -16,7 +16,7 @@ namespace OpenProtocolInterpreter.PLCUserData
         private const int LAST_REVISION = 1;
         public const int MID = 244;
         //todo check enums
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.SUBSCRIPTION_DOESNT_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SUBSCRIPTION_DOESNT_EXISTS };
 
         public Mid0244() : base(MID, LAST_REVISION) { }
 

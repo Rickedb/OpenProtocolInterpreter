@@ -21,7 +21,7 @@ namespace OpenProtocolInterpreter.IOInterface
         private const int LAST_REVISION = 2;
         public const int MID = 214;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.FAULTY_IO_DEVICE_ID, Error.IO_DEVICE_NOT_CONNECTED };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.FAULTY_IO_DEVICE_ID, Error.IO_DEVICE_NOT_CONNECTED };
 
         public int DeviceNumber
         {

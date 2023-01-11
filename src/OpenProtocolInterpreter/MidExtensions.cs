@@ -63,7 +63,7 @@ namespace OpenProtocolInterpreter
         /// <exception cref="ArgumentException">Throws if error is not a possible error for the current failed Mid</exception>
         public static Mid0004 AssertAndGetDeclineCommand<TMid>(this TMid mid, Error error) where TMid : Mid, IDeclinableCommand
         {
-            if (!mid.PossibleErrors.Contains(error))
+            if (!mid.DocumentedPossibleErrors.Contains(error))
             {
                 throw new ArgumentException($"{error} is not a possible error for {mid.Header.Mid}");
             }

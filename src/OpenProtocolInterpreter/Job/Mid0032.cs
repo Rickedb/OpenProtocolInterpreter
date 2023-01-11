@@ -17,7 +17,7 @@ namespace OpenProtocolInterpreter.Job
         private const int LAST_REVISION = 4;
         public const int MID = 32;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.JOB_ID_NOT_PRESENT };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JOB_ID_NOT_PRESENT };
 
         public int JobId
         {

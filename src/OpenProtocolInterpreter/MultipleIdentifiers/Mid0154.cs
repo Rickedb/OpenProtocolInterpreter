@@ -16,7 +16,7 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
         private const int LAST_REVISION = 1;
         public const int MID = 154;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.multipol };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { };
 
         public Mid0154() : base(MID, LAST_REVISION) 
         { 

@@ -23,7 +23,7 @@ namespace OpenProtocolInterpreter.Tool
         private const int LAST_REVISION = 1;
         public const int MID = 47;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error. };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { };
 
         public PairingHandlingType PairingHandlingType
         {

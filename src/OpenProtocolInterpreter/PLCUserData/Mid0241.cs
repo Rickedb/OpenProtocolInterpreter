@@ -20,7 +20,7 @@ namespace OpenProtocolInterpreter.PLCUserData
         private const int LAST_REVISION = 1;
         public const int MID = 241;
 
-        public IEnumerable<Error> PossibleErrors => new Error[] { Error.SUBSCRIPTION_ALREADY_EXISTS, Error.CONTROLLER_IS_NOT_A_SYNC_MASTER_OR_STATION_CONTROLLER };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SUBSCRIPTION_ALREADY_EXISTS, Error.CONTROLLER_IS_NOT_A_SYNC_MASTER_OR_STATION_CONTROLLER };
 
         public Mid0241() : this(false)
         {
