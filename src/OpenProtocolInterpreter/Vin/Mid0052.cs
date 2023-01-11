@@ -21,7 +21,7 @@ namespace OpenProtocolInterpreter.Vin
     /// <para>Message sent by: Controller</para>
     /// <para>Answer: <see cref="Mid0053"/> Vehicle ID Number acknowledge</para>
     /// </summary>
-    public class Mid0052 : Mid, IVin, IController, IAcknowledgeable
+    public class Mid0052 : Mid, IVin, IController, IAcknowledgeable<Mid0053>
     {
         private const int LAST_REVISION = 2;
         public const int MID = 52;
@@ -93,8 +93,6 @@ namespace OpenProtocolInterpreter.Vin
             IdentifierResultPart3 = identifierResultPart3;
             IdentifierResultPart4 = identifierResultPart4;
         }
-
-        public Mid GetAcknowledge() => new Mid0053(Header.Revision);
 
         public override string Pack()
         {
