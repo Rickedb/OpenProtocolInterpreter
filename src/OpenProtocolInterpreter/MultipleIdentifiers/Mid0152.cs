@@ -16,7 +16,7 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
     /// <para>Message sent by: Controller</para>
     /// <para>Answer: <see cref="Mid0153"/> Multiple identifiers and result parts acknowledge</para>
     /// </summary>
-    public class Mid0152 : Mid, IMultipleIdentifier, IController, IAcknowledgeable
+    public class Mid0152 : Mid, IMultipleIdentifier, IController, IAcknowledgeable<Mid0153>
     {
         private readonly IValueConverter<IdentifierStatus> _identifierStatusConverter;
         private const int LAST_REVISION = 1;
@@ -76,8 +76,6 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
                 }
             };
         }
-
-        public Mid GetAcknowledge() => new Mid0153();
 
         public enum DataFields
         {

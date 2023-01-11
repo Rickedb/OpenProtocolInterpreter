@@ -44,7 +44,22 @@ namespace OpenProtocolInterpreter
         /// <summary>
         /// Generates reply <see cref="Mid"/> instance accordingly with a received mid.
         /// </summary>
-        /// <typeparam name="TMid"><see cref="Mid"/> instance implementing another Mid response</typeparam>
+        /// <typeparam name="TMid"><see cref="Mid"/> type of corresponding acknowledge</typeparam>
+        /// <param name="instance"><see cref="Mid"/> instance implementing IAcknowledgeable</param>
+        /// <returns>A new <see cref="Mid"/> instance of TMid type</returns>
+        public static TMid GetAcknowledge<TMid>(this IAcknowledgeable<TMid> instance) where TMid : Mid, IAcknowledge, new()
+        {
+            var mid = new TMid();
+            if(instance is Mid acknowledgeableMid)
+                mid.Header.Revision = acknowledgeableMid.Header.Revision;
+
+            return mid;
+        }
+
+        /// <summary>
+        /// Generates reply <see cref="Mid"/> instance accordingly with a received mid.
+        /// </summary>
+        /// <typeparam name="TMid"><see cref="Mid"/> type that is the answer to respective Mid</typeparam>
         /// <returns>A new <see cref="Mid"/> instance</returns>
         public static TMid GetReply<TMid>(this IAnswerableBy<TMid> _) where TMid : Mid, new()
         {
@@ -54,7 +69,7 @@ namespace OpenProtocolInterpreter
         /// <summary>
         /// Generates reply <see cref="Mid"/> instance accordingly with a received mid.
         /// </summary>
-        /// <typeparam name="TMid"><see cref="Mid"/> instance implementing another Mid response</typeparam>
+        /// <typeparam name="TMid"><see cref="Mid"/> type that is the answer to respective Mid</typeparam>
         /// <param name="revision">Desired reply revision</param>
         /// <returns>A new <see cref="Mid"/> instance</returns>
         public static TMid GetReply<TMid>(this IAnswerableBy<TMid> mid, int revision) where TMid : Mid, new()

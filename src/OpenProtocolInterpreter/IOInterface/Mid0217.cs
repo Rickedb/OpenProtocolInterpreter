@@ -14,7 +14,7 @@ namespace OpenProtocolInterpreter.IOInterface
     /// Message sent by: Controller
     /// Answer: <see cref="Mid0218"/> Relay function acknowledge
     /// </summary>
-    public class Mid0217 : Mid, IIOInterface, IController, IAcknowledgeable
+    public class Mid0217 : Mid, IIOInterface, IController, IAcknowledgeable<Mid0218>
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;
@@ -57,8 +57,6 @@ namespace OpenProtocolInterpreter.IOInterface
             RelayNumber = relayNumber;
             RelayStatus = relayStatus;
         }
-
-        public Mid GetAcknowledge() => new Mid0218();
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

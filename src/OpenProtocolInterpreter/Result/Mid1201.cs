@@ -19,7 +19,7 @@ namespace OpenProtocolInterpreter.Result
     /// </para>
     /// <para>If the sequence number acknowledge functionality is used there is no need for these acknowledges.</para>
     /// </summary>
-    public class Mid1201 : Mid, IResult, IController, IAcknowledgeable, IAcceptableCommand
+    public class Mid1201 : Mid, IResult, IController, IAcknowledgeable<Mid1203>, IAcceptableCommand
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<DateTime> _dateConverter;
@@ -96,8 +96,6 @@ namespace OpenProtocolInterpreter.Result
             ObjectDataList = new List<ObjectData>();
             VariableDataFields = new List<VariableDataField>();
         }
-
-        public Mid GetAcknowledge() => new Mid1203();
 
         public override string Pack()
         {

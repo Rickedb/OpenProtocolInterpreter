@@ -15,7 +15,7 @@ namespace OpenProtocolInterpreter.ApplicationSelector
     /// <para>Message sent by: Controller</para>
     /// <para>Answer: <see cref="Mid0252"/>, Selector socket info acknowledge</para>
     /// </summary>
-    public class Mid0251 : Mid, IApplicationSelector, IController, IAcknowledgeable
+    public class Mid0251 : Mid, IApplicationSelector, IController, IAcknowledgeable<Mid0252>
     {
         private readonly IValueConverter<int> _intConverter;
         private IValueConverter<IEnumerable<bool>> _boolListConverter;
@@ -74,8 +74,6 @@ namespace OpenProtocolInterpreter.ApplicationSelector
             SocketStatus = _boolListConverter.Convert(GetField(1, (int)DataFields.SOCKET_STATUS).Value).ToList();
             return this;
         }
-
-        public Mid GetAcknowledge() => new Mid0252();
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

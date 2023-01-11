@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.Job
     /// <para>Message sent by: Controller</para>
     /// <para>Answer: <see cref="Mid0036"/></para>
     /// </summary>
-    public class Mid0035 : Mid, IJob, IController, IAcknowledgeable
+    public class Mid0035 : Mid, IJob, IController, IAcknowledgeable<Mid0036>
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<DateTime> _datetimeConverter;
@@ -229,8 +229,6 @@ namespace OpenProtocolInterpreter.Job
             ProcessDataFields(package);
             return this;
         }
-
-        public Mid GetAcknowledge() => new Mid0036(Header.Revision);
 
         /// <summary>
         /// Validate all fields size

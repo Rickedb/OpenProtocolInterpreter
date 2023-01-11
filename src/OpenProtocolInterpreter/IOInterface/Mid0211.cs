@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.IOInterface
     /// <para>Message sent by: Controller</para>
     /// <para>Answer: <see cref="Mid0212"/> Status externally monitored inputs acknowledge</para>
     /// </summary>
-    public class Mid0211 : Mid, IIOInterface, IController, IAcknowledgeable
+    public class Mid0211 : Mid, IIOInterface, IController, IAcknowledgeable<Mid0212>
     {
         private readonly IValueConverter<bool> _boolConverter;
         private const int LAST_REVISION = 1;
@@ -72,8 +72,6 @@ namespace OpenProtocolInterpreter.IOInterface
         {
             _boolConverter = new BoolConverter();
         }
-
-        public Mid GetAcknowledge() => new Mid0212();
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

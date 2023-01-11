@@ -11,7 +11,7 @@ namespace OpenProtocolInterpreter.Alarm
     /// <para>Message sent by: Controller</para>
     /// <para>Answer: <see cref="Mid0077"/> Alarm status acknowledge</para>
     /// </summary>
-    public class Mid0076 : Mid, IAlarm, IController, IAcknowledgeable
+    public class Mid0076 : Mid, IAlarm, IController, IAcknowledgeable<Mid0077>
     {
         private readonly IValueConverter<bool> _boolConverter;
         private readonly IValueConverter<int> _intConverter;
@@ -104,8 +104,6 @@ namespace OpenProtocolInterpreter.Alarm
         {
             ToolHealth = toolHealth;
         }
-
-        public Mid GetAcknowledge() => new Mid0077();
 
         public override Mid Parse(string package)
         {

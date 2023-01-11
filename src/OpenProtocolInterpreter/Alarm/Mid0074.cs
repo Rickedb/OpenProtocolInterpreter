@@ -9,7 +9,7 @@ namespace OpenProtocolInterpreter.Alarm
     /// <para>Message sent by: Controller</para>
     /// <para>Answer: <see cref="Mid0075"/> Alarm acknowledged on controller acknowledge</para>
     /// </summary>
-    public class Mid0074 : Mid, IAlarm, IController, IAcknowledgeable
+    public class Mid0074 : Mid, IAlarm, IController, IAcknowledgeable<Mid0075>
     {
         private const int LAST_REVISION = 2;
         public const int MID = 74;
@@ -39,8 +39,6 @@ namespace OpenProtocolInterpreter.Alarm
         {
             ErrorCode = errorCode;
         }
-
-        public Mid GetAcknowledge() => new Mid0075(Header.Revision);
 
         public override string Pack()
         {

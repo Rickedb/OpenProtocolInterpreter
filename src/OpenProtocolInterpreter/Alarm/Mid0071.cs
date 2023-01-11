@@ -10,7 +10,7 @@ namespace OpenProtocolInterpreter.Alarm
     /// <para>Message sent by: Controller</para>
     /// <para>Answer: <see cref="Mid0072"/> Alarm acknowledge</para>
     /// </summary>
-    public class Mid0071 : Mid, IAlarm, IController, IAcknowledgeable
+    public class Mid0071 : Mid, IAlarm, IController, IAcknowledgeable<Mid0072>
     {
         private readonly IValueConverter<bool> _boolConverter;
         private readonly IValueConverter<DateTime> _dateConverter;
@@ -97,8 +97,6 @@ namespace OpenProtocolInterpreter.Alarm
         {
             AlarmText = alarmText;
         }
-
-        public Mid GetAcknowledge() => new Mid0072(Header.Revision);
 
         public override Mid Parse(string package)
         {

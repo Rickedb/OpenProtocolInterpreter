@@ -9,7 +9,7 @@ namespace OpenProtocolInterpreter.MotorTuning
     /// <para>Message sent by: Controller</para>
     /// <para>Answer: <see cref="Mid0502"/> Motor tuning result data acknowledge</para>
     /// </summary>
-    public class Mid0501 : Mid, IMotorTuning, IController, IAcknowledgeable
+    public class Mid0501 : Mid, IMotorTuning, IController, IAcknowledgeable<Mid0502>
     {
         private readonly IValueConverter<bool> _boolConverter;
         private const int LAST_REVISION = 1;
@@ -42,8 +42,6 @@ namespace OpenProtocolInterpreter.MotorTuning
         {
             MotorTuneResult = motorTuneResult;
         }
-
-        public Mid GetAcknowledge() => new Mid0502();
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
