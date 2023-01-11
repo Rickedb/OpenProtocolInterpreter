@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenProtocolInterpreter", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MIDTesters.Core", "src\MIDTesters.Core\MIDTesters.Core.csproj", "{478EE366-16EE-4B94-9E83-87E955A600F5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenProtocolInterpreter.Ethernet.Integrator", "src\OpenProtocolInterpreter.Ethernet.Integrator\OpenProtocolInterpreter.Ethernet.Integrator.csproj", "{F8A01A2F-5BB3-42B6-B744-A6F36FD84027}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution Files", "{889BF604-4813-4B35-A790-3170FF26F063}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
@@ -39,10 +37,6 @@ Global
 		{478EE366-16EE-4B94-9E83-87E955A600F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{478EE366-16EE-4B94-9E83-87E955A600F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{478EE366-16EE-4B94-9E83-87E955A600F5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F8A01A2F-5BB3-42B6-B744-A6F36FD84027}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F8A01A2F-5BB3-42B6-B744-A6F36FD84027}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F8A01A2F-5BB3-42B6-B744-A6F36FD84027}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F8A01A2F-5BB3-42B6-B744-A6F36FD84027}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
