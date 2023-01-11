@@ -14,20 +14,20 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Setup .Net Framework
-        uses: microsoft/setup-msbuild@v1.1
+        uses: actions/setup-dotnet@master
       - name: build
         run: | 
-          msbuild src/OpenProtocolInterpreter/OpenProtocolInterpreter.csproj -t:restore
-          msbuild src/OpenProtocolInterpreter/OpenProtocolInterpreter.csproj -p:Configuration=Release
+          dotnet msbuild src/OpenProtocolInterpreter/OpenProtocolInterpreter.csproj -t:restore
+          dotnet msbuild src/OpenProtocolInterpreter/OpenProtocolInterpreter.csproj -p:Configuration=Release
   test:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@master
-      - name: Setup .Net Framework
-        uses: microsoft/setup-msbuild@v1.1
-      - name: build
-        run: | 
-          msbuild src/MIDTesters/MIDTesters.csproj -t:restore
-          msbuild src/MIDTesters/MIDTesters.csproj
-      - name: test
-        run: mstest src/MIDTesters/bin/Debug/MIDTesters.dll
+      - name: Build and run .net core tests
+        uses: actions/setup-dotnet@master
+        with:
+          dotnet-version: '3.1.414'
+      - name: Test Mids
+        run: |
+          dotnet build src/MIDTesters.Core/MIDTesters.Core.csproj
+          dotnet test src/MIDTesters.Core/MIDTesters.Core.csproj
