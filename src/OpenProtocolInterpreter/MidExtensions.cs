@@ -9,32 +9,67 @@ namespace OpenProtocolInterpreter
     /// </summary>
     public static class MidExtensions
     {
-        public static string PackAnswer<TMid>(this IAnswerableBy<TMid> _, TMid answerMid) where TMid : Mid
+        /// <summary>
+        /// <see cref="Mid.Pack()"/> then concatenate NUL charactor to it`s end
+        /// </summary>
+        /// <param name="mid">Mid instance</param>
+        /// <returns>Mid's package in string with NUL character</returns>
+        public static string PackWithNul(this Mid mid)
         {
-            return answerMid.Pack();
-        }
+            if (mid == default)
+            {
+                return default;
+            }
 
-        public static byte[] PackReplyBytes<TMid>(this IAnswerableBy<TMid> _, TMid answerMid) where TMid : Mid
-        {
-            return answerMid.PackBytes();
-        }
-
-        public static string PackReplyWithNul<TMid>(this IAnswerableBy<TMid> _, TMid answerMid) where TMid : Mid
-        {
-            return answerMid.PackWithNul();
-        }
-
-        public static byte[] PackReplyBytesWithNul<TMid>(this IAnswerableBy<TMid> _, TMid answerMid) where TMid : Mid
-        {
-            return answerMid.PackBytesWithNul();
+            var value = mid.Pack();
+            return string.Concat(value, '\0');
         }
 
         /// <summary>
-        /// 
+        /// <see cref="Mid.PackBytes()"/> then concatenate NUL charactor to it`s end
         /// </summary>
-        /// <typeparam name="TMid"></typeparam>
+        /// <param name="mid">Mid instance</param>
+        /// <returns>Mid's package in bytes with NUL character</returns>
+        public static byte[] PackBytesWithNul(this Mid mid)
+        {
+            if (mid == default)
+            {
+                return default;
+            }
+
+            var bytes = mid.PackBytes();
+            return bytes.Concat(new byte[] { 0x00 }).ToArray();
+        }
+
+        /// <summary>
+        /// Generates reply <see cref="Mid"/> instance accordingly with a received mid.
+        /// </summary>
+        /// <typeparam name="TMid"><see cref="Mid"/> instance and <see cref="IAnswerableBy<>"/> implementer</typeparam>
+        /// <returns>A new <see cref="Mid"/> instance</returns>
+        public static TMid GetReply<TMid>(this IAnswerableBy<TMid> _) where TMid : Mid, new()
+        {
+            return new TMid();
+        }
+
+        /// <summary>
+        /// Generates reply <see cref="Mid"/> instance accordingly with a received mid.
+        /// </summary>
+        /// <typeparam name="TMid"><see cref="Mid"/> instance and <see cref="IAnswerableBy<>"/> implementer</typeparam>
+        /// <param name="revision">Desired reply revision</param>
+        /// <returns>A new <see cref="Mid"/> instance</returns>
+        public static TMid GetReply<TMid>(this IAnswerableBy<TMid> mid, int revision) where TMid : Mid, new()
+        {
+            var reply = mid.GetReply();
+            reply.Header.Revision = revision;
+            return reply;
+        }
+
+        /// <summary>
+        /// Generates a Communication positive acknowledge mid (<see cref="Mid0005"/>) instance for the accepted mid.
+        /// </summary>
+        /// <typeparam name="TMid"><see cref="Mid"/> instance and <see cref="IAcceptableCommand"/> implementer</typeparam>
         /// <param name="mid"></param>
-        /// <returns></returns>
+        /// <returns>A new <see cref="Mid0005"/> instance</returns>
         public static Mid0005 GetAcceptCommand<TMid>(this TMid mid) where TMid : Mid, IAcceptableCommand
         {
             return new Mid0005(mid.Header.Mid);
@@ -69,38 +104,6 @@ namespace OpenProtocolInterpreter
             }
 
             return mid.GetDeclineCommand(error);
-        }
-
-        /// <summary>
-        /// <see cref="Mid.Pack()"/> then concatenate NUL charactor to it`s end
-        /// </summary>
-        /// <param name="mid">Mid instance</param>
-        /// <returns>Mid's package in string with NUL character</returns>
-        public static string PackWithNul(this Mid mid)
-        {
-            if (mid == default)
-            {
-                return default;
-            }
-
-            var value = mid.Pack();
-            return string.Concat(value, '\0');
-        }
-
-        /// <summary>
-        /// <see cref="Mid.PackBytes()"/> then concatenate NUL charactor to it`s end
-        /// </summary>
-        /// <param name="mid">Mid instance</param>
-        /// <returns>Mid's package in bytes with NUL character</returns>
-        public static byte[] PackBytesWithNul(this Mid mid)
-        {
-            if (mid == default)
-            {
-                return default;
-            }
-
-            var bytes = mid.PackBytes();
-            return bytes.Concat(new byte[] { 0x00 }).ToArray();
         }
     }
 }
