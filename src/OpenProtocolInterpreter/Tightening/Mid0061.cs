@@ -11,7 +11,7 @@ namespace OpenProtocolInterpreter.Tightening
     /// <para>Message sent by: Controller</para>
     /// <para>Answer: <see cref="Mid0062"/> Last tightening result data acknowledge</para>
     /// </summary>
-    public class Mid0061 : Mid, ITightening, IController
+    public class Mid0061 : Mid, ITightening, IController, IAcknowledgeable<Mid0062>
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<long> _longConverter;

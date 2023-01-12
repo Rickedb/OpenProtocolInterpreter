@@ -11,11 +11,13 @@ namespace OpenProtocolInterpreter.Job
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted or <see cref="Communication.Mid0004"/> Command error, Job not running, or Invalid data</para>
     /// </summary>
-    public class Mid0039 : Mid, IJob, IIntegrator
+    public class Mid0039 : Mid, IJob, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 2;
         public const int MID = 39;
+
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JOB_NOT_RUNNING, Error.INVALID_DATA };
 
         public int JobId
         {

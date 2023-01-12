@@ -11,11 +11,13 @@ namespace OpenProtocolInterpreter.Job
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted or <see cref="Communication.Mid0004"/> Command error, Job can not be set, or Invalid data</para>
     /// </summary>
-    public class Mid0038 : Mid, IJob, IIntegrator
+    public class Mid0038 : Mid, IJob, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 2;
         public const int MID = 38;
+
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JOB_CANNOT_BE_SET, Error.INVALID_DATA };
 
         public int JobId
         {
@@ -33,7 +35,6 @@ namespace OpenProtocolInterpreter.Job
             _intConverter = new Int32Converter();
             HandleRevision();
         }
-
 
         public Mid0038(int revision = LAST_REVISION) : this(new Header()
         {

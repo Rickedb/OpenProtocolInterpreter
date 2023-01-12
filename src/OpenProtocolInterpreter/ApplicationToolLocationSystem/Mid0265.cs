@@ -9,11 +9,13 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted or <see cref="Communication.Mid0004"/> Command error, MID revision unsupported.</para>
     /// </summary>
-    public class Mid0265 : Mid, IApplicationToolLocationSystem, IIntegrator
+    public class Mid0265 : Mid, IApplicationToolLocationSystem, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 1;
         public const int MID = 265;
+
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.MID_REVISION_UNSUPPORTED };
 
         public string ToolTagId
         {

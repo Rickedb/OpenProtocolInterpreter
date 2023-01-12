@@ -6,7 +6,7 @@
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: <see cref="Mid0011"/> Parameter set ID upload reply</para>
     /// </summary>
-    public class Mid0010 : Mid, IParameterSet, IIntegrator
+    public class Mid0010 : Mid, IParameterSet, IIntegrator, IAnswerableBy<Mid0011>
     {
         private const int LAST_REVISION = 3;
         public const int MID = 10;

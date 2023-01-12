@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.IOInterface
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted</para>
     /// </summary>
-    public class Mid0200 : Mid, IIOInterface, IIntegrator
+    public class Mid0200 : Mid, IIOInterface, IIntegrator, IAcceptableCommand
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 1;

@@ -21,12 +21,14 @@ namespace OpenProtocolInterpreter.UserInterface
     ///             <see cref="Communication.Mid0004"/> Command error, User text could not be displayed
     /// </para>
     /// </summary>
-    public class Mid0111 : Mid, IUserInterface, IIntegrator
+    public class Mid0111 : Mid, IUserInterface, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 1;
         public const int MID = 111;
-        
+
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { };
+
         public int TextDuration
         {
             get => GetField(1,(int)DataFields.TEXT_DURATION).GetValue(_intConverter.Convert);

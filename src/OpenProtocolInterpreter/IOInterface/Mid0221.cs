@@ -15,7 +15,7 @@ namespace OpenProtocolInterpreter.IOInterface
     /// <para>Message sent by: Controller</para>
     /// <para>Answer: <see cref="Mid0222"/> Digital input function upload acknowledge</para>
     /// </summary>
-    public class Mid0221 : Mid, IIOInterface, IController
+    public class Mid0221 : Mid, IIOInterface, IController, IAcknowledgeable<Mid0222>
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;

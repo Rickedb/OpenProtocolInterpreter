@@ -16,7 +16,7 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// <para>Message sent by: Controller</para>
     /// <para>Answer: <see cref="Mid0016"/> New parameter set selected acknowledge</para>
     /// </summary>
-    public class Mid0015 : Mid, IParameterSet, IController
+    public class Mid0015 : Mid, IParameterSet, IController, IAcknowledgeable<Mid0016>
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<decimal> _decimalConverter;

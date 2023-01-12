@@ -6,7 +6,7 @@
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: None</para>
     /// </summary>
-    public class Mid0222 : Mid, IIOInterface, IIntegrator
+    public class Mid0222 : Mid, IIOInterface, IIntegrator, IAcknowledge
     {
         private const int LAST_REVISION = 1;
         public const int MID = 222;

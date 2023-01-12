@@ -8,6 +8,14 @@ namespace MIDTesters
     {
         [TestMethod]
         [TestCategory("Defaults")]
+        public void HasParameterlessConstructor()
+        {
+            var constructor = typeof(TMid).GetConstructor(new Type[] { });
+            Assert.IsTrue(constructor != null);
+        }
+
+        [TestMethod]
+        [TestCategory("Defaults")]
         public void HasHeaderParameterConstructor()
         {
             var constructor = typeof(TMid).GetConstructor(new Type[] { typeof(Header) });

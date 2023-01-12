@@ -11,11 +11,13 @@ namespace OpenProtocolInterpreter.Job
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: <see cref="Mid0033"/> Job data upload or <see cref="Communication.Mid0004"/> Command error, Job ID not present</para>
     /// </summary>
-    public class Mid0032 : Mid, IJob, IIntegrator
+    public class Mid0032 : Mid, IJob, IIntegrator, IAnswerableBy<Mid0033>, IDeclinableCommand
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 4;
         public const int MID = 32;
+
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JOB_ID_NOT_PRESENT };
 
         public int JobId
         {

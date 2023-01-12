@@ -89,7 +89,7 @@
             <para>The alarm status is sent after an accepted subscription of the controller alarms. 
             This message is used to inform the integrator that an alarm is active on the controller at subscription time.</para>
             <para>Message sent by: Controller</para>
-            <para>Answer : <see cref="T:OpenProtocolInterpreter.Alarm.Mid0077"/> Alarm status acknowledge</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Alarm.Mid0077"/> Alarm status acknowledge</para>
             </summary>
         </member>
         <member name="M:OpenProtocolInterpreter.Alarm.Mid0076.#ctor(System.Boolean,System.String,System.Boolean,System.Boolean,System.DateTime,System.Int32)">
@@ -1124,9 +1124,34 @@
             <para>Note: Not used if space or zero</para>
             </summary>
         </member>
+        <member name="T:OpenProtocolInterpreter.IAcceptableCommand">
+            <summary>
+            Contract of every <see cref="T:OpenProtocolInterpreter.Mid"/> message that can be accepted with <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> implements.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.IAcknowledge">
+            <summary>
+            Contract which every acknowledge <see cref="T:OpenProtocolInterpreter.Mid"/> message implements.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.IAcknowledgeable`1">
+            <summary>
+            Contract which every <see cref="T:OpenProtocolInterpreter.Mid"/> that might needs an acknowledge response implements.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.IAnswerableBy`1">
+            <summary>
+            Contract of every <see cref="T:OpenProtocolInterpreter.Mid"/> message that can be answered by another mid which is not classified as an acknowledge.
+            </summary>
+        </member>
         <member name="T:OpenProtocolInterpreter.IController">
             <summary>
             Contract which every controller <see cref="T:OpenProtocolInterpreter.Mid"/> message implements.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.IDeclinableCommand">
+            <summary>
+            Contract which every <see cref="T:OpenProtocolInterpreter.Mid"/> message that can be declined with <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> implements.
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.IIntegrator">
@@ -1262,7 +1287,7 @@
                 data field “Relay function status” will always be 1 for such functions.
             </para>
             Message sent by: Controller
-            Answer: MID 0218 Relay function acknowledge
+            Answer: <see cref="T:OpenProtocolInterpreter.IOInterface.Mid0218"/> Relay function acknowledge
             </summary>
         </member>
         <member name="M:OpenProtocolInterpreter.IOInterface.Mid0217.#ctor(OpenProtocolInterpreter.RelayNumber,System.Boolean)">
@@ -1379,6 +1404,16 @@
         <member name="T:OpenProtocolInterpreter.IOInterface.Relay">
             <summary>
             Represents a single Relay
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ISubscription">
+            <summary>
+            Contract which every subscription <see cref="T:OpenProtocolInterpreter.Mid"/> message implements.
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.IUnsubscription">
+            <summary>
+            Contract which every unsubscription <see cref="T:OpenProtocolInterpreter.Mid"/> message implements.
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.Job.Advanced.AdvancedJob">
@@ -2005,6 +2040,57 @@
             </summary>
             <param name="mid">Mid instance</param>
             <returns>Mid's package in bytes with NUL character</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidExtensions.GetAcknowledge``1(OpenProtocolInterpreter.IAcknowledgeable{``0})">
+            <summary>
+            Generates reply <see cref="T:OpenProtocolInterpreter.Mid"/> instance accordingly with a received mid.
+            </summary>
+            <typeparam name="TAckMid"><see cref="T:OpenProtocolInterpreter.Mid"/> type of corresponding acknowledge</typeparam>
+            <param name="instance"><see cref="T:OpenProtocolInterpreter.Mid"/> instance implementing IAcknowledgeable</param>
+            <returns>A new <see cref="T:OpenProtocolInterpreter.Mid"/> instance of TMid type</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidExtensions.GetReply``1(OpenProtocolInterpreter.IAnswerableBy{``0})">
+            <summary>
+            Generates reply <see cref="T:OpenProtocolInterpreter.Mid"/> instance accordingly with a received mid.
+            </summary>
+            <typeparam name="TAnswerMid"><see cref="T:OpenProtocolInterpreter.Mid"/> type that is the answer to respective Mid</typeparam>
+            <returns>A new <see cref="T:OpenProtocolInterpreter.Mid"/> instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidExtensions.GetReply``1(OpenProtocolInterpreter.IAnswerableBy{``0},System.Int32)">
+            <summary>
+            Generates reply <see cref="T:OpenProtocolInterpreter.Mid"/> instance accordingly with a received mid.
+            </summary>
+            <typeparam name="TAnswerMid"><see cref="T:OpenProtocolInterpreter.Mid"/> type that is the answer to respective Mid</typeparam>
+            <param name="revision">Desired reply revision</param>
+            <returns>A new <see cref="T:OpenProtocolInterpreter.Mid"/> instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidExtensions.GetAcceptCommand``1(``0)">
+            <summary>
+            Generates a Communication positive acknowledge mid (<see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/>) instance for the accepted mid.
+            </summary>
+            <typeparam name="TAcceptedMid"><see cref="T:OpenProtocolInterpreter.Mid"/> instance and <see cref="T:OpenProtocolInterpreter.IAcceptableCommand"/> implementer</typeparam>
+            <param name="mid"></param>
+            <returns>A new <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidExtensions.GetDeclineCommand``1(``0,OpenProtocolInterpreter.Error)">
+            <summary>
+            Generates a Communication Negative Acknowledge mid (<see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/>) instance for the failed mid and with the informed error code.
+            </summary>
+            <typeparam name="TDeclinedMid"><see cref="T:OpenProtocolInterpreter.Mid"/> instance and <see cref="T:OpenProtocolInterpreter.IDeclinableCommand"/> implementer</typeparam>
+            <param name="mid">Current failed mid</param>
+            <param name="error"><see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> error code</param>
+            <returns>A new <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> instance</returns>
+        </member>
+        <member name="M:OpenProtocolInterpreter.MidExtensions.AssertAndGetDeclineCommand``1(``0,OpenProtocolInterpreter.Error)">
+            <summary>
+            Assert that error code is a possible error for the current failed mid and generates a Communication Negative Acknowledge mid (<see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/>) 
+            instance for the failed mid and with the informed error code.
+            </summary>
+            <typeparam name="TDeclinedMid"><see cref="T:OpenProtocolInterpreter.Mid"/> instance and <see cref="T:OpenProtocolInterpreter.IDeclinableCommand"/> implementer</typeparam>
+            <param name="mid">Current failed mid</param>
+            <param name="error"><see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> error code</param>
+            <returns>A new <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> instance</returns>
+            <exception cref="T:System.ArgumentException">Throws if error is not a possible error for the current failed Mid</exception>
         </member>
         <member name="T:OpenProtocolInterpreter.MidInterpreter">
             <summary>
@@ -4138,9 +4224,9 @@
             <para>Warning 2: the new configuration will not be active until the next controller reboot!</para>
             <para>Message sent by: Integrator</para>
             <para>
-                Answer: MID 0005 Command accepted or 
-                        MID 0004 Command error, Programming control not granted or 
-                                                Invalid data (value not supported by controller)
+                Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or 
+                        <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Programming control not granted or 
+                                                            Invalid data (value not supported by controller)
             </para>
             </summary>
         </member>

@@ -10,10 +10,10 @@ namespace OpenProtocolInterpreter.Alarm
     /// <para>Message sent by: Controller</para>
     /// <para>Answer: <see cref="Mid0072"/> Alarm acknowledge</para>
     /// </summary>
-    public class Mid0071 : Mid, IAlarm, IController
+    public class Mid0071 : Mid, IAlarm, IController, IAcknowledgeable<Mid0072>
     {
-        private IValueConverter<bool> _boolConverter;
-        private IValueConverter<DateTime> _dateConverter;
+        private readonly IValueConverter<bool> _boolConverter;
+        private readonly IValueConverter<DateTime> _dateConverter;
         private const int LAST_REVISION = 2;
         public const int MID = 71;
 

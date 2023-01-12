@@ -17,7 +17,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted</para>
     /// </summary>
-    public class Mid0140 : Mid, IAdvancedJob, IIntegrator
+    public class Mid0140 : Mid, IAdvancedJob, IIntegrator, IAcceptableCommand
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;

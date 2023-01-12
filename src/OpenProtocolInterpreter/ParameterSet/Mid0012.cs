@@ -13,11 +13,13 @@ namespace OpenProtocolInterpreter.ParameterSet
     ///         <see cref="Communication.Mid0004"/> Command error, Parameter set not present
     /// </para>
     /// </summary>
-    public class Mid0012 : Mid, IParameterSet, IIntegrator
+    public class Mid0012 : Mid, IParameterSet, IIntegrator, IAnswerableBy<Mid0013>, IDeclinableCommand
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 5;
         public const int MID = 12;
+
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.PARAMETER_SET_ID_NOT_PRESENT };
 
         public int ParameterSetId
         {

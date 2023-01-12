@@ -9,7 +9,7 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// <para>Message sent by: Controller</para>
     /// <para>Answer: <see cref="Mid0023"/> Lock at batch done upload Ack</para>
     /// </summary>
-    public class Mid0022 : Mid, IParameterSet, IController
+    public class Mid0022 : Mid, IParameterSet, IController, IAcknowledgeable<Mid0023>
     {
         private readonly IValueConverter<bool> _boolConverter;
         public const int MID = 22;

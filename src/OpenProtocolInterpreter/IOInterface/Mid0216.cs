@@ -16,11 +16,13 @@ namespace OpenProtocolInterpreter.IOInterface
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted or <see cref="Communication.Mid0004"/> Command error, The relay function subscription already exists</para>
     /// </summary>
-    public class Mid0216 : Mid, IIOInterface, IIntegrator
+    public class Mid0216 : Mid, IIOInterface, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 1;
         public const int MID = 216;
+
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.RELAY_FUNCTION_SUBSCRIPTION_ALREADY_EXISTS };
 
         public RelayNumber RelayNumber
         {

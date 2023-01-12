@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.ApplicationSelector
+﻿using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.ApplicationSelector
 {
     /// <summary>
     /// Selector socket info subscribe
@@ -10,10 +12,12 @@
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted or <see cref="Communication.Mid0004"/> Command error, The selector socket info subscription already exists</para>
     /// </summary>
-    public class Mid0250 : Mid, IApplicationSelector, IIntegrator
+    public class Mid0250 : Mid, IApplicationSelector, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
         private const int LAST_REVISION = 1;
         public const int MID = 250;
+
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SELECTOR_SOCKET_INFO_SUBSCRIPTION_ALREADY_EXISTS };
 
         public Mid0250() : this(false)
         {

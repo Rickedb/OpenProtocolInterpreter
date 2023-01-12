@@ -35,11 +35,18 @@ namespace OpenProtocolInterpreter.PLCUserData
     ///                 MID revision not supported.
     /// </para>
     /// </summary>
-    public class Mid0245 : Mid, IPLCUserData, IIntegrator
+    public class Mid0245 : Mid, IPLCUserData, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 1;
         public const int MID = 245;
+
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] 
+        {
+            Error.INVALID_DATA, 
+            Error.CONTROLLER_IS_NOT_A_SYNC_MASTER_OR_STATION_CONTROLLER,
+            Error.MID_REVISION_UNSUPPORTED
+        };
 
         public int Offset
         {

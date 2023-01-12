@@ -8,7 +8,7 @@ namespace OpenProtocolInterpreter.Tool
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted</para>
     /// </summary>
-    public class Mid0043 : Mid, ITool, IIntegrator
+    public class Mid0043 : Mid, ITool, IIntegrator, IAcceptableCommand
     {
         private readonly IValueConverter<int> _intConverter;
 

@@ -14,11 +14,13 @@ namespace OpenProtocolInterpreter.ParameterSet
     ///     <see cref="Communication.Mid0004"/> Command error, Invalid data, or Parameter set not running
     /// </para>
     /// </summary>
-    public class Mid0020 : Mid, IParameterSet, IIntegrator
+    public class Mid0020 : Mid, IParameterSet, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 1;
         public const int MID = 20;
+
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.INVALID_DATA, Error.PARAMETER_SET_NOT_RUNNING };
 
         public int ParameterSetId
         {

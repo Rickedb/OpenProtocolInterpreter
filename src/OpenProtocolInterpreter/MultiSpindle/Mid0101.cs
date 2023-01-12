@@ -21,7 +21,7 @@ namespace OpenProtocolInterpreter.MultiSpindle
     /// <para>Message sent by: Controller</para>
     /// <para>Answer: <see cref="Mid0102"/> Multi-spindle result acknowledge</para>
     /// </summary>
-    public class Mid0101 : Mid, IMultiSpindle, IController
+    public class Mid0101 : Mid, IMultiSpindle, IController, IAcknowledgeable<Mid0102>
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;

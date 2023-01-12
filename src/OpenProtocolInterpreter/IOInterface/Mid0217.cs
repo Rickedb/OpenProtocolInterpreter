@@ -12,9 +12,9 @@ namespace OpenProtocolInterpreter.IOInterface
     ///     data field “Relay function status” will always be 1 for such functions.
     /// </para>
     /// Message sent by: Controller
-    /// Answer: MID 0218 Relay function acknowledge
+    /// Answer: <see cref="Mid0218"/> Relay function acknowledge
     /// </summary>
-    public class Mid0217 : Mid, IIOInterface, IController
+    public class Mid0217 : Mid, IIOInterface, IController, IAcknowledgeable<Mid0218>
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;

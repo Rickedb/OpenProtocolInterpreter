@@ -28,6 +28,7 @@ namespace OpenProtocolInterpreter.Communication
             get => GetField(1, (int)DataFields.CELL_ID).GetValue(_intConverter.Convert);
             set => GetField(1, (int)DataFields.CELL_ID).SetValue(_intConverter.Convert, value);
         }
+
         public int ChannelId
         {
             get => GetField(1, (int)DataFields.CHANNEL_ID).GetValue(_intConverter.Convert);
@@ -38,45 +39,53 @@ namespace OpenProtocolInterpreter.Communication
             get => GetField(1, (int)DataFields.CONTROLLER_NAME).Value;
             set => GetField(1, (int)DataFields.CONTROLLER_NAME).SetValue(value);
         }
+
         //Rev 2
         public string SupplierCode
         {
             get => GetField(2, (int)DataFields.SUPPLIER_CODE).Value;
             set => GetField(2, (int)DataFields.SUPPLIER_CODE).SetValue(value);
         }
+
         //Rev 3
         public string OpenProtocolVersion
         {
             get => GetField(3, (int)DataFields.OPEN_PROTOCOL_VERSION).Value;
             set => GetField(3, (int)DataFields.OPEN_PROTOCOL_VERSION).SetValue(value);
         }
+
         public string ControllerSoftwareVersion
         {
             get => GetField(3, (int)DataFields.CONTROLLER_SOFTWARE_VERSION).Value;
             set => GetField(3, (int)DataFields.CONTROLLER_SOFTWARE_VERSION).SetValue(value);
         }
+
         public string ToolSoftwareVersion
         {
             get => GetField(3, (int)DataFields.TOOL_SOFTWARE_VERSION).Value;
             set => GetField(3, (int)DataFields.TOOL_SOFTWARE_VERSION).SetValue(value);
         }
+
         //Rev 4
         public string RBUType
         {
             get => GetField(4, (int)DataFields.RBU_TYPE).Value;
             set => GetField(4, (int)DataFields.RBU_TYPE).SetValue(value);
         }
+
         public string ControllerSerialNumber
         {
             get => GetField(4, (int)DataFields.CONTROLLER_SERIAL_NUMBER).Value;
             set => GetField(4, (int)DataFields.CONTROLLER_SERIAL_NUMBER).SetValue(value);
         }
+
         //Rev 5 
         public SystemType SystemType
         {
             get => (SystemType)GetField(5, (int)DataFields.SYSTEM_TYPE).GetValue(_intConverter.Convert);
             set => GetField(5, (int)DataFields.SYSTEM_TYPE).SetValue(_intConverter.Convert, (int)value);
         }
+
         /// <summary>
         /// <para>If no subtype exists it will be set to 000</para>
         /// <para>For a Power Focus 4000 and PF 6000 system the valid subtypes are:</para>
@@ -90,17 +99,20 @@ namespace OpenProtocolInterpreter.Communication
             get => (SystemSubType)GetField(5, (int)DataFields.SYSTEM_SUBTYPE).GetValue(_intConverter.Convert);
             set => GetField(5, (int)DataFields.SYSTEM_SUBTYPE).SetValue(_intConverter.Convert, (int)value);
         }
+
         //Rev 6
         public bool SequenceNumberSupport
         {
             get => GetField(6, (int)DataFields.SEQUENCE_NUMBER_SUPPORT).GetValue(_boolConverter.Convert);
             set => GetField(6, (int)DataFields.SEQUENCE_NUMBER_SUPPORT).SetValue(_boolConverter.Convert, value);
         }
+
         public bool LinkingHandlingSupport
         {
             get => GetField(6, (int)DataFields.LINKING_HANDLING_SUPPORT).GetValue(_boolConverter.Convert);
             set => GetField(6, (int)DataFields.LINKING_HANDLING_SUPPORT).SetValue(_boolConverter.Convert, value);
         }
+
         /// <summary>
         /// <para>Station ID for PF6000</para>
         /// <para>Cell ID for PF4000</para>
@@ -110,6 +122,7 @@ namespace OpenProtocolInterpreter.Communication
             get => GetField(6, (int)DataFields.STATION_CELL_ID).GetValue(_longConverter.Convert);
             set => GetField(6, (int)DataFields.STATION_CELL_ID).SetValue(_longConverter.Convert, value);
         }
+
         /// <summary>
         /// <para>Station ID for PF6000</para>
         /// <para>Cell ID for PF4000</para>
@@ -119,11 +132,13 @@ namespace OpenProtocolInterpreter.Communication
             get => GetField(6, (int)DataFields.STATION_CELL_NAME).Value;
             set => GetField(6, (int)DataFields.STATION_CELL_NAME).SetValue(value);
         }
+
         public string ClientId
         {
             get => GetField(6, (int)DataFields.CLIENT_ID).Value;
             set => GetField(6, (int)DataFields.CLIENT_ID).SetValue(value);
         }
+
         //Rev 7
         /// <summary>
         /// <para>False = Use Keep alive (Keep alive is mandatory)</para> 

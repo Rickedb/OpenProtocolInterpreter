@@ -11,10 +11,12 @@ namespace OpenProtocolInterpreter.PLCUserData
     ///         <see cref="Communication.Mid0004"/> Command error, Invalid data, or Controller is not a sync master/station controller
     /// </para>
     /// </summary>
-    public class Mid0240 : Mid, IPLCUserData, IIntegrator
+    public class Mid0240 : Mid, IPLCUserData, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
         private const int LAST_REVISION = 1;
         public const int MID = 240;
+
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.INVALID_DATA, Error.CONTROLLER_IS_NOT_A_SYNC_MASTER_OR_STATION_CONTROLLER };
 
         public string UserData
         {

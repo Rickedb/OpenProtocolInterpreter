@@ -18,7 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{BDBD
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{CE8390CD-7EFE-43CC-A8DD-123F04D6045E}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\build.yml = .github\workflows\build.yml
+		.github\workflows\dotnetcore.yml = .github\workflows\dotnetcore.yml
+		.github\workflows\net-framework.yml = .github\workflows\net-framework.yml
 		.github\workflows\release.yml = .github\workflows\release.yml
 	EndProjectSection
 EndProject

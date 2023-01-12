@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.Tightening
+﻿using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.Tightening
 {
     /// <summary>
     /// Last tightening result data subscribe
@@ -13,10 +15,12 @@
     ///             <see cref="Communication.Mid0004"/> Command error, Last tightening subscription already exists or MID revision not supported
     /// </para>
     /// </summary>
-    public class Mid0060 : Mid, ITightening, IIntegrator
+    public class Mid0060 : Mid, ITightening, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
         private const int LAST_REVISION = 7;
         public const int MID = 60;
+
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.LAST_TIGHTENING_RESULT_SUBSCRIPTION_ALREADY_EXISTS, Error.MID_REVISION_UNSUPPORTED };
 
         public Mid0060() : this(LAST_REVISION)
         {

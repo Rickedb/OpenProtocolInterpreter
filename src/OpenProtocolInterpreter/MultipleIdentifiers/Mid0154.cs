@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.MultipleIdentifiers
+﻿using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.MultipleIdentifiers
 {
     /// <summary>
     /// Multiple identifier and result parts unsubscribe
@@ -9,10 +11,12 @@
     /// <see cref="Communication.Mid0004"/> Command error, Multiple identifiers and result parts subscription does not exist
     /// </para>
     /// </summary>
-    public class Mid0154 : Mid, IMultipleIdentifier, IIntegrator
+    public class Mid0154 : Mid, IMultipleIdentifier, IIntegrator, IUnsubscription, IAcceptableCommand, IDeclinableCommand
     {
         private const int LAST_REVISION = 1;
         public const int MID = 154;
+
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { };
 
         public Mid0154() : base(MID, LAST_REVISION) 
         { 

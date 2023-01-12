@@ -9,11 +9,13 @@ namespace OpenProtocolInterpreter.Communication
     /// <para>Message sent by Integrator</para>
     /// <para>Answers: <see cref="Mid0002"/> Communication start acknowledge or <see cref="Mid0004"/> Command error, Client already connected or MID revision unsupported</para>
     /// </summary>
-    public class Mid0001 : Mid, ICommunication, IIntegrator
+    public class Mid0001 : Mid, ICommunication, IIntegrator, IAnswerableBy<Mid0002>, IDeclinableCommand
     {
         private readonly IValueConverter<bool> _boolConverter;
         private const int LAST_REVISION = 7;
         public const int MID = 1;
+
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.CLIENT_ALREADY_CONNECTED, Error.MID_REVISION_UNSUPPORTED };
 
         public bool OptionalKeepAlive
         {

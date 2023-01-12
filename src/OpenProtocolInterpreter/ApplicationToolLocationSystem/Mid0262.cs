@@ -8,7 +8,7 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
     /// <para>Message sent by: Controller</para>
     /// <para>Answer: <see cref="Mid0263"/> Tool tag ID acknowledge</para>
     /// </summary>
-    public class Mid0262 : Mid, IApplicationToolLocationSystem, IController
+    public class Mid0262 : Mid, IApplicationToolLocationSystem, IController, IAcknowledgeable<Mid0263>
     {
         private const int LAST_REVISION = 1;
         public const int MID = 262;

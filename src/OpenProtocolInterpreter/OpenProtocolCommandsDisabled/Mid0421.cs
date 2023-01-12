@@ -14,7 +14,7 @@ namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
     /// <para>Message sent by: Controller</para>
     /// <para>Answer: <see cref="Mid0422"/> Open Protocol commands disabled acknowledge</para>
     /// </summary>
-    public class Mid0421 : Mid, IOpenProtocolCommandsDisabled, IController
+    public class Mid0421 : Mid, IOpenProtocolCommandsDisabled, IController, IAcknowledgeable<Mid0422>
     {
         private readonly IValueConverter<bool> _boolConverter;
         private const int LAST_REVISION = 1;

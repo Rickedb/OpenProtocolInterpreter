@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.Job
     /// <para>Message sent by: Controller</para>
     /// <para>Answer: <see cref="Mid0036"/></para>
     /// </summary>
-    public class Mid0035 : Mid, IJob, IController
+    public class Mid0035 : Mid, IJob, IController, IAcknowledgeable<Mid0036>
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<DateTime> _datetimeConverter;
@@ -114,7 +114,7 @@ namespace OpenProtocolInterpreter.Job
 
         public Mid0035(int revision = LAST_REVISION) : this(new Header()
         {
-            Mid = MID, 
+            Mid = MID,
             Revision = revision
         })
         {
@@ -333,28 +333,29 @@ namespace OpenProtocolInterpreter.Job
                 index = field.Index + field.Size;
             }
         }
+
+        public enum DataFields
+        {
+            //rev 1 and 2
+            JOB_ID,
+            JOB_STATUS,
+            JOB_BATCH_MODE,
+            JOB_BATCH_SIZE,
+            JOB_BATCH_COUNTER,
+            TIMESTAMP,
+            //rev 3
+            JOB_CURRENT_STEP,
+            JOB_TOTAL_NUMBER_OF_STEPS,
+            JOB_STEP_TYPE,
+            //rev 4
+            JOB_TIGHTENING_STATUS,
+            //rev5
+            JOB_SEQUENCE_NUMBER,
+            VIN_NUMBER,
+            IDENTIFIER_RESULT_PART2,
+            IDENTIFIER_RESULT_PART3,
+            IDENTIFIER_RESULT_PART4
+        }
     }
 
-    public enum DataFields
-    {
-        //rev 1 and 2
-        JOB_ID,
-        JOB_STATUS,
-        JOB_BATCH_MODE,
-        JOB_BATCH_SIZE,
-        JOB_BATCH_COUNTER,
-        TIMESTAMP,
-        //rev 3
-        JOB_CURRENT_STEP,
-        JOB_TOTAL_NUMBER_OF_STEPS,
-        JOB_STEP_TYPE,
-        //rev 4
-        JOB_TIGHTENING_STATUS,
-        //rev5
-        JOB_SEQUENCE_NUMBER,
-        VIN_NUMBER,
-        IDENTIFIER_RESULT_PART2,
-        IDENTIFIER_RESULT_PART3,
-        IDENTIFIER_RESULT_PART4
-    }
 }

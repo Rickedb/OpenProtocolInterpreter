@@ -8,7 +8,7 @@ namespace OpenProtocolInterpreter.PLCUserData
     /// <para>Message sent by: Controller</para>
     /// <para>Answer: <see cref="Mid0243"/> User data acknowledge</para>
     /// </summary>
-    public class Mid0242 : Mid, IPLCUserData, IController
+    public class Mid0242 : Mid, IPLCUserData, IController, IAcknowledgeable<Mid0243>
     {
         private const int LAST_REVISION = 1;
         public const int MID = 242;

@@ -16,7 +16,7 @@ namespace OpenProtocolInterpreter.PowerMACS
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: None</para>
     /// </summary>
-    public class Mid0108 : Mid, IPowerMACS, IIntegrator
+    public class Mid0108 : Mid, IPowerMACS, IIntegrator, IAcknowledge
     {
         private readonly IValueConverter<bool> _boolConverter;
         private const int LAST_REVISION = 4;

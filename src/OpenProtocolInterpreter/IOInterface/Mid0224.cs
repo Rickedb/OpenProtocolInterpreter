@@ -12,11 +12,13 @@ namespace OpenProtocolInterpreter.IOInterface
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted or <see cref="Communication.Mid0004"/> Command error, Invalid data</para>
     /// </summary>
-    public class Mid0224 : Mid, IIOInterface, IIntegrator
+    public class Mid0224 : Mid, IIOInterface, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
         private readonly IValueConverter<int> _intConverter;
         private const int LAST_REVISION = 1;
         public const int MID = 224;
+
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.INVALID_DATA };
 
         public DigitalInputNumber DigitalInputNumber
         {
