@@ -3,22 +3,25 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
-    <AssemblyVersion>5.0.0.0</AssemblyVersion>
-    <FileVersion>5.0.0.0</FileVersion>
-    <Version>5.0.0</Version>
+    <AssemblyVersion>5.1.0.0</AssemblyVersion>
+    <FileVersion>5.1.0.0</FileVersion>
+    <Version>5.1.0</Version>
     <Description>Converts the ugly package that came from Open Protocol to an object</Description>
-    <Copyright>Copyright © 2022</Copyright>
+    <Copyright>Copyright © 2023</Copyright>
     <Authors>Henrique Dal Bello Batista</Authors>
     <Company>Henrique Dal Bello Batista</Company>
     <PackageProjectUrl>https://github.com/Rickedb/OpenProtocolInterpreter</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Rickedb/OpenProtocolInterpreter</RepositoryUrl>
     <PackageTags>CSharp Open Protocol Atlas Copco</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReleaseNotes>Breaking changes:
+    <PackageReleaseNotes>Improvements
 
-- Header property name changed in Mids from HeaderData to Header
-- Header is now fully mapped and not set as "UsedAs" as before
-- Revisions which are empty or zeroed, are converted to rev 1. (this is only applied when parsing, not when packing)</PackageReleaseNotes>
+      - Interface segregation to represent types of mid
+
+      New Features
+
+      - Along with interfaces, added easy-use extensions
+      - Added new Errors</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 
