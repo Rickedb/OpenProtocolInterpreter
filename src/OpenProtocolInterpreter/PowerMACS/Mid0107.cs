@@ -182,7 +182,7 @@ namespace OpenProtocolInterpreter.PowerMACS
 
             var specialValuesField = GetField(1, (int)DataFields.SPECIAL_VALUES);
             specialValuesField.Index = 2 + numberOfSpecialValuesField.Index + numberOfSpecialValuesField.Size;
-            specialValuesField.Size = package.Length - specialValuesField.Index;
+            specialValuesField.Size = Header.Length - specialValuesField.Index;
 
             ProcessDataFields(package);
             _specialValueConverter = new SpecialValueListConverter(_intConverter, NumberOfSpecialValues, true);

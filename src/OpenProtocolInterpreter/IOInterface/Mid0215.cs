@@ -117,13 +117,13 @@ namespace OpenProtocolInterpreter.IOInterface
         public override Mid Parse(string package)
         {
             Header = ProcessHeader(package);
-            DataField relayListField;
-            DataField digitalListField;
 
-            if (Header.Revision > 1)
+            var revision = Header.Revision > 1 ? 2 : 1;
+
+            var relayListField = GetField(revision, (int)DataFields.RELAY_LIST);
+            var digitalListField = GetField(revision, (int)DataFields.DIGITAL_INPUT_LIST);
+            if (revision > 1)
             {
-                relayListField = GetField(2, (int)DataFields.RELAY_LIST);
-                digitalListField = GetField(2, (int)DataFields.DIGITAL_INPUT_LIST);
                 int numberOfRelays = _intConverter.Convert(GetValue(GetField(2, (int)DataFields.NUMBER_OF_RELAYS), package));
                 relayListField.Size = numberOfRelays * 4;
 
@@ -131,12 +131,7 @@ namespace OpenProtocolInterpreter.IOInterface
                 numberOfDigitalInputsField.Index = relayListField.Index + 2 + relayListField.Size;
 
                 digitalListField.Index = numberOfDigitalInputsField.Index + 2 + numberOfDigitalInputsField.Size;
-                digitalListField.Size = package.Length - 2 - digitalListField.Index;
-            }
-            else
-            {
-                relayListField = GetField(1, (int)DataFields.RELAY_LIST);
-                digitalListField = GetField(1, (int)DataFields.DIGITAL_INPUT_LIST);
+                digitalListField.Size = Header.Length - 2 - digitalListField.Index;
             }
 
             ProcessDataFields(package);
