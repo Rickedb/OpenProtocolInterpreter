@@ -81,6 +81,7 @@ namespace OpenProtocolInterpreter.MultiSpindle
 
         public override Mid Parse(string package)
         {
+            Header = ProcessHeader(package);
             var spindleField = GetField(1, (int)DataFields.SPINDLE_STATUS);
             spindleField.Size = Header.Length - spindleField.Index - 2;
             base.Parse(package);
