@@ -104,7 +104,6 @@ namespace OpenProtocolInterpreter.Job
                                 new DataField((int)DataFields.EACH_JOB_ID, 22, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
                             }
                 },
-                { 2, new List<DataField>() }
             };
         }
 

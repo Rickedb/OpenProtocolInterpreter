@@ -63,12 +63,6 @@ namespace OpenProtocolInterpreter.Alarm
                             {
                                 new DataField((int)DataFields.ERROR_CODE, 20, 4, ' ', DataField.PaddingOrientations.LEFT_PADDED, false)
                             }
-                },
-                {
-                    2, new List<DataField>()
-                    {
-                        //None??
-                    }
                 }
             };
         }

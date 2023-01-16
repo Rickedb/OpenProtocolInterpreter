@@ -220,8 +220,6 @@ namespace OpenProtocolInterpreter.PowerMACS
                                         new DataField((int)DataFields.SPECIAL_VALUES, 0, 0, false)
                                 }
                     },
-                    { 2, new List<DataField>() },
-                    { 3, new List<DataField>() },
                     {
                         4, new List<DataField>()
                                 {

@@ -98,14 +98,12 @@ namespace OpenProtocolInterpreter.ParameterSet
                                 new DataField((int)DataFields.PARAMETER_SET_ID, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
                             }
                 },
-                { 2, new List<DataField>() },
                 {
                     3, new  List<DataField>()
                             {
                                 new DataField((int)DataFields.PSET_FILE_VERSION, 23, 8, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
                             }
                 },
-                { 4, new List<DataField>() }
             };
         }
 

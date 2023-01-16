@@ -285,7 +285,6 @@ namespace OpenProtocolInterpreter.Job
                                 new DataField((int)DataFields.TIMESTAMP, 42, 19)
                             }
                 },
-                { 2, new List<DataField>() },
                 {
                     3, new  List<DataField>()
                             {

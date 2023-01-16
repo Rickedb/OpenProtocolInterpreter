@@ -16,7 +16,7 @@ namespace OpenProtocolInterpreter
         public Mid(Header header)
         {
             Header = header;
-            RevisionsByFields = RegisterDatafields();
+            RevisionsByFields = new SafeAccessRevisionsFields(RegisterDatafields());
         }
 
         public Mid(int mid, int revision, bool noAckFlag = false): this(new Header()

@@ -128,9 +128,6 @@ namespace OpenProtocolInterpreter.Alarm
                             }
                 },
                 {
-                    2, new List<DataField>() { }
-                },
-                {
                     3, new List<DataField>()
                             {
                                 new DataField((int)DataFields.TOOL_HEALTH, 57, 1),

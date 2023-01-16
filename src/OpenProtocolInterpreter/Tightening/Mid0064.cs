@@ -69,11 +69,6 @@ namespace OpenProtocolInterpreter.Tightening
                                 new DataField((int)DataFields.TIGHTENING_ID, 20, 10, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
                             }
                 },
-                { 2, new List<DataField>() },
-                { 3, new List<DataField>() },
-                { 4, new List<DataField>() },
-                { 5, new List<DataField>() },
-                { 6, new List<DataField>() }
             };
         }
 
