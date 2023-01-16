@@ -69,7 +69,7 @@ namespace OpenProtocolInterpreter.ApplicationSelector
         {
             Header = ProcessHeader(package);
 
-            GetField(1, (int)DataFields.SOCKET_STATUS).Size = package.Length - 30;
+            GetField(1, (int)DataFields.SOCKET_STATUS).Size = Header.Length - 30;
             ProcessDataFields(package);
             SocketStatus = _boolListConverter.Convert(GetField(1, (int)DataFields.SOCKET_STATUS).Value).ToList();
             return this;

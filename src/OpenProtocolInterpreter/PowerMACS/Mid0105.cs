@@ -70,9 +70,6 @@ namespace OpenProtocolInterpreter.PowerMACS
             return new Dictionary<int, List<DataField>>()
             {
                 {
-                    1, new List<DataField>()
-                },
-                {
                     2, new List<DataField>()
                             {
                                 new DataField((int)DataFields.DATA_NUMBER_SYSTEM, 20, 10, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
@@ -83,9 +80,6 @@ namespace OpenProtocolInterpreter.PowerMACS
                             {
                                 new DataField((int)DataFields.SEND_ONLY_NEW_DATA, 30, 1, false)
                             }
-                },
-                {
-                    4, new List<DataField>()
                 },
             };
         }

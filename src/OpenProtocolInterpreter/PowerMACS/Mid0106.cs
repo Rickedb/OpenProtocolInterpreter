@@ -181,11 +181,14 @@ namespace OpenProtocolInterpreter.PowerMACS
             specialValues.Index = numberOfSpecialValuesField.Index + numberOfSpecialValuesField.Size + 2;
             if (Header.Revision > 3)
             {
-                specialValues.Size = package.Length - GetField(4, (int)DataFields.SYSTEM_SUB_TYPE).Size - 2;
+                specialValues.Size = Header.Length - GetField(4, (int)DataFields.SYSTEM_SUB_TYPE).Size - 2;
                 GetField(4, (int)DataFields.SYSTEM_SUB_TYPE).Index = specialValues.Index + specialValues.Size;
             }
             else
-                specialValues.Size = package.Length - specialValues.Index;
+            {
+                specialValues.Size = Header.Length - specialValues.Index;
+            }
+
             ProcessDataFields(package);
 
             _boltDataListConverter = new BoltDataListConverter(_intConverter, _boolConverter, _decimalConverter, numberOfBolts);
@@ -219,8 +222,6 @@ namespace OpenProtocolInterpreter.PowerMACS
                                         new DataField((int)DataFields.SPECIAL_VALUES, 0, 0, false)
                                 }
                     },
-                    { 2, new List<DataField>() },
-                    { 3, new List<DataField>() },
                     {
                         4, new List<DataField>()
                                 {

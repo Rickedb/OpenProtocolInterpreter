@@ -66,9 +66,6 @@ namespace OpenProtocolInterpreter.Job.Advanced
             return new Dictionary<int, List<DataField>>()
             {
                 {
-                    1, new List<DataField>()
-                },
-                {
                     2, new List<DataField>()
                             {
                                 new DataField((int)DataFields.CHANNEL_ID, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),

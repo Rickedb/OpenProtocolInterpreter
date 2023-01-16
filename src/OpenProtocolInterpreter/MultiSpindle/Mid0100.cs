@@ -77,7 +77,6 @@ namespace OpenProtocolInterpreter.MultiSpindle
         {
             return new Dictionary<int, List<DataField>>()
             {
-                { 1, new List<DataField>() },
                 {
                     2, new List<DataField>()
                             {

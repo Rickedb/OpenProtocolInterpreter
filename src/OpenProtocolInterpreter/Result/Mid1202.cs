@@ -84,7 +84,7 @@ namespace OpenProtocolInterpreter.Result
         {
             Header = ProcessHeader(package);
             var variableDataField = GetField(1, (int)DataFields.VARIABLE_DATA_FIELDS);
-            variableDataField.Size = package.Length - variableDataField.Index;
+            variableDataField.Size = Header.Length - variableDataField.Index;
             ProcessDataFields(package);
 
             VariableDataFields = _variableDataFieldListConverter.Convert(variableDataField.Value).ToList();

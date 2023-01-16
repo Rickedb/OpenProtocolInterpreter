@@ -12,6 +12,7 @@
     <Company>Henrique Dal Bello Batista</Company>
     <PackageProjectUrl>https://github.com/Rickedb/OpenProtocolInterpreter</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Rickedb/OpenProtocolInterpreter</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>CSharp Open Protocol Atlas Copco</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageReleaseNotes>Improvements

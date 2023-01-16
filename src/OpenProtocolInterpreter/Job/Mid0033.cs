@@ -193,9 +193,6 @@ namespace OpenProtocolInterpreter.Job
                                     new DataField((int)DataFields.PARAMETER_SET_LIST, 89, 0) // defined at runtime
                                 }
                     },
-                    { 2, new List<DataField>() },
-                    { 3, new List<DataField>() },
-                    { 4, new List<DataField>() }
                 };
         }
 

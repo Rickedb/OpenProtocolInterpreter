@@ -237,12 +237,6 @@ namespace OpenProtocolInterpreter.ParameterSet
                             }
                 },
                 {
-                    3, new  List<DataField>()
-                },
-                {
-                    4, new  List<DataField>()
-                },
-                {
                     5, new  List<DataField>()
                             {
                                 new DataField((int)DataFields.LAST_CHANGE_IN_PARAMETER_SET, 120, 19),

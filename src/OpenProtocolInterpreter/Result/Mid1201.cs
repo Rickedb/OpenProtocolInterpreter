@@ -120,7 +120,7 @@ namespace OpenProtocolInterpreter.Result
 
             var dataFieldListField = GetField(1, (int)DataFields.DATA_FIELD_LIST);
             dataFieldListField.Index = totalNumberDataField.Index + totalNumberDataField.Size;
-            dataFieldListField.Size = package.Length - dataFieldListField.Index;
+            dataFieldListField.Size = Header.Length - dataFieldListField.Index;
 
             ObjectDataList = _objectDataListConverter.Convert(objectDataField.Value).ToList();
             VariableDataFields = _varDataFieldListConverter.Convert(dataFieldListField.Value).ToList();
