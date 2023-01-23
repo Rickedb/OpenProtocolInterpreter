@@ -28,5 +28,24 @@ namespace MIDTesters.PLCUserData
             Assert.IsNotNull(mid.UserData);
             AssertEqualPackages(bytes, mid, true);
         }
+
+        [TestMethod]
+        public void Mid0245UserDataShouldPadMinimum()
+        {
+            var mid0245 = new Mid0245();
+            Assert.IsTrue(mid0245.Pack().Length == 25);
+        }
+
+        [TestMethod]
+        public void Mid0245ShouldTrucanteUserData()
+        {
+            string userData = "the phrase the quick brown fox jumps over the lazy dog should test all the letter keys in your keyboard ";
+            userData += userData; //double it to get 208 characters
+
+            var mid0245 = new Mid0245(2, userData);
+            Assert.IsNotNull(mid0245.UserData);
+            Assert.AreEqual(userData.Substring(0, 200), mid0245.UserData);
+            Assert.IsTrue(mid0245.Pack().Length == 223);
+        }
     }
 }

@@ -18,7 +18,12 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
         public string IdentifierData
         {
             get => GetField(1, (int)DataFields.IDENTIFIER_DATA).Value;
-            set => GetField(1, (int)DataFields.IDENTIFIER_DATA).SetValue(value);
+            set
+            {
+                var field = GetField(1, (int)DataFields.IDENTIFIER_DATA);
+                field.Size = value.Length < 100 ? value.Length : 100;
+                field.SetValue(value);
+            }
         }
 
         public Mid0150() : this(new Header()
@@ -36,12 +41,6 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
         public Mid0150(string identifierData) : this()
         {
             IdentifierData = identifierData;
-        }
-
-        public override string Pack()
-        {
-            GetField(1, (int)DataFields.IDENTIFIER_DATA).Size = IdentifierData.Length;
-            return base.Pack();
         }
 
         public override Mid Parse(string package)

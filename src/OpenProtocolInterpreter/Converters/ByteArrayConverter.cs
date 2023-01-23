@@ -10,7 +10,7 @@ namespace OpenProtocolInterpreter.Converters
 
         public string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, byte[] value)
         {
-            return GetPadded(paddingChar, size, orientation, Convert(value));
+            return GetTruncatePadded(paddingChar, size, orientation, Convert(value));
         }
 
         public byte[] ConvertFromBytes(byte[] value) => value;

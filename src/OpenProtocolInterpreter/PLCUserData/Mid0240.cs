@@ -21,7 +21,12 @@ namespace OpenProtocolInterpreter.PLCUserData
         public string UserData
         {
             get => GetField(1, (int)DataFields.USER_DATA).Value;
-            set => GetField(1, (int)DataFields.USER_DATA).SetValue(value);
+            set
+            {
+                var field = GetField(1, (int)DataFields.USER_DATA);
+                field.Size = value.Length < 200 ? value.Length : 200;
+                field.SetValue(value);
+            }
         }
 
         public Mid0240() : base(MID, LAST_REVISION) { }
@@ -33,12 +38,6 @@ namespace OpenProtocolInterpreter.PLCUserData
         public Mid0240(string userData) : this()
         {
             UserData = userData;
-        }
-
-        public override string Pack()
-        {
-            GetField(1, (int)DataFields.USER_DATA).Size = UserData.Length;
-            return base.Pack();
         }
 
         public override Mid Parse(string package)

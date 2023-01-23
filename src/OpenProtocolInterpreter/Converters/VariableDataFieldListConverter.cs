@@ -40,7 +40,7 @@ namespace OpenProtocolInterpreter.Converters
                 pack += _intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, v.DataType);
                 pack += _intConverter.Convert('0', 3, DataField.PaddingOrientations.LEFT_PADDED, v.Unit);
                 pack += _intConverter.Convert('0', 4, DataField.PaddingOrientations.LEFT_PADDED, v.StepNumber);
-                pack += GetPadded(' ', 1, DataField.PaddingOrientations.RIGHT_PADDED, v.RealValue);
+                pack += GetTruncatePadded(' ', 1, DataField.PaddingOrientations.RIGHT_PADDED, v.RealValue);
             }
             return pack;
         }

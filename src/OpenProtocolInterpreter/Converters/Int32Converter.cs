@@ -15,7 +15,7 @@
 
         public override string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, int value)
         {
-            return GetPadded(paddingChar, size, orientation, Convert(value));
+            return GetTruncatePadded(paddingChar, size, orientation, Convert(value));
         }
     }
 }

@@ -46,7 +46,7 @@ namespace OpenProtocolInterpreter.Converters
             string package = string.Empty;
             foreach (var step in value)
             {
-                package += GetPadded(' ', 20, DataField.PaddingOrientations.RIGHT_PADDED, step.VariableName);
+                package += GetTruncatePadded(' ', 20, DataField.PaddingOrientations.RIGHT_PADDED, step.VariableName);
                 package += step.Type.Type;
                 if (step.Type.Type == DataType.DataTypes[1].Type) // Integer
                 {
