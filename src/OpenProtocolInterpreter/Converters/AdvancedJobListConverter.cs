@@ -35,7 +35,7 @@ namespace OpenProtocolInterpreter.Converters
                     if (_revision != 999)
                     {
                         fields.Add(_intConverter.Convert('0', 4, DataField.PaddingOrientations.LEFT_PADDED, job.IdentifierNumber));
-                        fields.Add(GetPadded(' ', 25, DataField.PaddingOrientations.RIGHT_PADDED, job.JobStepName));
+                        fields.Add(GetTruncatePadded(' ', 25, DataField.PaddingOrientations.RIGHT_PADDED, job.JobStepName));
                         fields.Add(_intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, job.JobStepType));
                         if (_revision == 3)
                         {

@@ -29,7 +29,7 @@ namespace OpenProtocolInterpreter.Converters
 
         public override string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, decimal value)
         {
-            return GetPadded(paddingChar, size, orientation, Convert(value));
+            return GetTruncatePadded(paddingChar, size, orientation, Convert(value));
         }
     }
 }

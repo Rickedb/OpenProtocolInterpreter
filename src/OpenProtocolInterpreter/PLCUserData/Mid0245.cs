@@ -56,7 +56,12 @@ namespace OpenProtocolInterpreter.PLCUserData
         public string UserData
         {
             get => GetField(1, (int)DataFields.USER_DATA).Value;
-            set => GetField(1, (int)DataFields.USER_DATA).SetValue(value);
+            set
+            {
+                var field = GetField(1, (int)DataFields.USER_DATA);
+                field.Size = value.Length < 200 ? value.Length : 200;
+                field.SetValue(value);
+            }
         }
 
         public Mid0245() : this(new Header()

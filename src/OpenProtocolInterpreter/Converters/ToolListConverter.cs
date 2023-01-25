@@ -32,9 +32,9 @@ namespace OpenProtocolInterpreter.Converters
             foreach (var tool in value)
             {
                 pack += _intConverter.Convert('0', 4, DataField.PaddingOrientations.LEFT_PADDED, tool.Number) + 
-                        GetPadded(' ', 30, DataField.PaddingOrientations.RIGHT_PADDED, tool.SerialNumber) +
-                        GetPadded(' ', 30, DataField.PaddingOrientations.RIGHT_PADDED, tool.ModelName) +
-                        GetPadded(' ', 30, DataField.PaddingOrientations.RIGHT_PADDED, tool.ModelArticleNumber);
+                        GetTruncatePadded(' ', 30, DataField.PaddingOrientations.RIGHT_PADDED, tool.SerialNumber) +
+                        GetTruncatePadded(' ', 30, DataField.PaddingOrientations.RIGHT_PADDED, tool.ModelName) +
+                        GetTruncatePadded(' ', 30, DataField.PaddingOrientations.RIGHT_PADDED, tool.ModelArticleNumber);
             }
 
             return pack;

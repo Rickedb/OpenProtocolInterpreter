@@ -76,7 +76,7 @@ namespace OpenProtocolInterpreter
         public virtual void SetValue(string value)
         {
             CachedValue = null;
-            SetValue(new Converters.ValueConverter().GetPadded, value);
+            SetValue(new Converters.ValueConverter().GetTruncatePadded, value);
         }
 
         private bool IsValueNotCached<T>() => CachedValue == null || IsNotTypeOf<T>();

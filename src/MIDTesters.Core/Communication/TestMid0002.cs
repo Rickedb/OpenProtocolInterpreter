@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Communication;
+using System;
 
 namespace MIDTesters.Communication
 {
@@ -176,7 +177,7 @@ namespace MIDTesters.Communication
             var mid = _midInterpreter.Parse<Mid0002>(pack);
 
             Assert.IsNotNull(mid.CellId);
-            Assert.IsNotNull(mid.ChannelId); 
+            Assert.IsNotNull(mid.ChannelId);
             Assert.IsNotNull(mid.ControllerName);
             Assert.IsNotNull(mid.SupplierCode);
             Assert.IsNotNull(mid.OpenProtocolVersion);

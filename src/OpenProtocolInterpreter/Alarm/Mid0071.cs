@@ -62,9 +62,7 @@ namespace OpenProtocolInterpreter.Alarm
             Mid = MID
         })
         {
-            _boolConverter = new BoolConverter();
-            _dateConverter = new DateConverter();
-            HandleRevision();
+
         }
 
         /// <summary>
