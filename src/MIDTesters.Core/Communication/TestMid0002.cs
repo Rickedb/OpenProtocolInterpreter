@@ -17,20 +17,6 @@ namespace MIDTesters.Communication
             Assert.IsNotNull(mid.ChannelId);
             Assert.IsNotNull(mid.ControllerName);
             AssertEqualPackages(pack, mid);
-
-
-            var str = new Mid0002(1).Pack();
-            // Invalid output: '00570002001         010203'
-            // Message too short
-
-            var mid0002 = new Mid0002(1) { CellId = 0, ChannelId = 0, ControllerName = String.Empty };
-            str = mid0002.Pack();
-            // Valid output: '00570002001         010000020003                         '
-
-            mid0002 = new Mid0002(1) { CellId = 0, ChannelId = 0, ControllerName = "String that is longer than 25 characters" };
-            str = mid0002.Pack();
-            // Invalid output: '00720002001         010000020003String that is longer than 25 characters'
-            // String not limited to 25 characters, length in header not according to specification
         }
 
         [TestMethod]
@@ -191,7 +177,7 @@ namespace MIDTesters.Communication
             var mid = _midInterpreter.Parse<Mid0002>(pack);
 
             Assert.IsNotNull(mid.CellId);
-            Assert.IsNotNull(mid.ChannelId); 
+            Assert.IsNotNull(mid.ChannelId);
             Assert.IsNotNull(mid.ControllerName);
             Assert.IsNotNull(mid.SupplierCode);
             Assert.IsNotNull(mid.OpenProtocolVersion);
