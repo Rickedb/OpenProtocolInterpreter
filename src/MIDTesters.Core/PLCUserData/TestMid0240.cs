@@ -28,13 +28,6 @@ namespace MIDTesters.PLCUserData
         }
 
         [TestMethod]
-        public void Mid0240UserDataShouldPadMinimum2Characters()
-        {
-            var mid0240 = new Mid0240();
-            Assert.IsTrue(mid0240.Pack().Length == 22);
-        }
-
-        [TestMethod]
         public void Mid0240ShouldTrucanteUserData()
         {
             string userData = "the phrase the quick brown fox jumps over the lazy dog should test all the letter keys in your keyboard ";

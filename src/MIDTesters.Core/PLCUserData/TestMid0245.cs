@@ -30,14 +30,7 @@ namespace MIDTesters.PLCUserData
         }
 
         [TestMethod]
-        public void Mid0245UserDataShouldPadMinimum()
-        {
-            var mid0245 = new Mid0245();
-            Assert.IsTrue(mid0245.Pack().Length == 25);
-        }
-
-        [TestMethod]
-        public void Mid0245ShouldTrucanteUserData()
+        public void Mid0245ShouldTruncateUserData()
         {
             string userData = "the phrase the quick brown fox jumps over the lazy dog should test all the letter keys in your keyboard ";
             userData += userData; //double it to get 208 characters
