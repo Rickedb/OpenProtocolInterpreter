@@ -14,7 +14,6 @@ namespace OpenProtocolInterpreter.Job
     public class Mid0039 : Mid, IJob, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
         private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 2;
         public const int MID = 39;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JOB_NOT_RUNNING, Error.INVALID_DATA };
@@ -25,7 +24,7 @@ namespace OpenProtocolInterpreter.Job
             set => GetField(1, (int)DataFields.JOB_ID).SetValue(_intConverter.Convert, value);
         }
 
-        public Mid0039() : this(LAST_REVISION)
+        public Mid0039() : this(DEFAULT_REVISION)
         {
 
         }
@@ -36,7 +35,7 @@ namespace OpenProtocolInterpreter.Job
             HandleRevisions();
         }
 
-        public Mid0039(int revision = LAST_REVISION) : this(new Header()
+        public Mid0039(int revision = DEFAULT_REVISION) : this(new Header()
         {
             Mid = MID,
             Revision = revision
@@ -49,7 +48,7 @@ namespace OpenProtocolInterpreter.Job
         /// </summary>
         /// <param name="jobId">The Job ID is specified by two/four ASCII characters, range 00-99/0000-9999 <para>*Depend on revision</para></param>
         /// <param name="revision">Revision number (default = 2)</param>
-        public Mid0039(int jobId, int revision = LAST_REVISION) : this(revision)
+        public Mid0039(int jobId, int revision = DEFAULT_REVISION) : this(revision)
         {
             JobId = jobId;
         }

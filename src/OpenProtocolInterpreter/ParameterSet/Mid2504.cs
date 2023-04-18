@@ -16,7 +16,6 @@ namespace OpenProtocolInterpreter.ParameterSet
     public class Mid2504 : Mid, IParameterSet, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
         private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 2504;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.PARAMETER_SET_ID_NOT_PRESENT };
@@ -30,7 +29,7 @@ namespace OpenProtocolInterpreter.ParameterSet
         public Mid2504() : this(new Header()
         {
             Mid = MID, 
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
 

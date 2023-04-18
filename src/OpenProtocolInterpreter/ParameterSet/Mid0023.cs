@@ -8,10 +8,9 @@
     /// </summary>
     public class Mid0023 : Mid, IParameterSet, IIntegrator, IAcknowledge, IAcceptableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 23;
 
-        public Mid0023() : base(MID, LAST_REVISION) { }
+        public Mid0023() : base(MID, DEFAULT_REVISION) { }
 
         public Mid0023(Header header) : base(header)
         {

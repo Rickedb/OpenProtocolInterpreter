@@ -19,7 +19,6 @@ namespace OpenProtocolInterpreter.IOInterface
     public class Mid0216 : Mid, IIOInterface, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
         private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 216;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.RELAY_FUNCTION_SUBSCRIPTION_ALREADY_EXISTS };
@@ -43,7 +42,7 @@ namespace OpenProtocolInterpreter.IOInterface
         public Mid0216(bool noAckFlag = false) : this(new Header()
         {
             Mid = MID,
-            Revision = LAST_REVISION,
+            Revision = DEFAULT_REVISION,
             NoAckFlag = noAckFlag
         })
         {

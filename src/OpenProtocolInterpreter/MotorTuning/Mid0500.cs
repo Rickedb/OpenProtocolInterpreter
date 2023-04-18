@@ -16,7 +16,6 @@ namespace OpenProtocolInterpreter.MotorTuning
     /// </summary>
     public class Mid0500 : Mid, IMotorTuning, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 500;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SUBSCRIPTION_ALREADY_EXISTS, Error.MID_REVISION_UNSUPPORTED};
@@ -25,7 +24,7 @@ namespace OpenProtocolInterpreter.MotorTuning
         { 
         }
 
-        public Mid0500(bool noAckFlag = false) : base(MID, LAST_REVISION, noAckFlag) 
+        public Mid0500(bool noAckFlag = false) : base(MID, DEFAULT_REVISION, noAckFlag) 
         { 
         }
 

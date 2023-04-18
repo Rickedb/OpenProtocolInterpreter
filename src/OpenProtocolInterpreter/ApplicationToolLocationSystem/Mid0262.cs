@@ -10,7 +10,6 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
     /// </summary>
     public class Mid0262 : Mid, IApplicationToolLocationSystem, IController, IAcknowledgeable<Mid0263>
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 262;
 
         public string ToolTagId
@@ -19,7 +18,7 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
             set => GetField(1,(int)DataFields.TOOL_TAG_ID).SetValue(value);
         }
 
-        public Mid0262() : base(MID, LAST_REVISION)
+        public Mid0262() : base(MID, DEFAULT_REVISION)
         {
 
         }

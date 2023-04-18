@@ -13,12 +13,11 @@ namespace OpenProtocolInterpreter.PLCUserData
     /// </summary>
     public class Mid0244 : Mid, IPLCUserData, IIntegrator, IUnsubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 244;
         //todo check enums
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SUBSCRIPTION_DOESNT_EXISTS };
 
-        public Mid0244() : base(MID, LAST_REVISION) { }
+        public Mid0244() : base(MID, DEFAULT_REVISION) { }
 
         public Mid0244(Header header) : base(header)
         {

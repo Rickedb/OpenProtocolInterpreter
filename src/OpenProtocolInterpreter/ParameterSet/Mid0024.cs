@@ -13,12 +13,11 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// </summary>
     public class Mid0024 : Mid, IParameterSet, IIntegrator, IUnsubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 24;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.LOCK_AT_BATCH_DONE_SUBSCRIPTION_DOESNT_EXISTS };
 
-        public Mid0024() : base(MID, LAST_REVISION) { }
+        public Mid0024() : base(MID, DEFAULT_REVISION) { }
 
         public Mid0024(Header header) : base(header)
         {

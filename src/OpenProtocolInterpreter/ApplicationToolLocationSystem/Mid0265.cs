@@ -12,7 +12,6 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
     public class Mid0265 : Mid, IApplicationToolLocationSystem, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
         private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 265;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.MID_REVISION_UNSUPPORTED };
@@ -31,7 +30,7 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
         public Mid0265() : this(new Header()
         {
             Mid = MID,
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
             

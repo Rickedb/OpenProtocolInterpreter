@@ -22,7 +22,6 @@ namespace OpenProtocolInterpreter.Tightening
         private readonly IValueConverter<TighteningErrorStatus> _tighteningErrorStatusConverter;
         private readonly IValueConverter<TighteningErrorStatus2> _tighteningErrorStatus2Converter;
         private readonly IValueConverter<IEnumerable<StageResult>> _stageResultListConverter;
-        private const int LAST_REVISION = 8;
         public const int MID = 61;
 
         public int CellId
@@ -338,7 +337,7 @@ namespace OpenProtocolInterpreter.Tightening
         }
         public List<StageResult> StageResults { get; set; }
 
-        public Mid0061() : this(LAST_REVISION)
+        public Mid0061() : this(DEFAULT_REVISION)
         {
 
         }
@@ -357,7 +356,7 @@ namespace OpenProtocolInterpreter.Tightening
             _stageResultListConverter = new StageResultListConverter(_intConverter, _decimalConverter);
         }
 
-        public Mid0061(int revision = LAST_REVISION) : this(new Header()
+        public Mid0061(int revision = DEFAULT_REVISION) : this(new Header()
         {
             Mid = MID, 
             Revision = revision

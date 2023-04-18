@@ -26,7 +26,6 @@ namespace OpenProtocolInterpreter.MultiSpindle
     {
         private readonly IValueConverter<long> _longConverter;
         private readonly IValueConverter<bool> _boolConverter;
-        private const int LAST_REVISION = 4;
         public const int MID = 100;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] 
@@ -48,7 +47,7 @@ namespace OpenProtocolInterpreter.MultiSpindle
             set => GetField(3, (int)DataFields.SEND_ONLY_NEW_DATA).SetValue(_boolConverter.Convert, value);
         }
 
-        public Mid0100() : this(LAST_REVISION)
+        public Mid0100() : this(DEFAULT_REVISION)
         {
 
         }
@@ -59,12 +58,12 @@ namespace OpenProtocolInterpreter.MultiSpindle
             _boolConverter = new BoolConverter();
         }
 
-        public Mid0100(bool noAckFlag = false) : this(LAST_REVISION, noAckFlag)
+        public Mid0100(bool noAckFlag = false) : this(DEFAULT_REVISION, noAckFlag)
         {
 
         }
 
-        public Mid0100(int revision = LAST_REVISION, bool noAckFlag = false) : this(new Header()
+        public Mid0100(int revision = DEFAULT_REVISION, bool noAckFlag = false) : this(new Header()
         {
             Mid = MID,
             Revision = revision,

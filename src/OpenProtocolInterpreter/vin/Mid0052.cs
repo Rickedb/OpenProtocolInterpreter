@@ -23,7 +23,6 @@ namespace OpenProtocolInterpreter.Vin
     /// </summary>
     public class Mid0052 : Mid, IVin, IController, IAcknowledgeable<Mid0053>
     {
-        private const int LAST_REVISION = 2;
         public const int MID = 52;
 
         public string VinNumber
@@ -47,7 +46,7 @@ namespace OpenProtocolInterpreter.Vin
             set => GetField(2, (int)DataFields.IDENTIFIER_RESULT_PART4).SetValue(value);
         }
 
-        public Mid0052() : this(LAST_REVISION)
+        public Mid0052() : this(DEFAULT_REVISION)
         {
 
         }
@@ -56,7 +55,7 @@ namespace OpenProtocolInterpreter.Vin
         {
         }
 
-        public Mid0052(int revision = LAST_REVISION) : base(MID, revision) { }
+        public Mid0052(int revision = DEFAULT_REVISION) : base(MID, revision) { }
 
         /// <summary>
         /// Revision 1 Constructor

@@ -19,7 +19,6 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
     public class Mid0152 : Mid, IMultipleIdentifier, IController, IAcknowledgeable<Mid0153>
     {
         private readonly IValueConverter<IdentifierStatus> _identifierStatusConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 152;
 
         public IdentifierStatus FirstIdentifierStatus { get; set; }
@@ -30,7 +29,7 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
         public Mid0152() : this(new Header()
         {
             Mid = MID,
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
         }

@@ -24,7 +24,6 @@ namespace OpenProtocolInterpreter.PowerMACS
     {
         private readonly IValueConverter<bool> _boolConverter;
         private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 4;
         public const int MID = 105;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SUBSCRIPTION_ALREADY_EXISTS, Error.MID_REVISION_UNSUPPORTED };
@@ -40,7 +39,7 @@ namespace OpenProtocolInterpreter.PowerMACS
             set => GetField(3,(int)DataFields.SEND_ONLY_NEW_DATA).SetValue(_boolConverter.Convert, value);
         }
 
-        public Mid0105() : this(LAST_REVISION)
+        public Mid0105() : this(DEFAULT_REVISION)
         {
 
         }
@@ -51,12 +50,12 @@ namespace OpenProtocolInterpreter.PowerMACS
             _intConverter = new Int32Converter();
         }
 
-        public Mid0105(bool noAckFlag = false) : this(LAST_REVISION, noAckFlag)
+        public Mid0105(bool noAckFlag = false) : this(DEFAULT_REVISION, noAckFlag)
         {
             
         }
 
-        public Mid0105(int revision = LAST_REVISION, bool noAckFlag = false) : this(new Header()
+        public Mid0105(int revision = DEFAULT_REVISION, bool noAckFlag = false) : this(new Header()
         {
             Mid = MID, 
             Revision = revision, 

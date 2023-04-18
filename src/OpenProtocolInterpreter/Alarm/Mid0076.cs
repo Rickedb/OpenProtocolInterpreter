@@ -16,7 +16,6 @@ namespace OpenProtocolInterpreter.Alarm
         private readonly IValueConverter<bool> _boolConverter;
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<DateTime> _dateConverter;
-        private const int LAST_REVISION = 3;
         public const int MID = 76;
 
         public bool AlarmStatus
@@ -50,7 +49,7 @@ namespace OpenProtocolInterpreter.Alarm
             set => GetField(3, (int)DataFields.TOOL_HEALTH).SetValue(_intConverter.Convert, (int)value);
         }
 
-        public Mid0076() : this(LAST_REVISION)
+        public Mid0076() : this(DEFAULT_REVISION)
         {
 
         }
@@ -63,7 +62,7 @@ namespace OpenProtocolInterpreter.Alarm
             HandleRevision();
         }
 
-        public Mid0076(int revision = LAST_REVISION) : this(new Header() 
+        public Mid0076(int revision = DEFAULT_REVISION) : this(new Header() 
         {
             Mid = MID,
             Revision = revision
@@ -100,7 +99,7 @@ namespace OpenProtocolInterpreter.Alarm
         /// <param name="time">Time stamp for the alarm</param>
         /// <param name="toolHealth">Tool Health</param>
         public Mid0076(bool alarmStatus, string errorCode, bool controllerReadyStatus, bool toolReadyStatus, DateTime time, ToolHealth toolHealth)
-            : this(alarmStatus, errorCode, controllerReadyStatus, toolReadyStatus, time, LAST_REVISION)
+            : this(alarmStatus, errorCode, controllerReadyStatus, toolReadyStatus, time, DEFAULT_REVISION)
         {
             ToolHealth = toolHealth;
         }

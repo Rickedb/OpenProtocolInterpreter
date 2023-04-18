@@ -12,7 +12,6 @@ namespace OpenProtocolInterpreter.Tightening
     public class Mid0066 : Mid, ITightening, IController
     {
         private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 66;
 
         public int NumberOfOfflineResults
@@ -24,7 +23,7 @@ namespace OpenProtocolInterpreter.Tightening
         public Mid0066() : this(new Header()
         {
             Mid = MID, 
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
         }

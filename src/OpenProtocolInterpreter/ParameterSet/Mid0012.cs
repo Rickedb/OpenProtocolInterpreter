@@ -16,7 +16,6 @@ namespace OpenProtocolInterpreter.ParameterSet
     public class Mid0012 : Mid, IParameterSet, IIntegrator, IAnswerableBy<Mid0013>, IDeclinableCommand
     {
         private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 5;
         public const int MID = 12;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.PARAMETER_SET_ID_NOT_PRESENT };
@@ -32,12 +31,12 @@ namespace OpenProtocolInterpreter.ParameterSet
             set => GetField(3, (int)DataFields.PSET_FILE_VERSION).SetValue(_intConverter.Convert, value);
         }
 
-        public Mid0012() : this(LAST_REVISION)
+        public Mid0012() : this(DEFAULT_REVISION)
         {
 
         }
 
-        public Mid0012(int revision = LAST_REVISION) : this(new Header()
+        public Mid0012(int revision = DEFAULT_REVISION) : this(new Header()
         {
             Mid = MID,
             Revision = revision

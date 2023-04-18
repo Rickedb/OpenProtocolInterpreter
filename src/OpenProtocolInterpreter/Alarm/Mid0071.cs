@@ -14,7 +14,6 @@ namespace OpenProtocolInterpreter.Alarm
     {
         private readonly IValueConverter<bool> _boolConverter;
         private readonly IValueConverter<DateTime> _dateConverter;
-        private const int LAST_REVISION = 2;
         public const int MID = 71;
 
         public string ErrorCode
@@ -44,7 +43,7 @@ namespace OpenProtocolInterpreter.Alarm
             set => GetField(2, (int)DataFields.ALARM_TEXT).SetValue(value);
         }
 
-        public Mid0071() : this(LAST_REVISION)
+        public Mid0071() : this(DEFAULT_REVISION)
         {
 
         }
@@ -56,7 +55,7 @@ namespace OpenProtocolInterpreter.Alarm
             HandleRevision();
         }
 
-        public Mid0071(int revision = LAST_REVISION) : this(new Header()
+        public Mid0071(int revision = DEFAULT_REVISION) : this(new Header()
         {
             Revision = revision,
             Mid = MID

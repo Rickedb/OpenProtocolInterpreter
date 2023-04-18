@@ -18,7 +18,6 @@ namespace OpenProtocolInterpreter.Job
     {
         private readonly IValueConverter<int> _intConverter;
         private JobIdListConverter _jobListConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 31;
 
         public int TotalJobs
@@ -29,7 +28,7 @@ namespace OpenProtocolInterpreter.Job
 
         public List<int> JobIds { get; set; }
 
-        public Mid0031() : this(LAST_REVISION)
+        public Mid0031() : this(DEFAULT_REVISION)
         {
 
         }
@@ -42,7 +41,7 @@ namespace OpenProtocolInterpreter.Job
             HandleRevisions();
         }
 
-        public Mid0031(int revision = LAST_REVISION) : this(new Header()
+        public Mid0031(int revision = DEFAULT_REVISION) : this(new Header()
         {
             Mid = MID,
             Revision = revision
@@ -63,7 +62,7 @@ namespace OpenProtocolInterpreter.Job
         ///     <para>Revision 2 - range: 0000-9999 each</para>
         /// </param>
         /// /// <param name="revision">Revision number (default = 2)</param>
-        public Mid0031(int totalJobs, IEnumerable<int> jobIds, int revision = LAST_REVISION) : this(revision)
+        public Mid0031(int totalJobs, IEnumerable<int> jobIds, int revision = DEFAULT_REVISION) : this(revision)
         {
             TotalJobs = totalJobs;
             JobIds = jobIds.ToList();

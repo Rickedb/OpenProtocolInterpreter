@@ -18,7 +18,6 @@ namespace OpenProtocolInterpreter.Tool
     {
         private readonly IValueConverter<IEnumerable<ToolData>> _toolListConverter;
         private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 701;
 
         public int TotalTools { get => Tools.Count; }
@@ -27,7 +26,7 @@ namespace OpenProtocolInterpreter.Tool
         public Mid0701() : this(new Header()
         {
             Mid = MID, 
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
         }

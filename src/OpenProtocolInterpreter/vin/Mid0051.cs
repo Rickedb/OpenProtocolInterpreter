@@ -29,17 +29,16 @@ namespace OpenProtocolInterpreter.Vin
     /// </summary>
     public class Mid0051 : Mid, IVin, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 2;
         public const int MID = 51;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.VIN_UPLOAD_SUBSCRIPTION_ALREADY_EXISTS };
 
-        public Mid0051() : this(LAST_REVISION)
+        public Mid0051() : this(DEFAULT_REVISION)
         {
 
         }
 
-        public Mid0051(int revision = LAST_REVISION, bool noAckFlag = false) : base(MID, revision, noAckFlag)
+        public Mid0051(int revision = DEFAULT_REVISION, bool noAckFlag = false) : base(MID, revision, noAckFlag)
         {
 
         }

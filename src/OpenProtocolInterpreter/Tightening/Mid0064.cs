@@ -25,7 +25,6 @@ namespace OpenProtocolInterpreter.Tightening
     public class Mid0064 : Mid, ITightening, IIntegrator, IAnswerableBy<Mid0065>, IDeclinableCommand
     {
         private readonly IValueConverter<long> _longConverter;
-        private const int LAST_REVISION = 6;
         public const int MID = 64;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.TIGHTENING_ID_REQUESTED_NOT_FOUND, Error.MID_REVISION_UNSUPPORTED };
@@ -36,7 +35,7 @@ namespace OpenProtocolInterpreter.Tightening
             set => GetField(1,(int)DataFields.TIGHTENING_ID).SetValue(_longConverter.Convert, value);
         }
 
-        public Mid0064() : this(LAST_REVISION)
+        public Mid0064() : this(DEFAULT_REVISION)
         {
 
         }
@@ -46,7 +45,7 @@ namespace OpenProtocolInterpreter.Tightening
             _longConverter = new Int64Converter();
         }
 
-        public Mid0064(int revision = LAST_REVISION) : this(new Header()
+        public Mid0064(int revision = DEFAULT_REVISION) : this(new Header()
         {
             Mid = MID,
             Revision = revision
@@ -54,7 +53,7 @@ namespace OpenProtocolInterpreter.Tightening
         {
         }
 
-        public Mid0064(long tighteningId, int revision = LAST_REVISION) : this(revision)
+        public Mid0064(long tighteningId, int revision = DEFAULT_REVISION) : this(revision)
         {
             TighteningId = tighteningId;
         }

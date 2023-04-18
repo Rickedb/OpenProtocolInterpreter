@@ -7,15 +7,14 @@
     /// </summary>
     public class Mid0053 : Mid, IVin, IIntegrator, IAcknowledge
     {
-        private const int LAST_REVISION = 2;
         public const int MID = 53;
 
-        public Mid0053() : this(LAST_REVISION)
+        public Mid0053() : this(DEFAULT_REVISION)
         {
 
         }
 
-        public Mid0053(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0053(int revision = DEFAULT_REVISION) : base(MID, revision)
         {
 
         }

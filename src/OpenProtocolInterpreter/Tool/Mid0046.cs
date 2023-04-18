@@ -18,7 +18,6 @@ namespace OpenProtocolInterpreter.Tool
     public class Mid0046 : Mid, ITool, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
         private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 46;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.PROGRAMMING_CONTROL_NOT_GRANTED, Error.INVALID_DATA };
@@ -32,7 +31,7 @@ namespace OpenProtocolInterpreter.Tool
         public Mid0046() : this(new Header()
         {
             Mid = MID, 
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
         }

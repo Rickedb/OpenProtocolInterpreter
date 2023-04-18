@@ -12,7 +12,6 @@ namespace OpenProtocolInterpreter.Tool
     {
         private readonly IValueConverter<int> _intConverter;
 
-        private const int LAST_REVISION = 2;
         public const int MID = 43;
 
         public int ToolNumber
@@ -21,7 +20,7 @@ namespace OpenProtocolInterpreter.Tool
             set => GetField(2, (int)DataFields.TOOL_NUMBER).SetValue(_intConverter.Convert, value);
         }
 
-        public Mid0043() : this(LAST_REVISION)
+        public Mid0043() : this(DEFAULT_REVISION)
         {
 
         }
@@ -31,7 +30,7 @@ namespace OpenProtocolInterpreter.Tool
             _intConverter = new Int32Converter();
         }
 
-        public Mid0043(int revision = LAST_REVISION) : this(new Header()
+        public Mid0043(int revision = DEFAULT_REVISION) : this(new Header()
         {
             Mid = MID, 
             Revision = revision
@@ -44,7 +43,7 @@ namespace OpenProtocolInterpreter.Tool
         /// </summary>
         /// <param name="toolNumber">The number of the tool to disable. It is the same number as the tool numbers sent in <see cref="Mid0701"/> (Tool List Upload)</param>
         /// <param name="revision">Revision</param>
-        public Mid0043(int toolNumber, int revision = LAST_REVISION) : this(revision)
+        public Mid0043(int toolNumber, int revision = DEFAULT_REVISION) : this(revision)
         {
             ToolNumber = toolNumber;
         }

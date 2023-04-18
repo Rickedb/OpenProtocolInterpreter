@@ -15,7 +15,6 @@ namespace OpenProtocolInterpreter.IOInterface
     public class Mid0224 : Mid, IIOInterface, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
         private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 224;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.INVALID_DATA };
@@ -29,7 +28,7 @@ namespace OpenProtocolInterpreter.IOInterface
         public Mid0224() : this(new Header()
         {
             Mid = MID,
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
 

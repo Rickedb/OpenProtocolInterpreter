@@ -17,7 +17,6 @@ namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
     public class Mid0421 : Mid, IOpenProtocolCommandsDisabled, IController, IAcknowledgeable<Mid0422>
     {
         private readonly IValueConverter<bool> _boolConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 421;
         
         public bool DigitalInputStatus
@@ -29,7 +28,7 @@ namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
         public Mid0421() : this(new Header()
         {
             Mid = MID, 
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
         }

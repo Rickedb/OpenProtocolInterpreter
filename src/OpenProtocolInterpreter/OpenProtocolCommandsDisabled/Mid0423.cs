@@ -14,12 +14,11 @@ namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
     /// </summary>
     public class Mid0423 : Mid, IOpenProtocolCommandsDisabled, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 423;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.OPEN_PROTOCOL_COMMANDS_DISABLED_SUBSCRIPTION_DOESNT_EXISTS };
 
-        public Mid0423() : base(MID, LAST_REVISION) { }
+        public Mid0423() : base(MID, DEFAULT_REVISION) { }
 
         public Mid0423(Header header) : base(header)
         {

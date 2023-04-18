@@ -15,7 +15,6 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
     public class Mid0401 : Mid, IAutomaticManualMode, IController, IAcknowledgeable<Mid0402>
     {
         private readonly IValueConverter<bool> _boolConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 401;
 
         /// <summary>
@@ -31,7 +30,7 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
         public Mid0401() : this(new Header()
         {
             Mid = MID,
-            Revision = LAST_REVISION,
+            Revision = DEFAULT_REVISION,
         })
         {
             

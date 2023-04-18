@@ -18,7 +18,6 @@ namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
     /// </summary>
     public class Mid0420 : Mid, IOpenProtocolCommandsDisabled, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 420;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.OPEN_PROTOCOL_COMMANDS_DISABLED_SUBSCRIPTION_ALREADY_EXISTS };
@@ -28,7 +27,7 @@ namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
 
         }
 
-        public Mid0420(bool noAckFlag = false) : base(MID, LAST_REVISION, noAckFlag) { }
+        public Mid0420(bool noAckFlag = false) : base(MID, DEFAULT_REVISION, noAckFlag) { }
 
         public Mid0420(Header header) : base(header)
         {

@@ -20,7 +20,6 @@ namespace OpenProtocolInterpreter.Tool
     public class Mid0047 : Mid, ITool, IIntegrator, IAcceptableCommand, IDeclinableCommand, IAnswerableBy<Mid0048>
     {
         private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 47;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { };
@@ -34,7 +33,7 @@ namespace OpenProtocolInterpreter.Tool
         public Mid0047() : this(new Header()
         {
             Mid = MID, 
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
         }

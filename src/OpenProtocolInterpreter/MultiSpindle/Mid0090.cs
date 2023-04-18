@@ -14,7 +14,6 @@ namespace OpenProtocolInterpreter.MultiSpindle
     /// </summary>
     public class Mid0090 : Mid, IMultiSpindle, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 90;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] 
@@ -28,7 +27,7 @@ namespace OpenProtocolInterpreter.MultiSpindle
 
         }
 
-        public Mid0090(bool noAckFlag = false) : base(MID, LAST_REVISION, noAckFlag)
+        public Mid0090(bool noAckFlag = false) : base(MID, DEFAULT_REVISION, noAckFlag)
         {
 
         }

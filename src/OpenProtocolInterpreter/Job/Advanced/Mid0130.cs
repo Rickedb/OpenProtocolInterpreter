@@ -12,7 +12,6 @@ namespace OpenProtocolInterpreter.Job.Advanced
     public class Mid0130 : Mid, IAdvancedJob, IIntegrator, IAcceptableCommand
     {
         private readonly IValueConverter<bool> _boolConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 130;
 
         /// <summary>
@@ -28,7 +27,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
         public Mid0130() : this(new Header()
         {
             Mid = MID, 
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
             

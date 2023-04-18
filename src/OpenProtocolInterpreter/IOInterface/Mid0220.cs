@@ -21,7 +21,6 @@ namespace OpenProtocolInterpreter.IOInterface
     public class Mid0220 : Mid, IIOInterface, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
         private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 220;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] {  };
@@ -45,7 +44,7 @@ namespace OpenProtocolInterpreter.IOInterface
         public Mid0220(bool noAckFlag = false) : this(new Header()
         {
             Mid = MID,
-            Revision = LAST_REVISION,
+            Revision = DEFAULT_REVISION,
             NoAckFlag = noAckFlag
         })
         {

@@ -12,7 +12,6 @@ namespace OpenProtocolInterpreter.Communication
     public class Mid0001 : Mid, ICommunication, IIntegrator, IAnswerableBy<Mid0002>, IDeclinableCommand
     {
         private readonly IValueConverter<bool> _boolConverter;
-        private const int LAST_REVISION = 7;
         public const int MID = 1;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.CLIENT_ALREADY_CONNECTED, Error.MID_REVISION_UNSUPPORTED };
@@ -23,7 +22,7 @@ namespace OpenProtocolInterpreter.Communication
             set => GetField(7, (int)DataFields.USE_KEEPALIVE).SetValue(_boolConverter.Convert, value);
         }
 
-        public Mid0001() : this(LAST_REVISION)
+        public Mid0001() : this(DEFAULT_REVISION)
         {
 
         }

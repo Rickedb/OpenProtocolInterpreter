@@ -19,7 +19,6 @@ namespace OpenProtocolInterpreter.Job.Advanced
     public class Mid0129 : Mid, IAdvancedJob, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
         private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 2;
         public const int MID = 129;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JOB_BATCH_DECREMENT_FAILED };
@@ -35,7 +34,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
             set => GetField(2, (int)DataFields.PARAMETER_SET_ID).SetValue(_intConverter.Convert, value);
         }
 
-        public Mid0129() : this(LAST_REVISION)
+        public Mid0129() : this(DEFAULT_REVISION)
         {
 
         }
@@ -45,7 +44,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
             _intConverter = new Int32Converter();
         }
 
-        public Mid0129(int revision = LAST_REVISION) : this(new Header()
+        public Mid0129(int revision = DEFAULT_REVISION) : this(new Header()
         {
             Mid = MID,
             Revision = revision

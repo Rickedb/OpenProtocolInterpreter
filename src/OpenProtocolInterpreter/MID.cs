@@ -10,6 +10,8 @@ namespace OpenProtocolInterpreter
     /// </summary>
     public abstract class Mid
     {
+        protected const int DEFAULT_REVISION = 1;
+
         protected Dictionary<int, List<DataField>> RevisionsByFields { get; }
         public Header Header { get; set; }
 

@@ -29,7 +29,6 @@ namespace OpenProtocolInterpreter.MultiSpindle
         private readonly IValueConverter<DateTime> _dateConverter;
         private readonly IValueConverter<IEnumerable<SpindleOrPressStatus>> _spindleOrPressStatusListConverter;
 
-        private const int LAST_REVISION = 5;
         public const int MID = 101;
 
         public int NumberOfSpindlesOrPresses
@@ -129,7 +128,7 @@ namespace OpenProtocolInterpreter.MultiSpindle
             set => GetField(5, (int)DataFields.JOB_SEQUENCE_NUMBER).SetValue(_intConverter.Convert, value);
         }
 
-        public Mid0101() : this(LAST_REVISION)
+        public Mid0101() : this(DEFAULT_REVISION)
         {
 
         }
@@ -143,7 +142,7 @@ namespace OpenProtocolInterpreter.MultiSpindle
             _spindleOrPressStatusListConverter = new SpindleOrPressStatusListConverter(_intConverter, _boolConverter, _decimalConverter);
         }
 
-        public Mid0101(int revision = LAST_REVISION) : this(new Header()
+        public Mid0101(int revision = DEFAULT_REVISION) : this(new Header()
         {
             Mid = MID,
             Revision = revision

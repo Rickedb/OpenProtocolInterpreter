@@ -16,7 +16,6 @@ namespace OpenProtocolInterpreter.ParameterSet
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<decimal> _decimalConverter;
         private readonly IValueConverter<DateTime> _dateConverter;
-        private const int LAST_REVISION = 5;
         public const int MID = 13;
 
         public int ParameterSetId
@@ -87,7 +86,7 @@ namespace OpenProtocolInterpreter.ParameterSet
             set => GetField(5, (int)DataFields.LAST_CHANGE_IN_PARAMETER_SET).SetValue(_dateConverter.Convert, value);
         }
 
-        public Mid0013() : this(LAST_REVISION)
+        public Mid0013() : this(DEFAULT_REVISION)
         {
 
         }
@@ -99,7 +98,7 @@ namespace OpenProtocolInterpreter.ParameterSet
             _dateConverter = new DateConverter();
         }
 
-        public Mid0013(int revision = LAST_REVISION) : this(new Header()
+        public Mid0013(int revision = DEFAULT_REVISION) : this(new Header()
         {
             Mid = MID, 
             Revision = revision

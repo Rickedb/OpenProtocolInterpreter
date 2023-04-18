@@ -10,7 +10,6 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
     /// </summary>
     public class Mid0150 : Mid, IMultipleIdentifier, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 150;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.IDENTIFIER_INPUT_SOURCE_NOT_GRANTED };
@@ -29,7 +28,7 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
         public Mid0150() : this(new Header()
         {
             Mid = MID,
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         }) 
         { 
         }

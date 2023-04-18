@@ -22,7 +22,6 @@ namespace OpenProtocolInterpreter.Communication
     public class Mid0008 : Mid, ICommunication, IIntegrator
     {
         private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 8;
 
         public string SubscriptionMid
@@ -49,7 +48,7 @@ namespace OpenProtocolInterpreter.Communication
         public Mid0008() : this(new Header()
         {
             Mid = MID,
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
             

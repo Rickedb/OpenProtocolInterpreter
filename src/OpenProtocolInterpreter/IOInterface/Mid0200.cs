@@ -15,7 +15,6 @@ namespace OpenProtocolInterpreter.IOInterface
     public class Mid0200 : Mid, IIOInterface, IIntegrator, IAcceptableCommand
     {
         private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 200;
 
         public RelayStatus StatusRelayOne
@@ -72,7 +71,7 @@ namespace OpenProtocolInterpreter.IOInterface
         public Mid0200() : this(new Header()
         {
             Mid = MID, 
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
             

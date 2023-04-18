@@ -19,7 +19,6 @@ namespace OpenProtocolInterpreter.PowerMACS
     public class Mid0108 : Mid, IPowerMACS, IIntegrator, IAcknowledge
     {
         private readonly IValueConverter<bool> _boolConverter;
-        private const int LAST_REVISION = 4;
         public const int MID = 108;
 
         public bool BoltData
@@ -28,7 +27,7 @@ namespace OpenProtocolInterpreter.PowerMACS
             set => GetField(1, (int)DataFields.BOLT_DATA).SetValue(_boolConverter.Convert, value);
         }
 
-        public Mid0108() : this(LAST_REVISION)
+        public Mid0108() : this(DEFAULT_REVISION)
         {
 
         }
@@ -38,7 +37,7 @@ namespace OpenProtocolInterpreter.PowerMACS
             _boolConverter = new BoolConverter();
         }
 
-        public Mid0108(int revision = LAST_REVISION) : this(new Header()
+        public Mid0108(int revision = DEFAULT_REVISION) : this(new Header()
         {
             Mid = MID,
             Revision = revision

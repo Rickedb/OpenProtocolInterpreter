@@ -18,7 +18,6 @@ namespace OpenProtocolInterpreter.Job
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<DateTime> _datetimeConverter;
         public const int MID = 35;
-        private const int LAST_REVISION = 5;
 
         public int JobId
         {
@@ -103,7 +102,7 @@ namespace OpenProtocolInterpreter.Job
             set => GetField(5, (int)DataFields.IDENTIFIER_RESULT_PART4).SetValue(value);
         }
 
-        public Mid0035() : this(LAST_REVISION)
+        public Mid0035() : this(DEFAULT_REVISION)
         {
 
         }
@@ -112,7 +111,7 @@ namespace OpenProtocolInterpreter.Job
         {
         }
 
-        public Mid0035(int revision = LAST_REVISION) : this(new Header()
+        public Mid0035(int revision = DEFAULT_REVISION) : this(new Header()
         {
             Mid = MID,
             Revision = revision

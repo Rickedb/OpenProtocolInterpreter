@@ -19,12 +19,11 @@ namespace OpenProtocolInterpreter.Tool
     /// </summary>
     public class Mid0044 : Mid, ITool, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 44;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.TOOL_CURRENTLY_IN_USE };
 
-        public Mid0044() : base(MID, LAST_REVISION)
+        public Mid0044() : base(MID, DEFAULT_REVISION)
         {
 
         }

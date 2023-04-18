@@ -13,7 +13,6 @@ namespace OpenProtocolInterpreter.Time
     public class Mid0082 : Mid, ITime, IIntegrator
     {
         private readonly IValueConverter<DateTime> _dateConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 82;
 
         public DateTime Time
@@ -25,7 +24,7 @@ namespace OpenProtocolInterpreter.Time
         public Mid0082() : this(new Header()
         {
             Mid = MID, 
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
         }

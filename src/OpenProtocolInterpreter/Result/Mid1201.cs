@@ -27,7 +27,6 @@ namespace OpenProtocolInterpreter.Result
         private readonly IValueConverter<IEnumerable<ObjectData>> _objectDataListConverter;
         private readonly IValueConverter<IEnumerable<VariableDataField>> _varDataFieldListConverter;
 
-        private const int LAST_REVISION = 2;
         public const int MID = 1201;
 
         public int TotalNumberOfMessages
@@ -73,12 +72,12 @@ namespace OpenProtocolInterpreter.Result
         public List<ObjectData> ObjectDataList { get; set; }
         public List<VariableDataField> VariableDataFields { get; set; }
 
-        public Mid1201() : this(LAST_REVISION)
+        public Mid1201() : this(DEFAULT_REVISION)
         {
 
         }
 
-        public Mid1201(int revision = LAST_REVISION) : this(new Header()
+        public Mid1201(int revision = DEFAULT_REVISION) : this(new Header()
         {
             Mid = MID,
             Revision = revision

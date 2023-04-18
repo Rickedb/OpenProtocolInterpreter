@@ -10,7 +10,6 @@ namespace OpenProtocolInterpreter.PLCUserData
     /// </summary>
     public class Mid0242 : Mid, IPLCUserData, IController, IAcknowledgeable<Mid0243>
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 242;
 
         public string UserData
@@ -19,7 +18,7 @@ namespace OpenProtocolInterpreter.PLCUserData
             set => GetField(1, (int)DataFields.USER_DATA).SetValue(value);
         }
 
-        public Mid0242() : base(MID, LAST_REVISION)
+        public Mid0242() : base(MID, DEFAULT_REVISION)
         {
 
         }

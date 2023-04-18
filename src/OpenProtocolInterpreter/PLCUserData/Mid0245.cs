@@ -38,7 +38,6 @@ namespace OpenProtocolInterpreter.PLCUserData
     public class Mid0245 : Mid, IPLCUserData, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
         private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 245;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] 
@@ -67,7 +66,7 @@ namespace OpenProtocolInterpreter.PLCUserData
         public Mid0245() : this(new Header()
         {
             Mid = MID, 
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
         }

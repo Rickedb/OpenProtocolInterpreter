@@ -21,7 +21,6 @@ namespace OpenProtocolInterpreter.ParameterSet
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<decimal> _decimalConverter;
         private readonly IValueConverter<DateTime> _datetimeConverter;
-        private const int LAST_REVISION = 2;
         public const int MID = 15;
 
         public int ParameterSetId
@@ -91,7 +90,7 @@ namespace OpenProtocolInterpreter.ParameterSet
             set => GetField(2, (int)DataFields.START_FINAL_ANGLE).SetValue(_decimalConverter.Convert, value);
         }
 
-        public Mid0015() : this(LAST_REVISION)
+        public Mid0015() : this(DEFAULT_REVISION)
         {
 
         }
@@ -107,7 +106,7 @@ namespace OpenProtocolInterpreter.ParameterSet
         /// Constructor
         /// </summary>
         /// <param name="revision">Range: 000-002</param>
-        public Mid0015(int revision = LAST_REVISION) : this(new Header()
+        public Mid0015(int revision = DEFAULT_REVISION) : this(new Header()
         {
             Mid = MID,
             Revision = revision

@@ -20,7 +20,6 @@ namespace OpenProtocolInterpreter.UserInterface
     /// </summary>
     public class Mid0110 : Mid, IUserInterface, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 110;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { };
@@ -31,7 +30,7 @@ namespace OpenProtocolInterpreter.UserInterface
             set => GetField(1,(int)DataFields.USER_TEXT).SetValue(value);
         }
 
-        public Mid0110() : base(MID, LAST_REVISION)
+        public Mid0110() : base(MID, DEFAULT_REVISION)
         {
 
         }

@@ -8,10 +8,9 @@
     /// </summary>
     public class Mid0155 : Mid, IMultipleIdentifier, IIntegrator, IAcceptableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 155;
 
-        public Mid0155() : base(MID, LAST_REVISION) 
+        public Mid0155() : base(MID, DEFAULT_REVISION) 
         { 
         }
 

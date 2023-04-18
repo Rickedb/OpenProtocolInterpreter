@@ -22,7 +22,6 @@ namespace OpenProtocolInterpreter.ApplicationSelector
     {
         private readonly IValueConverter<IEnumerable<LightCommand>> _lightsConverter;
         private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 255;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.FAULTY_IO_DEVICE_ID };
@@ -37,7 +36,7 @@ namespace OpenProtocolInterpreter.ApplicationSelector
         public Mid0255() : this(new Header()
         {
             Mid = MID,
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
            

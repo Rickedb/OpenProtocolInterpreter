@@ -13,17 +13,16 @@ namespace OpenProtocolInterpreter.PowerMACS
     /// </summary>
     public class Mid0109 : Mid, IPowerMACS, IIntegrator, IUnsubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 109;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SUBSCRIPTION_DOESNT_EXISTS };
 
-        public Mid0109() : this(LAST_REVISION)
+        public Mid0109() : this(DEFAULT_REVISION)
         {
 
         }
 
-        public Mid0109(int revision = LAST_REVISION) : base(MID, revision) { }
+        public Mid0109(int revision = DEFAULT_REVISION) : base(MID, revision) { }
 
         public Mid0109(Header header) : base(header)
         {

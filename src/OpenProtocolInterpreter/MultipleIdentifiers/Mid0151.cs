@@ -19,7 +19,6 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
     /// </summary>
     public class Mid0151 : Mid, IMultipleIdentifier, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 151;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SUBSCRIPTION_ALREADY_EXISTS };
@@ -29,7 +28,7 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
 
         }
 
-        public Mid0151(bool noAckFlag = false) : base(MID, LAST_REVISION, noAckFlag) { }
+        public Mid0151(bool noAckFlag = false) : base(MID, DEFAULT_REVISION, noAckFlag) { }
 
         public Mid0151(Header header) : base(header)
         {

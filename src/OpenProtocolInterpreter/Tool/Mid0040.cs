@@ -15,7 +15,6 @@ namespace OpenProtocolInterpreter.Tool
     public class Mid0040 : Mid, ITool, IIntegrator, IAnswerableBy<Mid0041>
     {
         private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 7;
         public const int MID = 40;
 
         public int ToolNumber
@@ -24,7 +23,7 @@ namespace OpenProtocolInterpreter.Tool
             set => GetField(6, (int)DataFields.TOOL_NUMBER).SetValue(_intConverter.Convert, value);
         }
 
-        public Mid0040() : this(LAST_REVISION)
+        public Mid0040() : this(DEFAULT_REVISION)
         {
 
         }
@@ -34,7 +33,7 @@ namespace OpenProtocolInterpreter.Tool
             _intConverter = new Int32Converter();
         }
 
-        public Mid0040(int revision = LAST_REVISION) : this(new Header()
+        public Mid0040(int revision = DEFAULT_REVISION) : this(new Header()
         {
             Mid = MID, 
             Revision = revision
@@ -47,7 +46,7 @@ namespace OpenProtocolInterpreter.Tool
         /// </summary>
         /// <param name="toolNumber">The number of the tool to send tool data for. It is the same number as the tool numbers sent in <see cref="Mid0701"/> (Tool List Upload)</param>
         /// <param name="revision">Revision</param>
-        public Mid0040(int toolNumber, int revision = LAST_REVISION) : this(revision)
+        public Mid0040(int toolNumber, int revision = DEFAULT_REVISION) : this(revision)
         {
             ToolNumber = toolNumber;
         }

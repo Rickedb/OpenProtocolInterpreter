@@ -23,7 +23,6 @@ namespace OpenProtocolInterpreter.Communication
     public class Mid0004 : Mid, ICommunication, IController
     {
         private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 4;
 
         public int FailedMid
@@ -40,7 +39,7 @@ namespace OpenProtocolInterpreter.Communication
         public Mid0004() : this(new Header()
         {
             Mid = MID,
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
 

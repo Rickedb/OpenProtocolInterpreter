@@ -16,7 +16,6 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
     /// </summary>
     public class Mid0400 : Mid, IAutomaticManualMode, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 400;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.AUTOMATIC_MANUAL_MODE_SUBSCRIBE_ALREADY_EXISTS };
@@ -29,7 +28,7 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
         public Mid0400(bool noAckFlag = false) : this(new Header()
         {
             Mid = MID,
-            Revision = LAST_REVISION, 
+            Revision = DEFAULT_REVISION, 
             NoAckFlag = noAckFlag
         }) 
         { 

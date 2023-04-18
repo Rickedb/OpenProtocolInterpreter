@@ -12,7 +12,6 @@ namespace OpenProtocolInterpreter.MotorTuning
     public class Mid0501 : Mid, IMotorTuning, IController, IAcknowledgeable<Mid0502>
     {
         private readonly IValueConverter<bool> _boolConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 501;
 
         /// <summary>
@@ -28,7 +27,7 @@ namespace OpenProtocolInterpreter.MotorTuning
         public Mid0501() : this(new Header()
         {
             Mid = MID,
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
         }

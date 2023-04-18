@@ -10,12 +10,11 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
     /// </summary>
     public class Mid0260 : Mid, IApplicationToolLocationSystem, IController, IAnswerableBy<Mid0262>, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 260;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.TOOL_TAG_ID_UNKNOWN, Error.MID_REVISION_UNSUPPORTED };
 
-        public Mid0260() : base(MID, LAST_REVISION) { }
+        public Mid0260() : base(MID, DEFAULT_REVISION) { }
 
         public Mid0260(Header header) : base(header)
         {

@@ -18,7 +18,6 @@ namespace OpenProtocolInterpreter.IOInterface
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 217;
 
         public RelayNumber RelayNumber
@@ -35,7 +34,7 @@ namespace OpenProtocolInterpreter.IOInterface
         public Mid0217() : this(new Header()
         {
             Mid = MID,
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
 

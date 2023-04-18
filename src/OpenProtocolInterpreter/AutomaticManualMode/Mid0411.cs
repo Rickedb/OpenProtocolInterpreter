@@ -32,7 +32,6 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
     public class Mid0411 : Mid, IAutomaticManualMode, IController
     {
         private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 411;
 
         public int AutoDisableSetting
@@ -49,7 +48,7 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
         public Mid0411() : this(new Header()
         {
             Mid= MID,
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
             

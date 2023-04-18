@@ -21,7 +21,6 @@ namespace OpenProtocolInterpreter.Tightening
         private readonly IValueConverter<TighteningErrorStatus> _tighteningErrorStatusConverter;
         private readonly IValueConverter<TighteningErrorStatus2> _tighteningErrorStatus2Converter;
         public const int MID = 65;
-        private const int LAST_REVISION = 7;
 
         public long TighteningId
         {
@@ -229,7 +228,7 @@ namespace OpenProtocolInterpreter.Tightening
             set => GetField(8, (int)DataFields.POST_VIEW_TORQUE_LOW).SetValue(_decimalConverter.Convert, value);
         }
 
-        public Mid0065() : this(LAST_REVISION)
+        public Mid0065() : this(DEFAULT_REVISION)
         {
 
         }
@@ -247,7 +246,7 @@ namespace OpenProtocolInterpreter.Tightening
             _tighteningErrorStatus2Converter = new TighteningErrorStatus2Converter(byteArrayConverter, _longConverter);
         }
 
-        public Mid0065(int revision = LAST_REVISION) : this(new Header()
+        public Mid0065(int revision = DEFAULT_REVISION) : this(new Header()
         {
             Mid = MID, 
             Revision = revision

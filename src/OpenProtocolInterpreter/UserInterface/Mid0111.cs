@@ -24,7 +24,6 @@ namespace OpenProtocolInterpreter.UserInterface
     public class Mid0111 : Mid, IUserInterface, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
         private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 111;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { };
@@ -63,7 +62,7 @@ namespace OpenProtocolInterpreter.UserInterface
         public Mid0111() : this(new Header()
         {
             Mid = MID, 
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
         }

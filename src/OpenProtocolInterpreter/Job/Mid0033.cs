@@ -16,7 +16,6 @@ namespace OpenProtocolInterpreter.Job
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;
         private IValueConverter<IEnumerable<ParameterSet>> _parameterSetListConverter;
-        private const int LAST_REVISION = 4;
         public const int MID = 33;
 
         public int JobId
@@ -81,7 +80,7 @@ namespace OpenProtocolInterpreter.Job
         }
         public List<ParameterSet> ParameterSetList { get; set; }
 
-        public Mid0033() : this(LAST_REVISION)
+        public Mid0033() : this(DEFAULT_REVISION)
         {
 
         }
@@ -95,7 +94,7 @@ namespace OpenProtocolInterpreter.Job
             HandleRevisions();
         }
 
-        public Mid0033(int revision = LAST_REVISION) : this(new Header()
+        public Mid0033(int revision = DEFAULT_REVISION) : this(new Header()
         {
             Mid = MID,
             Revision = revision
@@ -129,7 +128,7 @@ namespace OpenProtocolInterpreter.Job
         /// <param name="revision">Revision number (Default = 3)</param>
         public Mid0033(int jobId, string jobName, ForcedOrder forcedOrder, int maxTimeForFirstTightening,
             int maxTimeToCompleteJob, JobBatchMode jobBatchMode, bool lockAtJobDone, bool useLineControl,
-            bool repeatJob, ToolLoosening toolLoosening, Reserved reserved, int numberOfParameterSets, IEnumerable<ParameterSet> parameterSetList, int revision = LAST_REVISION)
+            bool repeatJob, ToolLoosening toolLoosening, Reserved reserved, int numberOfParameterSets, IEnumerable<ParameterSet> parameterSetList, int revision = DEFAULT_REVISION)
             : this(revision)
         {
             JobId = jobId;

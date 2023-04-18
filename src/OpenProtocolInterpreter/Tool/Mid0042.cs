@@ -12,7 +12,6 @@ namespace OpenProtocolInterpreter.Tool
     {
         private readonly IValueConverter<int> _intConverter;
 
-        private const int LAST_REVISION = 2;
         public const int MID = 42;
 
         public int ToolNumber
@@ -26,7 +25,7 @@ namespace OpenProtocolInterpreter.Tool
             set => GetField(2, (int)DataFields.DISABLE_TYPE).SetValue(_intConverter.Convert, (int)value);
         }
 
-        public Mid0042() : this(LAST_REVISION)
+        public Mid0042() : this(DEFAULT_REVISION)
         {
         }
 
@@ -35,7 +34,7 @@ namespace OpenProtocolInterpreter.Tool
             _intConverter = new Int32Converter();
         }
 
-        public Mid0042(int revision = LAST_REVISION) : this(new Header()
+        public Mid0042(int revision = DEFAULT_REVISION) : this(new Header()
         {
             Mid = MID,
             Revision = revision

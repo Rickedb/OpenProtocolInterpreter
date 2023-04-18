@@ -36,7 +36,6 @@ namespace OpenProtocolInterpreter.PowerMACS
         private readonly IValueConverter<IEnumerable<BoltResult>> _boltResultConverter;
         private readonly IValueConverter<IEnumerable<StepResult>> _stepResultConverter;
         private IValueConverter<IEnumerable<SpecialValue>> _specialValueConverter;
-        private const int LAST_REVISION = 4;
         public const int MID = 107;
 
         public int TotalNumberOfMessages
@@ -121,7 +120,7 @@ namespace OpenProtocolInterpreter.PowerMACS
         public Mid0107() : this(new Header()
         {
             Mid = MID, 
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
             

@@ -15,7 +15,6 @@ namespace OpenProtocolInterpreter.IOInterface
     public class Mid0211 : Mid, IIOInterface, IController, IAcknowledgeable<Mid0212>
     {
         private readonly IValueConverter<bool> _boolConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 211;
         
         public bool StatusDigInOne
@@ -62,7 +61,7 @@ namespace OpenProtocolInterpreter.IOInterface
         public Mid0211() : this(new Header()
         {
             Mid = MID, 
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
             

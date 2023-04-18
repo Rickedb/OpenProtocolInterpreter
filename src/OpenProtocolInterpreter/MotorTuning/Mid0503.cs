@@ -10,12 +10,11 @@ namespace OpenProtocolInterpreter.MotorTuning
     /// </summary>
     public class Mid0503 : Mid, IMotorTuning, IIntegrator, IUnsubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 503;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SUBSCRIPTION_DOESNT_EXISTS};
 
-        public Mid0503() : base(MID, LAST_REVISION) { }
+        public Mid0503() : base(MID, DEFAULT_REVISION) { }
 
         public Mid0503(Header header) : base(header)
         {

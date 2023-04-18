@@ -13,12 +13,11 @@ namespace OpenProtocolInterpreter.MultiSpindle
     /// </summary>
     public class Mid0103 : Mid, IMultiSpindle, IIntegrator, IUnsubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 103;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.MULTI_SPINDLE_RESULT_SUBSCRIPTION_DOESNT_EXISTS };
 
-        public Mid0103() : base(MID, LAST_REVISION) { }
+        public Mid0103() : base(MID, DEFAULT_REVISION) { }
 
         public Mid0103(Header header) : base(header)
         {

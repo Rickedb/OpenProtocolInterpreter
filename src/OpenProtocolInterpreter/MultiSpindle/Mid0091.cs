@@ -20,7 +20,6 @@ namespace OpenProtocolInterpreter.MultiSpindle
         private readonly IValueConverter<bool> _boolConverter;
         private readonly IValueConverter<DateTime> _dateConverter;
         private readonly IValueConverter<IEnumerable<SpindleStatus>> _spindlesStatusConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 91;
 
         public int NumberOfSpindles
@@ -48,7 +47,7 @@ namespace OpenProtocolInterpreter.MultiSpindle
         public Mid0091() : this(new Header()
         {
             Mid = MID,
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
 

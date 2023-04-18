@@ -17,7 +17,6 @@ namespace OpenProtocolInterpreter.ParameterSet
     public class Mid0019 : Mid, IParameterSet, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
         private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 19;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.INVALID_DATA };
@@ -36,7 +35,7 @@ namespace OpenProtocolInterpreter.ParameterSet
         public Mid0019() : this(new Header()
         {
             Mid = MID, 
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
         }

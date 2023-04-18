@@ -13,7 +13,6 @@ namespace OpenProtocolInterpreter.ParameterSet
     {
         private readonly IValueConverter<bool> _boolConverter;
         public const int MID = 22;
-        private const int LAST_REVISION = 1;
 
         public bool RelayStatus
         {
@@ -24,7 +23,7 @@ namespace OpenProtocolInterpreter.ParameterSet
         public Mid0022() : this(new Header()
         {
             Mid = MID, 
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
         }

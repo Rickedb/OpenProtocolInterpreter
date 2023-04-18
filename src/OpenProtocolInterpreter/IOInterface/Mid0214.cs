@@ -18,7 +18,6 @@ namespace OpenProtocolInterpreter.IOInterface
     public class Mid0214 : Mid, IIOInterface, IIntegrator, IAnswerableBy<Mid0215>, IDeclinableCommand
     {
         private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 2;
         public const int MID = 214;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.FAULTY_IO_DEVICE_ID, Error.IO_DEVICE_NOT_CONNECTED };
@@ -29,7 +28,7 @@ namespace OpenProtocolInterpreter.IOInterface
             set => GetField(1,(int)DataFields.DEVICE_NUMBER).SetValue(_intConverter.Convert, value);
         }
 
-        public Mid0214() : this(LAST_REVISION)
+        public Mid0214() : this(DEFAULT_REVISION)
         {
         }
 
@@ -38,7 +37,7 @@ namespace OpenProtocolInterpreter.IOInterface
             _intConverter = new Int32Converter();
         }
 
-        public Mid0214(int revision = LAST_REVISION) : this(new Header()
+        public Mid0214(int revision = DEFAULT_REVISION) : this(new Header()
         {
             Mid = MID,
             Revision = revision
@@ -46,7 +45,7 @@ namespace OpenProtocolInterpreter.IOInterface
         {
         }
 
-        public Mid0214(int deviceNumber, int revision = LAST_REVISION) : this(revision)
+        public Mid0214(int deviceNumber, int revision = DEFAULT_REVISION) : this(revision)
         {
             DeviceNumber = deviceNumber;
         }

@@ -13,12 +13,11 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// </summary>
     public class Mid0017 : Mid, IParameterSet, IIntegrator, IUnsubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 17;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.PARAMETER_SET_SELECTION_SUBSCRIPTION_DOESNT_EXISTS };
 
-        public Mid0017() : base(MID, LAST_REVISION) { }
+        public Mid0017() : base(MID, DEFAULT_REVISION) { }
 
         public Mid0017(Header header) : base(header)
         {

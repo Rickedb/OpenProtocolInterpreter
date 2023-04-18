@@ -18,7 +18,6 @@ namespace OpenProtocolInterpreter.ParameterSet
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<IEnumerable<int>> _intListConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 11;
 
         public int TotalParameterSets
@@ -31,7 +30,7 @@ namespace OpenProtocolInterpreter.ParameterSet
         public Mid0011() : this(new Header()
         {
             Mid = MID, 
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
         }

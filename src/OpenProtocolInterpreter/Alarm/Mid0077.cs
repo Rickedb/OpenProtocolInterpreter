@@ -8,10 +8,9 @@
     /// </summary>
     public class Mid0077 : Mid, IAlarm, IIntegrator, IAcknowledge
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 77;
 
-        public Mid0077() : base(MID, LAST_REVISION)
+        public Mid0077() : base(MID, DEFAULT_REVISION)
         {
 
         }

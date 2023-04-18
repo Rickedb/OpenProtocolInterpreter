@@ -23,7 +23,6 @@ namespace OpenProtocolInterpreter.IOInterface
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<IEnumerable<Relay>> _relayListConverter;
         private readonly IValueConverter<IEnumerable<DigitalInput>> _digitalInputListConverter;
-        private const int LAST_REVISION = 2;
         public const int MID = 215;
 
         public int IODeviceId
@@ -45,7 +44,7 @@ namespace OpenProtocolInterpreter.IOInterface
             private set => GetField(2, (int)DataFields.NUMBER_OF_DIGITAL_INPUTS).SetValue(_intConverter.Convert, value);
         }
 
-        public Mid0215() : this(LAST_REVISION)
+        public Mid0215() : this(DEFAULT_REVISION)
         {
 
         }
@@ -60,7 +59,7 @@ namespace OpenProtocolInterpreter.IOInterface
             DigitalInputs = new List<DigitalInput>();
         }
 
-        public Mid0215(int revision = LAST_REVISION) : this(new Header()
+        public Mid0215(int revision = DEFAULT_REVISION) : this(new Header()
         {
             Mid = MID,
             Revision = revision

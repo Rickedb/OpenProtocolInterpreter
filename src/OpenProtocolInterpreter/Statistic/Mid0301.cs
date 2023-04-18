@@ -16,7 +16,6 @@ namespace OpenProtocolInterpreter.Statistic
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<decimal> _decimalConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 301;
 
         public int ParameterSetId
@@ -93,7 +92,7 @@ namespace OpenProtocolInterpreter.Statistic
         public Mid0301() : this(new Header()
         {
             Mid = MID, 
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
         }

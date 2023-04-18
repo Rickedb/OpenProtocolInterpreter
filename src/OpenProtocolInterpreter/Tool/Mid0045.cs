@@ -18,7 +18,6 @@ namespace OpenProtocolInterpreter.Tool
     {
         private readonly IValueConverter<decimal> _decimalConverter;
         private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 2;
         public const int MID = 45;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.CALIBRATION_FAILED };
@@ -39,7 +38,7 @@ namespace OpenProtocolInterpreter.Tool
             set => GetField(2, (int)DataFields.CHANNEL_NUMBER).SetValue(_intConverter.Convert, value);
         }
 
-        public Mid0045() : this(LAST_REVISION)
+        public Mid0045() : this(DEFAULT_REVISION)
         {
         }
 
@@ -49,7 +48,7 @@ namespace OpenProtocolInterpreter.Tool
             _intConverter = new Int32Converter();
         }
 
-        public Mid0045(int revision = LAST_REVISION) : this(new Header()
+        public Mid0045(int revision = DEFAULT_REVISION) : this(new Header()
         {
             Mid = MID,
             Revision = revision

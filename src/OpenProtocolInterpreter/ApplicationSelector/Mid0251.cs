@@ -18,8 +18,7 @@ namespace OpenProtocolInterpreter.ApplicationSelector
     public class Mid0251 : Mid, IApplicationSelector, IController, IAcknowledgeable<Mid0252>
     {
         private readonly IValueConverter<int> _intConverter;
-        private IValueConverter<IEnumerable<bool>> _boolListConverter;
-        private const int LAST_REVISION = 1;
+        private readonly IValueConverter<IEnumerable<bool>> _boolListConverter;
         public const int MID = 251;
 
         public int DeviceId
@@ -37,7 +36,7 @@ namespace OpenProtocolInterpreter.ApplicationSelector
         public Mid0251() : this(new Header()
         {
             Mid = MID,
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
             

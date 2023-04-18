@@ -8,15 +8,14 @@
     /// </summary>
     public class Mid0010 : Mid, IParameterSet, IIntegrator, IAnswerableBy<Mid0011>
     {
-        private const int LAST_REVISION = 3;
         public const int MID = 10;
 
-        public Mid0010() : this(LAST_REVISION)
+        public Mid0010() : this(DEFAULT_REVISION)
         {
 
         }
 
-        public Mid0010(int revision = LAST_REVISION) : base(MID, revision) { }
+        public Mid0010(int revision = DEFAULT_REVISION) : base(MID, revision) { }
 
         public Mid0010(Header header) : base(header)
         {

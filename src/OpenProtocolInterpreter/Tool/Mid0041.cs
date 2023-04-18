@@ -18,7 +18,6 @@ namespace OpenProtocolInterpreter.Tool
         private readonly IValueConverter<DateTime> _dateConverter;
         private readonly IValueConverter<decimal> _decimalConverter;
         private readonly IValueConverter<OpenEndDatas> _openEndDataConverter;
-        private const int LAST_REVISION = 7;
         public const int MID = 41;
 
         public string ToolSerialNumber
@@ -133,7 +132,7 @@ namespace OpenProtocolInterpreter.Tool
             set => GetField(7, (int)DataFields.DOWNSHIFT_MIN_SPEED).SetValue(_decimalConverter.Convert, value);
         }
 
-        public Mid0041() : this(LAST_REVISION)
+        public Mid0041() : this(DEFAULT_REVISION)
         {
 
         }
@@ -142,7 +141,7 @@ namespace OpenProtocolInterpreter.Tool
         {
         }
 
-        public Mid0041(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0041(int revision = DEFAULT_REVISION) : base(MID, revision)
         {
             _intConverter = new Int32Converter();
             _longConverter = new Int64Converter();

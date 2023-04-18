@@ -13,12 +13,11 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
     /// </summary>
     public class Mid0154 : Mid, IMultipleIdentifier, IIntegrator, IUnsubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 154;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { };
 
-        public Mid0154() : base(MID, LAST_REVISION) 
+        public Mid0154() : base(MID, DEFAULT_REVISION) 
         { 
         }
 

@@ -14,7 +14,6 @@ namespace OpenProtocolInterpreter.Tool
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<DateTime> _dateConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 48;
 
         public PairingStatus PairingStatus
@@ -31,7 +30,7 @@ namespace OpenProtocolInterpreter.Tool
         public Mid0048() : this(new Header()
         {
             Mid = MID,
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
         }

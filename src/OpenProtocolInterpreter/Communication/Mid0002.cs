@@ -20,7 +20,6 @@ namespace OpenProtocolInterpreter.Communication
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<long> _longConverter;
         private readonly IValueConverter<bool> _boolConverter;
-        private const int LAST_REVISION = 7;
         public const int MID = 2;
 
         public int CellId
@@ -150,7 +149,7 @@ namespace OpenProtocolInterpreter.Communication
             set => GetField(7, (int)DataFields.OPTIONAL_KEEP_ALIVE).SetValue(_boolConverter.Convert, value);
         }
 
-        public Mid0002() : this(LAST_REVISION)
+        public Mid0002() : this(DEFAULT_REVISION)
         {
 
         }
@@ -162,7 +161,7 @@ namespace OpenProtocolInterpreter.Communication
             _boolConverter = new BoolConverter();
         }
 
-        public Mid0002(int revision = LAST_REVISION) : this(new Header()
+        public Mid0002(int revision = DEFAULT_REVISION) : this(new Header()
         {
             Mid= MID, 
             Revision = revision

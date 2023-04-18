@@ -13,7 +13,6 @@ namespace OpenProtocolInterpreter.PLCUserData
     /// </summary>
     public class Mid0240 : Mid, IPLCUserData, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 240;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.INVALID_DATA, Error.CONTROLLER_IS_NOT_A_SYNC_MASTER_OR_STATION_CONTROLLER };
@@ -29,7 +28,7 @@ namespace OpenProtocolInterpreter.PLCUserData
             }
         }
 
-        public Mid0240() : base(MID, LAST_REVISION) { }
+        public Mid0240() : base(MID, DEFAULT_REVISION) { }
 
         public Mid0240(Header header) : base(header)
         {

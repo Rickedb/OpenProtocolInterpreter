@@ -37,7 +37,6 @@ namespace OpenProtocolInterpreter.PowerMACS
         private readonly IValueConverter<DateTime> _dateConverter;
         private IValueConverter<IEnumerable<BoltData>> _boltDataListConverter;
         private IValueConverter<IEnumerable<SpecialValue>> _specialValueListConverter;
-        private const int LAST_REVISION = 4;
         public const int MID = 106;
 
         public int TotalNumberOfMessages
@@ -113,7 +112,7 @@ namespace OpenProtocolInterpreter.PowerMACS
             set => GetField(4, (int)DataFields.SYSTEM_SUB_TYPE).SetValue(_intConverter.Convert, (int)value);
         }
 
-        public Mid0106() : this(LAST_REVISION)
+        public Mid0106() : this(DEFAULT_REVISION)
         {
 
         }
@@ -130,7 +129,7 @@ namespace OpenProtocolInterpreter.PowerMACS
                 SpecialValues = new List<SpecialValue>();
         }
 
-        public Mid0106(int revision = LAST_REVISION) : this(new Header()
+        public Mid0106(int revision = DEFAULT_REVISION) : this(new Header()
         {
             Mid = MID, 
             Revision = revision

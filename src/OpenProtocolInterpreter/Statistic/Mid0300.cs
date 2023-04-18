@@ -20,7 +20,6 @@ namespace OpenProtocolInterpreter.Statistic
     public class Mid0300 : Mid, IStatistic, IIntegrator, IAnswerableBy<Mid0301>, IDeclinableCommand
     {
         private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 300;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.NO_HISTOGRAM_AVAILABLE, Error.INVALID_DATA };
@@ -39,7 +38,7 @@ namespace OpenProtocolInterpreter.Statistic
         public Mid0300() : this(new Header()
         {
             Mid = MID, 
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
         }

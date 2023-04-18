@@ -18,7 +18,6 @@ namespace OpenProtocolInterpreter.LinkCommunication
     public class Mid9997 : Mid, ILinkCommunication, IIntegrator, IController
     {
         private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 9997;
 
         public int MidNumber
@@ -35,7 +34,7 @@ namespace OpenProtocolInterpreter.LinkCommunication
         public Mid9997() : this(new Header()
         {
             Mid = MID,
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
         }

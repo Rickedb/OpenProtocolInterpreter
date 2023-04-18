@@ -10,13 +10,12 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
     /// </summary>
     public class Mid0403 : Mid, IAutomaticManualMode, IIntegrator, IUnsubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 403;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.AUTOMATIC_MANUAL_MODE_SUBSCRIBE_DOESNT_EXISTS };
 
 
-        public Mid0403() : base(MID, LAST_REVISION) { }
+        public Mid0403() : base(MID, DEFAULT_REVISION) { }
 
         public Mid0403(Header header) : base(header)
         {

@@ -19,7 +19,6 @@ namespace OpenProtocolInterpreter.IOInterface
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 221;
 
         public DigitalInputNumber DigitalInputNumber
@@ -36,7 +35,7 @@ namespace OpenProtocolInterpreter.IOInterface
         public Mid0221() : this(new Header()
         {
             Mid = MID,
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
         }

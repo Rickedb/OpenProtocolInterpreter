@@ -10,17 +10,16 @@ namespace OpenProtocolInterpreter.Alarm
     /// </summary>
     public class Mid0073 : Mid, IAlarm, IIntegrator, IUnsubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 2;
         public const int MID = 73;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.ALARM_SUBSCRIPTION_DOESNT_EXISTS };
 
-        public Mid0073() : this(LAST_REVISION)
+        public Mid0073() : this(DEFAULT_REVISION)
         {
 
         }
 
-        public Mid0073(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0073(int revision = DEFAULT_REVISION) : base(MID, revision)
         {
 
         }

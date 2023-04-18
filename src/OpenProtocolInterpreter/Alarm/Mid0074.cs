@@ -11,7 +11,6 @@ namespace OpenProtocolInterpreter.Alarm
     /// </summary>
     public class Mid0074 : Mid, IAlarm, IController, IAcknowledgeable<Mid0075>
     {
-        private const int LAST_REVISION = 2;
         public const int MID = 74;
 
         public string ErrorCode
@@ -20,12 +19,12 @@ namespace OpenProtocolInterpreter.Alarm
             set => GetField(1, (int)DataFields.ERROR_CODE).SetValue(value);
         }
 
-        public Mid0074() : this(LAST_REVISION)
+        public Mid0074() : this(DEFAULT_REVISION)
         {
 
         }
 
-        public Mid0074(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0074(int revision = DEFAULT_REVISION) : base(MID, revision)
         {
 
         }
@@ -35,7 +34,7 @@ namespace OpenProtocolInterpreter.Alarm
 
         }
 
-        public Mid0074(string errorCode, int revision = LAST_REVISION) : this(revision)
+        public Mid0074(string errorCode, int revision = DEFAULT_REVISION) : this(revision)
         {
             ErrorCode = errorCode;
         }

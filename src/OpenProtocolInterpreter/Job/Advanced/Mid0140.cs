@@ -22,7 +22,6 @@ namespace OpenProtocolInterpreter.Job.Advanced
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<bool> _boolConverter;
         private IValueConverter<IEnumerable<AdvancedJob>> _jobListConverter;
-        private const int LAST_REVISION = 3;
         public const int MID = 140;
 
         public int JobId
@@ -123,7 +122,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
             set => GetField(GetNormalizedRevision(), (int)DataFields.JOB_SEQUENCE_NUMBER).SetValue(_intConverter.Convert, value);
         }
 
-        public Mid0140() : this(LAST_REVISION)
+        public Mid0140() : this(DEFAULT_REVISION)
         {
 
         }
@@ -136,7 +135,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
             _jobListConverter = new AdvancedJobListConverter(_intConverter, header.Revision);
         }
 
-        public Mid0140(int revision = LAST_REVISION) : this(new Header()
+        public Mid0140(int revision = DEFAULT_REVISION) : this(new Header()
         {
             Mid = MID,
             Revision = revision

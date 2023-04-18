@@ -8,10 +8,9 @@
     /// </summary>
     public class Mid0402 : Mid, IAutomaticManualMode, IIntegrator, IAcknowledge
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 402;
 
-        public Mid0402() : base(MID, LAST_REVISION) { }
+        public Mid0402() : base(MID, DEFAULT_REVISION) { }
 
         public Mid0402(Header header) : base(header)
         {
