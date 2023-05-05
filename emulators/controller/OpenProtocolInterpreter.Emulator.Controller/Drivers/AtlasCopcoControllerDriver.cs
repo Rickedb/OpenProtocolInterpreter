@@ -48,7 +48,7 @@ namespace OpenProtocolInterpreter.Emulator.Controller.Drivers
 
         public Task StartAsync(int port)
         {
-            Server = new SimpleTcpServer("127.0.0.1", port);
+            Server = new SimpleTcpServer("0.0.0.0", port);
             Server.Settings.IdleClientTimeoutMs = 10000;
             Server.Events.ClientConnected += OnClientConnected;
             Server.Events.ClientDisconnected += OnClientDisconnected;
