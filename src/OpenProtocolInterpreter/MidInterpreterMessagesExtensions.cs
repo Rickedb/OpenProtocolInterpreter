@@ -104,7 +104,7 @@ namespace OpenProtocolInterpreter
                 .UseTimeMessages(mids.Where(x => DoesImplementInterface(x, typeof(ITime))))
                 .UseToolMessages(mids.Where(x => DoesImplementInterface(x, typeof(ITool))))
                 .UseUserInterfaceMessages(mids.Where(x => DoesImplementInterface(x, typeof(IUserInterface))))
-                .UseVinMessages(mids.Where(x => DoesImplementInterface(x, typeof(Vin.IVin))));
+                .UseVinMessages(mids.Where(x => DoesImplementInterface(x, typeof(IVin))));
         }
 
         /// <summary>

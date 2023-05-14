@@ -139,9 +139,9 @@ namespace OpenProtocolInterpreter
             int revision = Header.Revision > 0 ? Header.Revision : 1;
             for (int i = 1; i <= revision; i++)
             {
-                if (RevisionsByFields.ContainsKey(i))
+                if (RevisionsByFields.TryGetValue(i, out var field))
                 {
-                    ProcessDataFields(RevisionsByFields[i], package);
+                    ProcessDataFields(field, package);
                 }
             }
         }
