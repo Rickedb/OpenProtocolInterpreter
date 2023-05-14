@@ -14,7 +14,12 @@ namespace OpenProtocolInterpreter.Converters
 
         public override IEnumerable<VariableDataField> Convert(string value)
         {
-            int length = 0;
+            if(string.IsNullOrWhiteSpace(value))
+            {
+                yield break;
+            }
+
+            int length;
             for (int i = 0; i < value.Length; i += 17 + length)
             {
                 length = _intConverter.Convert(value.Substring(i + 5, 3));

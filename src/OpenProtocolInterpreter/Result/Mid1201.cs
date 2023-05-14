@@ -109,7 +109,8 @@ namespace OpenProtocolInterpreter.Result
         public override Mid Parse(string package)
         {
             Header = ProcessHeader(package);
-            int totalObjectData = _intConverter.Convert(GetValue(GetField(1, (int)DataFields.NUMBER_OF_OBJECTS), package));
+            var rawTotalObjectData = GetValue(GetField(1, (int)DataFields.NUMBER_OF_OBJECTS), package);
+            int totalObjectData = _intConverter.Convert(rawTotalObjectData);
 
             var objectDataField = GetField(1, (int)DataFields.OBJECT_DATA);
             objectDataField.Size = totalObjectData * 5;
@@ -121,6 +122,7 @@ namespace OpenProtocolInterpreter.Result
             dataFieldListField.Index = totalNumberDataField.Index + totalNumberDataField.Size;
             dataFieldListField.Size = Header.Length - dataFieldListField.Index;
 
+            ProcessDataFields(package);
             ObjectDataList = _objectDataListConverter.Convert(objectDataField.Value).ToList();
             VariableDataFields = _varDataFieldListConverter.Convert(dataFieldListField.Value).ToList();
             return this;
