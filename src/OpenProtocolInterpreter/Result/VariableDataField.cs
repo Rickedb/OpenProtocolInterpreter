@@ -10,7 +10,6 @@
         public int DataType { get; set; }
         public int Unit { get; set; }
         public int StepNumber { get; set; }
-        public string RealValue { get; set; }
-
+        public string DataValue { get; set; }
     }
 }

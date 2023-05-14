@@ -25,7 +25,7 @@ namespace OpenProtocolInterpreter.Converters
                     DataType = _intConverter.Convert(value.Substring(i + 8, 2)),
                     Unit = _intConverter.Convert(value.Substring(i + 10, 3)),
                     StepNumber = _intConverter.Convert(value.Substring(i + 13, 4)),
-                    RealValue = value.Substring(i + 17, length)
+                    DataValue = value.Substring(i + 17, length)
                 };
             }
         }
@@ -40,7 +40,7 @@ namespace OpenProtocolInterpreter.Converters
                 pack += _intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, v.DataType);
                 pack += _intConverter.Convert('0', 3, DataField.PaddingOrientations.LEFT_PADDED, v.Unit);
                 pack += _intConverter.Convert('0', 4, DataField.PaddingOrientations.LEFT_PADDED, v.StepNumber);
-                pack += GetTruncatePadded(' ', 1, DataField.PaddingOrientations.RIGHT_PADDED, v.RealValue);
+                pack += GetTruncatePadded(' ', 1, DataField.PaddingOrientations.RIGHT_PADDED, v.DataValue);
             }
             return pack;
         }
