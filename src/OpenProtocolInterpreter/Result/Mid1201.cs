@@ -136,7 +136,7 @@ namespace OpenProtocolInterpreter.Result
                         new DataField((int)DataFields.TOTAL_MESSAGES, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
                         new DataField((int)DataFields.MESSAGE_NUMBER, 23, 3, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
                         new DataField((int)DataFields.RESULT_DATA_IDENTIFIER, 26, 10, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
-                        new DataField((int)DataFields.TIME, 36, 4, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
+                        new DataField((int)DataFields.TIME, 36, 19, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
                         new DataField((int)DataFields.RESULT_STATUS, 55, 1, false),
                         new DataField((int)DataFields.OPERATION_TYPE, 56, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
                         new DataField((int)DataFields.NUMBER_OF_OBJECTS, 58, 3, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
