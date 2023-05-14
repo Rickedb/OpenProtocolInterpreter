@@ -32,7 +32,7 @@ namespace OpenProtocolInterpreter.Communication
             _boolConverter = new BoolConverter();
         }
 
-        public Mid0001(int revision = 6) : this(new Header()
+        public Mid0001(int revision = DEFAULT_REVISION) : this(new Header()
         {
             Mid = MID,
             Revision = revision
