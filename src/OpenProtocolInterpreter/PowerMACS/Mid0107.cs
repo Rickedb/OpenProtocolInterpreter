@@ -78,9 +78,9 @@ namespace OpenProtocolInterpreter.PowerMACS
             get => GetField(1, (int)DataFields.PROGRAM_NAME).Value;
             set => GetField(1, (int)DataFields.PROGRAM_NAME).SetValue(value);
         }
-        public PowerMacsStatuses PowerMacsStatus
+        public PowerMacsStatus PowerMacsStatus
         {
-            get => (PowerMacsStatuses)GetField(1, (int)DataFields.PM_STATUS).GetValue(_intConverter.Convert);
+            get => (PowerMacsStatus)GetField(1, (int)DataFields.PM_STATUS).GetValue(_intConverter.Convert);
             set => GetField(1, (int)DataFields.PM_STATUS).SetValue(_intConverter.Convert, (int)value);
         }
         public string Errors
@@ -249,15 +249,6 @@ namespace OpenProtocolInterpreter.PowerMACS
             NUMBER_OF_SPECIAL_VALUES,
             SPECIAL_VALUES,
             SYSTEM_SUB_TYPE
-        }
-
-        //TODO: Rename to PowerMacsStatus and move outside MID0107 class
-        public enum PowerMacsStatuses
-        {
-            OK = 0,
-            OKR = 1,
-            NOK = 2,
-            TERMNOK = 3
         }
     }
 }
