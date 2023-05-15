@@ -98,7 +98,7 @@ namespace OpenProtocolInterpreter.ParameterSet
             _dateConverter = new DateConverter();
         }
 
-        public Mid0013(int revision = DEFAULT_REVISION) : this(new Header()
+        public Mid0013(int revision) : this(new Header()
         {
             Mid = MID, 
             Revision = revision

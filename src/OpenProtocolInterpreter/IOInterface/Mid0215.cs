@@ -59,7 +59,7 @@ namespace OpenProtocolInterpreter.IOInterface
             DigitalInputs = new List<DigitalInput>();
         }
 
-        public Mid0215(int revision = DEFAULT_REVISION) : this(new Header()
+        public Mid0215(int revision) : this(new Header()
         {
             Mid = MID,
             Revision = revision

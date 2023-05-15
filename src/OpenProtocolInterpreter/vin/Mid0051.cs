@@ -38,7 +38,7 @@ namespace OpenProtocolInterpreter.Vin
 
         }
 
-        public Mid0051(int revision = DEFAULT_REVISION, bool noAckFlag = false) : base(MID, revision, noAckFlag)
+        public Mid0051(int revision, bool noAckFlag = false) : base(MID, revision, noAckFlag)
         {
 
         }

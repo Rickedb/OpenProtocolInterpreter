@@ -22,7 +22,7 @@ namespace OpenProtocolInterpreter.PowerMACS
 
         }
 
-        public Mid0109(int revision = DEFAULT_REVISION) : base(MID, revision) { }
+        public Mid0109(int revision) : base(MID, revision) { }
 
         public Mid0109(Header header) : base(header)
         {

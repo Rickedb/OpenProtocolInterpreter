@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace OpenProtocolInterpreter.Messages
 {
@@ -11,7 +12,8 @@ namespace OpenProtocolInterpreter.Messages
         public MidCompiledInstance(Type type)
         {
             Type = type;
-            CompiledConstructor = Expression.Lambda<Func<Mid>>(Expression.New(type.GetConstructor(Type.EmptyTypes))).Compile();
+            var ctor = type.GetConstructor(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, null, Type.EmptyTypes, null);
+            CompiledConstructor = Expression.Lambda<Func<Mid>>(Expression.New(ctor)).Compile();
         }
     }
 }

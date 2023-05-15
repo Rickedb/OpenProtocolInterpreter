@@ -29,20 +29,25 @@ namespace OpenProtocolInterpreter.ParameterSet
         public int NumberOfParameterDataFields { get; set; }
         public List<VariableDataField> DataFields { get; set; }
 
+        public Mid2505() : this(DEFAULT_REVISION)
+        {
+
+        }
+
+        public Mid2505(int revision) : this(new Header()
+        {
+            Mid = MID,
+            Revision = revision
+        })
+        {
+        }
+
         public Mid2505(Header header) : base(header)
         {
             _intConverter = new Int32Converter();
             _variableDataFieldListConverter = new VariableDataFieldListConverter(_intConverter);
             if (DataFields == null)
                 DataFields = new List<VariableDataField>();
-        }
-
-        public Mid2505(int revision = DEFAULT_REVISION) : this(new Header()
-        {
-            Mid = MID,
-            Revision = revision
-        })
-        {
         }
 
         public override string Pack()

@@ -48,7 +48,7 @@ namespace OpenProtocolInterpreter.Tool
             _intConverter = new Int32Converter();
         }
 
-        public Mid0045(int revision = DEFAULT_REVISION) : this(new Header()
+        public Mid0045(int revision) : this(new Header()
         {
             Mid = MID,
             Revision = revision

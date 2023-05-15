@@ -139,15 +139,20 @@ namespace OpenProtocolInterpreter.Tool
 
         public Mid0041(Header header) : base(header)
         {
-        }
-
-        public Mid0041(int revision = DEFAULT_REVISION) : base(MID, revision)
-        {
             _intConverter = new Int32Converter();
             _longConverter = new Int64Converter();
             _dateConverter = new DateConverter();
             _decimalConverter = new DecimalTrucatedConverter(2);
             _openEndDataConverter = new OpenEndDataConverter(_intConverter, new BoolConverter());
+        }
+
+        public Mid0041(int revision) : this(new Header()
+        {
+            Mid = MID,
+            Revision = revision
+        })
+        {
+
         }
 
         /// <summary>
@@ -415,11 +420,11 @@ namespace OpenProtocolInterpreter.Tool
             string controllerSerialNumber, decimal calibrationValue, DateTime lastServiceDate,
             long tighteningsSinceService, ToolType toolType, int motorSize, OpenEndDatas openEndData,
             string controllerSoftwareVersion, decimal toolMaxTorque, decimal gearRatio, decimal toolFullSpeed,
-            PrimaryTool primaryTool, string toolModel, int toolNumber, string toolArticleNumber, 
+            PrimaryTool primaryTool, string toolModel, int toolNumber, string toolArticleNumber,
             decimal rundownMinSpeed, decimal downshiftMaxSpeed, decimal downshiftMinSpeed, int revision = 7)
             : this(toolSerialNumber, toolNumberOfTightenings, lastCalibrationDate, controllerSerialNumber,
                   calibrationValue, lastServiceDate, tighteningsSinceService, toolType, motorSize, openEndData,
-                  controllerSoftwareVersion, toolMaxTorque, gearRatio, toolFullSpeed, primaryTool, toolModel, 
+                  controllerSoftwareVersion, toolMaxTorque, gearRatio, toolFullSpeed, primaryTool, toolModel,
                   toolNumber, toolArticleNumber, revision)
         {
             RundownMinSpeed = rundownMinSpeed;

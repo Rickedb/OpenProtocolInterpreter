@@ -62,13 +62,13 @@ namespace OpenProtocolInterpreter.Alarm
             HandleRevision();
         }
 
-        public Mid0076(int revision = DEFAULT_REVISION) : this(new Header() 
+        public Mid0076(int revision) : this(new Header()
         {
             Mid = MID,
             Revision = revision
         })
         {
-            
+
         }
 
         /// <summary>

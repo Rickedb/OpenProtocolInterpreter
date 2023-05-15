@@ -19,10 +19,10 @@ namespace OpenProtocolInterpreter.Job
 
         }
 
-        public Mid0037(int revision = DEFAULT_REVISION) : base(MID, revision) { }
-
         public Mid0037(Header header) : base(header)
         {
         }
+
+        public Mid0037(int revision) : base(MID, revision) { }
     }
 }

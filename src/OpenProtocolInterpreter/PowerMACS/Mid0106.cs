@@ -129,7 +129,7 @@ namespace OpenProtocolInterpreter.PowerMACS
                 SpecialValues = new List<SpecialValue>();
         }
 
-        public Mid0106(int revision = DEFAULT_REVISION) : this(new Header()
+        public Mid0106(int revision) : this(new Header()
         {
             Mid = MID, 
             Revision = revision

@@ -41,7 +41,7 @@ namespace OpenProtocolInterpreter.Job
             HandleRevisions();
         }
 
-        public Mid0031(int revision = DEFAULT_REVISION) : this(new Header()
+        public Mid0031(int revision) : this(new Header()
         {
             Mid = MID,
             Revision = revision

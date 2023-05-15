@@ -106,7 +106,7 @@ namespace OpenProtocolInterpreter.ParameterSet
         /// Constructor
         /// </summary>
         /// <param name="revision">Range: 000-002</param>
-        public Mid0015(int revision = DEFAULT_REVISION) : this(new Header()
+        public Mid0015(int revision) : this(new Header()
         {
             Mid = MID,
             Revision = revision

@@ -15,7 +15,7 @@
 
         }
 
-        public Mid0062(int revision = DEFAULT_REVISION) : base(MID, revision)
+        public Mid0062(int revision) : base(MID, revision)
         {
 
         }

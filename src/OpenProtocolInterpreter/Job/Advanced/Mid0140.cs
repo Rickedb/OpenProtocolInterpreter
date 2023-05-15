@@ -135,7 +135,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
             _jobListConverter = new AdvancedJobListConverter(_intConverter, header.Revision);
         }
 
-        public Mid0140(int revision = DEFAULT_REVISION) : this(new Header()
+        public Mid0140(int revision) : this(new Header()
         {
             Mid = MID,
             Revision = revision

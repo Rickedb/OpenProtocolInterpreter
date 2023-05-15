@@ -18,10 +18,10 @@
 
         }
 
-        public Mid0030(int revision = DEFAULT_REVISION) : base(MID, revision) { }
-
         public Mid0030(Header header) : base(header)
         {
         }
+
+        public Mid0030(int revision) : base(MID, revision) { }
     }
 }

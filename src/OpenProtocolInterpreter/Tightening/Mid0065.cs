@@ -246,7 +246,7 @@ namespace OpenProtocolInterpreter.Tightening
             _tighteningErrorStatus2Converter = new TighteningErrorStatus2Converter(byteArrayConverter, _longConverter);
         }
 
-        public Mid0065(int revision = DEFAULT_REVISION) : this(new Header()
+        public Mid0065(int revision) : this(new Header()
         {
             Mid = MID, 
             Revision = revision

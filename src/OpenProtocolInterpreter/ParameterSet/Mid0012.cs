@@ -36,7 +36,7 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         }
 
-        public Mid0012(int revision = DEFAULT_REVISION) : this(new Header()
+        public Mid0012(int revision) : this(new Header()
         {
             Mid = MID,
             Revision = revision

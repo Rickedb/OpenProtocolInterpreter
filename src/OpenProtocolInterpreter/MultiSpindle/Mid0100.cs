@@ -63,7 +63,7 @@ namespace OpenProtocolInterpreter.MultiSpindle
 
         }
 
-        public Mid0100(int revision = DEFAULT_REVISION, bool noAckFlag = false) : this(new Header()
+        public Mid0100(int revision, bool noAckFlag = false) : this(new Header()
         {
             Mid = MID,
             Revision = revision,

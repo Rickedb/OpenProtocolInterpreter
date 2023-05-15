@@ -45,7 +45,7 @@ namespace OpenProtocolInterpreter.Tightening
             _longConverter = new Int64Converter();
         }
 
-        public Mid0064(int revision = DEFAULT_REVISION) : this(new Header()
+        public Mid0064(int revision) : this(new Header()
         {
             Mid = MID,
             Revision = revision

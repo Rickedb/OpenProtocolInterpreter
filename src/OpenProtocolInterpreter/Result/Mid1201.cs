@@ -77,7 +77,7 @@ namespace OpenProtocolInterpreter.Result
 
         }
 
-        public Mid1201(int revision = DEFAULT_REVISION) : this(new Header()
+        public Mid1201(int revision) : this(new Header()
         {
             Mid = MID,
             Revision = revision

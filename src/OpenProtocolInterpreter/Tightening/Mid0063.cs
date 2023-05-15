@@ -22,7 +22,7 @@ namespace OpenProtocolInterpreter.Tightening
 
         }
 
-        public Mid0063(int revision = DEFAULT_REVISION) : base(MID, revision)
+        public Mid0063(int revision) : base(MID, revision)
         {
 
         }

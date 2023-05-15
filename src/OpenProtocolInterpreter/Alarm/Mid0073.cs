@@ -19,12 +19,12 @@ namespace OpenProtocolInterpreter.Alarm
 
         }
 
-        public Mid0073(int revision = DEFAULT_REVISION) : base(MID, revision)
+        public Mid0073(Header header) : base(header)
         {
 
         }
 
-        public Mid0073(Header header) : base(header)
+        public Mid0073(int revision) : base(MID, revision)
         {
 
         }

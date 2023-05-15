@@ -37,7 +37,7 @@ namespace OpenProtocolInterpreter.PowerMACS
             _boolConverter = new BoolConverter();
         }
 
-        public Mid0108(int revision = DEFAULT_REVISION) : this(new Header()
+        public Mid0108(int revision) : this(new Header()
         {
             Mid = MID,
             Revision = revision

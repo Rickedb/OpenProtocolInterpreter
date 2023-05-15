@@ -75,7 +75,7 @@ namespace OpenProtocolInterpreter
         /// <param name="midInterpreter">MidInterpreter instance</param>
         /// <param name="mids">Mids that you want to be available for parsing</param>
         /// <returns>MidInterpreter instance</returns>
-        public static MidInterpreter UseAllMessages(this MidInterpreter midInterpreter, IEnumerable<Type> mids)
+        public static MidInterpreter UseAllMessages(this MidInterpreter midInterpreter, IReadOnlyCollection<Type> mids)
         {
             if (mids.Any(x => !x.IsSubclassOf(typeof(Mid))))
                 throw new ArgumentException("All mids must inherit Mid class", nameof(mids));

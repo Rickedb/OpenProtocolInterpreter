@@ -26,7 +26,7 @@ namespace OpenProtocolInterpreter.Tightening
 
         }
 
-        public Mid0060(int revision = DEFAULT_REVISION, bool noAckFlag = false) : base(MID, revision, noAckFlag)
+        public Mid0060(int revision, bool noAckFlag = false) : base(MID, revision, noAckFlag)
         {
 
         }

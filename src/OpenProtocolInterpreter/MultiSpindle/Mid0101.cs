@@ -142,7 +142,7 @@ namespace OpenProtocolInterpreter.MultiSpindle
             _spindleOrPressStatusListConverter = new SpindleOrPressStatusListConverter(_intConverter, _boolConverter, _decimalConverter);
         }
 
-        public Mid0101(int revision = DEFAULT_REVISION) : this(new Header()
+        public Mid0101(int revision) : this(new Header()
         {
             Mid = MID,
             Revision = revision

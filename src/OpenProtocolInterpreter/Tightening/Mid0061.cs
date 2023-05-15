@@ -356,7 +356,7 @@ namespace OpenProtocolInterpreter.Tightening
             _stageResultListConverter = new StageResultListConverter(_intConverter, _decimalConverter);
         }
 
-        public Mid0061(int revision = DEFAULT_REVISION) : this(new Header()
+        public Mid0061(int revision) : this(new Header()
         {
             Mid = MID, 
             Revision = revision
