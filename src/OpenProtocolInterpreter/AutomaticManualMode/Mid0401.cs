@@ -41,11 +41,6 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
             _boolConverter = new BoolConverter();
         }
 
-        public Mid0401(bool manualAutomaticMode) : this()
-        {
-            ManualAutomaticMode = manualAutomaticMode;
-        }
-
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()

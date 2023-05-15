@@ -16,7 +16,12 @@ namespace OpenProtocolInterpreter.Converters
 
         public override IEnumerable<StageResult> Convert(string value)
         {
-            for(int i = 0; i < value.Length; i += 11)
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                yield break;
+            }
+
+            for (int i = 0; i < value.Length; i += 11)
             {
                 yield return new StageResult()
                 {

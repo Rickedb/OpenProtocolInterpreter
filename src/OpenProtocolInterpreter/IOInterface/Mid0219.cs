@@ -40,15 +40,6 @@ namespace OpenProtocolInterpreter.IOInterface
             _intConverter = new Int32Converter();
         }
 
-        /// <summary>
-        /// Revision 1 Constructor
-        /// </summary>
-        /// <param name="relayNumber"></param>
-        public Mid0219(RelayNumber relayNumber) : this()
-        {
-            RelayNumber = relayNumber;
-        }
-
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()

@@ -16,6 +16,11 @@ namespace OpenProtocolInterpreter.Converters
 
         public override IEnumerable<DigitalInput> Convert(string value)
         {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                yield break;
+            }
+
             for (int i = 0; i < value.Length; i += 4)
                 yield return new DigitalInput()
                 {

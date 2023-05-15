@@ -56,30 +56,6 @@ namespace OpenProtocolInterpreter.Tool
         {
         }
 
-        /// <summary>
-        /// Revision 1 constructor
-        /// </summary>
-        /// <param name="calibrationValueUnit">The unit in which the calibration value is sent. The calibration value unit is one byte long and specified by one ASCII digit.</param>
-        /// <param name="calibrationValue">The calibration value is multiplied by 100 and sent as an integer (2 decimals truncated). The calibration value is six bytes long and is specified by six ASCII digits.</param>
-        /// <param name="revision">Revision</param>
-        public Mid0045(CalibrationUnit calibrationValueUnit, decimal calibrationValue, int revision = 1) : this(revision)
-        {
-            CalibrationValueUnit = calibrationValueUnit;
-            CalibrationValue = calibrationValue;
-        }
-
-        /// <summary>
-        /// Revision 2 constructor
-        /// </summary>
-        /// <param name="calibrationValueUnit">The unit in which the calibration value is sent. The calibration value unit is one byte long and specified by one ASCII digit.</param>
-        /// <param name="calibrationValue">The calibration value is multiplied by 100 and sent as an integer (2 decimals truncated). The calibration value is six bytes long and is specified by six ASCII digits.</param>
-        /// <param name="channelNumber">The number of the channel to set the calibration value.</param>
-        /// <param name="revision">Revision</param>
-        public Mid0045(CalibrationUnit calibrationValueUnit, decimal calibrationValue, int channelNumber, int revision = 2) : this(calibrationValueUnit, calibrationValue, revision)
-        {
-            ChannelNumber = channelNumber;
-        }
-
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()

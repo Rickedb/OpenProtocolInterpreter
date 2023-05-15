@@ -42,24 +42,6 @@ namespace OpenProtocolInterpreter.Tool
         {
         }
 
-        /// <summary>
-        /// Revision 2 constructor
-        /// </summary>
-        /// <param name="toolNumber">The number of the tool to disable. It is the same number as the tool numbers sent in <see cref="Mid0701"/> (Tool List Upload)</param>
-        /// <param name="disableType">
-        ///     The type of disable:
-        ///     <para>00 = Disable(lock)</para>
-        ///     <para>01 = Inhibit NOK</para>
-        ///     <para>02 = Inhibit OK</para>
-        ///     <para>03 = Inhibit No result</para>
-        /// </param>
-        /// <param name="revision">Revision</param>
-        public Mid0042(int toolNumber, DisableType disableType, int revision = 2) : this(revision)
-        {
-            ToolNumber = toolNumber;
-            DisableType = disableType;
-        }
-
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()

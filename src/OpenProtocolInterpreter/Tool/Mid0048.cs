@@ -41,17 +41,6 @@ namespace OpenProtocolInterpreter.Tool
             _dateConverter = new DateConverter();
         }
 
-        /// <summary>
-        /// Revision 1 Constructor
-        /// </summary>
-        /// <param name="pairingStatus">Status of the tool pairing, a two byte-long and specified by two ASCII digits.</param>
-        /// <param name="timeStamp">Time stamp for each status change or time for fetch. It is 19 bytes long and is specified by 19 ASCII characters</param>
-        public Mid0048(PairingStatus pairingStatus, DateTime timeStamp) : this()
-        {
-            PairingStatus = pairingStatus;
-            TimeStamp = timeStamp;
-        }
-
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()

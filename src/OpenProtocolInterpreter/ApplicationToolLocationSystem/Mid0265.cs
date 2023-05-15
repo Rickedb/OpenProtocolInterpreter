@@ -41,12 +41,6 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
             _intConverter = new Int32Converter();
         }
 
-        public Mid0265(string toolTagId, ToolStatus toolStatus) : this()
-        {
-            ToolTagId = toolTagId;
-            ToolStatus = toolStatus;
-        }
-
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()

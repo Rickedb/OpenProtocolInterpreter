@@ -64,37 +64,6 @@ namespace OpenProtocolInterpreter.Alarm
 
         }
 
-        /// <summary>
-        /// Constructor for Revision 1
-        /// </summary>
-        /// <param name="errorCode">The error code is specified by 4 ASCII characters. The error code begins with E and is followed by three digits. <para>Example E851.</para></param>
-        /// <param name="controllerReadyStatus">Controller ready status</param>
-        /// <param name="toolReadyStatus">Tool ready status</param>
-        /// <param name="time">Time stamp for the alarm</param>
-        /// <param name="revision">Revision (Default revision = 1)</param>
-        public Mid0071(string errorCode, bool controllerReadyStatus, bool toolReadyStatus, DateTime time, int revision = 1) : this(revision)
-        {
-            ErrorCode = errorCode;
-            ControllerReadyStatus = controllerReadyStatus;
-            ToolReadyStatus = toolReadyStatus;
-            Time = time;
-        }
-
-        /// <summary>
-        /// Constructor for Revision 2
-        /// </summary>
-        /// <param name="errorCode">The error code is specified by 5 ASCII characters. The error code begins with E and is followed by four digits. <para>Example E1021.</para></param>
-        /// <param name="controllerReadyStatus">Controller ready status</param>
-        /// <param name="toolReadyStatus">Tool ready status</param>
-        /// <param name="time">Time stamp for the alarm</param>
-        /// <param name="alarmText">Alarm text. 50 ASCII characters</param>
-        /// <param name="revision">Revision (Default revision = 1)</param>
-        public Mid0071(string errorCode, bool controllerReadyStatus, bool toolReadyStatus, DateTime time, string alarmText, int revision = 2)
-            : this(errorCode, controllerReadyStatus, toolReadyStatus, time, revision)
-        {
-            AlarmText = alarmText;
-        }
-
         public override Mid Parse(string package)
         {
             Header = ProcessHeader(package);

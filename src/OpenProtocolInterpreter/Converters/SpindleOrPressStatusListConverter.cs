@@ -19,6 +19,11 @@ namespace OpenProtocolInterpreter.Converters
 
         public override IEnumerable<SpindleOrPressStatus> Convert(string value)
         {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                yield break;
+            }
+
             for (int i = 0; i < value.Length; i += 18)
             {
                 var spindleValue = value.Substring(i, 18);

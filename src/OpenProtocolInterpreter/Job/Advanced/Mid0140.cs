@@ -144,7 +144,6 @@ namespace OpenProtocolInterpreter.Job.Advanced
 
         }
 
-
         public override string Pack()
         {
             var revision = GetNormalizedRevision();

@@ -38,11 +38,6 @@ namespace OpenProtocolInterpreter.Job.Advanced
             _boolConverter = new BoolConverter();
         }
 
-        public Mid0130(bool jobOffStatus) : this()
-        {
-            JobOffStatus = jobOffStatus;
-        }
-
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()

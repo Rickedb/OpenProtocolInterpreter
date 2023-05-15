@@ -16,6 +16,11 @@ namespace OpenProtocolInterpreter.Converters
 
         public override IEnumerable<StepResult> Convert(string value)
         {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                yield break;
+            }
+
             for (int i = 0; i < value.Length; i += 31)
             {
                 var result = new StepResult()

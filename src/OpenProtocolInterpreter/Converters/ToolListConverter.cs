@@ -14,6 +14,11 @@ namespace OpenProtocolInterpreter.Converters
 
         public override IEnumerable<ToolData> Convert(string value)
         {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                yield break;
+            }
+
             for (int i = 0; i < value.Length; i += 94)
             {
                 yield return new ToolData()

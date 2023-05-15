@@ -13,6 +13,11 @@ namespace OpenProtocolInterpreter.Converters
 
         public override IEnumerable<LightCommand> Convert(string value)
         {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                yield break;
+            }
+
             foreach (var c in value)
                 yield return (LightCommand)_intConverter.Convert(c.ToString());
         }

@@ -37,11 +37,6 @@ namespace OpenProtocolInterpreter.MotorTuning
             _boolConverter = new BoolConverter();
         }
 
-        public Mid0501(bool motorTuneResult) : this()
-        {
-            MotorTuneResult = motorTuneResult;
-        }
-
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()

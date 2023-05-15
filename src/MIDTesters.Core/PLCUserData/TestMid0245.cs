@@ -35,7 +35,7 @@ namespace MIDTesters.PLCUserData
             string userData = "the phrase the quick brown fox jumps over the lazy dog should test all the letter keys in your keyboard ";
             userData += userData; //double it to get 208 characters
 
-            var mid0245 = new Mid0245(2, userData);
+            var mid0245 = new Mid0245(2) { UserData = userData };
             Assert.IsNotNull(mid0245.UserData);
             Assert.AreEqual(userData.Substring(0, 200), mid0245.UserData);
             Assert.IsTrue(mid0245.Pack().Length == 223);

@@ -72,16 +72,6 @@ namespace OpenProtocolInterpreter.UserInterface
             _intConverter = new Int32Converter();
         }
 
-        public Mid0111(int textDuration, RemovalCondition removalCondition, string line1, string line2, string line3, string line4) : this()
-        {
-            TextDuration = textDuration;
-            RemovalCondition = removalCondition;
-            Line1 = line1;
-            Line2 = line2;
-            Line3 = line3;
-            Line4 = line4;
-        }
-
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()

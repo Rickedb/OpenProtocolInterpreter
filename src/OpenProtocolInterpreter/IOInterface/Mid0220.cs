@@ -51,11 +51,6 @@ namespace OpenProtocolInterpreter.IOInterface
 
         }
 
-        public Mid0220(DigitalInputNumber digitalInputNumber, bool noAckFlag = false) : this(noAckFlag)
-        {
-            DigitalInputNumber = digitalInputNumber;
-        }
-
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()

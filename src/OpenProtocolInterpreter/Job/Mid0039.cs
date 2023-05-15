@@ -43,16 +43,6 @@ namespace OpenProtocolInterpreter.Job
         {
         }
 
-        /// <summary>
-        /// Constructor for Revision 1 and 2
-        /// </summary>
-        /// <param name="jobId">The Job ID is specified by two/four ASCII characters, range 00-99/0000-9999 <para>*Depend on revision</para></param>
-        /// <param name="revision">Revision number (default = 2)</param>
-        public Mid0039(int jobId, int revision = DEFAULT_REVISION) : this(revision)
-        {
-            JobId = jobId;
-        }
-
         public override Mid Parse(string package)
         {
             Header = ProcessHeader(package);
@@ -72,28 +62,6 @@ namespace OpenProtocolInterpreter.Job
                             }
                 }
             };
-        }
-
-        /// <summary>
-        /// Validate all fields size
-        /// </summary>
-        public bool Validate(out IEnumerable<string> errors)
-        {
-            List<string> failed = new List<string>();
-
-            if (Header.Revision == 1)
-            {
-                if (JobId < 0 || JobId > 99)
-                    failed.Add(new ArgumentOutOfRangeException(nameof(JobId), "Range: 00-99").Message);
-            }
-            else
-            {
-                if (JobId < 0 || JobId > 9999)
-                    failed.Add(new ArgumentOutOfRangeException(nameof(JobId), "Range: 0000-9999").Message);
-            }
-
-            errors = failed;
-            return errors.Any();
         }
 
         private void HandleRevisions()

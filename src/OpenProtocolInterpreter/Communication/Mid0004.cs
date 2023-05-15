@@ -36,11 +36,7 @@ namespace OpenProtocolInterpreter.Communication
             set => GetField(1, (int)DataFields.ERROR_CODE).SetValue(_intConverter.Convert, (int)value);
         }
 
-        public Mid0004() : this(new Header()
-        {
-            Mid = MID,
-            Revision = DEFAULT_REVISION
-        })
+        public Mid0004() : this(DEFAULT_REVISION)
         {
 
         }
@@ -50,28 +46,13 @@ namespace OpenProtocolInterpreter.Communication
             _intConverter = new Int32Converter();
         }
 
-        /// <summary>
-        /// Revision 1 Constructor
-        /// </summary>
-        /// <param name="failedMid">Failed Mid. Range: 0000-9999</param>
-        /// <param name="errorCode"></param>
-        public Mid0004(int failedMid, Error errorCode) : this()
+        public Mid0004(int revision) : this(new Header()
         {
-            FailedMid = failedMid;
-            ErrorCode = errorCode;
-        }
-
-        /// <summary>
-        /// Validate all fields size
-        /// </summary>
-        public bool Validate(out IEnumerable<string> errors)
+            Mid = MID,
+            Revision = revision
+        })
         {
-            List<string> failed = new List<string>();
-            if (FailedMid < 1 || FailedMid > 9999)
-                failed.Add(new ArgumentOutOfRangeException(nameof(FailedMid), "Range: 0000-9999").Message);
 
-            errors = failed;
-            return failed.Count > 0;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

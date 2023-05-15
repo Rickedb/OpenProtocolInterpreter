@@ -40,8 +40,6 @@ namespace OpenProtocolInterpreter.ParameterSet
             _intConverter = new Int32Converter();
         }
 
-        public Mid0020(int parameterSetId) : this() => ParameterSetId = parameterSetId;
-
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()
@@ -53,17 +51,6 @@ namespace OpenProtocolInterpreter.ParameterSet
                             }
                 }
             };
-        }
-
-        /// <summary>
-        /// Validate all fields size
-        /// </summary>
-        public bool Validate(out IEnumerable<string> errors)
-        {
-            errors = Enumerable.Empty<string>();
-            if (ParameterSetId < 0 || ParameterSetId > 999)
-                errors = new List<string>() { new ArgumentOutOfRangeException(nameof(ParameterSetId), "Range: 000-999").Message };
-            return errors.Any();
         }
 
         public enum DataFields

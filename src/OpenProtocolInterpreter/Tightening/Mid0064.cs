@@ -53,11 +53,6 @@ namespace OpenProtocolInterpreter.Tightening
         {
         }
 
-        public Mid0064(long tighteningId, int revision = DEFAULT_REVISION) : this(revision)
-        {
-            TighteningId = tighteningId;
-        }
-
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()

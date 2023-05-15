@@ -41,11 +41,6 @@ namespace OpenProtocolInterpreter.Tool
             }
         }
 
-        public Mid0701(IEnumerable<ToolData> tools) : this()
-        {
-            Tools = tools.ToList();
-        }
-
         public override string Pack()
         {
             GetField(1, (int)DataFields.TOTAL_TOOLS).SetValue(_intConverter.Convert, TotalTools);

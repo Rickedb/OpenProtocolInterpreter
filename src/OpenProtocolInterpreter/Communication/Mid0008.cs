@@ -59,14 +59,6 @@ namespace OpenProtocolInterpreter.Communication
             _intConverter = new Int32Converter();
         }
 
-        public Mid0008(string subscriptionMid, int wantedRevision, string extraData) : this()
-        {
-            SubscriptionMid = subscriptionMid;
-            WantedRevision = wantedRevision;
-            ExtraData = extraData;
-            ExtraDataLength = ExtraData.Length;
-        }
-
         public override Mid Parse(string package)
         {
             Header = ProcessHeader(package);

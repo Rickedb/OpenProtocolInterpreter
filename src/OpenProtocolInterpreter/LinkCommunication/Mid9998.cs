@@ -45,17 +45,6 @@ namespace OpenProtocolInterpreter.LinkCommunication
             _intConverter = new Int32Converter();
         }
 
-        /// <summary>
-        /// Revision 1 Constructor
-        /// </summary>
-        /// <param name="midNumber">MID number to which the acknowledgment error belongs to</param>
-        /// <param name="errorCode">Error code for the sent message</param>
-        public Mid9998(int midNumber, LinkCommunicationError errorCode) : this()
-        {
-            MidNumber = midNumber;
-            ErrorCode = errorCode;
-        }
-
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()

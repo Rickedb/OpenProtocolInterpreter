@@ -34,15 +34,6 @@ namespace OpenProtocolInterpreter.Time
             _dateConverter = new DateConverter();
         }
 
-        /// <summary>
-        /// Revision 1 Constructor
-        /// </summary>
-        /// <param name="time"></param>
-        public Mid0082(DateTime time) : this()
-        {
-            Time = time;
-        }
-
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()

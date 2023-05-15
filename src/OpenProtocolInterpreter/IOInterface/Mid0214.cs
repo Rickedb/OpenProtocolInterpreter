@@ -45,11 +45,6 @@ namespace OpenProtocolInterpreter.IOInterface
         {
         }
 
-        public Mid0214(int deviceNumber, int revision = DEFAULT_REVISION) : this(revision)
-        {
-            DeviceNumber = deviceNumber;
-        }
-
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()

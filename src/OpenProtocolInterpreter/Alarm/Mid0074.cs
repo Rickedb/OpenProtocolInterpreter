@@ -34,11 +34,6 @@ namespace OpenProtocolInterpreter.Alarm
 
         }
 
-        public Mid0074(string errorCode, int revision = DEFAULT_REVISION) : this(revision)
-        {
-            ErrorCode = errorCode;
-        }
-
         public override string Pack()
         {
             RevisionsByFields[1][(int)DataFields.ERROR_CODE].Size = Header.Revision == 1 ? 4 : 5;

@@ -19,6 +19,11 @@ namespace OpenProtocolInterpreter.Converters
 
         public override IEnumerable<SpecialValue> Convert(string value)
         {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                yield break;
+            }
+
             int index = 0;
             for (int i = 0; i < _totalSpecialValues; i++)
             {

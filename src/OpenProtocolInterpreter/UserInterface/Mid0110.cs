@@ -39,11 +39,6 @@ namespace OpenProtocolInterpreter.UserInterface
         {
         }
 
-        public Mid0110(string userText) : this()
-        {
-            UserText = userText;
-        }
-
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()

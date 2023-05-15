@@ -49,44 +49,6 @@ namespace OpenProtocolInterpreter.ParameterSet
             _intConverter = new Int32Converter();
         }
 
-        /// <summary>
-        /// Revision 1, 2 and 5 Constructor
-        /// </summary>
-        /// <param name="parameterSetId">Parameter Set Id. Three ASCII digits. Range: 000-999</param>
-        /// <param name="revision">Revision</param>
-        public Mid0012(int parameterSetId, int revision) : this(revision)
-        {
-            ParameterSetId = parameterSetId;
-        }
-
-        /// <summary>
-        /// Revision 3 and 4 Constructor
-        /// </summary>
-        /// <param name="parameterSetId">Parameter Set Id. Three ASCII digits. Range: 000-999</param>
-        /// <param name="parameterSetFileVersion">00000000 (special usage see Toyota appendix)</param>
-        /// <param name="revision">Revision</param>
-        public Mid0012(int parameterSetId, int parameterSetFileVersion, int revision) : this(parameterSetId, revision)
-        {
-            ParameterSetFileVersion = parameterSetFileVersion;
-        }
-
-        /// <summary>
-        /// Validate all fields size
-        /// </summary>
-        public bool Validate(out IEnumerable<string> errors)
-        {
-            List<string> failed = new List<string>();
-            if (ParameterSetId < 1 || ParameterSetId > 999)
-                failed.Add(new ArgumentOutOfRangeException(nameof(ParameterSetId), "Range: 000-999").Message);
-
-            if (Header.Revision > 2)
-                if (ParameterSetFileVersion < 0 || ParameterSetFileVersion > 99999999)
-                    failed.Add(new ArgumentOutOfRangeException(nameof(ParameterSetFileVersion), "Range: 00000000-99999999").Message);
-
-            errors = failed;
-            return failed.Count > 0;
-        }
-
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()

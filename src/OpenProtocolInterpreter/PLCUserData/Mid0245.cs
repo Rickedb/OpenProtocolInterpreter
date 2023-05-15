@@ -40,9 +40,9 @@ namespace OpenProtocolInterpreter.PLCUserData
         private readonly IValueConverter<int> _intConverter;
         public const int MID = 245;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] 
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[]
         {
-            Error.INVALID_DATA, 
+            Error.INVALID_DATA,
             Error.CONTROLLER_IS_NOT_A_SYNC_MASTER_OR_STATION_CONTROLLER,
             Error.MID_REVISION_UNSUPPORTED
         };
@@ -63,10 +63,14 @@ namespace OpenProtocolInterpreter.PLCUserData
             }
         }
 
-        public Mid0245() : this(new Header()
+        public Mid0245() : this(DEFAULT_REVISION)
         {
-            Mid = MID, 
-            Revision = DEFAULT_REVISION
+        }
+
+        public Mid0245(int revision) : this(new Header()
+        {
+            Mid = MID,
+            Revision = revision
         })
         {
         }
@@ -78,12 +82,6 @@ namespace OpenProtocolInterpreter.PLCUserData
             {
                 UserData = string.Empty.PadRight(2);
             }
-        }
-
-        public Mid0245(int offset, string userData) : this()
-        {
-            Offset = offset;
-            UserData = userData;
         }
 
         public override string Pack()

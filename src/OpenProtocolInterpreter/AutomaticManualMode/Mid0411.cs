@@ -59,12 +59,6 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
             _intConverter = new Int32Converter();
         }
 
-        public Mid0411(int autoDisableSetting, int currentBatch) : this()
-        {
-            AutoDisableSetting = autoDisableSetting;
-            CurrentBatch = currentBatch;
-        }
-
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()

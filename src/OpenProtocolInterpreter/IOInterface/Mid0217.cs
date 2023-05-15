@@ -46,17 +46,6 @@ namespace OpenProtocolInterpreter.IOInterface
             _boolConverter = new BoolConverter();
         }
 
-        /// <summary>
-        /// Revision 1 Constructor
-        /// </summary>
-        /// <param name="relayNumber">Three ASCII digits corresponding to a relay function</param>
-        /// <param name="relayStatus">One ASCII digit representing the relay function status <para>true = Active</para><para>false = Not Active</para></param>
-        public Mid0217(RelayNumber relayNumber, bool relayStatus) : this()
-        {
-            RelayNumber = relayNumber;
-            RelayStatus = relayStatus;
-        }
-
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()

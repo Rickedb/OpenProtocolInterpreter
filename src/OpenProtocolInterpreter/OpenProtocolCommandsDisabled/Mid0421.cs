@@ -38,11 +38,6 @@ namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
             _boolConverter = new BoolConverter();
         }
 
-        public Mid0421(bool digitalInputStatus) : this()
-        {
-            DigitalInputStatus = digitalInputStatus;
-        }
-
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()

@@ -44,11 +44,6 @@ namespace OpenProtocolInterpreter.IOInterface
             _intConverter = new Int32Converter();
         }
 
-        public Mid0225(DigitalInputNumber digitalInputNumber) : this()
-        {
-            DigitalInputNumber = digitalInputNumber;
-        }
-
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()

@@ -43,11 +43,6 @@ namespace OpenProtocolInterpreter.ParameterSet
                 ParameterSets = new List<int>();
         }
 
-        public Mid0011(IEnumerable<int> parameterSets) : this()
-        {
-            ParameterSets = parameterSets.ToList();
-        }
-
         public override string Pack()
         {
             GetField(1, (int)DataFields.TOTAL_PARAMETER_SETS).SetValue(_intConverter.Convert, TotalParameterSets);

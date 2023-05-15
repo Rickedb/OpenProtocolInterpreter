@@ -57,42 +57,6 @@ namespace OpenProtocolInterpreter.Vin
 
         public Mid0052(int revision) : base(MID, revision) { }
 
-        /// <summary>
-        /// Revision 1 Constructor
-        /// </summary>
-        /// <param name="vinNumber">The VIN number is 25 bytes long and is specified by 25 ASCII characters. 
-        /// <para>
-        /// Note! Only for PowerMACS and rev 000-001, the VIN number can be up to 40 bytes long.
-        /// Minimum number of bytes is always 25.
-        /// </para>
-        /// </param>
-        /// <param name="revision">Revision number (default = 1)</param>
-        public Mid0052(string vinNumber, int revision = 1) : this(revision)
-        {
-            VinNumber = vinNumber;
-        }
-
-        /// <summary>
-        /// Revision 2 Constructor
-        /// </summary>
-        /// <param name="vinNumber">The VIN number is 25 bytes long and is specified by 25 ASCII characters. 
-        /// <para>
-        /// Note! Only for PowerMACS and rev 000-001, the VIN number can be up to 40 bytes long.
-        /// Minimum number of bytes is always 25.
-        /// </para>
-        /// </param>
-        /// <param name="identifierResultPart2">The identifier result part 2 is 25 bytes long and is specified by 25 ASCII characters</param>
-        /// <param name="identifierResultPart3">The identifier result part 3 is 25 bytes long and is specified by 25 ASCII characters</param>
-        /// <param name="identifierResultPart4">The identifier result part 4 is 25 bytes long and is specified by 25 ASCII characters</param>
-        /// <param name="revision">Revision number (default = 2)</param>
-        public Mid0052(string vinNumber, string identifierResultPart2, string identifierResultPart3,
-            string identifierResultPart4, int revision = 2) : this(vinNumber, revision)
-        {
-            IdentifierResultPart2 = identifierResultPart2;
-            IdentifierResultPart3 = identifierResultPart3;
-            IdentifierResultPart4 = identifierResultPart4;
-        }
-
         public override string Pack()
         {
             var vinNumberField = GetField(1, (int)DataFields.VIN_NUMBER);
@@ -124,34 +88,6 @@ namespace OpenProtocolInterpreter.Vin
                 GetField(1, (int)DataFields.VIN_NUMBER).Size = Header.Length - 20;
             ProcessDataFields(package);
             return this;
-        }
-
-        /// <summary>
-        /// Validate all fields size
-        /// </summary>
-        public bool Validate(out IEnumerable<string> errors)
-        {
-            List<string> failed = new List<string>();
-
-            if (Header.Revision == 1)
-            {
-                if (VinNumber.Length > 45)
-                    failed.Add(new ArgumentOutOfRangeException(nameof(VinNumber), "Max of 45 characters").Message);
-            }
-            else
-            {
-                if (VinNumber.Length > 25)
-                    failed.Add(new ArgumentOutOfRangeException(nameof(VinNumber), "Max of 25 characters").Message);
-                if (IdentifierResultPart2.Length > 25)
-                    failed.Add(new ArgumentOutOfRangeException(nameof(IdentifierResultPart2), "Max of 25 characters").Message);
-                if (IdentifierResultPart3.Length > 25)
-                    failed.Add(new ArgumentOutOfRangeException(nameof(IdentifierResultPart3), "Max of 25 characters").Message);
-                if (IdentifierResultPart4.Length > 25)
-                    failed.Add(new ArgumentOutOfRangeException(nameof(IdentifierResultPart4), "Max of 25 characters").Message);
-            }
-
-            errors = failed;
-            return errors.Any();
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

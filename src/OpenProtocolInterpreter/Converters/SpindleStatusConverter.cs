@@ -16,6 +16,11 @@ namespace OpenProtocolInterpreter.Converters
 
         public override IEnumerable<SpindleStatus> Convert(string value)
         {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                yield break;
+            }
+
             for (int i = 0; i < value.Length; i += 5)
                 yield return new SpindleStatus()
                 {

@@ -34,11 +34,6 @@ namespace OpenProtocolInterpreter.PLCUserData
         {
         }
 
-        public Mid0240(string userData) : this()
-        {
-            UserData = userData;
-        }
-
         public override Mid Parse(string package)
         {
             Header = ProcessHeader(package);

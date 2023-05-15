@@ -37,11 +37,6 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
         {
         }
 
-        public Mid0150(string identifierData) : this()
-        {
-            IdentifierData = identifierData;
-        }
-
         public override Mid Parse(string package)
         {
             Header = ProcessHeader(package);

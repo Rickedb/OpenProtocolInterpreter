@@ -53,13 +53,6 @@ namespace OpenProtocolInterpreter.Job.Advanced
             
         }
 
-        public Mid0129(int channelId, int parameterSetId, int revision = 2) : this(revision)
-        {
-            ChannelId = channelId;
-            ParameterSetId = parameterSetId;
-        }
-
-
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()

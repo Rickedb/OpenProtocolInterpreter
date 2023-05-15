@@ -50,13 +50,6 @@ namespace OpenProtocolInterpreter.ApplicationSelector
                 SocketStatus = new List<bool>();
         }
 
-        public Mid0251(int deviceId, int numberOfSockets, IEnumerable<bool> socketStatus) : this()
-        {
-            DeviceId = deviceId;
-            NumberOfSockets = numberOfSockets;
-            SocketStatus = socketStatus.ToList();
-        }
-
         public override string Pack()
         {
             GetField(1, (int)DataFields.SOCKET_STATUS).Size = NumberOfSockets;

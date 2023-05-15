@@ -39,12 +39,6 @@ namespace OpenProtocolInterpreter.ParameterSet
             _intConverter = new Int32Converter();
         }
 
-        /// <summary>
-        /// Revision 1 Constructor
-        /// </summary>
-        /// <param name="parameterSetId">Three ASCII digits, range 000-999</param>
-        public Mid0018(int parameterSetId) : this() => ParameterSetId = parameterSetId;
-
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()
@@ -58,18 +52,6 @@ namespace OpenProtocolInterpreter.ParameterSet
             };
         }
 
-        /// <summary>
-        /// Validate all fields size
-        /// </summary>
-        public bool Validate(out IEnumerable<string> errors)
-        {
-            List<string> failed = new List<string>();
-            if (ParameterSetId < 0 || ParameterSetId > 999)
-                failed.Add(new ArgumentOutOfRangeException(nameof(ParameterSetId), "Range: 000-999").Message);
-
-            errors = failed;
-            return errors.Any();
-        }
 
         public enum DataFields
         {

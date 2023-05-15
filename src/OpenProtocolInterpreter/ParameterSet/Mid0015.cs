@@ -114,53 +114,6 @@ namespace OpenProtocolInterpreter.ParameterSet
         {
         }
 
-        /// <summary>
-        /// Revision 1 Constructor
-        /// </summary>
-        /// <param name="parameterSetId">Three ASCII digits, range 000-999</param>
-        /// <param name="lastChangeInParameterSet">19 ASCII characters. YYYY-MM-DD:HH:MM:SS</param>
-        /// <param name="revision">Range: 000-002</param>
-        public Mid0015(int parameterSetId, DateTime lastChangeInParameterSet, int revision = 1)
-            : this(revision)
-        {
-            ParameterSetId = parameterSetId;
-            LastChangeInParameterSet = lastChangeInParameterSet;
-        }
-
-        /// <summary>
-        ///  Revision 2 Constructor
-        /// </summary>
-        /// <param name="parameterSetId">Three ASCII digits, range 000-999</param>
-        /// <param name="parameterSetName">25 ASCII characters. Right padded with space if name is less than 25 characters.</param>
-        /// <param name="lastChangeInParameterSet">19 ASCII characters. YYYY-MM-DD:HH:MM:SS</param>
-        /// <param name="rotationDirection">1=CW (Clockwise), 2=CCW (Counter Clockwise)</param>
-        /// <param name="batchSize">2 ASCII digits, range 00-99</param>
-        /// <param name="torqueMin">The torque min limit is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
-        /// <param name="torqueMax">The torque max limit is multiplied by 100 and sent as an integer (2 decimals truncated. It is six bytes long and is specified by six ASCII digits.</param>
-        /// <param name="torqueFinalTarget">The torque final target is multiplied by 100 and sent as an integer(2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
-        /// <param name="angleMin">The angle min value is five bytes long and is specified by five ASCII digits.Range: 00000-99999.</param>
-        /// <param name="angleMax">The angle max value is five bytes long and is specified by five ASCII digits.Range: 00000-99999.</param>
-        /// <param name="finalAngleTarget">The target angle is specified in degrees. 5 ASCII digits.Range: 00000-99999.</param>
-        /// <param name="firstTarget">The torque first target is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
-        /// <param name="startFinalAngle">The start final angle is the torque to reach the snug level.The start final angle is multiplied by 100 and sent as an integer (2 decimals truncated). It is six bytes long and is specified by six ASCII digits.</param>
-        /// <param name="revision">Range: 000-002 (Default = 2)</param>
-        public Mid0015(int parameterSetId, string parameterSetName, DateTime lastChangeInParameterSet, RotationDirection rotationDirection, int batchSize,
-            decimal torqueMin, decimal torqueMax, decimal torqueFinalTarget, int angleMin, int angleMax, int finalAngleTarget, decimal firstTarget, 
-            decimal startFinalAngle, int revision = 2) : this(parameterSetId, lastChangeInParameterSet, revision)
-        {
-            ParameterSetName = parameterSetName;
-            RotationDirection = rotationDirection;
-            BatchSize = batchSize;
-            MinTorque = torqueMin;
-            MaxTorque = torqueMax;
-            TorqueFinalTarget = torqueFinalTarget;
-            MinAngle = angleMin;
-            MaxAngle = angleMax;
-            AngleFinalTarget = finalAngleTarget;
-            FirstTarget = firstTarget;
-            StartFinalAngle = startFinalAngle;
-        }
-
         protected override string BuildHeader()
         {
             Header.Length = 20;
@@ -214,30 +167,6 @@ namespace OpenProtocolInterpreter.ParameterSet
                             }
                 }
             };
-        }
-
-        /// <summary>
-        /// Validate all fields size
-        /// </summary>
-        public bool Validate(out IEnumerable<string> errors)
-        {
-            List<string> failed = new List<string>();
-            //Rev 1
-            if (ParameterSetId < 0 || ParameterSetId > 999)
-                failed.Add(new ArgumentOutOfRangeException(nameof(ParameterSetId), "Range: 000-999").Message);
-            if (ParameterSetName.Length > 25)
-                failed.Add(new ArgumentOutOfRangeException(nameof(ParameterSetName), "Max of 25 characters").Message);
-            if (BatchSize < 0 || BatchSize > 99)
-                failed.Add(new ArgumentOutOfRangeException(nameof(BatchSize), "Range: 00-99").Message);
-            if (MinAngle < 0 || MinAngle > 99999)
-                failed.Add(new ArgumentOutOfRangeException(nameof(MinAngle), "Range: 00000-99999").Message);
-            if (MaxAngle < 0 || MaxAngle > 99999)
-                failed.Add(new ArgumentOutOfRangeException(nameof(MaxAngle), "Range: 00000-99999").Message);
-            if (AngleFinalTarget < 0 || AngleFinalTarget > 99999)
-                failed.Add(new ArgumentOutOfRangeException(nameof(AngleFinalTarget), "Range: 00000-99999").Message);
-
-            errors = failed;
-            return errors.Any();
         }
 
         public enum DataFields

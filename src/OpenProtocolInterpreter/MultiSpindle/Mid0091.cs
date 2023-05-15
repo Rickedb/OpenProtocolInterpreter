@@ -63,15 +63,6 @@ namespace OpenProtocolInterpreter.MultiSpindle
                 SpindlesStatus = new List<SpindleStatus>();
         }
 
-        public Mid0091(int numberOfSpindles, int syncTighteningId, DateTime time, bool syncOverallStatus, IEnumerable<SpindleStatus> spindleStatus) : this()
-        {
-            NumberOfSpindles = numberOfSpindles;
-            SyncTighteningId = syncTighteningId;
-            SyncOverallStatus = syncOverallStatus;
-            Time = time;
-            SpindlesStatus = spindleStatus.ToList();
-        }
-
         public override string Pack()
         {
             GetField(1, (int)DataFields.SPINDLE_STATUS).Value = _spindlesStatusConverter.Convert(SpindlesStatus);

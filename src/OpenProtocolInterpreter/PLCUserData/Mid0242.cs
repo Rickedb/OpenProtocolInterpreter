@@ -27,11 +27,6 @@ namespace OpenProtocolInterpreter.PLCUserData
         {
         }
 
-        public Mid0242(string userData) : this()
-        {
-            UserData = userData;
-        }
-
         public override string Pack()
         {
             GetField(1, (int)DataFields.USER_DATA).Size = UserData.Length;

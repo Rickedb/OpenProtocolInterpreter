@@ -49,11 +49,6 @@ namespace OpenProtocolInterpreter.IOInterface
             
         }
 
-        public Mid0216(RelayNumber relayNumber, bool noAckFlag = false) : this(noAckFlag)
-        {
-            RelayNumber = relayNumber;
-        }
-
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()

@@ -106,41 +106,6 @@ namespace OpenProtocolInterpreter.Job
             };
         }
 
-        /// <summary>
-        /// Validate all fields size
-        /// </summary>
-        public bool Validate(out IEnumerable<string> errors)
-        {
-            List<string> failed = new List<string>();
-
-            if (Header.Revision > 1)
-            {
-                if (TotalJobs < 0 || TotalJobs > 9999)
-                    failed.Add(new ArgumentOutOfRangeException(nameof(TotalJobs), "Range: 0000-9999").Message);
-                for (int i = 0; i < JobIds.Count; i++)
-                {
-                    int job = JobIds[i];
-                    if (job < 0 || job > 9999)
-                        failed.Add(new ArgumentOutOfRangeException(nameof(JobIds), $"Failed at index[{i}] => Range: 0000-9999").Message);
-                }
-
-            }
-            else
-            {
-                if (TotalJobs < 0 || TotalJobs > 99)
-                    failed.Add(new ArgumentOutOfRangeException(nameof(TotalJobs), "Range: 00-99").Message);
-                for (int i = 0; i < JobIds.Count; i++)
-                {
-                    int job = JobIds[i];
-                    if (job < 0 || job > 99)
-                        failed.Add(new ArgumentOutOfRangeException(nameof(JobIds), $"Failed at index[{i}] => Range: 00-99").Message);
-                }
-            }
-
-            errors = failed;
-            return errors.Any();
-        }
-
         private void HandleRevisions()
         {
             if (Header.Revision > 1)

@@ -50,12 +50,6 @@ namespace OpenProtocolInterpreter.ApplicationSelector
                 GreenLights = new List<LightCommand>();
         }
 
-        public Mid0254(int deviceId, IEnumerable<LightCommand> greenLights) : this()
-        {
-            DeviceId = deviceId;
-            GreenLights = greenLights.ToList();
-        }
-
         public override string Pack()
         {
             GetField(1, (int)DataFields.GREEN_LIGHT_COMMAND).Value = _lightsConverter.Convert(GreenLights);

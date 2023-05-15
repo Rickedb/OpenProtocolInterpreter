@@ -46,12 +46,6 @@ namespace OpenProtocolInterpreter.IOInterface
             _boolConverter = new BoolConverter();
         }
 
-        public Mid0221(DigitalInputNumber digitalInputNumber, bool digitalInputStatus) : this()
-        {
-            DigitalInputNumber = digitalInputNumber;
-            DigitalInputStatus = digitalInputStatus;
-        }
-
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()

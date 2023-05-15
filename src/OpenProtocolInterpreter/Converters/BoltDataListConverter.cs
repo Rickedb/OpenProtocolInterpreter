@@ -20,6 +20,11 @@ namespace OpenProtocolInterpreter.Converters
 
         public override IEnumerable<BoltData> Convert(string value)
         {
+            if(string.IsNullOrWhiteSpace(value))
+            {
+                yield break;
+            }
+
             List<string> bolts = new List<string>();
             for (int i = 0; i < _totalBolts; i++)
                 bolts.Add(value.Substring(i * 67, 67));

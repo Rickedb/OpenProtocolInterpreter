@@ -32,15 +32,6 @@ namespace OpenProtocolInterpreter.Vin
         {
         }
 
-        /// <summary>
-        /// Revision 1 Constructor
-        /// </summary>
-        /// <param name="vinNumber">Dynamic with max 25 ASCII characters.</param>
-        public Mid0050(string vinNumber) : this()
-        {
-            VinNumber = vinNumber;
-        }
-
         public override string Pack()
         {
             GetField(1, (int)DataFields.VIN_NUMBER).Size = VinNumber.Length;
@@ -53,17 +44,6 @@ namespace OpenProtocolInterpreter.Vin
             GetField(1, (int)DataFields.VIN_NUMBER).Size = Header.Length - 20;
             ProcessDataFields(package);
             return this;
-        }
-
-        /// <summary>
-        /// Validate all fields size
-        /// </summary>
-        public bool Validate(out string error)
-        {
-            error = string.Empty;
-            if (VinNumber.Length > 25)
-                error = new System.ArgumentOutOfRangeException(nameof(VinNumber), "Max of 25 characters").Message;
-            return !string.IsNullOrEmpty(error);
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

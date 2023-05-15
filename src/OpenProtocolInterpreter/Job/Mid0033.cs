@@ -102,50 +102,6 @@ namespace OpenProtocolInterpreter.Job
         {
         }
 
-        /// <summary>
-        /// Revisions 1,2 and 3 constructors
-        /// </summary>
-        /// <param name="jobId">The Job ID is specified by two ASCII characters. Range: 00-99</param>
-        /// <param name="jobName">25 ASCII characters.</param>
-        /// <param name="forcedOrder">0=free order, 1=forced order, 2=free and forced</param>
-        /// <param name="maxTimeForFirstTightening">Four ASCII digits, range 0000-9999, <para>00000=not used</para></param>
-        /// <param name="maxTimeToCompleteJob">Five ASCII digits, range 00000-99999, <para>00000=not used</para></param>
-        /// <param name="jobBatchMode">The Job batch mode is the way to count the tightening in a Job; only the OK or both OK and NOK. 
-        ///     <para>0=only the OK tightenings are counted </para>
-        ///     <para>1=both the OK and NOK tightenings are counted</para>
-        /// </param>
-        /// <param name="lockAtJobDone">False=No, True=Yes</param>
-        /// <param name="useLineControl">False=No, True=Yes</param>
-        /// <param name="repeatJob">False=No, True=Yes</param>
-        /// <param name="toolLoosening">Tool loosening. 
-        ///     <para>0=Enable</para>
-        ///     <para>1=Disable</para>
-        ///     <para>2=Enable only on NOK tightening</para>
-        /// </param>
-        /// <param name="reserved">Reserved for Job repair. 0=E, 1=G</param>
-        /// <param name="numberOfParameterSets">The number of parameter sets in the Job list, defined by two ASCII characters, range 00-99.</param>
-        /// <param name="parameterSetList">A list of parameter sets (N=value from parameter “Number of parameter sets”, max 50).</param>
-        /// <param name="revision">Revision number (Default = 3)</param>
-        public Mid0033(int jobId, string jobName, ForcedOrder forcedOrder, int maxTimeForFirstTightening,
-            int maxTimeToCompleteJob, JobBatchMode jobBatchMode, bool lockAtJobDone, bool useLineControl,
-            bool repeatJob, ToolLoosening toolLoosening, Reserved reserved, int numberOfParameterSets, IEnumerable<ParameterSet> parameterSetList, int revision = DEFAULT_REVISION)
-            : this(revision)
-        {
-            JobId = jobId;
-            JobName = jobName;
-            ForcedOrder = forcedOrder;
-            MaxTimeForFirstTightening = maxTimeForFirstTightening;
-            MaxTimeToCompleteJob = maxTimeToCompleteJob;
-            JobBatchMode = jobBatchMode;
-            LockAtJobDone = lockAtJobDone;
-            UseLineControl = useLineControl;
-            RepeatJob = repeatJob;
-            ToolLoosening = toolLoosening;
-            Reserved = reserved;
-            NumberOfParameterSets = numberOfParameterSets;
-            ParameterSetList = parameterSetList.ToList();
-        }
-
         public override string Pack()
         {
             HandleRevisions();

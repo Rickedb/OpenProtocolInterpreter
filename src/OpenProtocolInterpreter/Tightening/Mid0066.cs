@@ -33,15 +33,6 @@ namespace OpenProtocolInterpreter.Tightening
             _intConverter = new Int32Converter();
         }
 
-        /// <summary>
-        /// Revision 1 constructor
-        /// </summary>
-        /// <param name="numberOfOfflineResults">2 ASCII digits. Max 99</param>
-        public Mid0066(int numberOfOfflineResults) : this()
-        {
-            NumberOfOfflineResults = numberOfOfflineResults;
-        }
-
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()

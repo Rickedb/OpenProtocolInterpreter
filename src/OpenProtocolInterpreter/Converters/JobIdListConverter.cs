@@ -15,6 +15,11 @@ namespace OpenProtocolInterpreter.Converters
 
         public override IEnumerable<int> Convert(string value)
         {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                yield break;
+            }
+
             for (int i = 0; i < value.Length; i+= _jobSize)
                 yield return _intConverter.Convert(value.Substring(i, _jobSize));
         }

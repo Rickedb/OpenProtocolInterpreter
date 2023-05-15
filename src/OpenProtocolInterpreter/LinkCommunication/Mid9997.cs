@@ -39,15 +39,6 @@ namespace OpenProtocolInterpreter.LinkCommunication
         {
         }
 
-        /// <summary>
-        /// Revision 1 Constructor
-        /// </summary>
-        /// <param name="midNumber">Acknowledged MID number</param>
-        public Mid9997(int midNumber) : this()
-        {
-            MidNumber = midNumber;
-        }
-
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()

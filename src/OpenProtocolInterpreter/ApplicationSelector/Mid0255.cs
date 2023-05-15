@@ -50,12 +50,6 @@ namespace OpenProtocolInterpreter.ApplicationSelector
                 RedLights = new List<LightCommand>();
         }
 
-        public Mid0255(int deviceId, IEnumerable<LightCommand> redLights) : this()
-        {
-            DeviceId = deviceId;
-            RedLights = redLights.ToList();
-        }
-
         public override string Pack()
         {
             GetField(1, (int)DataFields.RED_LIGHT_COMMAND).Value = _lightsConverter.Convert(RedLights);

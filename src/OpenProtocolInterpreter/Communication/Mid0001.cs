@@ -41,11 +41,6 @@ namespace OpenProtocolInterpreter.Communication
 
         }
 
-        public Mid0001(bool optionalKeepAlive, int revision = 7) : this(revision)
-        {
-            OptionalKeepAlive = optionalKeepAlive;
-        }
-
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()

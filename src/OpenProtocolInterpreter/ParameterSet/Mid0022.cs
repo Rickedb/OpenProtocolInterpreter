@@ -33,15 +33,6 @@ namespace OpenProtocolInterpreter.ParameterSet
             _boolConverter = new BoolConverter();
         }
 
-        /// <summary>
-        /// Revision 1 Constructor
-        /// </summary>
-        /// <param name="relayStatus">Relay Status</param>
-        public Mid0022(bool relayStatus) : this()
-        {
-            RelayStatus = relayStatus;
-        }
-
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()

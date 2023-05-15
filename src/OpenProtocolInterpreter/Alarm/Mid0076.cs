@@ -71,39 +71,6 @@ namespace OpenProtocolInterpreter.Alarm
 
         }
 
-        /// <summary>
-        /// Revision 1 and 2 constructor
-        /// </summary>
-        /// <param name="alarmStatus">0=no alarm is active, 1=an alarm is currently active</param>
-        /// <param name="errorCode">The error code is specified by 4 ASCII characters. The error code begins with E and is followed by three digits. <para>Example: E851.</para></param>
-        /// <param name="controllerReadyStatus">Controller ready status 1=OK, 0=NOK</param>
-        /// <param name="toolReadyStatus">Tool ready status 1=OK, 0=NOK</param>
-        /// <param name="time">Time stamp for the alarm</param>
-        /// <param name="revision">Desired revision, default equals to 2</param>
-        public Mid0076(bool alarmStatus, string errorCode, bool controllerReadyStatus, bool toolReadyStatus, DateTime time, int revision = 2) : this(revision)
-        {
-            AlarmStatus = alarmStatus;
-            ErrorCode = errorCode;
-            ControllerReadyStatus = controllerReadyStatus;
-            ToolReadyStatus = toolReadyStatus;
-            Time = time;
-        }
-
-        /// <summary>
-        /// Revision 3 constructor
-        /// </summary>
-        /// <param name="alarmStatus">0=no alarm is active, 1=an alarm is currently active</param>
-        /// <param name="errorCode">The error code is specified by 4 ASCII characters. The error code begins with E and is followed by three digits. <para>Example: E851.</para></param>
-        /// <param name="controllerReadyStatus">Controller ready status 1=OK, 0=NOK</param>
-        /// <param name="toolReadyStatus">Tool ready status 1=OK, 0=NOK</param>
-        /// <param name="time">Time stamp for the alarm</param>
-        /// <param name="toolHealth">Tool Health</param>
-        public Mid0076(bool alarmStatus, string errorCode, bool controllerReadyStatus, bool toolReadyStatus, DateTime time, ToolHealth toolHealth)
-            : this(alarmStatus, errorCode, controllerReadyStatus, toolReadyStatus, time, DEFAULT_REVISION)
-        {
-            ToolHealth = toolHealth;
-        }
-
         public override Mid Parse(string package)
         {
             Header = ProcessHeader(package);
