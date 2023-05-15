@@ -73,7 +73,7 @@ namespace OpenProtocolInterpreter.Job
                 GetField(1, (int)DataFields.JOB_ID).Size = 4;
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             JOB_ID
         }

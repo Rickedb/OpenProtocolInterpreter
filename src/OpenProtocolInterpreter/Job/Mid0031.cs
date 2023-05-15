@@ -119,7 +119,7 @@ namespace OpenProtocolInterpreter.Job
             }
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             NUMBER_OF_JOBS,
             EACH_JOB_ID

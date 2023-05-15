@@ -54,7 +54,7 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             MANUAL_AUTOMATIC_MODE
         }

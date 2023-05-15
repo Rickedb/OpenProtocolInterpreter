@@ -141,7 +141,7 @@ namespace OpenProtocolInterpreter.ParameterSet
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             PARAMETER_SET_ID,
             PARAMETER_SET_NAME,

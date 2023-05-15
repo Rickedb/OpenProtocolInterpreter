@@ -54,7 +54,7 @@ namespace OpenProtocolInterpreter.Communication
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             //Rev 7
             USE_KEEPALIVE

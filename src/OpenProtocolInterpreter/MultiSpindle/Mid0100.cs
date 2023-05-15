@@ -91,7 +91,7 @@ namespace OpenProtocolInterpreter.MultiSpindle
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             DATA_NUMBER_SYSTEM,
             SEND_ONLY_NEW_DATA

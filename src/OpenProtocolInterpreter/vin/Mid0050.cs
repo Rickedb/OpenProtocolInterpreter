@@ -59,7 +59,7 @@ namespace OpenProtocolInterpreter.Vin
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             VIN_NUMBER
         }

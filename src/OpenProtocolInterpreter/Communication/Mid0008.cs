@@ -83,7 +83,7 @@ namespace OpenProtocolInterpreter.Communication
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             SUBSCRIPTION_MID,
             WANTED_REVISION,

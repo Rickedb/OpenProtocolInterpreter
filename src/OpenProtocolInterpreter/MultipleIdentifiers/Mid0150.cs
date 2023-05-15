@@ -58,7 +58,7 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             IDENTIFIER_DATA
         }

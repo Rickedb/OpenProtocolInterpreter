@@ -229,7 +229,7 @@ namespace OpenProtocolInterpreter.Communication
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             //Rev 1
             CELL_ID,

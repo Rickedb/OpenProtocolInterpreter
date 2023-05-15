@@ -27,7 +27,7 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public int ParameterSetId { get; set; }
         public int NumberOfParameterDataFields { get; set; }
-        public List<VariableDataField> DataFields { get; set; }
+        public List<VariableDataField> VariableDataFields { get; set; }
 
         public Mid2505() : this(DEFAULT_REVISION)
         {
@@ -46,23 +46,23 @@ namespace OpenProtocolInterpreter.ParameterSet
         {
             _intConverter = new Int32Converter();
             _variableDataFieldListConverter = new VariableDataFieldListConverter(_intConverter);
-            if (DataFields == null)
-                DataFields = new List<VariableDataField>();
+            if (VariableDataFields == null)
+                VariableDataFields = new List<VariableDataField>();
         }
 
         public override string Pack()
         {
-            GetField(1, (int)MidDataFields.DataFields).Value = _variableDataFieldListConverter.Convert(DataFields);
+            GetField(1, (int)DataFields.DataFields).Value = _variableDataFieldListConverter.Convert(VariableDataFields);
             return base.Pack();
         }
 
         public override Mid Parse(string package)
         {
             Header = ProcessHeader(package);
-            var dataFieldsField = GetField(1, (int)MidDataFields.DataFields);
+            var dataFieldsField = GetField(1, (int)DataFields.DataFields);
             dataFieldsField.Size = Header.Length - dataFieldsField.Index;
             base.Parse(package);
-            DataFields = _variableDataFieldListConverter.Convert(dataFieldsField.Value).ToList();
+            VariableDataFields = _variableDataFieldListConverter.Convert(dataFieldsField.Value).ToList();
             return this;
         }
 
@@ -73,15 +73,15 @@ namespace OpenProtocolInterpreter.ParameterSet
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)MidDataFields.ParameterSetId, 0, 3, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)MidDataFields.NumberOfParameterDataFields, 3, 3, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)MidDataFields.DataFields, 6, 0)
+                                new DataField((int)DataFields.ParameterSetId, 0, 3, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.NumberOfParameterDataFields, 3, 3, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.DataFields, 6, 0)
                             }
                 }
             };
         }
 
-        internal enum MidDataFields
+        protected enum DataFields
         {
             ParameterSetId,
             NumberOfParameterDataFields,

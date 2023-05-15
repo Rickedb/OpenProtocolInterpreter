@@ -116,7 +116,7 @@ namespace OpenProtocolInterpreter.Alarm
             }
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             ALARM_STATUS,
             ERROR_CODE,

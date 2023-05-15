@@ -60,7 +60,7 @@ namespace OpenProtocolInterpreter.IOInterface
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             DIGITAL_INPUT_NUMBER,
             DIGITAL_INPUT_STATUS

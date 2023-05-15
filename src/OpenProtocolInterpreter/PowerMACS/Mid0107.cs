@@ -228,7 +228,7 @@ namespace OpenProtocolInterpreter.PowerMACS
                 };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             TOTAL_NUMBER_OF_MESSAGES,
             MESSAGE_NUMBER,

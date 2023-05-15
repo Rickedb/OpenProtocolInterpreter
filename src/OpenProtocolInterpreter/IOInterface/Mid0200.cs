@@ -104,7 +104,7 @@ namespace OpenProtocolInterpreter.IOInterface
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             STATUS_RELAY_1,
             STATUS_RELAY_2,

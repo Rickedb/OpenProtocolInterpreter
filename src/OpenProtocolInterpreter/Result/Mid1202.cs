@@ -108,7 +108,7 @@ namespace OpenProtocolInterpreter.Result
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             TOTAL_MESSAGES,
             MESSAGE_NUMBER,

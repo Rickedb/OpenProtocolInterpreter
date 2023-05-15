@@ -77,7 +77,7 @@ namespace OpenProtocolInterpreter.ApplicationSelector
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             DEVICE_ID,
             GREEN_LIGHT_COMMAND

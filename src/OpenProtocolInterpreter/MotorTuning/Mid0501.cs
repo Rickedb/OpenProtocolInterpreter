@@ -50,7 +50,7 @@ namespace OpenProtocolInterpreter.MotorTuning
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             MOTOR_TUNE_RESULT
         }

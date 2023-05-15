@@ -66,7 +66,7 @@ namespace OpenProtocolInterpreter.Tightening
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             TIGHTENING_ID
         }

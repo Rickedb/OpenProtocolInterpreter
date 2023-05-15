@@ -92,7 +92,7 @@ namespace OpenProtocolInterpreter.IOInterface
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             STATUS_DIG_IN_1,
             STATUS_DIG_IN_2,

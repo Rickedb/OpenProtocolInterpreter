@@ -52,7 +52,7 @@ namespace OpenProtocolInterpreter.UserInterface
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             USER_TEXT
         }

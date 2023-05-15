@@ -165,7 +165,7 @@ namespace OpenProtocolInterpreter.IOInterface
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             IO_DEVICE_ID,
             RELAY_LIST,

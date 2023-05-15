@@ -59,7 +59,7 @@ namespace OpenProtocolInterpreter.ParameterSet
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             PARAMETER_SET_ID,
             BATCH_SIZE

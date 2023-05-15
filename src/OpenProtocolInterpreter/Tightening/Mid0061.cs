@@ -646,7 +646,7 @@ namespace OpenProtocolInterpreter.Tightening
             return 1;
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             CELL_ID,
             CHANNEL_ID,

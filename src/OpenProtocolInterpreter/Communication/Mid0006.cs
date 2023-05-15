@@ -80,7 +80,7 @@ namespace OpenProtocolInterpreter.Communication
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             REQUESTED_MID,
             WANTED_REVISION,

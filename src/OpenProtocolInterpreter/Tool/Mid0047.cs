@@ -56,7 +56,7 @@ namespace OpenProtocolInterpreter.Tool
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             PAIRING_HANDLING_TYPE
         }

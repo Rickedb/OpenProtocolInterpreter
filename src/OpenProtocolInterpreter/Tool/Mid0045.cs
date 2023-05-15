@@ -76,7 +76,7 @@ namespace OpenProtocolInterpreter.Tool
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             CALIBRATION_VALUE_UNIT,
             CALIBRATION_VALUE,

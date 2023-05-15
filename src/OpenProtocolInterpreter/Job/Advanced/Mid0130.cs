@@ -51,7 +51,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             JOB_OFF_STATUS
         }

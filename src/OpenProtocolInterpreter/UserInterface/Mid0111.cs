@@ -90,7 +90,7 @@ namespace OpenProtocolInterpreter.UserInterface
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             TEXT_DURATION,
             REMOVAL_CONDITION,

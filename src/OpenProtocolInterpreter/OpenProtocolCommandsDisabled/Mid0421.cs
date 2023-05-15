@@ -51,7 +51,7 @@ namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             DIGITAL_INPUT_STATUS
         }

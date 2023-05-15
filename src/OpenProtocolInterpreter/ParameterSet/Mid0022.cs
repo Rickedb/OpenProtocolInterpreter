@@ -46,7 +46,7 @@ namespace OpenProtocolInterpreter.ParameterSet
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             RELAY_STATUS
         }

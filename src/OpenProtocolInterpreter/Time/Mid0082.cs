@@ -47,7 +47,7 @@ namespace OpenProtocolInterpreter.Time
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             TIME
         }

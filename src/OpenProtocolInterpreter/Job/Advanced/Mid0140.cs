@@ -272,7 +272,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
                 };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             JOB_ID,
             JOB_NAME,

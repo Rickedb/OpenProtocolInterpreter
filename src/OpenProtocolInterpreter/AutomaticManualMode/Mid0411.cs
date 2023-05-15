@@ -73,7 +73,7 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             AUTO_DISABLE_SETTING,
             CURRENT_BATCH

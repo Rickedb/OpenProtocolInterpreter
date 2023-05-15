@@ -52,7 +52,7 @@ namespace OpenProtocolInterpreter.LinkCommunication
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             MID_NUMBER
         }

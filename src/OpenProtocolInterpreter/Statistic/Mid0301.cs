@@ -129,7 +129,7 @@ namespace OpenProtocolInterpreter.Statistic
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             PARAMETER_SET_ID,
             HISTOGRAM_TYPE,

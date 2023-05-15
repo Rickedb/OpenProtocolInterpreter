@@ -53,7 +53,7 @@ namespace OpenProtocolInterpreter.IOInterface
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             RELAY_NUMBER
         }

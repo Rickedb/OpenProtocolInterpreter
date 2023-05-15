@@ -55,7 +55,7 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             TOOL_TAG_ID,
             TOOL_STATUS

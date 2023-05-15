@@ -46,7 +46,7 @@ namespace OpenProtocolInterpreter.Tightening
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             NUMBER_OF_OFFLINE_RESULTS
         }

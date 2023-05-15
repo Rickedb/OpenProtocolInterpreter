@@ -67,7 +67,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             CHANNEL_ID,
             PARAMETER_SET_ID

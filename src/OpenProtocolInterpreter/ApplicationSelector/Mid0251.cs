@@ -82,7 +82,7 @@ namespace OpenProtocolInterpreter.ApplicationSelector
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             DEVICE_ID,
             NUMBER_OF_SOCKETS,

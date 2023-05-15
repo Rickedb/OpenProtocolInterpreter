@@ -76,7 +76,7 @@ namespace OpenProtocolInterpreter.ParameterSet
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             TOTAL_PARAMETER_SETS,
             EACH_PARAMETER_SET

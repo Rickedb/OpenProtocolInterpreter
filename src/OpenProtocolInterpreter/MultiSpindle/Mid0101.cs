@@ -221,7 +221,7 @@ namespace OpenProtocolInterpreter.MultiSpindle
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             NUMBER_OF_SPINDLES_OR_PRESSES,
             VIN_NUMBER,

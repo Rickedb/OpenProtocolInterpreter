@@ -54,7 +54,7 @@ namespace OpenProtocolInterpreter.Tool
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             TOOL_NUMBER
         }

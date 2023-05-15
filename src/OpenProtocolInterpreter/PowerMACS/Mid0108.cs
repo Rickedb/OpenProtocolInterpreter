@@ -58,7 +58,7 @@ namespace OpenProtocolInterpreter.PowerMACS
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             BOLT_DATA
         }

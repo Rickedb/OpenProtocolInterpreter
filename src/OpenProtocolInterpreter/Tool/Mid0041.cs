@@ -218,7 +218,7 @@ namespace OpenProtocolInterpreter.Tool
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             TOOL_SERIAL_NUMBER,
             TOOL_NUMBER_OF_TIGHTENINGS,

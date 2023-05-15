@@ -432,7 +432,7 @@ namespace OpenProtocolInterpreter.Tightening
 
         private int GetCurrentRevisionIndex() => (Header.Revision > 1) ? 2 : 1;
 
-        public enum DataFields
+        protected enum DataFields
         {
             TIGHTENING_ID,
             VIN_NUMBER,

@@ -55,7 +55,7 @@ namespace OpenProtocolInterpreter.Tool
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             PAIRING_STATUS,
             TIMESTAMP

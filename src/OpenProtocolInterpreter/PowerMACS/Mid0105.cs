@@ -83,7 +83,7 @@ namespace OpenProtocolInterpreter.PowerMACS
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             DATA_NUMBER_SYSTEM,
             SEND_ONLY_NEW_DATA

@@ -70,7 +70,7 @@ namespace OpenProtocolInterpreter.Communication
         }
 
 
-        public enum DataFields
+        protected enum DataFields
         {
             MID,
             ERROR_CODE

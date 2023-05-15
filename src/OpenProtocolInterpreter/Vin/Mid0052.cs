@@ -111,7 +111,7 @@ namespace OpenProtocolInterpreter.Vin
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             VIN_NUMBER,
             IDENTIFIER_RESULT_PART2,
