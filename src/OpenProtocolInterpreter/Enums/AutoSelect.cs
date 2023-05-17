@@ -9,6 +9,8 @@
         AutoNextChange = 1,
         IO = 2,
         Fieldbus = 6,
-        SocketTray = 8
+        SocketTray = 8,
+        EndFittings = 9,
+        ToolDisplay = 10
     }
 }
