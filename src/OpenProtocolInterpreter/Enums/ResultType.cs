@@ -12,6 +12,8 @@
         BypassParameterSetResult = 5,
         AbortJobResult = 6,
         SyncTightening = 7,
-        ReferenceSetup = 8
+        ReferenceSetup = 8,
+        BatchReset = 9,
+        JobRestart = 10
     }
 }
