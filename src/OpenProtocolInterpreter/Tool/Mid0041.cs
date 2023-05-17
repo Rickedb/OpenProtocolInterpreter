@@ -17,7 +17,7 @@ namespace OpenProtocolInterpreter.Tool
         private readonly IValueConverter<long> _longConverter;
         private readonly IValueConverter<DateTime> _dateConverter;
         private readonly IValueConverter<decimal> _decimalConverter;
-        private readonly IValueConverter<OpenEndDatas> _openEndDataConverter;
+        private readonly IValueConverter<OpenEndData> _openEndDataConverter;
         public const int MID = 41;
 
         public string ToolSerialNumber
@@ -66,7 +66,7 @@ namespace OpenProtocolInterpreter.Tool
             get => GetField(2, (int)DataFields.MotorSize).GetValue(_intConverter.Convert);
             set => GetField(2, (int)DataFields.MotorSize).SetValue(_intConverter.Convert, value);
         }
-        public OpenEndDatas OpenEndData
+        public OpenEndData OpenEndData
         {
             get => GetField(2, (int)DataFields.OpenEndData).GetValue(_openEndDataConverter.Convert);
             set => GetField(2, (int)DataFields.OpenEndData).SetValue(_openEndDataConverter.Convert, value);
@@ -247,26 +247,6 @@ namespace OpenProtocolInterpreter.Tool
             RundownMinSpeed,
             DownshiftMaxSpeed,
             DownshiftMinSpeed
-        }
-
-        public class OpenEndDatas
-        {
-            //TODO: Move outside
-            public bool UseOpenEnd { get; set; }
-            public TighteningDirection TighteningDirection { get; set; }
-            public MotorRotation MotorRotation { get; set; }
-
-            public OpenEndDatas()
-            {
-
-            }
-
-            public OpenEndDatas(bool useOpenEnd, TighteningDirection tighteningDirection, MotorRotation motorRotation)
-            {
-                UseOpenEnd = useOpenEnd;
-                TighteningDirection = tighteningDirection;
-                MotorRotation = motorRotation;
-            }
         }
     }
 }

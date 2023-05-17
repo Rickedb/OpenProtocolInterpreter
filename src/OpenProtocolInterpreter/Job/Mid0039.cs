@@ -16,7 +16,7 @@ namespace OpenProtocolInterpreter.Job
         private readonly IValueConverter<int> _intConverter;
         public const int MID = 39;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JobNotRunniing, Error.InvalidData };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JobNotRunning, Error.InvalidData };
 
         public int JobId
         {

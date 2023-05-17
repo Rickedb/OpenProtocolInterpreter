@@ -1,8 +1,9 @@
-﻿using static OpenProtocolInterpreter.Tool.Mid0041;
+﻿
+using OpenProtocolInterpreter.Tool;
 
 namespace OpenProtocolInterpreter.Converters
 {
-    public class OpenEndDataConverter : AsciiConverter<OpenEndDatas>
+    public class OpenEndDataConverter : AsciiConverter<OpenEndData>
     {
         private readonly IValueConverter<bool> _boolConverter;
         private readonly IValueConverter<int> _intConverter;
@@ -13,9 +14,9 @@ namespace OpenProtocolInterpreter.Converters
             _intConverter = intConverter;
         }
 
-        public override OpenEndDatas Convert(string value)
+        public override OpenEndData Convert(string value)
         {
-            return new OpenEndDatas()
+            return new OpenEndData()
             {
                 UseOpenEnd = _boolConverter.Convert(value[0].ToString()),
                 TighteningDirection = (TighteningDirection)_intConverter.Convert(value[1].ToString()),
@@ -23,7 +24,7 @@ namespace OpenProtocolInterpreter.Converters
             };
         }
 
-        public override string Convert(OpenEndDatas value)
+        public override string Convert(OpenEndData value)
         {
             return _boolConverter.Convert(value.UseOpenEnd) +
                 _intConverter.Convert((int)value.TighteningDirection) +
@@ -31,7 +32,7 @@ namespace OpenProtocolInterpreter.Converters
         }
 
 
-        public override string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, OpenEndDatas value)
+        public override string Convert(char paddingChar, int size, DataField.PaddingOrientations orientation, OpenEndData value)
         {
             return Convert(value);
         }
