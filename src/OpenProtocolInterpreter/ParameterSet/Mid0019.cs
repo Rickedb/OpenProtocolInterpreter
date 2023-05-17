@@ -19,17 +19,17 @@ namespace OpenProtocolInterpreter.ParameterSet
         private readonly IValueConverter<int> _intConverter;
         public const int MID = 19;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.INVALID_DATA };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.InvalidData };
 
         public int ParameterSetId
         {
-            get => GetField(1,(int)DataFields.PARAMETER_SET_ID).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.PARAMETER_SET_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.ParameterSetId).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.ParameterSetId).SetValue(_intConverter.Convert, value);
         }
         public int BatchSize
         {
-            get => GetField(1,(int)DataFields.BATCH_SIZE).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.BATCH_SIZE).SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.BatchSize).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.BatchSize).SetValue(_intConverter.Convert, value);
         }
 
         public Mid0019() : this(new Header()
@@ -52,8 +52,8 @@ namespace OpenProtocolInterpreter.ParameterSet
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.PARAMETER_SET_ID, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
-                                new DataField((int)DataFields.BATCH_SIZE, 23, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
+                                new DataField((int)DataFields.ParameterSetId, 20, 3, '0', DataField.PaddingOrientations.LeftPadded, false),
+                                new DataField((int)DataFields.BatchSize, 23, 2, '0', DataField.PaddingOrientations.LeftPadded, false),
                             }
                 }
             };
@@ -61,8 +61,8 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         protected enum DataFields
         {
-            PARAMETER_SET_ID,
-            BATCH_SIZE
+            ParameterSetId,
+            BatchSize
         }
     }
 }

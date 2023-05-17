@@ -97,11 +97,11 @@ namespace OpenProtocolInterpreter.Result
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.TOTAL_MESSAGES, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
-                        new DataField((int)DataFields.MESSAGE_NUMBER, 23, 3, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
-                        new DataField((int)DataFields.RESULT_DATA_ID, 26, 10, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
-                        new DataField((int)DataFields.OBJECT_ID, 36, 4, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
-                        new DataField((int)DataFields.NUMBER_DATA_FIELDS, 40, 3, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
+                        new DataField((int)DataFields.TOTAL_MESSAGES, 20, 3, '0', DataField.PaddingOrientations.LeftPadded, false),
+                        new DataField((int)DataFields.MESSAGE_NUMBER, 23, 3, '0', DataField.PaddingOrientations.LeftPadded, false),
+                        new DataField((int)DataFields.RESULT_DATA_ID, 26, 10, '0', DataField.PaddingOrientations.LeftPadded, false),
+                        new DataField((int)DataFields.OBJECT_ID, 36, 4, '0', DataField.PaddingOrientations.LeftPadded, false),
+                        new DataField((int)DataFields.NUMBER_DATA_FIELDS, 40, 3, '0', DataField.PaddingOrientations.LeftPadded, false),
                         new DataField((int)DataFields.VARIABLE_DATA_FIELDS, 43, 0, false) //defined at runtime
                     }
                 }

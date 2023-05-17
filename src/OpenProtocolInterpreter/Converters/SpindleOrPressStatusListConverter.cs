@@ -45,13 +45,13 @@ namespace OpenProtocolInterpreter.Converters
             string package = string.Empty;
             foreach (var v in value)
             {
-                package += _intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, v.SpindleOrPressNumber) +
-                           _intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, v.ChannelId) +
+                package += _intConverter.Convert('0', 2, DataField.PaddingOrientations.LeftPadded, v.SpindleOrPressNumber) +
+                           _intConverter.Convert('0', 2, DataField.PaddingOrientations.LeftPadded, v.ChannelId) +
                            _boolConverter.Convert(v.OverallStatus) +
                            _intConverter.Convert((int)v.TorqueOrForceStatus) +
-                           _decimalConverter.Convert('0', 6, DataField.PaddingOrientations.LEFT_PADDED, v.TorqueOrForce) +
+                           _decimalConverter.Convert('0', 6, DataField.PaddingOrientations.LeftPadded, v.TorqueOrForce) +
                            _boolConverter.Convert(v.AngleOrStrokeStatus) +
-                           _intConverter.Convert('0', 5, DataField.PaddingOrientations.LEFT_PADDED, v.AngleOrStroke);
+                           _intConverter.Convert('0', 5, DataField.PaddingOrientations.LeftPadded, v.AngleOrStroke);
             }
 
             return package;

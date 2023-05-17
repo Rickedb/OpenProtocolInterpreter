@@ -14,8 +14,8 @@ namespace OpenProtocolInterpreter.PLCUserData
     public class Mid0244 : Mid, IPLCUserData, IIntegrator, IUnsubscription, IAcceptableCommand, IDeclinableCommand
     {
         public const int MID = 244;
-        //todo check enums
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SUBSCRIPTION_DOESNT_EXISTS };
+        
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SubscriptionDoesntExists };
 
         public Mid0244() : base(MID, DEFAULT_REVISION) { }
 

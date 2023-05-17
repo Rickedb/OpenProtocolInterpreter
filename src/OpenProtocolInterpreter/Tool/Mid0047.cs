@@ -26,8 +26,8 @@ namespace OpenProtocolInterpreter.Tool
 
         public PairingHandlingType PairingHandlingType
         {
-            get => (PairingHandlingType)GetField(1,(int)DataFields.PAIRING_HANDLING_TYPE).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.PAIRING_HANDLING_TYPE).SetValue(_intConverter.Convert, (int)value);
+            get => (PairingHandlingType)GetField(1,(int)DataFields.PairingHandlingType).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.PairingHandlingType).SetValue(_intConverter.Convert, (int)value);
         }
 
         public Mid0047() : this(new Header()
@@ -50,7 +50,7 @@ namespace OpenProtocolInterpreter.Tool
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.PAIRING_HANDLING_TYPE, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED)
+                                new DataField((int)DataFields.PairingHandlingType, 20, 2, '0', DataField.PaddingOrientations.LeftPadded)
                             }
                 }
             };
@@ -58,7 +58,7 @@ namespace OpenProtocolInterpreter.Tool
 
         protected enum DataFields
         {
-            PAIRING_HANDLING_TYPE
+            PairingHandlingType
         }
     }
 }

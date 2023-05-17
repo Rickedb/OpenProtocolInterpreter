@@ -18,8 +18,8 @@ namespace OpenProtocolInterpreter.MultiSpindle
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] 
         { 
-            Error.CONTROLLER_IS_NOT_A_SYNC_MASTER_OR_STATION_CONTROLLER, 
-            Error.MULTI_SPINDLE_STATUS_SUBSCRIPTION_ALREADY_EXISTS 
+            Error.ControllerIsNotASyncMasterOrStationController, 
+            Error.MultiSpindleStatusSubscriptionAlreadyExists 
         };
 
         public Mid0090() : this(false)

@@ -30,21 +30,21 @@ namespace OpenProtocolInterpreter.MultiSpindle
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] 
         { 
-            Error.CONTROLLER_IS_NOT_A_SYNC_MASTER_OR_STATION_CONTROLLER,
-            Error.MULTI_SPINDLE_RESULT_SUBSCRIPTION_ALREADY_EXISTS,
-            Error.MID_REVISION_UNSUPPORTED
+            Error.ControllerIsNotASyncMasterOrStationController,
+            Error.MultiSpindleResultSubscriptionAlreadyExists,
+            Error.MidRevisionUnsupported
         };
 
         public long DataNumberSystem
         {
-            get => GetField(2, (int)DataFields.DATA_NUMBER_SYSTEM).GetValue(_longConverter.Convert);
-            set => GetField(2, (int)DataFields.DATA_NUMBER_SYSTEM).SetValue(_longConverter.Convert, value);
+            get => GetField(2, (int)DataFields.DataNumberSystem).GetValue(_longConverter.Convert);
+            set => GetField(2, (int)DataFields.DataNumberSystem).SetValue(_longConverter.Convert, value);
         }
 
         public bool SendOnlyNewData
         {
-            get => GetField(3, (int)DataFields.SEND_ONLY_NEW_DATA).GetValue(_boolConverter.Convert);
-            set => GetField(3, (int)DataFields.SEND_ONLY_NEW_DATA).SetValue(_boolConverter.Convert, value);
+            get => GetField(3, (int)DataFields.SendOnlyNewData).GetValue(_boolConverter.Convert);
+            set => GetField(3, (int)DataFields.SendOnlyNewData).SetValue(_boolConverter.Convert, value);
         }
 
         public Mid0100() : this(DEFAULT_REVISION)
@@ -79,13 +79,13 @@ namespace OpenProtocolInterpreter.MultiSpindle
                 {
                     2, new List<DataField>()
                             {
-                                new DataField((int)DataFields.DATA_NUMBER_SYSTEM, 20, 10, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
+                                new DataField((int)DataFields.DataNumberSystem, 20, 10, '0', DataField.PaddingOrientations.LeftPadded, false),
                             }
                 },
                 {
                     3, new List<DataField>()
                             {
-                                new DataField((int)DataFields.SEND_ONLY_NEW_DATA, 30, 1, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
+                                new DataField((int)DataFields.SendOnlyNewData, 30, 1, '0', DataField.PaddingOrientations.LeftPadded, false),
                             }
                 }
             };
@@ -93,8 +93,8 @@ namespace OpenProtocolInterpreter.MultiSpindle
 
         protected enum DataFields
         {
-            DATA_NUMBER_SYSTEM,
-            SEND_ONLY_NEW_DATA
+            DataNumberSystem,
+            SendOnlyNewData
         }
     }
 }

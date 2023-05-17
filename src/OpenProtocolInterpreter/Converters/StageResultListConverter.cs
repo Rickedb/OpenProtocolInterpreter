@@ -36,8 +36,8 @@ namespace OpenProtocolInterpreter.Converters
             string pack = string.Empty;
             foreach (var v in value)
             {
-                pack += _decimalConverter.Convert('0', 6, DataField.PaddingOrientations.LEFT_PADDED, v.Torque);
-                pack += _intConverter.Convert('0', 5, DataField.PaddingOrientations.LEFT_PADDED, v.Angle);
+                pack += _decimalConverter.Convert('0', 6, DataField.PaddingOrientations.LeftPadded, v.Torque);
+                pack += _intConverter.Convert('0', 5, DataField.PaddingOrientations.LeftPadded, v.Angle);
             }
 
             return pack;

@@ -17,8 +17,8 @@ namespace OpenProtocolInterpreter.Time
 
         public DateTime Time
         {
-            get => GetField(1,(int)DataFields.TIME).GetValue(_dateConverter.Convert);
-            set => GetField(1,(int)DataFields.TIME).SetValue(_dateConverter.Convert, value);
+            get => GetField(1,(int)DataFields.Time).GetValue(_dateConverter.Convert);
+            set => GetField(1,(int)DataFields.Time).SetValue(_dateConverter.Convert, value);
         }
 
         public Mid0081() : this(new Header()
@@ -41,7 +41,7 @@ namespace OpenProtocolInterpreter.Time
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.TIME, 20, 19, false)
+                                new DataField((int)DataFields.Time, 20, 19, false)
                             }
                 }
             };
@@ -49,7 +49,7 @@ namespace OpenProtocolInterpreter.Time
 
         protected enum DataFields
         {
-            TIME
+            Time
         }
     }
 }

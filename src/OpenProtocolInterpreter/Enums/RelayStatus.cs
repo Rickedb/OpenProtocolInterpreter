@@ -5,9 +5,9 @@
     /// </summary>
     public enum RelayStatus
     {
-        OFF = 0,
-        ON = 1,
-        FLASHING = 2,
-        KEEP_CURRENT_STATUS = 3
+        Off = 0,
+        On = 1,
+        Flashing = 2,
+        KeepCurrentStatus = 3
     }
 }

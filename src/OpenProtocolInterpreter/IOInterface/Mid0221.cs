@@ -23,13 +23,13 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public DigitalInputNumber DigitalInputNumber
         {
-            get => (DigitalInputNumber)GetField(1,(int)DataFields.DIGITAL_INPUT_NUMBER).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.DIGITAL_INPUT_NUMBER).SetValue(_intConverter.Convert, (int)value);
+            get => (DigitalInputNumber)GetField(1,(int)DataFields.DigitalInputNumber).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.DigitalInputNumber).SetValue(_intConverter.Convert, (int)value);
         }
         public bool DigitalInputStatus
         {
-            get => GetField(1,(int)DataFields.DIGITAL_INPUT_STATUS).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.DIGITAL_INPUT_STATUS).SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.DigitalInputStatus).GetValue(_boolConverter.Convert);
+            set => GetField(1,(int)DataFields.DigitalInputStatus).SetValue(_boolConverter.Convert, value);
         }
 
         public Mid0221() : this(new Header()
@@ -53,8 +53,8 @@ namespace OpenProtocolInterpreter.IOInterface
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.DIGITAL_INPUT_NUMBER, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                        new DataField((int)DataFields.DIGITAL_INPUT_STATUS, 25, 1)
+                        new DataField((int)DataFields.DigitalInputNumber, 20, 3, '0', DataField.PaddingOrientations.LeftPadded),
+                        new DataField((int)DataFields.DigitalInputStatus, 25, 1)
                     }
                 }
             };
@@ -62,8 +62,8 @@ namespace OpenProtocolInterpreter.IOInterface
 
         protected enum DataFields
         {
-            DIGITAL_INPUT_NUMBER,
-            DIGITAL_INPUT_STATUS
+            DigitalInputNumber,
+            DigitalInputStatus
         }
     }
 }

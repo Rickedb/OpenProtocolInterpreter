@@ -51,10 +51,10 @@ namespace OpenProtocolInterpreter.Converters
             {
                 package += v.VariableName.PadRight(20, ' ') +
                             v.Type.Type.PadRight(2, ' ') +
-                            _intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, v.Length) +
+                            _intConverter.Convert('0', 2, DataField.PaddingOrientations.LeftPadded, v.Length) +
                             v.Value.ToString().PadRight(v.Length, ' ');
                 if (_stepNumber)
-                    package += _intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, v.StepNumber);
+                    package += _intConverter.Convert('0', 2, DataField.PaddingOrientations.LeftPadded, v.StepNumber);
             }
 
             return package;

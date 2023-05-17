@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.ApplicationSelector
     {
         public const int MID = 253;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SELECTOR_SOCKET_INFO_SUBSCRIPTION_DOESNT_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SelectorSocketInfoSubscriptionDoesntExists };
 
         public Mid0253() : base(MID, DEFAULT_REVISION) { }
 

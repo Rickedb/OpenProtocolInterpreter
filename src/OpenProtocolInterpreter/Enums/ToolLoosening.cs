@@ -5,8 +5,8 @@
     /// </summary>
     public enum ToolLoosening
     {
-        ENABLED = 0,
-        DISABLED = 1,
-        ENABLE_ONLY_ON_NOK_TIGHTENINGS = 2
+        Enabled = 0,
+        Disabled = 1,
+        EnableOnlyOnNokTightenings = 2
     }
 }

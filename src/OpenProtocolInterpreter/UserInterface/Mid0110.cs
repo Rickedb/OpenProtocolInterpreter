@@ -26,8 +26,8 @@ namespace OpenProtocolInterpreter.UserInterface
 
         public string UserText
         {
-            get => GetField(1,(int)DataFields.USER_TEXT).Value;
-            set => GetField(1,(int)DataFields.USER_TEXT).SetValue(value);
+            get => GetField(1,(int)DataFields.UserText).Value;
+            set => GetField(1,(int)DataFields.UserText).SetValue(value);
         }
 
         public Mid0110() : base(MID, DEFAULT_REVISION)
@@ -46,7 +46,7 @@ namespace OpenProtocolInterpreter.UserInterface
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.USER_TEXT, 20, 4, ' ', DataField.PaddingOrientations.RIGHT_PADDED, false),
+                                new DataField((int)DataFields.UserText, 20, 4, ' ', DataField.PaddingOrientations.RightPadded, false),
                             }
                 }
             };
@@ -54,7 +54,7 @@ namespace OpenProtocolInterpreter.UserInterface
 
         protected enum DataFields
         {
-            USER_TEXT
+            UserText
         }
     }
 }

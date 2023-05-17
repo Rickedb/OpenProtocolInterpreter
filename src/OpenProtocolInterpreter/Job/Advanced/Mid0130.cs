@@ -20,8 +20,8 @@ namespace OpenProtocolInterpreter.Job.Advanced
         /// </summary>
         public bool JobOffStatus
         {
-            get => GetField(1,(int)DataFields.JOB_OFF_STATUS).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.JOB_OFF_STATUS).SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.JobOffStatus).GetValue(_boolConverter.Convert);
+            set => GetField(1,(int)DataFields.JobOffStatus).SetValue(_boolConverter.Convert, value);
         }
 
         public Mid0130() : this(new Header()
@@ -45,7 +45,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.JOB_OFF_STATUS, 20, 1, false),
+                                new DataField((int)DataFields.JobOffStatus, 20, 1, false),
                             }
                 }
             };
@@ -53,7 +53,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
 
         protected enum DataFields
         {
-            JOB_OFF_STATUS
+            JobOffStatus
         }
     }
 }

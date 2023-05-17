@@ -15,7 +15,7 @@ namespace OpenProtocolInterpreter.Tightening
     {
         public const int MID = 63;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.LAST_TIGHTENING_RESULT_SUBSCRIPTION_DOESNT_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.LastTighteningResultSubscriptionDoesntExists };
 
         public Mid0063() : this(DEFAULT_REVISION)
         {

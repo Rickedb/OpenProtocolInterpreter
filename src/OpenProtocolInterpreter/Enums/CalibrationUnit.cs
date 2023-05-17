@@ -5,13 +5,13 @@
     /// </summary>
     public enum CalibrationUnit
     {
-        NM = 1,
-        LBF_FT = 2,
-        LBF_IN = 3,
-        KPM = 4,
-        KGF_CM = 5,
-        OZF_IN = 6,
-        PERCENTAGE = 7,
-        NCM = 8
+        Nm = 1,
+        LbfFt = 2,
+        LbfIn = 3,
+        Kpm = 4,
+        KgfCm = 5,
+        OzfIn = 6,
+        Percentage = 7,
+        Ncm = 8
     }
 }

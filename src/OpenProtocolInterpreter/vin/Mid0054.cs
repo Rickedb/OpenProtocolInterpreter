@@ -15,7 +15,7 @@ namespace OpenProtocolInterpreter.Vin
     {
         public const int MID = 54;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.VIN_UPLOAD_SUBSCRIPTION_DOESNT_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.VINUploadSubscriptionDoesntExists };
 
         public Mid0054() : this(DEFAULT_REVISION)
         {

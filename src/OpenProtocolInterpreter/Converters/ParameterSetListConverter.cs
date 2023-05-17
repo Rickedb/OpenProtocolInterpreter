@@ -69,25 +69,25 @@ namespace OpenProtocolInterpreter.Converters
             {
                 var eachPset = new List<string>()
                {
-                   _intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, pset.ChannelId),
-                   _intConverter.Convert('0', 3, DataField.PaddingOrientations.LEFT_PADDED, pset.TypeId),
+                   _intConverter.Convert('0', 2, DataField.PaddingOrientations.LeftPadded, pset.ChannelId),
+                   _intConverter.Convert('0', 3, DataField.PaddingOrientations.LeftPadded, pset.TypeId),
                    _boolConverter.Convert(pset.AutoValue),
-                   _intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, pset.BatchSize)
+                   _intConverter.Convert('0', 2, DataField.PaddingOrientations.LeftPadded, pset.BatchSize)
                };
 
                 if (_revision > 2)
                 {
                     if (_revision > 3)
-                        eachPset.Add(_intConverter.Convert('0', 4, DataField.PaddingOrientations.LEFT_PADDED, pset.IdentifierNumber));
+                        eachPset.Add(_intConverter.Convert('0', 4, DataField.PaddingOrientations.LeftPadded, pset.IdentifierNumber));
                     else
-                        eachPset.Add(_intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, pset.Socket));
+                        eachPset.Add(_intConverter.Convert('0', 2, DataField.PaddingOrientations.LeftPadded, pset.Socket));
 
                     eachPset.Add(pset.JobStepName.PadRight(25));
-                    eachPset.Add(_intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, pset.JobStepType));
+                    eachPset.Add(_intConverter.Convert('0', 2, DataField.PaddingOrientations.LeftPadded, pset.JobStepType));
 
                     if(_revision > 3)
                     {
-                        eachPset.Add(_intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, pset.MaxCoherentNok));
+                        eachPset.Add(_intConverter.Convert('0', 2, DataField.PaddingOrientations.LeftPadded, pset.MaxCoherentNok));
                     }
                 }
 

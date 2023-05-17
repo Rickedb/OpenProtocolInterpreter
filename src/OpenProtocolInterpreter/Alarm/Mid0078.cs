@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.Alarm
     {
         public const int MID = 78;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.NO_ALARM_PRESENT, Error.INVALID_DATA };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.NoAlarmPresent, Error.InvalidData };
 
         public Mid0078() : base(MID, DEFAULT_REVISION)
         {

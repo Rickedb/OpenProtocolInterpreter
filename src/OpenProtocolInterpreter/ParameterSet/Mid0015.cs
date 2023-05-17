@@ -25,69 +25,69 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public int ParameterSetId
         {
-            get => GetField(Header.Revision, (int)DataFields.PARAMETER_SET_ID).GetValue(_intConverter.Convert);
-            set => GetField(Header.Revision, (int)DataFields.PARAMETER_SET_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(Header.Revision, (int)DataFields.ParameterSetId).GetValue(_intConverter.Convert);
+            set => GetField(Header.Revision, (int)DataFields.ParameterSetId).SetValue(_intConverter.Convert, value);
         }
         public DateTime LastChangeInParameterSet
         {
-            get => GetField(Header.Revision, (int)DataFields.LAST_CHANGE_IN_PARAMETER_SET).GetValue(_datetimeConverter.Convert);
-            set => GetField(Header.Revision, (int)DataFields.LAST_CHANGE_IN_PARAMETER_SET).SetValue(_datetimeConverter.Convert, value);
+            get => GetField(Header.Revision, (int)DataFields.LastChangeInParameterSet).GetValue(_datetimeConverter.Convert);
+            set => GetField(Header.Revision, (int)DataFields.LastChangeInParameterSet).SetValue(_datetimeConverter.Convert, value);
         }
         //Rev 2
         public string ParameterSetName
         {
-            get => GetField(2, (int)DataFields.PARAMETER_SET_NAME).Value;
-            set => GetField(2, (int)DataFields.PARAMETER_SET_NAME).SetValue(value);
+            get => GetField(2, (int)DataFields.ParameterSetName).Value;
+            set => GetField(2, (int)DataFields.ParameterSetName).SetValue(value);
         }
         public RotationDirection RotationDirection
         {
-            get => (RotationDirection)GetField(2, (int)DataFields.ROTATION_DIRECTION).GetValue(_intConverter.Convert);
-            set => GetField(2, (int)DataFields.ROTATION_DIRECTION).SetValue(_intConverter.Convert, (int)value);
+            get => (RotationDirection)GetField(2, (int)DataFields.RotationDirection).GetValue(_intConverter.Convert);
+            set => GetField(2, (int)DataFields.RotationDirection).SetValue(_intConverter.Convert, (int)value);
         }
         public int BatchSize
         {
-            get => GetField(2, (int)DataFields.BATCH_SIZE).GetValue(_intConverter.Convert);
-            set => GetField(2, (int)DataFields.BATCH_SIZE).SetValue(_intConverter.Convert, value);
+            get => GetField(2, (int)DataFields.BatchSize).GetValue(_intConverter.Convert);
+            set => GetField(2, (int)DataFields.BatchSize).SetValue(_intConverter.Convert, value);
         }
         public decimal MinTorque
         {
-            get => GetField(2, (int)DataFields.TORQUE_MIN).GetValue(_decimalConverter.Convert);
-            set => GetField(2, (int)DataFields.TORQUE_MIN).SetValue(_decimalConverter.Convert, value);
+            get => GetField(2, (int)DataFields.TorqueMin).GetValue(_decimalConverter.Convert);
+            set => GetField(2, (int)DataFields.TorqueMin).SetValue(_decimalConverter.Convert, value);
         }
         public decimal MaxTorque
         {
-            get => GetField(2, (int)DataFields.TORQUE_MAX).GetValue(_decimalConverter.Convert);
-            set => GetField(2, (int)DataFields.TORQUE_MAX).SetValue(_decimalConverter.Convert, value);
+            get => GetField(2, (int)DataFields.TorqueMax).GetValue(_decimalConverter.Convert);
+            set => GetField(2, (int)DataFields.TorqueMax).SetValue(_decimalConverter.Convert, value);
         }
         public decimal TorqueFinalTarget
         {
-            get => GetField(2, (int)DataFields.TORQUE_FINAL_TARGET).GetValue(_decimalConverter.Convert);
-            set => GetField(2, (int)DataFields.TORQUE_FINAL_TARGET).SetValue(_decimalConverter.Convert, value);
+            get => GetField(2, (int)DataFields.TorqueFinalTarget).GetValue(_decimalConverter.Convert);
+            set => GetField(2, (int)DataFields.TorqueFinalTarget).SetValue(_decimalConverter.Convert, value);
         }
         public int MinAngle
         {
-            get => GetField(2, (int)DataFields.ANGLE_MIN).GetValue(_intConverter.Convert);
-            set => GetField(2, (int)DataFields.ANGLE_MIN).SetValue(_intConverter.Convert, value);
+            get => GetField(2, (int)DataFields.AngleMin).GetValue(_intConverter.Convert);
+            set => GetField(2, (int)DataFields.AngleMin).SetValue(_intConverter.Convert, value);
         }
         public int MaxAngle
         {
-            get => GetField(2, (int)DataFields.ANGLE_MAX).GetValue(_intConverter.Convert);
-            set => GetField(2, (int)DataFields.ANGLE_MAX).SetValue(_intConverter.Convert, value);
+            get => GetField(2, (int)DataFields.AngleMax).GetValue(_intConverter.Convert);
+            set => GetField(2, (int)DataFields.AngleMax).SetValue(_intConverter.Convert, value);
         }
         public int AngleFinalTarget
         {
-            get => GetField(2, (int)DataFields.FINAL_ANGLE_TARGET).GetValue(_intConverter.Convert);
-            set => GetField(2, (int)DataFields.FINAL_ANGLE_TARGET).SetValue(_intConverter.Convert, value);
+            get => GetField(2, (int)DataFields.FinalAngleTarget).GetValue(_intConverter.Convert);
+            set => GetField(2, (int)DataFields.FinalAngleTarget).SetValue(_intConverter.Convert, value);
         }
         public decimal FirstTarget
         {
-            get => GetField(2, (int)DataFields.FIRST_TARGET).GetValue(_decimalConverter.Convert);
-            set => GetField(2, (int)DataFields.FIRST_TARGET).SetValue(_decimalConverter.Convert, value);
+            get => GetField(2, (int)DataFields.FirstTarget).GetValue(_decimalConverter.Convert);
+            set => GetField(2, (int)DataFields.FirstTarget).SetValue(_decimalConverter.Convert, value);
         }
         public decimal StartFinalAngle
         {
-            get => GetField(2, (int)DataFields.START_FINAL_ANGLE).GetValue(_decimalConverter.Convert);
-            set => GetField(2, (int)DataFields.START_FINAL_ANGLE).SetValue(_decimalConverter.Convert, value);
+            get => GetField(2, (int)DataFields.StartFinalAngle).GetValue(_decimalConverter.Convert);
+            set => GetField(2, (int)DataFields.StartFinalAngle).SetValue(_decimalConverter.Convert, value);
         }
 
         public Mid0015() : this(DEFAULT_REVISION)
@@ -144,26 +144,26 @@ namespace OpenProtocolInterpreter.ParameterSet
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.PARAMETER_SET_ID, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
-                                new DataField((int)DataFields.LAST_CHANGE_IN_PARAMETER_SET, 23, 19, false)
+                                new DataField((int)DataFields.ParameterSetId, 20, 3, '0', DataField.PaddingOrientations.LeftPadded, false),
+                                new DataField((int)DataFields.LastChangeInParameterSet, 23, 19, false)
                             }
                 },
                 {
                     2, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.PARAMETER_SET_ID, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.PARAMETER_SET_NAME, 25, 25, ' '),
-                                new DataField((int)DataFields.LAST_CHANGE_IN_PARAMETER_SET, 52, 19),
-                                new DataField((int)DataFields.ROTATION_DIRECTION, 73, 1),
-                                new DataField((int)DataFields.BATCH_SIZE, 76, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.TORQUE_MIN, 80, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.TORQUE_MAX, 88, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.TORQUE_FINAL_TARGET, 96, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.ANGLE_MIN, 104, 5, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.ANGLE_MAX, 111, 5, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.FINAL_ANGLE_TARGET, 118, 5, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.FIRST_TARGET, 125, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.START_FINAL_ANGLE, 133, 6, '0', DataField.PaddingOrientations.LEFT_PADDED)
+                                new DataField((int)DataFields.ParameterSetId, 20, 3, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.ParameterSetName, 25, 25, ' '),
+                                new DataField((int)DataFields.LastChangeInParameterSet, 52, 19),
+                                new DataField((int)DataFields.RotationDirection, 73, 1),
+                                new DataField((int)DataFields.BatchSize, 76, 2, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.TorqueMin, 80, 6, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.TorqueMax, 88, 6, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.TorqueFinalTarget, 96, 6, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.AngleMin, 104, 5, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.AngleMax, 111, 5, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.FinalAngleTarget, 118, 5, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.FirstTarget, 125, 6, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.StartFinalAngle, 133, 6, '0', DataField.PaddingOrientations.LeftPadded)
                             }
                 }
             };
@@ -171,20 +171,20 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         protected enum DataFields
         {
-            PARAMETER_SET_ID,
-            LAST_CHANGE_IN_PARAMETER_SET,
+            ParameterSetId,
+            LastChangeInParameterSet,
             //Rev 2
-            PARAMETER_SET_NAME,
-            ROTATION_DIRECTION,
-            BATCH_SIZE,
-            TORQUE_MIN,
-            TORQUE_MAX,
-            TORQUE_FINAL_TARGET,
-            ANGLE_MIN,
-            ANGLE_MAX,
-            FINAL_ANGLE_TARGET,
-            FIRST_TARGET,
-            START_FINAL_ANGLE
+            ParameterSetName,
+            RotationDirection,
+            BatchSize,
+            TorqueMin,
+            TorqueMax,
+            TorqueFinalTarget,
+            AngleMin,
+            AngleMax,
+            FinalAngleTarget,
+            FirstTarget,
+            StartFinalAngle
         }
     }
 }

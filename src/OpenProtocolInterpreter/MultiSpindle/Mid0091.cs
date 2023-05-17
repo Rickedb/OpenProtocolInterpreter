@@ -24,23 +24,23 @@ namespace OpenProtocolInterpreter.MultiSpindle
 
         public int NumberOfSpindles
         {
-            get => GetField(1, (int)DataFields.NUMBER_OF_SPINDLES).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.NUMBER_OF_SPINDLES).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.NumberOfSpindles).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.NumberOfSpindles).SetValue(_intConverter.Convert, value);
         }
         public int SyncTighteningId
         {
-            get => GetField(1, (int)DataFields.SYNC_TIGHTENING_ID).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.SYNC_TIGHTENING_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.SyncTighteningId).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.SyncTighteningId).SetValue(_intConverter.Convert, value);
         }
         public DateTime Time
         {
-            get => GetField(1, (int)DataFields.TIME).GetValue(_dateConverter.Convert);
-            set => GetField(1, (int)DataFields.TIME).SetValue(_dateConverter.Convert, value);
+            get => GetField(1, (int)DataFields.Time).GetValue(_dateConverter.Convert);
+            set => GetField(1, (int)DataFields.Time).SetValue(_dateConverter.Convert, value);
         }
         public bool SyncOverallStatus
         {
-            get => GetField(1, (int)DataFields.SYNC_OVERALL_STATUS).GetValue(_boolConverter.Convert);
-            set => GetField(1, (int)DataFields.SYNC_OVERALL_STATUS).SetValue(_boolConverter.Convert, value);
+            get => GetField(1, (int)DataFields.SyncOverallStatus).GetValue(_boolConverter.Convert);
+            set => GetField(1, (int)DataFields.SyncOverallStatus).SetValue(_boolConverter.Convert, value);
         }
         public List<SpindleStatus> SpindlesStatus { get; set; }
 
@@ -65,14 +65,14 @@ namespace OpenProtocolInterpreter.MultiSpindle
 
         public override string Pack()
         {
-            GetField(1, (int)DataFields.SPINDLE_STATUS).Value = _spindlesStatusConverter.Convert(SpindlesStatus);
+            GetField(1, (int)DataFields.SpindleStatus).Value = _spindlesStatusConverter.Convert(SpindlesStatus);
             return base.Pack();
         }
 
         public override Mid Parse(string package)
         {
             Header = ProcessHeader(package);
-            var spindleField = GetField(1, (int)DataFields.SPINDLE_STATUS);
+            var spindleField = GetField(1, (int)DataFields.SpindleStatus);
             spindleField.Size = Header.Length - spindleField.Index - 2;
             base.Parse(package);
             SpindlesStatus = _spindlesStatusConverter.Convert(spindleField.Value).ToList();
@@ -86,11 +86,11 @@ namespace OpenProtocolInterpreter.MultiSpindle
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.NUMBER_OF_SPINDLES, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.SYNC_TIGHTENING_ID, 24, 5, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.TIME, 31, 19),
-                                new DataField((int)DataFields.SYNC_OVERALL_STATUS, 52, 1),
-                                new DataField((int)DataFields.SPINDLE_STATUS, 55, 5)
+                                new DataField((int)DataFields.NumberOfSpindles, 20, 2, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.SyncTighteningId, 24, 5, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.Time, 31, 19),
+                                new DataField((int)DataFields.SyncOverallStatus, 52, 1),
+                                new DataField((int)DataFields.SpindleStatus, 55, 5)
                             }
                 }
             };
@@ -98,11 +98,11 @@ namespace OpenProtocolInterpreter.MultiSpindle
 
         protected enum DataFields
         {
-            NUMBER_OF_SPINDLES,
-            SYNC_TIGHTENING_ID,
-            TIME,
-            SYNC_OVERALL_STATUS,
-            SPINDLE_STATUS
+            NumberOfSpindles,
+            SyncTighteningId,
+            Time,
+            SyncOverallStatus,
+            SpindleStatus
         }
     }
 }

@@ -5,11 +5,11 @@
     /// </summary>
     public enum HistogramType
     {
-        TORQUE = 0,
-        ANGLE = 1,
-        CURRENT = 2,
-        PREVAIL_TORQUE = 3,
-        SELF_TAP = 4,
-        RUNDOWN_ANGLE = 5
+        Torque = 0,
+        Angle = 1,
+        Current = 2,
+        PrevailTorque = 3,
+        SelfTap = 4,
+        RundownAngle = 5
     }
 }

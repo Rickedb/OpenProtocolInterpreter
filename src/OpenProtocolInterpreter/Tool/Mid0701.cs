@@ -43,8 +43,8 @@ namespace OpenProtocolInterpreter.Tool
 
         public override string Pack()
         {
-            GetField(1, (int)DataFields.TOTAL_TOOLS).SetValue(_intConverter.Convert, TotalTools);
-            var eachToolField = GetField(1, (int)DataFields.EACH_TOOL);
+            GetField(1, (int)DataFields.TotalTools).SetValue(_intConverter.Convert, TotalTools);
+            var eachToolField = GetField(1, (int)DataFields.EachTool);
             eachToolField.Value = _toolListConverter.Convert(Tools);
             eachToolField.Size = eachToolField.Value.Length;
             return base.Pack();
@@ -54,7 +54,7 @@ namespace OpenProtocolInterpreter.Tool
         {
             Header = ProcessHeader(package);
 
-            var eachToolField = GetField(1, (int)DataFields.EACH_TOOL);
+            var eachToolField = GetField(1, (int)DataFields.EachTool);
             eachToolField.Size = Header.Length - eachToolField.Index;
             ProcessDataFields(package);
             Tools = _toolListConverter.Convert(eachToolField.Value).ToList();
@@ -68,16 +68,16 @@ namespace OpenProtocolInterpreter.Tool
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.TOTAL_TOOLS, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
-                                new DataField((int)DataFields.EACH_TOOL, 23, 3, false)
+                                new DataField((int)DataFields.TotalTools, 20, 3, '0', DataField.PaddingOrientations.LeftPadded, false),
+                                new DataField((int)DataFields.EachTool, 23, 3, false)
                             }
                 }
             };
         }
         protected enum DataFields
         {
-            TOTAL_TOOLS,
-            EACH_TOOL
+            TotalTools,
+            EachTool
         }
     }
 }

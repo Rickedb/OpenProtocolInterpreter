@@ -5,8 +5,8 @@
     /// </summary>
     public enum DecrementBatchAfterLoosening
     {
-        NEVER = 0,
-        ALWAYS = 1,
-        AFTER_OK = 2
+        Never = 0,
+        Always = 1,
+        AfterOk = 2
     }
 }

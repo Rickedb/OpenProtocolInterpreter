@@ -15,7 +15,7 @@ namespace OpenProtocolInterpreter.IOInterface
     {
         public const int MID = 213;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.STATUS_EXTERNAL_MONITORED_INPUTS_SUBSCRIPTION_DOESNT_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.StatusExternalMonitoredInputsSubscriptionDoesntExists };
 
         public Mid0213() : base(MID, DEFAULT_REVISION) { }
 

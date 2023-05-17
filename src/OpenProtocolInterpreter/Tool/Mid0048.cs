@@ -18,13 +18,13 @@ namespace OpenProtocolInterpreter.Tool
 
         public PairingStatus PairingStatus
         {
-            get => (PairingStatus)GetField(1,(int)DataFields.PAIRING_STATUS).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.PAIRING_STATUS).SetValue(_intConverter.Convert, (int)value);
+            get => (PairingStatus)GetField(1,(int)DataFields.PairingStatus).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.PairingStatus).SetValue(_intConverter.Convert, (int)value);
         }
         public DateTime TimeStamp
         {
-            get => GetField(1,(int)DataFields.TIMESTAMP).GetValue(_dateConverter.Convert);
-            set => GetField(1,(int)DataFields.TIMESTAMP).SetValue(_dateConverter.Convert, value);
+            get => GetField(1,(int)DataFields.Timestamp).GetValue(_dateConverter.Convert);
+            set => GetField(1,(int)DataFields.Timestamp).SetValue(_dateConverter.Convert, value);
         }
 
         public Mid0048() : this(new Header()
@@ -48,8 +48,8 @@ namespace OpenProtocolInterpreter.Tool
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.PAIRING_STATUS, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.TIMESTAMP, 24, 19)
+                                new DataField((int)DataFields.PairingStatus, 20, 2, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.Timestamp, 24, 19)
                             }
                 }
             };
@@ -57,8 +57,8 @@ namespace OpenProtocolInterpreter.Tool
 
         protected enum DataFields
         {
-            PAIRING_STATUS,
-            TIMESTAMP
+            PairingStatus,
+            Timestamp
         }
     }
 }

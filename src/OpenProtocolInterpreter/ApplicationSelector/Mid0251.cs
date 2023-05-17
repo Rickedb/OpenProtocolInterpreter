@@ -23,13 +23,13 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
         public int DeviceId
         {
-            get => GetField(1, (int)DataFields.DEVICE_ID).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.DEVICE_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.DeviceId).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.DeviceId).SetValue(_intConverter.Convert, value);
         }
         public int NumberOfSockets
         {
-            get => GetField(1, (int)DataFields.NUMBER_OF_SOCKETS).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.NUMBER_OF_SOCKETS).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.NumberOfSockets).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.NumberOfSockets).SetValue(_intConverter.Convert, value);
         }
         public List<bool> SocketStatus { get; set; }
 
@@ -52,8 +52,8 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
         public override string Pack()
         {
-            GetField(1, (int)DataFields.SOCKET_STATUS).Size = NumberOfSockets;
-            GetField(1, (int)DataFields.SOCKET_STATUS).Value = _boolListConverter.Convert(SocketStatus);
+            GetField(1, (int)DataFields.SocketStatus).Size = NumberOfSockets;
+            GetField(1, (int)DataFields.SocketStatus).Value = _boolListConverter.Convert(SocketStatus);
             return base.Pack();
         }
 
@@ -61,9 +61,9 @@ namespace OpenProtocolInterpreter.ApplicationSelector
         {
             Header = ProcessHeader(package);
 
-            GetField(1, (int)DataFields.SOCKET_STATUS).Size = Header.Length - 30;
+            GetField(1, (int)DataFields.SocketStatus).Size = Header.Length - 30;
             ProcessDataFields(package);
-            SocketStatus = _boolListConverter.Convert(GetField(1, (int)DataFields.SOCKET_STATUS).Value).ToList();
+            SocketStatus = _boolListConverter.Convert(GetField(1, (int)DataFields.SocketStatus).Value).ToList();
             return this;
         }
 
@@ -74,9 +74,9 @@ namespace OpenProtocolInterpreter.ApplicationSelector
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.DEVICE_ID, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.NUMBER_OF_SOCKETS, 24, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.SOCKET_STATUS, 28, 0)
+                                new DataField((int)DataFields.DeviceId, 20, 2, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.NumberOfSockets, 24, 2, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.SocketStatus, 28, 0)
                             }
                 }
             };
@@ -84,9 +84,9 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
         protected enum DataFields
         {
-            DEVICE_ID,
-            NUMBER_OF_SOCKETS,
-            SOCKET_STATUS
+            DeviceId,
+            NumberOfSockets,
+            SocketStatus
         }
     }
 }

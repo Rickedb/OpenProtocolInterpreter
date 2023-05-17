@@ -18,12 +18,12 @@ namespace OpenProtocolInterpreter.Vin
     {
         public const int MID = 50;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.VIN_INPUT_SOURCE_NOT_GRANTED };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.VINInputSourceNotGranted };
 
         public string VinNumber
         {
-            get => GetField(1, (int)DataFields.VIN_NUMBER).Value;
-            set => GetField(1, (int)DataFields.VIN_NUMBER).SetValue(value);
+            get => GetField(1, (int)DataFields.VinNumber).Value;
+            set => GetField(1, (int)DataFields.VinNumber).SetValue(value);
         }
 
         public Mid0050() : base(MID, DEFAULT_REVISION) { }
@@ -34,14 +34,14 @@ namespace OpenProtocolInterpreter.Vin
 
         public override string Pack()
         {
-            GetField(1, (int)DataFields.VIN_NUMBER).Size = VinNumber.Length;
+            GetField(1, (int)DataFields.VinNumber).Size = VinNumber.Length;
             return base.Pack();
         }
 
         public override Mid Parse(string package)
         {
             Header = ProcessHeader(package);
-            GetField(1, (int)DataFields.VIN_NUMBER).Size = Header.Length - 20;
+            GetField(1, (int)DataFields.VinNumber).Size = Header.Length - 20;
             ProcessDataFields(package);
             return this;
         }
@@ -53,7 +53,7 @@ namespace OpenProtocolInterpreter.Vin
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.VIN_NUMBER, 20, 0, false), //dynamic
+                                new DataField((int)DataFields.VinNumber, 20, 0, false), //dynamic
                             }
                 }
             };
@@ -61,7 +61,7 @@ namespace OpenProtocolInterpreter.Vin
 
         protected enum DataFields
         {
-            VIN_NUMBER
+            VinNumber
         }
     }
 }

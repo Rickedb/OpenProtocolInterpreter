@@ -5,7 +5,7 @@
     /// </summary>
     public enum TighteningDirection
     {
-        CLOCKWISE = 0,
-        COUNTER_CLOCKWISE = 1
+        Clockwise = 0,
+        Counterclockwise = 1
     }
 }

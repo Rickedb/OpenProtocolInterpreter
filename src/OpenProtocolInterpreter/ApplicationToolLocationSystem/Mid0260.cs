@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
     {
         public const int MID = 260;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.TOOL_TAG_ID_UNKNOWN, Error.MID_REVISION_UNSUPPORTED };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.ToolTagIdUnknown, Error.MidRevisionUnsupported };
 
         public Mid0260() : base(MID, DEFAULT_REVISION) { }
 

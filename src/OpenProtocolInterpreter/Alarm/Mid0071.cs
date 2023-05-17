@@ -18,29 +18,29 @@ namespace OpenProtocolInterpreter.Alarm
 
         public string ErrorCode
         {
-            get => GetField(1, (int)DataFields.ERROR_CODE).Value;
-            set => GetField(1, (int)DataFields.ERROR_CODE).SetValue(value);
+            get => GetField(1, (int)DataFields.ErrorCode).Value;
+            set => GetField(1, (int)DataFields.ErrorCode).SetValue(value);
         }
         public bool ControllerReadyStatus
         {
-            get => GetField(1, (int)DataFields.CONTROLLER_READY_STATUS).GetValue(_boolConverter.Convert);
-            set => GetField(1, (int)DataFields.CONTROLLER_READY_STATUS).SetValue(_boolConverter.Convert, value);
+            get => GetField(1, (int)DataFields.ControllerReadyStatus).GetValue(_boolConverter.Convert);
+            set => GetField(1, (int)DataFields.ControllerReadyStatus).SetValue(_boolConverter.Convert, value);
         }
         public bool ToolReadyStatus
         {
-            get => GetField(1, (int)DataFields.TOOL_READY_STATUS).GetValue(_boolConverter.Convert);
-            set => GetField(1, (int)DataFields.TOOL_READY_STATUS).SetValue(_boolConverter.Convert, value);
+            get => GetField(1, (int)DataFields.ToolReadyStatus).GetValue(_boolConverter.Convert);
+            set => GetField(1, (int)DataFields.ToolReadyStatus).SetValue(_boolConverter.Convert, value);
         }
         public DateTime Time
         {
-            get => GetField(1, (int)DataFields.TIME).GetValue(_dateConverter.Convert);
-            set => GetField(1, (int)DataFields.TIME).SetValue(_dateConverter.Convert, value);
+            get => GetField(1, (int)DataFields.Time).GetValue(_dateConverter.Convert);
+            set => GetField(1, (int)DataFields.Time).SetValue(_dateConverter.Convert, value);
         }
         //Rev 2
         public string AlarmText
         {
-            get => GetField(2, (int)DataFields.ALARM_TEXT).Value;
-            set => GetField(2, (int)DataFields.ALARM_TEXT).SetValue(value);
+            get => GetField(2, (int)DataFields.AlarmText).Value;
+            set => GetField(2, (int)DataFields.AlarmText).SetValue(value);
         }
 
         public Mid0071() : this(DEFAULT_REVISION)
@@ -79,16 +79,16 @@ namespace OpenProtocolInterpreter.Alarm
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.ERROR_CODE, 20, 4, ' ', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.CONTROLLER_READY_STATUS, 26, 1),
-                                new DataField((int)DataFields.TOOL_READY_STATUS, 29, 1, ' '),
-                                new DataField((int)DataFields.TIME, 32, 19)
+                                new DataField((int)DataFields.ErrorCode, 20, 4, ' ', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.ControllerReadyStatus, 26, 1),
+                                new DataField((int)DataFields.ToolReadyStatus, 29, 1, ' '),
+                                new DataField((int)DataFields.Time, 32, 19)
                             }
                 },
                 {
                     2, new List<DataField>()
                     {
-                        new DataField((int)DataFields.ALARM_TEXT, 54, 50, ' '),
+                        new DataField((int)DataFields.AlarmText, 54, 50, ' '),
                     }
                 }
             };
@@ -96,7 +96,7 @@ namespace OpenProtocolInterpreter.Alarm
 
         private void HandleRevision()
         {
-            var errorCodeField = GetField(1, (int)DataFields.ERROR_CODE);
+            var errorCodeField = GetField(1, (int)DataFields.ErrorCode);
             if (Header.Revision > 1)
             {
                 errorCodeField.Size = 5;
@@ -107,7 +107,7 @@ namespace OpenProtocolInterpreter.Alarm
             }
 
             int index = errorCodeField.Index + errorCodeField.Size;
-            for (int i = (int)DataFields.CONTROLLER_READY_STATUS; i < RevisionsByFields[1].Count; i++)
+            for (int i = (int)DataFields.ControllerReadyStatus; i < RevisionsByFields[1].Count; i++)
             {
                 var field = GetField(1, i);
                 field.Index = 2 + index;
@@ -117,12 +117,12 @@ namespace OpenProtocolInterpreter.Alarm
 
         protected enum DataFields
         {
-            ERROR_CODE,
-            CONTROLLER_READY_STATUS,
-            TOOL_READY_STATUS,
-            TIME,
+            ErrorCode,
+            ControllerReadyStatus,
+            ToolReadyStatus,
+            Time,
             //Rev 2
-            ALARM_TEXT
+            AlarmText
         }
     }
 }

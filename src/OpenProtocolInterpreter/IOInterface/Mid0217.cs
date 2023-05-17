@@ -22,13 +22,13 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public RelayNumber RelayNumber
         {
-            get => (RelayNumber)GetField(1, (int)DataFields.RELAY_NUMBER).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.RELAY_NUMBER).SetValue(_intConverter.Convert, (int)value);
+            get => (RelayNumber)GetField(1, (int)DataFields.RelayNumber).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.RelayNumber).SetValue(_intConverter.Convert, (int)value);
         }
         public bool RelayStatus
         {
-            get => GetField(1, (int)DataFields.RELAY_STATUS).GetValue(_boolConverter.Convert);
-            set => GetField(1, (int)DataFields.RELAY_STATUS).SetValue(_boolConverter.Convert, value);
+            get => GetField(1, (int)DataFields.RelayStatus).GetValue(_boolConverter.Convert);
+            set => GetField(1, (int)DataFields.RelayStatus).SetValue(_boolConverter.Convert, value);
         }
 
         public Mid0217() : this(new Header()
@@ -53,8 +53,8 @@ namespace OpenProtocolInterpreter.IOInterface
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.RELAY_NUMBER, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                        new DataField((int)DataFields.RELAY_STATUS, 25, 1)
+                        new DataField((int)DataFields.RelayNumber, 20, 3, '0', DataField.PaddingOrientations.LeftPadded),
+                        new DataField((int)DataFields.RelayStatus, 25, 1)
                     }
                 }
             };
@@ -62,8 +62,8 @@ namespace OpenProtocolInterpreter.IOInterface
 
         protected enum DataFields
         {
-            RELAY_NUMBER,
-            RELAY_STATUS
+            RelayNumber,
+            RelayStatus
         }
     }
 }

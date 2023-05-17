@@ -22,17 +22,17 @@ namespace OpenProtocolInterpreter.Statistic
         private readonly IValueConverter<int> _intConverter;
         public const int MID = 300;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.NO_HISTOGRAM_AVAILABLE, Error.INVALID_DATA };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.NoHistogramAvailable, Error.InvalidData };
 
         public int ParameterSetId
         {
-            get => GetField(1,(int)DataFields.PARAMETER_SET_ID).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.PARAMETER_SET_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.ParameterSetId).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.ParameterSetId).SetValue(_intConverter.Convert, value);
         }
         public HistogramType HistogramType
         {
-            get => (HistogramType)GetField(1,(int)DataFields.HISTOGRAM_TYPE).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.HISTOGRAM_TYPE).SetValue(_intConverter.Convert, (int)value);
+            get => (HistogramType)GetField(1,(int)DataFields.HistogramType).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.HistogramType).SetValue(_intConverter.Convert, (int)value);
         }
 
         public Mid0300() : this(new Header()
@@ -55,8 +55,8 @@ namespace OpenProtocolInterpreter.Statistic
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.PARAMETER_SET_ID, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                        new DataField((int)DataFields.HISTOGRAM_TYPE, 25, 2, '0', DataField.PaddingOrientations.LEFT_PADDED)
+                        new DataField((int)DataFields.ParameterSetId, 20, 3, '0', DataField.PaddingOrientations.LeftPadded),
+                        new DataField((int)DataFields.HistogramType, 25, 2, '0', DataField.PaddingOrientations.LeftPadded)
                     }
                 }
             };
@@ -64,8 +64,8 @@ namespace OpenProtocolInterpreter.Statistic
 
         protected enum DataFields
         {
-            PARAMETER_SET_ID,
-            HISTOGRAM_TYPE
+            ParameterSetId,
+            HistogramType
         }
     }
 }

@@ -18,17 +18,17 @@ namespace OpenProtocolInterpreter.ParameterSet
         private readonly IValueConverter<int> _intConverter;
         public const int MID = 12;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.PARAMETER_SET_ID_NOT_PRESENT };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.ParameterSetIdNotPresent };
 
         public int ParameterSetId
         {
-            get => GetField(1, (int)DataFields.PARAMETER_SET_ID).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.PARAMETER_SET_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.ParameterSetId).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.ParameterSetId).SetValue(_intConverter.Convert, value);
         }
         public int ParameterSetFileVersion
         {
-            get => GetField(3, (int)DataFields.PSET_FILE_VERSION).GetValue(_intConverter.Convert);
-            set => GetField(3, (int)DataFields.PSET_FILE_VERSION).SetValue(_intConverter.Convert, value);
+            get => GetField(3, (int)DataFields.PSetFileVersion).GetValue(_intConverter.Convert);
+            set => GetField(3, (int)DataFields.PSetFileVersion).SetValue(_intConverter.Convert, value);
         }
 
         public Mid0012() : this(DEFAULT_REVISION)
@@ -56,13 +56,13 @@ namespace OpenProtocolInterpreter.ParameterSet
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.PARAMETER_SET_ID, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                                new DataField((int)DataFields.ParameterSetId, 20, 3, '0', DataField.PaddingOrientations.LeftPadded, false)
                             }
                 },
                 {
                     3, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.PSET_FILE_VERSION, 23, 8, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                                new DataField((int)DataFields.PSetFileVersion, 23, 8, '0', DataField.PaddingOrientations.LeftPadded, false)
                             }
                 },
             };
@@ -71,9 +71,9 @@ namespace OpenProtocolInterpreter.ParameterSet
         protected enum DataFields
         {
             //Revision 1-2
-            PARAMETER_SET_ID,
+            ParameterSetId,
             //Revision 3-4
-            PSET_FILE_VERSION
+            PSetFileVersion
         }
     }
 }

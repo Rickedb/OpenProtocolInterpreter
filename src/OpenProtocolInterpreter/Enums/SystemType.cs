@@ -12,9 +12,9 @@
     /// </summary>
     public enum SystemType
     {
-        SYSTEM_TYPE_NOT_SET = 0,
-        POWER_FOCUS_4000 = 1,
-        POWER_MACS_4000 = 2,
-        POWER_FOCUS_6000 = 3
+        SystemTypeNotSet = 0,
+        PowerFocus4000 = 1,
+        PowerMacs4000 = 2,
+        PowerFocus6000 = 3
     }
 }

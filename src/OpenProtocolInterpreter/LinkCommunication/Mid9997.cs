@@ -22,8 +22,8 @@ namespace OpenProtocolInterpreter.LinkCommunication
 
         public int MidNumber
         {
-            get => GetField(1, (int)DataFields.MID_NUMBER).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.MID_NUMBER).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.MidNumber).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.MidNumber).SetValue(_intConverter.Convert, value);
         }
 
         public Mid9997(Header header) : base(header)
@@ -46,7 +46,7 @@ namespace OpenProtocolInterpreter.LinkCommunication
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.MID_NUMBER, 20, 4, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                                new DataField((int)DataFields.MidNumber, 20, 4, '0', DataField.PaddingOrientations.LeftPadded, false)
                             }
                 }
             };
@@ -54,7 +54,7 @@ namespace OpenProtocolInterpreter.LinkCommunication
 
         protected enum DataFields
         {
-            MID_NUMBER
+            MidNumber
         }
     }
 }

@@ -40,12 +40,12 @@ namespace OpenProtocolInterpreter.Converters
             string pack = string.Empty;
             foreach (var v in value)
             {
-                pack += _intConverter.Convert('0', 5, DataField.PaddingOrientations.LEFT_PADDED, v.ParameterId);
-                pack += _intConverter.Convert('0', 3, DataField.PaddingOrientations.LEFT_PADDED, v.Length);
-                pack += _intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, v.DataType);
-                pack += _intConverter.Convert('0', 3, DataField.PaddingOrientations.LEFT_PADDED, v.Unit);
-                pack += _intConverter.Convert('0', 4, DataField.PaddingOrientations.LEFT_PADDED, v.StepNumber);
-                pack += GetTruncatePadded(' ', 1, DataField.PaddingOrientations.RIGHT_PADDED, v.DataValue);
+                pack += _intConverter.Convert('0', 5, DataField.PaddingOrientations.LeftPadded, v.ParameterId);
+                pack += _intConverter.Convert('0', 3, DataField.PaddingOrientations.LeftPadded, v.Length);
+                pack += _intConverter.Convert('0', 2, DataField.PaddingOrientations.LeftPadded, v.DataType);
+                pack += _intConverter.Convert('0', 3, DataField.PaddingOrientations.LeftPadded, v.Unit);
+                pack += _intConverter.Convert('0', 4, DataField.PaddingOrientations.LeftPadded, v.StepNumber);
+                pack += GetTruncatePadded(' ', 1, DataField.PaddingOrientations.RightPadded, v.DataValue);
             }
             return pack;
         }

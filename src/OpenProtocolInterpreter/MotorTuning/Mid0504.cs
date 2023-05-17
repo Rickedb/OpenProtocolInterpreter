@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.MotorTuning
     {
         public const int MID = 504;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.TOOL_MOTOR_TUNING_FAILED };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.ToolMotorTuningFailed };
 
         public Mid0504() : base(MID, DEFAULT_REVISION) { }
 

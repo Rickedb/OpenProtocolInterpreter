@@ -15,7 +15,7 @@ namespace OpenProtocolInterpreter.ParameterSet
     {
         public const int MID = 17;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.PARAMETER_SET_SELECTION_SUBSCRIPTION_DOESNT_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.ParameterSetSelectionSubscriptionDoesntExists };
 
         public Mid0017() : base(MID, DEFAULT_REVISION) { }
 

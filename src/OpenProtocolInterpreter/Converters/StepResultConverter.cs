@@ -51,18 +51,18 @@ namespace OpenProtocolInterpreter.Converters
             string package = string.Empty;
             foreach (var step in value)
             {
-                package += GetTruncatePadded(' ', 20, DataField.PaddingOrientations.RIGHT_PADDED, step.VariableName);
+                package += GetTruncatePadded(' ', 20, DataField.PaddingOrientations.RightPadded, step.VariableName);
                 package += step.Type.Type;
                 if (step.Type.Type == DataType.DataTypes[1].Type) // Integer
                 {
-                    package += _intConverter.Convert('0', 7, DataField.PaddingOrientations.LEFT_PADDED, (int)step.Value);
+                    package += _intConverter.Convert('0', 7, DataField.PaddingOrientations.LeftPadded, (int)step.Value);
                 }
                 else if (step.Type.Type == DataType.DataTypes[2].Type) // Decimal
                 {
                     _decimalConverter = new DecimalConverter();
-                    package += _decimalConverter.Convert('0', 7, DataField.PaddingOrientations.LEFT_PADDED, (decimal)step.Value);
+                    package += _decimalConverter.Convert('0', 7, DataField.PaddingOrientations.LeftPadded, (decimal)step.Value);
                 }
-                package += _intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, step.StepNumber);
+                package += _intConverter.Convert('0', 2, DataField.PaddingOrientations.LeftPadded, step.StepNumber);
             }
 
             return package;

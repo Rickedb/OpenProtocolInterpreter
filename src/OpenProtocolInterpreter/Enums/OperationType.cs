@@ -5,10 +5,10 @@
     /// </summary>
     public enum OperationType
     {
-        NON_SYNCHRONIZED_TIGHTENING = 0,
-        SYNCHRONIZED_TIGHTENING = 1,
-        PRESSING = 2,
-        DRILLING = 3,
-        PULSE = 4
+        NonSynchronizedTightening = 0,
+        SynchronizedTightening = 1,
+        Pressing = 2,
+        Drilling = 3,
+        Pulse = 4
     }
 }

@@ -27,23 +27,23 @@ namespace OpenProtocolInterpreter.Vin
 
         public string VinNumber
         {
-            get => GetField(1, (int)DataFields.VIN_NUMBER).Value;
-            set => GetField(1, (int)DataFields.VIN_NUMBER).SetValue(value);
+            get => GetField(1, (int)DataFields.VinNumber).Value;
+            set => GetField(1, (int)DataFields.VinNumber).SetValue(value);
         }
         public string IdentifierResultPart2
         {
-            get => GetField(2, (int)DataFields.IDENTIFIER_RESULT_PART2).Value;
-            set => GetField(2, (int)DataFields.IDENTIFIER_RESULT_PART2).SetValue(value);
+            get => GetField(2, (int)DataFields.IdentifierResultPart2).Value;
+            set => GetField(2, (int)DataFields.IdentifierResultPart2).SetValue(value);
         }
         public string IdentifierResultPart3
         {
-            get => GetField(2, (int)DataFields.IDENTIFIER_RESULT_PART3).Value;
-            set => GetField(2, (int)DataFields.IDENTIFIER_RESULT_PART3).SetValue(value);
+            get => GetField(2, (int)DataFields.IdentifierResultPart3).Value;
+            set => GetField(2, (int)DataFields.IdentifierResultPart3).SetValue(value);
         }
         public string IdentifierResultPart4
         {
-            get => GetField(2, (int)DataFields.IDENTIFIER_RESULT_PART4).Value;
-            set => GetField(2, (int)DataFields.IDENTIFIER_RESULT_PART4).SetValue(value);
+            get => GetField(2, (int)DataFields.IdentifierResultPart4).Value;
+            set => GetField(2, (int)DataFields.IdentifierResultPart4).SetValue(value);
         }
 
         public Mid0052() : this(DEFAULT_REVISION)
@@ -59,7 +59,7 @@ namespace OpenProtocolInterpreter.Vin
 
         public override string Pack()
         {
-            var vinNumberField = GetField(1, (int)DataFields.VIN_NUMBER);
+            var vinNumberField = GetField(1, (int)DataFields.VinNumber);
             if (Header.Revision > 1)
                 vinNumberField.HasPrefix = true;
 
@@ -73,19 +73,19 @@ namespace OpenProtocolInterpreter.Vin
             Header = ProcessHeader(package);
             if (Header.Revision > 1)
             {
-                var vinNumberField = GetField(1, (int)DataFields.VIN_NUMBER);
+                var vinNumberField = GetField(1, (int)DataFields.VinNumber);
                 vinNumberField.HasPrefix = true;
                 vinNumberField.Size = Header.Length - 103;
                 if (vinNumberField.Size > 25)
                 {
                     int addedSize = vinNumberField.Size - 25;
-                    GetField(2, (int)DataFields.IDENTIFIER_RESULT_PART2).Index += addedSize;
-                    GetField(2, (int)DataFields.IDENTIFIER_RESULT_PART3).Index += addedSize;
-                    GetField(2, (int)DataFields.IDENTIFIER_RESULT_PART4).Index += addedSize;
+                    GetField(2, (int)DataFields.IdentifierResultPart2).Index += addedSize;
+                    GetField(2, (int)DataFields.IdentifierResultPart3).Index += addedSize;
+                    GetField(2, (int)DataFields.IdentifierResultPart4).Index += addedSize;
                 }
             }
             else
-                GetField(1, (int)DataFields.VIN_NUMBER).Size = Header.Length - 20;
+                GetField(1, (int)DataFields.VinNumber).Size = Header.Length - 20;
             ProcessDataFields(package);
             return this;
         }
@@ -97,15 +97,15 @@ namespace OpenProtocolInterpreter.Vin
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.VIN_NUMBER, 20, 25, ' ', DataField.PaddingOrientations.RIGHT_PADDED, false)
+                                new DataField((int)DataFields.VinNumber, 20, 25, ' ', DataField.PaddingOrientations.RightPadded, false)
                             }
                 },
                 {
                     2, new List<DataField>()
                             {
-                                new DataField((int)DataFields.IDENTIFIER_RESULT_PART2, 47, 25, ' '),
-                                new DataField((int)DataFields.IDENTIFIER_RESULT_PART3, 74, 25, ' '),
-                                new DataField((int)DataFields.IDENTIFIER_RESULT_PART4, 101, 25, ' ')
+                                new DataField((int)DataFields.IdentifierResultPart2, 47, 25, ' '),
+                                new DataField((int)DataFields.IdentifierResultPart3, 74, 25, ' '),
+                                new DataField((int)DataFields.IdentifierResultPart4, 101, 25, ' ')
                             }
                 }
             };
@@ -113,10 +113,10 @@ namespace OpenProtocolInterpreter.Vin
 
         protected enum DataFields
         {
-            VIN_NUMBER,
-            IDENTIFIER_RESULT_PART2,
-            IDENTIFIER_RESULT_PART3,
-            IDENTIFIER_RESULT_PART4,
+            VinNumber,
+            IdentifierResultPart2,
+            IdentifierResultPart3,
+            IdentifierResultPart4,
         }
     }
 }

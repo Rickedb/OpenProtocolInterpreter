@@ -24,12 +24,12 @@ namespace OpenProtocolInterpreter.ApplicationSelector
         private readonly IValueConverter<int> _intConverter;
         public const int MID = 255;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.FAULTY_IO_DEVICE_ID };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.FaultyIODeviceId };
 
         public int DeviceId
         {
-            get => GetField(1, (int)DataFields.DEVICE_ID).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.DEVICE_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.DeviceId).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.DeviceId).SetValue(_intConverter.Convert, value);
         }
         public List<LightCommand> RedLights { get; set; }
 
@@ -52,14 +52,14 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
         public override string Pack()
         {
-            GetField(1, (int)DataFields.RED_LIGHT_COMMAND).Value = _lightsConverter.Convert(RedLights);
+            GetField(1, (int)DataFields.RedLightCommand).Value = _lightsConverter.Convert(RedLights);
             return base.Pack();
         }
 
         public override Mid Parse(string package)
         {
             base.Parse(package);
-            RedLights = _lightsConverter.Convert(GetField(1, (int)DataFields.RED_LIGHT_COMMAND).Value).ToList();
+            RedLights = _lightsConverter.Convert(GetField(1, (int)DataFields.RedLightCommand).Value).ToList();
             return this;
         }
 
@@ -70,8 +70,8 @@ namespace OpenProtocolInterpreter.ApplicationSelector
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.DEVICE_ID, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.RED_LIGHT_COMMAND, 24, 8)
+                                new DataField((int)DataFields.DeviceId, 20, 2, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.RedLightCommand, 24, 8)
                             }
                 }
             };
@@ -79,8 +79,8 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
         protected enum DataFields
         {
-            DEVICE_ID,
-            RED_LIGHT_COMMAND
+            DeviceId,
+            RedLightCommand
         }
     }
 }

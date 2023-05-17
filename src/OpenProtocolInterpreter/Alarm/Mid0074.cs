@@ -15,8 +15,8 @@ namespace OpenProtocolInterpreter.Alarm
 
         public string ErrorCode
         {
-            get => GetField(1, (int)DataFields.ERROR_CODE).Value;
-            set => GetField(1, (int)DataFields.ERROR_CODE).SetValue(value);
+            get => GetField(1, (int)DataFields.ErrorCode).Value;
+            set => GetField(1, (int)DataFields.ErrorCode).SetValue(value);
         }
 
         public Mid0074() : this(DEFAULT_REVISION)
@@ -36,14 +36,14 @@ namespace OpenProtocolInterpreter.Alarm
 
         public override string Pack()
         {
-            RevisionsByFields[1][(int)DataFields.ERROR_CODE].Size = Header.Revision == 1 ? 4 : 5;
+            RevisionsByFields[1][(int)DataFields.ErrorCode].Size = Header.Revision == 1 ? 4 : 5;
             return base.Pack();
         }
 
         public override Mid Parse(string package)
         {
             Header = ProcessHeader(package);
-            RevisionsByFields[1][(int)DataFields.ERROR_CODE].Size = Header.Revision == 1 ? 4 : 5;
+            RevisionsByFields[1][(int)DataFields.ErrorCode].Size = Header.Revision == 1 ? 4 : 5;
             ProcessDataFields(package);
             return this;
         }
@@ -55,7 +55,7 @@ namespace OpenProtocolInterpreter.Alarm
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.ERROR_CODE, 20, 4, ' ', DataField.PaddingOrientations.LEFT_PADDED, false)
+                                new DataField((int)DataFields.ErrorCode, 20, 4, ' ', DataField.PaddingOrientations.LeftPadded, false)
                             }
                 }
             };
@@ -63,7 +63,7 @@ namespace OpenProtocolInterpreter.Alarm
 
         protected enum DataFields
         {
-            ERROR_CODE
+            ErrorCode
         }
     }
 }

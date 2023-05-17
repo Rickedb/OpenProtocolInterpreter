@@ -20,12 +20,12 @@ namespace OpenProtocolInterpreter.IOInterface
         private readonly IValueConverter<int> _intConverter;
         public const int MID = 214;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.FAULTY_IO_DEVICE_ID, Error.IO_DEVICE_NOT_CONNECTED };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.FaultyIODeviceId, Error.IODeviceNotConnected };
 
         public int DeviceNumber
         {
-            get => GetField(1,(int)DataFields.DEVICE_NUMBER).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.DEVICE_NUMBER).SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.DeviceNumber).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.DeviceNumber).SetValue(_intConverter.Convert, value);
         }
 
         public Mid0214() : this(DEFAULT_REVISION)
@@ -52,7 +52,7 @@ namespace OpenProtocolInterpreter.IOInterface
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.DEVICE_NUMBER, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                        new DataField((int)DataFields.DeviceNumber, 20, 2, '0', DataField.PaddingOrientations.LeftPadded, false)
                     }
                 }
             };
@@ -60,7 +60,7 @@ namespace OpenProtocolInterpreter.IOInterface
 
         protected enum DataFields
         {
-            DEVICE_NUMBER
+            DeviceNumber
         }
     }
 }

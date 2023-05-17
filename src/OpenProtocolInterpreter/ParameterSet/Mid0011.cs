@@ -45,8 +45,8 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public override string Pack()
         {
-            GetField(1, (int)DataFields.TOTAL_PARAMETER_SETS).SetValue(_intConverter.Convert, TotalParameterSets);
-            var eachParameterField = GetField(1, (int)DataFields.EACH_PARAMETER_SET);
+            GetField(1, (int)DataFields.TotalParameterSets).SetValue(_intConverter.Convert, TotalParameterSets);
+            var eachParameterField = GetField(1, (int)DataFields.EachParameterSet);
             eachParameterField.Value = _intListConverter.Convert(ParameterSets);
             eachParameterField.Size = eachParameterField.Value.Length;
             return base.Pack();
@@ -56,9 +56,9 @@ namespace OpenProtocolInterpreter.ParameterSet
         {
             Header = ProcessHeader(package);
 
-            GetField(1, (int)DataFields.EACH_PARAMETER_SET).Size = Header.Length - GetField(1, (int)DataFields.EACH_PARAMETER_SET).Index;
+            GetField(1, (int)DataFields.EachParameterSet).Size = Header.Length - GetField(1, (int)DataFields.EachParameterSet).Index;
             ProcessDataFields(package);
-            ParameterSets = _intListConverter.Convert(GetField(1, (int)DataFields.EACH_PARAMETER_SET).Value).ToList();
+            ParameterSets = _intListConverter.Convert(GetField(1, (int)DataFields.EachParameterSet).Value).ToList();
             return this;
         }
 
@@ -69,8 +69,8 @@ namespace OpenProtocolInterpreter.ParameterSet
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.TOTAL_PARAMETER_SETS, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
-                                new DataField((int)DataFields.EACH_PARAMETER_SET, 23, 3, false)
+                                new DataField((int)DataFields.TotalParameterSets, 20, 3, '0', DataField.PaddingOrientations.LeftPadded, false),
+                                new DataField((int)DataFields.EachParameterSet, 23, 3, false)
                             }
                 }
             };
@@ -78,8 +78,8 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         protected enum DataFields
         {
-            TOTAL_PARAMETER_SETS,
-            EACH_PARAMETER_SET
+            TotalParameterSets,
+            EachParameterSet
         }
     }
 }

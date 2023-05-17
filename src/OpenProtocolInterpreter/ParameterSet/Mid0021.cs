@@ -16,7 +16,7 @@ namespace OpenProtocolInterpreter.ParameterSet
     {
         public const int MID = 21;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.LOCK_AT_BATCH_DONE_SUBSCRIPTION_ALREADY_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.LockAtBatchDoneSubscriptionAlreadyExists };
 
         public Mid0021() : this(false)
         {

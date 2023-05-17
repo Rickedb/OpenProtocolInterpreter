@@ -14,17 +14,17 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
         private readonly IValueConverter<int> _intConverter;
         public const int MID = 265;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.MID_REVISION_UNSUPPORTED };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.MidRevisionUnsupported };
 
         public string ToolTagId
         {
-            get => GetField(1,(int)DataFields.TOOL_TAG_ID).Value;
-            set => GetField(1,(int)DataFields.TOOL_TAG_ID).SetValue(value);
+            get => GetField(1,(int)DataFields.ToolTagId).Value;
+            set => GetField(1,(int)DataFields.ToolTagId).SetValue(value);
         }
         public ToolStatus ToolStatus
         {
-            get => (ToolStatus)GetField(1,(int)DataFields.TOOL_STATUS).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.TOOL_STATUS).SetValue(_intConverter.Convert, (int)value);
+            get => (ToolStatus)GetField(1,(int)DataFields.ToolStatus).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.ToolStatus).SetValue(_intConverter.Convert, (int)value);
         }
 
         public Mid0265() : this(new Header()
@@ -48,8 +48,8 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.TOOL_TAG_ID, 20, 8),
-                        new DataField((int)DataFields.TOOL_STATUS, 30, 2, '0', DataField.PaddingOrientations.LEFT_PADDED)
+                        new DataField((int)DataFields.ToolTagId, 20, 8),
+                        new DataField((int)DataFields.ToolStatus, 30, 2, '0', DataField.PaddingOrientations.LeftPadded)
                     }
                 }
             };
@@ -57,8 +57,8 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
 
         protected enum DataFields
         {
-            TOOL_TAG_ID,
-            TOOL_STATUS
+            ToolTagId,
+            ToolStatus
         }
     }
 }

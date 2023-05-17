@@ -20,12 +20,12 @@ namespace OpenProtocolInterpreter.Tool
         private readonly IValueConverter<int> _intConverter;
         public const int MID = 46;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.PROGRAMMING_CONTROL_NOT_GRANTED, Error.INVALID_DATA };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.ProgrammingControlNotGranted, Error.InvalidData };
 
         public PrimaryTool PrimaryTool
         {
-            get => (PrimaryTool)GetField(1,(int)DataFields.PRIMARY_TOOL).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.PRIMARY_TOOL).SetValue(_intConverter.Convert, (int)value);
+            get => (PrimaryTool)GetField(1,(int)DataFields.PrimaryTool).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.PrimaryTool).SetValue(_intConverter.Convert, (int)value);
         }
 
         public Mid0046() : this(new Header()
@@ -48,7 +48,7 @@ namespace OpenProtocolInterpreter.Tool
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.PRIMARY_TOOL, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED)
+                                new DataField((int)DataFields.PrimaryTool, 20, 2, '0', DataField.PaddingOrientations.LeftPadded)
                             }
                 }
             };
@@ -56,7 +56,7 @@ namespace OpenProtocolInterpreter.Tool
 
         protected enum DataFields
         {
-            PRIMARY_TOOL
+            PrimaryTool
         }
     }
 }

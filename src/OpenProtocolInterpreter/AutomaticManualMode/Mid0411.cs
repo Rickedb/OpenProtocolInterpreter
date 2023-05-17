@@ -36,13 +36,13 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
 
         public int AutoDisableSetting
         {
-            get => GetField(1, (int)DataFields.AUTO_DISABLE_SETTING).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.AUTO_DISABLE_SETTING).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.AutoDisableSetting).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.AutoDisableSetting).SetValue(_intConverter.Convert, value);
         }
         public int CurrentBatch
         {
-            get => GetField(1, (int)DataFields.CURRENT_BATCH).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.CURRENT_BATCH).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.CurrentBatch).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.CurrentBatch).SetValue(_intConverter.Convert, value);
         }
 
         public Mid0411() : this(new Header()
@@ -66,8 +66,8 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.AUTO_DISABLE_SETTING, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
-                                new DataField((int)DataFields.CURRENT_BATCH, 22, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                                new DataField((int)DataFields.AutoDisableSetting, 20, 2, '0', DataField.PaddingOrientations.LeftPadded, false),
+                                new DataField((int)DataFields.CurrentBatch, 22, 2, '0', DataField.PaddingOrientations.LeftPadded, false)
                             }
                 }
             };
@@ -75,8 +75,8 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
 
         protected enum DataFields
         {
-            AUTO_DISABLE_SETTING,
-            CURRENT_BATCH
+            AutoDisableSetting,
+            CurrentBatch
         }
     }
 }

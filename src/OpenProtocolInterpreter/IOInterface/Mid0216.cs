@@ -21,12 +21,12 @@ namespace OpenProtocolInterpreter.IOInterface
         private readonly IValueConverter<int> _intConverter;
         public const int MID = 216;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.RELAY_FUNCTION_SUBSCRIPTION_ALREADY_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.RelayFunctionSubscriptionAlreadyExists };
 
         public RelayNumber RelayNumber
         {
-            get => (RelayNumber)GetField(1,(int)DataFields.RELAY_NUMBER).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.RELAY_NUMBER).SetValue(_intConverter.Convert, (int)value);
+            get => (RelayNumber)GetField(1,(int)DataFields.RelayNumber).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.RelayNumber).SetValue(_intConverter.Convert, (int)value);
         }
 
         public Mid0216() : this(false)
@@ -56,7 +56,7 @@ namespace OpenProtocolInterpreter.IOInterface
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.RELAY_NUMBER, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                        new DataField((int)DataFields.RelayNumber, 20, 3, '0', DataField.PaddingOrientations.LeftPadded, false)
                     }
                 }
             };
@@ -64,7 +64,7 @@ namespace OpenProtocolInterpreter.IOInterface
 
         protected enum DataFields
         {
-            RELAY_NUMBER
+            RelayNumber
         }
     }
 }

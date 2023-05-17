@@ -20,8 +20,8 @@ namespace OpenProtocolInterpreter.MotorTuning
         /// </summary>
         public bool MotorTuneResult
         {
-            get => GetField(1, (int)DataFields.MOTOR_TUNE_RESULT).GetValue(_boolConverter.Convert);
-            set => GetField(1, (int)DataFields.MOTOR_TUNE_RESULT).SetValue(_boolConverter.Convert, value);
+            get => GetField(1, (int)DataFields.MotorTuneResult).GetValue(_boolConverter.Convert);
+            set => GetField(1, (int)DataFields.MotorTuneResult).SetValue(_boolConverter.Convert, value);
         }
 
         public Mid0501() : this(new Header()
@@ -44,7 +44,7 @@ namespace OpenProtocolInterpreter.MotorTuning
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.MOTOR_TUNE_RESULT, 20, 1)
+                                new DataField((int)DataFields.MotorTuneResult, 20, 1)
                             }
                 }
             };
@@ -52,7 +52,7 @@ namespace OpenProtocolInterpreter.MotorTuning
 
         protected enum DataFields
         {
-            MOTOR_TUNE_RESULT
+            MotorTuneResult
         }
     }
 }

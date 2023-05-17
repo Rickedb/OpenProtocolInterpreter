@@ -12,7 +12,7 @@
                 value = value.Substring(0, size);
             }
 
-            if (orientation == DataField.PaddingOrientations.RIGHT_PADDED)
+            if (orientation == DataField.PaddingOrientations.RightPadded)
                 return value.PadRight(size, paddingChar);
 
             return value.PadLeft(size, paddingChar);

@@ -15,7 +15,7 @@ namespace OpenProtocolInterpreter.PowerMACS
     {
         public const int MID = 109;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SUBSCRIPTION_DOESNT_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SubscriptionDoesntExists };
 
         public Mid0109() : this(DEFAULT_REVISION)
         {

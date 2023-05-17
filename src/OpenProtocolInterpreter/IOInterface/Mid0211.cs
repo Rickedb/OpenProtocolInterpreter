@@ -19,43 +19,43 @@ namespace OpenProtocolInterpreter.IOInterface
         
         public bool StatusDigInOne
         {
-            get => GetField(1,(int)DataFields.STATUS_DIG_IN_1).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.STATUS_DIG_IN_1).SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.StatusDigIn1).GetValue(_boolConverter.Convert);
+            set => GetField(1,(int)DataFields.StatusDigIn1).SetValue(_boolConverter.Convert, value);
         }
         public bool StatusDigInTwo
         {
-            get => GetField(1,(int)DataFields.STATUS_DIG_IN_2).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.STATUS_DIG_IN_2).SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.StatusDigIn2).GetValue(_boolConverter.Convert);
+            set => GetField(1,(int)DataFields.StatusDigIn2).SetValue(_boolConverter.Convert, value);
         }
         public bool StatusDigInThree
         {
-            get => GetField(1,(int)DataFields.STATUS_DIG_IN_3).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.STATUS_DIG_IN_3).SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.StatusDigIn3).GetValue(_boolConverter.Convert);
+            set => GetField(1,(int)DataFields.StatusDigIn3).SetValue(_boolConverter.Convert, value);
         }
         public bool StatusDigInFour
         {
-            get => GetField(1,(int)DataFields.STATUS_DIG_IN_4).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.STATUS_DIG_IN_4).SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.StatusDigIn4).GetValue(_boolConverter.Convert);
+            set => GetField(1,(int)DataFields.StatusDigIn4).SetValue(_boolConverter.Convert, value);
         }
         public bool StatusDigInFive
         {
-            get => GetField(1,(int)DataFields.STATUS_DIG_IN_5).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.STATUS_DIG_IN_5).SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.StatusDigIn5).GetValue(_boolConverter.Convert);
+            set => GetField(1,(int)DataFields.StatusDigIn5).SetValue(_boolConverter.Convert, value);
         }
         public bool StatusDigInSix
         {
-            get => GetField(1,(int)DataFields.STATUS_DIG_IN_6).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.STATUS_DIG_IN_6).SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.StatusDigIn6).GetValue(_boolConverter.Convert);
+            set => GetField(1,(int)DataFields.StatusDigIn6).SetValue(_boolConverter.Convert, value);
         }
         public bool StatusDigInSeven
         {
-            get => GetField(1,(int)DataFields.STATUS_DIG_IN_7).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.STATUS_DIG_IN_7).SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.StatusDigIn7).GetValue(_boolConverter.Convert);
+            set => GetField(1,(int)DataFields.StatusDigIn7).SetValue(_boolConverter.Convert, value);
         }
         public bool StatusDigInEight
         {
-            get => GetField(1,(int)DataFields.STATUS_DIG_IN_8).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.STATUS_DIG_IN_8).SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.StatusDigIn8).GetValue(_boolConverter.Convert);
+            set => GetField(1,(int)DataFields.StatusDigIn8).SetValue(_boolConverter.Convert, value);
         }
 
         public Mid0211() : this(new Header()
@@ -79,14 +79,14 @@ namespace OpenProtocolInterpreter.IOInterface
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.STATUS_DIG_IN_1, 20, 1, false),
-                        new DataField((int)DataFields.STATUS_DIG_IN_2, 21, 1, false),
-                        new DataField((int)DataFields.STATUS_DIG_IN_3, 22, 1, false),
-                        new DataField((int)DataFields.STATUS_DIG_IN_4, 23, 1, false),
-                        new DataField((int)DataFields.STATUS_DIG_IN_5, 24, 1, false),
-                        new DataField((int)DataFields.STATUS_DIG_IN_6, 25, 1, false),
-                        new DataField((int)DataFields.STATUS_DIG_IN_7, 26, 1, false),
-                        new DataField((int)DataFields.STATUS_DIG_IN_8, 27, 1, false)
+                        new DataField((int)DataFields.StatusDigIn1, 20, 1, false),
+                        new DataField((int)DataFields.StatusDigIn2, 21, 1, false),
+                        new DataField((int)DataFields.StatusDigIn3, 22, 1, false),
+                        new DataField((int)DataFields.StatusDigIn4, 23, 1, false),
+                        new DataField((int)DataFields.StatusDigIn5, 24, 1, false),
+                        new DataField((int)DataFields.StatusDigIn6, 25, 1, false),
+                        new DataField((int)DataFields.StatusDigIn7, 26, 1, false),
+                        new DataField((int)DataFields.StatusDigIn8, 27, 1, false)
                     }
                 }
             };
@@ -94,14 +94,14 @@ namespace OpenProtocolInterpreter.IOInterface
 
         protected enum DataFields
         {
-            STATUS_DIG_IN_1,
-            STATUS_DIG_IN_2,
-            STATUS_DIG_IN_3,
-            STATUS_DIG_IN_4,
-            STATUS_DIG_IN_5,
-            STATUS_DIG_IN_6,
-            STATUS_DIG_IN_7,
-            STATUS_DIG_IN_8
+            StatusDigIn1,
+            StatusDigIn2,
+            StatusDigIn3,
+            StatusDigIn4,
+            StatusDigIn5,
+            StatusDigIn6,
+            StatusDigIn7,
+            StatusDigIn8
         }
     }
 }

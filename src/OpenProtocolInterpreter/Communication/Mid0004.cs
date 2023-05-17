@@ -27,13 +27,13 @@ namespace OpenProtocolInterpreter.Communication
 
         public int FailedMid
         {
-            get => GetField(1, (int)DataFields.MID).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.MID).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.Mid).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.Mid).SetValue(_intConverter.Convert, value);
         }
         public Error ErrorCode
         {
-            get => (Error)GetField(1, (int)DataFields.ERROR_CODE).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.ERROR_CODE).SetValue(_intConverter.Convert, (int)value);
+            get => (Error)GetField(1, (int)DataFields.ErrorCode).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.ErrorCode).SetValue(_intConverter.Convert, (int)value);
         }
 
         public Mid0004() : this(DEFAULT_REVISION)
@@ -62,8 +62,8 @@ namespace OpenProtocolInterpreter.Communication
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.MID, 20, 4, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
-                                new DataField((int)DataFields.ERROR_CODE, 24, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                                new DataField((int)DataFields.Mid, 20, 4, '0', DataField.PaddingOrientations.LeftPadded, false),
+                                new DataField((int)DataFields.ErrorCode, 24, 2, '0', DataField.PaddingOrientations.LeftPadded, false)
                             }
                 }
             };
@@ -72,8 +72,8 @@ namespace OpenProtocolInterpreter.Communication
 
         protected enum DataFields
         {
-            MID,
-            ERROR_CODE
+            Mid,
+            ErrorCode
         }
     }
 }

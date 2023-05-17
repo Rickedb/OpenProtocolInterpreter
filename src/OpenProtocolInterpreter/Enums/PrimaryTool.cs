@@ -5,7 +5,7 @@
     /// </summary>
     public enum PrimaryTool
     {
-        CABLE = 1,
+        Cable = 1,
         IRC_B = 2,
         IRC_W = 3
     }

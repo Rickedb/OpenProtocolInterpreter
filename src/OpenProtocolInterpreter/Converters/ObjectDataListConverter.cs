@@ -34,7 +34,7 @@ namespace OpenProtocolInterpreter.Converters
             string pack = string.Empty;
             foreach(var v in value)
             {
-                pack += _intConverter.Convert('0', 4, DataField.PaddingOrientations.LEFT_PADDED, v.Id);
+                pack += _intConverter.Convert('0', 4, DataField.PaddingOrientations.LeftPadded, v.Id);
                 pack += _boolConverter.Convert(v.Status);
             }
 

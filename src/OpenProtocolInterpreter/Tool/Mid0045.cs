@@ -20,22 +20,22 @@ namespace OpenProtocolInterpreter.Tool
         private readonly IValueConverter<int> _intConverter;
         public const int MID = 45;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.CALIBRATION_FAILED };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.CalibrationFailed };
 
         public CalibrationUnit CalibrationValueUnit
         {
-            get => (CalibrationUnit)GetField(1, (int)DataFields.CALIBRATION_VALUE_UNIT).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.CALIBRATION_VALUE_UNIT).SetValue(_intConverter.Convert, (int)value);
+            get => (CalibrationUnit)GetField(1, (int)DataFields.CalibrationValueUnit).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.CalibrationValueUnit).SetValue(_intConverter.Convert, (int)value);
         }
         public decimal CalibrationValue
         {
-            get => GetField(1, (int)DataFields.CALIBRATION_VALUE).GetValue(_decimalConverter.Convert);
-            set => GetField(1, (int)DataFields.CALIBRATION_VALUE).SetValue(_decimalConverter.Convert, value);
+            get => GetField(1, (int)DataFields.CalibrationValue).GetValue(_decimalConverter.Convert);
+            set => GetField(1, (int)DataFields.CalibrationValue).SetValue(_decimalConverter.Convert, value);
         }
         public int ChannelNumber
         {
-            get => GetField(2, (int)DataFields.CHANNEL_NUMBER).GetValue(_intConverter.Convert);
-            set => GetField(2, (int)DataFields.CHANNEL_NUMBER).SetValue(_intConverter.Convert, value);
+            get => GetField(2, (int)DataFields.ChannelNumber).GetValue(_intConverter.Convert);
+            set => GetField(2, (int)DataFields.ChannelNumber).SetValue(_intConverter.Convert, value);
         }
 
         public Mid0045() : this(DEFAULT_REVISION)
@@ -63,14 +63,14 @@ namespace OpenProtocolInterpreter.Tool
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.CALIBRATION_VALUE_UNIT, 20, 1),
-                                new DataField((int)DataFields.CALIBRATION_VALUE, 23, 6, '0', DataField.PaddingOrientations.LEFT_PADDED)
+                                new DataField((int)DataFields.CalibrationValueUnit, 20, 1),
+                                new DataField((int)DataFields.CalibrationValue, 23, 6, '0', DataField.PaddingOrientations.LeftPadded)
                             }
                 },
                 {
                     2, new List<DataField>()
                             {
-                                new DataField((int)DataFields.CHANNEL_NUMBER, 31, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.ChannelNumber, 31, 2, '0', DataField.PaddingOrientations.LeftPadded),
                             }
                 }
             };
@@ -78,9 +78,9 @@ namespace OpenProtocolInterpreter.Tool
 
         protected enum DataFields
         {
-            CALIBRATION_VALUE_UNIT,
-            CALIBRATION_VALUE,
-            CHANNEL_NUMBER
+            CalibrationValueUnit,
+            CalibrationValue,
+            ChannelNumber
         }
     }
 }

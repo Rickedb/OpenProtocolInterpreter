@@ -16,7 +16,7 @@ namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
     {
         public const int MID = 423;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.OPEN_PROTOCOL_COMMANDS_DISABLED_SUBSCRIPTION_DOESNT_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.OpenProtocolCommandsDisabledSubscriptionDoesntExists };
 
         public Mid0423() : base(MID, DEFAULT_REVISION) { }
 

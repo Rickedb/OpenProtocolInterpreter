@@ -26,23 +26,23 @@ namespace OpenProtocolInterpreter.Communication
 
         public string SubscriptionMid
         {
-            get => GetField(1, (int)DataFields.SUBSCRIPTION_MID).Value;
-            set => GetField(1, (int)DataFields.SUBSCRIPTION_MID).SetValue(value);
+            get => GetField(1, (int)DataFields.SubscriptionMid).Value;
+            set => GetField(1, (int)DataFields.SubscriptionMid).SetValue(value);
         }
         public int WantedRevision
         {
-            get => GetField(1, (int)DataFields.WANTED_REVISION).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.WANTED_REVISION).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.WantedRevision).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.WantedRevision).SetValue(_intConverter.Convert, value);
         }
         public int ExtraDataLength
         {
-            get => GetField(1, (int)DataFields.EXTRA_DATA_LENGTH).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.EXTRA_DATA_LENGTH).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.ExtraDataLength).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.ExtraDataLength).SetValue(_intConverter.Convert, value);
         }
         public string ExtraData
         {
-            get => GetField(1, (int)DataFields.EXTRA_DATA).Value;
-            set => GetField(1, (int)DataFields.EXTRA_DATA).SetValue(value);
+            get => GetField(1, (int)DataFields.ExtraData).Value;
+            set => GetField(1, (int)DataFields.ExtraData).SetValue(value);
         }
 
         public Mid0008() : this(new Header()
@@ -62,7 +62,7 @@ namespace OpenProtocolInterpreter.Communication
         public override Mid Parse(string package)
         {
             Header = ProcessHeader(package);
-            GetField(1, (int)DataFields.EXTRA_DATA).Size = Header.Length - 29;
+            GetField(1, (int)DataFields.ExtraData).Size = Header.Length - 29;
             ProcessDataFields(package);
             return this;
         }
@@ -74,10 +74,10 @@ namespace OpenProtocolInterpreter.Communication
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.SUBSCRIPTION_MID, 20, 4, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
-                                new DataField((int)DataFields.WANTED_REVISION, 24, 3, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
-                                new DataField((int)DataFields.EXTRA_DATA_LENGTH, 27, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
-                                new DataField((int)DataFields.EXTRA_DATA, 29, 0, ' ', DataField.PaddingOrientations.RIGHT_PADDED, false)
+                                new DataField((int)DataFields.SubscriptionMid, 20, 4, '0', DataField.PaddingOrientations.LeftPadded, false),
+                                new DataField((int)DataFields.WantedRevision, 24, 3, '0', DataField.PaddingOrientations.LeftPadded, false),
+                                new DataField((int)DataFields.ExtraDataLength, 27, 2, '0', DataField.PaddingOrientations.LeftPadded, false),
+                                new DataField((int)DataFields.ExtraData, 29, 0, ' ', DataField.PaddingOrientations.RightPadded, false)
                             }
                 }
             };
@@ -85,10 +85,10 @@ namespace OpenProtocolInterpreter.Communication
 
         protected enum DataFields
         {
-            SUBSCRIPTION_MID,
-            WANTED_REVISION,
-            EXTRA_DATA_LENGTH,
-            EXTRA_DATA
+            SubscriptionMid,
+            WantedRevision,
+            ExtraDataLength,
+            ExtraData
         }
     }
 }

@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.MotorTuning
     {
         public const int MID = 503;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SUBSCRIPTION_DOESNT_EXISTS};
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SubscriptionDoesntExists};
 
         public Mid0503() : base(MID, DEFAULT_REVISION) { }
 

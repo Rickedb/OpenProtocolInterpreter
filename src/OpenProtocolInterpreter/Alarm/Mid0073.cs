@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.Alarm
     {
         public const int MID = 73;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.ALARM_SUBSCRIPTION_DOESNT_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.AlarmSubscriptionDoesntExists };
 
         public Mid0073() : this(DEFAULT_REVISION)
         {

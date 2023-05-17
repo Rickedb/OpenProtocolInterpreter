@@ -49,16 +49,16 @@ namespace OpenProtocolInterpreter.Converters
             string package = string.Empty;
             foreach (var bolt in value)
             {
-                package += GetTruncatePadded(' ', 20, DataField.PaddingOrientations.RIGHT_PADDED, bolt.VariableName);
+                package += GetTruncatePadded(' ', 20, DataField.PaddingOrientations.RightPadded, bolt.VariableName);
                 package += bolt.Type.Type;
                 if (bolt.Type.Type == DataType.DataTypes[1].Type) // Integer
                 {
-                    package += _intConverter.Convert('0', 7, DataField.PaddingOrientations.LEFT_PADDED, (int)bolt.Value);
+                    package += _intConverter.Convert('0', 7, DataField.PaddingOrientations.LeftPadded, (int)bolt.Value);
                 }
                 else if (bolt.Type.Type == DataType.DataTypes[2].Type) // Decimal
                 {
                     _decimalConverter = new DecimalConverter();
-                    package += _decimalConverter.Convert('0', 7, DataField.PaddingOrientations.LEFT_PADDED, (decimal)bolt.Value);
+                    package += _decimalConverter.Convert('0', 7, DataField.PaddingOrientations.LeftPadded, (decimal)bolt.Value);
                 }
 
             }

@@ -14,12 +14,12 @@ namespace OpenProtocolInterpreter.Communication
         private readonly IValueConverter<bool> _boolConverter;
         public const int MID = 1;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.CLIENT_ALREADY_CONNECTED, Error.MID_REVISION_UNSUPPORTED };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.ClientAlreadyConnected, Error.MidRevisionUnsupported };
 
         public bool OptionalKeepAlive
         {
-            get => GetField(7, (int)DataFields.USE_KEEPALIVE).GetValue(_boolConverter.Convert);
-            set => GetField(7, (int)DataFields.USE_KEEPALIVE).SetValue(_boolConverter.Convert, value);
+            get => GetField(7, (int)DataFields.UseKeepAlive).GetValue(_boolConverter.Convert);
+            set => GetField(7, (int)DataFields.UseKeepAlive).SetValue(_boolConverter.Convert, value);
         }
 
         public Mid0001() : this(DEFAULT_REVISION)
@@ -48,7 +48,7 @@ namespace OpenProtocolInterpreter.Communication
                 {
                     7, new List<DataField>()
                             {
-                                new DataField((int)DataFields.USE_KEEPALIVE, 20, 1)
+                                new DataField((int)DataFields.UseKeepAlive, 20, 1)
                             }
                 }
             };
@@ -57,7 +57,7 @@ namespace OpenProtocolInterpreter.Communication
         protected enum DataFields
         {
             //Rev 7
-            USE_KEEPALIVE
+            UseKeepAlive
         }
     }
 }

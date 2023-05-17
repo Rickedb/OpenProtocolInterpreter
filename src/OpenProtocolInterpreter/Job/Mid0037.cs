@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.Job
     {
         public const int MID = 37;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JOB_INFO_SUBSCRIPTION_DOESNT_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JobInfoSubscriptionDoesntExists };
 
         public Mid0037() : this(DEFAULT_REVISION)
         {

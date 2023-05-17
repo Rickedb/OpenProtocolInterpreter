@@ -15,7 +15,7 @@ namespace OpenProtocolInterpreter.MultiSpindle
     {
         public const int MID = 103;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.MULTI_SPINDLE_RESULT_SUBSCRIPTION_DOESNT_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.MultiSpindleResultSubscriptionDoesntExists };
 
         public Mid0103() : base(MID, DEFAULT_REVISION) { }
 

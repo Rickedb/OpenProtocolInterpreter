@@ -16,12 +16,12 @@ namespace OpenProtocolInterpreter.Job
         private readonly IValueConverter<int> _intConverter;
         public const int MID = 32;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JOB_ID_NOT_PRESENT };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JobIdNotPresent };
 
         public int JobId
         {
-            get => GetField(1, (int)DataFields.JOB_ID).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.JOB_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.JobId).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.JobId).SetValue(_intConverter.Convert, value);
         }
 
         public Mid0032() : this(DEFAULT_REVISION)
@@ -35,7 +35,7 @@ namespace OpenProtocolInterpreter.Job
             HandleRevision();
         }
 
-        public Mid0032(int revision = DEFAULT_REVISION) : this(new Header()
+        public Mid0032(int revision) : this(new Header()
         {
             Mid = MID,
             Revision = revision
@@ -59,7 +59,7 @@ namespace OpenProtocolInterpreter.Job
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.JOB_ID, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
+                                new DataField((int)DataFields.JobId, 20, 2, '0', DataField.PaddingOrientations.LeftPadded, false),
                             }
                 }
             };
@@ -68,14 +68,14 @@ namespace OpenProtocolInterpreter.Job
         private void HandleRevision()
         {
             if (Header.Revision == 1)
-                GetField(1, (int)DataFields.JOB_ID).Size = 2;
+                GetField(1, (int)DataFields.JobId).Size = 2;
             else
-                GetField(1, (int)DataFields.JOB_ID).Size = 4;
+                GetField(1, (int)DataFields.JobId).Size = 4;
         }
 
         protected enum DataFields
         {
-            JOB_ID
+            JobId
         }
     }
 }

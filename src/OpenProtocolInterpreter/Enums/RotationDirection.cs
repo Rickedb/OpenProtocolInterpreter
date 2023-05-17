@@ -5,7 +5,7 @@
     /// </summary>
     public enum RotationDirection
     {
-        CLOCKWISE = 1,
-        COUNTER_CLOCKWISE = 2
+        Clockwise = 1,
+        Counterclockwise = 2
     }
 }

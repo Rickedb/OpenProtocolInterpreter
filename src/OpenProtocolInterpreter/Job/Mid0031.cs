@@ -22,8 +22,8 @@ namespace OpenProtocolInterpreter.Job
 
         public int TotalJobs
         {
-            get => GetField(1, (int)DataFields.NUMBER_OF_JOBS).GetValue(_intConverter.Convert);
-            private set => GetField(1, (int)DataFields.NUMBER_OF_JOBS).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.NumberOfJobs).GetValue(_intConverter.Convert);
+            private set => GetField(1, (int)DataFields.NumberOfJobs).SetValue(_intConverter.Convert, value);
         }
 
         public List<int> JobIds { get; set; }
@@ -50,30 +50,12 @@ namespace OpenProtocolInterpreter.Job
             
         }
 
-        /// <summary>
-        /// Revision 1 or 2 constructor
-        /// </summary>
-        /// <param name="totalJobs">
-        ///     Revision 1 range: 00-99 
-        ///     <para>Revision 2 range: 0000-9999</para>
-        /// </param>
-        /// <param name="jobIds">
-        ///     Revision 1 - range: 00-99 each
-        ///     <para>Revision 2 - range: 0000-9999 each</para>
-        /// </param>
-        /// /// <param name="revision">Revision number (default = 2)</param>
-        public Mid0031(int totalJobs, IEnumerable<int> jobIds, int revision = DEFAULT_REVISION) : this(revision)
-        {
-            TotalJobs = totalJobs;
-            JobIds = jobIds.ToList();
-        }
-
         public override string Pack()
         {
             _jobListConverter = new JobIdListConverter(_intConverter, Header.Revision);
             TotalJobs = JobIds.Count;
 
-            var eachJobField = GetField(1, (int)DataFields.EACH_JOB_ID);
+            var eachJobField = GetField(1, (int)DataFields.EachJobId);
             eachJobField.Size = (Header.Revision > 1 ? 4 : 2) * TotalJobs;
             eachJobField.Value = _jobListConverter.Convert(JobIds);
             return base.Pack();
@@ -85,7 +67,7 @@ namespace OpenProtocolInterpreter.Job
             HandleRevisions();
 
             _jobListConverter = new JobIdListConverter(_intConverter, Header.Revision);
-            var eachJobField = GetField(1, (int)DataFields.EACH_JOB_ID);
+            var eachJobField = GetField(1, (int)DataFields.EachJobId);
             eachJobField.Size = Header.Length - eachJobField.Index;
             base.Parse(package);
             JobIds = _jobListConverter.Convert(eachJobField.Value).ToList();
@@ -99,8 +81,8 @@ namespace OpenProtocolInterpreter.Job
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.NUMBER_OF_JOBS, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
-                                new DataField((int)DataFields.EACH_JOB_ID, 22, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                                new DataField((int)DataFields.NumberOfJobs, 20, 2, '0', DataField.PaddingOrientations.LeftPadded, false),
+                                new DataField((int)DataFields.EachJobId, 22, 2, '0', DataField.PaddingOrientations.LeftPadded, false)
                             }
                 },
             };
@@ -110,21 +92,19 @@ namespace OpenProtocolInterpreter.Job
         {
             if (Header.Revision > 1)
             {
-                GetField(1, (int)DataFields.EACH_JOB_ID).Index = 24;
-                GetField(1, (int)DataFields.NUMBER_OF_JOBS).Size = 4;
+                GetField(1, (int)DataFields.EachJobId).Index = 24;
+                GetField(1, (int)DataFields.NumberOfJobs).Size = 4;
             }
             else
             {
-                GetField(1, (int)DataFields.NUMBER_OF_JOBS).Size = GetField(1, (int)DataFields.EACH_JOB_ID).Size = 2;
+                GetField(1, (int)DataFields.NumberOfJobs).Size = GetField(1, (int)DataFields.EachJobId).Size = 2;
             }
         }
 
         protected enum DataFields
         {
-            NUMBER_OF_JOBS,
-            EACH_JOB_ID
+            NumberOfJobs,
+            EachJobId
         }
-
-
     }
 }

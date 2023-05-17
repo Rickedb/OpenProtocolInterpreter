@@ -5,9 +5,9 @@
     /// </summary>
     public enum PostViewTorque
     {
-        OFF = 0,
-        ON = 1,
-        ONLY_PVTH_ON = 2,
-        ONLY_PVTL_ON = 3
+        Off = 0,
+        On = 1,
+        OnlyPVTHOn = 2,
+        OnlyPVTLOn = 3
     }
 }

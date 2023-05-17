@@ -18,12 +18,12 @@ namespace OpenProtocolInterpreter.ParameterSet
         private readonly IValueConverter<int> _intConverter;
         public const int MID = 18;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.PARAMETER_SET_CANNOT_BE_SET };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.ParameterSetCannotBeSet };
 
         public int ParameterSetId
         {
-            get => GetField(1,(int)DataFields.PARAMETER_SET_ID).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.PARAMETER_SET_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.ParameterSetId).GetValue(_intConverter.Convert);
+            set => GetField(1,(int)DataFields.ParameterSetId).SetValue(_intConverter.Convert, value);
         }
 
         public Mid0018() : this(new Header()
@@ -46,7 +46,7 @@ namespace OpenProtocolInterpreter.ParameterSet
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.PARAMETER_SET_ID, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                                new DataField((int)DataFields.ParameterSetId, 20, 3, '0', DataField.PaddingOrientations.LeftPadded, false)
                             }
                 }
             };
@@ -55,7 +55,7 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         protected enum DataFields
         {
-            PARAMETER_SET_ID
+            ParameterSetId
         }
     }
 }

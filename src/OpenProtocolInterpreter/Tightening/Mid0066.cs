@@ -16,8 +16,8 @@ namespace OpenProtocolInterpreter.Tightening
 
         public int NumberOfOfflineResults
         {
-            get => GetField(1, (int)DataFields.NUMBER_OF_OFFLINE_RESULTS).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.NUMBER_OF_OFFLINE_RESULTS).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.NumberOfOfflineResults).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.NumberOfOfflineResults).SetValue(_intConverter.Convert, value);
         }
 
         public Mid0066() : this(new Header()
@@ -40,7 +40,7 @@ namespace OpenProtocolInterpreter.Tightening
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.NUMBER_OF_OFFLINE_RESULTS, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                                new DataField((int)DataFields.NumberOfOfflineResults, 20, 2, '0', DataField.PaddingOrientations.LeftPadded, false)
                             }
                 }
             };
@@ -48,7 +48,7 @@ namespace OpenProtocolInterpreter.Tightening
 
         protected enum DataFields
         {
-            NUMBER_OF_OFFLINE_RESULTS
+            NumberOfOfflineResults
         }
     }
 }

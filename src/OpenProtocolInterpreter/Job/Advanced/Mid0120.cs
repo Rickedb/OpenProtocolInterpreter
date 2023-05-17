@@ -16,7 +16,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
     {
         public const int MID = 120;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JOB_LINE_CONTROL_INFO_SUBSCRIPTION_ALREADY_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JobLineControlInfoSubscriptionAlreadyExists };
 
         public Mid0120() : this(false)
         {

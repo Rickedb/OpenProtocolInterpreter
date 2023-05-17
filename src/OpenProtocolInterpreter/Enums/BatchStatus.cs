@@ -5,9 +5,9 @@
     /// </summary>
     public enum BatchStatus
     {
-        NOK = 0,
-        OK = 1,
-        NOT_USED = 2,
-        RUNNING = 3
+        Nok = 0,
+        Ok = 1,
+        NotUsed = 2,
+        Running = 3
     }
 }

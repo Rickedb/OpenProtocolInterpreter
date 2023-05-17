@@ -5,7 +5,7 @@
     /// </summary>
     public enum ToolStatus
     {
-        OPERABLE = 1,
-        INOPERABLE = 2
+        Operable = 1,
+        Inoperable = 2
     }
 }

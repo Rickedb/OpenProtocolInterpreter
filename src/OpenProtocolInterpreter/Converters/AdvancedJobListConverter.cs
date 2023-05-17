@@ -22,21 +22,21 @@ namespace OpenProtocolInterpreter.Converters
             {
                 var fields = new List<string>
                 {
-                    _intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, job.ChannelId),
-                    _intConverter.Convert('0', 3, DataField.PaddingOrientations.LEFT_PADDED, job.ProgramId),
+                    _intConverter.Convert('0', 2, DataField.PaddingOrientations.LeftPadded, job.ChannelId),
+                    _intConverter.Convert('0', 3, DataField.PaddingOrientations.LeftPadded, job.ProgramId),
                     _intConverter.Convert((int)job.AutoSelect),
-                    _intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, job.BatchSize),
-                    _intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, job.MaxCoherentNok)
+                    _intConverter.Convert('0', 2, DataField.PaddingOrientations.LeftPadded, job.BatchSize),
+                    _intConverter.Convert('0', 2, DataField.PaddingOrientations.LeftPadded, job.MaxCoherentNok)
                 };
 
                 if (_revision > 1)
                 {
-                    fields.Add(_intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, job.BatchCounter));
+                    fields.Add(_intConverter.Convert('0', 2, DataField.PaddingOrientations.LeftPadded, job.BatchCounter));
                     if (_revision != 999)
                     {
-                        fields.Add(_intConverter.Convert('0', 4, DataField.PaddingOrientations.LEFT_PADDED, job.IdentifierNumber));
-                        fields.Add(GetTruncatePadded(' ', 25, DataField.PaddingOrientations.RIGHT_PADDED, job.JobStepName));
-                        fields.Add(_intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, job.JobStepType));
+                        fields.Add(_intConverter.Convert('0', 4, DataField.PaddingOrientations.LeftPadded, job.IdentifierNumber));
+                        fields.Add(GetTruncatePadded(' ', 25, DataField.PaddingOrientations.RightPadded, job.JobStepName));
+                        fields.Add(_intConverter.Convert('0', 2, DataField.PaddingOrientations.LeftPadded, job.JobStepType));
                         if (_revision == 3)
                         {
                             fields.Add(_intConverter.Convert((int)job.ToolLoosening));

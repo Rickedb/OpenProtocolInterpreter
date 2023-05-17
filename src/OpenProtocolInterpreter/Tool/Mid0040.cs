@@ -19,8 +19,8 @@ namespace OpenProtocolInterpreter.Tool
 
         public int ToolNumber
         {
-            get => GetField(6, (int)DataFields.TOOL_NUMBER).GetValue(_intConverter.Convert);
-            set => GetField(6, (int)DataFields.TOOL_NUMBER).SetValue(_intConverter.Convert, value);
+            get => GetField(6, (int)DataFields.ToolNumber).GetValue(_intConverter.Convert);
+            set => GetField(6, (int)DataFields.ToolNumber).SetValue(_intConverter.Convert, value);
         }
 
         public Mid0040() : this(DEFAULT_REVISION)
@@ -48,7 +48,7 @@ namespace OpenProtocolInterpreter.Tool
                 {
                     6, new List<DataField>()
                             {
-                                new DataField((int)DataFields.TOOL_NUMBER, 20, 4, '0', DataField.PaddingOrientations.LEFT_PADDED)
+                                new DataField((int)DataFields.ToolNumber, 20, 4, '0', DataField.PaddingOrientations.LeftPadded)
                             }
                 },
             };
@@ -56,7 +56,7 @@ namespace OpenProtocolInterpreter.Tool
 
         protected enum DataFields
         {
-            TOOL_NUMBER
+            ToolNumber
         }
     }
 }

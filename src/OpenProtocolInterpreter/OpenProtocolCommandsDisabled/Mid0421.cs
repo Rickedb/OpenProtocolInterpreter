@@ -21,8 +21,8 @@ namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
         
         public bool DigitalInputStatus
         {
-            get => GetField(1,(int)DataFields.DIGITAL_INPUT_STATUS).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.DIGITAL_INPUT_STATUS).SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.DigitalInputStatus).GetValue(_boolConverter.Convert);
+            set => GetField(1,(int)DataFields.DigitalInputStatus).SetValue(_boolConverter.Convert, value);
         }
 
         public Mid0421() : this(new Header()
@@ -45,7 +45,7 @@ namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.DIGITAL_INPUT_STATUS, 20, 1, false)
+                                new DataField((int)DataFields.DigitalInputStatus, 20, 1, false)
                             }
                 }
             };
@@ -53,7 +53,7 @@ namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
 
         protected enum DataFields
         {
-            DIGITAL_INPUT_STATUS
+            DigitalInputStatus
         }
     }
 }

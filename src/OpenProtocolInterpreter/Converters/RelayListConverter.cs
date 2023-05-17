@@ -33,7 +33,7 @@ namespace OpenProtocolInterpreter.Converters
         {
             string pack = string.Empty;
             foreach(var relay in value)
-                pack += _intConverter.Convert('0', 3, DataField.PaddingOrientations.LEFT_PADDED, (int)relay.Number) + _boolConverter.Convert(relay.Status);
+                pack += _intConverter.Convert('0', 3, DataField.PaddingOrientations.LeftPadded, (int)relay.Number) + _boolConverter.Convert(relay.Status);
 
             return pack;
         }

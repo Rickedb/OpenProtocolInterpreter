@@ -29,7 +29,7 @@ namespace OpenProtocolInterpreter
             _paddingChar = ' ';
         }
 
-        public DataField(int field, int index, int size, char paddingChar, PaddingOrientations paddingOrientation = PaddingOrientations.RIGHT_PADDED, bool hasPrefix = true)
+        public DataField(int field, int index, int size, char paddingChar, PaddingOrientations paddingOrientation = PaddingOrientations.RightPadded, bool hasPrefix = true)
         {
             _paddingChar = paddingChar;
             _paddingOrientation = paddingOrientation;
@@ -85,8 +85,8 @@ namespace OpenProtocolInterpreter
 
         public enum PaddingOrientations
         {
-            RIGHT_PADDED,
-            LEFT_PADDED
+            RightPadded,
+            LeftPadded
         }
     }
 }

@@ -69,7 +69,7 @@ namespace MIDTesters
         [TestMethod]
         public void TestGetDeclineCommand()
         {
-            var error = Error.CLIENT_ALREADY_CONNECTED;
+            var error = Error.ClientAlreadyConnected;
             var mid0004 = new Mid0001().GetDeclineCommand(error);
             Assert.IsNotNull(mid0004);
             Assert.AreEqual(mid0004.ErrorCode, error);
@@ -78,7 +78,7 @@ namespace MIDTesters
         [TestMethod]
         public void TestAssertAndGetDeclineCommand()
         {
-            var error = Error.CLIENT_ALREADY_CONNECTED;
+            var error = Error.ClientAlreadyConnected;
             var mid0004 = new Mid0001().AssertAndGetDeclineCommand(error);
             Assert.IsNotNull(mid0004);
             Assert.AreEqual(mid0004.ErrorCode, error);
@@ -89,7 +89,7 @@ namespace MIDTesters
         {
             Assert.ThrowsException<ArgumentException>(() =>
             {
-                var error = Error.CALIBRATION_FAILED;
+                var error = Error.CalibrationFailed;
                 var mid0004 = new Mid0001().AssertAndGetDeclineCommand(error);
             });
         }

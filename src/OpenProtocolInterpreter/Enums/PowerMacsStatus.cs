@@ -5,9 +5,9 @@
     /// </summary>
     public enum PowerMacsStatus
     {
-        OK = 0,
-        OKR = 1,
-        NOK = 2,
-        TERMNOK = 3
+        Ok = 0,
+        Okr = 1,
+        Nok = 2,
+        TermNok = 3
     }
 }

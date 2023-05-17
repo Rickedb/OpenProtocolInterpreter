@@ -27,21 +27,21 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public int IODeviceId
         {
-            get => GetField(Header.Revision, (int)DataFields.IO_DEVICE_ID).GetValue(_intConverter.Convert);
-            set => GetField(Header.Revision, (int)DataFields.IO_DEVICE_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(Header.Revision, (int)DataFields.IODeviceId).GetValue(_intConverter.Convert);
+            set => GetField(Header.Revision, (int)DataFields.IODeviceId).SetValue(_intConverter.Convert, value);
         }
         public List<Relay> Relays { get; set; }
         public List<DigitalInput> DigitalInputs { get; set; }
         //rev 2
         public int NumberOfRelays
         {
-            get => GetField(2, (int)DataFields.NUMBER_OF_RELAYS).GetValue(_intConverter.Convert);
-            private set => GetField(2, (int)DataFields.NUMBER_OF_RELAYS).SetValue(_intConverter.Convert, value);
+            get => GetField(2, (int)DataFields.NumberOfRelays).GetValue(_intConverter.Convert);
+            private set => GetField(2, (int)DataFields.NumberOfRelays).SetValue(_intConverter.Convert, value);
         }
         public int NumberOfDigitalInputs
         {
-            get => GetField(2, (int)DataFields.NUMBER_OF_DIGITAL_INPUTS).GetValue(_intConverter.Convert);
-            private set => GetField(2, (int)DataFields.NUMBER_OF_DIGITAL_INPUTS).SetValue(_intConverter.Convert, value);
+            get => GetField(2, (int)DataFields.NumberOfDigitalInputs).GetValue(_intConverter.Convert);
+            private set => GetField(2, (int)DataFields.NumberOfDigitalInputs).SetValue(_intConverter.Convert, value);
         }
 
         public Mid0215() : this(DEFAULT_REVISION)
@@ -87,20 +87,20 @@ namespace OpenProtocolInterpreter.IOInterface
                 NumberOfRelays = Relays.Count;
                 NumberOfDigitalInputs = DigitalInputs.Count;
 
-                var relayListField = GetField(2, (int)DataFields.RELAY_LIST);
+                var relayListField = GetField(2, (int)DataFields.RelayList);
                 relayListField.Size = NumberOfRelays * 4;
                 relayListField.Value = _relayListConverter.Convert(Relays);
-                GetField(2, (int)DataFields.NUMBER_OF_DIGITAL_INPUTS).Index = relayListField.Index + relayListField.Size;
+                GetField(2, (int)DataFields.NumberOfDigitalInputs).Index = relayListField.Index + relayListField.Size;
 
-                GetField(2, (int)DataFields.DIGITAL_INPUT_LIST).Index = GetField(2, (int)DataFields.NUMBER_OF_DIGITAL_INPUTS).Index + 2;
-                GetField(2, (int)DataFields.DIGITAL_INPUT_LIST).Size = NumberOfDigitalInputs * 4;
-                GetField(2, (int)DataFields.DIGITAL_INPUT_LIST).Value = _digitalInputListConverter.Convert(DigitalInputs);
+                GetField(2, (int)DataFields.DigitalInputList).Index = GetField(2, (int)DataFields.NumberOfDigitalInputs).Index + 2;
+                GetField(2, (int)DataFields.DigitalInputList).Size = NumberOfDigitalInputs * 4;
+                GetField(2, (int)DataFields.DigitalInputList).Value = _digitalInputListConverter.Convert(DigitalInputs);
             }
             else
             {
                 Header.Revision = 1;
-                GetField(1, (int)DataFields.RELAY_LIST).Value = _relayListConverter.Convert(Relays);
-                GetField(1, (int)DataFields.DIGITAL_INPUT_LIST).Value = _digitalInputListConverter.Convert(DigitalInputs);
+                GetField(1, (int)DataFields.RelayList).Value = _relayListConverter.Convert(Relays);
+                GetField(1, (int)DataFields.DigitalInputList).Value = _digitalInputListConverter.Convert(DigitalInputs);
             }
 
             string pkg = BuildHeader();
@@ -119,14 +119,14 @@ namespace OpenProtocolInterpreter.IOInterface
 
             var revision = Header.Revision > 1 ? 2 : 1;
 
-            var relayListField = GetField(revision, (int)DataFields.RELAY_LIST);
-            var digitalListField = GetField(revision, (int)DataFields.DIGITAL_INPUT_LIST);
+            var relayListField = GetField(revision, (int)DataFields.RelayList);
+            var digitalListField = GetField(revision, (int)DataFields.DigitalInputList);
             if (revision > 1)
             {
-                int numberOfRelays = _intConverter.Convert(GetValue(GetField(2, (int)DataFields.NUMBER_OF_RELAYS), package));
+                int numberOfRelays = _intConverter.Convert(GetValue(GetField(2, (int)DataFields.NumberOfRelays), package));
                 relayListField.Size = numberOfRelays * 4;
 
-                var numberOfDigitalInputsField = GetField(2, (int)DataFields.NUMBER_OF_DIGITAL_INPUTS);
+                var numberOfDigitalInputsField = GetField(2, (int)DataFields.NumberOfDigitalInputs);
                 numberOfDigitalInputsField.Index = relayListField.Index + 2 + relayListField.Size;
 
                 digitalListField.Index = numberOfDigitalInputsField.Index + 2 + numberOfDigitalInputsField.Size;
@@ -147,19 +147,19 @@ namespace OpenProtocolInterpreter.IOInterface
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.IO_DEVICE_ID, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.RELAY_LIST, 24, 32),
-                                new DataField((int)DataFields.DIGITAL_INPUT_LIST, 58, 32)
+                                new DataField((int)DataFields.IODeviceId, 20, 2, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.RelayList, 24, 32),
+                                new DataField((int)DataFields.DigitalInputList, 58, 32)
                             }
                 },
                 {
                     2, new List<DataField>()
                             {
-                                new DataField((int)DataFields.IO_DEVICE_ID, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.NUMBER_OF_RELAYS, 24, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.RELAY_LIST, 28, 0),
-                                new DataField((int)DataFields.NUMBER_OF_DIGITAL_INPUTS, 0, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.DIGITAL_INPUT_LIST, 0, 0)
+                                new DataField((int)DataFields.IODeviceId, 20, 2, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.NumberOfRelays, 24, 2, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.RelayList, 28, 0),
+                                new DataField((int)DataFields.NumberOfDigitalInputs, 0, 2, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.DigitalInputList, 0, 0)
                             }
                 }
             };
@@ -167,12 +167,12 @@ namespace OpenProtocolInterpreter.IOInterface
 
         protected enum DataFields
         {
-            IO_DEVICE_ID,
-            RELAY_LIST,
-            DIGITAL_INPUT_LIST,
+            IODeviceId,
+            RelayList,
+            DigitalInputList,
             //rev2 
-            NUMBER_OF_RELAYS,
-            NUMBER_OF_DIGITAL_INPUTS
+            NumberOfRelays,
+            NumberOfDigitalInputs
         }
     }
 }

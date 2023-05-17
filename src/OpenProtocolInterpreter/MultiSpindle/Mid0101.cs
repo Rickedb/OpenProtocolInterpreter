@@ -33,99 +33,99 @@ namespace OpenProtocolInterpreter.MultiSpindle
 
         public int NumberOfSpindlesOrPresses
         {
-            get => GetField(1, (int)DataFields.NUMBER_OF_SPINDLES_OR_PRESSES).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.NUMBER_OF_SPINDLES_OR_PRESSES).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.NumberOfSpindlesOrPresses).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.NumberOfSpindlesOrPresses).SetValue(_intConverter.Convert, value);
         }
         public string VinNumber
         {
-            get => GetField(1, (int)DataFields.VIN_NUMBER).Value;
-            set => GetField(1, (int)DataFields.VIN_NUMBER).SetValue(value);
+            get => GetField(1, (int)DataFields.VinNumber).Value;
+            set => GetField(1, (int)DataFields.VinNumber).SetValue(value);
         }
         public int JobId
         {
-            get => GetField(1, (int)DataFields.JOB_ID).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.JOB_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.JobId).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.JobId).SetValue(_intConverter.Convert, value);
         }
         public int ParameterSetId
         {
-            get => GetField(1, (int)DataFields.PARAMETER_SET_ID).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.PARAMETER_SET_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.ParameterSetId).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.ParameterSetId).SetValue(_intConverter.Convert, value);
         }
         public int BatchSize
         {
-            get => GetField(1, (int)DataFields.BATCH_SIZE).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.BATCH_SIZE).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.BatchSize).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.BatchSize).SetValue(_intConverter.Convert, value);
         }
         public int BatchCounter
         {
-            get => GetField(1, (int)DataFields.BATCH_COUNTER).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.BATCH_COUNTER).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.BatchCounter).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.BatchCounter).SetValue(_intConverter.Convert, value);
         }
         public BatchStatus BatchStatus
         {
-            get => (BatchStatus)GetField(1, (int)DataFields.BATCH_STATUS).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.BATCH_STATUS).SetValue(_intConverter.Convert, (int)value);
+            get => (BatchStatus)GetField(1, (int)DataFields.BatchStatus).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.BatchStatus).SetValue(_intConverter.Convert, (int)value);
         }
         public decimal TorqueOrForceMinLimit
         {
-            get => GetField(1, (int)DataFields.TORQUE_OR_FORCE_MIN_LIMIT).GetValue(_decimalConverter.Convert);
-            set => GetField(1, (int)DataFields.TORQUE_OR_FORCE_MIN_LIMIT).SetValue(_decimalConverter.Convert, value);
+            get => GetField(1, (int)DataFields.TorqueOrForceMinLimit).GetValue(_decimalConverter.Convert);
+            set => GetField(1, (int)DataFields.TorqueOrForceMinLimit).SetValue(_decimalConverter.Convert, value);
         }
         public decimal TorqueOrForceMaxLimit
         {
-            get => GetField(1, (int)DataFields.TORQUE_OR_FORCE_MAX_LIMIT).GetValue(_decimalConverter.Convert);
-            set => GetField(1, (int)DataFields.TORQUE_OR_FORCE_MAX_LIMIT).SetValue(_decimalConverter.Convert, value);
+            get => GetField(1, (int)DataFields.TorqueOrForceMaxLimit).GetValue(_decimalConverter.Convert);
+            set => GetField(1, (int)DataFields.TorqueOrForceMaxLimit).SetValue(_decimalConverter.Convert, value);
         }
         public decimal TorqueOrForceFinalTarget
         {
-            get => GetField(1, (int)DataFields.TORQUE_OR_FORCE_FINAL_TARGET).GetValue(_decimalConverter.Convert);
-            set => GetField(1, (int)DataFields.TORQUE_OR_FORCE_FINAL_TARGET).SetValue(_decimalConverter.Convert, value);
+            get => GetField(1, (int)DataFields.TorqueOrForceFinalTarget).GetValue(_decimalConverter.Convert);
+            set => GetField(1, (int)DataFields.TorqueOrForceFinalTarget).SetValue(_decimalConverter.Convert, value);
         }
         public decimal AngleOrStrokeMinLimit
         {
-            get => GetField(1, (int)DataFields.ANGLE_OR_STROKE_MIN_LIMIT).GetValue(_decimalConverter.Convert);
-            set => GetField(1, (int)DataFields.ANGLE_OR_STROKE_MIN_LIMIT).SetValue(_decimalConverter.Convert, value);
+            get => GetField(1, (int)DataFields.AngleOrStrokeMinLimit).GetValue(_decimalConverter.Convert);
+            set => GetField(1, (int)DataFields.AngleOrStrokeMinLimit).SetValue(_decimalConverter.Convert, value);
         }
         public decimal AngleOrStrokeMaxLimit
         {
-            get => GetField(1, (int)DataFields.ANGLE_OR_STROKE_MAX_LIMIT).GetValue(_decimalConverter.Convert);
-            set => GetField(1, (int)DataFields.ANGLE_OR_STROKE_MAX_LIMIT).SetValue(_decimalConverter.Convert, value);
+            get => GetField(1, (int)DataFields.AngleOrStrokeMaxLimit).GetValue(_decimalConverter.Convert);
+            set => GetField(1, (int)DataFields.AngleOrStrokeMaxLimit).SetValue(_decimalConverter.Convert, value);
         }
         public decimal FinalAngleOrStrokeTarget
         {
-            get => GetField(1, (int)DataFields.FINAL_ANGLE_OR_STROKE_TARGET).GetValue(_decimalConverter.Convert);
-            set => GetField(1, (int)DataFields.FINAL_ANGLE_OR_STROKE_TARGET).SetValue(_decimalConverter.Convert, value);
+            get => GetField(1, (int)DataFields.FinalAngleOrStrokeTarget).GetValue(_decimalConverter.Convert);
+            set => GetField(1, (int)DataFields.FinalAngleOrStrokeTarget).SetValue(_decimalConverter.Convert, value);
         }
         public DateTime LastChangeInParameterSet
         {
-            get => GetField(1, (int)DataFields.LAST_CHANGE_IN_PARAMETER_SET).GetValue(_dateConverter.Convert);
-            set => GetField(1, (int)DataFields.LAST_CHANGE_IN_PARAMETER_SET).SetValue(_dateConverter.Convert, value);
+            get => GetField(1, (int)DataFields.LastChangeInParameterSet).GetValue(_dateConverter.Convert);
+            set => GetField(1, (int)DataFields.LastChangeInParameterSet).SetValue(_dateConverter.Convert, value);
         }
         public DateTime TimeStamp
         {
-            get => GetField(1, (int)DataFields.TIMESTAMP).GetValue(_dateConverter.Convert);
-            set => GetField(1, (int)DataFields.TIMESTAMP).SetValue(_dateConverter.Convert, value);
+            get => GetField(1, (int)DataFields.Timestamp).GetValue(_dateConverter.Convert);
+            set => GetField(1, (int)DataFields.Timestamp).SetValue(_dateConverter.Convert, value);
         }
         public int SyncTighteningId
         {
-            get => GetField(1, (int)DataFields.SYNC_TIGHTENING_ID).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.SYNC_TIGHTENING_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.SyncTighteningId).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.SyncTighteningId).SetValue(_intConverter.Convert, value);
         }
         public bool SyncOverallStatus
         {
-            get => GetField(1, (int)DataFields.SYNC_OVERALL_STATUS).GetValue(_boolConverter.Convert);
-            set => GetField(1, (int)DataFields.SYNC_OVERALL_STATUS).SetValue(_boolConverter.Convert, value);
+            get => GetField(1, (int)DataFields.SyncOverallStatus).GetValue(_boolConverter.Convert);
+            set => GetField(1, (int)DataFields.SyncOverallStatus).SetValue(_boolConverter.Convert, value);
         }
         public List<SpindleOrPressStatus> SpindlesOrPressesStatus { get; set; }
         public SystemSubType SystemSubType
         {
-            get => (SystemSubType)GetField(4, (int)DataFields.SYSTEM_SUB_TYPE).GetValue(_intConverter.Convert);
-            set => GetField(4, (int)DataFields.SYSTEM_SUB_TYPE).SetValue(_intConverter.Convert, (int)value);
+            get => (SystemSubType)GetField(4, (int)DataFields.SystemSubType).GetValue(_intConverter.Convert);
+            set => GetField(4, (int)DataFields.SystemSubType).SetValue(_intConverter.Convert, (int)value);
         }
         public int JobSequenceNumber
         {
-            get => GetField(5, (int)DataFields.JOB_SEQUENCE_NUMBER).GetValue(_intConverter.Convert);
-            set => GetField(5, (int)DataFields.JOB_SEQUENCE_NUMBER).SetValue(_intConverter.Convert, value);
+            get => GetField(5, (int)DataFields.JobSequenceNumber).GetValue(_intConverter.Convert);
+            set => GetField(5, (int)DataFields.JobSequenceNumber).SetValue(_intConverter.Convert, value);
         }
 
         public Mid0101() : this(DEFAULT_REVISION)
@@ -152,7 +152,7 @@ namespace OpenProtocolInterpreter.MultiSpindle
 
         public override string Pack()
         {
-            var spindesOrPressesStatusField = GetField(1, (int)DataFields.SPINDLES_OR_PRESSES_STATUS);
+            var spindesOrPressesStatusField = GetField(1, (int)DataFields.SpindesOrPressesStatus);
             spindesOrPressesStatusField.Size = SpindlesOrPressesStatus.Count * 18;
             spindesOrPressesStatusField.Value = _spindleOrPressStatusListConverter.Convert(SpindlesOrPressesStatus);
             return base.Pack();
@@ -161,17 +161,17 @@ namespace OpenProtocolInterpreter.MultiSpindle
         public override Mid Parse(string package)
         {
             Header = ProcessHeader(package);
-            var spindleOrPressesField = GetField(1, (int)DataFields.NUMBER_OF_SPINDLES_OR_PRESSES);
+            var spindleOrPressesField = GetField(1, (int)DataFields.NumberOfSpindlesOrPresses);
             int spindleOrPresses = _intConverter.Convert(package.Substring(spindleOrPressesField.Index + 2, spindleOrPressesField.Size));
-            var spindesOrPressesStatusField = GetField(1, (int)DataFields.SPINDLES_OR_PRESSES_STATUS);
+            var spindesOrPressesStatusField = GetField(1, (int)DataFields.SpindesOrPressesStatus);
             spindesOrPressesStatusField.Size = spindleOrPresses * 18;
             if(Header.Revision > 3)
             {
-                var systemSubTypeField = GetField(4, (int)DataFields.SYSTEM_SUB_TYPE);
+                var systemSubTypeField = GetField(4, (int)DataFields.SystemSubType);
                 systemSubTypeField.Index = spindesOrPressesStatusField.Index + spindesOrPressesStatusField.Size + 2;
                 if(Header.Revision > 4)
                 {
-                    GetField(5, (int)DataFields.JOB_SEQUENCE_NUMBER).Index = systemSubTypeField.Index + systemSubTypeField.Size + 2;
+                    GetField(5, (int)DataFields.JobSequenceNumber).Index = systemSubTypeField.Index + systemSubTypeField.Size + 2;
                 }
             }
             ProcessDataFields(package);
@@ -186,36 +186,36 @@ namespace OpenProtocolInterpreter.MultiSpindle
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.NUMBER_OF_SPINDLES_OR_PRESSES, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.VIN_NUMBER, 24, 25, ' '),
-                                new DataField((int)DataFields.JOB_ID, 51, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.PARAMETER_SET_ID, 55, 3, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.BATCH_SIZE, 60, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.BATCH_COUNTER, 66, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.BATCH_STATUS, 72, 1),
-                                new DataField((int)DataFields.TORQUE_OR_FORCE_MIN_LIMIT, 75, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.TORQUE_OR_FORCE_MAX_LIMIT, 83, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.TORQUE_OR_FORCE_FINAL_TARGET, 91, 6, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.ANGLE_OR_STROKE_MIN_LIMIT, 99, 5, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.ANGLE_OR_STROKE_MAX_LIMIT, 106, 5, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.FINAL_ANGLE_OR_STROKE_TARGET, 113, 5, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.LAST_CHANGE_IN_PARAMETER_SET, 120, 19),
-                                new DataField((int)DataFields.TIMESTAMP, 141, 19),
-                                new DataField((int)DataFields.SYNC_TIGHTENING_ID, 162, 5, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.SYNC_OVERALL_STATUS, 169, 1),
-                                new DataField((int)DataFields.SPINDLES_OR_PRESSES_STATUS, 172, 0)
+                                new DataField((int)DataFields.NumberOfSpindlesOrPresses, 20, 2, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.VinNumber, 24, 25, ' '),
+                                new DataField((int)DataFields.JobId, 51, 2, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.ParameterSetId, 55, 3, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.BatchSize, 60, 4, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.BatchCounter, 66, 4, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.BatchStatus, 72, 1),
+                                new DataField((int)DataFields.TorqueOrForceMinLimit, 75, 6, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.TorqueOrForceMaxLimit, 83, 6, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.TorqueOrForceFinalTarget, 91, 6, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.AngleOrStrokeMinLimit, 99, 5, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.AngleOrStrokeMaxLimit, 106, 5, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.FinalAngleOrStrokeTarget, 113, 5, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.LastChangeInParameterSet, 120, 19),
+                                new DataField((int)DataFields.Timestamp, 141, 19),
+                                new DataField((int)DataFields.SyncTighteningId, 162, 5, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.SyncOverallStatus, 169, 1),
+                                new DataField((int)DataFields.SpindesOrPressesStatus, 172, 0)
                             }
                 },
                 {
                     4, new List<DataField>()
                             {
-                                new DataField((int)DataFields.SYSTEM_SUB_TYPE, 0, 3, '0', DataField.PaddingOrientations.LEFT_PADDED)
+                                new DataField((int)DataFields.SystemSubType, 0, 3, '0', DataField.PaddingOrientations.LeftPadded)
                             }
                 },
                 {
                     5, new List<DataField>()
                             {
-                                new DataField((int)DataFields.JOB_SEQUENCE_NUMBER, 0, 5, '0', DataField.PaddingOrientations.LEFT_PADDED)
+                                new DataField((int)DataFields.JobSequenceNumber, 0, 5, '0', DataField.PaddingOrientations.LeftPadded)
                             }
                 }
             };
@@ -223,29 +223,29 @@ namespace OpenProtocolInterpreter.MultiSpindle
 
         protected enum DataFields
         {
-            NUMBER_OF_SPINDLES_OR_PRESSES,
-            VIN_NUMBER,
-            JOB_ID,
-            PARAMETER_SET_ID,
-            BATCH_SIZE,
-            BATCH_COUNTER,
-            BATCH_STATUS,
-            TORQUE_OR_FORCE_MIN_LIMIT,
-            TORQUE_OR_FORCE_MAX_LIMIT,
-            TORQUE_OR_FORCE_FINAL_TARGET,
-            ANGLE_OR_STROKE_MIN_LIMIT,
-            ANGLE_OR_STROKE_MAX_LIMIT,
-            FINAL_ANGLE_OR_STROKE_TARGET,
-            TARGET,
-            LAST_CHANGE_IN_PARAMETER_SET,
-            TIMESTAMP,
-            SYNC_TIGHTENING_ID,
-            SYNC_OVERALL_STATUS,
-            SPINDLES_OR_PRESSES_STATUS,
+            NumberOfSpindlesOrPresses,
+            VinNumber,
+            JobId,
+            ParameterSetId,
+            BatchSize,
+            BatchCounter,
+            BatchStatus,
+            TorqueOrForceMinLimit,
+            TorqueOrForceMaxLimit,
+            TorqueOrForceFinalTarget,
+            AngleOrStrokeMinLimit,
+            AngleOrStrokeMaxLimit,
+            FinalAngleOrStrokeTarget,
+            Target,
+            LastChangeInParameterSet,
+            Timestamp,
+            SyncTighteningId,
+            SyncOverallStatus,
+            SpindesOrPressesStatus,
             //Rev 4
-            SYSTEM_SUB_TYPE,
+            SystemSubType,
             //Rev 5
-            JOB_SEQUENCE_NUMBER
+            JobSequenceNumber
         }
     }
 }

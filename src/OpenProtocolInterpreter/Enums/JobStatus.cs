@@ -5,8 +5,8 @@
     /// </summary>
     public enum JobStatus
     {
-        NOT_COMPLETED = 0,
-        OK = 1,
-        NOK = 2
+        NotCompleted = 0,
+        Ok = 1,
+        Nok = 2
     }
 }

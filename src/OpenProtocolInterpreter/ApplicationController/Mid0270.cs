@@ -17,7 +17,7 @@ namespace OpenProtocolInterpreter.ApplicationController
     {
         public const int MID = 270;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.PROGRAMMING_CONTROL_NOT_GRANTED };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.ProgrammingControlNotGranted };
 
         public Mid0270() : base(MID, DEFAULT_REVISION) 
         { 

@@ -27,12 +27,12 @@ namespace OpenProtocolInterpreter.Tightening
         private readonly IValueConverter<long> _longConverter;
         public const int MID = 64;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.TIGHTENING_ID_REQUESTED_NOT_FOUND, Error.MID_REVISION_UNSUPPORTED };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.TighteningIdRequestNotFound, Error.MidRevisionUnsupported };
 
         public long TighteningId
         {
-            get => GetField(1,(int)DataFields.TIGHTENING_ID).GetValue(_longConverter.Convert);
-            set => GetField(1,(int)DataFields.TIGHTENING_ID).SetValue(_longConverter.Convert, value);
+            get => GetField(1,(int)DataFields.TighteningId).GetValue(_longConverter.Convert);
+            set => GetField(1,(int)DataFields.TighteningId).SetValue(_longConverter.Convert, value);
         }
 
         public Mid0064() : this(DEFAULT_REVISION)
@@ -60,7 +60,7 @@ namespace OpenProtocolInterpreter.Tightening
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.TIGHTENING_ID, 20, 10, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                                new DataField((int)DataFields.TighteningId, 20, 10, '0', DataField.PaddingOrientations.LeftPadded, false)
                             }
                 },
             };
@@ -68,7 +68,7 @@ namespace OpenProtocolInterpreter.Tightening
 
         protected enum DataFields
         {
-            TIGHTENING_ID
+            TighteningId
         }
     }
 }

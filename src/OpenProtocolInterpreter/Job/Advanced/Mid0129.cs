@@ -21,17 +21,17 @@ namespace OpenProtocolInterpreter.Job.Advanced
         private readonly IValueConverter<int> _intConverter;
         public const int MID = 129;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JOB_BATCH_DECREMENT_FAILED };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JobBatchDecrementFailed };
 
         public int ChannelId
         {
-            get => GetField(2, (int)DataFields.CHANNEL_ID).GetValue(_intConverter.Convert);
-            set => GetField(2, (int)DataFields.CHANNEL_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(2, (int)DataFields.ChannelId).GetValue(_intConverter.Convert);
+            set => GetField(2, (int)DataFields.ChannelId).SetValue(_intConverter.Convert, value);
         }
         public int ParameterSetId
         {
-            get => GetField(2, (int)DataFields.PARAMETER_SET_ID).GetValue(_intConverter.Convert);
-            set => GetField(2, (int)DataFields.PARAMETER_SET_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(2, (int)DataFields.ParameterSetId).GetValue(_intConverter.Convert);
+            set => GetField(2, (int)DataFields.ParameterSetId).SetValue(_intConverter.Convert, value);
         }
 
         public Mid0129() : this(DEFAULT_REVISION)
@@ -60,8 +60,8 @@ namespace OpenProtocolInterpreter.Job.Advanced
                 {
                     2, new List<DataField>()
                             {
-                                new DataField((int)DataFields.CHANNEL_ID, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.PARAMETER_SET_ID, 24, 3, '0', DataField.PaddingOrientations.LEFT_PADDED)
+                                new DataField((int)DataFields.ChannelId, 20, 2, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.ParameterSetId, 24, 3, '0', DataField.PaddingOrientations.LeftPadded)
                             }
                 }
             };
@@ -69,8 +69,8 @@ namespace OpenProtocolInterpreter.Job.Advanced
 
         protected enum DataFields
         {
-            CHANNEL_ID,
-            PARAMETER_SET_ID
+            ChannelId,
+            ParameterSetId
         }
     }
 }

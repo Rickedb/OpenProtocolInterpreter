@@ -16,13 +16,13 @@ namespace OpenProtocolInterpreter.Tool
 
         public int ToolNumber
         {
-            get => GetField(2, (int)DataFields.TOOL_NUMBER).GetValue(_intConverter.Convert);
-            set => GetField(2, (int)DataFields.TOOL_NUMBER).SetValue(_intConverter.Convert, value);
+            get => GetField(2, (int)DataFields.ToolNumber).GetValue(_intConverter.Convert);
+            set => GetField(2, (int)DataFields.ToolNumber).SetValue(_intConverter.Convert, value);
         }
         public DisableType DisableType
         {
-            get => (DisableType)GetField(2, (int)DataFields.DISABLE_TYPE).GetValue(_intConverter.Convert);
-            set => GetField(2, (int)DataFields.DISABLE_TYPE).SetValue(_intConverter.Convert, (int)value);
+            get => (DisableType)GetField(2, (int)DataFields.DisableType).GetValue(_intConverter.Convert);
+            set => GetField(2, (int)DataFields.DisableType).SetValue(_intConverter.Convert, (int)value);
         }
 
         public Mid0042() : this(DEFAULT_REVISION)
@@ -49,8 +49,8 @@ namespace OpenProtocolInterpreter.Tool
                 {
                     2, new List<DataField>()
                             {
-                                new DataField((int)DataFields.TOOL_NUMBER, 20, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.DISABLE_TYPE, 26, 2, '0', DataField.PaddingOrientations.LEFT_PADDED)
+                                new DataField((int)DataFields.ToolNumber, 20, 4, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.DisableType, 26, 2, '0', DataField.PaddingOrientations.LeftPadded)
                             }
                 },
             };
@@ -58,8 +58,8 @@ namespace OpenProtocolInterpreter.Tool
 
         protected enum DataFields
         {
-            TOOL_NUMBER,
-            DISABLE_TYPE
+            ToolNumber,
+            DisableType
         }
     }
 

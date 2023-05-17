@@ -21,7 +21,7 @@ namespace OpenProtocolInterpreter.Tool
     {
         public const int MID = 44;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.TOOL_CURRENTLY_IN_USE };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.ToolCurrentlyInUse };
 
         public Mid0044() : base(MID, DEFAULT_REVISION)
         {

@@ -21,85 +21,85 @@ namespace OpenProtocolInterpreter.Job
 
         public int JobId
         {
-            get => GetField(1, (int)DataFields.JOB_ID).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.JOB_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.JobId).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.JobId).SetValue(_intConverter.Convert, value);
         }
         public JobStatus JobStatus
         {
-            get => (JobStatus)GetField(1, (int)DataFields.JOB_STATUS).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.JOB_STATUS).SetValue(_intConverter.Convert, (int)value);
+            get => (JobStatus)GetField(1, (int)DataFields.JobStatus).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.JobStatus).SetValue(_intConverter.Convert, (int)value);
         }
         public JobBatchMode JobBatchMode
         {
-            get => (JobBatchMode)GetField(1, (int)DataFields.JOB_BATCH_MODE).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.JOB_BATCH_MODE).SetValue(_intConverter.Convert, (int)value);
+            get => (JobBatchMode)GetField(1, (int)DataFields.JobBatchMode).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.JobBatchMode).SetValue(_intConverter.Convert, (int)value);
         }
         public int JobBatchSize
         {
-            get => GetField(1, (int)DataFields.JOB_BATCH_SIZE).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.JOB_BATCH_SIZE).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.JobBatchSize).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.JobBatchSize).SetValue(_intConverter.Convert, value);
         }
         public int JobBatchCounter
         {
-            get => GetField(1, (int)DataFields.JOB_BATCH_COUNTER).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.JOB_BATCH_COUNTER).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.JobBatchCounter).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.JobBatchCounter).SetValue(_intConverter.Convert, value);
         }
         public DateTime TimeStamp
         {
-            get => GetField(1, (int)DataFields.TIMESTAMP).GetValue(_datetimeConverter.Convert);
-            set => GetField(1, (int)DataFields.TIMESTAMP).SetValue(_datetimeConverter.Convert, value);
+            get => GetField(1, (int)DataFields.Timestamp).GetValue(_datetimeConverter.Convert);
+            set => GetField(1, (int)DataFields.Timestamp).SetValue(_datetimeConverter.Convert, value);
         }
         //Rev 3
         public int JobCurrentStep
         {
-            get => GetField(3, (int)DataFields.JOB_CURRENT_STEP).GetValue(_intConverter.Convert);
-            set => GetField(3, (int)DataFields.JOB_CURRENT_STEP).SetValue(_intConverter.Convert, value);
+            get => GetField(3, (int)DataFields.JobCurrentStep).GetValue(_intConverter.Convert);
+            set => GetField(3, (int)DataFields.JobCurrentStep).SetValue(_intConverter.Convert, value);
         }
         public int JobTotalNumberOfSteps
         {
-            get => GetField(3, (int)DataFields.JOB_TOTAL_NUMBER_OF_STEPS).GetValue(_intConverter.Convert);
-            set => GetField(3, (int)DataFields.JOB_TOTAL_NUMBER_OF_STEPS).SetValue(_intConverter.Convert, value);
+            get => GetField(3, (int)DataFields.JobTotalNumberOfSteps).GetValue(_intConverter.Convert);
+            set => GetField(3, (int)DataFields.JobTotalNumberOfSteps).SetValue(_intConverter.Convert, value);
         }
         public int JobStepType
         {
-            get => GetField(3, (int)DataFields.JOB_STEP_TYPE).GetValue(_intConverter.Convert);
-            set => GetField(3, (int)DataFields.JOB_STEP_TYPE).SetValue(_intConverter.Convert, value);
+            get => GetField(3, (int)DataFields.JobStepType).GetValue(_intConverter.Convert);
+            set => GetField(3, (int)DataFields.JobStepType).SetValue(_intConverter.Convert, value);
         }
         //Rev 4
         public JobTighteningStatus JobTighteningStatus
         {
-            get => (JobTighteningStatus)GetField(4, (int)DataFields.JOB_TIGHTENING_STATUS).GetValue(_intConverter.Convert);
-            set => GetField(4, (int)DataFields.JOB_TIGHTENING_STATUS).SetValue(_intConverter.Convert, (int)value);
+            get => (JobTighteningStatus)GetField(4, (int)DataFields.JobTighteningStatus).GetValue(_intConverter.Convert);
+            set => GetField(4, (int)DataFields.JobTighteningStatus).SetValue(_intConverter.Convert, (int)value);
         }
         //Rev 5
         public int JobSequenceNumber
         {
-            get => GetField(5, (int)DataFields.JOB_SEQUENCE_NUMBER).GetValue(_intConverter.Convert);
-            set => GetField(5, (int)DataFields.JOB_SEQUENCE_NUMBER).SetValue(_intConverter.Convert, (int)value);
+            get => GetField(5, (int)DataFields.JobSequenceNumber).GetValue(_intConverter.Convert);
+            set => GetField(5, (int)DataFields.JobSequenceNumber).SetValue(_intConverter.Convert, (int)value);
         }
 
         public string VinNumber
         {
-            get => GetField(5, (int)DataFields.VIN_NUMBER).Value;
-            set => GetField(5, (int)DataFields.VIN_NUMBER).SetValue(value);
+            get => GetField(5, (int)DataFields.VinNumber).Value;
+            set => GetField(5, (int)DataFields.VinNumber).SetValue(value);
         }
 
         public string IdentifierResultPart2
         {
-            get => GetField(5, (int)DataFields.IDENTIFIER_RESULT_PART2).Value;
-            set => GetField(5, (int)DataFields.IDENTIFIER_RESULT_PART2).SetValue(value);
+            get => GetField(5, (int)DataFields.IdentifierResultPart2).Value;
+            set => GetField(5, (int)DataFields.IdentifierResultPart2).SetValue(value);
         }
 
         public string IdentifierResultPart3
         {
-            get => GetField(5, (int)DataFields.IDENTIFIER_RESULT_PART3).Value;
-            set => GetField(5, (int)DataFields.IDENTIFIER_RESULT_PART3).SetValue(value);
+            get => GetField(5, (int)DataFields.IdentifierResultPart3).Value;
+            set => GetField(5, (int)DataFields.IdentifierResultPart3).SetValue(value);
         }
 
         public string IdentifierResultPart4
         {
-            get => GetField(5, (int)DataFields.IDENTIFIER_RESULT_PART4).Value;
-            set => GetField(5, (int)DataFields.IDENTIFIER_RESULT_PART4).SetValue(value);
+            get => GetField(5, (int)DataFields.IdentifierResultPart4).Value;
+            set => GetField(5, (int)DataFields.IdentifierResultPart4).SetValue(value);
         }
 
         public Mid0035() : this(DEFAULT_REVISION)
@@ -137,36 +137,36 @@ namespace OpenProtocolInterpreter.Job
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.JOB_ID, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.JOB_STATUS, 24, 1),
-                                new DataField((int)DataFields.JOB_BATCH_MODE, 27, 1),
-                                new DataField((int)DataFields.JOB_BATCH_SIZE, 30, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.JOB_BATCH_COUNTER, 36, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.TIMESTAMP, 42, 19)
+                                new DataField((int)DataFields.JobId, 20, 2, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.JobStatus, 24, 1),
+                                new DataField((int)DataFields.JobBatchMode, 27, 1),
+                                new DataField((int)DataFields.JobBatchSize, 30, 4, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.JobBatchCounter, 36, 4, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.Timestamp, 42, 19)
                             }
                 },
                 {
                     3, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.JOB_CURRENT_STEP, 65, 3, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.JOB_TOTAL_NUMBER_OF_STEPS, 70, 3, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.JOB_STEP_TYPE, 75, 2, '0', DataField.PaddingOrientations.LEFT_PADDED)
+                                new DataField((int)DataFields.JobCurrentStep, 65, 3, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.JobTotalNumberOfSteps, 70, 3, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.JobStepType, 75, 2, '0', DataField.PaddingOrientations.LeftPadded)
                             }
                 },
                 {
                     4, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.JOB_TIGHTENING_STATUS, 79, 2, ' ', DataField.PaddingOrientations.LEFT_PADDED)
+                                new DataField((int)DataFields.JobTighteningStatus, 79, 2, ' ', DataField.PaddingOrientations.LeftPadded)
                             }
                 },
                 {
                     5, new  List<DataField>()
                     {
-                        new DataField((int)DataFields.JOB_SEQUENCE_NUMBER, 83, 5, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                        new DataField((int)DataFields.VIN_NUMBER, 90 , 25, ' ', DataField.PaddingOrientations.LEFT_PADDED),
-                        new DataField((int)DataFields.IDENTIFIER_RESULT_PART2, 117, 25, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                        new DataField((int)DataFields.IDENTIFIER_RESULT_PART3, 144, 25, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                        new DataField((int)DataFields.IDENTIFIER_RESULT_PART4, 171, 25, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                        new DataField((int)DataFields.JobSequenceNumber, 83, 5, '0', DataField.PaddingOrientations.LeftPadded),
+                        new DataField((int)DataFields.VinNumber, 90 , 25, ' ', DataField.PaddingOrientations.LeftPadded),
+                        new DataField((int)DataFields.IdentifierResultPart2, 117, 25, '0', DataField.PaddingOrientations.LeftPadded),
+                        new DataField((int)DataFields.IdentifierResultPart3, 144, 25, '0', DataField.PaddingOrientations.LeftPadded),
+                        new DataField((int)DataFields.IdentifierResultPart4, 171, 25, '0', DataField.PaddingOrientations.LeftPadded),
                     }
                 }
             };
@@ -174,7 +174,7 @@ namespace OpenProtocolInterpreter.Job
 
         private void HandleRevision()
         {
-            var jobIdField = GetField(1, (int)DataFields.JOB_ID);
+            var jobIdField = GetField(1, (int)DataFields.JobId);
             if (Header.Revision > 1)
             {
                 jobIdField.Size = 4;
@@ -185,7 +185,7 @@ namespace OpenProtocolInterpreter.Job
             }
 
             int index = jobIdField.Index + jobIdField.Size;
-            for (int i = (int)DataFields.JOB_STATUS; i < RevisionsByFields[1].Count; i++)
+            for (int i = (int)DataFields.JobStatus; i < RevisionsByFields[1].Count; i++)
             {
                 var field = GetField(1, i);
                 field.Index = 2 + index;
@@ -196,24 +196,24 @@ namespace OpenProtocolInterpreter.Job
         protected enum DataFields
         {
             //rev 1 and 2
-            JOB_ID,
-            JOB_STATUS,
-            JOB_BATCH_MODE,
-            JOB_BATCH_SIZE,
-            JOB_BATCH_COUNTER,
-            TIMESTAMP,
+            JobId,
+            JobStatus,
+            JobBatchMode,
+            JobBatchSize,
+            JobBatchCounter,
+            Timestamp,
             //rev 3
-            JOB_CURRENT_STEP,
-            JOB_TOTAL_NUMBER_OF_STEPS,
-            JOB_STEP_TYPE,
+            JobCurrentStep,
+            JobTotalNumberOfSteps,
+            JobStepType,
             //rev 4
-            JOB_TIGHTENING_STATUS,
+            JobTighteningStatus,
             //rev5
-            JOB_SEQUENCE_NUMBER,
-            VIN_NUMBER,
-            IDENTIFIER_RESULT_PART2,
-            IDENTIFIER_RESULT_PART3,
-            IDENTIFIER_RESULT_PART4
+            JobSequenceNumber,
+            VinNumber,
+            IdentifierResultPart2,
+            IdentifierResultPart3,
+            IdentifierResultPart4
         }
     }
 

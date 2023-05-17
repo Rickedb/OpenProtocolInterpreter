@@ -14,9 +14,9 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] 
         { 
-            Error.TOOL_TAG_ID_UNKNOWN, 
-            Error.SUBSCRIPTION_ALREADY_EXISTS, 
-            Error.MID_REVISION_UNSUPPORTED 
+            Error.ToolTagIdUnknown, 
+            Error.SubscriptionAlreadyExists, 
+            Error.MidRevisionUnsupported 
         };
 
         public Mid0261() : this(false)

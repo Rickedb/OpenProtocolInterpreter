@@ -26,17 +26,17 @@ namespace OpenProtocolInterpreter.PowerMACS
         private readonly IValueConverter<int> _intConverter;
         public const int MID = 105;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SUBSCRIPTION_ALREADY_EXISTS, Error.MID_REVISION_UNSUPPORTED };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SubscriptionAlreadyExists, Error.MidRevisionUnsupported };
 
         public int DataNumberSystem
         {
-            get => GetField(2,(int)DataFields.DATA_NUMBER_SYSTEM).GetValue(_intConverter.Convert);
-            set => GetField(2,(int)DataFields.DATA_NUMBER_SYSTEM).SetValue(_intConverter.Convert, value);
+            get => GetField(2,(int)DataFields.DataNumberSystem).GetValue(_intConverter.Convert);
+            set => GetField(2,(int)DataFields.DataNumberSystem).SetValue(_intConverter.Convert, value);
         }
         public bool SendOnlyNewData
         {
-            get => GetField(3,(int)DataFields.SEND_ONLY_NEW_DATA).GetValue(_boolConverter.Convert);
-            set => GetField(3,(int)DataFields.SEND_ONLY_NEW_DATA).SetValue(_boolConverter.Convert, value);
+            get => GetField(3,(int)DataFields.SendOnlyNewData).GetValue(_boolConverter.Convert);
+            set => GetField(3,(int)DataFields.SendOnlyNewData).SetValue(_boolConverter.Convert, value);
         }
 
         public Mid0105() : this(DEFAULT_REVISION)
@@ -71,13 +71,13 @@ namespace OpenProtocolInterpreter.PowerMACS
                 {
                     2, new List<DataField>()
                             {
-                                new DataField((int)DataFields.DATA_NUMBER_SYSTEM, 20, 10, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
+                                new DataField((int)DataFields.DataNumberSystem, 20, 10, '0', DataField.PaddingOrientations.LeftPadded, false),
                             }
                 },
                 {
                     3, new List<DataField>()
                             {
-                                new DataField((int)DataFields.SEND_ONLY_NEW_DATA, 30, 1, false)
+                                new DataField((int)DataFields.SendOnlyNewData, 30, 1, false)
                             }
                 },
             };
@@ -85,8 +85,8 @@ namespace OpenProtocolInterpreter.PowerMACS
 
         protected enum DataFields
         {
-            DATA_NUMBER_SYSTEM,
-            SEND_ONLY_NEW_DATA
+            DataNumberSystem,
+            SendOnlyNewData
         }
     }
 }

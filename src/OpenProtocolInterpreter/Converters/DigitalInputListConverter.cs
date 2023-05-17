@@ -33,7 +33,7 @@ namespace OpenProtocolInterpreter.Converters
         {
             string pack = string.Empty;
             foreach (var digitalInput in value)
-                pack += _intConverter.Convert('0', 3, DataField.PaddingOrientations.LEFT_PADDED, (int)digitalInput.Number) + _boolConverter.Convert(digitalInput.Status);
+                pack += _intConverter.Convert('0', 3, DataField.PaddingOrientations.LeftPadded, (int)digitalInput.Number) + _boolConverter.Convert(digitalInput.Status);
 
             return pack;
         }

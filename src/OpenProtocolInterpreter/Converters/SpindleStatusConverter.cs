@@ -34,8 +34,8 @@ namespace OpenProtocolInterpreter.Converters
         {
             string pack = string.Empty;
             foreach(var spindle in value)
-            pack += _intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, spindle.SpindleNumber) +
-                       _intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, spindle.ChannelId) +
+            pack += _intConverter.Convert('0', 2, DataField.PaddingOrientations.LeftPadded, spindle.SpindleNumber) +
+                       _intConverter.Convert('0', 2, DataField.PaddingOrientations.LeftPadded, spindle.ChannelId) +
                        _boolConverter.Convert(spindle.SyncOverallStatus);
 
             return pack;

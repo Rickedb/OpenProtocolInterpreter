@@ -28,7 +28,7 @@ namespace OpenProtocolInterpreter.Converters
         {
             string pack = string.Empty;
             foreach (var v in value)
-                pack += _intConverter.Convert('0', _jobSize, DataField.PaddingOrientations.LEFT_PADDED, v);
+                pack += _intConverter.Convert('0', _jobSize, DataField.PaddingOrientations.LeftPadded, v);
 
             return pack;
         }

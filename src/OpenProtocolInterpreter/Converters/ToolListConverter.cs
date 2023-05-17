@@ -36,10 +36,10 @@ namespace OpenProtocolInterpreter.Converters
             string pack = string.Empty;
             foreach (var tool in value)
             {
-                pack += _intConverter.Convert('0', 4, DataField.PaddingOrientations.LEFT_PADDED, tool.Number) + 
-                        GetTruncatePadded(' ', 30, DataField.PaddingOrientations.RIGHT_PADDED, tool.SerialNumber) +
-                        GetTruncatePadded(' ', 30, DataField.PaddingOrientations.RIGHT_PADDED, tool.ModelName) +
-                        GetTruncatePadded(' ', 30, DataField.PaddingOrientations.RIGHT_PADDED, tool.ModelArticleNumber);
+                pack += _intConverter.Convert('0', 4, DataField.PaddingOrientations.LeftPadded, tool.Number) + 
+                        GetTruncatePadded(' ', 30, DataField.PaddingOrientations.RightPadded, tool.SerialNumber) +
+                        GetTruncatePadded(' ', 30, DataField.PaddingOrientations.RightPadded, tool.ModelName) +
+                        GetTruncatePadded(' ', 30, DataField.PaddingOrientations.RightPadded, tool.ModelArticleNumber);
             }
 
             return pack;

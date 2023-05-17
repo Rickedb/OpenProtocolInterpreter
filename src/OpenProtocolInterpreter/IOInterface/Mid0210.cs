@@ -21,7 +21,7 @@ namespace OpenProtocolInterpreter.IOInterface
     {
         public const int MID = 210;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.STATUS_EXTERNAL_MONITORED_INPUTS_SUBSCRIPTION_ALREADY_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.StatusExternalMonitoredInputsSubscriptionAlreadyExists };
 
         public Mid0210() : this(false)
         {

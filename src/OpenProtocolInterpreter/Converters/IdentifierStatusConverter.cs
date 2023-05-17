@@ -26,9 +26,9 @@ namespace OpenProtocolInterpreter.Converters
 
         public override string Convert(IdentifierStatus value)
         {
-            return _intConverter.Convert('0', 1, DataField.PaddingOrientations.LEFT_PADDED, value.IdentifierTypeNumber) +
-                   _intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, System.Convert.ToInt32(value.IncludedInWorkOrder)) +
-                   _intConverter.Convert('0', 2, DataField.PaddingOrientations.LEFT_PADDED, (int)value.StatusInWorkOrder) +
+            return _intConverter.Convert('0', 1, DataField.PaddingOrientations.LeftPadded, value.IdentifierTypeNumber) +
+                   _intConverter.Convert('0', 2, DataField.PaddingOrientations.LeftPadded, System.Convert.ToInt32(value.IncludedInWorkOrder)) +
+                   _intConverter.Convert('0', 2, DataField.PaddingOrientations.LeftPadded, (int)value.StatusInWorkOrder) +
                    value.ResultPart.PadRight(25, ' ');
         }
 
