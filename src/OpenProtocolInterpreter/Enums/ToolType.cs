@@ -35,8 +35,9 @@
         E_LIT = 27,
         ISB = 28,
         ITB = 29,
-        QSHIELD_C = 30,
-        DeltaWrench = 31,
-        STRWrench = 32
+        ITP = 30,
+        QSHIELD_C = 31,
+        DeltaWrench = 32,
+        STRWrench = 33
     }
 }
