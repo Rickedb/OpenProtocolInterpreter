@@ -14,6 +14,7 @@
         ResetBatch = 7,
         Loosening = 8,
         FreeBatch = 9,
-        JobAborted = 10
+        JobAborted = 10,
+        JobRestart = 11
     }
 }
