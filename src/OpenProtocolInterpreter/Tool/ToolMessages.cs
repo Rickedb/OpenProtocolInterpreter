@@ -23,6 +23,7 @@ namespace OpenProtocolInterpreter.Tool
                 { Mid0047.MID, new MidCompiledInstance(typeof(Mid0047)) },
                 { Mid0048.MID, new MidCompiledInstance(typeof(Mid0048)) },
                 { Mid0701.MID, new MidCompiledInstance(typeof(Mid0701)) },
+                { Mid0703.MID, new MidCompiledInstance(typeof(Mid0703)) }
             };
         }
 
