@@ -27,8 +27,8 @@ namespace OpenProtocolInterpreter.Converters
                 {
                     ParameterId = _intConverter.Convert(value.Substring(i, 5)),
                     Length = length,
-                    DataType = _intConverter.Convert(value.Substring(i + 8, 2)),
-                    Unit = _intConverter.Convert(value.Substring(i + 10, 3)),
+                    DataType = (DataTypeDefinition)_intConverter.Convert(value.Substring(i + 8, 2)),
+                    Unit = (DataUnitType)_intConverter.Convert(value.Substring(i + 10, 3)),
                     StepNumber = _intConverter.Convert(value.Substring(i + 13, 4)),
                     DataValue = value.Substring(i + 17, length)
                 };
@@ -42,10 +42,10 @@ namespace OpenProtocolInterpreter.Converters
             {
                 pack += _intConverter.Convert('0', 5, DataField.PaddingOrientations.LeftPadded, v.ParameterId);
                 pack += _intConverter.Convert('0', 3, DataField.PaddingOrientations.LeftPadded, v.Length);
-                pack += _intConverter.Convert('0', 2, DataField.PaddingOrientations.LeftPadded, v.DataType);
-                pack += _intConverter.Convert('0', 3, DataField.PaddingOrientations.LeftPadded, v.Unit);
+                pack += _intConverter.Convert('0', 2, DataField.PaddingOrientations.LeftPadded, (int)v.DataType);
+                pack += _intConverter.Convert('0', 3, DataField.PaddingOrientations.LeftPadded, (int)v.Unit);
                 pack += _intConverter.Convert('0', 4, DataField.PaddingOrientations.LeftPadded, v.StepNumber);
-                pack += GetTruncatePadded(' ', 1, DataField.PaddingOrientations.RightPadded, v.DataValue);
+                pack += GetTruncatePadded(' ', v.Length, DataField.PaddingOrientations.RightPadded, v.DataValue);
             }
             return pack;
         }

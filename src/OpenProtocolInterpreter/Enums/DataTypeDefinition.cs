@@ -1,4 +1,4 @@
-﻿namespace OpenProtocolInterpreter.Enums
+﻿namespace OpenProtocolInterpreter
 {
     public enum DataTypeDefinition
     {

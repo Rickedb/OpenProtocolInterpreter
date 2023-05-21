@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace OpenProtocolInterpreter.Enums
+namespace OpenProtocolInterpreter
 {
     public enum DataUnitType
     {
