@@ -20,13 +20,21 @@ namespace OpenProtocolInterpreter.ParameterSet
     public class Mid2505 : Mid, IParameterSet, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
         public const int MID = 2505;
-        private readonly Int32Converter _intConverter;
-        private readonly VariableDataFieldListConverter _variableDataFieldListConverter;
+        private readonly IValueConverter<int> _intConverter;
+        private readonly IValueConverter<IEnumerable<VariableDataField>> _variableDataFieldListConverter;
 
         public IEnumerable<Error> DocumentedPossibleErrors => Enumerable.Empty<Error>();
 
-        public int ParameterSetId { get; set; }
-        public int NumberOfParameterDataFields { get; set; }
+        public int ParameterSetId
+        {
+            get => GetField(1, (int)DataFields.ParameterSetId).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.ParameterSetId).SetValue(_intConverter.Convert, value);
+        }
+        public int NumberOfParameterDataFields
+        {
+            get => GetField(1, (int)DataFields.NumberOfParameterDataFields).GetValue(_intConverter.Convert);
+            set => GetField(1, (int)DataFields.NumberOfParameterDataFields).SetValue(_intConverter.Convert, value);
+        }
         public List<VariableDataField> VariableDataFields { get; set; }
 
         public Mid2505() : this(DEFAULT_REVISION)
@@ -46,8 +54,7 @@ namespace OpenProtocolInterpreter.ParameterSet
         {
             _intConverter = new Int32Converter();
             _variableDataFieldListConverter = new VariableDataFieldListConverter(_intConverter);
-            if (VariableDataFields == null)
-                VariableDataFields = new List<VariableDataField>();
+            VariableDataFields = new List<VariableDataField>();
         }
 
         public override string Pack()
@@ -61,7 +68,7 @@ namespace OpenProtocolInterpreter.ParameterSet
             Header = ProcessHeader(package);
             var dataFieldsField = GetField(1, (int)DataFields.DataFields);
             dataFieldsField.Size = Header.Length - dataFieldsField.Index;
-            base.Parse(package);
+            ProcessDataFields(package);
             VariableDataFields = _variableDataFieldListConverter.Convert(dataFieldsField.Value).ToList();
             return this;
         }
@@ -73,9 +80,9 @@ namespace OpenProtocolInterpreter.ParameterSet
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.ParameterSetId, 0, 3, '0', DataField.PaddingOrientations.LeftPadded),
-                                new DataField((int)DataFields.NumberOfParameterDataFields, 3, 3, '0', DataField.PaddingOrientations.LeftPadded),
-                                new DataField((int)DataFields.DataFields, 6, 0)
+                                new DataField((int)DataFields.ParameterSetId, 20, 3, '0', DataField.PaddingOrientations.LeftPadded, false),
+                                new DataField((int)DataFields.NumberOfParameterDataFields, 23, 3, '0', DataField.PaddingOrientations.LeftPadded, false),
+                                new DataField((int)DataFields.DataFields, 26, 0, false)
                             }
                 }
             };
