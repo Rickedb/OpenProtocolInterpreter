@@ -18,7 +18,7 @@ namespace OpenProtocolInterpreter.Tool
     ///             <see cref="Communication.Mid0004"/> Command error, with code Calibration failed
     /// </para>
     /// </summary>
-    public class Mid0703 : Mid, ITool, IController, IAcceptableCommand, IDeclinableCommand
+    public class Mid0703 : Mid, ITool, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
         private readonly IValueConverter<int> _intConverter;
         private readonly IValueConverter<IEnumerable<VariableDataField>> _variableDataFieldListConverter;
