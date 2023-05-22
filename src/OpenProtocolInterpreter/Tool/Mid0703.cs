@@ -1,9 +1,7 @@
 ﻿using OpenProtocolInterpreter.Converters;
 using OpenProtocolInterpreter.Result;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace OpenProtocolInterpreter.Tool
 {
@@ -31,11 +29,7 @@ namespace OpenProtocolInterpreter.Tool
             get => GetField(1, (int)DataFields.ToolNumber).GetValue(_intConverter.Convert);
             set => GetField(1, (int)DataFields.ToolNumber).SetValue(_intConverter.Convert, value);
         }
-        public int NumberOfCalibrationParameters
-        {
-            get => GetField(1, (int)DataFields.NumberOfCalibrationParameters).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.NumberOfCalibrationParameters).SetValue(_intConverter.Convert, value);
-        }
+        public int NumberOfCalibrationParameters => CalibrationParameters.Count;
         public List<VariableDataField> CalibrationParameters { get; set; }
 
         public Mid0703() : this(new Header()
@@ -55,7 +49,7 @@ namespace OpenProtocolInterpreter.Tool
 
         public override string Pack()
         {
-            NumberOfCalibrationParameters = CalibrationParameters.Count;
+            GetField(1, (int)DataFields.NumberOfCalibrationParameters).SetValue(_intConverter.Convert, CalibrationParameters.Count);
             GetField(1, (int)DataFields.EachCalibrationParameter).Value = _variableDataFieldListConverter.Convert(CalibrationParameters);
             return base.Pack();
         }
