@@ -7,7 +7,7 @@
             if (value == null)
                 return string.Empty.PadLeft(size, paddingChar);
 
-            if(value.Length > size)
+            if(size > 0 && value.Length > size)
             {
                 value = value.Substring(0, size);
             }

@@ -162,7 +162,6 @@
         OpenProtocolCommandsDisabled = 275,
         CycleAbort = 276,
         EffectiveLoosening = 277,
-
         LogicRelay5 = 278,
         LogicRelay6 = 279,
         LogicRelay7 = 280,

@@ -84,12 +84,6 @@ namespace OpenProtocolInterpreter.PLCUserData
             }
         }
 
-        public override string Pack()
-        {
-            GetField(1, (int)DataFields.UserData).Size = UserData.Length;
-            return base.Pack();
-        }
-
         public override Mid Parse(string package)
         {
             Header = ProcessHeader(package);
