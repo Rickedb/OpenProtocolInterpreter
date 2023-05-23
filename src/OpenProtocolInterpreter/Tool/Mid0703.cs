@@ -1,5 +1,4 @@
 ﻿using OpenProtocolInterpreter.Converters;
-using OpenProtocolInterpreter.Result;
 using System.Collections.Generic;
 using System.Linq;
 

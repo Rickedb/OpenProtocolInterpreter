@@ -2,7 +2,7 @@
 using System;
 using System.Globalization;
 
-namespace OpenProtocolInterpreter.Result
+namespace OpenProtocolInterpreter
 {
     /// <summary>
     /// Represents a Variable Data entity
@@ -27,7 +27,7 @@ namespace OpenProtocolInterpreter.Result
                     return new Int32Converter().Convert(DataValue);
 
                 case DataTypeDefinition.Float:
-                    return new DecimalConverter().Convert(DataValue); 
+                    return new DecimalConverter().Convert(DataValue);
 
                 case DataTypeDefinition.Timestamp:
                     return DateTime.TryParseExact(DataValue, "yyyy-MM-dd:HH:mm:ss", null, DateTimeStyles.None, out DateTime dateTime) ? dateTime : DataValue;

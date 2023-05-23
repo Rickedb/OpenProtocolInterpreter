@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Result;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Converters
 {
