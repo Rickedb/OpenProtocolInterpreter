@@ -9,7 +9,7 @@
         Angle = 1,
         Current = 2,
         PrevailTorque = 3,
-        SelfTap = 4,
+        Selftap = 4,
         RundownAngle = 5
     }
 }
