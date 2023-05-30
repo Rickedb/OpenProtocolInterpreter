@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Tightening
 {
@@ -11,13 +10,12 @@ namespace OpenProtocolInterpreter.Tightening
     /// </summary>
     public class Mid0066 : Mid, ITightening, IController
     {
-        private readonly IValueConverter<int> _intConverter;
         public const int MID = 66;
 
         public int NumberOfOfflineResults
         {
-            get => GetField(1, (int)DataFields.NumberOfOfflineResults).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.NumberOfOfflineResults).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.NumberOfOfflineResults).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.NumberOfOfflineResults).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0066() : this(new Header()
@@ -30,7 +28,6 @@ namespace OpenProtocolInterpreter.Tightening
 
         public Mid0066(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

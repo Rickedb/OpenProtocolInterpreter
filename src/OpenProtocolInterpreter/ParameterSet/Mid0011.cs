@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace OpenProtocolInterpreter.ParameterSet
@@ -16,8 +15,6 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// </summary>
     public class Mid0011 : Mid, IParameterSet, IController
     {
-        private readonly IValueConverter<int> _intConverter;
-        private readonly IValueConverter<IEnumerable<int>> _intListConverter;
         public const int MID = 11;
 
         public int TotalParameterSets
@@ -37,17 +34,15 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public Mid0011(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
-            _intListConverter = new ParameterSetIdListConverter(_intConverter);
             if (ParameterSets == null)
                 ParameterSets = new List<int>();
         }
 
         public override string Pack()
         {
-            GetField(1, (int)DataFields.TotalParameterSets).SetValue(_intConverter.Convert, TotalParameterSets);
+            GetField(1, (int)DataFields.TotalParameterSets).SetValue(OpenProtocolConvert.ToString, TotalParameterSets);
             var eachParameterField = GetField(1, (int)DataFields.EachParameterSet);
-            eachParameterField.Value = _intListConverter.Convert(ParameterSets);
+            eachParameterField.Value = PackParameterSetIdList();
             eachParameterField.Size = eachParameterField.Value.Length;
             return base.Pack();
         }
@@ -58,8 +53,25 @@ namespace OpenProtocolInterpreter.ParameterSet
 
             GetField(1, (int)DataFields.EachParameterSet).Size = Header.Length - GetField(1, (int)DataFields.EachParameterSet).Index;
             ProcessDataFields(package);
-            ParameterSets = _intListConverter.Convert(GetField(1, (int)DataFields.EachParameterSet).Value).ToList();
+            ParameterSets = ParseParameterSetIdList(GetField(1, (int)DataFields.EachParameterSet).Value).ToList();
             return this;
+        }
+
+        protected virtual string PackParameterSetIdList()
+        {
+            string pack = string.Empty;
+            foreach (var v in ParameterSets)
+                pack += OpenProtocolConvert.ToString('0', 3, DataField.PaddingOrientations.LeftPadded, v);
+            return pack;
+        }
+
+        protected virtual List<int> ParseParameterSetIdList(string section)
+        {
+            var list = new List<int>();
+            for (int i = 0; i < section.Length; i += 3)
+                list.Add(OpenProtocolConvert.ToInt32(section.Substring(i, 3)));
+
+            return list;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

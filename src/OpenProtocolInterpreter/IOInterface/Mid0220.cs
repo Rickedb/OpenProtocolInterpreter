@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.IOInterface
 {
@@ -20,15 +19,14 @@ namespace OpenProtocolInterpreter.IOInterface
     /// </summary>
     public class Mid0220 : Mid, IIOInterface, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private readonly IValueConverter<int> _intConverter;
         public const int MID = 220;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] {  };
 
         public DigitalInputNumber DigitalInputNumber
         {
-            get => (DigitalInputNumber)GetField(1, (int)DataFields.DigitalInputNumber).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.DigitalInputNumber).SetValue(_intConverter.Convert, (int)value);
+            get => (DigitalInputNumber)GetField(1, (int)DataFields.DigitalInputNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.DigitalInputNumber).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
 
         public Mid0220() : this(false)
@@ -38,7 +36,6 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public Mid0220(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
         }
 
         public Mid0220(bool noAckFlag = false) : this(new Header()

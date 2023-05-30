@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.PowerMACS
 {
@@ -18,13 +17,12 @@ namespace OpenProtocolInterpreter.PowerMACS
     /// </summary>
     public class Mid0108 : Mid, IPowerMACS, IIntegrator, IAcknowledge
     {
-        private readonly IValueConverter<bool> _boolConverter;
         public const int MID = 108;
 
         public bool BoltData
         {
-            get => GetField(1, (int)DataFields.BoltData).GetValue(_boolConverter.Convert);
-            set => GetField(1, (int)DataFields.BoltData).SetValue(_boolConverter.Convert, value);
+            get => GetField(1, (int)DataFields.BoltData).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, (int)DataFields.BoltData).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0108() : this(DEFAULT_REVISION)
@@ -34,7 +32,6 @@ namespace OpenProtocolInterpreter.PowerMACS
 
         public Mid0108(Header header) : base(header)
         {
-            _boolConverter = new BoolConverter();
         }
 
         public Mid0108(int revision) : this(new Header()

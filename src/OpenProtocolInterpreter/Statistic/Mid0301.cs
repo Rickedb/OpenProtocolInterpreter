@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Statistic
 {
@@ -14,79 +13,77 @@ namespace OpenProtocolInterpreter.Statistic
     /// </summary>
     public class Mid0301 : Mid, IStatistic, IController
     {
-        private readonly IValueConverter<int> _intConverter;
-        private readonly IValueConverter<decimal> _decimalConverter;
         public const int MID = 301;
 
         public int ParameterSetId
         {
-            get => GetField(1,(int)DataFields.ParameterSetId).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.ParameterSetId).SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.ParameterSetId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.ParameterSetId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public HistogramType HistogramType
         {
-            get => (HistogramType)GetField(1,(int)DataFields.HistogramType).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.HistogramType).SetValue(_intConverter.Convert, (int)value);
+            get => (HistogramType)GetField(1,(int)DataFields.HistogramType).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.HistogramType).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
         public decimal SigmaHistogram
         {
-            get => GetField(1,(int)DataFields.SigmaHistogram).GetValue(_decimalConverter.Convert);
-            set => GetField(1,(int)DataFields.SigmaHistogram).SetValue(_decimalConverter.Convert, value);
+            get => GetField(1,(int)DataFields.SigmaHistogram).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(1,(int)DataFields.SigmaHistogram).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
         }
         public decimal MeanValueHistogram
         {
-            get => GetField(1,(int)DataFields.MeanValueHistogram).GetValue(_decimalConverter.Convert);
-            set => GetField(1,(int)DataFields.MeanValueHistogram).SetValue(_decimalConverter.Convert, value);
+            get => GetField(1,(int)DataFields.MeanValueHistogram).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(1,(int)DataFields.MeanValueHistogram).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
         }
         public decimal ClassRange
         {
-            get => GetField(1,(int)DataFields.ClassRange).GetValue(_decimalConverter.Convert);
-            set => GetField(1,(int)DataFields.ClassRange).SetValue(_decimalConverter.Convert, value);
+            get => GetField(1,(int)DataFields.ClassRange).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(1,(int)DataFields.ClassRange).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
         }
         public int FirstBar
         {
-            get => GetField(1,(int)DataFields.Bar1).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.Bar1).SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.Bar1).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.Bar1).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int SecondBar
         {
-            get => GetField(1,(int)DataFields.Bar2).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.Bar2).SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.Bar2).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.Bar2).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int ThirdBar
         {
-            get => GetField(1,(int)DataFields.Bar3).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.Bar3).SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.Bar3).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.Bar3).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int FourthBar
         {
-            get => GetField(1,(int)DataFields.Bar4).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.Bar4).SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.Bar4).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.Bar4).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int FifthBar
         {
-            get => GetField(1,(int)DataFields.Bar5).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.Bar5).SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.Bar5).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.Bar5).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int SixthBar
         {
-            get => GetField(1,(int)DataFields.Bar6).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.Bar6).SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.Bar6).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.Bar6).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int SeventhBar
         {
-            get => GetField(1,(int)DataFields.Bar7).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.Bar7).SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.Bar7).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.Bar7).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int EighthBar
         {
-            get => GetField(1,(int)DataFields.Bar8).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.Bar8).SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.Bar8).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.Bar8).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int NinethBar
         {
-            get => GetField(1,(int)DataFields.Bar9).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.Bar9).SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.Bar9).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.Bar9).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0301() : this(new Header()
@@ -99,8 +96,6 @@ namespace OpenProtocolInterpreter.Statistic
 
         public Mid0301(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
-            _decimalConverter = new DecimalTrucatedConverter(2);
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

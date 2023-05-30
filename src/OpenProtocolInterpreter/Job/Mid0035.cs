@@ -1,7 +1,5 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace OpenProtocolInterpreter.Job
 {
@@ -15,67 +13,65 @@ namespace OpenProtocolInterpreter.Job
     /// </summary>
     public class Mid0035 : Mid, IJob, IController, IAcknowledgeable<Mid0036>
     {
-        private readonly IValueConverter<int> _intConverter;
-        private readonly IValueConverter<DateTime> _datetimeConverter;
         public const int MID = 35;
 
         public int JobId
         {
-            get => GetField(1, (int)DataFields.JobId).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.JobId).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.JobId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.JobId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public JobStatus JobStatus
         {
-            get => (JobStatus)GetField(1, (int)DataFields.JobStatus).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.JobStatus).SetValue(_intConverter.Convert, (int)value);
+            get => (JobStatus)GetField(1, (int)DataFields.JobStatus).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.JobStatus).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
         public JobBatchMode JobBatchMode
         {
-            get => (JobBatchMode)GetField(1, (int)DataFields.JobBatchMode).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.JobBatchMode).SetValue(_intConverter.Convert, (int)value);
+            get => (JobBatchMode)GetField(1, (int)DataFields.JobBatchMode).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.JobBatchMode).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
         public int JobBatchSize
         {
-            get => GetField(1, (int)DataFields.JobBatchSize).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.JobBatchSize).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.JobBatchSize).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.JobBatchSize).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int JobBatchCounter
         {
-            get => GetField(1, (int)DataFields.JobBatchCounter).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.JobBatchCounter).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.JobBatchCounter).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.JobBatchCounter).SetValue(OpenProtocolConvert.ToString, value);
         }
         public DateTime TimeStamp
         {
-            get => GetField(1, (int)DataFields.Timestamp).GetValue(_datetimeConverter.Convert);
-            set => GetField(1, (int)DataFields.Timestamp).SetValue(_datetimeConverter.Convert, value);
+            get => GetField(1, (int)DataFields.Timestamp).GetValue(OpenProtocolConvert.ToDateTime);
+            set => GetField(1, (int)DataFields.Timestamp).SetValue(OpenProtocolConvert.ToString, value);
         }
         //Rev 3
         public int JobCurrentStep
         {
-            get => GetField(3, (int)DataFields.JobCurrentStep).GetValue(_intConverter.Convert);
-            set => GetField(3, (int)DataFields.JobCurrentStep).SetValue(_intConverter.Convert, value);
+            get => GetField(3, (int)DataFields.JobCurrentStep).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(3, (int)DataFields.JobCurrentStep).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int JobTotalNumberOfSteps
         {
-            get => GetField(3, (int)DataFields.JobTotalNumberOfSteps).GetValue(_intConverter.Convert);
-            set => GetField(3, (int)DataFields.JobTotalNumberOfSteps).SetValue(_intConverter.Convert, value);
+            get => GetField(3, (int)DataFields.JobTotalNumberOfSteps).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(3, (int)DataFields.JobTotalNumberOfSteps).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int JobStepType
         {
-            get => GetField(3, (int)DataFields.JobStepType).GetValue(_intConverter.Convert);
-            set => GetField(3, (int)DataFields.JobStepType).SetValue(_intConverter.Convert, value);
+            get => GetField(3, (int)DataFields.JobStepType).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(3, (int)DataFields.JobStepType).SetValue(OpenProtocolConvert.ToString, value);
         }
         //Rev 4
         public JobTighteningStatus JobTighteningStatus
         {
-            get => (JobTighteningStatus)GetField(4, (int)DataFields.JobTighteningStatus).GetValue(_intConverter.Convert);
-            set => GetField(4, (int)DataFields.JobTighteningStatus).SetValue(_intConverter.Convert, (int)value);
+            get => (JobTighteningStatus)GetField(4, (int)DataFields.JobTighteningStatus).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(4, (int)DataFields.JobTighteningStatus).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
         //Rev 5
         public int JobSequenceNumber
         {
-            get => GetField(5, (int)DataFields.JobSequenceNumber).GetValue(_intConverter.Convert);
-            set => GetField(5, (int)DataFields.JobSequenceNumber).SetValue(_intConverter.Convert, (int)value);
+            get => GetField(5, (int)DataFields.JobSequenceNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(5, (int)DataFields.JobSequenceNumber).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
 
         public string VinNumber
@@ -117,8 +113,6 @@ namespace OpenProtocolInterpreter.Job
             Revision = revision
         })
         {
-            _intConverter = new Int32Converter();
-            _datetimeConverter = new DateConverter();
             HandleRevision();
         }
 

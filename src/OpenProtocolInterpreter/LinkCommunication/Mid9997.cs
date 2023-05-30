@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.LinkCommunication
 {
@@ -17,18 +16,16 @@ namespace OpenProtocolInterpreter.LinkCommunication
     /// </summary>
     public class Mid9997 : Mid, ILinkCommunication, IIntegrator, IController
     {
-        private readonly IValueConverter<int> _intConverter;
         public const int MID = 9997;
 
         public int MidNumber
         {
-            get => GetField(1, (int)DataFields.MidNumber).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.MidNumber).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.MidNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.MidNumber).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid9997(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
         }
 
         public Mid9997() : this(new Header()

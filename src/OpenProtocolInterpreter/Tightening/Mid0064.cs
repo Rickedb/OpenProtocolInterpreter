@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Tightening
 {
@@ -24,15 +23,14 @@ namespace OpenProtocolInterpreter.Tightening
     /// </summary>
     public class Mid0064 : Mid, ITightening, IIntegrator, IAnswerableBy<Mid0065>, IDeclinableCommand
     {
-        private readonly IValueConverter<long> _longConverter;
         public const int MID = 64;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.TighteningIdRequestNotFound, Error.MidRevisionUnsupported };
 
         public long TighteningId
         {
-            get => GetField(1,(int)DataFields.TighteningId).GetValue(_longConverter.Convert);
-            set => GetField(1,(int)DataFields.TighteningId).SetValue(_longConverter.Convert, value);
+            get => GetField(1,(int)DataFields.TighteningId).GetValue(OpenProtocolConvert.ToInt64);
+            set => GetField(1,(int)DataFields.TighteningId).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0064() : this(DEFAULT_REVISION)
@@ -42,7 +40,7 @@ namespace OpenProtocolInterpreter.Tightening
 
         public Mid0064(Header header) : base(header)
         {
-            _longConverter = new Int64Converter();
+
         }
 
         public Mid0064(int revision) : this(new Header()

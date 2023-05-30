@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace OpenProtocolInterpreter.ParameterSet
@@ -19,20 +18,18 @@ namespace OpenProtocolInterpreter.ParameterSet
     public class Mid2505 : Mid, IParameterSet, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
         public const int MID = 2505;
-        private readonly IValueConverter<int> _intConverter;
-        private readonly IValueConverter<IEnumerable<VariableDataField>> _variableDataFieldListConverter;
 
         public IEnumerable<Error> DocumentedPossibleErrors => Enumerable.Empty<Error>();
 
         public int ParameterSetId
         {
-            get => GetField(1, (int)DataFields.ParameterSetId).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.ParameterSetId).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.ParameterSetId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.ParameterSetId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int NumberOfParameterDataFields
         {
-            get => GetField(1, (int)DataFields.NumberOfParameterDataFields).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.NumberOfParameterDataFields).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.NumberOfParameterDataFields).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.NumberOfParameterDataFields).SetValue(OpenProtocolConvert.ToString, value);
         }
         public List<VariableDataField> VariableDataFields { get; set; }
 
@@ -51,14 +48,12 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public Mid2505(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
-            _variableDataFieldListConverter = new VariableDataFieldListConverter(_intConverter);
             VariableDataFields = new List<VariableDataField>();
         }
 
         public override string Pack()
         {
-            GetField(1, (int)DataFields.DataFields).Value = _variableDataFieldListConverter.Convert(VariableDataFields);
+            GetField(1, (int)DataFields.DataFields).Value = OpenProtocolConvert.ToString(VariableDataFields);
             return base.Pack();
         }
 
@@ -68,7 +63,7 @@ namespace OpenProtocolInterpreter.ParameterSet
             var dataFieldsField = GetField(1, (int)DataFields.DataFields);
             dataFieldsField.Size = Header.Length - dataFieldsField.Index;
             ProcessDataFields(package);
-            VariableDataFields = _variableDataFieldListConverter.Convert(dataFieldsField.Value).ToList();
+            VariableDataFields = VariableDataField.ParseAll(dataFieldsField.Value).ToList();
             return this;
         }
 

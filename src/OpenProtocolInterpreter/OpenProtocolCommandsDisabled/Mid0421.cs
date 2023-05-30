@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
 {
@@ -16,13 +15,12 @@ namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
     /// </summary>
     public class Mid0421 : Mid, IOpenProtocolCommandsDisabled, IController, IAcknowledgeable<Mid0422>
     {
-        private readonly IValueConverter<bool> _boolConverter;
         public const int MID = 421;
         
         public bool DigitalInputStatus
         {
-            get => GetField(1,(int)DataFields.DigitalInputStatus).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.DigitalInputStatus).SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.DigitalInputStatus).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1,(int)DataFields.DigitalInputStatus).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0421() : this(new Header()
@@ -35,7 +33,6 @@ namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
 
         public Mid0421(Header header) : base(header)
         {
-            _boolConverter = new BoolConverter();
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

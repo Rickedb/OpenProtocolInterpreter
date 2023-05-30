@@ -1,7 +1,5 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace OpenProtocolInterpreter.ParameterSet
 {
@@ -13,15 +11,12 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// </summary>
     public class Mid0013 : Mid, IParameterSet, IController
     {
-        private readonly IValueConverter<int> _intConverter;
-        private readonly IValueConverter<decimal> _decimalConverter;
-        private readonly IValueConverter<DateTime> _dateConverter;
         public const int MID = 13;
 
         public int ParameterSetId
         {
-            get => GetField(1, (int)DataFields.ParameterSetId).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.ParameterSetId).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.ParameterSetId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.ParameterSetId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public string ParameterSetName
         {
@@ -30,60 +25,60 @@ namespace OpenProtocolInterpreter.ParameterSet
         }
         public RotationDirection RotationDirection
         {
-            get => (RotationDirection)GetField(1, (int)DataFields.RotationDirection).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.RotationDirection).SetValue(_intConverter.Convert, (int)value);
+            get => (RotationDirection)GetField(1, (int)DataFields.RotationDirection).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.RotationDirection).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
         public int BatchSize
         {
-            get => GetField(1, (int)DataFields.BatchSize).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.BatchSize).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.BatchSize).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.BatchSize).SetValue(OpenProtocolConvert.ToString, value);
         }
         public decimal MinTorque
         {
-            get => GetField(1, (int)DataFields.MinTorque).GetValue(_decimalConverter.Convert);
-            set => GetField(1, (int)DataFields.MinTorque).SetValue(_decimalConverter.Convert, value);
+            get => GetField(1, (int)DataFields.MinTorque).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(1, (int)DataFields.MinTorque).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
         }
         public decimal MaxTorque
         {
-            get => GetField(1, (int)DataFields.MaxTorque).GetValue(_decimalConverter.Convert);
-            set => GetField(1, (int)DataFields.MaxTorque).SetValue(_decimalConverter.Convert, value);
+            get => GetField(1, (int)DataFields.MaxTorque).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(1, (int)DataFields.MaxTorque).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
         }
         public decimal TorqueFinalTarget
         {
-            get => GetField(1, (int)DataFields.TorqueFinalTarget).GetValue(_decimalConverter.Convert);
-            set => GetField(1, (int)DataFields.TorqueFinalTarget).SetValue(_decimalConverter.Convert, value);
+            get => GetField(1, (int)DataFields.TorqueFinalTarget).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(1, (int)DataFields.TorqueFinalTarget).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
         }
         public int MinAngle
         {
-            get => GetField(1, (int)DataFields.MinAngle).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.MinAngle).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.MinAngle).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.MinAngle).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int MaxAngle
         {
-            get => GetField(1, (int)DataFields.MaxAngle).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.MaxAngle).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.MaxAngle).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.MaxAngle).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int AngleFinalTarget
         {
-            get => GetField(1, (int)DataFields.AngleFinalTarget).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.AngleFinalTarget).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.AngleFinalTarget).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.AngleFinalTarget).SetValue(OpenProtocolConvert.ToString, value);
         }
         //Rev 2
         public decimal FirstTarget
         {
-            get => GetField(2, (int)DataFields.FirstTarget).GetValue(_decimalConverter.Convert);
-            set => GetField(2, (int)DataFields.FirstTarget).SetValue(_decimalConverter.Convert, value);
+            get => GetField(2, (int)DataFields.FirstTarget).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(2, (int)DataFields.FirstTarget).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
         }
         public decimal StartFinalAngle
         {
-            get => GetField(2, (int)DataFields.StartFinalTarget).GetValue(_decimalConverter.Convert);
-            set => GetField(2, (int)DataFields.StartFinalTarget).SetValue(_decimalConverter.Convert, value);
+            get => GetField(2, (int)DataFields.StartFinalTarget).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(2, (int)DataFields.StartFinalTarget).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
         }
         //Rev 5
         public DateTime LastChangeInParameterSet
         {
-            get => GetField(5, (int)DataFields.LastChangeInParameterSet).GetValue(_dateConverter.Convert);
-            set => GetField(5, (int)DataFields.LastChangeInParameterSet).SetValue(_dateConverter.Convert, value);
+            get => GetField(5, (int)DataFields.LastChangeInParameterSet).GetValue(OpenProtocolConvert.ToDateTime);
+            set => GetField(5, (int)DataFields.LastChangeInParameterSet).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0013() : this(DEFAULT_REVISION)
@@ -93,9 +88,7 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public Mid0013(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
-            _decimalConverter = new DecimalTrucatedConverter(2);
-            _dateConverter = new DateConverter();
+            
         }
 
         public Mid0013(int revision) : this(new Header()

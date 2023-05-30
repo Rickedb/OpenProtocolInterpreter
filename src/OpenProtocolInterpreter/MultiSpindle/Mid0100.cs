@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.MultiSpindle
 {
@@ -24,8 +23,6 @@ namespace OpenProtocolInterpreter.MultiSpindle
     /// </summary>
     public class Mid0100 : Mid, IMultiSpindle, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private readonly IValueConverter<long> _longConverter;
-        private readonly IValueConverter<bool> _boolConverter;
         public const int MID = 100;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] 
@@ -37,14 +34,14 @@ namespace OpenProtocolInterpreter.MultiSpindle
 
         public long DataNumberSystem
         {
-            get => GetField(2, (int)DataFields.DataNumberSystem).GetValue(_longConverter.Convert);
-            set => GetField(2, (int)DataFields.DataNumberSystem).SetValue(_longConverter.Convert, value);
+            get => GetField(2, (int)DataFields.DataNumberSystem).GetValue(OpenProtocolConvert.ToInt64);
+            set => GetField(2, (int)DataFields.DataNumberSystem).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public bool SendOnlyNewData
         {
-            get => GetField(3, (int)DataFields.SendOnlyNewData).GetValue(_boolConverter.Convert);
-            set => GetField(3, (int)DataFields.SendOnlyNewData).SetValue(_boolConverter.Convert, value);
+            get => GetField(3, (int)DataFields.SendOnlyNewData).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(3, (int)DataFields.SendOnlyNewData).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0100() : this(DEFAULT_REVISION)
@@ -54,8 +51,6 @@ namespace OpenProtocolInterpreter.MultiSpindle
 
         public Mid0100(Header header) : base(header)
         {
-            _longConverter = new Int64Converter();
-            _boolConverter = new BoolConverter();
         }
 
         public Mid0100(bool noAckFlag = false) : this(DEFAULT_REVISION, noAckFlag)

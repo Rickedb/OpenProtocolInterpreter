@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Tool
 {
@@ -10,19 +9,17 @@ namespace OpenProtocolInterpreter.Tool
     /// </summary>
     public class Mid0042 : Mid, ITool, IIntegrator, IAcceptableCommand
     {
-        private readonly IValueConverter<int> _intConverter;
-
         public const int MID = 42;
 
         public int ToolNumber
         {
-            get => GetField(2, (int)DataFields.ToolNumber).GetValue(_intConverter.Convert);
-            set => GetField(2, (int)DataFields.ToolNumber).SetValue(_intConverter.Convert, value);
+            get => GetField(2, (int)DataFields.ToolNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(2, (int)DataFields.ToolNumber).SetValue(OpenProtocolConvert.ToString, value);
         }
         public DisableType DisableType
         {
-            get => (DisableType)GetField(2, (int)DataFields.DisableType).GetValue(_intConverter.Convert);
-            set => GetField(2, (int)DataFields.DisableType).SetValue(_intConverter.Convert, (int)value);
+            get => (DisableType)GetField(2, (int)DataFields.DisableType).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(2, (int)DataFields.DisableType).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
 
         public Mid0042() : this(DEFAULT_REVISION)
@@ -31,7 +28,6 @@ namespace OpenProtocolInterpreter.Tool
 
         public Mid0042(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
         }
 
         public Mid0042(int revision) : this(new Header()

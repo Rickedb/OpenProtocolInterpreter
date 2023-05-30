@@ -1,19 +1,16 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace OpenProtocolInterpreter.Tool
 {
     public class Mid0702 : Mid, ITool, IController
     {
-        private readonly IValueConverter<int> _intConverter;
-        private readonly IValueConverter<IEnumerable<VariableDataField>> _variableDataFieldListConverter;
         public const int MID = 702;
 
         public int ToolNumber
         {
-            get => GetField(1, (int)DataFields.ToolNumber).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.ToolNumber).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.ToolNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.ToolNumber).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int NumberOfToolParameters => ToolDataUpload.Count;
         public List<VariableDataField> ToolDataUpload { get; set; }
@@ -28,15 +25,13 @@ namespace OpenProtocolInterpreter.Tool
 
         public Mid0702(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
-            _variableDataFieldListConverter = new VariableDataFieldListConverter(_intConverter);
             ToolDataUpload = new List<VariableDataField>();
         }
 
         public override string Pack()
         {
-            GetField(1, (int)DataFields.NumberOfToolParameters).SetValue(_intConverter.Convert, ToolDataUpload.Count);
-            GetField(1, (int)DataFields.EachToolDataUpload).Value = _variableDataFieldListConverter.Convert(ToolDataUpload);
+            GetField(1, (int)DataFields.NumberOfToolParameters).SetValue(OpenProtocolConvert.ToString, ToolDataUpload.Count);
+            GetField(1, (int)DataFields.EachToolDataUpload).Value = OpenProtocolConvert.ToString(ToolDataUpload);
             return base.Pack();
         }
 
@@ -46,7 +41,7 @@ namespace OpenProtocolInterpreter.Tool
             var dataFieldsField = GetField(1, (int)DataFields.EachToolDataUpload);
             dataFieldsField.Size = Header.Length - dataFieldsField.Index;
             ProcessDataFields(package);
-            ToolDataUpload = _variableDataFieldListConverter.Convert(dataFieldsField.Value).ToList();
+            ToolDataUpload = VariableDataField.ParseAll(dataFieldsField.Value).ToList();
             return this;
         }
 

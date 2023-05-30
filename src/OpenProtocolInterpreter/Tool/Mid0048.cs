@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Tool
@@ -12,19 +11,17 @@ namespace OpenProtocolInterpreter.Tool
     /// </summary>
     public class Mid0048 : Mid, ITool, IController
     {
-        private readonly IValueConverter<int> _intConverter;
-        private readonly IValueConverter<DateTime> _dateConverter;
         public const int MID = 48;
 
         public PairingStatus PairingStatus
         {
-            get => (PairingStatus)GetField(1,(int)DataFields.PairingStatus).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.PairingStatus).SetValue(_intConverter.Convert, (int)value);
+            get => (PairingStatus)GetField(1,(int)DataFields.PairingStatus).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.PairingStatus).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
         public DateTime TimeStamp
         {
-            get => GetField(1,(int)DataFields.Timestamp).GetValue(_dateConverter.Convert);
-            set => GetField(1,(int)DataFields.Timestamp).SetValue(_dateConverter.Convert, value);
+            get => GetField(1,(int)DataFields.Timestamp).GetValue(OpenProtocolConvert.ToDateTime);
+            set => GetField(1,(int)DataFields.Timestamp).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0048() : this(new Header()
@@ -37,8 +34,6 @@ namespace OpenProtocolInterpreter.Tool
 
         public Mid0048(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
-            _dateConverter = new DateConverter();
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

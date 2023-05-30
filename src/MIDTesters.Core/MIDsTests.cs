@@ -13,13 +13,12 @@ namespace MIDTesters
         //[TestMethod]
         public void TestProcessingTime()
         {
-            Stopwatch watch = new Stopwatch();
             long total = 0;
             string mid61 = "02310061001         010001020103airbag7                  04KPOL3456JKLO897          " +
                            "05000600307000008000009010011112000840130014001400120015000739160000017099991800000" +
                            "1900000202001-06-02:09:54:09212001-05-29:12:34:3322123345675    ";
             //CustomMids
-            watch.Start();
+            var watch = Stopwatch.StartNew();
             var myTEmplate = new MidInterpreter()
                 .UseAllMessages(new Type[]
             {

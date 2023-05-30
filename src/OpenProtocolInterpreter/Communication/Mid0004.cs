@@ -1,6 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Communication
 {
@@ -22,18 +20,17 @@ namespace OpenProtocolInterpreter.Communication
     /// </summary>
     public class Mid0004 : Mid, ICommunication, IController
     {
-        private readonly IValueConverter<int> _intConverter;
         public const int MID = 4;
 
         public int FailedMid
         {
-            get => GetField(1, (int)DataFields.Mid).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.Mid).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.Mid).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.Mid).SetValue(OpenProtocolConvert.ToString, value);
         }
         public Error ErrorCode
         {
-            get => (Error)GetField(1, (int)DataFields.ErrorCode).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.ErrorCode).SetValue(_intConverter.Convert, (int)value);
+            get => (Error)GetField(1, (int)DataFields.ErrorCode).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.ErrorCode).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
 
         public Mid0004() : this(DEFAULT_REVISION)
@@ -43,7 +40,6 @@ namespace OpenProtocolInterpreter.Communication
 
         public Mid0004(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
         }
 
         public Mid0004(int revision) : this(new Header()

@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace OpenProtocolInterpreter.ApplicationSelector
@@ -20,16 +19,14 @@ namespace OpenProtocolInterpreter.ApplicationSelector
     /// </summary>
     public class Mid0254 : Mid, IApplicationSelector, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
-        private readonly IValueConverter<IEnumerable<LightCommand>> _lightsConverter;
-        private readonly IValueConverter<int> _intConverter;
         public const int MID = 254;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.FaultyIODeviceId };
 
         public int DeviceId
         {
-            get => GetField(1, (int)DataFields.DeviceId).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.DeviceId).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.DeviceId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.DeviceId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public List<LightCommand> GreenLights { get; set; }
 
@@ -44,23 +41,39 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
         public Mid0254(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
-            _lightsConverter = new LightCommandListConverter(_intConverter);
             if (GreenLights == null)
                 GreenLights = new List<LightCommand>();
         }
 
         public override string Pack()
         {
-            GetField(1, (int)DataFields.GreenLightCommand).Value = _lightsConverter.Convert(GreenLights);
+            GetField(1, (int)DataFields.GreenLightCommand).Value = PackGreenLights();
             return base.Pack();
         }
 
         public override Mid Parse(string package)
         {
             base.Parse(package);
-            GreenLights = _lightsConverter.Convert(GetField(1, (int)DataFields.GreenLightCommand).Value).ToList();
+            GreenLights = ParseGreenLights(GetField(1, (int)DataFields.GreenLightCommand).Value).ToList();
             return this;
+        }
+
+        protected virtual string PackGreenLights()
+        {
+            string pack = string.Empty;
+            foreach (var e in GreenLights)
+                pack += OpenProtocolConvert.ToString((int)e);
+
+            return pack;
+        }
+
+        protected virtual List<LightCommand> ParseGreenLights(string value)
+        {
+            var list = new List<LightCommand>();
+            foreach (var c in value)
+                list.Add((LightCommand)OpenProtocolConvert.ToInt32(c.ToString()));
+
+            return list;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

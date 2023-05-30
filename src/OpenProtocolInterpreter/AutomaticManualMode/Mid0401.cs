@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.AutomaticManualMode
 {
@@ -14,7 +13,6 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
     /// </summary>
     public class Mid0401 : Mid, IAutomaticManualMode, IController, IAcknowledgeable<Mid0402>
     {
-        private readonly IValueConverter<bool> _boolConverter;
         public const int MID = 401;
 
         /// <summary>
@@ -23,8 +21,8 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
         /// </summary>
         public bool ManualAutomaticMode
         {
-            get => GetField(1, (int)DataFields.ManualAutomaticMode).GetValue(_boolConverter.Convert);
-            set => GetField(1, (int)DataFields.ManualAutomaticMode).SetValue(_boolConverter.Convert, value);
+            get => GetField(1, (int)DataFields.ManualAutomaticMode).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, (int)DataFields.ManualAutomaticMode).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0401() : this(new Header()
@@ -38,7 +36,6 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
 
         public Mid0401(Header header) : base(header)
         {
-            _boolConverter = new BoolConverter();
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

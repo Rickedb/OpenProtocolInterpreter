@@ -1,7 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Job
 {
@@ -13,15 +10,14 @@ namespace OpenProtocolInterpreter.Job
     /// </summary>
     public class Mid0039 : Mid, IJob, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
-        private readonly IValueConverter<int> _intConverter;
         public const int MID = 39;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JobNotRunning, Error.InvalidData };
 
         public int JobId
         {
-            get => GetField(1, (int)DataFields.JobId).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.JobId).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.JobId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.JobId).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0039() : this(DEFAULT_REVISION)
@@ -31,7 +27,6 @@ namespace OpenProtocolInterpreter.Job
 
         public Mid0039(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
             HandleRevisions();
         }
 

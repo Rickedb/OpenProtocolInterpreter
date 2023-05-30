@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Tool
 {
@@ -17,15 +16,14 @@ namespace OpenProtocolInterpreter.Tool
     /// </summary>
     public class Mid0046 : Mid, ITool, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
-        private readonly IValueConverter<int> _intConverter;
         public const int MID = 46;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.ProgrammingControlNotGranted, Error.InvalidData };
 
         public PrimaryTool PrimaryTool
         {
-            get => (PrimaryTool)GetField(1,(int)DataFields.PrimaryTool).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.PrimaryTool).SetValue(_intConverter.Convert, (int)value);
+            get => (PrimaryTool)GetField(1,(int)DataFields.PrimaryTool).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.PrimaryTool).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
 
         public Mid0046() : this(new Header()
@@ -38,7 +36,6 @@ namespace OpenProtocolInterpreter.Tool
 
         public Mid0046(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

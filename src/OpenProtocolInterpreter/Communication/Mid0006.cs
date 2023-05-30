@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Communication
 {
@@ -18,7 +17,6 @@ namespace OpenProtocolInterpreter.Communication
     /// </summary>
     public class Mid0006 : Mid, ICommunication, IIntegrator
     {
-        private readonly IValueConverter<int> _intConverter;
         public const int MID = 6;
 
         public string RequestedMid
@@ -28,13 +26,13 @@ namespace OpenProtocolInterpreter.Communication
         }
         public int WantedRevision
         {
-            get => GetField(1, (int)DataFields.WantedRevision).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.WantedRevision).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.WantedRevision).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.WantedRevision).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int ExtraDataLength
         {
-            get => GetField(1, (int)DataFields.ExtraDataLength).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.ExtraDataLength).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.ExtraDataLength).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.ExtraDataLength).SetValue(OpenProtocolConvert.ToString, value);
         }
         public string ExtraData
         {
@@ -53,7 +51,6 @@ namespace OpenProtocolInterpreter.Communication
 
         public Mid0006(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
         }
 
         public override Mid Parse(string package)

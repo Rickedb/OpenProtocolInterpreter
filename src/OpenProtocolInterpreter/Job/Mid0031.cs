@@ -1,7 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Job
 {
@@ -16,14 +13,14 @@ namespace OpenProtocolInterpreter.Job
     /// </summary>
     public class Mid0031 : Mid, IJob, IController
     {
-        private readonly IValueConverter<int> _intConverter;
-        private JobIdListConverter _jobListConverter;
+        private int JobSize => Header.Revision > 1 ? 4 : 2;
+
         public const int MID = 31;
 
         public int TotalJobs
         {
-            get => GetField(1, (int)DataFields.NumberOfJobs).GetValue(_intConverter.Convert);
-            private set => GetField(1, (int)DataFields.NumberOfJobs).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.NumberOfJobs).GetValue(OpenProtocolConvert.ToInt32);
+            private set => GetField(1, (int)DataFields.NumberOfJobs).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public List<int> JobIds { get; set; }
@@ -35,7 +32,6 @@ namespace OpenProtocolInterpreter.Job
 
         public Mid0031(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
             if (JobIds == null)
                 JobIds = new List<int>();
             HandleRevisions();
@@ -52,12 +48,11 @@ namespace OpenProtocolInterpreter.Job
 
         public override string Pack()
         {
-            _jobListConverter = new JobIdListConverter(_intConverter, Header.Revision);
             TotalJobs = JobIds.Count;
 
             var eachJobField = GetField(1, (int)DataFields.EachJobId);
-            eachJobField.Size = (Header.Revision > 1 ? 4 : 2) * TotalJobs;
-            eachJobField.Value = _jobListConverter.Convert(JobIds);
+            eachJobField.Size = JobSize * TotalJobs;
+            eachJobField.Value = PackJobIdList();
             return base.Pack();
         }
 
@@ -66,12 +61,37 @@ namespace OpenProtocolInterpreter.Job
             Header = ProcessHeader(package);
             HandleRevisions();
 
-            _jobListConverter = new JobIdListConverter(_intConverter, Header.Revision);
             var eachJobField = GetField(1, (int)DataFields.EachJobId);
             eachJobField.Size = Header.Length - eachJobField.Index;
             base.Parse(package);
-            JobIds = _jobListConverter.Convert(eachJobField.Value).ToList();
+            JobIds = ParseJobIdList(eachJobField.Value);
             return this;
+        }
+
+
+        protected virtual string PackJobIdList()
+        {
+            string pack = string.Empty;
+            foreach (var v in JobIds)
+                pack += OpenProtocolConvert.ToString('0', JobSize, DataField.PaddingOrientations.LeftPadded, v);
+
+            return pack;
+        }
+
+        protected virtual List<int> ParseJobIdList(string section)
+        {
+            var list = new List<int>();
+            if (string.IsNullOrWhiteSpace(section))
+            {
+                return list;
+            }
+
+            for (int i = 0; i < section.Length; i += JobSize)
+            {
+                list.Add(OpenProtocolConvert.ToInt32(section.Substring(i, JobSize)));
+            }
+
+            return list;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -92,8 +112,8 @@ namespace OpenProtocolInterpreter.Job
         {
             if (Header.Revision > 1)
             {
-                GetField(1, (int)DataFields.EachJobId).Index = 24;
                 GetField(1, (int)DataFields.NumberOfJobs).Size = 4;
+                GetField(1, (int)DataFields.EachJobId).Index = 24;
             }
             else
             {

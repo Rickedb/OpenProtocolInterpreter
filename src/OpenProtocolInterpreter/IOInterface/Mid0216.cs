@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.IOInterface
 {
@@ -18,15 +17,14 @@ namespace OpenProtocolInterpreter.IOInterface
     /// </summary>
     public class Mid0216 : Mid, IIOInterface, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private readonly IValueConverter<int> _intConverter;
         public const int MID = 216;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.RelayFunctionSubscriptionAlreadyExists };
 
         public RelayNumber RelayNumber
         {
-            get => (RelayNumber)GetField(1,(int)DataFields.RelayNumber).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.RelayNumber).SetValue(_intConverter.Convert, (int)value);
+            get => (RelayNumber)GetField(1,(int)DataFields.RelayNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.RelayNumber).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
 
         public Mid0216() : this(false)
@@ -36,7 +34,6 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public Mid0216(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
         }
 
         public Mid0216(bool noAckFlag = false) : this(new Header()

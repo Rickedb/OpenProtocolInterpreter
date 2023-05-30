@@ -1,6 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.ApplicationSelector
 {
@@ -17,19 +15,17 @@ namespace OpenProtocolInterpreter.ApplicationSelector
     /// </summary>
     public class Mid0251 : Mid, IApplicationSelector, IController, IAcknowledgeable<Mid0252>
     {
-        private readonly IValueConverter<int> _intConverter;
-        private readonly IValueConverter<IEnumerable<bool>> _boolListConverter;
         public const int MID = 251;
 
         public int DeviceId
         {
-            get => GetField(1, (int)DataFields.DeviceId).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.DeviceId).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.DeviceId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.DeviceId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int NumberOfSockets
         {
-            get => GetField(1, (int)DataFields.NumberOfSockets).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.NumberOfSockets).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.NumberOfSockets).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.NumberOfSockets).SetValue(OpenProtocolConvert.ToString, value);
         }
         public List<bool> SocketStatus { get; set; }
 
@@ -44,8 +40,6 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
         public Mid0251(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
-            _boolListConverter = new SocketStatusConverter(new BoolConverter());
             if (SocketStatus == null)
                 SocketStatus = new List<bool>();
         }
@@ -53,7 +47,7 @@ namespace OpenProtocolInterpreter.ApplicationSelector
         public override string Pack()
         {
             GetField(1, (int)DataFields.SocketStatus).Size = NumberOfSockets;
-            GetField(1, (int)DataFields.SocketStatus).Value = _boolListConverter.Convert(SocketStatus);
+            GetField(1, (int)DataFields.SocketStatus).Value = PackSocketStatus();
             return base.Pack();
         }
 
@@ -63,8 +57,26 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
             GetField(1, (int)DataFields.SocketStatus).Size = Header.Length - 30;
             ProcessDataFields(package);
-            SocketStatus = _boolListConverter.Convert(GetField(1, (int)DataFields.SocketStatus).Value).ToList();
+            SocketStatus = ParseSocketStatus(GetField(1, (int)DataFields.SocketStatus).Value);
             return this;
+        }
+
+        protected virtual string PackSocketStatus()
+        {
+            string pack = string.Empty;
+            foreach (var v in SocketStatus)
+                pack += OpenProtocolConvert.ToString(v);
+
+            return pack;
+        }
+
+        protected virtual List<bool> ParseSocketStatus(string section)
+        {
+            var list = new List<bool>();
+            foreach (var c in section)
+                list.Add(OpenProtocolConvert.ToBoolean(c.ToString()));
+
+            return list;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

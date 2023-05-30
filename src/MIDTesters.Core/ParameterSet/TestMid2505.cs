@@ -1,8 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.ParameterSet;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MIDTesters.Core.ParameterSet
 {

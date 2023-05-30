@@ -1,6 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.ParameterSet
 {
@@ -15,20 +13,19 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// </summary>
     public class Mid0012 : Mid, IParameterSet, IIntegrator, IAnswerableBy<Mid0013>, IDeclinableCommand
     {
-        private readonly IValueConverter<int> _intConverter;
         public const int MID = 12;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.ParameterSetIdNotPresent };
 
         public int ParameterSetId
         {
-            get => GetField(1, (int)DataFields.ParameterSetId).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.ParameterSetId).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.ParameterSetId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.ParameterSetId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int ParameterSetFileVersion
         {
-            get => GetField(3, (int)DataFields.PSetFileVersion).GetValue(_intConverter.Convert);
-            set => GetField(3, (int)DataFields.PSetFileVersion).SetValue(_intConverter.Convert, value);
+            get => GetField(3, (int)DataFields.PSetFileVersion).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(3, (int)DataFields.PSetFileVersion).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0012() : this(DEFAULT_REVISION)
@@ -46,7 +43,6 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public Mid0012(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

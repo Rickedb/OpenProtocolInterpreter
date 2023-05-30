@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,53 +20,47 @@ namespace OpenProtocolInterpreter.Result
     /// </summary>
     public class Mid1201 : Mid, IResult, IController, IAcknowledgeable<Mid1203>, IAcceptableCommand
     {
-        private readonly IValueConverter<int> _intConverter;
-        private readonly IValueConverter<DateTime> _dateConverter;
-        private readonly IValueConverter<bool> _boolConverter;
-        private readonly IValueConverter<IEnumerable<ObjectData>> _objectDataListConverter;
-        private readonly IValueConverter<IEnumerable<VariableDataField>> _varDataFieldListConverter;
-
         public const int MID = 1201;
 
         public int TotalNumberOfMessages
         {
-            get => GetField(1, (int)DataFields.TotalMessages).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.TotalMessages).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.TotalMessages).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.TotalMessages).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int MessageNumber
         {
-            get => GetField(1, (int)DataFields.MessageNumber).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.MessageNumber).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.MessageNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.MessageNumber).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int ResultDataIdentifier
         {
-            get => GetField(1, (int)DataFields.ResultDataIdentifier).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.ResultDataIdentifier).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.ResultDataIdentifier).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.ResultDataIdentifier).SetValue(OpenProtocolConvert.ToString, value);
         }
         public DateTime Time
         {
-            get => GetField(1, (int)DataFields.Time).GetValue(_dateConverter.Convert);
-            set => GetField(1, (int)DataFields.Time).SetValue(_dateConverter.Convert, value);
+            get => GetField(1, (int)DataFields.Time).GetValue(OpenProtocolConvert.ToDateTime);
+            set => GetField(1, (int)DataFields.Time).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool ResultStatus
         {
-            get => GetField(1, (int)DataFields.ResultStatus).GetValue(_boolConverter.Convert);
-            set => GetField(1, (int)DataFields.ResultStatus).SetValue(_boolConverter.Convert, value);
+            get => GetField(1, (int)DataFields.ResultStatus).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, (int)DataFields.ResultStatus).SetValue(OpenProtocolConvert.ToString, value);
         }
         public OperationType OperationType
         {
-            get => (OperationType)GetField(1, (int)DataFields.OperationType).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.OperationType).SetValue(_intConverter.Convert, (int)value);
+            get => (OperationType)GetField(1, (int)DataFields.OperationType).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.OperationType).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
         public int NumberOfObjects
         {
-            get => GetField(1, (int)DataFields.NumberOfObjects).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.NumberOfObjects).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.NumberOfObjects).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.NumberOfObjects).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int NumberOfDataFields
         {
-            get => GetField(1, (int)DataFields.NumberOfDataFields).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.NumberOfDataFields).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.NumberOfDataFields).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.NumberOfDataFields).SetValue(OpenProtocolConvert.ToString, value);
         }
         public List<ObjectData> ObjectDataList { get; set; }
         public List<VariableDataField> VariableDataFields { get; set; }
@@ -87,11 +80,6 @@ namespace OpenProtocolInterpreter.Result
 
         public Mid1201(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
-            _dateConverter = new DateConverter();
-            _boolConverter = new BoolConverter();
-            _objectDataListConverter = new ObjectDataListConverter(_intConverter, _boolConverter);
-            _varDataFieldListConverter = new VariableDataFieldListConverter(_intConverter);
             ObjectDataList = new List<ObjectData>();
             VariableDataFields = new List<VariableDataField>();
         }
@@ -101,8 +89,8 @@ namespace OpenProtocolInterpreter.Result
             NumberOfObjects = ObjectDataList.Count;
             NumberOfDataFields = VariableDataFields.Count;
 
-            GetField(1, (int)DataFields.ObjectData).SetValue(_objectDataListConverter.Convert(ObjectDataList));
-            GetField(1, (int)DataFields.DataFieldList).SetValue(_varDataFieldListConverter.Convert(VariableDataFields));
+            GetField(1, (int)DataFields.ObjectData).SetValue(PackObjectDataList());
+            GetField(1, (int)DataFields.DataFieldList).SetValue(OpenProtocolConvert.ToString(VariableDataFields));
             return base.Pack();
         }
 
@@ -110,7 +98,7 @@ namespace OpenProtocolInterpreter.Result
         {
             Header = ProcessHeader(package);
             var rawTotalObjectData = GetValue(GetField(1, (int)DataFields.NumberOfObjects), package);
-            int totalObjectData = _intConverter.Convert(rawTotalObjectData);
+            int totalObjectData = OpenProtocolConvert.ToInt32(rawTotalObjectData);
 
             var objectDataField = GetField(1, (int)DataFields.ObjectData);
             objectDataField.Size = totalObjectData * 5;
@@ -123,9 +111,20 @@ namespace OpenProtocolInterpreter.Result
             dataFieldListField.Size = Header.Length - dataFieldListField.Index;
 
             ProcessDataFields(package);
-            ObjectDataList = _objectDataListConverter.Convert(objectDataField.Value).ToList();
-            VariableDataFields = _varDataFieldListConverter.Convert(dataFieldListField.Value).ToList();
+            ObjectDataList = ObjectData.ParseAll(objectDataField.Value).ToList();
+            VariableDataFields = VariableDataField.ParseAll(dataFieldListField.Value).ToList();
             return this;
+        }
+
+        protected virtual string PackObjectDataList()
+        {
+            string pack = string.Empty;
+            foreach (var v in ObjectDataList)
+            {
+                pack += v.Pack();
+            }
+
+            return pack;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

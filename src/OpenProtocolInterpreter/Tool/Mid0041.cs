@@ -1,7 +1,5 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace OpenProtocolInterpreter.Tool
 {
@@ -13,11 +11,6 @@ namespace OpenProtocolInterpreter.Tool
     /// </summary>
     public class Mid0041 : Mid, ITool, IController
     {
-        private readonly IValueConverter<int> _intConverter;
-        private readonly IValueConverter<long> _longConverter;
-        private readonly IValueConverter<DateTime> _dateConverter;
-        private readonly IValueConverter<decimal> _decimalConverter;
-        private readonly IValueConverter<OpenEndData> _openEndDataConverter;
         public const int MID = 41;
 
         public string ToolSerialNumber
@@ -27,13 +20,13 @@ namespace OpenProtocolInterpreter.Tool
         }
         public long ToolNumberOfTightenings
         {
-            get => GetField(1, (int)DataFields.ToolNumberOfTightenings).GetValue(_longConverter.Convert);
-            set => GetField(1, (int)DataFields.ToolNumberOfTightenings).SetValue(_longConverter.Convert, value);
+            get => GetField(1, (int)DataFields.ToolNumberOfTightenings).GetValue(OpenProtocolConvert.ToInt64);
+            set => GetField(1, (int)DataFields.ToolNumberOfTightenings).SetValue(OpenProtocolConvert.ToString, value);
         }
         public DateTime LastCalibrationDate
         {
-            get => GetField(1, (int)DataFields.LastCalibrationDate).GetValue(_dateConverter.Convert);
-            set => GetField(1, (int)DataFields.LastCalibrationDate).SetValue(_dateConverter.Convert, value);
+            get => GetField(1, (int)DataFields.LastCalibrationDate).GetValue(OpenProtocolConvert.ToDateTime);
+            set => GetField(1, (int)DataFields.LastCalibrationDate).SetValue(OpenProtocolConvert.ToString, value);
         }
         public string ControllerSerialNumber
         {
@@ -43,33 +36,33 @@ namespace OpenProtocolInterpreter.Tool
         //Rev 2
         public decimal CalibrationValue
         {
-            get => GetField(2, (int)DataFields.CalibrationValue).GetValue(_decimalConverter.Convert);
-            set => GetField(2, (int)DataFields.CalibrationValue).SetValue(_decimalConverter.Convert, value);
+            get => GetField(2, (int)DataFields.CalibrationValue).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(2, (int)DataFields.CalibrationValue).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
         }
         public DateTime LastServiceDate
         {
-            get => GetField(2, (int)DataFields.LastServiceDate).GetValue(_dateConverter.Convert);
-            set => GetField(2, (int)DataFields.LastServiceDate).SetValue(_dateConverter.Convert, value);
+            get => GetField(2, (int)DataFields.LastServiceDate).GetValue(OpenProtocolConvert.ToDateTime);
+            set => GetField(2, (int)DataFields.LastServiceDate).SetValue(OpenProtocolConvert.ToString, value);
         }
         public long TighteningsSinceService
         {
-            get => GetField(2, (int)DataFields.TighteningsSinceService).GetValue(_longConverter.Convert);
-            set => GetField(2, (int)DataFields.TighteningsSinceService).SetValue(_longConverter.Convert, value);
+            get => GetField(2, (int)DataFields.TighteningsSinceService).GetValue(OpenProtocolConvert.ToInt64);
+            set => GetField(2, (int)DataFields.TighteningsSinceService).SetValue(OpenProtocolConvert.ToString, value);
         }
         public ToolType ToolType
         {
-            get => (ToolType)GetField(2, (int)DataFields.ToolType).GetValue(_intConverter.Convert);
-            set => GetField(2, (int)DataFields.ToolType).SetValue(_intConverter.Convert, (int)value);
+            get => (ToolType)GetField(2, (int)DataFields.ToolType).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(2, (int)DataFields.ToolType).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
         public int MotorSize
         {
-            get => GetField(2, (int)DataFields.MotorSize).GetValue(_intConverter.Convert);
-            set => GetField(2, (int)DataFields.MotorSize).SetValue(_intConverter.Convert, value);
+            get => GetField(2, (int)DataFields.MotorSize).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(2, (int)DataFields.MotorSize).SetValue(OpenProtocolConvert.ToString, value);
         }
         public OpenEndData OpenEndData
         {
-            get => GetField(2, (int)DataFields.OpenEndData).GetValue(_openEndDataConverter.Convert);
-            set => GetField(2, (int)DataFields.OpenEndData).SetValue(_openEndDataConverter.Convert, value);
+            get => GetField(2, (int)DataFields.OpenEndData).GetValue(OpenEndData.Parse);
+            set => GetField(2, (int)DataFields.OpenEndData).SetValue(PackOpenEndData, value);
         }
         public string ControllerSoftwareVersion
         {
@@ -79,24 +72,24 @@ namespace OpenProtocolInterpreter.Tool
         //Rev 3
         public decimal ToolMaxTorque
         {
-            get => GetField(3, (int)DataFields.ToolMaxTorque).GetValue(_decimalConverter.Convert);
-            set => GetField(3, (int)DataFields.ToolMaxTorque).SetValue(_decimalConverter.Convert, value);
+            get => GetField(3, (int)DataFields.ToolMaxTorque).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(3, (int)DataFields.ToolMaxTorque).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
         }
         public decimal GearRatio
         {
-            get => GetField(3, (int)DataFields.GearRatio).GetValue(_decimalConverter.Convert);
-            set => GetField(3, (int)DataFields.GearRatio).SetValue(_decimalConverter.Convert, value);
+            get => GetField(3, (int)DataFields.GearRatio).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(3, (int)DataFields.GearRatio).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
         }
         public decimal ToolFullSpeed
         {
-            get => GetField(3, (int)DataFields.ToolFullSpeed).GetValue(_decimalConverter.Convert);
-            set => GetField(3, (int)DataFields.ToolFullSpeed).SetValue(_decimalConverter.Convert, value);
+            get => GetField(3, (int)DataFields.ToolFullSpeed).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(3, (int)DataFields.ToolFullSpeed).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
         }
         //Rev 4
         public PrimaryTool PrimaryTool
         {
-            get => (PrimaryTool)GetField(4, (int)DataFields.PrimaryTool).GetValue(_intConverter.Convert);
-            set => GetField(4, (int)DataFields.PrimaryTool).SetValue(_intConverter.Convert, (int)value);
+            get => (PrimaryTool)GetField(4, (int)DataFields.PrimaryTool).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(4, (int)DataFields.PrimaryTool).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
         //Rev 5
         public string ToolModel
@@ -107,8 +100,8 @@ namespace OpenProtocolInterpreter.Tool
         //Rev 6
         public int ToolNumber
         {
-            get => GetField(6, (int)DataFields.ToolNumber).GetValue(_intConverter.Convert);
-            set => GetField(6, (int)DataFields.ToolNumber).SetValue(_intConverter.Convert, value);
+            get => GetField(6, (int)DataFields.ToolNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(6, (int)DataFields.ToolNumber).SetValue(OpenProtocolConvert.ToString, value);
         }
         public string ToolArticleNumber
         {
@@ -118,18 +111,18 @@ namespace OpenProtocolInterpreter.Tool
         //Rev 7
         public decimal RundownMinSpeed
         {
-            get => GetField(7, (int)DataFields.RundownMinSpeed).GetValue(_decimalConverter.Convert);
-            set => GetField(7, (int)DataFields.RundownMinSpeed).SetValue(_decimalConverter.Convert, value);
+            get => GetField(7, (int)DataFields.RundownMinSpeed).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(7, (int)DataFields.RundownMinSpeed).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
         }
         public decimal DownshiftMaxSpeed
         {
-            get => GetField(7, (int)DataFields.DownshiftMaxSpeed).GetValue(_decimalConverter.Convert);
-            set => GetField(7, (int)DataFields.DownshiftMaxSpeed).SetValue(_decimalConverter.Convert, value);
+            get => GetField(7, (int)DataFields.DownshiftMaxSpeed).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(7, (int)DataFields.DownshiftMaxSpeed).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
         }
         public decimal DownshiftMinSpeed
         {
-            get => GetField(7, (int)DataFields.DownshiftMinSpeed).GetValue(_decimalConverter.Convert);
-            set => GetField(7, (int)DataFields.DownshiftMinSpeed).SetValue(_decimalConverter.Convert, value);
+            get => GetField(7, (int)DataFields.DownshiftMinSpeed).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(7, (int)DataFields.DownshiftMinSpeed).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
         }
 
         public Mid0041() : this(DEFAULT_REVISION)
@@ -139,11 +132,6 @@ namespace OpenProtocolInterpreter.Tool
 
         public Mid0041(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
-            _longConverter = new Int64Converter();
-            _dateConverter = new DateConverter();
-            _decimalConverter = new DecimalTrucatedConverter(2);
-            _openEndDataConverter = new OpenEndDataConverter(_intConverter, new BoolConverter());
         }
 
         public Mid0041(int revision) : this(new Header()
@@ -154,6 +142,9 @@ namespace OpenProtocolInterpreter.Tool
         {
 
         }
+
+        protected virtual string PackOpenEndData(char paddingChar, int size, DataField.PaddingOrientations orientation, OpenEndData value)
+            => value.Pack();
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {

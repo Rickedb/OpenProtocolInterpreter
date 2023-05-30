@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace OpenProtocolInterpreter.IOInterface
@@ -20,28 +19,25 @@ namespace OpenProtocolInterpreter.IOInterface
     /// </summary>
     public class Mid0215 : Mid, IIOInterface, IController
     {
-        private readonly IValueConverter<int> _intConverter;
-        private readonly IValueConverter<IEnumerable<Relay>> _relayListConverter;
-        private readonly IValueConverter<IEnumerable<DigitalInput>> _digitalInputListConverter;
         public const int MID = 215;
 
         public int IODeviceId
         {
-            get => GetField(Header.Revision, (int)DataFields.IODeviceId).GetValue(_intConverter.Convert);
-            set => GetField(Header.Revision, (int)DataFields.IODeviceId).SetValue(_intConverter.Convert, value);
+            get => GetField(Header.Revision, (int)DataFields.IODeviceId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(Header.Revision, (int)DataFields.IODeviceId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public List<Relay> Relays { get; set; }
         public List<DigitalInput> DigitalInputs { get; set; }
         //rev 2
         public int NumberOfRelays
         {
-            get => GetField(2, (int)DataFields.NumberOfRelays).GetValue(_intConverter.Convert);
-            private set => GetField(2, (int)DataFields.NumberOfRelays).SetValue(_intConverter.Convert, value);
+            get => GetField(2, (int)DataFields.NumberOfRelays).GetValue(OpenProtocolConvert.ToInt32);
+            private set => GetField(2, (int)DataFields.NumberOfRelays).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int NumberOfDigitalInputs
         {
-            get => GetField(2, (int)DataFields.NumberOfDigitalInputs).GetValue(_intConverter.Convert);
-            private set => GetField(2, (int)DataFields.NumberOfDigitalInputs).SetValue(_intConverter.Convert, value);
+            get => GetField(2, (int)DataFields.NumberOfDigitalInputs).GetValue(OpenProtocolConvert.ToInt32);
+            private set => GetField(2, (int)DataFields.NumberOfDigitalInputs).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0215() : this(DEFAULT_REVISION)
@@ -51,10 +47,6 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public Mid0215(Header header) : base(header)
         {
-            var boolConverter = new BoolConverter();
-            _intConverter = new Int32Converter();
-            _relayListConverter = new RelayListConverter(_intConverter, boolConverter);
-            _digitalInputListConverter = new DigitalInputListConverter(_intConverter, boolConverter);
             Relays = new List<Relay>();
             DigitalInputs = new List<DigitalInput>();
         }
@@ -89,18 +81,18 @@ namespace OpenProtocolInterpreter.IOInterface
 
                 var relayListField = GetField(2, (int)DataFields.RelayList);
                 relayListField.Size = NumberOfRelays * 4;
-                relayListField.Value = _relayListConverter.Convert(Relays);
+                relayListField.Value = PackRelays();
                 GetField(2, (int)DataFields.NumberOfDigitalInputs).Index = relayListField.Index + relayListField.Size;
 
                 GetField(2, (int)DataFields.DigitalInputList).Index = GetField(2, (int)DataFields.NumberOfDigitalInputs).Index + 2;
                 GetField(2, (int)DataFields.DigitalInputList).Size = NumberOfDigitalInputs * 4;
-                GetField(2, (int)DataFields.DigitalInputList).Value = _digitalInputListConverter.Convert(DigitalInputs);
+                GetField(2, (int)DataFields.DigitalInputList).Value = PackDigitalInputs();
             }
             else
             {
                 Header.Revision = 1;
-                GetField(1, (int)DataFields.RelayList).Value = _relayListConverter.Convert(Relays);
-                GetField(1, (int)DataFields.DigitalInputList).Value = _digitalInputListConverter.Convert(DigitalInputs);
+                GetField(1, (int)DataFields.RelayList).Value = PackRelays();
+                GetField(1, (int)DataFields.DigitalInputList).Value = PackDigitalInputs();
             }
 
             string pkg = BuildHeader();
@@ -123,7 +115,7 @@ namespace OpenProtocolInterpreter.IOInterface
             var digitalListField = GetField(revision, (int)DataFields.DigitalInputList);
             if (revision > 1)
             {
-                int numberOfRelays = _intConverter.Convert(GetValue(GetField(2, (int)DataFields.NumberOfRelays), package));
+                int numberOfRelays = OpenProtocolConvert.ToInt32(GetValue(GetField(2, (int)DataFields.NumberOfRelays), package));
                 relayListField.Size = numberOfRelays * 4;
 
                 var numberOfDigitalInputsField = GetField(2, (int)DataFields.NumberOfDigitalInputs);
@@ -135,9 +127,27 @@ namespace OpenProtocolInterpreter.IOInterface
 
             ProcessDataFields(package);
 
-            Relays = _relayListConverter.Convert(relayListField.Value).ToList();
-            DigitalInputs = _digitalInputListConverter.Convert(digitalListField.Value).ToList();
+            Relays = Relay.ParseAll(relayListField.Value).ToList();
+            DigitalInputs =DigitalInput.ParseAll(digitalListField.Value).ToList();
             return this;
+        }
+
+        protected virtual string PackRelays()
+        {
+            string pack = string.Empty;
+            foreach (var relay in Relays)
+                pack += relay.Pack();
+
+            return pack;
+        }
+
+        protected virtual string PackDigitalInputs()
+        {
+            string pack = string.Empty;
+            foreach (var digitalInput in DigitalInputs)
+                pack += digitalInput.Pack();
+
+            return pack;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

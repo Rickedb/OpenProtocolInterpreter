@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.IOInterface
 {
@@ -16,19 +15,17 @@ namespace OpenProtocolInterpreter.IOInterface
     /// </summary>
     public class Mid0217 : Mid, IIOInterface, IController, IAcknowledgeable<Mid0218>
     {
-        private readonly IValueConverter<int> _intConverter;
-        private readonly IValueConverter<bool> _boolConverter;
         public const int MID = 217;
 
         public RelayNumber RelayNumber
         {
-            get => (RelayNumber)GetField(1, (int)DataFields.RelayNumber).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.RelayNumber).SetValue(_intConverter.Convert, (int)value);
+            get => (RelayNumber)GetField(1, (int)DataFields.RelayNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.RelayNumber).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
         public bool RelayStatus
         {
-            get => GetField(1, (int)DataFields.RelayStatus).GetValue(_boolConverter.Convert);
-            set => GetField(1, (int)DataFields.RelayStatus).SetValue(_boolConverter.Convert, value);
+            get => GetField(1, (int)DataFields.RelayStatus).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, (int)DataFields.RelayStatus).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0217() : this(new Header()
@@ -42,8 +39,6 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public Mid0217(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
-            _boolConverter = new BoolConverter();
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

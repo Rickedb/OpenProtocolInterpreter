@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.LinkCommunication
 {
@@ -17,18 +16,17 @@ namespace OpenProtocolInterpreter.LinkCommunication
     /// </summary>
     public class Mid9998 : Mid, ILinkCommunication, IController, IIntegrator
     {
-        private readonly IValueConverter<int> _intConverter;
         public const int MID = 9998;
 
         public int MidNumber
         {
-            get => GetField(1, (int)DataFields.MidNumber).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.MidNumber).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.MidNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.MidNumber).SetValue(OpenProtocolConvert.ToString, value);
         }
         public LinkCommunicationError ErrorCode
         {
-            get => (LinkCommunicationError)GetField(1, (int)DataFields.ErrorCode).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.ErrorCode).SetValue(_intConverter.Convert, (int)value);
+            get => (LinkCommunicationError)GetField(1, (int)DataFields.ErrorCode).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.ErrorCode).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
 
         public Mid9998() : this(new Header()
@@ -42,7 +40,6 @@ namespace OpenProtocolInterpreter.LinkCommunication
 
         public Mid9998(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

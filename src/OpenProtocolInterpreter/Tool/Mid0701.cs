@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace OpenProtocolInterpreter.Tool
@@ -16,8 +15,6 @@ namespace OpenProtocolInterpreter.Tool
     /// </summary>
     public class Mid0701 : Mid, ITool, IController
     {
-        private readonly IValueConverter<IEnumerable<ToolData>> _toolListConverter;
-        private readonly IValueConverter<int> _intConverter;
         public const int MID = 701;
 
         public int TotalTools { get => Tools.Count; }
@@ -33,8 +30,6 @@ namespace OpenProtocolInterpreter.Tool
 
         public Mid0701(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
-            _toolListConverter = new ToolListConverter(_intConverter);
             if (Tools == null)
             {
                 Tools = new List<ToolData>();
@@ -43,9 +38,9 @@ namespace OpenProtocolInterpreter.Tool
 
         public override string Pack()
         {
-            GetField(1, (int)DataFields.TotalTools).SetValue(_intConverter.Convert, TotalTools);
+            GetField(1, (int)DataFields.TotalTools).SetValue(OpenProtocolConvert.ToString, TotalTools);
             var eachToolField = GetField(1, (int)DataFields.EachTool);
-            eachToolField.Value = _toolListConverter.Convert(Tools);
+            eachToolField.Value = PackTools();
             eachToolField.Size = eachToolField.Value.Length;
             return base.Pack();
         }
@@ -57,8 +52,19 @@ namespace OpenProtocolInterpreter.Tool
             var eachToolField = GetField(1, (int)DataFields.EachTool);
             eachToolField.Size = Header.Length - eachToolField.Index;
             ProcessDataFields(package);
-            Tools = _toolListConverter.Convert(eachToolField.Value).ToList();
+            Tools = ToolData.ParseAll(eachToolField.Value).ToList();
             return this;
+        }
+
+        protected virtual string PackTools()
+        {
+            string pack = string.Empty;
+            foreach (var tool in Tools)
+            {
+                pack += tool.Pack();
+            }
+
+            return pack;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

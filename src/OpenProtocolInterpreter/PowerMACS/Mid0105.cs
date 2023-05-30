@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.PowerMACS
 {
@@ -22,21 +21,19 @@ namespace OpenProtocolInterpreter.PowerMACS
     /// </summary>
     public class Mid0105 : Mid, IPowerMACS, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private readonly IValueConverter<bool> _boolConverter;
-        private readonly IValueConverter<int> _intConverter;
         public const int MID = 105;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SubscriptionAlreadyExists, Error.MidRevisionUnsupported };
 
         public int DataNumberSystem
         {
-            get => GetField(2,(int)DataFields.DataNumberSystem).GetValue(_intConverter.Convert);
-            set => GetField(2,(int)DataFields.DataNumberSystem).SetValue(_intConverter.Convert, value);
+            get => GetField(2,(int)DataFields.DataNumberSystem).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(2,(int)DataFields.DataNumberSystem).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool SendOnlyNewData
         {
-            get => GetField(3,(int)DataFields.SendOnlyNewData).GetValue(_boolConverter.Convert);
-            set => GetField(3,(int)DataFields.SendOnlyNewData).SetValue(_boolConverter.Convert, value);
+            get => GetField(3,(int)DataFields.SendOnlyNewData).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(3,(int)DataFields.SendOnlyNewData).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0105() : this(DEFAULT_REVISION)
@@ -46,8 +43,6 @@ namespace OpenProtocolInterpreter.PowerMACS
 
         public Mid0105(Header header) : base(header)
         {
-            _boolConverter = new BoolConverter();
-            _intConverter = new Int32Converter();
         }
 
         public Mid0105(bool noAckFlag = false) : this(DEFAULT_REVISION, noAckFlag)

@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -30,43 +29,37 @@ namespace OpenProtocolInterpreter.PowerMACS
     /// </summary>
     public class Mid0107 : Mid, IPowerMACS, IController, IAcknowledgeable<Mid0108>
     {
-        private readonly IValueConverter<bool> _boolConverter;
-        private readonly IValueConverter<int> _intConverter;
-        private readonly IValueConverter<DateTime> _dateConverter;
-        private readonly IValueConverter<IEnumerable<BoltResult>> _boltResultConverter;
-        private readonly IValueConverter<IEnumerable<StepResult>> _stepResultConverter;
-        private IValueConverter<IEnumerable<SpecialValue>> _specialValueConverter;
         public const int MID = 107;
 
         public int TotalNumberOfMessages
         {
-            get => GetField(1, (int)DataFields.TotalNumberOfMessages).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.TotalNumberOfMessages).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.TotalNumberOfMessages).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.TotalNumberOfMessages).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int MessageNumber
         {
-            get => GetField(1, (int)DataFields.MessageNumber).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.MessageNumber).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.MessageNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.MessageNumber).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int DataNumberSystem
         {
-            get => GetField(1, (int)DataFields.DataNumberSystem).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.DataNumberSystem).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.DataNumberSystem).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.DataNumberSystem).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int StationNumber
         {
-            get => GetField(1, (int)DataFields.StationNumber).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.StationNumber).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.StationNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.StationNumber).SetValue(OpenProtocolConvert.ToString, value);
         }
         public DateTime Time
         {
-            get => GetField(1, (int)DataFields.Time).GetValue(_dateConverter.Convert);
-            set => GetField(1, (int)DataFields.Time).SetValue(_dateConverter.Convert, value);
+            get => GetField(1, (int)DataFields.Time).GetValue(OpenProtocolConvert.ToDateTime);
+            set => GetField(1, (int)DataFields.Time).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int BoltNumber
         {
-            get => GetField(1, (int)DataFields.BoltNumber).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.BoltNumber).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.BoltNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.BoltNumber).SetValue(OpenProtocolConvert.ToString, value);
         }
         public string BoltName
         {
@@ -80,8 +73,8 @@ namespace OpenProtocolInterpreter.PowerMACS
         }
         public PowerMacsStatus PowerMacsStatus
         {
-            get => (PowerMacsStatus)GetField(1, (int)DataFields.PMStatus).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.PMStatus).SetValue(_intConverter.Convert, (int)value);
+            get => (PowerMacsStatus)GetField(1, (int)DataFields.PMStatus).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.PMStatus).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
         public string Errors
         {
@@ -95,45 +88,39 @@ namespace OpenProtocolInterpreter.PowerMACS
         }
         public int NumberOfBoltResults
         {
-            get => GetField(1, (int)DataFields.NumberOfBoltResults).GetValue(_intConverter.Convert);
-            private set => GetField(1, (int)DataFields.NumberOfBoltResults).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.NumberOfBoltResults).GetValue(OpenProtocolConvert.ToInt32);
+            private set => GetField(1, (int)DataFields.NumberOfBoltResults).SetValue(OpenProtocolConvert.ToString, value);
         }
         public List<BoltResult> BoltResults { get; set; }
         public int NumberOfStepResults
         {
-            get => GetField(1, (int)DataFields.NumberOfStepResults).GetValue(_intConverter.Convert);
-            private set => GetField(1, (int)DataFields.NumberOfStepResults).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.NumberOfStepResults).GetValue(OpenProtocolConvert.ToInt32);
+            private set => GetField(1, (int)DataFields.NumberOfStepResults).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool AllStepDataSent
         {
-            get => GetField(1, (int)DataFields.AllStepDataSent).GetValue(_boolConverter.Convert);
-            set => GetField(1, (int)DataFields.AllStepDataSent).SetValue(_boolConverter.Convert, value);
+            get => GetField(1, (int)DataFields.AllStepDataSent).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, (int)DataFields.AllStepDataSent).SetValue(OpenProtocolConvert.ToString, value);
         }
         public List<StepResult> StepResults { get; set; }
         public int NumberOfSpecialValues
         {
-            get => GetField(1, (int)DataFields.NumberOfSpecialValues).GetValue(_intConverter.Convert);
-            private set => GetField(1, (int)DataFields.NumberOfSpecialValues).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.NumberOfSpecialValues).GetValue(OpenProtocolConvert.ToInt32);
+            private set => GetField(1, (int)DataFields.NumberOfSpecialValues).SetValue(OpenProtocolConvert.ToString, value);
         }
         public List<SpecialValue> SpecialValues { get; set; }
 
         public Mid0107() : this(new Header()
         {
-            Mid = MID, 
+            Mid = MID,
             Revision = DEFAULT_REVISION
         })
         {
-            
+
         }
 
         public Mid0107(Header header) : base(header)
         {
-            _boolConverter = new BoolConverter();
-            _intConverter = new Int32Converter();
-            _dateConverter = new DateConverter();
-            _boltResultConverter = new BoltResultConverter(_intConverter);
-            _stepResultConverter = new StepResultConverter(_intConverter);
-
             if (BoltResults == null)
                 BoltResults = new List<BoltResult>();
             if (StepResults == null)
@@ -147,11 +134,10 @@ namespace OpenProtocolInterpreter.PowerMACS
             NumberOfBoltResults = BoltResults.Count;
             NumberOfStepResults = StepResults.Count;
             NumberOfSpecialValues = SpecialValues.Count;
-            _specialValueConverter = new SpecialValueListConverter(_intConverter, NumberOfSpecialValues, true);
 
-            GetField(1, (int)DataFields.BoltResults).SetValue(_boltResultConverter.Convert(BoltResults));
-            GetField(1, (int)DataFields.StepResults).SetValue(_stepResultConverter.Convert(StepResults));
-            GetField(1, (int)DataFields.SpecialValues).SetValue(_specialValueConverter.Convert(SpecialValues));
+            GetField(1, (int)DataFields.BoltResults).SetValue(PackBoltResultList());
+            GetField(1, (int)DataFields.StepResults).SetValue(PackStepResults());
+            GetField(1, (int)DataFields.SpecialValues).SetValue(PackSpecialValues());
 
             return base.Pack();
         }
@@ -160,7 +146,7 @@ namespace OpenProtocolInterpreter.PowerMACS
         {
             Header = ProcessHeader(package);
 
-            int numberOfBoltResults = _intConverter.Convert(GetValue(GetField(1, (int)DataFields.NumberOfBoltResults), package));
+            int numberOfBoltResults = OpenProtocolConvert.ToInt32(GetValue(GetField(1, (int)DataFields.NumberOfBoltResults), package));
             var boltResultField = GetField(1, (int)DataFields.BoltResults);
             boltResultField.Size = 29 * numberOfBoltResults;
 
@@ -173,7 +159,7 @@ namespace OpenProtocolInterpreter.PowerMACS
             var stepResultsField = GetField(1, (int)DataFields.StepResults);
             stepResultsField.Index = 2 + allStepDataSentField.Index + allStepDataSentField.Size;
 
-            int numberOfStepResults = _intConverter.Convert(GetValue(numberOfStepResultsField, package));
+            int numberOfStepResults = OpenProtocolConvert.ToInt32(GetValue(numberOfStepResultsField, package));
             stepResultsField.Size = 31 * numberOfStepResults;
 
             var numberOfSpecialValuesField = GetField(1, (int)DataFields.NumberOfSpecialValues);
@@ -184,12 +170,118 @@ namespace OpenProtocolInterpreter.PowerMACS
             specialValuesField.Size = Header.Length - specialValuesField.Index;
 
             ProcessDataFields(package);
-            _specialValueConverter = new SpecialValueListConverter(_intConverter, NumberOfSpecialValues, true);
 
-            BoltResults = _boltResultConverter.Convert(boltResultField.Value).ToList();
-            StepResults = _stepResultConverter.Convert(stepResultsField.Value).ToList();
-            SpecialValues = _specialValueConverter.Convert(specialValuesField.Value).ToList();
+            BoltResults = ParseBoltResultList(boltResultField.Value);
+            StepResults = ParseStepResults(stepResultsField.Value);
+            SpecialValues = SpecialValue.ParseAll(specialValuesField.Value, NumberOfSpecialValues, true).ToList();
             return this;
+        }
+
+        protected virtual string PackBoltResultList()
+        {
+            string package = string.Empty;
+            foreach (var bolt in BoltResults)
+            {
+                package += OpenProtocolConvert.TruncatePadded(' ', 20, DataField.PaddingOrientations.RightPadded, bolt.VariableName);
+                package += bolt.Type.Type;
+                if (bolt.Type.Type == DataType.DataTypes[1].Type) // Integer
+                {
+                    package += OpenProtocolConvert.ToString('0', 7, DataField.PaddingOrientations.LeftPadded, (int)bolt.Value);
+                }
+                else if (bolt.Type.Type == DataType.DataTypes[2].Type) // Decimal
+                {
+                    package += OpenProtocolConvert.ToString('0', 7, DataField.PaddingOrientations.LeftPadded, (decimal)bolt.Value);
+                }
+            }
+
+            return package;
+        }
+
+        protected virtual string PackStepResults()
+        {
+            string package = string.Empty;
+            foreach (var step in StepResults)
+            {
+                package += OpenProtocolConvert.TruncatePadded(' ', 20, DataField.PaddingOrientations.RightPadded, step.VariableName);
+                package += step.Type.Type;
+                if (step.Type.Type == DataType.DataTypes[1].Type) // Integer
+                {
+                    package += OpenProtocolConvert.ToString('0', 7, DataField.PaddingOrientations.LeftPadded, (int)step.Value);
+                }
+                else if (step.Type.Type == DataType.DataTypes[2].Type) // Decimal
+                {
+                    package += OpenProtocolConvert.ToString('0', 7, DataField.PaddingOrientations.LeftPadded, (decimal)step.Value);
+                }
+                package += OpenProtocolConvert.ToString('0', 2, DataField.PaddingOrientations.LeftPadded, step.StepNumber);
+            }
+
+            return package;
+        }
+        protected virtual string PackSpecialValues()
+        {
+            string package = string.Empty;
+            foreach (var v in SpecialValues)
+            {
+                package += v.Pack(true);
+            }
+
+            return package;
+        }
+
+        protected virtual List<BoltResult> ParseBoltResultList(string section)
+        {
+            var list = new List<BoltResult>();
+            for (int i = 0; i < section.Length; i += 29)
+            {
+                var result = new BoltResult()
+                {
+                    VariableName = section.Substring(i, 20),
+                    Type = DataType.DataTypes.First(x => x.Type.Trim() == section.Substring(20 + i, 2).Trim())
+                };
+
+                var resultValue = section.Substring(22 + i, 7);
+                if (result.Type.Type == DataType.DataTypes[1].Type) // Integer
+                {
+                    result.Value = OpenProtocolConvert.ToInt32(resultValue);
+                }
+                else if (result.Type.Type == DataType.DataTypes[2].Type) // Decimal
+                {
+                    result.Value = OpenProtocolConvert.ToDecimal(resultValue);
+                }
+
+                list.Add(result);
+            }
+
+            return list;
+        }
+
+        protected virtual List<StepResult> ParseStepResults(string section)
+        {
+            var list = new List<StepResult>();
+            for (int i = 0; i < section.Length; i += 31)
+            {
+                var result = new StepResult()
+                {
+                    VariableName = section.Substring(i, 20),
+                    Type = DataType.DataTypes.First(x => x.Type.Trim() == section.Substring(20 + i, 2).Trim()),
+                    StepNumber = OpenProtocolConvert.ToInt32(section.Substring(29 + i, 2))
+                };
+
+                var resultValue = section.Substring(22 + i, 7);
+                if (result.Type.Type == DataType.DataTypes[1].Type) // Integer
+                {
+                    result.Value = OpenProtocolConvert.ToInt32(resultValue);
+                }
+                else if (result.Type.Type == DataType.DataTypes[2].Type) // Decimal
+                {
+                    int decimalPlaces = resultValue.Split('.')[1].Length;
+                    result.Value = OpenProtocolConvert.ToDecimal(resultValue);
+                }
+
+                list.Add(result);
+            }
+
+            return list;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

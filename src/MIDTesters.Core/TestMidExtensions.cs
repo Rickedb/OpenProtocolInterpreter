@@ -6,6 +6,7 @@ using System;
 namespace MIDTesters
 {
     [TestClass]
+    [TestCategory("Extensions")]
     public class TestMidExtensions
     {
         public TestMidExtensions()

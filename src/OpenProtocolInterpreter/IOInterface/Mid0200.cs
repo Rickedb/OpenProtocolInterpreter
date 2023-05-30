@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.IOInterface
 {
@@ -14,58 +13,57 @@ namespace OpenProtocolInterpreter.IOInterface
     /// </summary>
     public class Mid0200 : Mid, IIOInterface, IIntegrator, IAcceptableCommand
     {
-        private readonly IValueConverter<int> _intConverter;
         public const int MID = 200;
 
         public RelayStatus StatusRelayOne
         {
-            get => (RelayStatus)GetField(1,(int)DataFields.StatusRelay1).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.StatusRelay1).SetValue(_intConverter.Convert, (int)value);
+            get => (RelayStatus)GetField(1,(int)DataFields.StatusRelay1).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.StatusRelay1).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
         public RelayStatus StatusRelayTwo
         {
-            get => (RelayStatus)GetField(1,(int)DataFields.StatusRelay2).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.StatusRelay2).SetValue(_intConverter.Convert, (int)value);
+            get => (RelayStatus)GetField(1,(int)DataFields.StatusRelay2).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.StatusRelay2).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
         public RelayStatus StatusRelayThree
         {
-            get => (RelayStatus)GetField(1,(int)DataFields.StatusRelay3).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.StatusRelay3).SetValue(_intConverter.Convert, (int)value);
+            get => (RelayStatus)GetField(1,(int)DataFields.StatusRelay3).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.StatusRelay3).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
         public RelayStatus StatusRelayFour
         {
-            get => (RelayStatus)GetField(1,(int)DataFields.StatusRelay4).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.StatusRelay4).SetValue(_intConverter.Convert, (int)value);
+            get => (RelayStatus)GetField(1,(int)DataFields.StatusRelay4).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.StatusRelay4).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
         public RelayStatus StatusRelayFive
         {
-            get => (RelayStatus)GetField(1,(int)DataFields.StatusRelay5).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.StatusRelay5).SetValue(_intConverter.Convert, (int)value);
+            get => (RelayStatus)GetField(1,(int)DataFields.StatusRelay5).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.StatusRelay5).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
         public RelayStatus StatusRelaySix
         {
-            get => (RelayStatus)GetField(1,(int)DataFields.StatusRelay6).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.StatusRelay6).SetValue(_intConverter.Convert, (int)value);
+            get => (RelayStatus)GetField(1,(int)DataFields.StatusRelay6).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.StatusRelay6).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
         public RelayStatus StatusRelaySeven
         {
-            get => (RelayStatus)GetField(1,(int)DataFields.StatusRelay7).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.StatusRelay7).SetValue(_intConverter.Convert, (int)value);
+            get => (RelayStatus)GetField(1,(int)DataFields.StatusRelay7).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.StatusRelay7).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
         public RelayStatus StatusRelayEight
         {
-            get => (RelayStatus)GetField(1,(int)DataFields.StatusRelay8).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.StatusRelay8).SetValue(_intConverter.Convert, (int)value);
+            get => (RelayStatus)GetField(1,(int)DataFields.StatusRelay8).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.StatusRelay8).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
         public RelayStatus StatusRelayNine
         {
-            get => (RelayStatus)GetField(1,(int)DataFields.StatusRelay9).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.StatusRelay9).SetValue(_intConverter.Convert, (int)value);
+            get => (RelayStatus)GetField(1,(int)DataFields.StatusRelay9).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.StatusRelay9).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
         public RelayStatus StatusRelayTen
         {
-            get => (RelayStatus)GetField(1,(int)DataFields.StatusRelay10).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.StatusRelay10).SetValue(_intConverter.Convert, (int)value);
+            get => (RelayStatus)GetField(1,(int)DataFields.StatusRelay10).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.StatusRelay10).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
 
         public Mid0200() : this(new Header()
@@ -79,7 +77,6 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public Mid0200(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

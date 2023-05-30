@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace OpenProtocolInterpreter.Job.Advanced
@@ -19,15 +18,12 @@ namespace OpenProtocolInterpreter.Job.Advanced
     /// </summary>
     public class Mid0140 : Mid, IAdvancedJob, IIntegrator, IAcceptableCommand
     {
-        private readonly IValueConverter<int> _intConverter;
-        private readonly IValueConverter<bool> _boolConverter;
-        private IValueConverter<IEnumerable<AdvancedJob>> _jobListConverter;
         public const int MID = 140;
 
         public int JobId
         {
-            get => GetField(GetNormalizedRevision(), (int)DataFields.JobId).GetValue(_intConverter.Convert);
-            set => GetField(GetNormalizedRevision(), (int)DataFields.JobId).SetValue(_intConverter.Convert, value);
+            get => GetField(GetNormalizedRevision(), (int)DataFields.JobId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.JobId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public string JobName
         {
@@ -36,90 +32,90 @@ namespace OpenProtocolInterpreter.Job.Advanced
         }
         public int NumberOfParameterSets
         {
-            get => GetField(GetNormalizedRevision(), (int)DataFields.NumberOfParameterSets).GetValue(_intConverter.Convert);
-            set => GetField(GetNormalizedRevision(), (int)DataFields.NumberOfParameterSets).SetValue(_intConverter.Convert, value);
+            get => GetField(GetNormalizedRevision(), (int)DataFields.NumberOfParameterSets).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.NumberOfParameterSets).SetValue(OpenProtocolConvert.ToString, value);
         }
         public List<AdvancedJob> JobList { get; set; }
         public ForcedOrder ForcedOrder
         {
-            get => (ForcedOrder)GetField(GetNormalizedRevision(), (int)DataFields.ForcedOrder).GetValue(_intConverter.Convert);
-            set => GetField(GetNormalizedRevision(), (int)DataFields.ForcedOrder).SetValue(_intConverter.Convert, (int)value);
+            get => (ForcedOrder)GetField(GetNormalizedRevision(), (int)DataFields.ForcedOrder).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.ForcedOrder).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
         public bool LockAtJobDone
         {
-            get => GetField(GetNormalizedRevision(), (int)DataFields.LockAtJobDone).GetValue(_boolConverter.Convert);
-            set => GetField(GetNormalizedRevision(), (int)DataFields.LockAtJobDone).SetValue(_boolConverter.Convert, value);
+            get => GetField(GetNormalizedRevision(), (int)DataFields.LockAtJobDone).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.LockAtJobDone).SetValue(OpenProtocolConvert.ToString, value);
         }
         public ToolLoosening ToolLoosening
         {
-            get => (ToolLoosening)GetField(GetNormalizedRevision(), (int)DataFields.ToolLoosening).GetValue(_intConverter.Convert);
-            set => GetField(GetNormalizedRevision(), (int)DataFields.ToolLoosening).SetValue(_intConverter.Convert, (int)value);
+            get => (ToolLoosening)GetField(GetNormalizedRevision(), (int)DataFields.ToolLoosening).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.ToolLoosening).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
         public bool RepeatJob
         {
-            get => GetField(GetNormalizedRevision(), (int)DataFields.RepeatJob).GetValue(_boolConverter.Convert);
-            set => GetField(GetNormalizedRevision(), (int)DataFields.RepeatJob).SetValue(_boolConverter.Convert, value);
+            get => GetField(GetNormalizedRevision(), (int)DataFields.RepeatJob).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.RepeatJob).SetValue(OpenProtocolConvert.ToString, value);
         }
         public BatchMode BatchMode
         {
-            get => (BatchMode)GetField(GetNormalizedRevision(), (int)DataFields.JobBatchDone).GetValue(_intConverter.Convert);
-            set => GetField(GetNormalizedRevision(), (int)DataFields.JobBatchDone).SetValue(_intConverter.Convert, (int)value);
+            get => (BatchMode)GetField(GetNormalizedRevision(), (int)DataFields.JobBatchDone).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.JobBatchDone).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
         public bool BatchStatusAtIncrement
         {
-            get => GetField(GetNormalizedRevision(), (int)DataFields.BatchStatusAtIncrement).GetValue(_boolConverter.Convert);
-            set => GetField(GetNormalizedRevision(), (int)DataFields.BatchStatusAtIncrement).SetValue(_boolConverter.Convert, value);
+            get => GetField(GetNormalizedRevision(), (int)DataFields.BatchStatusAtIncrement).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.BatchStatusAtIncrement).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool DecrementBatchAtOkLoosening
         {
-            get => GetField(GetNormalizedRevision(), (int)DataFields.DecrementBatchAtOkLoosening).GetValue(_boolConverter.Convert);
-            set => GetField(GetNormalizedRevision(), (int)DataFields.DecrementBatchAtOkLoosening).SetValue(_boolConverter.Convert, value);
+            get => GetField(GetNormalizedRevision(), (int)DataFields.DecrementBatchAtOkLoosening).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.DecrementBatchAtOkLoosening).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int MaxTimeForFirstTightening
         {
-            get => GetField(GetNormalizedRevision(), (int)DataFields.MaxTimeForFirstTightening).GetValue(_intConverter.Convert);
-            set => GetField(GetNormalizedRevision(), (int)DataFields.MaxTimeForFirstTightening).SetValue(_intConverter.Convert, value);
+            get => GetField(GetNormalizedRevision(), (int)DataFields.MaxTimeForFirstTightening).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.MaxTimeForFirstTightening).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int MaxTimeToCompleteJob
         {
-            get => GetField(GetNormalizedRevision(), (int)DataFields.MaxTimeToCompleteJob).GetValue(_intConverter.Convert);
-            set => GetField(GetNormalizedRevision(), (int)DataFields.MaxTimeToCompleteJob).SetValue(_intConverter.Convert, value);
+            get => GetField(GetNormalizedRevision(), (int)DataFields.MaxTimeToCompleteJob).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.MaxTimeToCompleteJob).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int DisplayResultAtAutoSelect
         {
-            get => GetField(GetNormalizedRevision(), (int)DataFields.DisplayResultAtAutoSelect).GetValue(_intConverter.Convert);
-            set => GetField(GetNormalizedRevision(), (int)DataFields.DisplayResultAtAutoSelect).SetValue(_intConverter.Convert, value);
+            get => GetField(GetNormalizedRevision(), (int)DataFields.DisplayResultAtAutoSelect).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.DisplayResultAtAutoSelect).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool UsingLineControl
         {
-            get => GetField(GetNormalizedRevision(), (int)DataFields.UseLineControl).GetValue(_boolConverter.Convert);
-            set => GetField(GetNormalizedRevision(), (int)DataFields.UseLineControl).SetValue(_boolConverter.Convert, value);
+            get => GetField(GetNormalizedRevision(), (int)DataFields.UseLineControl).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.UseLineControl).SetValue(OpenProtocolConvert.ToString, value);
         }
         public IdentifierPart IdentifierResultPart
         {
-            get => (IdentifierPart)GetField(GetNormalizedRevision(), (int)DataFields.IdentifierResultPart).GetValue(_intConverter.Convert);
-            set => GetField(GetNormalizedRevision(), (int)DataFields.IdentifierResultPart).SetValue(_intConverter.Convert, (int)value);
+            get => (IdentifierPart)GetField(GetNormalizedRevision(), (int)DataFields.IdentifierResultPart).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.IdentifierResultPart).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
         public bool ResultOfNonTightenings
         {
-            get => GetField(GetNormalizedRevision(), (int)DataFields.ResultOfNonTightenings).GetValue(_boolConverter.Convert);
-            set => GetField(GetNormalizedRevision(), (int)DataFields.ResultOfNonTightenings).SetValue(_boolConverter.Convert, value);
+            get => GetField(GetNormalizedRevision(), (int)DataFields.ResultOfNonTightenings).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.ResultOfNonTightenings).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool ResetAllIdentifiersAtJobDone
         {
-            get => GetField(GetNormalizedRevision(), (int)DataFields.ResetAllIdentifiersAtJobDone).GetValue(_boolConverter.Convert);
-            set => GetField(GetNormalizedRevision(), (int)DataFields.ResetAllIdentifiersAtJobDone).SetValue(_boolConverter.Convert, value);
+            get => GetField(GetNormalizedRevision(), (int)DataFields.ResetAllIdentifiersAtJobDone).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.ResetAllIdentifiersAtJobDone).SetValue(OpenProtocolConvert.ToString, value);
         }
         public Reserved Reserved
         {
-            get => (Reserved)GetField(GetNormalizedRevision(), (int)DataFields.Reserved).GetValue(_intConverter.Convert);
-            set => GetField(GetNormalizedRevision(), (int)DataFields.Reserved).SetValue(_intConverter.Convert, (int)value);
+            get => (Reserved)GetField(GetNormalizedRevision(), (int)DataFields.Reserved).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.Reserved).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
 
         public int JobSequenceNumber
         {
-            get => GetField(GetNormalizedRevision(), (int)DataFields.JobSequenceNumber).GetValue(_intConverter.Convert);
-            set => GetField(GetNormalizedRevision(), (int)DataFields.JobSequenceNumber).SetValue(_intConverter.Convert, value);
+            get => GetField(GetNormalizedRevision(), (int)DataFields.JobSequenceNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(GetNormalizedRevision(), (int)DataFields.JobSequenceNumber).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0140() : this(DEFAULT_REVISION)
@@ -130,9 +126,6 @@ namespace OpenProtocolInterpreter.Job.Advanced
         public Mid0140(Header header) : base(header)
         {
             JobList = new List<AdvancedJob>();
-            _intConverter = new Int32Converter();
-            _boolConverter = new BoolConverter();
-            _jobListConverter = new AdvancedJobListConverter(_intConverter, header.Revision);
         }
 
         public Mid0140(int revision) : this(new Header()
@@ -150,14 +143,13 @@ namespace OpenProtocolInterpreter.Job.Advanced
             var jobListField = GetField(revision, (int)DataFields.JobList);
             jobListField.Size = JobList.Count * GetJobListSize();
             AdjustDataFieldsIndexes();
-            jobListField.Value = _jobListConverter.Convert(JobList);
+            jobListField.Value = PackJobList();
             return base.Pack();
         }
 
         public override Mid Parse(string package)
         {
             Header = ProcessHeader(package);
-            _jobListConverter = new AdvancedJobListConverter(_intConverter, Header.Revision);
             int length = Header.Length;
             var revision = GetNormalizedRevision();
             foreach (var rev in RevisionsByFields[revision])
@@ -167,8 +159,20 @@ namespace OpenProtocolInterpreter.Job.Advanced
             jobListField.Size = length;
             AdjustDataFieldsIndexes();
             base.ProcessDataFields(package);
-            JobList = _jobListConverter.Convert(jobListField.Value).ToList();
+            JobList = AdvancedJob.ParseAll(jobListField.Value, Header.Revision).ToList();
             return this;
+        }
+
+        protected virtual string PackJobList()
+        {
+            var advancedJobsList = new List<string>();
+
+            foreach (var job in JobList)
+            {
+                advancedJobsList.Add(job.Pack(Header.Revision));
+            }
+
+            return string.Join(";", advancedJobsList);
         }
 
         private void AdjustDataFieldsIndexes()

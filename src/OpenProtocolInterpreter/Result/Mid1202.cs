@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using OpenProtocolInterpreter.Converters;
 
 namespace OpenProtocolInterpreter.Result
 {
@@ -25,34 +24,32 @@ namespace OpenProtocolInterpreter.Result
     /// </summary>
     public class Mid1202 : Mid, IResult, IController, IAcknowledgeable<Mid1203>, IAcceptableCommand
     {
-        private readonly IValueConverter<int> _intConverter;
-        private readonly IValueConverter<IEnumerable<VariableDataField>> _variableDataFieldListConverter;
         public const int MID = 1202;
 
         public int TotalNumberOfMessages
         {
-            get => GetField(1, (int)DataFields.TOTAL_MESSAGES).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.TOTAL_MESSAGES).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.TOTAL_MESSAGES).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.TOTAL_MESSAGES).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int MessageNumber
         {
-            get => GetField(1, (int)DataFields.MESSAGE_NUMBER).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.MESSAGE_NUMBER).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.MESSAGE_NUMBER).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.MESSAGE_NUMBER).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int ResultDataIdentifier
         {
-            get => GetField(1, (int)DataFields.RESULT_DATA_ID).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.RESULT_DATA_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.RESULT_DATA_ID).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.RESULT_DATA_ID).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int ObjectId
         {
-            get => GetField(1, (int)DataFields.OBJECT_ID).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.OBJECT_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.OBJECT_ID).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.OBJECT_ID).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int NumberOfDataFields
         {
-            get => GetField(1, (int)DataFields.NUMBER_DATA_FIELDS).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.NUMBER_DATA_FIELDS).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.NUMBER_DATA_FIELDS).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.NUMBER_DATA_FIELDS).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public List<VariableDataField> VariableDataFields { get; set; }
@@ -67,15 +64,13 @@ namespace OpenProtocolInterpreter.Result
 
         public Mid1202(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
-            _variableDataFieldListConverter = new VariableDataFieldListConverter(_intConverter);
             VariableDataFields = new List<VariableDataField>();
         }
 
         public override string Pack()
         {
             NumberOfDataFields = VariableDataFields.Count;
-            GetField(1, (int)DataFields.VARIABLE_DATA_FIELDS).SetValue(_variableDataFieldListConverter.Convert(VariableDataFields));
+            GetField(1, (int)DataFields.VARIABLE_DATA_FIELDS).SetValue(OpenProtocolConvert.ToString(VariableDataFields));
             return base.Pack();
         }
 
@@ -86,7 +81,7 @@ namespace OpenProtocolInterpreter.Result
             variableDataField.Size = Header.Length - variableDataField.Index;
             ProcessDataFields(package);
 
-            VariableDataFields = _variableDataFieldListConverter.Convert(variableDataField.Value).ToList();
+            VariableDataFields = VariableDataField.ParseAll(variableDataField.Value).ToList();
             return this;
         }
 

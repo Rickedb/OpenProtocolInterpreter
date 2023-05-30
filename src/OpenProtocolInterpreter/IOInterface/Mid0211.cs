@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.IOInterface
 {
@@ -14,48 +13,47 @@ namespace OpenProtocolInterpreter.IOInterface
     /// </summary>
     public class Mid0211 : Mid, IIOInterface, IController, IAcknowledgeable<Mid0212>
     {
-        private readonly IValueConverter<bool> _boolConverter;
         public const int MID = 211;
         
         public bool StatusDigInOne
         {
-            get => GetField(1,(int)DataFields.StatusDigIn1).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.StatusDigIn1).SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.StatusDigIn1).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1,(int)DataFields.StatusDigIn1).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool StatusDigInTwo
         {
-            get => GetField(1,(int)DataFields.StatusDigIn2).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.StatusDigIn2).SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.StatusDigIn2).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1,(int)DataFields.StatusDigIn2).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool StatusDigInThree
         {
-            get => GetField(1,(int)DataFields.StatusDigIn3).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.StatusDigIn3).SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.StatusDigIn3).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1,(int)DataFields.StatusDigIn3).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool StatusDigInFour
         {
-            get => GetField(1,(int)DataFields.StatusDigIn4).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.StatusDigIn4).SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.StatusDigIn4).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1,(int)DataFields.StatusDigIn4).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool StatusDigInFive
         {
-            get => GetField(1,(int)DataFields.StatusDigIn5).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.StatusDigIn5).SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.StatusDigIn5).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1,(int)DataFields.StatusDigIn5).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool StatusDigInSix
         {
-            get => GetField(1,(int)DataFields.StatusDigIn6).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.StatusDigIn6).SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.StatusDigIn6).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1,(int)DataFields.StatusDigIn6).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool StatusDigInSeven
         {
-            get => GetField(1,(int)DataFields.StatusDigIn7).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.StatusDigIn7).SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.StatusDigIn7).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1,(int)DataFields.StatusDigIn7).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool StatusDigInEight
         {
-            get => GetField(1,(int)DataFields.StatusDigIn8).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.StatusDigIn8).SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.StatusDigIn8).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1,(int)DataFields.StatusDigIn8).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0211() : this(new Header()
@@ -69,7 +67,6 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public Mid0211(Header header) : base(header)
         {
-            _boolConverter = new BoolConverter();
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

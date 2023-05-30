@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Tool
 {
@@ -14,13 +13,12 @@ namespace OpenProtocolInterpreter.Tool
     /// </summary>
     public class Mid0040 : Mid, ITool, IIntegrator, IAnswerableBy<Mid0041>
     {
-        private readonly IValueConverter<int> _intConverter;
         public const int MID = 40;
 
         public int ToolNumber
         {
-            get => GetField(6, (int)DataFields.ToolNumber).GetValue(_intConverter.Convert);
-            set => GetField(6, (int)DataFields.ToolNumber).SetValue(_intConverter.Convert, value);
+            get => GetField(6, (int)DataFields.ToolNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(6, (int)DataFields.ToolNumber).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0040() : this(DEFAULT_REVISION)
@@ -30,7 +28,6 @@ namespace OpenProtocolInterpreter.Tool
 
         public Mid0040(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
         }
 
         public Mid0040(int revision) : this(new Header()

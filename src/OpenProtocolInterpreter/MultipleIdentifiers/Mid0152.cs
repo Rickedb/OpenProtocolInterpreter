@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.MultipleIdentifiers
 {
@@ -18,7 +17,6 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
     /// </summary>
     public class Mid0152 : Mid, IMultipleIdentifier, IController, IAcknowledgeable<Mid0153>
     {
-        private readonly IValueConverter<IdentifierStatus> _identifierStatusConverter;
         public const int MID = 152;
 
         public IdentifierStatus FirstIdentifierStatus { get; set; }
@@ -36,15 +34,15 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
 
         public Mid0152(Header header) : base(header)
         {
-            _identifierStatusConverter = new IdentifierStatusConverter(new Int32Converter(), new BoolConverter());
+            
         }
 
         public override string Pack()
         {
-            GetField(1, (int)DataFields.FirstIdentifierStatus).Value = _identifierStatusConverter.Convert(FirstIdentifierStatus);
-            GetField(1, (int)DataFields.SecondIdentifierStatus).Value = _identifierStatusConverter.Convert(SecondIdentifierStatus);
-            GetField(1, (int)DataFields.ThirdIdentifierStatus).Value = _identifierStatusConverter.Convert(ThirdIdentifierStatus);
-            GetField(1, (int)DataFields.FourthIdentifierStatus).Value = _identifierStatusConverter.Convert(FourthIdentifierStatus);
+            GetField(1, (int)DataFields.FirstIdentifierStatus).Value = FirstIdentifierStatus.Pack();
+            GetField(1, (int)DataFields.SecondIdentifierStatus).Value = SecondIdentifierStatus.Pack();
+            GetField(1, (int)DataFields.ThirdIdentifierStatus).Value = ThirdIdentifierStatus.Pack();
+            GetField(1, (int)DataFields.FourthIdentifierStatus).Value = FourthIdentifierStatus.Pack();
             return base.Pack();
         }
 
@@ -52,10 +50,10 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
         {
             base.Parse(package);
 
-            FirstIdentifierStatus = _identifierStatusConverter.Convert(GetField(1, (int)DataFields.FirstIdentifierStatus).Value);
-            SecondIdentifierStatus = _identifierStatusConverter.Convert(GetField(1, (int)DataFields.SecondIdentifierStatus).Value);
-            ThirdIdentifierStatus = _identifierStatusConverter.Convert(GetField(1, (int)DataFields.ThirdIdentifierStatus).Value);
-            FourthIdentifierStatus = _identifierStatusConverter.Convert(GetField(1, (int)DataFields.FourthIdentifierStatus).Value);
+            FirstIdentifierStatus = IdentifierStatus.Parse(GetField(1, (int)DataFields.FirstIdentifierStatus).Value);
+            SecondIdentifierStatus = IdentifierStatus.Parse(GetField(1, (int)DataFields.SecondIdentifierStatus).Value);
+            ThirdIdentifierStatus = IdentifierStatus.Parse(GetField(1, (int)DataFields.ThirdIdentifierStatus).Value);
+            FourthIdentifierStatus = IdentifierStatus.Parse(GetField(1, (int)DataFields.FourthIdentifierStatus).Value);
 
             return this;
         }

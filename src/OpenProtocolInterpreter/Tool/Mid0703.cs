@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace OpenProtocolInterpreter.Tool
@@ -17,16 +16,14 @@ namespace OpenProtocolInterpreter.Tool
     /// </summary>
     public class Mid0703 : Mid, ITool, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
-        private readonly IValueConverter<int> _intConverter;
-        private readonly IValueConverter<IEnumerable<VariableDataField>> _variableDataFieldListConverter;
         public const int MID = 703;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.CalibrationFailed };
 
         public int ToolNumber
         {
-            get => GetField(1, (int)DataFields.ToolNumber).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.ToolNumber).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.ToolNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.ToolNumber).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int NumberOfCalibrationParameters => CalibrationParameters.Count;
         public List<VariableDataField> CalibrationParameters { get; set; }
@@ -41,15 +38,13 @@ namespace OpenProtocolInterpreter.Tool
 
         public Mid0703(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
-            _variableDataFieldListConverter = new VariableDataFieldListConverter(_intConverter);
             CalibrationParameters = new List<VariableDataField>();
         }
 
         public override string Pack()
         {
-            GetField(1, (int)DataFields.NumberOfCalibrationParameters).SetValue(_intConverter.Convert, CalibrationParameters.Count);
-            GetField(1, (int)DataFields.EachCalibrationParameter).Value = _variableDataFieldListConverter.Convert(CalibrationParameters);
+            GetField(1, (int)DataFields.NumberOfCalibrationParameters).SetValue(OpenProtocolConvert.ToString, CalibrationParameters.Count);
+            GetField(1, (int)DataFields.EachCalibrationParameter).Value = OpenProtocolConvert.ToString(CalibrationParameters);
             return base.Pack();
         }
 
@@ -59,7 +54,7 @@ namespace OpenProtocolInterpreter.Tool
             var dataFieldsField = GetField(1, (int)DataFields.EachCalibrationParameter);
             dataFieldsField.Size = Header.Length - dataFieldsField.Index;
             ProcessDataFields(package);
-            CalibrationParameters = _variableDataFieldListConverter.Convert(dataFieldsField.Value).ToList();
+            CalibrationParameters = VariableDataField.ParseAll(dataFieldsField.Value).ToList();
             return this;
         }
 

@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Alarm
@@ -12,8 +11,6 @@ namespace OpenProtocolInterpreter.Alarm
     /// </summary>
     public class Mid0071 : Mid, IAlarm, IController, IAcknowledgeable<Mid0072>
     {
-        private readonly IValueConverter<bool> _boolConverter;
-        private readonly IValueConverter<DateTime> _dateConverter;
         public const int MID = 71;
 
         public string ErrorCode
@@ -23,18 +20,18 @@ namespace OpenProtocolInterpreter.Alarm
         }
         public bool ControllerReadyStatus
         {
-            get => GetField(1, (int)DataFields.ControllerReadyStatus).GetValue(_boolConverter.Convert);
-            set => GetField(1, (int)DataFields.ControllerReadyStatus).SetValue(_boolConverter.Convert, value);
+            get => GetField(1, (int)DataFields.ControllerReadyStatus).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, (int)DataFields.ControllerReadyStatus).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool ToolReadyStatus
         {
-            get => GetField(1, (int)DataFields.ToolReadyStatus).GetValue(_boolConverter.Convert);
-            set => GetField(1, (int)DataFields.ToolReadyStatus).SetValue(_boolConverter.Convert, value);
+            get => GetField(1, (int)DataFields.ToolReadyStatus).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, (int)DataFields.ToolReadyStatus).SetValue(OpenProtocolConvert.ToString, value);
         }
         public DateTime Time
         {
-            get => GetField(1, (int)DataFields.Time).GetValue(_dateConverter.Convert);
-            set => GetField(1, (int)DataFields.Time).SetValue(_dateConverter.Convert, value);
+            get => GetField(1, (int)DataFields.Time).GetValue(OpenProtocolConvert.ToDateTime);
+            set => GetField(1, (int)DataFields.Time).SetValue(OpenProtocolConvert.ToString, value);
         }
         //Rev 2
         public string AlarmText
@@ -50,8 +47,6 @@ namespace OpenProtocolInterpreter.Alarm
 
         public Mid0071(Header header) : base(header)
         {
-            _boolConverter = new BoolConverter();
-            _dateConverter = new DateConverter();
             HandleRevision();
         }
 

@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.IOInterface
 {
@@ -17,15 +16,14 @@ namespace OpenProtocolInterpreter.IOInterface
     /// </summary>
     public class Mid0214 : Mid, IIOInterface, IIntegrator, IAnswerableBy<Mid0215>, IDeclinableCommand
     {
-        private readonly IValueConverter<int> _intConverter;
         public const int MID = 214;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.FaultyIODeviceId, Error.IODeviceNotConnected };
 
         public int DeviceNumber
         {
-            get => GetField(1,(int)DataFields.DeviceNumber).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.DeviceNumber).SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.DeviceNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.DeviceNumber).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0214() : this(DEFAULT_REVISION)
@@ -34,7 +32,6 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public Mid0214(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
         }
 
         public Mid0214(int revision) : this(new Header()

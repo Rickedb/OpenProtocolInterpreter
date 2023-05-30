@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Communication
 {
@@ -11,15 +10,14 @@ namespace OpenProtocolInterpreter.Communication
     /// </summary>
     public class Mid0001 : Mid, ICommunication, IIntegrator, IAnswerableBy<Mid0002>, IDeclinableCommand
     {
-        private readonly IValueConverter<bool> _boolConverter;
         public const int MID = 1;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.ClientAlreadyConnected, Error.MidRevisionUnsupported };
 
         public bool OptionalKeepAlive
         {
-            get => GetField(7, (int)DataFields.UseKeepAlive).GetValue(_boolConverter.Convert);
-            set => GetField(7, (int)DataFields.UseKeepAlive).SetValue(_boolConverter.Convert, value);
+            get => GetField(7, (int)DataFields.UseKeepAlive).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(7, (int)DataFields.UseKeepAlive).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0001() : this(DEFAULT_REVISION)
@@ -29,7 +27,6 @@ namespace OpenProtocolInterpreter.Communication
 
         public Mid0001(Header header) : base(header)
         {
-            _boolConverter = new BoolConverter();
         }
 
         public Mid0001(int revision) : this(new Header()

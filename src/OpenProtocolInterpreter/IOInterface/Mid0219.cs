@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.IOInterface
 {
@@ -15,15 +14,14 @@ namespace OpenProtocolInterpreter.IOInterface
     /// </summary>
     public class Mid0219 : Mid, IIOInterface, IIntegrator, IUnsubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private readonly IValueConverter<int> _intConverter;
         public const int MID = 219;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.RelayFunctionSubscriptionDoesntExists };
 
         public RelayNumber RelayNumber
         {
-            get => (RelayNumber)GetField(1, (int)DataFields.RelayNumber).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.RelayNumber).SetValue(_intConverter.Convert, (int)value);
+            get => (RelayNumber)GetField(1, (int)DataFields.RelayNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.RelayNumber).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
 
         public Mid0219() : this(new Header()
@@ -37,7 +35,6 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public Mid0219(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

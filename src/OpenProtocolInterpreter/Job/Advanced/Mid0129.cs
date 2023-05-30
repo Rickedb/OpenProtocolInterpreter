@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Job.Advanced
 {
@@ -18,20 +17,19 @@ namespace OpenProtocolInterpreter.Job.Advanced
     /// </summary>
     public class Mid0129 : Mid, IAdvancedJob, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
-        private readonly IValueConverter<int> _intConverter;
         public const int MID = 129;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JobBatchDecrementFailed };
 
         public int ChannelId
         {
-            get => GetField(2, (int)DataFields.ChannelId).GetValue(_intConverter.Convert);
-            set => GetField(2, (int)DataFields.ChannelId).SetValue(_intConverter.Convert, value);
+            get => GetField(2, (int)DataFields.ChannelId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(2, (int)DataFields.ChannelId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int ParameterSetId
         {
-            get => GetField(2, (int)DataFields.ParameterSetId).GetValue(_intConverter.Convert);
-            set => GetField(2, (int)DataFields.ParameterSetId).SetValue(_intConverter.Convert, value);
+            get => GetField(2, (int)DataFields.ParameterSetId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(2, (int)DataFields.ParameterSetId).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0129() : this(DEFAULT_REVISION)
@@ -41,7 +39,6 @@ namespace OpenProtocolInterpreter.Job.Advanced
 
         public Mid0129(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
         }
 
         public Mid0129(int revision) : this(new Header()

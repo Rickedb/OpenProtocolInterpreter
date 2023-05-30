@@ -1,7 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Communication
 {
@@ -17,21 +14,18 @@ namespace OpenProtocolInterpreter.Communication
     /// </summary>
     public class Mid0002 : Mid, ICommunication, IController
     {
-        private readonly IValueConverter<int> _intConverter;
-        private readonly IValueConverter<long> _longConverter;
-        private readonly IValueConverter<bool> _boolConverter;
         public const int MID = 2;
 
         public int CellId
         {
-            get => GetField(1, (int)DataFields.CellId).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.CellId).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.CellId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.CellId).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public int ChannelId
         {
-            get => GetField(1, (int)DataFields.ChannelId).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.ChannelId).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.ChannelId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.ChannelId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public string ControllerName
         {
@@ -81,8 +75,8 @@ namespace OpenProtocolInterpreter.Communication
         //Rev 5 
         public SystemType SystemType
         {
-            get => (SystemType)GetField(5, (int)DataFields.SystemType).GetValue(_intConverter.Convert);
-            set => GetField(5, (int)DataFields.SystemType).SetValue(_intConverter.Convert, (int)value);
+            get => (SystemType)GetField(5, (int)DataFields.SystemType).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(5, (int)DataFields.SystemType).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
 
         /// <summary>
@@ -95,21 +89,21 @@ namespace OpenProtocolInterpreter.Communication
         /// </summary>
         public SystemSubType SystemSubType
         {
-            get => (SystemSubType)GetField(5, (int)DataFields.SystemSubtype).GetValue(_intConverter.Convert);
-            set => GetField(5, (int)DataFields.SystemSubtype).SetValue(_intConverter.Convert, (int)value);
+            get => (SystemSubType)GetField(5, (int)DataFields.SystemSubtype).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(5, (int)DataFields.SystemSubtype).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
 
         //Rev 6
         public bool SequenceNumberSupport
         {
-            get => GetField(6, (int)DataFields.SequenceNumberSupport).GetValue(_boolConverter.Convert);
-            set => GetField(6, (int)DataFields.SequenceNumberSupport).SetValue(_boolConverter.Convert, value);
+            get => GetField(6, (int)DataFields.SequenceNumberSupport).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(6, (int)DataFields.SequenceNumberSupport).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public bool LinkingHandlingSupport
         {
-            get => GetField(6, (int)DataFields.LinkingHandlingSupport).GetValue(_boolConverter.Convert);
-            set => GetField(6, (int)DataFields.LinkingHandlingSupport).SetValue(_boolConverter.Convert, value);
+            get => GetField(6, (int)DataFields.LinkingHandlingSupport).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(6, (int)DataFields.LinkingHandlingSupport).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         /// <summary>
@@ -118,8 +112,8 @@ namespace OpenProtocolInterpreter.Communication
         /// </summary>
         public long StationCellId 
         {
-            get => GetField(6, (int)DataFields.StationCellId).GetValue(_longConverter.Convert);
-            set => GetField(6, (int)DataFields.StationCellId).SetValue(_longConverter.Convert, value);
+            get => GetField(6, (int)DataFields.StationCellId).GetValue(OpenProtocolConvert.ToInt64);
+            set => GetField(6, (int)DataFields.StationCellId).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         /// <summary>
@@ -145,8 +139,8 @@ namespace OpenProtocolInterpreter.Communication
         /// </summary>
         public bool OptionalKeepAlive 
         {
-            get => GetField(7, (int)DataFields.OptionalKeepAlive).GetValue(_boolConverter.Convert);
-            set => GetField(7, (int)DataFields.OptionalKeepAlive).SetValue(_boolConverter.Convert, value);
+            get => GetField(7, (int)DataFields.OptionalKeepAlive).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(7, (int)DataFields.OptionalKeepAlive).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0002() : this(DEFAULT_REVISION)
@@ -156,9 +150,7 @@ namespace OpenProtocolInterpreter.Communication
 
         public Mid0002(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
-            _longConverter = new Int64Converter();
-            _boolConverter = new BoolConverter();
+
         }
 
         public Mid0002(int revision) : this(new Header()

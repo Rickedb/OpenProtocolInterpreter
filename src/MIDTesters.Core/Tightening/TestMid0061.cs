@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Tightening;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace MIDTesters.Tightening
 {

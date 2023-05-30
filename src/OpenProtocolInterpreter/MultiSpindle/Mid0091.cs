@@ -1,7 +1,5 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace OpenProtocolInterpreter.MultiSpindle
 {
@@ -16,31 +14,27 @@ namespace OpenProtocolInterpreter.MultiSpindle
     /// </summary>
     public class Mid0091 : Mid, IMultiSpindle, IController, IAcknowledgeable<Mid0092>
     {
-        private readonly IValueConverter<int> _intConverter;
-        private readonly IValueConverter<bool> _boolConverter;
-        private readonly IValueConverter<DateTime> _dateConverter;
-        private readonly IValueConverter<IEnumerable<SpindleStatus>> _spindlesStatusConverter;
         public const int MID = 91;
 
         public int NumberOfSpindles
         {
-            get => GetField(1, (int)DataFields.NumberOfSpindles).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.NumberOfSpindles).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.NumberOfSpindles).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.NumberOfSpindles).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int SyncTighteningId
         {
-            get => GetField(1, (int)DataFields.SyncTighteningId).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.SyncTighteningId).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.SyncTighteningId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.SyncTighteningId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public DateTime Time
         {
-            get => GetField(1, (int)DataFields.Time).GetValue(_dateConverter.Convert);
-            set => GetField(1, (int)DataFields.Time).SetValue(_dateConverter.Convert, value);
+            get => GetField(1, (int)DataFields.Time).GetValue(OpenProtocolConvert.ToDateTime);
+            set => GetField(1, (int)DataFields.Time).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool SyncOverallStatus
         {
-            get => GetField(1, (int)DataFields.SyncOverallStatus).GetValue(_boolConverter.Convert);
-            set => GetField(1, (int)DataFields.SyncOverallStatus).SetValue(_boolConverter.Convert, value);
+            get => GetField(1, (int)DataFields.SyncOverallStatus).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, (int)DataFields.SyncOverallStatus).SetValue(OpenProtocolConvert.ToString, value);
         }
         public List<SpindleStatus> SpindlesStatus { get; set; }
 
@@ -55,17 +49,13 @@ namespace OpenProtocolInterpreter.MultiSpindle
 
         public Mid0091(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
-            _boolConverter = new BoolConverter();
-            _dateConverter = new DateConverter();
-            _spindlesStatusConverter = new SpindleStatusConverter(_intConverter, _boolConverter);
             if (SpindlesStatus == null)
                 SpindlesStatus = new List<SpindleStatus>();
         }
 
         public override string Pack()
         {
-            GetField(1, (int)DataFields.SpindleStatus).Value = _spindlesStatusConverter.Convert(SpindlesStatus);
+            GetField(1, (int)DataFields.SpindleStatus).Value = PackSpindlesStatus();
             return base.Pack();
         }
 
@@ -75,8 +65,37 @@ namespace OpenProtocolInterpreter.MultiSpindle
             var spindleField = GetField(1, (int)DataFields.SpindleStatus);
             spindleField.Size = Header.Length - spindleField.Index - 2;
             base.Parse(package);
-            SpindlesStatus = _spindlesStatusConverter.Convert(spindleField.Value).ToList();
+            SpindlesStatus = ParseSpindlesStatus(spindleField.Value);
             return this;
+        }
+
+        protected virtual string PackSpindlesStatus()
+        {
+            string pack = string.Empty;
+            foreach (var spindle in SpindlesStatus)
+                pack += OpenProtocolConvert.ToString('0', 2, DataField.PaddingOrientations.LeftPadded, spindle.SpindleNumber) +
+                           OpenProtocolConvert.ToString('0', 2, DataField.PaddingOrientations.LeftPadded, spindle.ChannelId) +
+                           OpenProtocolConvert.ToString(spindle.SyncOverallStatus);
+
+            return pack;
+        }
+
+        protected virtual List<SpindleStatus> ParseSpindlesStatus(string section)
+        {
+            var list = new List<SpindleStatus>();
+            for (int i = 0; i < section.Length; i += 5)
+            {
+                var obj = new SpindleStatus()
+                {
+                    SpindleNumber = OpenProtocolConvert.ToInt32(section.Substring(i, 2)),
+                    ChannelId = OpenProtocolConvert.ToInt32(section.Substring(i + 2, 2)),
+                    SyncOverallStatus = OpenProtocolConvert.ToBoolean(section.Substring(i + 4, 1))
+                };
+
+                list.Add(obj);
+            }
+
+            return list;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

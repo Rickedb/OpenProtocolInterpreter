@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.AutomaticManualMode
 {
@@ -31,18 +30,17 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
     /// </summary>
     public class Mid0411 : Mid, IAutomaticManualMode, IController
     {
-        private readonly IValueConverter<int> _intConverter;
         public const int MID = 411;
 
         public int AutoDisableSetting
         {
-            get => GetField(1, (int)DataFields.AutoDisableSetting).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.AutoDisableSetting).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.AutoDisableSetting).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.AutoDisableSetting).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int CurrentBatch
         {
-            get => GetField(1, (int)DataFields.CurrentBatch).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.CurrentBatch).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.CurrentBatch).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.CurrentBatch).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0411() : this(new Header()
@@ -56,7 +54,6 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
 
         public Mid0411(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

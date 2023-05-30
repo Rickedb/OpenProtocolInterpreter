@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.PLCUserData
 {
@@ -37,7 +36,6 @@ namespace OpenProtocolInterpreter.PLCUserData
     /// </summary>
     public class Mid0245 : Mid, IPLCUserData, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
-        private readonly IValueConverter<int> _intConverter;
         public const int MID = 245;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[]
@@ -49,8 +47,8 @@ namespace OpenProtocolInterpreter.PLCUserData
 
         public int Offset
         {
-            get => GetField(1, (int)DataFields.Offset).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.Offset).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.Offset).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.Offset).SetValue(OpenProtocolConvert.ToString, value);
         }
         public string UserData
         {
@@ -77,7 +75,6 @@ namespace OpenProtocolInterpreter.PLCUserData
 
         public Mid0245(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
             if (string.IsNullOrEmpty(UserData))
             {
                 UserData = string.Empty.PadRight(2);

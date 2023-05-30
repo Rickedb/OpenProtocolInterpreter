@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.UserInterface
 {
@@ -23,20 +22,19 @@ namespace OpenProtocolInterpreter.UserInterface
     /// </summary>
     public class Mid0111 : Mid, IUserInterface, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
-        private readonly IValueConverter<int> _intConverter;
         public const int MID = 111;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { };
 
         public int TextDuration
         {
-            get => GetField(1,(int)DataFields.TextDuration).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.TextDuration).SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.TextDuration).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.TextDuration).SetValue(OpenProtocolConvert.ToString, value);
         }
         public RemovalCondition RemovalCondition
         {
-            get => (RemovalCondition)GetField(1,(int)DataFields.RemovalCondition).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.RemovalCondition).SetValue(_intConverter.Convert, (int)value);
+            get => (RemovalCondition)GetField(1,(int)DataFields.RemovalCondition).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.RemovalCondition).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
         public string Line1
         {
@@ -69,7 +67,6 @@ namespace OpenProtocolInterpreter.UserInterface
 
         public Mid0111(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

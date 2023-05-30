@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Job.Advanced
 {
@@ -11,7 +10,6 @@ namespace OpenProtocolInterpreter.Job.Advanced
     /// </summary>
     public class Mid0130 : Mid, IAdvancedJob, IIntegrator, IAcceptableCommand
     {
-        private readonly IValueConverter<bool> _boolConverter;
         public const int MID = 130;
 
         /// <summary>
@@ -20,8 +18,8 @@ namespace OpenProtocolInterpreter.Job.Advanced
         /// </summary>
         public bool JobOffStatus
         {
-            get => GetField(1,(int)DataFields.JobOffStatus).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.JobOffStatus).SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.JobOffStatus).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1,(int)DataFields.JobOffStatus).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0130() : this(new Header()
@@ -35,7 +33,6 @@ namespace OpenProtocolInterpreter.Job.Advanced
 
         public Mid0130(Header header) : base(header)
         {
-            _boolConverter = new BoolConverter();
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

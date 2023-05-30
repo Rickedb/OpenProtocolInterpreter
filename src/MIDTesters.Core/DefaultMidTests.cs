@@ -7,7 +7,7 @@ namespace MIDTesters
     public class DefaultMidTests<TMid> : MidTester where TMid : Mid
     {
         [TestMethod]
-        [TestCategory("Defaults")]
+        [TestCategory("Default")]
         public void HasParameterlessConstructor()
         {
             var constructor = typeof(TMid).GetConstructor(new Type[] { });
@@ -15,7 +15,7 @@ namespace MIDTesters
         }
 
         [TestMethod]
-        [TestCategory("Defaults")]
+        [TestCategory("Default")]
         public void HasHeaderParameterConstructor()
         {
             var constructor = typeof(TMid).GetConstructor(new Type[] { typeof(Header) });

@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Time
@@ -12,13 +11,12 @@ namespace OpenProtocolInterpreter.Time
     /// </summary>
     public class Mid0082 : Mid, ITime, IIntegrator
     {
-        private readonly IValueConverter<DateTime> _dateConverter;
         public const int MID = 82;
 
         public DateTime Time
         {
-            get => GetField(1,(int)DataFields.Time).GetValue(_dateConverter.Convert);
-            set => GetField(1,(int)DataFields.Time).SetValue(_dateConverter.Convert, value);
+            get => GetField(1,(int)DataFields.Time).GetValue(OpenProtocolConvert.ToDateTime);
+            set => GetField(1,(int)DataFields.Time).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0082() : this(new Header()
@@ -31,7 +29,6 @@ namespace OpenProtocolInterpreter.Time
 
         public Mid0082(Header header) : base(header)
         {
-            _dateConverter = new DateConverter();
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

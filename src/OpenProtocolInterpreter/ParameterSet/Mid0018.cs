@@ -1,7 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.ParameterSet
 {
@@ -15,15 +12,14 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// </summary>
     public class Mid0018 : Mid, IParameterSet, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
-        private readonly IValueConverter<int> _intConverter;
         public const int MID = 18;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.ParameterSetCannotBeSet };
 
         public int ParameterSetId
         {
-            get => GetField(1,(int)DataFields.ParameterSetId).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.ParameterSetId).SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.ParameterSetId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.ParameterSetId).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0018() : this(new Header()
@@ -36,7 +32,6 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public Mid0018(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

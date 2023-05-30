@@ -1,6 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Communication
 {
@@ -26,13 +24,12 @@ namespace OpenProtocolInterpreter.Communication
     /// </summary>
     public class Mid0005 : Mid, ICommunication, IController
     {
-        private readonly IValueConverter<int> _intConverter;
         public const int MID = 5;
 
         public int MidAccepted
         {
-            get => GetField(1, (int)DataFields.MidAccepted).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.MidAccepted).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.MidAccepted).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.MidAccepted).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0005() : this(DEFAULT_REVISION)
@@ -42,7 +39,6 @@ namespace OpenProtocolInterpreter.Communication
 
         public Mid0005(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
         }
 
         public Mid0005(int revision) : this(new Header()

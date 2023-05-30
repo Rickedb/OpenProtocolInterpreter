@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.MotorTuning
 {
@@ -11,7 +10,6 @@ namespace OpenProtocolInterpreter.MotorTuning
     /// </summary>
     public class Mid0501 : Mid, IMotorTuning, IController, IAcknowledgeable<Mid0502>
     {
-        private readonly IValueConverter<bool> _boolConverter;
         public const int MID = 501;
 
         /// <summary>
@@ -20,8 +18,8 @@ namespace OpenProtocolInterpreter.MotorTuning
         /// </summary>
         public bool MotorTuneResult
         {
-            get => GetField(1, (int)DataFields.MotorTuneResult).GetValue(_boolConverter.Convert);
-            set => GetField(1, (int)DataFields.MotorTuneResult).SetValue(_boolConverter.Convert, value);
+            get => GetField(1, (int)DataFields.MotorTuneResult).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, (int)DataFields.MotorTuneResult).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0501() : this(new Header()
@@ -34,7 +32,6 @@ namespace OpenProtocolInterpreter.MotorTuning
 
         public Mid0501(Header header) : base(header)
         {
-            _boolConverter = new BoolConverter();
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

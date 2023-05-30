@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Alarm
@@ -13,15 +12,12 @@ namespace OpenProtocolInterpreter.Alarm
     /// </summary>
     public class Mid0076 : Mid, IAlarm, IController, IAcknowledgeable<Mid0077>
     {
-        private readonly IValueConverter<bool> _boolConverter;
-        private readonly IValueConverter<int> _intConverter;
-        private readonly IValueConverter<DateTime> _dateConverter;
         public const int MID = 76;
 
         public bool AlarmStatus
         {
-            get => GetField(1, (int)DataFields.AlarmStatus).GetValue(_boolConverter.Convert);
-            set => GetField(1, (int)DataFields.AlarmStatus).SetValue(_boolConverter.Convert, value);
+            get => GetField(1, (int)DataFields.AlarmStatus).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, (int)DataFields.AlarmStatus).SetValue(OpenProtocolConvert.ToString, value);
         }
         public string ErrorCode
         {
@@ -30,23 +26,23 @@ namespace OpenProtocolInterpreter.Alarm
         }
         public bool ControllerReadyStatus
         {
-            get => GetField(1, (int)DataFields.ControllerReadyStatus).GetValue(_boolConverter.Convert);
-            set => GetField(1, (int)DataFields.ControllerReadyStatus).SetValue(_boolConverter.Convert, value);
+            get => GetField(1, (int)DataFields.ControllerReadyStatus).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, (int)DataFields.ControllerReadyStatus).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool ToolReadyStatus
         {
-            get => GetField(1, (int)DataFields.ToolReadyStatus).GetValue(_boolConverter.Convert);
-            set => GetField(1, (int)DataFields.ToolReadyStatus).SetValue(_boolConverter.Convert, value);
+            get => GetField(1, (int)DataFields.ToolReadyStatus).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, (int)DataFields.ToolReadyStatus).SetValue(OpenProtocolConvert.ToString, value);
         }
         public DateTime Time
         {
-            get => GetField(1, (int)DataFields.Time).GetValue(_dateConverter.Convert);
-            set => GetField(1, (int)DataFields.Time).SetValue(_dateConverter.Convert, value);
+            get => GetField(1, (int)DataFields.Time).GetValue(OpenProtocolConvert.ToDateTime);
+            set => GetField(1, (int)DataFields.Time).SetValue(OpenProtocolConvert.ToString, value);
         }
         public ToolHealth ToolHealth
         {
-            get => (ToolHealth)GetField(3, (int)DataFields.ToolHealth).GetValue(_intConverter.Convert);
-            set => GetField(3, (int)DataFields.ToolHealth).SetValue(_intConverter.Convert, (int)value);
+            get => (ToolHealth)GetField(3, (int)DataFields.ToolHealth).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(3, (int)DataFields.ToolHealth).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
 
         public Mid0076() : this(DEFAULT_REVISION)
@@ -56,9 +52,6 @@ namespace OpenProtocolInterpreter.Alarm
 
         public Mid0076(Header header) : base(header)
         {
-            _boolConverter = new BoolConverter();
-            _dateConverter = new DateConverter();
-            _intConverter = new Int32Converter();
             HandleRevision();
         }
 

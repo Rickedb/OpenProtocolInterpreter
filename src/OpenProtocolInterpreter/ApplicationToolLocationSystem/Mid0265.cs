@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
 {
@@ -11,7 +10,6 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
     /// </summary>
     public class Mid0265 : Mid, IApplicationToolLocationSystem, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
-        private readonly IValueConverter<int> _intConverter;
         public const int MID = 265;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.MidRevisionUnsupported };
@@ -23,8 +21,8 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
         }
         public ToolStatus ToolStatus
         {
-            get => (ToolStatus)GetField(1,(int)DataFields.ToolStatus).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.ToolStatus).SetValue(_intConverter.Convert, (int)value);
+            get => (ToolStatus)GetField(1,(int)DataFields.ToolStatus).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.ToolStatus).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
 
         public Mid0265() : this(new Header()
@@ -38,7 +36,7 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
 
         public Mid0265(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
+
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

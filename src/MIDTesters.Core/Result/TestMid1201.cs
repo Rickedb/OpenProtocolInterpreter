@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Result;
-using OpenProtocolInterpreter.Statistic;
 
 namespace MIDTesters.Core.Result
 {

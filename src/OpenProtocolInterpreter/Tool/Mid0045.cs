@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Tool
 {
@@ -16,26 +15,24 @@ namespace OpenProtocolInterpreter.Tool
     /// </summary>
     public class Mid0045 : Mid, ITool, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
-        private readonly IValueConverter<decimal> _decimalConverter;
-        private readonly IValueConverter<int> _intConverter;
         public const int MID = 45;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.CalibrationFailed };
 
         public CalibrationUnit CalibrationValueUnit
         {
-            get => (CalibrationUnit)GetField(1, (int)DataFields.CalibrationValueUnit).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.CalibrationValueUnit).SetValue(_intConverter.Convert, (int)value);
+            get => (CalibrationUnit)GetField(1, (int)DataFields.CalibrationValueUnit).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.CalibrationValueUnit).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
         public decimal CalibrationValue
         {
-            get => GetField(1, (int)DataFields.CalibrationValue).GetValue(_decimalConverter.Convert);
-            set => GetField(1, (int)DataFields.CalibrationValue).SetValue(_decimalConverter.Convert, value);
+            get => GetField(1, (int)DataFields.CalibrationValue).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(1, (int)DataFields.CalibrationValue).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
         }
         public int ChannelNumber
         {
-            get => GetField(2, (int)DataFields.ChannelNumber).GetValue(_intConverter.Convert);
-            set => GetField(2, (int)DataFields.ChannelNumber).SetValue(_intConverter.Convert, value);
+            get => GetField(2, (int)DataFields.ChannelNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(2, (int)DataFields.ChannelNumber).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0045() : this(DEFAULT_REVISION)
@@ -44,8 +41,6 @@ namespace OpenProtocolInterpreter.Tool
 
         public Mid0045(Header header) : base(header)
         {
-            _decimalConverter = new DecimalTrucatedConverter(2);
-            _intConverter = new Int32Converter();
         }
 
         public Mid0045(int revision) : this(new Header()

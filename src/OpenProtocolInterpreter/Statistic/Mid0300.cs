@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Statistic
 {
@@ -19,20 +18,19 @@ namespace OpenProtocolInterpreter.Statistic
     /// </summary>
     public class Mid0300 : Mid, IStatistic, IIntegrator, IAnswerableBy<Mid0301>, IDeclinableCommand
     {
-        private readonly IValueConverter<int> _intConverter;
         public const int MID = 300;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.NoHistogramAvailable, Error.InvalidData };
 
         public int ParameterSetId
         {
-            get => GetField(1,(int)DataFields.ParameterSetId).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.ParameterSetId).SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.ParameterSetId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.ParameterSetId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public HistogramType HistogramType
         {
-            get => (HistogramType)GetField(1,(int)DataFields.HistogramType).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.HistogramType).SetValue(_intConverter.Convert, (int)value);
+            get => (HistogramType)GetField(1,(int)DataFields.HistogramType).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.HistogramType).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
 
         public Mid0300() : this(new Header()
@@ -45,7 +43,6 @@ namespace OpenProtocolInterpreter.Statistic
 
         public Mid0300(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

@@ -1,7 +1,5 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace OpenProtocolInterpreter.MultiSpindle
 {
@@ -23,18 +21,12 @@ namespace OpenProtocolInterpreter.MultiSpindle
     /// </summary>
     public class Mid0101 : Mid, IMultiSpindle, IController, IAcknowledgeable<Mid0102>
     {
-        private readonly IValueConverter<int> _intConverter;
-        private readonly IValueConverter<bool> _boolConverter;
-        private readonly IValueConverter<decimal> _decimalConverter;
-        private readonly IValueConverter<DateTime> _dateConverter;
-        private readonly IValueConverter<IEnumerable<SpindleOrPressStatus>> _spindleOrPressStatusListConverter;
-
         public const int MID = 101;
 
         public int NumberOfSpindlesOrPresses
         {
-            get => GetField(1, (int)DataFields.NumberOfSpindlesOrPresses).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.NumberOfSpindlesOrPresses).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.NumberOfSpindlesOrPresses).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.NumberOfSpindlesOrPresses).SetValue(OpenProtocolConvert.ToString, value);
         }
         public string VinNumber
         {
@@ -43,89 +35,89 @@ namespace OpenProtocolInterpreter.MultiSpindle
         }
         public int JobId
         {
-            get => GetField(1, (int)DataFields.JobId).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.JobId).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.JobId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.JobId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int ParameterSetId
         {
-            get => GetField(1, (int)DataFields.ParameterSetId).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.ParameterSetId).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.ParameterSetId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.ParameterSetId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int BatchSize
         {
-            get => GetField(1, (int)DataFields.BatchSize).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.BatchSize).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.BatchSize).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.BatchSize).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int BatchCounter
         {
-            get => GetField(1, (int)DataFields.BatchCounter).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.BatchCounter).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.BatchCounter).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.BatchCounter).SetValue(OpenProtocolConvert.ToString, value);
         }
         public BatchStatus BatchStatus
         {
-            get => (BatchStatus)GetField(1, (int)DataFields.BatchStatus).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.BatchStatus).SetValue(_intConverter.Convert, (int)value);
+            get => (BatchStatus)GetField(1, (int)DataFields.BatchStatus).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.BatchStatus).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
         public decimal TorqueOrForceMinLimit
         {
-            get => GetField(1, (int)DataFields.TorqueOrForceMinLimit).GetValue(_decimalConverter.Convert);
-            set => GetField(1, (int)DataFields.TorqueOrForceMinLimit).SetValue(_decimalConverter.Convert, value);
+            get => GetField(1, (int)DataFields.TorqueOrForceMinLimit).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(1, (int)DataFields.TorqueOrForceMinLimit).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
         }
         public decimal TorqueOrForceMaxLimit
         {
-            get => GetField(1, (int)DataFields.TorqueOrForceMaxLimit).GetValue(_decimalConverter.Convert);
-            set => GetField(1, (int)DataFields.TorqueOrForceMaxLimit).SetValue(_decimalConverter.Convert, value);
+            get => GetField(1, (int)DataFields.TorqueOrForceMaxLimit).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(1, (int)DataFields.TorqueOrForceMaxLimit).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
         }
         public decimal TorqueOrForceFinalTarget
         {
-            get => GetField(1, (int)DataFields.TorqueOrForceFinalTarget).GetValue(_decimalConverter.Convert);
-            set => GetField(1, (int)DataFields.TorqueOrForceFinalTarget).SetValue(_decimalConverter.Convert, value);
+            get => GetField(1, (int)DataFields.TorqueOrForceFinalTarget).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(1, (int)DataFields.TorqueOrForceFinalTarget).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
         }
         public decimal AngleOrStrokeMinLimit
         {
-            get => GetField(1, (int)DataFields.AngleOrStrokeMinLimit).GetValue(_decimalConverter.Convert);
-            set => GetField(1, (int)DataFields.AngleOrStrokeMinLimit).SetValue(_decimalConverter.Convert, value);
+            get => GetField(1, (int)DataFields.AngleOrStrokeMinLimit).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(1, (int)DataFields.AngleOrStrokeMinLimit).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
         }
         public decimal AngleOrStrokeMaxLimit
         {
-            get => GetField(1, (int)DataFields.AngleOrStrokeMaxLimit).GetValue(_decimalConverter.Convert);
-            set => GetField(1, (int)DataFields.AngleOrStrokeMaxLimit).SetValue(_decimalConverter.Convert, value);
+            get => GetField(1, (int)DataFields.AngleOrStrokeMaxLimit).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(1, (int)DataFields.AngleOrStrokeMaxLimit).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
         }
         public decimal FinalAngleOrStrokeTarget
         {
-            get => GetField(1, (int)DataFields.FinalAngleOrStrokeTarget).GetValue(_decimalConverter.Convert);
-            set => GetField(1, (int)DataFields.FinalAngleOrStrokeTarget).SetValue(_decimalConverter.Convert, value);
+            get => GetField(1, (int)DataFields.FinalAngleOrStrokeTarget).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(1, (int)DataFields.FinalAngleOrStrokeTarget).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
         }
         public DateTime LastChangeInParameterSet
         {
-            get => GetField(1, (int)DataFields.LastChangeInParameterSet).GetValue(_dateConverter.Convert);
-            set => GetField(1, (int)DataFields.LastChangeInParameterSet).SetValue(_dateConverter.Convert, value);
+            get => GetField(1, (int)DataFields.LastChangeInParameterSet).GetValue(OpenProtocolConvert.ToDateTime);
+            set => GetField(1, (int)DataFields.LastChangeInParameterSet).SetValue(OpenProtocolConvert.ToString, value);
         }
         public DateTime TimeStamp
         {
-            get => GetField(1, (int)DataFields.Timestamp).GetValue(_dateConverter.Convert);
-            set => GetField(1, (int)DataFields.Timestamp).SetValue(_dateConverter.Convert, value);
+            get => GetField(1, (int)DataFields.Timestamp).GetValue(OpenProtocolConvert.ToDateTime);
+            set => GetField(1, (int)DataFields.Timestamp).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int SyncTighteningId
         {
-            get => GetField(1, (int)DataFields.SyncTighteningId).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.SyncTighteningId).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.SyncTighteningId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.SyncTighteningId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool SyncOverallStatus
         {
-            get => GetField(1, (int)DataFields.SyncOverallStatus).GetValue(_boolConverter.Convert);
-            set => GetField(1, (int)DataFields.SyncOverallStatus).SetValue(_boolConverter.Convert, value);
+            get => GetField(1, (int)DataFields.SyncOverallStatus).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, (int)DataFields.SyncOverallStatus).SetValue(OpenProtocolConvert.ToString, value);
         }
         public List<SpindleOrPressStatus> SpindlesOrPressesStatus { get; set; }
         public SystemSubType SystemSubType
         {
-            get => (SystemSubType)GetField(4, (int)DataFields.SystemSubType).GetValue(_intConverter.Convert);
-            set => GetField(4, (int)DataFields.SystemSubType).SetValue(_intConverter.Convert, (int)value);
+            get => (SystemSubType)GetField(4, (int)DataFields.SystemSubType).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(4, (int)DataFields.SystemSubType).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
         public int JobSequenceNumber
         {
-            get => GetField(5, (int)DataFields.JobSequenceNumber).GetValue(_intConverter.Convert);
-            set => GetField(5, (int)DataFields.JobSequenceNumber).SetValue(_intConverter.Convert, value);
+            get => GetField(5, (int)DataFields.JobSequenceNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(5, (int)DataFields.JobSequenceNumber).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0101() : this(DEFAULT_REVISION)
@@ -135,11 +127,7 @@ namespace OpenProtocolInterpreter.MultiSpindle
 
         public Mid0101(Header header) : base(header)
         {
-            _boolConverter = new BoolConverter();
-            _intConverter = new Int32Converter();
-            _dateConverter = new DateConverter();
-            _decimalConverter = new DecimalTrucatedConverter(2);
-            _spindleOrPressStatusListConverter = new SpindleOrPressStatusListConverter(_intConverter, _boolConverter, _decimalConverter);
+
         }
 
         public Mid0101(int revision) : this(new Header()
@@ -154,7 +142,7 @@ namespace OpenProtocolInterpreter.MultiSpindle
         {
             var spindesOrPressesStatusField = GetField(1, (int)DataFields.SpindesOrPressesStatus);
             spindesOrPressesStatusField.Size = SpindlesOrPressesStatus.Count * 18;
-            spindesOrPressesStatusField.Value = _spindleOrPressStatusListConverter.Convert(SpindlesOrPressesStatus);
+            spindesOrPressesStatusField.Value = PackSpindlesOrPressesStatus();
             return base.Pack();
         }
 
@@ -162,7 +150,7 @@ namespace OpenProtocolInterpreter.MultiSpindle
         {
             Header = ProcessHeader(package);
             var spindleOrPressesField = GetField(1, (int)DataFields.NumberOfSpindlesOrPresses);
-            int spindleOrPresses = _intConverter.Convert(package.Substring(spindleOrPressesField.Index + 2, spindleOrPressesField.Size));
+            int spindleOrPresses = OpenProtocolConvert.ToInt32(package.Substring(spindleOrPressesField.Index + 2, spindleOrPressesField.Size));
             var spindesOrPressesStatusField = GetField(1, (int)DataFields.SpindesOrPressesStatus);
             spindesOrPressesStatusField.Size = spindleOrPresses * 18;
             if(Header.Revision > 3)
@@ -175,8 +163,47 @@ namespace OpenProtocolInterpreter.MultiSpindle
                 }
             }
             ProcessDataFields(package);
-            SpindlesOrPressesStatus = _spindleOrPressStatusListConverter.Convert(spindesOrPressesStatusField.Value).ToList();
+            SpindlesOrPressesStatus = ParseSpindlesOrPressesStatus(spindesOrPressesStatusField.Value);
             return this;
+        }
+
+        protected virtual string PackSpindlesOrPressesStatus()
+        {
+            string package = string.Empty;
+            foreach (var v in SpindlesOrPressesStatus)
+            {
+                package += OpenProtocolConvert.ToString('0', 2, DataField.PaddingOrientations.LeftPadded, v.SpindleOrPressNumber) +
+                           OpenProtocolConvert.ToString('0', 2, DataField.PaddingOrientations.LeftPadded, v.ChannelId) +
+                           OpenProtocolConvert.ToString(v.OverallStatus) +
+                           OpenProtocolConvert.ToString((int)v.TorqueOrForceStatus) +
+                           OpenProtocolConvert.TruncatedDecimalToString('0', 6, DataField.PaddingOrientations.LeftPadded, v.TorqueOrForce) +
+                           OpenProtocolConvert.ToString(v.AngleOrStrokeStatus) +
+                           OpenProtocolConvert.ToString('0', 5, DataField.PaddingOrientations.LeftPadded, v.AngleOrStroke);
+            }
+
+            return package;
+        }
+
+        protected virtual List<SpindleOrPressStatus> ParseSpindlesOrPressesStatus(string section)
+        {
+            var list = new List<SpindleOrPressStatus>();
+            for (int i = 0; i < section.Length; i += 18)
+            {
+                var spindleValue = section.Substring(i, 18);
+                var obj = new SpindleOrPressStatus()
+                {
+                    SpindleOrPressNumber = OpenProtocolConvert.ToInt32(spindleValue.Substring(0, 2)),
+                    ChannelId = OpenProtocolConvert.ToInt32(spindleValue.Substring(2, 2)),
+                    OverallStatus = OpenProtocolConvert.ToBoolean(spindleValue.Substring(4, 1)),
+                    TorqueOrForceStatus = (TighteningValueStatus)OpenProtocolConvert.ToInt32(spindleValue.Substring(5, 1)),
+                    TorqueOrForce = OpenProtocolConvert.ToTruncatedDecimal(spindleValue.Substring(6, 6)),
+                    AngleOrStrokeStatus = OpenProtocolConvert.ToBoolean(spindleValue.Substring(12, 1)),
+                    AngleOrStroke = OpenProtocolConvert.ToInt32(spindleValue.Substring(13, 5))
+                };
+                list.Add(obj);
+            }
+
+            return list;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

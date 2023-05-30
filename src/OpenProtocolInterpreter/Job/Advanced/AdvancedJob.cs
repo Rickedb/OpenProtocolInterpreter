@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.Job.Advanced
+﻿using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.Job.Advanced
 {
     /// <summary>
     /// Represents a advanced job entity
@@ -22,135 +24,85 @@
         public DecrementBatchAfterLoosening DecrementBatchAfterLoosening { get; set; }
         public CurrentBatchStatus CurrentBatchStatus { get; set; }
 
-        /// <summary>
-        /// Represents a advanced job entity
-        /// </summary>
-        public AdvancedJob()
+        public string Pack(int revision)
         {
+            var fields = new List<string>
+                {
+                    OpenProtocolConvert.ToString('0', 2, DataField.PaddingOrientations.LeftPadded, ChannelId),
+                    OpenProtocolConvert.ToString('0', 3, DataField.PaddingOrientations.LeftPadded, revision),
+                    OpenProtocolConvert.ToString((int)revision),
+                    OpenProtocolConvert.ToString('0', 2, DataField.PaddingOrientations.LeftPadded, revision),
+                    OpenProtocolConvert.ToString('0', 2, DataField.PaddingOrientations.LeftPadded, revision)
+                };
 
+            if (revision > 1)
+            {
+                fields.Add(OpenProtocolConvert.ToString('0', 2, DataField.PaddingOrientations.LeftPadded, revision));
+                if (revision != 999)
+                {
+                    fields.Add(OpenProtocolConvert.ToString('0', 4, DataField.PaddingOrientations.LeftPadded, revision));
+                    fields.Add(OpenProtocolConvert.TruncatePadded(' ', 25, DataField.PaddingOrientations.RightPadded, JobStepName));
+                    fields.Add(OpenProtocolConvert.ToString('0', 2, DataField.PaddingOrientations.LeftPadded, revision));
+                    if (revision == 3)
+                    {
+                        fields.Add(OpenProtocolConvert.ToString((int)ToolLoosening));
+                        fields.Add(OpenProtocolConvert.ToString((int)JobBatchMode));
+                        fields.Add(OpenProtocolConvert.ToString((int)BatchStatusAtIncrement));
+                        fields.Add(OpenProtocolConvert.ToString((int)DecrementBatchAfterLoosening));
+                        fields.Add(OpenProtocolConvert.ToString((int)CurrentBatchStatus));
+                    }
+                }
+            }
+
+            return string.Join(":", fields);
         }
 
-        /// <summary>
-        /// Revision 1 constructor
-        /// </summary>
-        /// <param name="channelId">two ASCII characters, range 00-99</param>
-        /// <param name="programId">parameter set ID or Multistage ID, three ASCII characters, range 000-999</param>
-        /// <param name="autoSelect">One ASCII character,
-        ///     <para>0=None</para>
-        ///     <para>1=Auto Next Change</para> 
-        ///     <para>2=I/O</para> 
-        ///     <para>6=Fieldbus</para> 
-        ///     <para>8=Socket tray</para>
-        /// </param>
-        /// <param name="batchSize">Two ASCII characters, range 00-99</param>
-        /// <param name="maxCoherentNok">Two ASCII characters, range 00-99</param>
-        public AdvancedJob(int channelId, int programId, AutoSelect autoSelect, int batchSize, int maxCoherentNok)
+        public static AdvancedJob Parse(string section, int revision)
         {
-            ChannelId = channelId;
-            ProgramId = programId;
-            AutoSelect = autoSelect;
-            BatchSize = batchSize;
-            MaxCoherentNok = maxCoherentNok;
+            var fields = section.Split(':');
+            var obj = new AdvancedJob()
+            {
+                ChannelId = OpenProtocolConvert.ToInt32(fields[0]),
+                ProgramId = OpenProtocolConvert.ToInt32(fields[1]),
+                AutoSelect = (AutoSelect)OpenProtocolConvert.ToInt32(fields[2]),
+                BatchSize = OpenProtocolConvert.ToInt32(fields[3]),
+                MaxCoherentNok = OpenProtocolConvert.ToInt32(fields[4])
+            };
+
+            if (revision > 1)
+            {
+                obj.BatchCounter = OpenProtocolConvert.ToInt32(fields[5]);
+                if (revision != 999)
+                {
+                    obj.IdentifierNumber = OpenProtocolConvert.ToInt32(fields[6]);
+                    obj.JobStepName = fields[7];
+                    obj.JobStepType = OpenProtocolConvert.ToInt32(fields[8]);
+                    if (revision == 3)
+                    {
+                        obj.ToolLoosening = (ToolLoosening)OpenProtocolConvert.ToInt32(fields[9]);
+                        obj.JobBatchMode = (BatchMode)OpenProtocolConvert.ToInt32(fields[10]);
+                        obj.BatchStatusAtIncrement = (BatchStatusAtIncrement)OpenProtocolConvert.ToInt32(fields[11]);
+                        obj.DecrementBatchAfterLoosening = (DecrementBatchAfterLoosening)OpenProtocolConvert.ToInt32(fields[12]);
+                        obj.CurrentBatchStatus = (CurrentBatchStatus)OpenProtocolConvert.ToInt32(fields[13]);
+                    }
+                }
+            }
+
+            return obj;
         }
 
-        /// <summary>
-        /// Revision 2 constructor
-        /// </summary>
-        /// <param name="channelId">two ASCII characters, range 00-99</param>
-        /// <param name="programId">parameter set ID or Multistage ID, three ASCII characters, range 000-999</param>
-        /// <param name="autoSelect">One ASCII character,
-        ///     <para>0=None</para>
-        ///     <para>1=Auto Next Change</para> 
-        ///     <para>2=I/O</para> 
-        ///     <para>6=Fieldbus</para> 
-        ///     <para>8=Socket tray</para>
-        /// </param>
-        /// <param name="batchSize">Two ASCII characters, range 00-99</param>
-        /// <param name="maxCoherentNok">Two ASCII characters, range 00-99</param>
-        /// <param name="batchCounter">Two ASCII characters, range 00-99</param>
-        /// <param name="identifierNumber">Four ASCII characters, range 0000-9999 (Socket(s), EndFitting(s)…)</param>
-        /// <param name="jobStepName">25 ASCII characters</param>
-        /// <param name="jobStepType">Two ASCII characters, range 00-99</param>
-        public AdvancedJob(int channelId, int programId, AutoSelect autoSelect, int batchSize, int maxCoherentNok, int batchCounter, 
-            int identifierNumber, string jobStepName, int jobStepType) : this(channelId, programId, autoSelect, batchSize, maxCoherentNok, batchCounter)
+        public static IEnumerable<AdvancedJob> ParseAll(string section, int revision)
         {
-            IdentifierNumber = identifierNumber;
-            JobStepName = jobStepName;
-            JobStepType = jobStepType;
-        }
+            if (string.IsNullOrEmpty(section))
+            {
+                yield break;
+            }
 
-        /// <summary>
-        /// Revision 3 constructor
-        /// </summary>
-        /// <param name="channelId">two ASCII characters, range 00-99</param>
-        /// <param name="programId">parameter set ID or Multistage ID, three ASCII characters, range 000-999</param>
-        /// <param name="autoSelect">One ASCII character,
-        ///     <para>0=None</para>
-        ///     <para>1=Auto Next Change</para> 
-        ///     <para>2=I/O</para> 
-        ///     <para>6=Fieldbus</para> 
-        ///     <para>8=Socket tray</para>
-        /// </param>
-        /// <param name="batchSize">Two ASCII characters, range 00-99</param>
-        /// <param name="maxCoherentNok">Two ASCII characters, range 00-99</param>
-        /// <param name="batchCounter">Two ASCII characters, range 00-99</param>
-        /// <param name="identifierNumber">Four ASCII characters, range 0000-9999 (Socket(s), EndFitting(s)…)</param>
-        /// <param name="jobStepName">25 ASCII characters</param>
-        /// <param name="jobStepType">Two ASCII characters, range 00-99</param>
-        /// <param name="toolLoosening">1 ASCII character.
-        ///     <para>0=Enable</para> 
-        ///     <para>1=Disable</para>
-        ///     <para>2=Enable only on NOK tightening</para>
-        /// </param>
-        /// <param name="jobBatchMode">1 ASCII character. 
-        ///     <para>0=only the OK tightenings are counted</para>
-        ///     <para>1=both the OK and NOK tightenings are counted</para>
-        /// </param>
-        /// <param name="batchStatusAtIncrement">1 ASCII character. Batch status after performing an increment or a bypass parameter set: 
-        ///     <para>0=OK</para>
-        ///     <para>1=NOK</para>
-        /// </param>
-        /// <param name="decrementBatchAfterLoosening">1 ASCII character.
-        ///     <para>0=Never</para>
-        ///     <para>1=Always</para>
-        ///     <para>2=After OK</para>
-        /// </param>
-        /// <param name="currentBatchStatus">1 ASCII character: 
-        ///     <para>0=Not started</para>
-        ///     <para>1=OK</para>
-        ///     <para>2=NOK</para>
-        /// </param>
-        public AdvancedJob(int channelId, int programId, AutoSelect autoSelect, int batchSize, int maxCoherentNok, int batchCounter,
-            int identifierNumber, string jobStepName, int jobStepType, ToolLoosening toolLoosening, BatchMode jobBatchMode, 
-            BatchStatusAtIncrement batchStatusAtIncrement, DecrementBatchAfterLoosening decrementBatchAfterLoosening, CurrentBatchStatus currentBatchStatus) 
-            : this(channelId, programId, autoSelect, batchSize, maxCoherentNok, batchCounter, identifierNumber, jobStepName, jobStepType)
-        {
-            ToolLoosening = toolLoosening;
-            JobBatchMode = jobBatchMode;
-            BatchStatusAtIncrement = batchStatusAtIncrement;
-            DecrementBatchAfterLoosening = decrementBatchAfterLoosening;
-            CurrentBatchStatus = currentBatchStatus;
-        }
-
-        /// <summary>
-        /// Revision 999 constructor
-        /// </summary>
-        /// <param name="channelId">two ASCII characters, range 00-99</param>
-        /// <param name="programId">parameter set ID or Multistage ID, three ASCII characters, range 000-999</param>
-        /// <param name="autoSelect">One ASCII character,
-        ///     <para>0=None</para>
-        ///     <para>1=Auto Next Change</para> 
-        ///     <para>2=I/O</para> 
-        ///     <para>6=Fieldbus</para> 
-        ///     <para>8=Socket tray</para>
-        /// </param>
-        /// <param name="batchSize">Two ASCII characters, range 00-99</param>
-        /// <param name="maxCoherentNok">Two ASCII characters, range 00-99</param>
-        /// <param name="batchCounter">Two ASCII characters, range 00-99</param>
-        public AdvancedJob(int channelId, int programId, AutoSelect autoSelect, int batchSize, int maxCoherentNok, int batchCounter) 
-            : this(channelId, programId, autoSelect, batchSize, maxCoherentNok)
-        {
-            BatchCounter = batchCounter;
+            var splitted = section.Split(';');
+            foreach (var advancedJob in splitted)
+            {
+                yield return Parse(advancedJob, revision);
+            }
         }
     }
 }
