@@ -135,18 +135,18 @@ namespace OpenProtocolInterpreter.Job
                     {
                         1, new List<DataField>()
                                 {
-                                    new DataField((int)DataFields.JobId, 20, 2, '0', DataField.PaddingOrientations.LeftPadded),
+                                    new DataField((int)DataFields.JobId, 20, 2, '0', PaddingOrientation.LeftPadded),
                                     new DataField((int)DataFields.JobName, 24, 25, ' '),
                                     new DataField((int)DataFields.ForcedOrder, 51, 1),
-                                    new DataField((int)DataFields.MaxTimeForFirstTightening, 54, 4, '0', DataField.PaddingOrientations.LeftPadded),
-                                    new DataField((int)DataFields.MaxTimeToCompleteJob, 60, 5, '0', DataField.PaddingOrientations.LeftPadded),
+                                    new DataField((int)DataFields.MaxTimeForFirstTightening, 54, 4, '0', PaddingOrientation.LeftPadded),
+                                    new DataField((int)DataFields.MaxTimeToCompleteJob, 60, 5, '0', PaddingOrientation.LeftPadded),
                                     new DataField((int)DataFields.JobBatchDone, 67, 1),
                                     new DataField((int)DataFields.LockAtJobDone, 70, 1),
                                     new DataField((int)DataFields.UseLineControl, 73, 1),
                                     new DataField((int)DataFields.RepeatJob, 76, 1),
                                     new DataField((int)DataFields.ToolLoosening, 79, 1),
                                     new DataField((int)DataFields.Reserved, 82, 1),
-                                    new DataField((int)DataFields.NumberOfParameterSets, 85, 2, '0', DataField.PaddingOrientations.LeftPadded),
+                                    new DataField((int)DataFields.NumberOfParameterSets, 85, 2, '0', PaddingOrientation.LeftPadded),
                                     new DataField((int)DataFields.ParameterSetList, 89, 0) // defined at runtime
                                 }
                     },

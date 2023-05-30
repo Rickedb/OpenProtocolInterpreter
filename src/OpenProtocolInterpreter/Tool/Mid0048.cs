@@ -43,7 +43,7 @@ namespace OpenProtocolInterpreter.Tool
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.PairingStatus, 20, 2, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.PairingStatus, 20, 2, '0', PaddingOrientation.LeftPadded),
                                 new DataField((int)DataFields.Timestamp, 24, 19)
                             }
                 }

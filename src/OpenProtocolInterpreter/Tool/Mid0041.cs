@@ -143,7 +143,7 @@ namespace OpenProtocolInterpreter.Tool
 
         }
 
-        protected virtual string PackOpenEndData(char paddingChar, int size, DataField.PaddingOrientations orientation, OpenEndData value)
+        protected virtual string PackOpenEndData(char paddingChar, int size, PaddingOrientation orientation, OpenEndData value)
             => value.Pack();
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -154,7 +154,7 @@ namespace OpenProtocolInterpreter.Tool
                     1, new List<DataField>()
                             {
                                 new DataField((int)DataFields.ToolSerialNumber, 20, 14, ' '),
-                                new DataField((int)DataFields.ToolNumberOfTightenings, 36, 10, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.ToolNumberOfTightenings, 36, 10, '0', PaddingOrientation.LeftPadded),
                                 new DataField((int)DataFields.LastCalibrationDate, 48, 19),
                                 new DataField((int)DataFields.ControllerSerialNumber, 69, 10, ' ')
                             }
@@ -162,11 +162,11 @@ namespace OpenProtocolInterpreter.Tool
                 {
                     2, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.CalibrationValue, 81, 6, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.CalibrationValue, 81, 6, '0', PaddingOrientation.LeftPadded),
                                 new DataField((int)DataFields.LastServiceDate, 89, 19),
-                                new DataField((int)DataFields.TighteningsSinceService, 110, 10, '0', DataField.PaddingOrientations.LeftPadded),
-                                new DataField((int)DataFields.ToolType, 122, 2, '0', DataField.PaddingOrientations.LeftPadded),
-                                new DataField((int)DataFields.MotorSize, 126, 2, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.TighteningsSinceService, 110, 10, '0', PaddingOrientation.LeftPadded),
+                                new DataField((int)DataFields.ToolType, 122, 2, '0', PaddingOrientation.LeftPadded),
+                                new DataField((int)DataFields.MotorSize, 126, 2, '0', PaddingOrientation.LeftPadded),
                                 new DataField((int)DataFields.OpenEndData, 130, 3),
                                 new DataField((int)DataFields.ControllerSoftwareVersion, 135, 19, ' ')
                             }
@@ -174,15 +174,15 @@ namespace OpenProtocolInterpreter.Tool
                 {
                     3, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.ToolMaxTorque, 156, 6, '0', DataField.PaddingOrientations.LeftPadded),
-                                new DataField((int)DataFields.GearRatio, 164, 6, '0', DataField.PaddingOrientations.LeftPadded),
-                                new DataField((int)DataFields.ToolFullSpeed, 172, 6, '0', DataField.PaddingOrientations.LeftPadded)
+                                new DataField((int)DataFields.ToolMaxTorque, 156, 6, '0', PaddingOrientation.LeftPadded),
+                                new DataField((int)DataFields.GearRatio, 164, 6, '0', PaddingOrientation.LeftPadded),
+                                new DataField((int)DataFields.ToolFullSpeed, 172, 6, '0', PaddingOrientation.LeftPadded)
                             }
                 },
                 {
                     4, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.PrimaryTool, 180, 2, '0', DataField.PaddingOrientations.LeftPadded)
+                                new DataField((int)DataFields.PrimaryTool, 180, 2, '0', PaddingOrientation.LeftPadded)
                             }
                 },
                 {
@@ -194,16 +194,16 @@ namespace OpenProtocolInterpreter.Tool
                 {
                     6, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.ToolNumber, 198, 4, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.ToolNumber, 198, 4, '0', PaddingOrientation.LeftPadded),
                                 new DataField((int)DataFields.ToolArticleNumber, 204, 30, ' ')
                             }
                 },
                 {
                     7, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.RundownMinSpeed, 236, 6, '0', DataField.PaddingOrientations.LeftPadded),
-                                new DataField((int)DataFields.DownshiftMaxSpeed, 244, 6, '0', DataField.PaddingOrientations.LeftPadded),
-                                new DataField((int)DataFields.DownshiftMinSpeed, 252, 6, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.RundownMinSpeed, 236, 6, '0', PaddingOrientation.LeftPadded),
+                                new DataField((int)DataFields.DownshiftMaxSpeed, 244, 6, '0', PaddingOrientation.LeftPadded),
+                                new DataField((int)DataFields.DownshiftMinSpeed, 252, 6, '0', PaddingOrientation.LeftPadded),
                             }
                 }
             };

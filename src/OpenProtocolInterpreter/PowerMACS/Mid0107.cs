@@ -182,15 +182,15 @@ namespace OpenProtocolInterpreter.PowerMACS
             string package = string.Empty;
             foreach (var bolt in BoltResults)
             {
-                package += OpenProtocolConvert.TruncatePadded(' ', 20, DataField.PaddingOrientations.RightPadded, bolt.VariableName);
+                package += OpenProtocolConvert.TruncatePadded(' ', 20, PaddingOrientation.RightPadded, bolt.VariableName);
                 package += bolt.Type.Type;
                 if (bolt.Type.Type == DataType.DataTypes[1].Type) // Integer
                 {
-                    package += OpenProtocolConvert.ToString('0', 7, DataField.PaddingOrientations.LeftPadded, (int)bolt.Value);
+                    package += OpenProtocolConvert.ToString('0', 7, PaddingOrientation.LeftPadded, (int)bolt.Value);
                 }
                 else if (bolt.Type.Type == DataType.DataTypes[2].Type) // Decimal
                 {
-                    package += OpenProtocolConvert.ToString('0', 7, DataField.PaddingOrientations.LeftPadded, (decimal)bolt.Value);
+                    package += OpenProtocolConvert.ToString('0', 7, PaddingOrientation.LeftPadded, (decimal)bolt.Value);
                 }
             }
 
@@ -202,17 +202,17 @@ namespace OpenProtocolInterpreter.PowerMACS
             string package = string.Empty;
             foreach (var step in StepResults)
             {
-                package += OpenProtocolConvert.TruncatePadded(' ', 20, DataField.PaddingOrientations.RightPadded, step.VariableName);
+                package += OpenProtocolConvert.TruncatePadded(' ', 20, PaddingOrientation.RightPadded, step.VariableName);
                 package += step.Type.Type;
                 if (step.Type.Type == DataType.DataTypes[1].Type) // Integer
                 {
-                    package += OpenProtocolConvert.ToString('0', 7, DataField.PaddingOrientations.LeftPadded, (int)step.Value);
+                    package += OpenProtocolConvert.ToString('0', 7, PaddingOrientation.LeftPadded, (int)step.Value);
                 }
                 else if (step.Type.Type == DataType.DataTypes[2].Type) // Decimal
                 {
-                    package += OpenProtocolConvert.ToString('0', 7, DataField.PaddingOrientations.LeftPadded, (decimal)step.Value);
+                    package += OpenProtocolConvert.ToString('0', 7, PaddingOrientation.LeftPadded, (decimal)step.Value);
                 }
-                package += OpenProtocolConvert.ToString('0', 2, DataField.PaddingOrientations.LeftPadded, step.StepNumber);
+                package += OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, step.StepNumber);
             }
 
             return package;
@@ -291,30 +291,30 @@ namespace OpenProtocolInterpreter.PowerMACS
                     {
                         1, new List<DataField>()
                                 {
-                                        new DataField((int)DataFields.TotalNumberOfMessages, 20, 2, '0', DataField.PaddingOrientations.LeftPadded),
-                                        new DataField((int)DataFields.MessageNumber, 24, 2, '0', DataField.PaddingOrientations.LeftPadded),
-                                        new DataField((int)DataFields.DataNumberSystem, 28, 10, '0', DataField.PaddingOrientations.LeftPadded),
+                                        new DataField((int)DataFields.TotalNumberOfMessages, 20, 2, '0', PaddingOrientation.LeftPadded),
+                                        new DataField((int)DataFields.MessageNumber, 24, 2, '0', PaddingOrientation.LeftPadded),
+                                        new DataField((int)DataFields.DataNumberSystem, 28, 10, '0', PaddingOrientation.LeftPadded),
                                         new DataField((int)DataFields.StationNumber, 40, 2),
                                         new DataField((int)DataFields.Time, 44, 19),
-                                        new DataField((int)DataFields.BoltNumber, 65, 4, '0', DataField.PaddingOrientations.LeftPadded),
+                                        new DataField((int)DataFields.BoltNumber, 65, 4, '0', PaddingOrientation.LeftPadded),
                                         new DataField((int)DataFields.BoltName, 71, 20),
                                         new DataField((int)DataFields.ProgramName, 93, 20),
                                         new DataField((int)DataFields.PMStatus, 115, 1),
                                         new DataField((int)DataFields.Errors, 118, 50),
                                         new DataField((int)DataFields.CustomerErrorCode, 170, 4),
-                                        new DataField((int)DataFields.NumberOfBoltResults, 176, 2, '0', DataField.PaddingOrientations.LeftPadded),
+                                        new DataField((int)DataFields.NumberOfBoltResults, 176, 2, '0', PaddingOrientation.LeftPadded),
                                         new DataField((int)DataFields.BoltResults, 180, 0, false),
-                                        new DataField((int)DataFields.NumberOfStepResults, 0, 3, '0', DataField.PaddingOrientations.LeftPadded),
+                                        new DataField((int)DataFields.NumberOfStepResults, 0, 3, '0', PaddingOrientation.LeftPadded),
                                         new DataField((int)DataFields.AllStepDataSent, 0, 1),
                                         new DataField((int)DataFields.StepResults, 0, 0, false),
-                                        new DataField((int)DataFields.NumberOfSpecialValues, 0, 2, '0', DataField.PaddingOrientations.LeftPadded),
+                                        new DataField((int)DataFields.NumberOfSpecialValues, 0, 2, '0', PaddingOrientation.LeftPadded),
                                         new DataField((int)DataFields.SpecialValues, 0, 0, false)
                                 }
                     },
                     {
                         4, new List<DataField>()
                                 {
-                                        new DataField((int)DataFields.SystemSubType, 0, 3, '0', DataField.PaddingOrientations.LeftPadded)
+                                        new DataField((int)DataFields.SystemSubType, 0, 3, '0', PaddingOrientation.LeftPadded)
                                 }
                     }
                 };

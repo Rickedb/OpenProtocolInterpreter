@@ -73,7 +73,7 @@ namespace OpenProtocolInterpreter.Job
         {
             string pack = string.Empty;
             foreach (var v in JobIds)
-                pack += OpenProtocolConvert.ToString('0', JobSize, DataField.PaddingOrientations.LeftPadded, v);
+                pack += OpenProtocolConvert.ToString('0', JobSize, PaddingOrientation.LeftPadded, v);
 
             return pack;
         }
@@ -101,8 +101,8 @@ namespace OpenProtocolInterpreter.Job
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.NumberOfJobs, 20, 2, '0', DataField.PaddingOrientations.LeftPadded, false),
-                                new DataField((int)DataFields.EachJobId, 22, 2, '0', DataField.PaddingOrientations.LeftPadded, false)
+                                new DataField((int)DataFields.NumberOfJobs, 20, 2, '0', PaddingOrientation.LeftPadded, false),
+                                new DataField((int)DataFields.EachJobId, 22, 2, '0', PaddingOrientation.LeftPadded, false)
                             }
                 },
             };

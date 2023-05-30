@@ -61,7 +61,7 @@ namespace OpenProtocolInterpreter.ParameterSet
         {
             string pack = string.Empty;
             foreach (var v in ParameterSets)
-                pack += OpenProtocolConvert.ToString('0', 3, DataField.PaddingOrientations.LeftPadded, v);
+                pack += OpenProtocolConvert.ToString('0', 3, PaddingOrientation.LeftPadded, v);
             return pack;
         }
 
@@ -81,7 +81,7 @@ namespace OpenProtocolInterpreter.ParameterSet
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.TotalParameterSets, 20, 3, '0', DataField.PaddingOrientations.LeftPadded, false),
+                                new DataField((int)DataFields.TotalParameterSets, 20, 3, '0', PaddingOrientation.LeftPadded, false),
                                 new DataField((int)DataFields.EachParameterSet, 23, 3, false)
                             }
                 }

@@ -49,7 +49,7 @@ namespace OpenProtocolInterpreter.PLCUserData
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.UserData, 20, 200, ' ', DataField.PaddingOrientations.RightPadded, false)
+                        new DataField((int)DataFields.UserData, 20, 200, ' ', PaddingOrientation.RightPadded, false)
                     }
                 }
             };

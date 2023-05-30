@@ -20,7 +20,7 @@ namespace MIDTesters.Core.Converters
         [TestCategory("Int32")]
         public void Int32ToPaddedString()
         {
-            Assert.AreEqual("0010", OpenProtocolConvert.ToString('0', 4, DataField.PaddingOrientations.LeftPadded, 10));
+            Assert.AreEqual("0010", OpenProtocolConvert.ToString('0', 4, PaddingOrientation.LeftPadded, 10));
         }
 
         [TestMethod]

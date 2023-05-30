@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter
         public static string ToString(bool value)
             => value ? "1" : "0";
 
-        public static string ToString(char paddingChar, int size, DataField.PaddingOrientations orientation, bool value)
+        public static string ToString(char paddingChar, int size, PaddingOrientation orientation, bool value)
             => ToString(value);
 
         public static bool ToBoolean(string value)
@@ -27,7 +27,7 @@ namespace OpenProtocolInterpreter
         public static string ToString(DateTime value)
             => value.ToString("yyyy-MM-dd:HH:mm:ss");
 
-        public static string ToString(char paddingChar, int size, DataField.PaddingOrientations orientation, DateTime value)
+        public static string ToString(char paddingChar, int size, PaddingOrientation orientation, DateTime value)
             => ToString(value);
 
         public static DateTime ToDateTime(string value)
@@ -47,7 +47,7 @@ namespace OpenProtocolInterpreter
             return value.ToString("00.0###", _formatProvider);
         }
 
-        public static string ToString(char paddingChar, int size, DataField.PaddingOrientations orientation, decimal value)
+        public static string ToString(char paddingChar, int size, PaddingOrientation orientation, decimal value)
         {
             var str = ToString(value);
             return TruncatePadded(paddingChar, size, orientation, str);
@@ -68,7 +68,7 @@ namespace OpenProtocolInterpreter
             return convertedValue.ToString();
         }
 
-        public static string TruncatedDecimalToString(char paddingChar, int size, DataField.PaddingOrientations orientation, decimal value)
+        public static string TruncatedDecimalToString(char paddingChar, int size, PaddingOrientation orientation, decimal value)
         {
             var str = TruncatedDecimalToString(value);
             return TruncatePadded(paddingChar, size, orientation, str);
@@ -86,7 +86,7 @@ namespace OpenProtocolInterpreter
         public static string ToString(int value)
             => value.ToString();
 
-        public static string ToString(char paddingChar, int size, DataField.PaddingOrientations orientation, int value)
+        public static string ToString(char paddingChar, int size, PaddingOrientation orientation, int value)
             => TruncatePadded(paddingChar, size, orientation, ToString(value));
 
         public static int ToInt32(string value)
@@ -101,7 +101,7 @@ namespace OpenProtocolInterpreter
         public static string ToString(long value)
            => value.ToString();
 
-        public static string ToString(char paddingChar, int size, DataField.PaddingOrientations orientation, long value)
+        public static string ToString(char paddingChar, int size, PaddingOrientation orientation, long value)
             => TruncatePadded(paddingChar, size, orientation, ToString(value));
 
         public static long ToInt64(string value)
@@ -140,7 +140,7 @@ namespace OpenProtocolInterpreter
             return result;
         }
 
-        public static string TruncatePadded(char paddingChar, int size, DataField.PaddingOrientations orientation, string value)
+        public static string TruncatePadded(char paddingChar, int size, PaddingOrientation orientation, string value)
         {
             if (value == null)
                 return string.Empty.PadLeft(size, paddingChar);
@@ -150,7 +150,7 @@ namespace OpenProtocolInterpreter
                 value = value.Substring(0, size);
             }
 
-            if (orientation == DataField.PaddingOrientations.RightPadded)
+            if (orientation == PaddingOrientation.RightPadded)
                 return value.PadRight(size, paddingChar);
 
             return value.PadLeft(size, paddingChar);

@@ -169,8 +169,8 @@ namespace OpenProtocolInterpreter.Communication
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.CellId, 20, 4, '0', DataField.PaddingOrientations.LeftPadded),
-                                new DataField((int)DataFields.ChannelId, 26, 2, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.CellId, 20, 4, '0', PaddingOrientation.LeftPadded),
+                                new DataField((int)DataFields.ChannelId, 26, 2, '0', PaddingOrientation.LeftPadded),
                                 new DataField((int)DataFields.ControllerName, 30, 25, ' ')
                             }
                 },
@@ -207,7 +207,7 @@ namespace OpenProtocolInterpreter.Communication
                             {
                                 new DataField((int)DataFields.SequenceNumberSupport, 173, 1),
                                 new DataField((int)DataFields.LinkingHandlingSupport, 176, 1),
-                                new DataField((int)DataFields.StationCellId, 179, 10, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.StationCellId, 179, 10, '0', PaddingOrientation.LeftPadded),
                                 new DataField((int)DataFields.StationCellName, 191, 25),
                                 new DataField((int)DataFields.ClientId, 218, 1)
                             }

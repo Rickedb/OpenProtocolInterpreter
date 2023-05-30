@@ -59,13 +59,13 @@ namespace OpenProtocolInterpreter.Tool
                     1, new List<DataField>()
                             {
                                 new DataField((int)DataFields.CalibrationValueUnit, 20, 1),
-                                new DataField((int)DataFields.CalibrationValue, 23, 6, '0', DataField.PaddingOrientations.LeftPadded)
+                                new DataField((int)DataFields.CalibrationValue, 23, 6, '0', PaddingOrientation.LeftPadded)
                             }
                 },
                 {
                     2, new List<DataField>()
                             {
-                                new DataField((int)DataFields.ChannelNumber, 31, 2, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.ChannelNumber, 31, 2, '0', PaddingOrientation.LeftPadded),
                             }
                 }
             };

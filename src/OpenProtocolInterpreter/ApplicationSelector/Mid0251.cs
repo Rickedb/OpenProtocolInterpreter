@@ -86,8 +86,8 @@ namespace OpenProtocolInterpreter.ApplicationSelector
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.DeviceId, 20, 2, '0', DataField.PaddingOrientations.LeftPadded),
-                                new DataField((int)DataFields.NumberOfSockets, 24, 2, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.DeviceId, 20, 2, '0', PaddingOrientation.LeftPadded),
+                                new DataField((int)DataFields.NumberOfSockets, 24, 2, '0', PaddingOrientation.LeftPadded),
                                 new DataField((int)DataFields.SocketStatus, 28, 0)
                             }
                 }

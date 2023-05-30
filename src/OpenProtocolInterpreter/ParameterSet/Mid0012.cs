@@ -52,13 +52,13 @@ namespace OpenProtocolInterpreter.ParameterSet
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.ParameterSetId, 20, 3, '0', DataField.PaddingOrientations.LeftPadded, false)
+                                new DataField((int)DataFields.ParameterSetId, 20, 3, '0', PaddingOrientation.LeftPadded, false)
                             }
                 },
                 {
                     3, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.PSetFileVersion, 23, 8, '0', DataField.PaddingOrientations.LeftPadded, false)
+                                new DataField((int)DataFields.PSetFileVersion, 23, 8, '0', PaddingOrientation.LeftPadded, false)
                             }
                 },
             };

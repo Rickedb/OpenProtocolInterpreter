@@ -134,15 +134,15 @@ namespace OpenProtocolInterpreter.Result
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.TotalMessages, 20, 3, '0', DataField.PaddingOrientations.LeftPadded, false),
-                        new DataField((int)DataFields.MessageNumber, 23, 3, '0', DataField.PaddingOrientations.LeftPadded, false),
-                        new DataField((int)DataFields.ResultDataIdentifier, 26, 10, '0', DataField.PaddingOrientations.LeftPadded, false),
-                        new DataField((int)DataFields.Time, 36, 19, '0', DataField.PaddingOrientations.LeftPadded, false),
+                        new DataField((int)DataFields.TotalMessages, 20, 3, '0', PaddingOrientation.LeftPadded, false),
+                        new DataField((int)DataFields.MessageNumber, 23, 3, '0', PaddingOrientation.LeftPadded, false),
+                        new DataField((int)DataFields.ResultDataIdentifier, 26, 10, '0', PaddingOrientation.LeftPadded, false),
+                        new DataField((int)DataFields.Time, 36, 19, '0', PaddingOrientation.LeftPadded, false),
                         new DataField((int)DataFields.ResultStatus, 55, 1, false),
-                        new DataField((int)DataFields.OperationType, 56, 2, '0', DataField.PaddingOrientations.LeftPadded, false),
-                        new DataField((int)DataFields.NumberOfObjects, 58, 3, '0', DataField.PaddingOrientations.LeftPadded, false),
+                        new DataField((int)DataFields.OperationType, 56, 2, '0', PaddingOrientation.LeftPadded, false),
+                        new DataField((int)DataFields.NumberOfObjects, 58, 3, '0', PaddingOrientation.LeftPadded, false),
                         new DataField((int)DataFields.ObjectData, 61, 0, false),
-                        new DataField((int)DataFields.NumberOfDataFields, 0, 3, '0', DataField.PaddingOrientations.LeftPadded, false),
+                        new DataField((int)DataFields.NumberOfDataFields, 0, 3, '0', PaddingOrientation.LeftPadded, false),
                         new DataField((int)DataFields.DataFieldList, 0, 0, false)
                     }
                 }

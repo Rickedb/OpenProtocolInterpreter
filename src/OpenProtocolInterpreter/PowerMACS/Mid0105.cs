@@ -66,7 +66,7 @@ namespace OpenProtocolInterpreter.PowerMACS
                 {
                     2, new List<DataField>()
                             {
-                                new DataField((int)DataFields.DataNumberSystem, 20, 10, '0', DataField.PaddingOrientations.LeftPadded, false),
+                                new DataField((int)DataFields.DataNumberSystem, 20, 10, '0', PaddingOrientation.LeftPadded, false),
                             }
                 },
                 {

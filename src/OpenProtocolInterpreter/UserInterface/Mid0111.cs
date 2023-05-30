@@ -76,7 +76,7 @@ namespace OpenProtocolInterpreter.UserInterface
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.TextDuration, 20, 4, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.TextDuration, 20, 4, '0', PaddingOrientation.LeftPadded),
                                 new DataField((int)DataFields.RemovalCondition, 26, 1),
                                 new DataField((int)DataFields.Line1Header, 29, 25, ' '),
                                 new DataField((int)DataFields.Line2, 56, 25, ' '),

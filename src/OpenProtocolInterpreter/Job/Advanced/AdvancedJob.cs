@@ -28,21 +28,21 @@ namespace OpenProtocolInterpreter.Job.Advanced
         {
             var fields = new List<string>
                 {
-                    OpenProtocolConvert.ToString('0', 2, DataField.PaddingOrientations.LeftPadded, ChannelId),
-                    OpenProtocolConvert.ToString('0', 3, DataField.PaddingOrientations.LeftPadded, revision),
+                    OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, ChannelId),
+                    OpenProtocolConvert.ToString('0', 3, PaddingOrientation.LeftPadded, revision),
                     OpenProtocolConvert.ToString((int)revision),
-                    OpenProtocolConvert.ToString('0', 2, DataField.PaddingOrientations.LeftPadded, revision),
-                    OpenProtocolConvert.ToString('0', 2, DataField.PaddingOrientations.LeftPadded, revision)
+                    OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, revision),
+                    OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, revision)
                 };
 
             if (revision > 1)
             {
-                fields.Add(OpenProtocolConvert.ToString('0', 2, DataField.PaddingOrientations.LeftPadded, revision));
+                fields.Add(OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, revision));
                 if (revision != 999)
                 {
-                    fields.Add(OpenProtocolConvert.ToString('0', 4, DataField.PaddingOrientations.LeftPadded, revision));
-                    fields.Add(OpenProtocolConvert.TruncatePadded(' ', 25, DataField.PaddingOrientations.RightPadded, JobStepName));
-                    fields.Add(OpenProtocolConvert.ToString('0', 2, DataField.PaddingOrientations.LeftPadded, revision));
+                    fields.Add(OpenProtocolConvert.ToString('0', 4, PaddingOrientation.LeftPadded, revision));
+                    fields.Add(OpenProtocolConvert.TruncatePadded(' ', 25, PaddingOrientation.RightPadded, JobStepName));
+                    fields.Add(OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, revision));
                     if (revision == 3)
                     {
                         fields.Add(OpenProtocolConvert.ToString((int)ToolLoosening));

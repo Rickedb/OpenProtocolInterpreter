@@ -96,8 +96,8 @@ namespace OpenProtocolInterpreter.PLCUserData
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.Offset, 20, 3, '0', DataField.PaddingOrientations.LeftPadded, false),
-                        new DataField((int)DataFields.UserData, 23, 2, ' ', DataField.PaddingOrientations.RightPadded, false)
+                        new DataField((int)DataFields.Offset, 20, 3, '0', PaddingOrientation.LeftPadded, false),
+                        new DataField((int)DataFields.UserData, 23, 2, ' ', PaddingOrientation.RightPadded, false)
                     }
                 }
             };

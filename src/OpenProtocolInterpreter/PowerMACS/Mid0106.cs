@@ -187,16 +187,16 @@ namespace OpenProtocolInterpreter.PowerMACS
             string package = string.Empty;
             foreach (var bolt in BoltsData)
             {
-                package += $"13{OpenProtocolConvert.ToString('0', 2, DataField.PaddingOrientations.LeftPadded, bolt.OrdinalBoltNumber)}";
+                package += $"13{OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, bolt.OrdinalBoltNumber)}";
                 package += $"14{OpenProtocolConvert.ToString(bolt.SimpleBoltStatus)}";
                 package += $"15{OpenProtocolConvert.ToString((int)bolt.TorqueStatus)}";
                 package += $"16{OpenProtocolConvert.ToString((int)bolt.AngleStatus)}";
-                package += $"17{OpenProtocolConvert.ToString('0', 7, DataField.PaddingOrientations.RightPadded, bolt.BoltTorque)}";
-                package += $"18{OpenProtocolConvert.ToString('0', 7, DataField.PaddingOrientations.RightPadded, bolt.BoltAngle)}";
-                package += $"19{OpenProtocolConvert.ToString('0', 7, DataField.PaddingOrientations.RightPadded, bolt.BoltTorqueHighLimit)}";
-                package += $"20{OpenProtocolConvert.ToString('0', 7, DataField.PaddingOrientations.RightPadded, bolt.BoltTorqueLowLimit)}";
-                package += $"21{OpenProtocolConvert.ToString('0', 7, DataField.PaddingOrientations.RightPadded, bolt.BoltAngleHighLimit)}";
-                package += $"22{OpenProtocolConvert.ToString('0', 7, DataField.PaddingOrientations.RightPadded, bolt.BoltAngleLowLimit)}";
+                package += $"17{OpenProtocolConvert.ToString('0', 7, PaddingOrientation.RightPadded, bolt.BoltTorque)}";
+                package += $"18{OpenProtocolConvert.ToString('0', 7, PaddingOrientation.RightPadded, bolt.BoltAngle)}";
+                package += $"19{OpenProtocolConvert.ToString('0', 7, PaddingOrientation.RightPadded, bolt.BoltTorqueHighLimit)}";
+                package += $"20{OpenProtocolConvert.ToString('0', 7, PaddingOrientation.RightPadded, bolt.BoltTorqueLowLimit)}";
+                package += $"21{OpenProtocolConvert.ToString('0', 7, PaddingOrientation.RightPadded, bolt.BoltAngleHighLimit)}";
+                package += $"22{OpenProtocolConvert.ToString('0', 7, PaddingOrientation.RightPadded, bolt.BoltAngleLowLimit)}";
             }
 
             return package;
@@ -254,27 +254,27 @@ namespace OpenProtocolInterpreter.PowerMACS
                     {
                         1, new List<DataField>()
                                 {
-                                        new DataField((int)DataFields.TotalNumberOfMessages, 20, 2, '0', DataField.PaddingOrientations.LeftPadded),
-                                        new DataField((int)DataFields.MessageNumber, 24, 2, '0', DataField.PaddingOrientations.LeftPadded),
-                                        new DataField((int)DataFields.DataNumberSystem, 28, 10, '0', DataField.PaddingOrientations.LeftPadded),
-                                        new DataField((int)DataFields.StationNumber, 40, 2, '0', DataField.PaddingOrientations.LeftPadded),
+                                        new DataField((int)DataFields.TotalNumberOfMessages, 20, 2, '0', PaddingOrientation.LeftPadded),
+                                        new DataField((int)DataFields.MessageNumber, 24, 2, '0', PaddingOrientation.LeftPadded),
+                                        new DataField((int)DataFields.DataNumberSystem, 28, 10, '0', PaddingOrientation.LeftPadded),
+                                        new DataField((int)DataFields.StationNumber, 40, 2, '0', PaddingOrientation.LeftPadded),
                                         new DataField((int)DataFields.StationName, 44, 20, ' '),
                                         new DataField((int)DataFields.Time, 66, 19),
-                                        new DataField((int)DataFields.ModeNumber, 87, 2, '0', DataField.PaddingOrientations.LeftPadded),
+                                        new DataField((int)DataFields.ModeNumber, 87, 2, '0', PaddingOrientation.LeftPadded),
                                         new DataField((int)DataFields.ModeName, 91, 20, ' '),
                                         new DataField((int)DataFields.SimpleStatus, 113, 1),
                                         new DataField((int)DataFields.PMStatus, 116, 1),
                                         new DataField((int)DataFields.WPId, 119, 40, ' '),
-                                        new DataField((int)DataFields.NumberOfBolts, 161, 2, '0', DataField.PaddingOrientations.LeftPadded),
+                                        new DataField((int)DataFields.NumberOfBolts, 161, 2, '0', PaddingOrientation.LeftPadded),
                                         new DataField((int)DataFields.BoltData, 165, 67, false),
-                                        new DataField((int)DataFields.NumberOfSpecialValues, 0, 2, '0', DataField.PaddingOrientations.LeftPadded),
+                                        new DataField((int)DataFields.NumberOfSpecialValues, 0, 2, '0', PaddingOrientation.LeftPadded),
                                         new DataField((int)DataFields.SpecialValues, 0, 0, false)
                                 }
                     },
                     {
                         4, new List<DataField>()
                                 {
-                                        new DataField((int)DataFields.SystemSubType, 0, 3, '0', DataField.PaddingOrientations.LeftPadded)
+                                        new DataField((int)DataFields.SystemSubType, 0, 3, '0', PaddingOrientation.LeftPadded)
                                 }
                     }
                 };

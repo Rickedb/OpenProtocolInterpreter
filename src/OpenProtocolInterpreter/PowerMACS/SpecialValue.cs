@@ -17,11 +17,11 @@ namespace OpenProtocolInterpreter.PowerMACS
         {
             var package = VariableName.PadRight(20, ' ') +
                            Type.Type.PadRight(2, ' ') +
-                           OpenProtocolConvert.ToString('0', 2, DataField.PaddingOrientations.LeftPadded, Length) +
+                           OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, Length) +
                            Value.ToString().PadRight(Length, ' ');
 
             if (useStepNumber)
-                package += OpenProtocolConvert.ToString('0', 2, DataField.PaddingOrientations.LeftPadded, StepNumber);
+                package += OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, StepNumber);
 
             return package;
         }

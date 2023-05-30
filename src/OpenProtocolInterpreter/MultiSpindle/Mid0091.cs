@@ -73,8 +73,8 @@ namespace OpenProtocolInterpreter.MultiSpindle
         {
             string pack = string.Empty;
             foreach (var spindle in SpindlesStatus)
-                pack += OpenProtocolConvert.ToString('0', 2, DataField.PaddingOrientations.LeftPadded, spindle.SpindleNumber) +
-                           OpenProtocolConvert.ToString('0', 2, DataField.PaddingOrientations.LeftPadded, spindle.ChannelId) +
+                pack += OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, spindle.SpindleNumber) +
+                           OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, spindle.ChannelId) +
                            OpenProtocolConvert.ToString(spindle.SyncOverallStatus);
 
             return pack;
@@ -105,8 +105,8 @@ namespace OpenProtocolInterpreter.MultiSpindle
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.NumberOfSpindles, 20, 2, '0', DataField.PaddingOrientations.LeftPadded),
-                                new DataField((int)DataFields.SyncTighteningId, 24, 5, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.NumberOfSpindles, 20, 2, '0', PaddingOrientation.LeftPadded),
+                                new DataField((int)DataFields.SyncTighteningId, 24, 5, '0', PaddingOrientation.LeftPadded),
                                 new DataField((int)DataFields.Time, 31, 19),
                                 new DataField((int)DataFields.SyncOverallStatus, 52, 1),
                                 new DataField((int)DataFields.SpindleStatus, 55, 5)

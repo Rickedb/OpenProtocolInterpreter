@@ -21,8 +21,8 @@ namespace MIDTesters.Core.Converters
         [TestCategory("Boolean")]
         public void BooleanToPaddedString()
         {
-            Assert.AreEqual("1", OpenProtocolConvert.ToString('0', 1, DataField.PaddingOrientations.LeftPadded, true));
-            Assert.AreEqual("0", OpenProtocolConvert.ToString('0', 1, DataField.PaddingOrientations.LeftPadded, false));
+            Assert.AreEqual("1", OpenProtocolConvert.ToString('0', 1, PaddingOrientation.LeftPadded, true));
+            Assert.AreEqual("0", OpenProtocolConvert.ToString('0', 1, PaddingOrientation.LeftPadded, false));
         }
 
         [TestMethod]

@@ -45,7 +45,7 @@ namespace OpenProtocolInterpreter.Tool
                 {
                     6, new List<DataField>()
                             {
-                                new DataField((int)DataFields.ToolNumber, 20, 4, '0', DataField.PaddingOrientations.LeftPadded)
+                                new DataField((int)DataFields.ToolNumber, 20, 4, '0', PaddingOrientation.LeftPadded)
                             }
                 },
             };

@@ -13,8 +13,8 @@ namespace OpenProtocolInterpreter.Tightening
         public string Pack()
         {
             var pack = string.Empty;
-            pack += OpenProtocolConvert.TruncatedDecimalToString('0', 6, DataField.PaddingOrientations.LeftPadded, Torque);
-            pack += OpenProtocolConvert.ToString('0', 5, DataField.PaddingOrientations.LeftPadded, Angle);
+            pack += OpenProtocolConvert.TruncatedDecimalToString('0', 6, PaddingOrientation.LeftPadded, Torque);
+            pack += OpenProtocolConvert.ToString('0', 5, PaddingOrientation.LeftPadded, Angle);
             return pack;
         }
 

@@ -71,10 +71,10 @@ namespace OpenProtocolInterpreter.Communication
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.UnsubscriptionMid, 20, 4, '0', DataField.PaddingOrientations.LeftPadded, false),
-                                new DataField((int)DataFields.ExtraDataRevision, 24, 3, '0', DataField.PaddingOrientations.LeftPadded, false),
-                                new DataField((int)DataFields.ExtraDataLength, 27, 2, '0', DataField.PaddingOrientations.LeftPadded, false),
-                                new DataField((int)DataFields.ExtraData, 29, 0, ' ', DataField.PaddingOrientations.RightPadded, false)
+                                new DataField((int)DataFields.UnsubscriptionMid, 20, 4, '0', PaddingOrientation.LeftPadded, false),
+                                new DataField((int)DataFields.ExtraDataRevision, 24, 3, '0', PaddingOrientation.LeftPadded, false),
+                                new DataField((int)DataFields.ExtraDataLength, 27, 2, '0', PaddingOrientation.LeftPadded, false),
+                                new DataField((int)DataFields.ExtraData, 29, 0, ' ', PaddingOrientation.RightPadded, false)
                             }
                 }
             };

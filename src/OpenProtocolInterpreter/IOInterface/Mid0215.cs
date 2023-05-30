@@ -157,7 +157,7 @@ namespace OpenProtocolInterpreter.IOInterface
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.IODeviceId, 20, 2, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.IODeviceId, 20, 2, '0', PaddingOrientation.LeftPadded),
                                 new DataField((int)DataFields.RelayList, 24, 32),
                                 new DataField((int)DataFields.DigitalInputList, 58, 32)
                             }
@@ -165,10 +165,10 @@ namespace OpenProtocolInterpreter.IOInterface
                 {
                     2, new List<DataField>()
                             {
-                                new DataField((int)DataFields.IODeviceId, 20, 2, '0', DataField.PaddingOrientations.LeftPadded),
-                                new DataField((int)DataFields.NumberOfRelays, 24, 2, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.IODeviceId, 20, 2, '0', PaddingOrientation.LeftPadded),
+                                new DataField((int)DataFields.NumberOfRelays, 24, 2, '0', PaddingOrientation.LeftPadded),
                                 new DataField((int)DataFields.RelayList, 28, 0),
-                                new DataField((int)DataFields.NumberOfDigitalInputs, 0, 2, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.NumberOfDigitalInputs, 0, 2, '0', PaddingOrientation.LeftPadded),
                                 new DataField((int)DataFields.DigitalInputList, 0, 0)
                             }
                 }

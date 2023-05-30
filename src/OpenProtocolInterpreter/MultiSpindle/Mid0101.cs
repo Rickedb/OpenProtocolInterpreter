@@ -172,13 +172,13 @@ namespace OpenProtocolInterpreter.MultiSpindle
             string package = string.Empty;
             foreach (var v in SpindlesOrPressesStatus)
             {
-                package += OpenProtocolConvert.ToString('0', 2, DataField.PaddingOrientations.LeftPadded, v.SpindleOrPressNumber) +
-                           OpenProtocolConvert.ToString('0', 2, DataField.PaddingOrientations.LeftPadded, v.ChannelId) +
+                package += OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, v.SpindleOrPressNumber) +
+                           OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, v.ChannelId) +
                            OpenProtocolConvert.ToString(v.OverallStatus) +
                            OpenProtocolConvert.ToString((int)v.TorqueOrForceStatus) +
-                           OpenProtocolConvert.TruncatedDecimalToString('0', 6, DataField.PaddingOrientations.LeftPadded, v.TorqueOrForce) +
+                           OpenProtocolConvert.TruncatedDecimalToString('0', 6, PaddingOrientation.LeftPadded, v.TorqueOrForce) +
                            OpenProtocolConvert.ToString(v.AngleOrStrokeStatus) +
-                           OpenProtocolConvert.ToString('0', 5, DataField.PaddingOrientations.LeftPadded, v.AngleOrStroke);
+                           OpenProtocolConvert.ToString('0', 5, PaddingOrientation.LeftPadded, v.AngleOrStroke);
             }
 
             return package;
@@ -213,22 +213,22 @@ namespace OpenProtocolInterpreter.MultiSpindle
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.NumberOfSpindlesOrPresses, 20, 2, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.NumberOfSpindlesOrPresses, 20, 2, '0', PaddingOrientation.LeftPadded),
                                 new DataField((int)DataFields.VinNumber, 24, 25, ' '),
-                                new DataField((int)DataFields.JobId, 51, 2, '0', DataField.PaddingOrientations.LeftPadded),
-                                new DataField((int)DataFields.ParameterSetId, 55, 3, '0', DataField.PaddingOrientations.LeftPadded),
-                                new DataField((int)DataFields.BatchSize, 60, 4, '0', DataField.PaddingOrientations.LeftPadded),
-                                new DataField((int)DataFields.BatchCounter, 66, 4, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.JobId, 51, 2, '0', PaddingOrientation.LeftPadded),
+                                new DataField((int)DataFields.ParameterSetId, 55, 3, '0', PaddingOrientation.LeftPadded),
+                                new DataField((int)DataFields.BatchSize, 60, 4, '0', PaddingOrientation.LeftPadded),
+                                new DataField((int)DataFields.BatchCounter, 66, 4, '0', PaddingOrientation.LeftPadded),
                                 new DataField((int)DataFields.BatchStatus, 72, 1),
-                                new DataField((int)DataFields.TorqueOrForceMinLimit, 75, 6, '0', DataField.PaddingOrientations.LeftPadded),
-                                new DataField((int)DataFields.TorqueOrForceMaxLimit, 83, 6, '0', DataField.PaddingOrientations.LeftPadded),
-                                new DataField((int)DataFields.TorqueOrForceFinalTarget, 91, 6, '0', DataField.PaddingOrientations.LeftPadded),
-                                new DataField((int)DataFields.AngleOrStrokeMinLimit, 99, 5, '0', DataField.PaddingOrientations.LeftPadded),
-                                new DataField((int)DataFields.AngleOrStrokeMaxLimit, 106, 5, '0', DataField.PaddingOrientations.LeftPadded),
-                                new DataField((int)DataFields.FinalAngleOrStrokeTarget, 113, 5, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.TorqueOrForceMinLimit, 75, 6, '0', PaddingOrientation.LeftPadded),
+                                new DataField((int)DataFields.TorqueOrForceMaxLimit, 83, 6, '0', PaddingOrientation.LeftPadded),
+                                new DataField((int)DataFields.TorqueOrForceFinalTarget, 91, 6, '0', PaddingOrientation.LeftPadded),
+                                new DataField((int)DataFields.AngleOrStrokeMinLimit, 99, 5, '0', PaddingOrientation.LeftPadded),
+                                new DataField((int)DataFields.AngleOrStrokeMaxLimit, 106, 5, '0', PaddingOrientation.LeftPadded),
+                                new DataField((int)DataFields.FinalAngleOrStrokeTarget, 113, 5, '0', PaddingOrientation.LeftPadded),
                                 new DataField((int)DataFields.LastChangeInParameterSet, 120, 19),
                                 new DataField((int)DataFields.Timestamp, 141, 19),
-                                new DataField((int)DataFields.SyncTighteningId, 162, 5, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.SyncTighteningId, 162, 5, '0', PaddingOrientation.LeftPadded),
                                 new DataField((int)DataFields.SyncOverallStatus, 169, 1),
                                 new DataField((int)DataFields.SpindesOrPressesStatus, 172, 0)
                             }
@@ -236,13 +236,13 @@ namespace OpenProtocolInterpreter.MultiSpindle
                 {
                     4, new List<DataField>()
                             {
-                                new DataField((int)DataFields.SystemSubType, 0, 3, '0', DataField.PaddingOrientations.LeftPadded)
+                                new DataField((int)DataFields.SystemSubType, 0, 3, '0', PaddingOrientation.LeftPadded)
                             }
                 },
                 {
                     5, new List<DataField>()
                             {
-                                new DataField((int)DataFields.JobSequenceNumber, 0, 5, '0', DataField.PaddingOrientations.LeftPadded)
+                                new DataField((int)DataFields.JobSequenceNumber, 0, 5, '0', PaddingOrientation.LeftPadded)
                             }
                 }
             };

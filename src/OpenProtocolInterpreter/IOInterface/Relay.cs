@@ -12,7 +12,7 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public string Pack()
         {
-            return OpenProtocolConvert.ToString('0', 3, DataField.PaddingOrientations.LeftPadded, (int)Number) +
+            return OpenProtocolConvert.ToString('0', 3, PaddingOrientation.LeftPadded, (int)Number) +
                     OpenProtocolConvert.ToString(Status);
         }
 

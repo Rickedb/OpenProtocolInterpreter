@@ -52,8 +52,8 @@ namespace OpenProtocolInterpreter.Statistic
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.ParameterSetId, 20, 3, '0', DataField.PaddingOrientations.LeftPadded),
-                        new DataField((int)DataFields.HistogramType, 25, 2, '0', DataField.PaddingOrientations.LeftPadded)
+                        new DataField((int)DataFields.ParameterSetId, 20, 3, '0', PaddingOrientation.LeftPadded),
+                        new DataField((int)DataFields.HistogramType, 25, 2, '0', PaddingOrientation.LeftPadded)
                     }
                 }
             };

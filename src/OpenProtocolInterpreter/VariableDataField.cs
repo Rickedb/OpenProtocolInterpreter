@@ -52,12 +52,12 @@ namespace OpenProtocolInterpreter
         public string Pack()
         {
             string pack = string.Empty;
-            pack += OpenProtocolConvert.ToString('0', 5, DataField.PaddingOrientations.LeftPadded, ParameterId);
-            pack += OpenProtocolConvert.ToString('0', 3, DataField.PaddingOrientations.LeftPadded, Length);
-            pack += OpenProtocolConvert.ToString('0', 2, DataField.PaddingOrientations.LeftPadded, (int)DataType);
-            pack += OpenProtocolConvert.ToString('0', 3, DataField.PaddingOrientations.LeftPadded, (int)Unit);
-            pack += OpenProtocolConvert.ToString('0', 4, DataField.PaddingOrientations.LeftPadded, StepNumber);
-            pack += OpenProtocolConvert.TruncatePadded(' ', Length, DataField.PaddingOrientations.RightPadded, DataValue);
+            pack += OpenProtocolConvert.ToString('0', 5, PaddingOrientation.LeftPadded, ParameterId);
+            pack += OpenProtocolConvert.ToString('0', 3, PaddingOrientation.LeftPadded, Length);
+            pack += OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, (int)DataType);
+            pack += OpenProtocolConvert.ToString('0', 3, PaddingOrientation.LeftPadded, (int)Unit);
+            pack += OpenProtocolConvert.ToString('0', 4, PaddingOrientation.LeftPadded, StepNumber);
+            pack += OpenProtocolConvert.TruncatePadded(' ', Length, PaddingOrientation.RightPadded, DataValue);
             return pack;
         }
 

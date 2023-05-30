@@ -65,8 +65,8 @@ namespace OpenProtocolInterpreter.Tool
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.ToolNumber, 20, 4, '0', DataField.PaddingOrientations.LeftPadded),
-                                new DataField((int)DataFields.NumberOfCalibrationParameters, 26, 2, '0', DataField.PaddingOrientations.LeftPadded, false),
+                                new DataField((int)DataFields.ToolNumber, 20, 4, '0', PaddingOrientation.LeftPadded),
+                                new DataField((int)DataFields.NumberOfCalibrationParameters, 26, 2, '0', PaddingOrientation.LeftPadded, false),
                                 new DataField((int)DataFields.EachCalibrationParameter, 28, 0, false)
                             }
                 }

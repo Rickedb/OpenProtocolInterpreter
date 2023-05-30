@@ -136,26 +136,26 @@ namespace OpenProtocolInterpreter.ParameterSet
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.ParameterSetId, 20, 3, '0', DataField.PaddingOrientations.LeftPadded, false),
+                                new DataField((int)DataFields.ParameterSetId, 20, 3, '0', PaddingOrientation.LeftPadded, false),
                                 new DataField((int)DataFields.LastChangeInParameterSet, 23, 19, false)
                             }
                 },
                 {
                     2, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.ParameterSetId, 20, 3, '0', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.ParameterSetId, 20, 3, '0', PaddingOrientation.LeftPadded),
                                 new DataField((int)DataFields.ParameterSetName, 25, 25, ' '),
                                 new DataField((int)DataFields.LastChangeInParameterSet, 52, 19),
                                 new DataField((int)DataFields.RotationDirection, 73, 1),
-                                new DataField((int)DataFields.BatchSize, 76, 2, '0', DataField.PaddingOrientations.LeftPadded),
-                                new DataField((int)DataFields.TorqueMin, 80, 6, '0', DataField.PaddingOrientations.LeftPadded),
-                                new DataField((int)DataFields.TorqueMax, 88, 6, '0', DataField.PaddingOrientations.LeftPadded),
-                                new DataField((int)DataFields.TorqueFinalTarget, 96, 6, '0', DataField.PaddingOrientations.LeftPadded),
-                                new DataField((int)DataFields.AngleMin, 104, 5, '0', DataField.PaddingOrientations.LeftPadded),
-                                new DataField((int)DataFields.AngleMax, 111, 5, '0', DataField.PaddingOrientations.LeftPadded),
-                                new DataField((int)DataFields.FinalAngleTarget, 118, 5, '0', DataField.PaddingOrientations.LeftPadded),
-                                new DataField((int)DataFields.FirstTarget, 125, 6, '0', DataField.PaddingOrientations.LeftPadded),
-                                new DataField((int)DataFields.StartFinalAngle, 133, 6, '0', DataField.PaddingOrientations.LeftPadded)
+                                new DataField((int)DataFields.BatchSize, 76, 2, '0', PaddingOrientation.LeftPadded),
+                                new DataField((int)DataFields.TorqueMin, 80, 6, '0', PaddingOrientation.LeftPadded),
+                                new DataField((int)DataFields.TorqueMax, 88, 6, '0', PaddingOrientation.LeftPadded),
+                                new DataField((int)DataFields.TorqueFinalTarget, 96, 6, '0', PaddingOrientation.LeftPadded),
+                                new DataField((int)DataFields.AngleMin, 104, 5, '0', PaddingOrientation.LeftPadded),
+                                new DataField((int)DataFields.AngleMax, 111, 5, '0', PaddingOrientation.LeftPadded),
+                                new DataField((int)DataFields.FinalAngleTarget, 118, 5, '0', PaddingOrientation.LeftPadded),
+                                new DataField((int)DataFields.FirstTarget, 125, 6, '0', PaddingOrientation.LeftPadded),
+                                new DataField((int)DataFields.StartFinalAngle, 133, 6, '0', PaddingOrientation.LeftPadded)
                             }
                 }
             };

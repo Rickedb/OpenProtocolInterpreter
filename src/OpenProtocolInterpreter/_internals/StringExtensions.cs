@@ -2,7 +2,7 @@
 {
     public static class StringExtensions
     {
-        public static string TruncatePadded(this string value, char paddingChar, int size, DataField.PaddingOrientations orientation)
+        public static string TruncatePadded(this string value, char paddingChar, int size, PaddingOrientation orientation)
         {
             if (value == null)
                 return string.Empty.PadLeft(size, paddingChar);
@@ -12,7 +12,7 @@
                 value = value.Substring(0, size);
             }
 
-            if (orientation == DataField.PaddingOrientations.RightPadded)
+            if (orientation == PaddingOrientation.RightPadded)
                 return value.PadRight(size, paddingChar);
 
             return value.PadLeft(size, paddingChar);

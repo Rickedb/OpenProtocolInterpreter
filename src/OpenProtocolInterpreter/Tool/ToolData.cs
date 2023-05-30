@@ -14,10 +14,10 @@ namespace OpenProtocolInterpreter.Tool
 
         public string Pack()
         {
-            return OpenProtocolConvert.ToString('0', 4, DataField.PaddingOrientations.LeftPadded, Number) +
-                    OpenProtocolConvert.TruncatePadded(' ', 30, DataField.PaddingOrientations.RightPadded, SerialNumber) +
-                    OpenProtocolConvert.TruncatePadded(' ', 30, DataField.PaddingOrientations.RightPadded, ModelName) +
-                    OpenProtocolConvert.TruncatePadded(' ', 30, DataField.PaddingOrientations.RightPadded, ModelArticleNumber);
+            return OpenProtocolConvert.ToString('0', 4, PaddingOrientation.LeftPadded, Number) +
+                    OpenProtocolConvert.TruncatePadded(' ', 30, PaddingOrientation.RightPadded, SerialNumber) +
+                    OpenProtocolConvert.TruncatePadded(' ', 30, PaddingOrientation.RightPadded, ModelName) +
+                    OpenProtocolConvert.TruncatePadded(' ', 30, PaddingOrientation.RightPadded, ModelArticleNumber);
         }
 
         public static ToolData Parse(string value)

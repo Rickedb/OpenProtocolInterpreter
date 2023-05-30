@@ -11,14 +11,14 @@ namespace MIDTesters.Core.Converters
         [TestCategory("Padding")]
         public void LeftPaddingTest()
         {
-            Assert.AreEqual("       ABC", OpenProtocolConvert.TruncatePadded(' ', 10, DataField.PaddingOrientations.LeftPadded, "ABC"));
+            Assert.AreEqual("       ABC", OpenProtocolConvert.TruncatePadded(' ', 10, PaddingOrientation.LeftPadded, "ABC"));
         }
 
         [TestMethod]
         [TestCategory("Padding")]
         public void RightPaddingTest()
         {
-            Assert.AreEqual("ABC       ", OpenProtocolConvert.TruncatePadded(' ', 10, DataField.PaddingOrientations.RightPadded, "ABC"));
+            Assert.AreEqual("ABC       ", OpenProtocolConvert.TruncatePadded(' ', 10, PaddingOrientation.RightPadded, "ABC"));
         }
     }
 }

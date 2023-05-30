@@ -53,7 +53,7 @@ namespace OpenProtocolInterpreter.Job
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.JobId, 20, 2, '0', DataField.PaddingOrientations.LeftPadded, false),
+                                new DataField((int)DataFields.JobId, 20, 2, '0', PaddingOrientation.LeftPadded, false),
                             }
                 }
             };

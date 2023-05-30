@@ -222,9 +222,9 @@ namespace OpenProtocolInterpreter.Job.Advanced
                     {
                         1, new List<DataField>()
                                 {
-                                        new DataField((int)DataFields.JobId, 20, 4, '0', DataField.PaddingOrientations.LeftPadded),
+                                        new DataField((int)DataFields.JobId, 20, 4, '0', PaddingOrientation.LeftPadded),
                                         new DataField((int)DataFields.JobName, 26, 25, ' '),
-                                        new DataField((int)DataFields.NumberOfParameterSets, 53, 2, '0', DataField.PaddingOrientations.LeftPadded),
+                                        new DataField((int)DataFields.NumberOfParameterSets, 53, 2, '0', PaddingOrientation.LeftPadded),
                                         new DataField((int)DataFields.JobList, 57, 0),
                                         new DataField((int)DataFields.ForcedOrder, 0, 1),
                                         new DataField((int)DataFields.LockAtJobDone, 0, 1),
@@ -233,9 +233,9 @@ namespace OpenProtocolInterpreter.Job.Advanced
                                         new DataField((int)DataFields.JobBatchDone, 0, 1),
                                         new DataField((int)DataFields.BatchStatusAtIncrement, 0, 1),
                                         new DataField((int)DataFields.DecrementBatchAtOkLoosening, 0, 1),
-                                        new DataField((int)DataFields.MaxTimeForFirstTightening, 0, 4, '0', DataField.PaddingOrientations.LeftPadded),
-                                        new DataField((int)DataFields.MaxTimeToCompleteJob, 0, 4, '0', DataField.PaddingOrientations.LeftPadded),
-                                        new DataField((int)DataFields.DisplayResultAtAutoSelect, 0, 4, '0', DataField.PaddingOrientations.LeftPadded),
+                                        new DataField((int)DataFields.MaxTimeForFirstTightening, 0, 4, '0', PaddingOrientation.LeftPadded),
+                                        new DataField((int)DataFields.MaxTimeToCompleteJob, 0, 4, '0', PaddingOrientation.LeftPadded),
+                                        new DataField((int)DataFields.DisplayResultAtAutoSelect, 0, 4, '0', PaddingOrientation.LeftPadded),
                                         new DataField((int)DataFields.UseLineControl, 0, 1),
                                         new DataField((int)DataFields.IdentifierResultPart, 0, 1),
                                         new DataField((int)DataFields.ResultOfNonTightenings, 0, 1),
@@ -246,9 +246,9 @@ namespace OpenProtocolInterpreter.Job.Advanced
                     {
                         2, new List<DataField>()
                                 {
-                                        new DataField((int)DataFields.JobId, 20, 4, '0', DataField.PaddingOrientations.LeftPadded),
+                                        new DataField((int)DataFields.JobId, 20, 4, '0', PaddingOrientation.LeftPadded),
                                         new DataField((int)DataFields.JobName, 26, 25, ' '),
-                                        new DataField((int)DataFields.NumberOfParameterSets, 53, 2, '0', DataField.PaddingOrientations.LeftPadded),
+                                        new DataField((int)DataFields.NumberOfParameterSets, 53, 2, '0', PaddingOrientation.LeftPadded),
                                         new DataField((int)DataFields.JobList, 57, 0),
                                         new DataField((int)DataFields.JobSequenceNumber, 0, 5),
                                 }
@@ -256,15 +256,15 @@ namespace OpenProtocolInterpreter.Job.Advanced
                     {
                         3, new List<DataField>()
                                 {
-                                        new DataField((int)DataFields.JobId, 20, 4, '0', DataField.PaddingOrientations.LeftPadded),
+                                        new DataField((int)DataFields.JobId, 20, 4, '0', PaddingOrientation.LeftPadded),
                                         new DataField((int)DataFields.JobName, 26, 25, ' '),
-                                        new DataField((int)DataFields.NumberOfParameterSets, 53, 2, '0', DataField.PaddingOrientations.LeftPadded),
+                                        new DataField((int)DataFields.NumberOfParameterSets, 53, 2, '0', PaddingOrientation.LeftPadded),
                                         new DataField((int)DataFields.JobList, 57, 0),
                                         new DataField((int)DataFields.ForcedOrder, 0, 1),
                                         new DataField((int)DataFields.LockAtJobDone, 0, 1),
-                                        new DataField((int)DataFields.MaxTimeForFirstTightening, 0, 4, '0', DataField.PaddingOrientations.LeftPadded),
-                                        new DataField((int)DataFields.MaxTimeToCompleteJob, 0, 4, '0', DataField.PaddingOrientations.LeftPadded),
-                                        new DataField((int)DataFields.DisplayResultAtAutoSelect, 0, 4, '0', DataField.PaddingOrientations.LeftPadded),
+                                        new DataField((int)DataFields.MaxTimeForFirstTightening, 0, 4, '0', PaddingOrientation.LeftPadded),
+                                        new DataField((int)DataFields.MaxTimeToCompleteJob, 0, 4, '0', PaddingOrientation.LeftPadded),
+                                        new DataField((int)DataFields.DisplayResultAtAutoSelect, 0, 4, '0', PaddingOrientation.LeftPadded),
                                         new DataField((int)DataFields.UseLineControl, 0, 1),
                                         new DataField((int)DataFields.IdentifierResultPart, 0, 1),
                                         new DataField((int)DataFields.ResultOfNonTightenings, 0, 1),

@@ -24,25 +24,25 @@ namespace OpenProtocolInterpreter.Job
         {
             var values = new List<string>()
             {
-                OpenProtocolConvert.ToString('0', 2, DataField.PaddingOrientations.LeftPadded, ChannelId),
-                OpenProtocolConvert.ToString('0', 3, DataField.PaddingOrientations.LeftPadded, TypeId),
+                OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, ChannelId),
+                OpenProtocolConvert.ToString('0', 3, PaddingOrientation.LeftPadded, TypeId),
                 OpenProtocolConvert.ToString(AutoValue),
-                OpenProtocolConvert.ToString('0', 2, DataField.PaddingOrientations.LeftPadded, BatchSize)
+                OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, BatchSize)
             };
 
             if (revision > 2)
             {
                 if (revision > 3)
-                    values.Add(OpenProtocolConvert.ToString('0', 4, DataField.PaddingOrientations.LeftPadded, IdentifierNumber));
+                    values.Add(OpenProtocolConvert.ToString('0', 4, PaddingOrientation.LeftPadded, IdentifierNumber));
                 else
-                    values.Add(OpenProtocolConvert.ToString('0', 2, DataField.PaddingOrientations.LeftPadded, Socket));
+                    values.Add(OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, Socket));
 
                 values.Add(JobStepName.PadRight(25));
-                values.Add(OpenProtocolConvert.ToString('0', 2, DataField.PaddingOrientations.LeftPadded, JobStepType));
+                values.Add(OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, JobStepType));
 
                 if (revision > 3)
                 {
-                    values.Add(OpenProtocolConvert.ToString('0', 2, DataField.PaddingOrientations.LeftPadded, MaxCoherentNok));
+                    values.Add(OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, MaxCoherentNok));
                 }
             }
 

@@ -74,7 +74,7 @@ namespace OpenProtocolInterpreter.Alarm
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.ErrorCode, 20, 4, ' ', DataField.PaddingOrientations.LeftPadded),
+                                new DataField((int)DataFields.ErrorCode, 20, 4, ' ', PaddingOrientation.LeftPadded),
                                 new DataField((int)DataFields.ControllerReadyStatus, 26, 1),
                                 new DataField((int)DataFields.ToolReadyStatus, 29, 1, ' '),
                                 new DataField((int)DataFields.Time, 32, 19)

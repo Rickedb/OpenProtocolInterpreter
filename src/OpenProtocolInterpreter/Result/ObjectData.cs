@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.Result
         public string Pack()
         {
             string pack = string.Empty;
-            pack += OpenProtocolConvert.ToString('0', 4, DataField.PaddingOrientations.LeftPadded, Id);
+            pack += OpenProtocolConvert.ToString('0', 4, PaddingOrientation.LeftPadded, Id);
             pack += OpenProtocolConvert.ToString(Status);
             return pack;
         }

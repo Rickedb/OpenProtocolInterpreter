@@ -14,9 +14,9 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
 
         public string Pack()
         {
-            return OpenProtocolConvert.ToString('0', 1, DataField.PaddingOrientations.LeftPadded, IdentifierTypeNumber) +
-                   OpenProtocolConvert.ToString('0', 2, DataField.PaddingOrientations.LeftPadded, Convert.ToInt32(IncludedInWorkOrder)) +
-                   OpenProtocolConvert.ToString('0', 2, DataField.PaddingOrientations.LeftPadded, (int)StatusInWorkOrder) +
+            return OpenProtocolConvert.ToString('0', 1, PaddingOrientation.LeftPadded, IdentifierTypeNumber) +
+                   OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, Convert.ToInt32(IncludedInWorkOrder)) +
+                   OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, (int)StatusInWorkOrder) +
                    ResultPart.SafePadRight(25);
         }
 

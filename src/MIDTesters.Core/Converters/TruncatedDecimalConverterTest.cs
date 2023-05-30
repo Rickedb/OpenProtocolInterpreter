@@ -30,7 +30,7 @@ namespace MIDTesters.Core.Converters
         public void DecimalToFloorPaddedString()
         {
             var value = 3.31231m;
-            Assert.AreEqual("0000331", OpenProtocolConvert.TruncatedDecimalToString('0', 7, DataField.PaddingOrientations.LeftPadded, value));
+            Assert.AreEqual("0000331", OpenProtocolConvert.TruncatedDecimalToString('0', 7, PaddingOrientation.LeftPadded, value));
         }
 
         [TestMethod]
@@ -38,7 +38,7 @@ namespace MIDTesters.Core.Converters
         public void DecimalToRoundPaddedString()
         {
             var value = 3.31739m;
-            Assert.AreEqual("0000332", OpenProtocolConvert.TruncatedDecimalToString('0', 7, DataField.PaddingOrientations.LeftPadded, value));
+            Assert.AreEqual("0000332", OpenProtocolConvert.TruncatedDecimalToString('0', 7, PaddingOrientation.LeftPadded, value));
         }
 
         [TestMethod]
