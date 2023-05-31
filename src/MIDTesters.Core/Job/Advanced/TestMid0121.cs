@@ -4,9 +4,11 @@ using OpenProtocolInterpreter.Job.Advanced;
 namespace MIDTesters.Job.Advanced
 {
     [TestClass]
+    [TestCategory("Job"), TestCategory("Advanced Job")]
     public class TestMid0121 : DefaultMidTests<Mid0121>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0121Revision1()
         {
             string package = "00200121   1        ";
@@ -18,6 +20,7 @@ namespace MIDTesters.Job.Advanced
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0121ByteRevision1()
         {
             string package = "00200121   1        ";

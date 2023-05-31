@@ -8,13 +8,15 @@
     ///     <item>001 = Power Focus 4000 </item>
     ///     <item>002 = Power MACS 4000 </item>
     ///     <item>003 = Power Focus 6000</item>
+    ///     <item>004 = Micro Torque Focus 6000</item>
     /// </list>
     /// </summary>
     public enum SystemType
     {
-        SYSTEM_TYPE_NOT_SET = 0,
-        POWER_FOCUS_4000 = 1,
-        POWER_MACS_4000 = 2,
-        POWER_FOCUS_6000 = 3
+        SystemTypeNotSet = 0,
+        PowerFocus4000 = 1,
+        PowerMacs4000 = 2,
+        PowerFocus6000 = 3,
+        MicroTorqueFocus6000 = 4
     }
 }

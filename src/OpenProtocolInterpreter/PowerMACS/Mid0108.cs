@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.PowerMACS
 {
@@ -18,27 +17,24 @@ namespace OpenProtocolInterpreter.PowerMACS
     /// </summary>
     public class Mid0108 : Mid, IPowerMACS, IIntegrator, IAcknowledge
     {
-        private readonly IValueConverter<bool> _boolConverter;
-        private const int LAST_REVISION = 4;
         public const int MID = 108;
 
         public bool BoltData
         {
-            get => GetField(1, (int)DataFields.BOLT_DATA).GetValue(_boolConverter.Convert);
-            set => GetField(1, (int)DataFields.BOLT_DATA).SetValue(_boolConverter.Convert, value);
+            get => GetField(1, (int)DataFields.BoltData).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, (int)DataFields.BoltData).SetValue(OpenProtocolConvert.ToString, value);
         }
 
-        public Mid0108() : this(LAST_REVISION)
+        public Mid0108() : this(DEFAULT_REVISION)
         {
 
         }
 
         public Mid0108(Header header) : base(header)
         {
-            _boolConverter = new BoolConverter();
         }
 
-        public Mid0108(int revision = LAST_REVISION) : this(new Header()
+        public Mid0108(int revision) : this(new Header()
         {
             Mid = MID,
             Revision = revision
@@ -53,15 +49,15 @@ namespace OpenProtocolInterpreter.PowerMACS
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.BOLT_DATA, 20, 1, false),
+                                new DataField((int)DataFields.BoltData, 20, 1, false),
                             }
                 },
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            BOLT_DATA
+            BoltData
         }
     }
 }

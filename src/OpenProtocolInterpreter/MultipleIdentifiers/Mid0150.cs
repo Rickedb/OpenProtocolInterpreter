@@ -10,17 +10,16 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
     /// </summary>
     public class Mid0150 : Mid, IMultipleIdentifier, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 150;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.IDENTIFIER_INPUT_SOURCE_NOT_GRANTED };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.IdentifierInputSourceNotGranted };
 
         public string IdentifierData
         {
-            get => GetField(1, (int)DataFields.IDENTIFIER_DATA).Value;
+            get => GetField(1, (int)DataFields.IdentifierData).Value;
             set
             {
-                var field = GetField(1, (int)DataFields.IDENTIFIER_DATA);
+                var field = GetField(1, (int)DataFields.IdentifierData);
                 field.Size = value.Length < 100 ? value.Length : 100;
                 field.SetValue(value);
             }
@@ -29,7 +28,7 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
         public Mid0150() : this(new Header()
         {
             Mid = MID,
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         }) 
         { 
         }
@@ -38,15 +37,10 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
         {
         }
 
-        public Mid0150(string identifierData) : this()
-        {
-            IdentifierData = identifierData;
-        }
-
         public override Mid Parse(string package)
         {
             Header = ProcessHeader(package);
-            GetField(1, (int)DataFields.IDENTIFIER_DATA).Size = Header.Length - 20;
+            GetField(1, (int)DataFields.IdentifierData).Size = Header.Length - 20;
             ProcessDataFields(package);
             return this;
         }
@@ -58,15 +52,15 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.IDENTIFIER_DATA, 20, 0, false)
+                        new DataField((int)DataFields.IdentifierData, 20, 0, false)
                     }
                 }
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            IDENTIFIER_DATA
+            IdentifierData
         }
     }
 }

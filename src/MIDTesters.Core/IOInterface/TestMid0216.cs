@@ -4,9 +4,11 @@ using OpenProtocolInterpreter.IOInterface;
 namespace MIDTesters.IOInterface
 {
     [TestClass]
+    [TestCategory("IOInterface")]
     public class TestMid0216 : DefaultMidTests<Mid0216>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0216Revision1()
         {
             string package = "00230216   1        026";
@@ -17,6 +19,7 @@ namespace MIDTesters.IOInterface
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0216ByteRevision1()
         {
             string package = "00230216   1        026";

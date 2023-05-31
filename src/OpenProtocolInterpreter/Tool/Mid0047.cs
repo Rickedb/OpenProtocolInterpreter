@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Tool
 {
@@ -19,29 +18,26 @@ namespace OpenProtocolInterpreter.Tool
     /// </summary>
     public class Mid0047 : Mid, ITool, IIntegrator, IAcceptableCommand, IDeclinableCommand, IAnswerableBy<Mid0048>
     {
-        private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 47;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { };
 
         public PairingHandlingType PairingHandlingType
         {
-            get => (PairingHandlingType)GetField(1,(int)DataFields.PAIRING_HANDLING_TYPE).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.PAIRING_HANDLING_TYPE).SetValue(_intConverter.Convert, (int)value);
+            get => (PairingHandlingType)GetField(1,(int)DataFields.PairingHandlingType).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.PairingHandlingType).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
 
         public Mid0047() : this(new Header()
         {
             Mid = MID, 
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
         }
 
         public Mid0047(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -51,15 +47,15 @@ namespace OpenProtocolInterpreter.Tool
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.PAIRING_HANDLING_TYPE, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED)
+                                new DataField((int)DataFields.PairingHandlingType, 20, 2, '0', PaddingOrientation.LeftPadded)
                             }
                 }
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            PAIRING_HANDLING_TYPE
+            PairingHandlingType
         }
     }
 }

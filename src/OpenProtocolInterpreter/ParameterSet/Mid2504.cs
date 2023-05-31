@@ -1,7 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.ParameterSet
 {
@@ -15,22 +12,20 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// </summary>
     public class Mid2504 : Mid, IParameterSet, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
-        private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 2504;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.PARAMETER_SET_ID_NOT_PRESENT };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.ParameterSetIdNotPresent };
 
         public int ParameterSetId
         {
-            get => GetField(1,(int)DataFields.PARAMETER_SET_ID).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.PARAMETER_SET_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.ParameterSetId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.ParameterSetId).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid2504() : this(new Header()
         {
             Mid = MID, 
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
 
@@ -38,14 +33,7 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public Mid2504(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
         }
-
-        /// <summary>
-        /// Revision 1 Constructor
-        /// </summary>
-        /// <param name="parameterSetId">Three ASCII digits, range 000-999</param>
-        public Mid2504(int parameterSetId) : this() => ParameterSetId = parameterSetId;
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
@@ -54,28 +42,15 @@ namespace OpenProtocolInterpreter.ParameterSet
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.PARAMETER_SET_ID, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                                new DataField((int)DataFields.ParameterSetId, 20, 3, '0', PaddingOrientation.LeftPadded, false)
                             }
                 }
             };
         }
 
-        /// <summary>
-        /// Validate all fields size
-        /// </summary>
-        public bool Validate(out IEnumerable<string> errors)
+        protected enum DataFields
         {
-            List<string> failed = new List<string>();
-            if (ParameterSetId < 0 || ParameterSetId > 999)
-                failed.Add(new ArgumentOutOfRangeException(nameof(ParameterSetId), "Range: 000-999").Message);
-
-            errors = failed;
-            return errors.Any();
-        }
-
-        public enum DataFields
-        {
-            PARAMETER_SET_ID
+            ParameterSetId
         }
     }
 }

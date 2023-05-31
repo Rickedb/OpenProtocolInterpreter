@@ -12,8 +12,8 @@
     /// </summary>
     public enum SystemSubType
     {
-        NO_SUBTYPE_EXISTS = 0,
-        NORMAL_TIGHTENING_SYSTEM = 1,
-        SYSTEM_RUNNING_PRESSES = 2
+        NoSubtypeExists = 0,
+        NormalTighteningSystem = 1,
+        SystemRunningPresses = 2
     }
 }

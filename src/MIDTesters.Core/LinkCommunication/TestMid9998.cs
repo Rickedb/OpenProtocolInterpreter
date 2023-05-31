@@ -4,9 +4,11 @@ using OpenProtocolInterpreter.LinkCommunication;
 namespace MIDTesters.LinkCommunication
 {
     [TestClass]
+    [TestCategory("LinkCommunication")]
     public class TestMid9998 : DefaultMidTests<Mid9998>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid9998Revision1()
         {
             string package = "00289998            00610003";
@@ -18,6 +20,7 @@ namespace MIDTesters.LinkCommunication
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid9998ByteRevision1()
         {
             string package = "00289998            00610003";

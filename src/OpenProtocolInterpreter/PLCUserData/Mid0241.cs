@@ -17,17 +17,16 @@ namespace OpenProtocolInterpreter.PLCUserData
     /// </summary>
     public class Mid0241 : Mid, IPLCUserData, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 241;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SUBSCRIPTION_ALREADY_EXISTS, Error.CONTROLLER_IS_NOT_A_SYNC_MASTER_OR_STATION_CONTROLLER };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SubscriptionAlreadyExists, Error.ControllerIsNotASyncMasterOrStationController };
 
         public Mid0241() : this(false)
         {
 
         }
 
-        public Mid0241(bool noAckFlag = false) : base(MID, LAST_REVISION, noAckFlag) 
+        public Mid0241(bool noAckFlag = false) : base(MID, DEFAULT_REVISION, noAckFlag) 
         { 
         }
 

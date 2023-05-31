@@ -1,7 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Communication
 {
@@ -17,73 +14,69 @@ namespace OpenProtocolInterpreter.Communication
     /// </summary>
     public class Mid0002 : Mid, ICommunication, IController
     {
-        private readonly IValueConverter<int> _intConverter;
-        private readonly IValueConverter<long> _longConverter;
-        private readonly IValueConverter<bool> _boolConverter;
-        private const int LAST_REVISION = 7;
         public const int MID = 2;
 
         public int CellId
         {
-            get => GetField(1, (int)DataFields.CELL_ID).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.CELL_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.CellId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.CellId).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public int ChannelId
         {
-            get => GetField(1, (int)DataFields.CHANNEL_ID).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.CHANNEL_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.ChannelId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.ChannelId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public string ControllerName
         {
-            get => GetField(1, (int)DataFields.CONTROLLER_NAME).Value;
-            set => GetField(1, (int)DataFields.CONTROLLER_NAME).SetValue(value);
+            get => GetField(1, (int)DataFields.ControllerName).Value;
+            set => GetField(1, (int)DataFields.ControllerName).SetValue(value);
         }
 
         //Rev 2
         public string SupplierCode
         {
-            get => GetField(2, (int)DataFields.SUPPLIER_CODE).Value;
-            set => GetField(2, (int)DataFields.SUPPLIER_CODE).SetValue(value);
+            get => GetField(2, (int)DataFields.SupplierCode).Value;
+            set => GetField(2, (int)DataFields.SupplierCode).SetValue(value);
         }
 
         //Rev 3
         public string OpenProtocolVersion
         {
-            get => GetField(3, (int)DataFields.OPEN_PROTOCOL_VERSION).Value;
-            set => GetField(3, (int)DataFields.OPEN_PROTOCOL_VERSION).SetValue(value);
+            get => GetField(3, (int)DataFields.OpenProtocolVersion).Value;
+            set => GetField(3, (int)DataFields.OpenProtocolVersion).SetValue(value);
         }
 
         public string ControllerSoftwareVersion
         {
-            get => GetField(3, (int)DataFields.CONTROLLER_SOFTWARE_VERSION).Value;
-            set => GetField(3, (int)DataFields.CONTROLLER_SOFTWARE_VERSION).SetValue(value);
+            get => GetField(3, (int)DataFields.ControllerSoftwareVersion).Value;
+            set => GetField(3, (int)DataFields.ControllerSoftwareVersion).SetValue(value);
         }
 
         public string ToolSoftwareVersion
         {
-            get => GetField(3, (int)DataFields.TOOL_SOFTWARE_VERSION).Value;
-            set => GetField(3, (int)DataFields.TOOL_SOFTWARE_VERSION).SetValue(value);
+            get => GetField(3, (int)DataFields.ToolSoftwareVersion).Value;
+            set => GetField(3, (int)DataFields.ToolSoftwareVersion).SetValue(value);
         }
 
         //Rev 4
         public string RBUType
         {
-            get => GetField(4, (int)DataFields.RBU_TYPE).Value;
-            set => GetField(4, (int)DataFields.RBU_TYPE).SetValue(value);
+            get => GetField(4, (int)DataFields.RBUType).Value;
+            set => GetField(4, (int)DataFields.RBUType).SetValue(value);
         }
 
         public string ControllerSerialNumber
         {
-            get => GetField(4, (int)DataFields.CONTROLLER_SERIAL_NUMBER).Value;
-            set => GetField(4, (int)DataFields.CONTROLLER_SERIAL_NUMBER).SetValue(value);
+            get => GetField(4, (int)DataFields.ControllerSerialNumber).Value;
+            set => GetField(4, (int)DataFields.ControllerSerialNumber).SetValue(value);
         }
 
         //Rev 5 
         public SystemType SystemType
         {
-            get => (SystemType)GetField(5, (int)DataFields.SYSTEM_TYPE).GetValue(_intConverter.Convert);
-            set => GetField(5, (int)DataFields.SYSTEM_TYPE).SetValue(_intConverter.Convert, (int)value);
+            get => (SystemType)GetField(5, (int)DataFields.SystemType).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(5, (int)DataFields.SystemType).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
 
         /// <summary>
@@ -96,21 +89,21 @@ namespace OpenProtocolInterpreter.Communication
         /// </summary>
         public SystemSubType SystemSubType
         {
-            get => (SystemSubType)GetField(5, (int)DataFields.SYSTEM_SUBTYPE).GetValue(_intConverter.Convert);
-            set => GetField(5, (int)DataFields.SYSTEM_SUBTYPE).SetValue(_intConverter.Convert, (int)value);
+            get => (SystemSubType)GetField(5, (int)DataFields.SystemSubtype).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(5, (int)DataFields.SystemSubtype).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
 
         //Rev 6
         public bool SequenceNumberSupport
         {
-            get => GetField(6, (int)DataFields.SEQUENCE_NUMBER_SUPPORT).GetValue(_boolConverter.Convert);
-            set => GetField(6, (int)DataFields.SEQUENCE_NUMBER_SUPPORT).SetValue(_boolConverter.Convert, value);
+            get => GetField(6, (int)DataFields.SequenceNumberSupport).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(6, (int)DataFields.SequenceNumberSupport).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public bool LinkingHandlingSupport
         {
-            get => GetField(6, (int)DataFields.LINKING_HANDLING_SUPPORT).GetValue(_boolConverter.Convert);
-            set => GetField(6, (int)DataFields.LINKING_HANDLING_SUPPORT).SetValue(_boolConverter.Convert, value);
+            get => GetField(6, (int)DataFields.LinkingHandlingSupport).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(6, (int)DataFields.LinkingHandlingSupport).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         /// <summary>
@@ -119,8 +112,8 @@ namespace OpenProtocolInterpreter.Communication
         /// </summary>
         public long StationCellId 
         {
-            get => GetField(6, (int)DataFields.STATION_CELL_ID).GetValue(_longConverter.Convert);
-            set => GetField(6, (int)DataFields.STATION_CELL_ID).SetValue(_longConverter.Convert, value);
+            get => GetField(6, (int)DataFields.StationCellId).GetValue(OpenProtocolConvert.ToInt64);
+            set => GetField(6, (int)DataFields.StationCellId).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         /// <summary>
@@ -129,14 +122,14 @@ namespace OpenProtocolInterpreter.Communication
         /// </summary>
         public string StationCellName
         {
-            get => GetField(6, (int)DataFields.STATION_CELL_NAME).Value;
-            set => GetField(6, (int)DataFields.STATION_CELL_NAME).SetValue(value);
+            get => GetField(6, (int)DataFields.StationCellName).Value;
+            set => GetField(6, (int)DataFields.StationCellName).SetValue(value);
         }
 
         public string ClientId
         {
-            get => GetField(6, (int)DataFields.CLIENT_ID).Value;
-            set => GetField(6, (int)DataFields.CLIENT_ID).SetValue(value);
+            get => GetField(6, (int)DataFields.ClientId).Value;
+            set => GetField(6, (int)DataFields.ClientId).SetValue(value);
         }
 
         //Rev 7
@@ -146,231 +139,27 @@ namespace OpenProtocolInterpreter.Communication
         /// </summary>
         public bool OptionalKeepAlive 
         {
-            get => GetField(7, (int)DataFields.OPTIONAL_KEEP_ALIVE).GetValue(_boolConverter.Convert);
-            set => GetField(7, (int)DataFields.OPTIONAL_KEEP_ALIVE).SetValue(_boolConverter.Convert, value);
+            get => GetField(7, (int)DataFields.OptionalKeepAlive).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(7, (int)DataFields.OptionalKeepAlive).SetValue(OpenProtocolConvert.ToString, value);
         }
 
-        public Mid0002() : this(LAST_REVISION)
+        public Mid0002() : this(DEFAULT_REVISION)
         {
 
         }
 
         public Mid0002(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
-            _longConverter = new Int64Converter();
-            _boolConverter = new BoolConverter();
+
         }
 
-        public Mid0002(int revision = LAST_REVISION) : this(new Header()
+        public Mid0002(int revision) : this(new Header()
         {
             Mid= MID, 
             Revision = revision
         })
         {
             
-        }
-
-        /// <summary>
-        /// Revision 1 Constructor
-        /// </summary>
-        /// <param name="cellId">The cell ID is four bytes long specified by four ASCII digits. Range: 0000-9999.</param>
-        /// <param name="channelId">The channel ID is two bytes long specified by two ASCII digits. Range: 00-20.</param>
-        /// <param name="controllerName">The controller name is 25 bytes long and specified by 25 ASCII characters.</param>
-        /// <param name="revision">Revision number (default = 1)</param>
-        public Mid0002(int cellId, int channelId, string controllerName, int revision = 1) : this(revision)
-        {
-            CellId = cellId;
-            ChannelId = channelId;
-            ControllerName = controllerName;
-        }
-
-        /// <summary>
-        /// Revision 2 Constructor
-        /// </summary>
-        /// <param name="cellId">The cell ID is four bytes long specified by four ASCII digits. Range: 0000-9999.</param>
-        /// <param name="channelId">The channel ID is two bytes long specified by two ASCII digits. Range: 00-20.</param>
-        /// <param name="controllerName">The controller name is 25 bytes long and specified by 25 ASCII characters.</param>
-        /// <param name="supplierCode">ACT (supplier code for Atlas Copco Tools) specified by three ASCII characters.</param>
-        /// <param name="revision">Revision number (default = 2)</param>
-        public Mid0002(int cellId, int channelId, string controllerName, string supplierCode, int revision = 2)
-            : this(cellId, channelId, controllerName, revision)
-        {
-            SupplierCode = supplierCode;
-        }
-
-        /// <summary>
-        /// Revision 3 Constructor
-        /// </summary>
-        /// <param name="cellId">The cell ID is four bytes long specified by four ASCII digits. Range: 0000-9999.</param>
-        /// <param name="channelId">The channel ID is two bytes long specified by two ASCII digits. Range: 00-20.</param>
-        /// <param name="controllerName">The controller name is 25 bytes long and specified by 25 ASCII characters.</param>
-        /// <param name="supplierCode">ACT (supplier code for Atlas Copco Tools) specified by three ASCII characters.</param>
-        /// <param name="openProtocolVersion">Open Protocol version. 19 ASCII characters. This version mirrors the IMPLEMENTED version of the Open Protocol and is hence not the same as the version of the specification.This is caused by, for instance, the possibility of implementation done of only a subset of the protocol.</param>
-        /// <param name="controllerSoftwareVersion">The controller software version. 19 ASCII characters.</param>
-        /// <param name="toolSoftwareVersion">The tool software version. 19 ASCII characters.</param>
-        /// <param name="revision">Revision number (default = 3)</param>
-        public Mid0002(int cellId, int channelId, string controllerName, string supplierCode, string openProtocolVersion, string controllerSoftwareVersion, string toolSoftwareVersion, int revision = 3)
-            : this(cellId, channelId, controllerName, supplierCode, revision)
-        {
-            OpenProtocolVersion = openProtocolVersion;
-            ControllerSoftwareVersion = controllerSoftwareVersion;
-            ToolSoftwareVersion = toolSoftwareVersion;
-        }
-
-        /// <summary>
-        /// Revision 4 Constructor
-        /// </summary>
-        /// <param name="cellId">The cell ID is four bytes long specified by four ASCII digits. Range: 0000-9999.</param>
-        /// <param name="channelId">The channel ID is two bytes long specified by two ASCII digits. Range: 00-20.</param>
-        /// <param name="controllerName">The controller name is 25 bytes long and specified by 25 ASCII characters.</param>
-        /// <param name="supplierCode">ACT (supplier code for Atlas Copco Tools) specified by three ASCII characters.</param>
-        /// <param name="openProtocolVersion">Open Protocol version. 19 ASCII characters. This version mirrors the IMPLEMENTED version of the Open Protocol and is hence not the same as the version of the specification.This is caused by, for instance, the possibility of implementation done of only a subset of the protocol.</param>
-        /// <param name="controllerSoftwareVersion">The controller software version. 19 ASCII characters.</param>
-        /// <param name="toolSoftwareVersion">The tool software version. 19 ASCII characters.</param>
-        /// <param name="rbuType">The RBU Type. 24 ASCII characters.</param>
-        /// <param name="controllerSerialNumber">The Controller Serial Number. 10 ASCII characters.</param>
-        /// <param name="revision">Revision number (default = 4)</param>
-        public Mid0002(int cellId, int channelId, string controllerName, string supplierCode, string openProtocolVersion, string controllerSoftwareVersion, string toolSoftwareVersion, string rbuType,
-            string controllerSerialNumber, int revision = 4)
-            : this(cellId, channelId, controllerName, supplierCode, openProtocolVersion, controllerSoftwareVersion,
-                  toolSoftwareVersion, revision)
-        {
-            RBUType = rbuType;
-            ControllerSerialNumber = controllerSerialNumber;
-        }
-
-        /// <summary>
-        /// Revision 5 Constructor
-        /// </summary>
-        /// <param name="cellId">The cell ID is four bytes long specified by four ASCII digits. Range: 0000-9999.</param>
-        /// <param name="channelId">The channel ID is two bytes long specified by two ASCII digits. Range: 00-20.</param>
-        /// <param name="controllerName">The controller name is 25 bytes long and specified by 25 ASCII characters.</param>
-        /// <param name="supplierCode">ACT (supplier code for Atlas Copco Tools) specified by three ASCII characters.</param>
-        /// <param name="openProtocolVersion">Open Protocol version. 19 ASCII characters. This version mirrors the IMPLEMENTED version of the Open Protocol and is hence not the same as the version of the specification.This is caused by, for instance, the possibility of implementation done of only a subset of the protocol.</param>
-        /// <param name="controllerSoftwareVersion">The controller software version. 19 ASCII characters.</param>
-        /// <param name="toolSoftwareVersion">The tool software version. 19 ASCII characters.</param>
-        /// <param name="rbuType">The RBU Type. 24 ASCII characters.</param>
-        /// <param name="controllerSerialNumber">The Controller Serial Number. 10 ASCII characters.</param>
-        /// <param name="systemType">The system type of the controller. 3 ASCII digits</param>
-        /// <param name="systemSubType">The system subtype. 3 ASCII digits</param>
-        /// <param name="revision">Revision number (default = 5)</param>
-        public Mid0002(int cellId, int channelId, string controllerName, string supplierCode, string openProtocolVersion, string controllerSoftwareVersion, string toolSoftwareVersion, string rbuType,
-            string controllerSerialNumber, SystemType systemType, SystemSubType systemSubType, int revision = 5)
-            : this(cellId, channelId, controllerName, supplierCode, openProtocolVersion, controllerSoftwareVersion,
-                  toolSoftwareVersion, rbuType, controllerSerialNumber, revision)
-        {
-            SystemType = systemType;
-            SystemSubType = systemSubType;
-        }
-
-        /// <summary>
-        /// Revision 6 Constructor
-        /// </summary>
-        /// <param name="cellId">The cell ID is four bytes long specified by four ASCII digits. Range: 0000-9999.</param>
-        /// <param name="channelId">The channel ID is two bytes long specified by two ASCII digits. Range: 00-20.</param>
-        /// <param name="controllerName">The controller name is 25 bytes long and specified by 25 ASCII characters.</param>
-        /// <param name="supplierCode">ACT (supplier code for Atlas Copco Tools) specified by three ASCII characters.</param>
-        /// <param name="openProtocolVersion">Open Protocol version. 19 ASCII characters. This version mirrors the IMPLEMENTED version of the Open Protocol and is hence not the same as the version of the specification.This is caused by, for instance, the possibility of implementation done of only a subset of the protocol.</param>
-        /// <param name="controllerSoftwareVersion">The controller software version. 19 ASCII characters.</param>
-        /// <param name="toolSoftwareVersion">The tool software version. 19 ASCII characters.</param>
-        /// <param name="rbuType">The RBU Type. 24 ASCII characters.</param>
-        /// <param name="controllerSerialNumber">The Controller Serial Number. 10 ASCII characters.</param>
-        /// <param name="systemType">The system type of the controller. 3 ASCII digits</param>
-        /// <param name="systemSubType">The system subtype. 3 ASCII digits</param>
-        /// <param name="sequenceNumberSupport">Flag sequence number handling supported if = 1</param>
-        /// <param name="linkingHandlingSupport">Flag linking functionality handling supported if = 1.</param>
-        /// <param name="stationCellId">The station id/Cell Id is a unique id for each station. 10 ASCII digits.</param>
-        /// <param name="stationCellName">The station/Cell name is 25 bytes long and specified by 25 ASCII characters.</param>
-        /// <param name="clientId">The Connection Client ID.1 byte 1 ASCII digit. Used at several connections towards a one channel controller.</param>
-        /// <param name="revision">Revision number (default = 6)</param>
-        public Mid0002(int cellId, int channelId, string controllerName, string supplierCode, string openProtocolVersion, string controllerSoftwareVersion, string toolSoftwareVersion, string rbuType,
-            string controllerSerialNumber, SystemType systemType, SystemSubType systemSubType, bool sequenceNumberSupport, bool linkingHandlingSupport, long stationCellId,
-            string stationCellName, string clientId, int revision = 6)
-            : this(cellId, channelId, controllerName, supplierCode, openProtocolVersion, controllerSoftwareVersion,
-                  toolSoftwareVersion, rbuType, controllerSerialNumber, systemType, systemSubType, revision)
-        {
-            SequenceNumberSupport = sequenceNumberSupport;
-            LinkingHandlingSupport = linkingHandlingSupport;
-            StationCellId = stationCellId;
-            StationCellName = stationCellName;
-            ClientId = clientId;
-        }
-
-        /// <summary>
-        /// Revision 6 Constructor
-        /// </summary>
-        /// <param name="cellId">The cell ID is four bytes long specified by four ASCII digits. Range: 0000-9999.</param>
-        /// <param name="channelId">The channel ID is two bytes long specified by two ASCII digits. Range: 00-20.</param>
-        /// <param name="controllerName">The controller name is 25 bytes long and specified by 25 ASCII characters.</param>
-        /// <param name="supplierCode">ACT (supplier code for Atlas Copco Tools) specified by three ASCII characters.</param>
-        /// <param name="openProtocolVersion">Open Protocol version. 19 ASCII characters. This version mirrors the IMPLEMENTED version of the Open Protocol and is hence not the same as the version of the specification.This is caused by, for instance, the possibility of implementation done of only a subset of the protocol.</param>
-        /// <param name="controllerSoftwareVersion">The controller software version. 19 ASCII characters.</param>
-        /// <param name="toolSoftwareVersion">The tool software version. 19 ASCII characters.</param>
-        /// <param name="rbuType">The RBU Type. 24 ASCII characters.</param>
-        /// <param name="controllerSerialNumber">The Controller Serial Number. 10 ASCII characters.</param>
-        /// <param name="systemType">The system type of the controller. 3 ASCII digits</param>
-        /// <param name="systemSubType">The system subtype. 3 ASCII digits</param>
-        /// <param name="sequenceNumberSupport">Flag sequence number handling supported if = 1</param>
-        /// <param name="linkingHandlingSupport">Flag linking functionality handling supported if = 1.</param>
-        /// <param name="stationCellId">The station id/Cell Id is a unique id for each station. 10 ASCII digits.</param>
-        /// <param name="stationCellName">The station/Cell name is 25 bytes long and specified by 25 ASCII characters.</param>
-        /// <param name="clientId">The Connection Client ID.1 byte 1 ASCII digit. Used at several connections towards a one channel controller.</param>
-        /// <param name="optionalKeepAlive">
-        /// Telling if optional keep alive will be used or not. 
-        /// <para>False=Use Keep alive (Keep alive is mandatory)</para> 
-        /// <para>True=Ignore Keep alive (Keep alive is optional)</para>
-        /// </param>
-        /// <param name="revision">Revision number (default = 6)</param>
-        public Mid0002(int cellId, int channelId, string controllerName, string supplierCode, string openProtocolVersion, string controllerSoftwareVersion, string toolSoftwareVersion, string rbuType,
-            string controllerSerialNumber, SystemType systemType, SystemSubType systemSubType, bool sequenceNumberSupport, bool linkingHandlingSupport, long stationCellId,
-            string stationCellName, string clientId, bool optionalKeepAlive, int revision = 7)
-            : this(cellId, channelId, controllerName, supplierCode, openProtocolVersion, controllerSoftwareVersion,
-                  toolSoftwareVersion, rbuType, controllerSerialNumber, systemType, systemSubType, sequenceNumberSupport, linkingHandlingSupport, stationCellId,
-                  stationCellName, clientId, revision)
-        {
-            OptionalKeepAlive = optionalKeepAlive;
-        }
-
-        /// <summary>
-        /// Validate all fields size
-        /// </summary>
-        public bool Validate(out IEnumerable<string> errors)
-        {
-            List<string> failed = new List<string>();
-            //Rev 1
-            if (CellId < 0 || CellId > 9999)
-                failed.Add(new ArgumentOutOfRangeException(nameof(CellId), "Range: 0000-9999").Message);
-            if (ChannelId < 0 || ChannelId > 20)
-                failed.Add(new ArgumentOutOfRangeException(nameof(ChannelId), "Range: 00-20").Message);
-            if (ControllerName.Length > 25)
-                failed.Add(new ArgumentOutOfRangeException(nameof(ControllerName), "Max of 20 characters").Message);
-
-            if (Header.Revision > 1) //Rev 2
-            {
-                if (SupplierCode.Length > 3)
-                    failed.Add(new ArgumentOutOfRangeException(nameof(SupplierCode), "Max of 3 characters").Message);
-
-                if (Header.Revision > 2) //Rev 3
-                {
-                    if (OpenProtocolVersion.Length > 19)
-                        failed.Add(new ArgumentOutOfRangeException(nameof(OpenProtocolVersion), "Max of 19 characters").Message);
-                    if (ControllerSoftwareVersion.Length > 19)
-                        failed.Add(new ArgumentOutOfRangeException(nameof(ControllerSoftwareVersion), "Max of 19 characters").Message);
-                    if (ToolSoftwareVersion.Length > 19)
-                        failed.Add(new ArgumentOutOfRangeException(nameof(ToolSoftwareVersion), "Max of 19 characters").Message);
-
-                    if (Header.Revision == 4) //Rev 4
-                    {
-                        if (RBUType.Length > 24)
-                            failed.Add(new ArgumentOutOfRangeException(nameof(RBUType), "Max of 24 characters").Message);
-                        if (ControllerSerialNumber.Length > 10)
-                            failed.Add(new ArgumentOutOfRangeException(nameof(ControllerSerialNumber), "Max of 10 characters").Message);
-                    }
-                }
-            }
-            errors = failed;
-            return errors.Any();
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -380,84 +169,84 @@ namespace OpenProtocolInterpreter.Communication
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.CELL_ID, 20, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.CHANNEL_ID, 26, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.CONTROLLER_NAME, 30, 25, ' ')
+                                new DataField((int)DataFields.CellId, 20, 4, '0', PaddingOrientation.LeftPadded),
+                                new DataField((int)DataFields.ChannelId, 26, 2, '0', PaddingOrientation.LeftPadded),
+                                new DataField((int)DataFields.ControllerName, 30, 25, ' ')
                             }
                 },
                 {
                     2, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.SUPPLIER_CODE, 57, 3, ' ')
+                                new DataField((int)DataFields.SupplierCode, 57, 3, ' ')
                             }
                 },
                 {
                     3, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.OPEN_PROTOCOL_VERSION, 62, 19, ' '),
-                                new DataField((int)DataFields.CONTROLLER_SOFTWARE_VERSION, 83, 19, ' '),
-                                new DataField((int)DataFields.TOOL_SOFTWARE_VERSION, 104, 19, ' ')
+                                new DataField((int)DataFields.OpenProtocolVersion, 62, 19, ' '),
+                                new DataField((int)DataFields.ControllerSoftwareVersion, 83, 19, ' '),
+                                new DataField((int)DataFields.ToolSoftwareVersion, 104, 19, ' ')
                             }
                 },
                 {
                     4, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.RBU_TYPE, 125, 24, ' '),
-                                new DataField((int)DataFields.CONTROLLER_SERIAL_NUMBER, 151, 10, ' ')
+                                new DataField((int)DataFields.RBUType, 125, 24, ' '),
+                                new DataField((int)DataFields.ControllerSerialNumber, 151, 10, ' ')
                             }
                 },
                 {
                     5, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.SYSTEM_TYPE, 163, 3, '0'),
-                                new DataField((int)DataFields.SYSTEM_SUBTYPE, 168, 3, '0')
+                                new DataField((int)DataFields.SystemType, 163, 3, '0'),
+                                new DataField((int)DataFields.SystemSubtype, 168, 3, '0')
                             }
                 },
                 {
                     6, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.SEQUENCE_NUMBER_SUPPORT, 173, 1),
-                                new DataField((int)DataFields.LINKING_HANDLING_SUPPORT, 176, 1),
-                                new DataField((int)DataFields.STATION_CELL_ID, 179, 10, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.STATION_CELL_NAME, 191, 25),
-                                new DataField((int)DataFields.CLIENT_ID, 218, 1)
+                                new DataField((int)DataFields.SequenceNumberSupport, 173, 1),
+                                new DataField((int)DataFields.LinkingHandlingSupport, 176, 1),
+                                new DataField((int)DataFields.StationCellId, 179, 10, '0', PaddingOrientation.LeftPadded),
+                                new DataField((int)DataFields.StationCellName, 191, 25),
+                                new DataField((int)DataFields.ClientId, 218, 1)
                             }
                 },
                 {
                     7, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.OPTIONAL_KEEP_ALIVE, 221, 1)
+                                new DataField((int)DataFields.OptionalKeepAlive, 221, 1)
                             }
                 }
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             //Rev 1
-            CELL_ID,
-            CHANNEL_ID,
-            CONTROLLER_NAME,
+            CellId,
+            ChannelId,
+            ControllerName,
             //Rev 2
-            SUPPLIER_CODE,
+            SupplierCode,
             //Rev 3
-            OPEN_PROTOCOL_VERSION,
-            CONTROLLER_SOFTWARE_VERSION,
-            TOOL_SOFTWARE_VERSION,
+            OpenProtocolVersion,
+            ControllerSoftwareVersion,
+            ToolSoftwareVersion,
             //Rev 4
-            RBU_TYPE,
-            CONTROLLER_SERIAL_NUMBER,
+            RBUType,
+            ControllerSerialNumber,
             //Rev 5
-            SYSTEM_TYPE,
-            SYSTEM_SUBTYPE,
+            SystemType,
+            SystemSubtype,
             //Rev 6
-            SEQUENCE_NUMBER_SUPPORT,
-            LINKING_HANDLING_SUPPORT,
-            STATION_CELL_ID,
-            STATION_CELL_NAME,
-            CLIENT_ID,
+            SequenceNumberSupport,
+            LinkingHandlingSupport,
+            StationCellId,
+            StationCellName,
+            ClientId,
             //Rev 7
-            OPTIONAL_KEEP_ALIVE
+            OptionalKeepAlive
         }
     }
 }

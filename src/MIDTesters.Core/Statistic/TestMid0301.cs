@@ -4,9 +4,11 @@ using OpenProtocolInterpreter.Statistic;
 namespace MIDTesters.Statistic
 {
     [TestClass]
+    [TestCategory("Statistic")]
     public class TestMid0301 : DefaultMidTests<Mid0301>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0301Revision1()
         {
             string package = "01070301            010020205031234560465432105999999061111072222083333094444105555116666127777138888149999";
@@ -30,6 +32,7 @@ namespace MIDTesters.Statistic
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0301ByteRevision1()
         {
             string package = "01070301            010020205031234560465432105999999061111072222083333094444105555116666127777138888149999";

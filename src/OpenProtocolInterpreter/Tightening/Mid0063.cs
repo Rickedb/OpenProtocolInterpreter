@@ -13,17 +13,16 @@ namespace OpenProtocolInterpreter.Tightening
     /// </summary>
     public class Mid0063 : Mid, ITightening, IIntegrator, IUnsubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 6;
         public const int MID = 63;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.LAST_TIGHTENING_RESULT_SUBSCRIPTION_DOESNT_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.LastTighteningResultSubscriptionDoesntExists };
 
-        public Mid0063() : this(LAST_REVISION)
+        public Mid0063() : this(DEFAULT_REVISION)
         {
 
         }
 
-        public Mid0063(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0063(int revision) : base(MID, revision)
         {
 
         }

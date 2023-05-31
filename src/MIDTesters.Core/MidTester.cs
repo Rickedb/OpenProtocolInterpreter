@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+[assembly: Parallelize(Workers = 4, Scope = ExecutionScope.MethodLevel)]
 namespace MIDTesters
 {
     public abstract class MidTester

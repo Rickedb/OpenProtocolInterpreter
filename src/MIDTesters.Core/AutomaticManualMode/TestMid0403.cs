@@ -1,14 +1,14 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.AutomaticManualMode;
 
 namespace MIDTesters.AutomaticManualMode
 {
     [TestClass]
+    [TestCategory("AutomaticManualMode")]
     public class TestMid0403 : DefaultMidTests<Mid0403>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0403Revision1()
         {
             string package = "00200403            ";
@@ -19,6 +19,7 @@ namespace MIDTesters.AutomaticManualMode
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0403ByteRevision1()
         {
             string package = "00200403            ";

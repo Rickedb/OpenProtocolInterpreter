@@ -1,6 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Communication
 {
@@ -26,47 +24,30 @@ namespace OpenProtocolInterpreter.Communication
     /// </summary>
     public class Mid0005 : Mid, ICommunication, IController
     {
-        private readonly IValueConverter<int> _intConverter;
         public const int MID = 5;
-        private const int LAST_REVISION = 1;
 
         public int MidAccepted
         {
-            get => GetField(1, (int)DataFields.MID_ACCEPTED).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.MID_ACCEPTED).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.MidAccepted).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.MidAccepted).SetValue(OpenProtocolConvert.ToString, value);
         }
 
-        public Mid0005() : this(new Header()
-        {
-            Mid= MID,
-            Revision = LAST_REVISION
-        })
+        public Mid0005() : this(DEFAULT_REVISION)
         {
 
         }
 
         public Mid0005(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
         }
 
-        /// <summary>
-        /// Revision 1 Constructor
-        /// </summary>
-        /// <param name="midAccepted">Mid accepted</param>
-        public Mid0005(int midAccepted) : this() => MidAccepted = midAccepted;
-
-        /// <summary>
-        /// Validate all fields size
-        /// </summary>
-        public bool Validate(out IEnumerable<string> errors)
+        public Mid0005(int revision) : this(new Header()
         {
-            List<string> failed = new List<string>();
-            if (MidAccepted < 1 || MidAccepted > 9999)
-                failed.Add(new ArgumentOutOfRangeException(nameof(MidAccepted), "Range: 0000-9999").Message);
+            Mid = MID,
+            Revision = revision
+        })
+        {
 
-            errors = failed;
-            return failed.Count > 0;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -76,15 +57,15 @@ namespace OpenProtocolInterpreter.Communication
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.MID_ACCEPTED, 20, 4, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                                new DataField((int)DataFields.MidAccepted, 20, 4, '0', PaddingOrientation.LeftPadded, false)
                             }
                 }
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            MID_ACCEPTED
+            MidAccepted
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Job.Advanced
 {
@@ -18,34 +17,31 @@ namespace OpenProtocolInterpreter.Job.Advanced
     /// </summary>
     public class Mid0129 : Mid, IAdvancedJob, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
-        private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 2;
         public const int MID = 129;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JOB_BATCH_DECREMENT_FAILED };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JobBatchDecrementFailed };
 
         public int ChannelId
         {
-            get => GetField(2, (int)DataFields.CHANNEL_ID).GetValue(_intConverter.Convert);
-            set => GetField(2, (int)DataFields.CHANNEL_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(2, (int)DataFields.ChannelId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(2, (int)DataFields.ChannelId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int ParameterSetId
         {
-            get => GetField(2, (int)DataFields.PARAMETER_SET_ID).GetValue(_intConverter.Convert);
-            set => GetField(2, (int)DataFields.PARAMETER_SET_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(2, (int)DataFields.ParameterSetId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(2, (int)DataFields.ParameterSetId).SetValue(OpenProtocolConvert.ToString, value);
         }
 
-        public Mid0129() : this(LAST_REVISION)
+        public Mid0129() : this(DEFAULT_REVISION)
         {
 
         }
 
         public Mid0129(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
         }
 
-        public Mid0129(int revision = LAST_REVISION) : this(new Header()
+        public Mid0129(int revision) : this(new Header()
         {
             Mid = MID,
             Revision = revision
@@ -54,13 +50,6 @@ namespace OpenProtocolInterpreter.Job.Advanced
             
         }
 
-        public Mid0129(int channelId, int parameterSetId, int revision = 2) : this(revision)
-        {
-            ChannelId = channelId;
-            ParameterSetId = parameterSetId;
-        }
-
-
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()
@@ -68,17 +57,17 @@ namespace OpenProtocolInterpreter.Job.Advanced
                 {
                     2, new List<DataField>()
                             {
-                                new DataField((int)DataFields.CHANNEL_ID, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.PARAMETER_SET_ID, 24, 3, '0', DataField.PaddingOrientations.LEFT_PADDED)
+                                new DataField((int)DataFields.ChannelId, 20, 2, '0', PaddingOrientation.LeftPadded),
+                                new DataField((int)DataFields.ParameterSetId, 24, 3, '0', PaddingOrientation.LeftPadded)
                             }
                 }
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            CHANNEL_ID,
-            PARAMETER_SET_ID
+            ChannelId,
+            ParameterSetId
         }
     }
 }

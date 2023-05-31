@@ -4,9 +4,11 @@ using OpenProtocolInterpreter.PLCUserData;
 namespace MIDTesters.PLCUserData
 {
     [TestClass]
+    [TestCategory("PLCUserData")]
     public class TestMid0240 : DefaultMidTests<Mid0240>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0240Revision1()
         {
             string package = "00470240            My identifier less than 200";
@@ -17,6 +19,7 @@ namespace MIDTesters.PLCUserData
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0240ByteRevision1()
         {
             string package = "00470240            My identifier less than 200";
@@ -33,7 +36,7 @@ namespace MIDTesters.PLCUserData
             string userData = "the phrase the quick brown fox jumps over the lazy dog should test all the letter keys in your keyboard ";
             userData += userData; //double it to get 208 characters
 
-            var mid0240 = new Mid0240(userData);
+            var mid0240 = new Mid0240() { UserData = userData };
             Assert.IsNotNull(mid0240.UserData);
             Assert.AreEqual(userData.Substring(0, 200), mid0240.UserData);
             Assert.IsTrue(mid0240.Pack().Length == 220);

@@ -14,17 +14,16 @@ namespace OpenProtocolInterpreter.Job.Advanced
     /// </summary>
     public class Mid0120 : Mid, IAdvancedJob, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 120;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JOB_LINE_CONTROL_INFO_SUBSCRIPTION_ALREADY_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JobLineControlInfoSubscriptionAlreadyExists };
 
         public Mid0120() : this(false)
         {
 
         }
 
-        public Mid0120(bool noAckFlag = false) : base(MID, LAST_REVISION, noAckFlag)
+        public Mid0120(bool noAckFlag = false) : base(MID, DEFAULT_REVISION, noAckFlag)
         {
         }
 

@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.IOInterface
 {
@@ -14,55 +13,53 @@ namespace OpenProtocolInterpreter.IOInterface
     /// </summary>
     public class Mid0211 : Mid, IIOInterface, IController, IAcknowledgeable<Mid0212>
     {
-        private readonly IValueConverter<bool> _boolConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 211;
         
         public bool StatusDigInOne
         {
-            get => GetField(1,(int)DataFields.STATUS_DIG_IN_1).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.STATUS_DIG_IN_1).SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.StatusDigIn1).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1,(int)DataFields.StatusDigIn1).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool StatusDigInTwo
         {
-            get => GetField(1,(int)DataFields.STATUS_DIG_IN_2).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.STATUS_DIG_IN_2).SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.StatusDigIn2).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1,(int)DataFields.StatusDigIn2).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool StatusDigInThree
         {
-            get => GetField(1,(int)DataFields.STATUS_DIG_IN_3).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.STATUS_DIG_IN_3).SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.StatusDigIn3).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1,(int)DataFields.StatusDigIn3).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool StatusDigInFour
         {
-            get => GetField(1,(int)DataFields.STATUS_DIG_IN_4).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.STATUS_DIG_IN_4).SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.StatusDigIn4).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1,(int)DataFields.StatusDigIn4).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool StatusDigInFive
         {
-            get => GetField(1,(int)DataFields.STATUS_DIG_IN_5).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.STATUS_DIG_IN_5).SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.StatusDigIn5).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1,(int)DataFields.StatusDigIn5).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool StatusDigInSix
         {
-            get => GetField(1,(int)DataFields.STATUS_DIG_IN_6).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.STATUS_DIG_IN_6).SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.StatusDigIn6).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1,(int)DataFields.StatusDigIn6).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool StatusDigInSeven
         {
-            get => GetField(1,(int)DataFields.STATUS_DIG_IN_7).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.STATUS_DIG_IN_7).SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.StatusDigIn7).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1,(int)DataFields.StatusDigIn7).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool StatusDigInEight
         {
-            get => GetField(1,(int)DataFields.STATUS_DIG_IN_8).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.STATUS_DIG_IN_8).SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.StatusDigIn8).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1,(int)DataFields.StatusDigIn8).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0211() : this(new Header()
         {
             Mid = MID, 
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
             
@@ -70,7 +67,6 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public Mid0211(Header header) : base(header)
         {
-            _boolConverter = new BoolConverter();
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -80,29 +76,29 @@ namespace OpenProtocolInterpreter.IOInterface
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.STATUS_DIG_IN_1, 20, 1, false),
-                        new DataField((int)DataFields.STATUS_DIG_IN_2, 21, 1, false),
-                        new DataField((int)DataFields.STATUS_DIG_IN_3, 22, 1, false),
-                        new DataField((int)DataFields.STATUS_DIG_IN_4, 23, 1, false),
-                        new DataField((int)DataFields.STATUS_DIG_IN_5, 24, 1, false),
-                        new DataField((int)DataFields.STATUS_DIG_IN_6, 25, 1, false),
-                        new DataField((int)DataFields.STATUS_DIG_IN_7, 26, 1, false),
-                        new DataField((int)DataFields.STATUS_DIG_IN_8, 27, 1, false)
+                        new DataField((int)DataFields.StatusDigIn1, 20, 1, false),
+                        new DataField((int)DataFields.StatusDigIn2, 21, 1, false),
+                        new DataField((int)DataFields.StatusDigIn3, 22, 1, false),
+                        new DataField((int)DataFields.StatusDigIn4, 23, 1, false),
+                        new DataField((int)DataFields.StatusDigIn5, 24, 1, false),
+                        new DataField((int)DataFields.StatusDigIn6, 25, 1, false),
+                        new DataField((int)DataFields.StatusDigIn7, 26, 1, false),
+                        new DataField((int)DataFields.StatusDigIn8, 27, 1, false)
                     }
                 }
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            STATUS_DIG_IN_1,
-            STATUS_DIG_IN_2,
-            STATUS_DIG_IN_3,
-            STATUS_DIG_IN_4,
-            STATUS_DIG_IN_5,
-            STATUS_DIG_IN_6,
-            STATUS_DIG_IN_7,
-            STATUS_DIG_IN_8
+            StatusDigIn1,
+            StatusDigIn2,
+            StatusDigIn3,
+            StatusDigIn4,
+            StatusDigIn5,
+            StatusDigIn6,
+            StatusDigIn7,
+            StatusDigIn8
         }
     }
 }

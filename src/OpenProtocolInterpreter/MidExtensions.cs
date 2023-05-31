@@ -99,7 +99,7 @@ namespace OpenProtocolInterpreter
         /// <returns>A new <see cref="Mid0004"/> instance</returns>
         public static Mid0004 GetDeclineCommand<TDeclinedMid>(this TDeclinedMid mid, Error error) where TDeclinedMid : Mid, IDeclinableCommand
         {
-            return new Mid0004(mid.Header.Mid, error);
+            return new Mid0004(mid.Header.Mid) { ErrorCode = error };
         }
 
         /// <summary>

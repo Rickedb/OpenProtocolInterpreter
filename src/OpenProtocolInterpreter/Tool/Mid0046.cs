@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Tool
 {
@@ -17,38 +16,26 @@ namespace OpenProtocolInterpreter.Tool
     /// </summary>
     public class Mid0046 : Mid, ITool, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
-        private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 46;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.PROGRAMMING_CONTROL_NOT_GRANTED, Error.INVALID_DATA };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.ProgrammingControlNotGranted, Error.InvalidData };
 
         public PrimaryTool PrimaryTool
         {
-            get => (PrimaryTool)GetField(1,(int)DataFields.PRIMARY_TOOL).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.PRIMARY_TOOL).SetValue(_intConverter.Convert, (int)value);
+            get => (PrimaryTool)GetField(1,(int)DataFields.PrimaryTool).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.PrimaryTool).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
 
         public Mid0046() : this(new Header()
         {
             Mid = MID, 
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
         }
 
         public Mid0046(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
-        }
-
-        /// <summary>
-        /// Revision 1 Constructor
-        /// </summary>
-        /// <param name="primaryTool">Primary tool. The primary tool is two byte-long and specified by two ASCII digits.</param>
-        public Mid0046(PrimaryTool primaryTool) : this()
-        {
-            PrimaryTool = primaryTool;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -58,15 +45,15 @@ namespace OpenProtocolInterpreter.Tool
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.PRIMARY_TOOL, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED)
+                                new DataField((int)DataFields.PrimaryTool, 20, 2, '0', PaddingOrientation.LeftPadded)
                             }
                 }
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            PRIMARY_TOOL
+            PrimaryTool
         }
     }
 }

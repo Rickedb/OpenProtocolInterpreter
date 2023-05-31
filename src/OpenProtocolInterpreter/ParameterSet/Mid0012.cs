@@ -1,6 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.ParameterSet
 {
@@ -15,29 +13,27 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// </summary>
     public class Mid0012 : Mid, IParameterSet, IIntegrator, IAnswerableBy<Mid0013>, IDeclinableCommand
     {
-        private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 5;
         public const int MID = 12;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.PARAMETER_SET_ID_NOT_PRESENT };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.ParameterSetIdNotPresent };
 
         public int ParameterSetId
         {
-            get => GetField(1, (int)DataFields.PARAMETER_SET_ID).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.PARAMETER_SET_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.ParameterSetId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.ParameterSetId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int ParameterSetFileVersion
         {
-            get => GetField(3, (int)DataFields.PSET_FILE_VERSION).GetValue(_intConverter.Convert);
-            set => GetField(3, (int)DataFields.PSET_FILE_VERSION).SetValue(_intConverter.Convert, value);
+            get => GetField(3, (int)DataFields.PSetFileVersion).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(3, (int)DataFields.PSetFileVersion).SetValue(OpenProtocolConvert.ToString, value);
         }
 
-        public Mid0012() : this(LAST_REVISION)
+        public Mid0012() : this(DEFAULT_REVISION)
         {
 
         }
 
-        public Mid0012(int revision = LAST_REVISION) : this(new Header()
+        public Mid0012(int revision) : this(new Header()
         {
             Mid = MID,
             Revision = revision
@@ -47,45 +43,6 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public Mid0012(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
-        }
-
-        /// <summary>
-        /// Revision 1, 2 and 5 Constructor
-        /// </summary>
-        /// <param name="parameterSetId">Parameter Set Id. Three ASCII digits. Range: 000-999</param>
-        /// <param name="revision">Revision</param>
-        public Mid0012(int parameterSetId, int revision) : this(revision)
-        {
-            ParameterSetId = parameterSetId;
-        }
-
-        /// <summary>
-        /// Revision 3 and 4 Constructor
-        /// </summary>
-        /// <param name="parameterSetId">Parameter Set Id. Three ASCII digits. Range: 000-999</param>
-        /// <param name="parameterSetFileVersion">00000000 (special usage see Toyota appendix)</param>
-        /// <param name="revision">Revision</param>
-        public Mid0012(int parameterSetId, int parameterSetFileVersion, int revision) : this(parameterSetId, revision)
-        {
-            ParameterSetFileVersion = parameterSetFileVersion;
-        }
-
-        /// <summary>
-        /// Validate all fields size
-        /// </summary>
-        public bool Validate(out IEnumerable<string> errors)
-        {
-            List<string> failed = new List<string>();
-            if (ParameterSetId < 1 || ParameterSetId > 999)
-                failed.Add(new ArgumentOutOfRangeException(nameof(ParameterSetId), "Range: 000-999").Message);
-
-            if (Header.Revision > 2)
-                if (ParameterSetFileVersion < 0 || ParameterSetFileVersion > 99999999)
-                    failed.Add(new ArgumentOutOfRangeException(nameof(ParameterSetFileVersion), "Range: 00000000-99999999").Message);
-
-            errors = failed;
-            return failed.Count > 0;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -95,24 +52,24 @@ namespace OpenProtocolInterpreter.ParameterSet
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.PARAMETER_SET_ID, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                                new DataField((int)DataFields.ParameterSetId, 20, 3, '0', PaddingOrientation.LeftPadded, false)
                             }
                 },
                 {
                     3, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.PSET_FILE_VERSION, 23, 8, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                                new DataField((int)DataFields.PSetFileVersion, 23, 8, '0', PaddingOrientation.LeftPadded, false)
                             }
                 },
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             //Revision 1-2
-            PARAMETER_SET_ID,
+            ParameterSetId,
             //Revision 3-4
-            PSET_FILE_VERSION
+            PSetFileVersion
         }
     }
 }

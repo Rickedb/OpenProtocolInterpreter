@@ -4,9 +4,11 @@ using OpenProtocolInterpreter.ParameterSet;
 namespace MIDTesters.ParameterSet
 {
     [TestClass]
+    [TestCategory("ParameterSet")]
     public class TestMid0010 : DefaultMidTests<Mid0010>
     {
         [TestMethod]
+        [TestCategory("ASCII")]
         public void Mid0010AllRevisions()
         {
             string package = "00200010002         ";
@@ -17,6 +19,7 @@ namespace MIDTesters.ParameterSet
         }
 
         [TestMethod]
+        [TestCategory("ByteArray")]
         public void Mid0010ByteAllRevisions()
         {
             string package = "00200010002         ";

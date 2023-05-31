@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.IOInterface
 {
@@ -14,22 +13,20 @@ namespace OpenProtocolInterpreter.IOInterface
     /// </summary>
     public class Mid0224 : Mid, IIOInterface, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
-        private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 224;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.INVALID_DATA };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.InvalidData };
 
         public DigitalInputNumber DigitalInputNumber
         {
-            get => (DigitalInputNumber)GetField(1,(int)DataFields.DIGITAL_INPUT_NUMBER).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.DIGITAL_INPUT_NUMBER).SetValue(_intConverter.Convert, (int)value);
+            get => (DigitalInputNumber)GetField(1,(int)DataFields.DigitalInputNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.DigitalInputNumber).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
 
         public Mid0224() : this(new Header()
         {
             Mid = MID,
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
 
@@ -37,12 +34,6 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public Mid0224(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
-        }
-
-        public Mid0224(DigitalInputNumber digitalInputNumber) : this()
-        {
-            DigitalInputNumber = digitalInputNumber;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -52,15 +43,15 @@ namespace OpenProtocolInterpreter.IOInterface
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.DIGITAL_INPUT_NUMBER, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                        new DataField((int)DataFields.DigitalInputNumber, 20, 3, '0', PaddingOrientation.LeftPadded, false)
                     }
                 }
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            DIGITAL_INPUT_NUMBER
+            DigitalInputNumber
         }
     }
 }

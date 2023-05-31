@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.AutomaticManualMode
 {
@@ -14,8 +13,6 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
     /// </summary>
     public class Mid0401 : Mid, IAutomaticManualMode, IController, IAcknowledgeable<Mid0402>
     {
-        private readonly IValueConverter<bool> _boolConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 401;
 
         /// <summary>
@@ -24,27 +21,21 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
         /// </summary>
         public bool ManualAutomaticMode
         {
-            get => GetField(1,(int)DataFields.MANUAL_AUTOMATIC_MODE).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.MANUAL_AUTOMATIC_MODE).SetValue(_boolConverter.Convert, value);
+            get => GetField(1, (int)DataFields.ManualAutomaticMode).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, (int)DataFields.ManualAutomaticMode).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0401() : this(new Header()
         {
             Mid = MID,
-            Revision = LAST_REVISION,
+            Revision = DEFAULT_REVISION,
         })
         {
-            
+
         }
 
         public Mid0401(Header header) : base(header)
         {
-            _boolConverter = new BoolConverter();
-        }
-
-        public Mid0401(bool manualAutomaticMode) : this()
-        {
-            ManualAutomaticMode = manualAutomaticMode;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -54,15 +45,15 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.MANUAL_AUTOMATIC_MODE, 20, 1, false)
+                                new DataField((int)DataFields.ManualAutomaticMode, 20, 1, false)
                             }
                 }
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            MANUAL_AUTOMATIC_MODE
+            ManualAutomaticMode
         }
     }
 }

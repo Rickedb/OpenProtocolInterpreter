@@ -5,9 +5,9 @@
     /// </summary>
     public enum LinkCommunicationError
     {
-        INVALID_LENGTH = 1,
-        INVALID_REVISION = 2,
-        INVALID_SEQUENCE_NUMBER = 3,
-        INCONSISTENCY_OF_MESSAGE_NUMBER = 4
+        InvalidLength = 1,
+        InvalidRevision = 2,
+        InvalidSequenceNumber = 3,
+        InconsistencyOfMessageNumber = 4
     }
 }

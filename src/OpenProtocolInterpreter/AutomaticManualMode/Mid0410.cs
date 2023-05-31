@@ -11,10 +11,9 @@
     /// </summary>
     public class Mid0410 : Mid, IAutomaticManualMode, IIntegrator, IAnswerableBy<Mid0411>
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 410;
 
-        public Mid0410() : base(MID, LAST_REVISION) { }
+        public Mid0410() : base(MID, DEFAULT_REVISION) { }
 
         public Mid0410(Header header) : base(header)
         {

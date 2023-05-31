@@ -11,10 +11,9 @@
     /// </summary>
     public class Mid0113 : Mid, IUserInterface, IIntegrator, IAcceptableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 113;
 
-        public Mid0113() : base(MID, LAST_REVISION)
+        public Mid0113() : base(MID, DEFAULT_REVISION)
         {
 
         }

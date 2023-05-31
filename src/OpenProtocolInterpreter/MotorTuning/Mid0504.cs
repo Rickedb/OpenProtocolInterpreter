@@ -11,12 +11,11 @@ namespace OpenProtocolInterpreter.MotorTuning
     /// </summary>
     public class Mid0504 : Mid, IMotorTuning, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 504;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.TOOL_MOTOR_TUNING_FAILED };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.ToolMotorTuningFailed };
 
-        public Mid0504() : base(MID, LAST_REVISION) { }
+        public Mid0504() : base(MID, DEFAULT_REVISION) { }
 
         public Mid0504(Header header) : base(header)
         {

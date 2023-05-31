@@ -1,13 +1,14 @@
-﻿using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Alarm;
 
 namespace MIDTesters.Alarm
 {
     [TestClass]
+    [TestCategory("Alarm")]
     public class TestMid0072 : DefaultMidTests<Mid0072>
     {
         [TestMethod]
+        [TestCategory("ASCII")]
         public void Mid0072AllRevisions()
         {
             string pack = @"00200072002         ";
@@ -18,6 +19,7 @@ namespace MIDTesters.Alarm
         }
 
         [TestMethod]
+        [TestCategory("ByteArray")]
         public void Mid0072ByteAllRevisions()
         {
             string pack = @"00200072002         ";

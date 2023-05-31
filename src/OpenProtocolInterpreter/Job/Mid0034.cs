@@ -13,12 +13,11 @@ namespace OpenProtocolInterpreter.Job
     /// </summary>
     public class Mid0034 : Mid, IJob, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 4;
         public const int MID = 34;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JOB_INFO_SUBSCRIPTION_ALREADY_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JobInfoSubscriptionAlreadyExists };
 
-        public Mid0034() : this(LAST_REVISION)
+        public Mid0034() : this(DEFAULT_REVISION)
         {
 
         }
@@ -32,6 +31,6 @@ namespace OpenProtocolInterpreter.Job
         /// </summary>
         /// <param name="noAckFlag">False=Ack needed, True=No Ack needed</param>
         /// <param name="revision">Revision number (default = 4)</param>
-        public Mid0034(int revision = LAST_REVISION, bool noAckFlag = false) : base(MID, revision, noAckFlag) { }
+        public Mid0034(int revision, bool noAckFlag = false) : base(MID, revision, noAckFlag) { }
     }
 }

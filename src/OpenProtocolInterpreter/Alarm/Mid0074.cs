@@ -11,21 +11,15 @@ namespace OpenProtocolInterpreter.Alarm
     /// </summary>
     public class Mid0074 : Mid, IAlarm, IController, IAcknowledgeable<Mid0075>
     {
-        private const int LAST_REVISION = 2;
         public const int MID = 74;
 
         public string ErrorCode
         {
-            get => GetField(1, (int)DataFields.ERROR_CODE).Value;
-            set => GetField(1, (int)DataFields.ERROR_CODE).SetValue(value);
+            get => GetField(1, (int)DataFields.ErrorCode).Value;
+            set => GetField(1, (int)DataFields.ErrorCode).SetValue(value);
         }
 
-        public Mid0074() : this(LAST_REVISION)
-        {
-
-        }
-
-        public Mid0074(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0074() : this(DEFAULT_REVISION)
         {
 
         }
@@ -35,21 +29,21 @@ namespace OpenProtocolInterpreter.Alarm
 
         }
 
-        public Mid0074(string errorCode, int revision = LAST_REVISION) : this(revision)
+        public Mid0074(int revision) : base(MID, revision)
         {
-            ErrorCode = errorCode;
+
         }
 
         public override string Pack()
         {
-            RevisionsByFields[1][(int)DataFields.ERROR_CODE].Size = Header.Revision == 1 ? 4 : 5;
+            RevisionsByFields[1][(int)DataFields.ErrorCode].Size = Header.Revision == 1 ? 4 : 5;
             return base.Pack();
         }
 
         public override Mid Parse(string package)
         {
             Header = ProcessHeader(package);
-            RevisionsByFields[1][(int)DataFields.ERROR_CODE].Size = Header.Revision == 1 ? 4 : 5;
+            RevisionsByFields[1][(int)DataFields.ErrorCode].Size = Header.Revision == 1 ? 4 : 5;
             ProcessDataFields(package);
             return this;
         }
@@ -61,15 +55,15 @@ namespace OpenProtocolInterpreter.Alarm
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.ERROR_CODE, 20, 4, ' ', DataField.PaddingOrientations.LEFT_PADDED, false)
+                                new DataField((int)DataFields.ErrorCode, 20, 4, ' ', PaddingOrientation.LeftPadded, false)
                             }
                 }
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            ERROR_CODE
+            ErrorCode
         }
     }
 }

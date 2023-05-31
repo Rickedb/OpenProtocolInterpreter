@@ -15,12 +15,11 @@ namespace OpenProtocolInterpreter.ApplicationController
     /// </summary>
     public class Mid0270 : Mid, IApplicationController, IIntegrator, IAcceptableCommand, IDeclinableCommand 
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 270;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.PROGRAMMING_CONTROL_NOT_GRANTED };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.ProgrammingControlNotGranted };
 
-        public Mid0270() : base(MID, LAST_REVISION) 
+        public Mid0270() : base(MID, DEFAULT_REVISION) 
         { 
         }
 

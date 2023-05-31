@@ -5,10 +5,12 @@
     /// </summary>
     public enum AutoSelect
     {
-        NONE = 0,
-        AUTO_NEXT_CHANGE = 1,
+        None = 0,
+        AutoNextChange = 1,
         IO = 2,
-        FIELDBUS = 6,
-        SOCKET_TRAY = 8
+        Fieldbus = 6,
+        SocketTray = 8,
+        EndFittings = 9,
+        ToolDisplay = 10
     }
 }

@@ -1,6 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.ApplicationSelector
 {
@@ -20,24 +18,21 @@ namespace OpenProtocolInterpreter.ApplicationSelector
     /// </summary>
     public class Mid0255 : Mid, IApplicationSelector, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
-        private readonly IValueConverter<IEnumerable<LightCommand>> _lightsConverter;
-        private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 255;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.FAULTY_IO_DEVICE_ID };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.FaultyIODeviceId };
 
         public int DeviceId
         {
-            get => GetField(1, (int)DataFields.DEVICE_ID).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.DEVICE_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.DeviceId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.DeviceId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public List<LightCommand> RedLights { get; set; }
 
         public Mid0255() : this(new Header()
         {
             Mid = MID,
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
            
@@ -45,29 +40,39 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
         public Mid0255(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
-            _lightsConverter = new LightCommandListConverter(_intConverter);
             if (RedLights == null)
                 RedLights = new List<LightCommand>();
         }
 
-        public Mid0255(int deviceId, IEnumerable<LightCommand> redLights) : this()
-        {
-            DeviceId = deviceId;
-            RedLights = redLights.ToList();
-        }
-
         public override string Pack()
         {
-            GetField(1, (int)DataFields.RED_LIGHT_COMMAND).Value = _lightsConverter.Convert(RedLights);
+            GetField(1, (int)DataFields.RedLightCommand).Value = PackRedLights();
             return base.Pack();
         }
 
         public override Mid Parse(string package)
         {
             base.Parse(package);
-            RedLights = _lightsConverter.Convert(GetField(1, (int)DataFields.RED_LIGHT_COMMAND).Value).ToList();
+            RedLights = ParseRedLights(GetField(1, (int)DataFields.RedLightCommand).Value);
             return this;
+        }
+
+        protected virtual string PackRedLights()
+        {
+            string pack = string.Empty;
+            foreach (var e in RedLights)
+                pack += OpenProtocolConvert.ToString((int)e);
+
+            return pack;
+        }
+
+        protected virtual List<LightCommand> ParseRedLights(string value)
+        {
+            var list = new List<LightCommand>();
+            foreach (var c in value)
+                list.Add((LightCommand)OpenProtocolConvert.ToInt32(c.ToString()));
+
+            return list;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -77,17 +82,17 @@ namespace OpenProtocolInterpreter.ApplicationSelector
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.DEVICE_ID, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.RED_LIGHT_COMMAND, 24, 8)
+                                new DataField((int)DataFields.DeviceId, 20, 2, '0', PaddingOrientation.LeftPadded),
+                                new DataField((int)DataFields.RedLightCommand, 24, 8)
                             }
                 }
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            DEVICE_ID,
-            RED_LIGHT_COMMAND
+            DeviceId,
+            RedLightCommand
         }
     }
 }

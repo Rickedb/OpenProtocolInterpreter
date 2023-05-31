@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
 {
@@ -16,32 +15,24 @@ namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
     /// </summary>
     public class Mid0421 : Mid, IOpenProtocolCommandsDisabled, IController, IAcknowledgeable<Mid0422>
     {
-        private readonly IValueConverter<bool> _boolConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 421;
         
         public bool DigitalInputStatus
         {
-            get => GetField(1,(int)DataFields.DIGITAL_INPUT_STATUS).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.DIGITAL_INPUT_STATUS).SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.DigitalInputStatus).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1,(int)DataFields.DigitalInputStatus).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0421() : this(new Header()
         {
             Mid = MID, 
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
         }
 
         public Mid0421(Header header) : base(header)
         {
-            _boolConverter = new BoolConverter();
-        }
-
-        public Mid0421(bool digitalInputStatus) : this()
-        {
-            DigitalInputStatus = digitalInputStatus;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -51,15 +42,15 @@ namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.DIGITAL_INPUT_STATUS, 20, 1, false)
+                                new DataField((int)DataFields.DigitalInputStatus, 20, 1, false)
                             }
                 }
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            DIGITAL_INPUT_STATUS
+            DigitalInputStatus
         }
     }
 }

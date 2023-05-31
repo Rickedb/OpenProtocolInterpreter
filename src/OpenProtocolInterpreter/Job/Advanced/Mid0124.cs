@@ -8,10 +8,9 @@
     /// </summary>
     public class Mid0124 : Mid, IAdvancedJob, IController, IAcknowledgeable<Mid0125>
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 124;
 
-        public Mid0124() : base(MID, LAST_REVISION)
+        public Mid0124() : base(MID, DEFAULT_REVISION)
         {
 
         }

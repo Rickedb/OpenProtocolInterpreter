@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace OpenProtocolInterpreter.Tool
@@ -16,9 +15,6 @@ namespace OpenProtocolInterpreter.Tool
     /// </summary>
     public class Mid0701 : Mid, ITool, IController
     {
-        private readonly IValueConverter<IEnumerable<ToolData>> _toolListConverter;
-        private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 701;
 
         public int TotalTools { get => Tools.Count; }
@@ -27,31 +23,24 @@ namespace OpenProtocolInterpreter.Tool
         public Mid0701() : this(new Header()
         {
             Mid = MID, 
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
         }
 
         public Mid0701(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
-            _toolListConverter = new ToolListConverter(_intConverter);
             if (Tools == null)
             {
                 Tools = new List<ToolData>();
             }
         }
 
-        public Mid0701(IEnumerable<ToolData> tools) : this()
-        {
-            Tools = tools.ToList();
-        }
-
         public override string Pack()
         {
-            GetField(1, (int)DataFields.TOTAL_TOOLS).SetValue(_intConverter.Convert, TotalTools);
-            var eachToolField = GetField(1, (int)DataFields.EACH_TOOL);
-            eachToolField.Value = _toolListConverter.Convert(Tools);
+            GetField(1, (int)DataFields.TotalTools).SetValue(OpenProtocolConvert.ToString, TotalTools);
+            var eachToolField = GetField(1, (int)DataFields.EachTool);
+            eachToolField.Value = PackTools();
             eachToolField.Size = eachToolField.Value.Length;
             return base.Pack();
         }
@@ -60,11 +49,22 @@ namespace OpenProtocolInterpreter.Tool
         {
             Header = ProcessHeader(package);
 
-            var eachToolField = GetField(1, (int)DataFields.EACH_TOOL);
+            var eachToolField = GetField(1, (int)DataFields.EachTool);
             eachToolField.Size = Header.Length - eachToolField.Index;
             ProcessDataFields(package);
-            Tools = _toolListConverter.Convert(eachToolField.Value).ToList();
+            Tools = ToolData.ParseAll(eachToolField.Value).ToList();
             return this;
+        }
+
+        protected virtual string PackTools()
+        {
+            string pack = string.Empty;
+            foreach (var tool in Tools)
+            {
+                pack += tool.Pack();
+            }
+
+            return pack;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -74,16 +74,16 @@ namespace OpenProtocolInterpreter.Tool
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.TOTAL_TOOLS, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
-                                new DataField((int)DataFields.EACH_TOOL, 23, 3, false)
+                                new DataField((int)DataFields.TotalTools, 20, 3, '0', PaddingOrientation.LeftPadded, false),
+                                new DataField((int)DataFields.EachTool, 23, 3, false)
                             }
                 }
             };
         }
-        public enum DataFields
+        protected enum DataFields
         {
-            TOTAL_TOOLS,
-            EACH_TOOL
+            TotalTools,
+            EachTool
         }
     }
 }

@@ -11,11 +11,10 @@ namespace OpenProtocolInterpreter.ApplicationSelector
     public class Mid0253 : Mid, IApplicationSelector, IIntegrator, IUnsubscription, IAcceptableCommand, IDeclinableCommand
     {
         public const int MID = 253;
-        private const int LAST_REVISION = 1;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SELECTOR_SOCKET_INFO_SUBSCRIPTION_DOESNT_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SelectorSocketInfoSubscriptionDoesntExists };
 
-        public Mid0253() : base(MID, LAST_REVISION) { }
+        public Mid0253() : base(MID, DEFAULT_REVISION) { }
 
         public Mid0253(Header header) : base(header)
         {

@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.MotorTuning
 {
@@ -11,8 +10,6 @@ namespace OpenProtocolInterpreter.MotorTuning
     /// </summary>
     public class Mid0501 : Mid, IMotorTuning, IController, IAcknowledgeable<Mid0502>
     {
-        private readonly IValueConverter<bool> _boolConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 501;
 
         /// <summary>
@@ -21,26 +18,20 @@ namespace OpenProtocolInterpreter.MotorTuning
         /// </summary>
         public bool MotorTuneResult
         {
-            get => GetField(1, (int)DataFields.MOTOR_TUNE_RESULT).GetValue(_boolConverter.Convert);
-            set => GetField(1, (int)DataFields.MOTOR_TUNE_RESULT).SetValue(_boolConverter.Convert, value);
+            get => GetField(1, (int)DataFields.MotorTuneResult).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, (int)DataFields.MotorTuneResult).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0501() : this(new Header()
         {
             Mid = MID,
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
         }
 
         public Mid0501(Header header) : base(header)
         {
-            _boolConverter = new BoolConverter();
-        }
-
-        public Mid0501(bool motorTuneResult) : this()
-        {
-            MotorTuneResult = motorTuneResult;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -50,15 +41,15 @@ namespace OpenProtocolInterpreter.MotorTuning
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.MOTOR_TUNE_RESULT, 20, 1)
+                                new DataField((int)DataFields.MotorTuneResult, 20, 1)
                             }
                 }
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            MOTOR_TUNE_RESULT
+            MotorTuneResult
         }
     }
 }

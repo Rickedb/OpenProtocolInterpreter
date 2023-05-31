@@ -5,7 +5,7 @@
     /// </summary>
     public enum BatchStatusAtIncrement
     {
-        OK = 0,
-        NOK = 1
+        Ok = 0,
+        Nok = 1
     }
 }

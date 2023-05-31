@@ -1,7 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Job
 {
@@ -13,45 +10,32 @@ namespace OpenProtocolInterpreter.Job
     /// </summary>
     public class Mid0039 : Mid, IJob, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
-        private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 2;
         public const int MID = 39;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JOB_NOT_RUNNING, Error.INVALID_DATA };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JobNotRunning, Error.InvalidData };
 
         public int JobId
         {
-            get => GetField(1, (int)DataFields.JOB_ID).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.JOB_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.JobId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.JobId).SetValue(OpenProtocolConvert.ToString, value);
         }
 
-        public Mid0039() : this(LAST_REVISION)
+        public Mid0039() : this(DEFAULT_REVISION)
         {
 
         }
 
         public Mid0039(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
             HandleRevisions();
         }
 
-        public Mid0039(int revision = LAST_REVISION) : this(new Header()
+        public Mid0039(int revision) : this(new Header()
         {
             Mid = MID,
             Revision = revision
         })
         {
-        }
-
-        /// <summary>
-        /// Constructor for Revision 1 and 2
-        /// </summary>
-        /// <param name="jobId">The Job ID is specified by two/four ASCII characters, range 00-99/0000-9999 <para>*Depend on revision</para></param>
-        /// <param name="revision">Revision number (default = 2)</param>
-        public Mid0039(int jobId, int revision = LAST_REVISION) : this(revision)
-        {
-            JobId = jobId;
         }
 
         public override Mid Parse(string package)
@@ -69,49 +53,27 @@ namespace OpenProtocolInterpreter.Job
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.JOB_ID, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
+                                new DataField((int)DataFields.JobId, 20, 2, '0', PaddingOrientation.LeftPadded, false),
                             }
                 }
             };
-        }
-
-        /// <summary>
-        /// Validate all fields size
-        /// </summary>
-        public bool Validate(out IEnumerable<string> errors)
-        {
-            List<string> failed = new List<string>();
-
-            if (Header.Revision == 1)
-            {
-                if (JobId < 0 || JobId > 99)
-                    failed.Add(new ArgumentOutOfRangeException(nameof(JobId), "Range: 00-99").Message);
-            }
-            else
-            {
-                if (JobId < 0 || JobId > 9999)
-                    failed.Add(new ArgumentOutOfRangeException(nameof(JobId), "Range: 0000-9999").Message);
-            }
-
-            errors = failed;
-            return errors.Any();
         }
 
         private void HandleRevisions()
         {
             if (Header.Revision == 1)
             {
-                GetField(1, (int)DataFields.JOB_ID).Size = 2;
+                GetField(1, (int)DataFields.JobId).Size = 2;
             }
             else
             {
-                GetField(1, (int)DataFields.JOB_ID).Size = 4;
+                GetField(1, (int)DataFields.JobId).Size = 4;
             }
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            JOB_ID
+            JobId
         }
     }
 }

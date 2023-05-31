@@ -10,14 +10,13 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
     /// </summary>
     public class Mid0261 : Mid, IApplicationToolLocationSystem, IController, ISubscription, IAnswerableBy<Mid0262>, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 261;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] 
         { 
-            Error.TOOL_TAG_ID_UNKNOWN, 
-            Error.SUBSCRIPTION_ALREADY_EXISTS, 
-            Error.MID_REVISION_UNSUPPORTED 
+            Error.ToolTagIdUnknown, 
+            Error.SubscriptionAlreadyExists, 
+            Error.MidRevisionUnsupported 
         };
 
         public Mid0261() : this(false)
@@ -28,7 +27,7 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
         public Mid0261(bool noAckFlag = false) : this(new Header()
         {
             Mid = MID, 
-            Revision = LAST_REVISION, 
+            Revision = DEFAULT_REVISION, 
             NoAckFlag = noAckFlag
         }) 
         { 

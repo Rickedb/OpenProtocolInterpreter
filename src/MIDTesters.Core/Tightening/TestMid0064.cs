@@ -1,13 +1,14 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Tightening;
-using System.Linq;
 
 namespace MIDTesters.Tightening
 {
     [TestClass]
+    [TestCategory("Tightening")]
     public class TestMid0064 : MidTester
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0064Revision1()
         {
             string package = "00300064001         0123456789";
@@ -19,6 +20,7 @@ namespace MIDTesters.Tightening
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0064ByteRevision1()
         {
             string package = "00300064001         0123456789";

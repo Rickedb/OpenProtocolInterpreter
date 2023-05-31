@@ -4,6 +4,7 @@ using OpenProtocolInterpreter.Communication;
 namespace MIDTesters
 {
     [TestClass]
+    [TestCategory("Header")]
     public class TestMidHeader : MidTester
     {
         

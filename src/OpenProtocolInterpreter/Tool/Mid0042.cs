@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Tool
 {
@@ -10,55 +9,33 @@ namespace OpenProtocolInterpreter.Tool
     /// </summary>
     public class Mid0042 : Mid, ITool, IIntegrator, IAcceptableCommand
     {
-        private readonly IValueConverter<int> _intConverter;
-
-        private const int LAST_REVISION = 2;
         public const int MID = 42;
 
         public int ToolNumber
         {
-            get => GetField(2, (int)DataFields.TOOL_NUMBER).GetValue(_intConverter.Convert);
-            set => GetField(2, (int)DataFields.TOOL_NUMBER).SetValue(_intConverter.Convert, value);
+            get => GetField(2, (int)DataFields.ToolNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(2, (int)DataFields.ToolNumber).SetValue(OpenProtocolConvert.ToString, value);
         }
         public DisableType DisableType
         {
-            get => (DisableType)GetField(2, (int)DataFields.DISABLE_TYPE).GetValue(_intConverter.Convert);
-            set => GetField(2, (int)DataFields.DISABLE_TYPE).SetValue(_intConverter.Convert, (int)value);
+            get => (DisableType)GetField(2, (int)DataFields.DisableType).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(2, (int)DataFields.DisableType).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
 
-        public Mid0042() : this(LAST_REVISION)
+        public Mid0042() : this(DEFAULT_REVISION)
         {
         }
 
         public Mid0042(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
         }
 
-        public Mid0042(int revision = LAST_REVISION) : this(new Header()
+        public Mid0042(int revision) : this(new Header()
         {
             Mid = MID,
             Revision = revision
         })
         {
-        }
-
-        /// <summary>
-        /// Revision 2 constructor
-        /// </summary>
-        /// <param name="toolNumber">The number of the tool to disable. It is the same number as the tool numbers sent in <see cref="Mid0701"/> (Tool List Upload)</param>
-        /// <param name="disableType">
-        ///     The type of disable:
-        ///     <para>00 = Disable(lock)</para>
-        ///     <para>01 = Inhibit NOK</para>
-        ///     <para>02 = Inhibit OK</para>
-        ///     <para>03 = Inhibit No result</para>
-        /// </param>
-        /// <param name="revision">Revision</param>
-        public Mid0042(int toolNumber, DisableType disableType, int revision = 2) : this(revision)
-        {
-            ToolNumber = toolNumber;
-            DisableType = disableType;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -68,17 +45,17 @@ namespace OpenProtocolInterpreter.Tool
                 {
                     2, new List<DataField>()
                             {
-                                new DataField((int)DataFields.TOOL_NUMBER, 20, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.DISABLE_TYPE, 26, 2, '0', DataField.PaddingOrientations.LEFT_PADDED)
+                                new DataField((int)DataFields.ToolNumber, 20, 4, '0', PaddingOrientation.LeftPadded),
+                                new DataField((int)DataFields.DisableType, 26, 2, '0', PaddingOrientation.LeftPadded)
                             }
                 },
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            TOOL_NUMBER,
-            DISABLE_TYPE
+            ToolNumber,
+            DisableType
         }
     }
 

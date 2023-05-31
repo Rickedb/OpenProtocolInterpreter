@@ -13,17 +13,16 @@ namespace OpenProtocolInterpreter.Vin
     /// </summary>
     public class Mid0054 : Mid, IVin, IIntegrator, IUnsubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 54;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.VIN_UPLOAD_SUBSCRIPTION_DOESNT_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.VINUploadSubscriptionDoesntExists };
 
-        public Mid0054() : this(LAST_REVISION)
+        public Mid0054() : this(DEFAULT_REVISION)
         {
 
         }
 
-        public Mid0054(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0054(int revision) : base(MID, revision)
         {
 
         }

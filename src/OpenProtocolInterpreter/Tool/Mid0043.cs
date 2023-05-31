@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Tool
 {
@@ -10,43 +9,29 @@ namespace OpenProtocolInterpreter.Tool
     /// </summary>
     public class Mid0043 : Mid, ITool, IIntegrator, IAcceptableCommand
     {
-        private readonly IValueConverter<int> _intConverter;
-
-        private const int LAST_REVISION = 2;
         public const int MID = 43;
 
         public int ToolNumber
         {
-            get => GetField(2, (int)DataFields.TOOL_NUMBER).GetValue(_intConverter.Convert);
-            set => GetField(2, (int)DataFields.TOOL_NUMBER).SetValue(_intConverter.Convert, value);
+            get => GetField(2, (int)DataFields.ToolNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(2, (int)DataFields.ToolNumber).SetValue(OpenProtocolConvert.ToString, value);
         }
 
-        public Mid0043() : this(LAST_REVISION)
+        public Mid0043() : this(DEFAULT_REVISION)
         {
 
         }
 
         public Mid0043(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
         }
 
-        public Mid0043(int revision = LAST_REVISION) : this(new Header()
+        public Mid0043(int revision) : this(new Header()
         {
             Mid = MID, 
             Revision = revision
         })
         {
-        }
-
-        /// <summary>
-        /// Revision 2 constructor
-        /// </summary>
-        /// <param name="toolNumber">The number of the tool to disable. It is the same number as the tool numbers sent in <see cref="Mid0701"/> (Tool List Upload)</param>
-        /// <param name="revision">Revision</param>
-        public Mid0043(int toolNumber, int revision = LAST_REVISION) : this(revision)
-        {
-            ToolNumber = toolNumber;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -56,16 +41,16 @@ namespace OpenProtocolInterpreter.Tool
                 {
                     2, new List<DataField>()
                             {
-                                new DataField((int)DataFields.TOOL_NUMBER, 20, 4, '0', DataField.PaddingOrientations.LEFT_PADDED),
+                                new DataField((int)DataFields.ToolNumber, 20, 4, '0', PaddingOrientation.LeftPadded),
                             }
                 },
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            TOOL_NUMBER,
-            DISABLE_TYPE
+            ToolNumber,
+            DisableType
         }
     }
 }

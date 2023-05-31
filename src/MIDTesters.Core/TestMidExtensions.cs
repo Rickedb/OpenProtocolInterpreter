@@ -6,6 +6,7 @@ using System;
 namespace MIDTesters
 {
     [TestClass]
+    [TestCategory("Extensions")]
     public class TestMidExtensions
     {
         public TestMidExtensions()
@@ -16,14 +17,14 @@ namespace MIDTesters
         [TestMethod]
         public void TestPack()
         {
-            var package = new Mid0001(true).PackWithNul();
+            var package = new Mid0001().PackWithNul();
             Assert.IsNotNull(package);
         }
 
         [TestMethod]
         public void TestPackWithNul()
         {
-            var package = new Mid0001(true).PackWithNul();
+            var package = new Mid0001().PackWithNul();
             Assert.IsNotNull(package);
             Assert.AreEqual('\0', package[package.Length - 1]);
         }
@@ -31,14 +32,14 @@ namespace MIDTesters
         [TestMethod]
         public void TestPackBytes()
         {
-            var bytes = new Mid0001(true).PackBytesWithNul();
+            var bytes = new Mid0001().PackBytesWithNul();
             Assert.IsNotNull(bytes);
         }
 
         [TestMethod]
         public void TestPackBytesWithNul()
         {
-            var bytes = new Mid0001(true).PackBytesWithNul();
+            var bytes = new Mid0001().PackBytesWithNul();
             Assert.IsNotNull(bytes);
             Assert.AreEqual(0x00, bytes[bytes.Length - 1]);
         }
@@ -46,7 +47,7 @@ namespace MIDTesters
         [TestMethod]
         public void TestGetReply()
         {
-            var mid0002 = new Mid0001(true).GetReply();
+            var mid0002 = new Mid0001().GetReply();
             Assert.IsNotNull(mid0002);
         }
 
@@ -54,7 +55,7 @@ namespace MIDTesters
         public void TestGetReplyWithRevision()
         {
             var revision = 3;
-            var mid0002 = new Mid0001(true).GetReply(revision);
+            var mid0002 = new Mid0001().GetReply(revision);
             Assert.IsNotNull(mid0002);
             Assert.AreEqual(mid0002.Header.Revision, revision);
         }
@@ -69,7 +70,7 @@ namespace MIDTesters
         [TestMethod]
         public void TestGetDeclineCommand()
         {
-            var error = Error.CLIENT_ALREADY_CONNECTED;
+            var error = Error.ClientAlreadyConnected;
             var mid0004 = new Mid0001().GetDeclineCommand(error);
             Assert.IsNotNull(mid0004);
             Assert.AreEqual(mid0004.ErrorCode, error);
@@ -78,7 +79,7 @@ namespace MIDTesters
         [TestMethod]
         public void TestAssertAndGetDeclineCommand()
         {
-            var error = Error.CLIENT_ALREADY_CONNECTED;
+            var error = Error.ClientAlreadyConnected;
             var mid0004 = new Mid0001().AssertAndGetDeclineCommand(error);
             Assert.IsNotNull(mid0004);
             Assert.AreEqual(mid0004.ErrorCode, error);
@@ -89,7 +90,7 @@ namespace MIDTesters
         {
             Assert.ThrowsException<ArgumentException>(() =>
             {
-                var error = Error.CALIBRATION_FAILED;
+                var error = Error.CalibrationFailed;
                 var mid0004 = new Mid0001().AssertAndGetDeclineCommand(error);
             });
         }

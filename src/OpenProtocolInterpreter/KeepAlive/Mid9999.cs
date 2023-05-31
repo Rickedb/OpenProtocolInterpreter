@@ -24,10 +24,12 @@
     /// </summary>
     public class Mid9999 : Mid, IIntegrator, IController
     {
-        private const int LAST_REVISION = 0;
+        protected new const int DEFAULT_REVISION = 0;
         public const int MID = 9999;
 
-        public Mid9999() : base(MID, LAST_REVISION) { }
+        public Mid9999() : this(DEFAULT_REVISION) { }
+
+        public Mid9999(int revision) : base(MID, revision) { }
 
         public Mid9999(Header header) : base(header)
         {

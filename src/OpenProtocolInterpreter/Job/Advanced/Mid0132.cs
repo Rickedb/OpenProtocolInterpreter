@@ -8,10 +8,9 @@
     /// </summary>
     public class Mid0132 : Mid, IAdvancedJob, IIntegrator, IAcceptableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 132;
 
-        public Mid0132() : base(MID, LAST_REVISION) { }
+        public Mid0132() : base(MID, DEFAULT_REVISION) { }
 
         public Mid0132(Header header) : base(header)
         {

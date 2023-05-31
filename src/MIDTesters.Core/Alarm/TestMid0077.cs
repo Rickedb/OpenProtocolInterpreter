@@ -4,9 +4,11 @@ using OpenProtocolInterpreter.Alarm;
 namespace MIDTesters.Alarm
 {
     [TestClass]
+    [TestCategory("Alarm")]
     public class TestMid0077 : DefaultMidTests<Mid0077>
     {
         [TestMethod]
+        [TestCategory("ASCII")]
         public void Mid0077AllRevisions()
         {
             string pack = @"00200077            ";
@@ -17,6 +19,7 @@ namespace MIDTesters.Alarm
         }
 
         [TestMethod]
+        [TestCategory("ByteArray")]
         public void Mid0077ByteAllRevisions()
         {
             string pack = @"00200077            ";

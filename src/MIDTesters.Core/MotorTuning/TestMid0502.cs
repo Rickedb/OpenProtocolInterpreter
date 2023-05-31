@@ -4,9 +4,11 @@ using OpenProtocolInterpreter.MotorTuning;
 namespace MIDTesters.MotorTuning
 {
     [TestClass]
+    [TestCategory("MotorTuning")]
     public class TestMid0502 : DefaultMidTests<Mid0502>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0502Revision1()
         {
             string package = "00200502            ";
@@ -17,6 +19,7 @@ namespace MIDTesters.MotorTuning
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0502ByteRevision1()
         {
             string package = "00200502            ";

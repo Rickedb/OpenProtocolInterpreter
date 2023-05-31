@@ -1,14 +1,14 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Tightening;
 
 namespace MIDTesters.Tightening
 {
     [TestClass]
+    [TestCategory("Tightening")]
     public class TestMid0060 : MidTester
     {
         [TestMethod]
+        [TestCategory("ASCII")]
         public void Mid0060AllRevisions()
         {
             string package = "00200060998         ";
@@ -19,6 +19,7 @@ namespace MIDTesters.Tightening
         }
 
         [TestMethod]
+        [TestCategory("ByteArray")]
         public void Mid0060ByteAllRevisions()
         {
             string package = "00200060998         ";

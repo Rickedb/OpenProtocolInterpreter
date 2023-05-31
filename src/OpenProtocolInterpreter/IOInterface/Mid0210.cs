@@ -19,17 +19,16 @@ namespace OpenProtocolInterpreter.IOInterface
     /// </summary>
     public class Mid0210 : Mid, IIOInterface, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand, IAnswerableBy<Mid0211>
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 210;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.STATUS_EXTERNAL_MONITORED_INPUTS_SUBSCRIPTION_ALREADY_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.StatusExternalMonitoredInputsSubscriptionAlreadyExists };
 
         public Mid0210() : this(false)
         {
 
         }
 
-        public Mid0210(bool noAckFlag = false) : base(MID, LAST_REVISION, noAckFlag) { }
+        public Mid0210(bool noAckFlag = false) : base(MID, DEFAULT_REVISION, noAckFlag) { }
 
         public Mid0210(Header header) : base(header)
         {

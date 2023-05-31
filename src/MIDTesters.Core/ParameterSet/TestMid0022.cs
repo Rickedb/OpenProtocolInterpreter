@@ -1,13 +1,14 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.ParameterSet;
-using System.Linq;
 
 namespace MIDTesters.ParameterSet
 {
     [TestClass]
+    [TestCategory("ParameterSet")]
     public class TestMid0022 : DefaultMidTests<Mid0022>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0022Revision1()
         {
             string package = "00210022   1        1";
@@ -19,6 +20,7 @@ namespace MIDTesters.ParameterSet
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0022ByteRevision1()
         {
             string package = "00210022   1        1";

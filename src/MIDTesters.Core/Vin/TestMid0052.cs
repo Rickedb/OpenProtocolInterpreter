@@ -6,10 +6,12 @@ using System.Linq;
 namespace MIDTesters.Vin
 {
     [TestClass]
+    [TestCategory("Vin")]
     public class TestMid0052 : DefaultMidTests<Mid0052>
     {
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0052Revision1VehicleIdLengthHigher()
         {
             string package = "00470052001         VehicleIdNumberHigherThan25";
@@ -20,6 +22,7 @@ namespace MIDTesters.Vin
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0052ByteRevision1VehicleIdLengthHigher()
         {
             string package = "00470052001         VehicleIdNumberHigherThan25";
@@ -31,6 +34,7 @@ namespace MIDTesters.Vin
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0052Revision1VehicleIdLengthLower()
         {
             string package = "00450052001         VehicleIdNumber          \0";
@@ -42,6 +46,7 @@ namespace MIDTesters.Vin
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0052ByteRevision1VehicleIdLengthLower()
         {
             string package = "00450052001         VehicleIdNumber          \0";
@@ -54,6 +59,7 @@ namespace MIDTesters.Vin
         }
 
         [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ASCII")]
         public void Mid0052Revision2VehicleIdLengthHigher()
         {
             string package = "01300052002         01VehicleIdNumberHigherThan2502IdentifierPart2          03IdentifierPart3          04IdentifierPart4          ";
@@ -67,6 +73,7 @@ namespace MIDTesters.Vin
         }
 
         [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ByteArray")]
         public void Mid0052ByteRevision2VehicleIdLengthHigher()
         {
             string package = "01300052002         01VehicleIdNumberHigherThan2502IdentifierPart2          03IdentifierPart3          04IdentifierPart4          ";
@@ -81,6 +88,7 @@ namespace MIDTesters.Vin
         }
 
         [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ASCII")]
         public void Mid0052Revision2VehicleIdLengthLower()
         {
             string package = "01280052002         01VehicleIdNumber          02IdentifierPart2          03IdentifierPart3          04IdentifierPart4          ";
@@ -94,6 +102,7 @@ namespace MIDTesters.Vin
         }
 
         [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ByteArray")]
         public void Mid0052ByteRevision2VehicleIdLengthLower()
         {
             string package = "01280052002         01VehicleIdNumber          02IdentifierPart2          03IdentifierPart3          04IdentifierPart4          ";

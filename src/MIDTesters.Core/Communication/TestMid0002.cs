@@ -1,13 +1,14 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Communication;
-using System;
 
 namespace MIDTesters.Communication
 {
     [TestClass]
+    [TestCategory("Communication")]
     public class TestMid0002 : DefaultMidTests<Mid0002>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0002Revision1()
         {
             string pack = @"00570002001         010001020103Airbag1                  ";
@@ -20,6 +21,7 @@ namespace MIDTesters.Communication
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0002ByteRevision1()
         {
             string pack = @"00570002001         010001020103Airbag1                  ";
@@ -33,6 +35,7 @@ namespace MIDTesters.Communication
         }
 
         [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ASCII")]
         public void Mid0002Revision2()
         {
             string pack = @"00620002002         010001020103Airbag1                  04ACT";
@@ -46,6 +49,7 @@ namespace MIDTesters.Communication
         }
 
         [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ByteArray")]
         public void Mid0002ByteRevision2()
         {
             string pack = @"00620002002         010001020103Airbag1                  04ACT";
@@ -60,6 +64,7 @@ namespace MIDTesters.Communication
         }
 
         [TestMethod]
+        [TestCategory("Revision 3"), TestCategory("ASCII")]
         public void Mid0002Revision3()
         {
             string pack = @"01250002003         010001020103Airbag1                  04ACT05OpenProtocolVersion06Version 19.0.0.0   07Version 01.0.0.0   ";
@@ -76,6 +81,7 @@ namespace MIDTesters.Communication
         }
 
         [TestMethod]
+        [TestCategory("Revision 3"), TestCategory("ByteArray")]
         public void Mid0002ByteRevision3()
         {
             string pack = @"01250002003         010001020103Airbag1                  04ACT05OpenProtocolVersion06Version 19.0.0.0   07Version 01.0.0.0   ";
@@ -93,6 +99,7 @@ namespace MIDTesters.Communication
         }
 
         [TestMethod]
+        [TestCategory("Revision 4"), TestCategory("ASCII")]
         public void Mid0002Revision4()
         {
             string pack = @"01630002004         010001020103Airbag1                  04ACT05OpenProtocolVersion06Version 19.0.0.0   07Version 01.0.0.0   08RBUType                 09Serial    ";
@@ -111,6 +118,7 @@ namespace MIDTesters.Communication
         }
 
         [TestMethod]
+        [TestCategory("Revision 4"), TestCategory("ByteArray")]
         public void Mid0002ByteRevision4()
         {
             string pack = @"01630002004         010001020103Airbag1                  04ACT05OpenProtocolVersion06Version 19.0.0.0   07Version 01.0.0.0   08RBUType                 09Serial    ";
@@ -130,6 +138,7 @@ namespace MIDTesters.Communication
         }
 
         [TestMethod]
+        [TestCategory("Revision 5"), TestCategory("ASCII")]
         public void Mid0002Revision5()
         {
             string pack = @"01730002005         010001020103Airbag1                  04ACT05OpenProtocolVersion06Version 19.0.0.0   07Version 01.0.0.0   08RBUType                 09Serial    1000211002";
@@ -150,6 +159,7 @@ namespace MIDTesters.Communication
         }
 
         [TestMethod]
+        [TestCategory("Revision 5"), TestCategory("ByteArray")]
         public void Mid0002ByteRevision5()
         {
             string pack = @"01730002005         010001020103Airbag1                  04ACT05OpenProtocolVersion06Version 19.0.0.0   07Version 01.0.0.0   08RBUType                 09Serial    1000211002";
@@ -171,6 +181,7 @@ namespace MIDTesters.Communication
         }
 
         [TestMethod]
+        [TestCategory("Revision 6"), TestCategory("ASCII")]
         public void Mid0002Revision6()
         {
             string pack = @"02210002006         010001020103Airbag1                  04ACT05OpenProtocolVersion06Version 19.0.0.0   07Version 01.0.0.0   08RBUType                 09Serial    100021100212013114429496729515Station Or Cell Name     16A";
@@ -196,6 +207,7 @@ namespace MIDTesters.Communication
         }
 
         [TestMethod]
+        [TestCategory("Revision 6"), TestCategory("ByteArray")]
         public void Mid0002ByteRevision6()
         {
             string pack = @"02210002006         010001020103Airbag1                  04ACT05OpenProtocolVersion06Version 19.0.0.0   07Version 01.0.0.0   08RBUType                 09Serial    100021100212013114429496729515Station Or Cell Name     16A";
@@ -222,6 +234,7 @@ namespace MIDTesters.Communication
         }
 
         [TestMethod]
+        [TestCategory("Revision 7"), TestCategory("ASCII")]
         public void Mid0002Revision7()
         {
             string pack = @"02240002007         010001020103Airbag1                  04ACT05OpenProtocolVersion06Version 19.0.0.0   07Version 01.0.0.0   08RBUType                 09Serial    100021100212013114429496729515Station Or Cell Name     16A171";
@@ -248,6 +261,7 @@ namespace MIDTesters.Communication
         }
 
         [TestMethod]
+        [TestCategory("Revision 7"), TestCategory("ByteArray")]
         public void Mid0002ByteRevision7()
         {
             string pack = @"02240002007         010001020103Airbag1                  04ACT05OpenProtocolVersion06Version 19.0.0.0   07Version 01.0.0.0   08RBUType                 09Serial    100021100212013114429496729515Station Or Cell Name     16A171";

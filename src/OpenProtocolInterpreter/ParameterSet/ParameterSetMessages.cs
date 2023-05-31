@@ -28,7 +28,8 @@ namespace OpenProtocolInterpreter.ParameterSet
                 { Mid0022.MID, new MidCompiledInstance(typeof(Mid0022)) },
                 { Mid0023.MID, new MidCompiledInstance(typeof(Mid0023)) },
                 { Mid0024.MID, new MidCompiledInstance(typeof(Mid0024)) },
-                { Mid2504.MID, new MidCompiledInstance(typeof(Mid2504)) }
+                { Mid2504.MID, new MidCompiledInstance(typeof(Mid2504)) },
+                { Mid2505.MID, new MidCompiledInstance(typeof(Mid2505)) }
             };
         }
 

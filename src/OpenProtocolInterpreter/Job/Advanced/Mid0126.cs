@@ -10,12 +10,11 @@ namespace OpenProtocolInterpreter.Job.Advanced
     /// </summary>
     public class Mid0126 : Mid, IAdvancedJob, IIntegrator, IUnsubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 126;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JOB_LINE_CONTROL_INFO_SUBSCRIPTION_DOESNT_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JobLineControlInfoSubscriptionDoesntExists };
 
-        public Mid0126() : base(MID, LAST_REVISION) { }
+        public Mid0126() : base(MID, DEFAULT_REVISION) { }
 
         public Mid0126(Header header) : base(header)
         {

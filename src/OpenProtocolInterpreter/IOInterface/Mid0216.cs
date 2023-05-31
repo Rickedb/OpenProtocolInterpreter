@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.IOInterface
 {
@@ -18,16 +17,14 @@ namespace OpenProtocolInterpreter.IOInterface
     /// </summary>
     public class Mid0216 : Mid, IIOInterface, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 216;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.RELAY_FUNCTION_SUBSCRIPTION_ALREADY_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.RelayFunctionSubscriptionAlreadyExists };
 
         public RelayNumber RelayNumber
         {
-            get => (RelayNumber)GetField(1,(int)DataFields.RELAY_NUMBER).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.RELAY_NUMBER).SetValue(_intConverter.Convert, (int)value);
+            get => (RelayNumber)GetField(1,(int)DataFields.RelayNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.RelayNumber).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
 
         public Mid0216() : this(false)
@@ -37,22 +34,16 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public Mid0216(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
         }
 
         public Mid0216(bool noAckFlag = false) : this(new Header()
         {
             Mid = MID,
-            Revision = LAST_REVISION,
+            Revision = DEFAULT_REVISION,
             NoAckFlag = noAckFlag
         })
         {
             
-        }
-
-        public Mid0216(RelayNumber relayNumber, bool noAckFlag = false) : this(noAckFlag)
-        {
-            RelayNumber = relayNumber;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -62,15 +53,15 @@ namespace OpenProtocolInterpreter.IOInterface
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.RELAY_NUMBER, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                        new DataField((int)DataFields.RelayNumber, 20, 3, '0', PaddingOrientation.LeftPadded, false)
                     }
                 }
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            RELAY_NUMBER
+            RelayNumber
         }
     }
 }

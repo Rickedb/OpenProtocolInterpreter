@@ -8,15 +8,14 @@
     /// </summary>
     public class Mid0062 : Mid, ITightening, IIntegrator, IAcknowledge
     {
-        private const int LAST_REVISION = 6;
         public const int MID = 62;
 
-        public Mid0062() : this(LAST_REVISION)
+        public Mid0062() : this(DEFAULT_REVISION)
         {
 
         }
 
-        public Mid0062(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0062(int revision) : base(MID, revision)
         {
 
         }

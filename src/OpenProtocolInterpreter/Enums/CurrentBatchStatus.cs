@@ -5,8 +5,8 @@
     /// </summary>
     public enum CurrentBatchStatus
     {
-        NOT_STARTED = 0,
-        OK = 1,
-        NOK = 2
+        NotStarted = 0,
+        Ok = 1,
+        Nok = 2
     }
 }

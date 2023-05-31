@@ -14,17 +14,16 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// </summary>
     public class Mid0021 : Mid, IParameterSet, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand, IAnswerableBy<Mid0022>
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 21;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.LOCK_AT_BATCH_DONE_SUBSCRIPTION_ALREADY_EXISTS };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.LockAtBatchDoneSubscriptionAlreadyExists };
 
         public Mid0021() : this(false)
         {
 
         }
 
-        public Mid0021(bool noAckFlag = false) : base(MID, LAST_REVISION, noAckFlag) { }
+        public Mid0021(bool noAckFlag = false) : base(MID, DEFAULT_REVISION, noAckFlag) { }
 
         public Mid0021(Header header) : base(header)
         {

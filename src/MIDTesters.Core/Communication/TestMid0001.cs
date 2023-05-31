@@ -4,9 +4,11 @@ using OpenProtocolInterpreter.Communication;
 namespace MIDTesters.Communication
 {
     [TestClass]
+    [TestCategory("Communication")]
     public class TestMid0001 : DefaultMidTests<Mid0001>
     {
         [TestMethod]
+        [TestCategory("ASCII")]
         public void Mid0001AllRevisions()
         {
             var package = "00200001003         ";
@@ -17,6 +19,7 @@ namespace MIDTesters.Communication
         }
 
         [TestMethod]
+        [TestCategory("ByteArray")]
         public void Mid0001AllByteRevisions()
         {
             var package = "00200001003         ";
@@ -28,6 +31,7 @@ namespace MIDTesters.Communication
         }
 
         [TestMethod]
+        [TestCategory("Revision 7"), TestCategory("ASCII")]
         public void Mid0001Revision7()
         {
             var package = "00230001007         011";
@@ -38,6 +42,7 @@ namespace MIDTesters.Communication
         }
 
         [TestMethod]
+        [TestCategory("Revision 7"), TestCategory("ByteArray")]
         public void Mid0001ByteRevision7()
         {
             var package = "00230001007         011";

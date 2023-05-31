@@ -4,9 +4,11 @@ using OpenProtocolInterpreter.Vin;
 namespace MIDTesters.Vin
 {
     [TestClass]
+    [TestCategory("Vin")]
     public class TestMid0050 : DefaultMidTests<Mid0050>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0050Revision1()
         {
             string package = "00350050001         VehicleIdNumber";
@@ -17,6 +19,7 @@ namespace MIDTesters.Vin
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0050ByteRevision1()
         {
             string package = "00350050001         VehicleIdNumber";

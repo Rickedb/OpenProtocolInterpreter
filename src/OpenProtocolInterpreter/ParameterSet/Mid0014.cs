@@ -15,7 +15,6 @@
     /// </summary>
     public class Mid0014 : Mid, IParameterSet, IIntegrator, ISubscription, IAcceptableCommand, IAnswerableBy<Mid0015>
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 14;
 
         public Mid0014() : this(false)
@@ -27,7 +26,7 @@
         /// Revision 1 Constructor
         /// </summary>
         /// <param name="noAckFlag">False=Ack needed, True=No Ack needed</param>
-        public Mid0014(bool noAckFlag = false) : base(MID, LAST_REVISION, noAckFlag) 
+        public Mid0014(bool noAckFlag = false) : base(MID, DEFAULT_REVISION, noAckFlag) 
         { 
         
         }

@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Statistic
 {
@@ -19,34 +18,31 @@ namespace OpenProtocolInterpreter.Statistic
     /// </summary>
     public class Mid0300 : Mid, IStatistic, IIntegrator, IAnswerableBy<Mid0301>, IDeclinableCommand
     {
-        private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 300;
 
-        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.NO_HISTOGRAM_AVAILABLE, Error.INVALID_DATA };
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.NoHistogramAvailable, Error.InvalidData };
 
         public int ParameterSetId
         {
-            get => GetField(1,(int)DataFields.PARAMETER_SET_ID).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.PARAMETER_SET_ID).SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.ParameterSetId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.ParameterSetId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public HistogramType HistogramType
         {
-            get => (HistogramType)GetField(1,(int)DataFields.HISTOGRAM_TYPE).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.HISTOGRAM_TYPE).SetValue(_intConverter.Convert, (int)value);
+            get => (HistogramType)GetField(1,(int)DataFields.HistogramType).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.HistogramType).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
 
         public Mid0300() : this(new Header()
         {
             Mid = MID, 
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
         }
 
         public Mid0300(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -56,17 +52,17 @@ namespace OpenProtocolInterpreter.Statistic
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.PARAMETER_SET_ID, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                        new DataField((int)DataFields.HISTOGRAM_TYPE, 25, 2, '0', DataField.PaddingOrientations.LEFT_PADDED)
+                        new DataField((int)DataFields.ParameterSetId, 20, 3, '0', PaddingOrientation.LeftPadded),
+                        new DataField((int)DataFields.HistogramType, 25, 2, '0', PaddingOrientation.LeftPadded)
                     }
                 }
             };
         }      
 
-        public enum DataFields
+        protected enum DataFields
         {
-            PARAMETER_SET_ID,
-            HISTOGRAM_TYPE
+            ParameterSetId,
+            HistogramType
         }
     }
 }

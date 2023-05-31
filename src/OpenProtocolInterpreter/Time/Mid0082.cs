@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Time
@@ -12,36 +11,24 @@ namespace OpenProtocolInterpreter.Time
     /// </summary>
     public class Mid0082 : Mid, ITime, IIntegrator
     {
-        private readonly IValueConverter<DateTime> _dateConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 82;
 
         public DateTime Time
         {
-            get => GetField(1,(int)DataFields.TIME).GetValue(_dateConverter.Convert);
-            set => GetField(1,(int)DataFields.TIME).SetValue(_dateConverter.Convert, value);
+            get => GetField(1,(int)DataFields.Time).GetValue(OpenProtocolConvert.ToDateTime);
+            set => GetField(1,(int)DataFields.Time).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0082() : this(new Header()
         {
             Mid = MID, 
-            Revision = LAST_REVISION
+            Revision = DEFAULT_REVISION
         })
         {
         }
 
         public Mid0082(Header header) : base(header)
         {
-            _dateConverter = new DateConverter();
-        }
-
-        /// <summary>
-        /// Revision 1 Constructor
-        /// </summary>
-        /// <param name="time"></param>
-        public Mid0082(DateTime time) : this()
-        {
-            Time = time;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -51,15 +38,15 @@ namespace OpenProtocolInterpreter.Time
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.TIME, 20, 19, false)
+                                new DataField((int)DataFields.Time, 20, 19, false)
                             }
                 }
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            TIME
+            Time
         }
     }
 }
