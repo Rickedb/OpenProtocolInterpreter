@@ -3,13 +3,12 @@ using OpenProtocolInterpreter.Job.Advanced;
 
 namespace MIDTesters.Job.Advanced
 {
-    /// <summary>
-    /// Summary description for TestMid0123
-    /// </summary>
     [TestClass]
+    [TestCategory("Job"), TestCategory("Advanced Job")]
     public class TestMid0123 : DefaultMidTests<Mid0123>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0123Revision1()
         {
             string package = "00200123   1        ";
@@ -21,6 +20,7 @@ namespace MIDTesters.Job.Advanced
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0123ByteRevision1()
         {
             string package = "00200123   1        ";

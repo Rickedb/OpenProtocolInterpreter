@@ -4,9 +4,11 @@ using OpenProtocolInterpreter.OpenProtocolCommandsDisabled;
 namespace MIDTesters.OpenProtocolCommandsDisabled
 {
     [TestClass]
+    [TestCategory("OpenProtocolCommandsDisabled")]
     public class TestMid0422 : DefaultMidTests<Mid0422>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0422Revision1()
         {
             string package = "00200422            ";
@@ -17,6 +19,7 @@ namespace MIDTesters.OpenProtocolCommandsDisabled
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0422ByteRevision1()
         {
             string package = "00200422            ";

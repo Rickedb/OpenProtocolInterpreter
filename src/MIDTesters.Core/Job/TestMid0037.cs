@@ -4,9 +4,11 @@ using OpenProtocolInterpreter.Job;
 namespace MIDTesters.Job
 {
     [TestClass]
+    [TestCategory("Job")]
     public class TestMid0037 : DefaultMidTests<Mid0037>
     {
         [TestMethod]
+        [TestCategory("ASCII")]
         public void Mid0037AllRevisions()
         {
             string package = "00200037001         ";
@@ -17,6 +19,7 @@ namespace MIDTesters.Job
         }
 
         [TestMethod]
+        [TestCategory("ByteArray")]
         public void Mid0037ByteAllRevisions()
         {
             string package = "00200037001         ";

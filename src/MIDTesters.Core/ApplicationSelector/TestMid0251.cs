@@ -4,9 +4,11 @@ using OpenProtocolInterpreter.ApplicationSelector;
 namespace MIDTesters.ApplicationSelector
 {
     [TestClass]
+    [TestCategory("ApplicationSelector")]
     public class TestMid0251 : DefaultMidTests<Mid0251>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0251Revision1()
         {
             string package = "00400251   1        01500210030101101110";
@@ -20,6 +22,7 @@ namespace MIDTesters.ApplicationSelector
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0251ByteRevision1()
         {
             string package = "00400251   1        01500210030101101110";

@@ -4,9 +4,11 @@ using OpenProtocolInterpreter.Tool;
 namespace MIDTesters.Tool
 {
     [TestClass]
+    [TestCategory("Tool")]
     public class TestMid0046 : DefaultMidTests<Mid0046>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0046Revision1()
         {
             string package = "00240046001         0102";
@@ -17,6 +19,7 @@ namespace MIDTesters.Tool
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0046ByteRevision1()
         {
             string package = "00240046001         0102";

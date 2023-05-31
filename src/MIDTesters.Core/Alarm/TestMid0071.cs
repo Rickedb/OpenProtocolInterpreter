@@ -8,6 +8,7 @@ namespace MIDTesters.Alarm
     public class TestMid0071 : DefaultMidTests<Mid0071>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0071Revision1()
         {
             string pack = @"00530071001         01E851021031042017-12-01:20:12:45";
@@ -21,6 +22,7 @@ namespace MIDTesters.Alarm
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0071ByteRevision1()
         {
             string pack = @"00530071001         01E851021031042017-12-01:20:12:45";
@@ -35,6 +37,7 @@ namespace MIDTesters.Alarm
         }
 
         [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ASCII")]
         public void Mid0071Revision2()
         {
             string pack = @"01060071002         01E1021021031042017-12-01:20:12:4505Alarm Text                                        ";
@@ -49,6 +52,7 @@ namespace MIDTesters.Alarm
         }
 
         [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ByteArray")]
         public void Mid0071ByteRevision2()
         {
             string pack = @"01060071002         01E1021021031042017-12-01:20:12:4505Alarm Text                                        ";

@@ -4,9 +4,11 @@ using OpenProtocolInterpreter.PowerMACS;
 namespace MIDTesters.PowerMACS
 {
     [TestClass]
+    [TestCategory("PowerMACS")]
     public class TestMid0109 : DefaultMidTests<Mid0109>
     {
         [TestMethod]
+        [TestCategory("ASCII")]
         public void Mid0109AllRevisions()
         {
             string package = "00200109002         ";
@@ -17,6 +19,7 @@ namespace MIDTesters.PowerMACS
         }
 
         [TestMethod]
+        [TestCategory("ByteArray")]
         public void Mid0109ByteAllRevisions()
         {
             string package = "00200109002         ";

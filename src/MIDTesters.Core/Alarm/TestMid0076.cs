@@ -4,9 +4,11 @@ using OpenProtocolInterpreter.Alarm;
 namespace MIDTesters.Alarm
 {
     [TestClass]
+    [TestCategory("Alarm")]
     public class TestMid0076 : DefaultMidTests<Mid0076>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0076Revision1()
         {
             string pack = @"00560076001         01102E851031041052017-01-25:10:20:20";
@@ -21,6 +23,7 @@ namespace MIDTesters.Alarm
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0076ByteRevision1()
         {
             string pack = @"00560076001         01102E851031041052017-01-25:10:20:20";
@@ -36,6 +39,7 @@ namespace MIDTesters.Alarm
         }
 
         [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ASCII")]
         public void Mid0076Revision2()
         {
             string pack = @"00570076002         01102 E851031041052017-01-25:10:20:20";
@@ -50,6 +54,7 @@ namespace MIDTesters.Alarm
         }
 
         [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ByteArray")]
         public void Mid0076ByteRevision2()
         {
             string pack = @"00570076002         01102 E851031041052017-01-25:10:20:20";
@@ -65,6 +70,7 @@ namespace MIDTesters.Alarm
         }
 
         [TestMethod]
+        [TestCategory("Revision 3"), TestCategory("ASCII")]
         public void Mid0076Revision3()
         {
             string pack = @"00600076003         01102 E851031041052017-01-25:10:20:20061";
@@ -80,6 +86,7 @@ namespace MIDTesters.Alarm
         }
 
         [TestMethod]
+        [TestCategory("Revision 3"), TestCategory("ByteArray")]
         public void Mid0076ByteRevision3()
         {
             string pack = @"00600076003         01102 E851031041052017-01-25:10:20:20061";

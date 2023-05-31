@@ -4,9 +4,11 @@ using OpenProtocolInterpreter.ApplicationToolLocationSystem;
 namespace MIDTesters.ApplicationToolLocationSystem
 {
     [TestClass]
+    [TestCategory("ApplicationToolLocationSystem")]
     public class TestMid0260 : DefaultMidTests<Mid0260>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0260Revision1()
         {
             string package = "00200260            ";
@@ -17,6 +19,7 @@ namespace MIDTesters.ApplicationToolLocationSystem
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0260ByteRevision1()
         {
             string package = "00200260            ";

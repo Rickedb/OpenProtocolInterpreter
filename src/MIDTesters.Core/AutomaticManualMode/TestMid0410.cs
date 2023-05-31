@@ -4,9 +4,11 @@ using OpenProtocolInterpreter.AutomaticManualMode;
 namespace MIDTesters.AutomaticManualMode
 {
     [TestClass]
+    [TestCategory("AutomaticManualMode")]
     public class TestMid0410 : DefaultMidTests<Mid0410>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0410Revision1()
         {
             string package = "00200410            ";
@@ -17,6 +19,7 @@ namespace MIDTesters.AutomaticManualMode
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0410ByteRevision1()
         {
             string package = "00200410            ";

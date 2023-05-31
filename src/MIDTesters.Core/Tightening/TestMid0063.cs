@@ -4,9 +4,11 @@ using OpenProtocolInterpreter.Tightening;
 namespace MIDTesters.Tightening
 {
     [TestClass]
+    [TestCategory("Tightening")]
     public class TestMid0063 : MidTester
     {
         [TestMethod]
+        [TestCategory("ASCII")]
         public void Mid0063AllRevisions()
         {
             string package = "00200063002         ";
@@ -17,6 +19,7 @@ namespace MIDTesters.Tightening
         }
 
         [TestMethod]
+        [TestCategory("ByteArray")]
         public void Mid0063ByteAllRevisions()
         {
             string package = "00200063002         ";

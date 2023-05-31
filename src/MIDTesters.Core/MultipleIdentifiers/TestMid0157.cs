@@ -4,9 +4,11 @@ using OpenProtocolInterpreter.MultipleIdentifiers;
 namespace MIDTesters.MultipleIdentifiers
 {
     [TestClass]
+    [TestCategory("MultipleIdentifiers")]
     public class TestMid0157 : DefaultMidTests<Mid0157>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0157Revision1()
         {
             string package = "00200157            ";
@@ -17,6 +19,7 @@ namespace MIDTesters.MultipleIdentifiers
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0157ByteRevision1()
         {
             string package = "00200157            ";

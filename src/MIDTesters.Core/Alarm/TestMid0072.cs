@@ -8,6 +8,7 @@ namespace MIDTesters.Alarm
     public class TestMid0072 : DefaultMidTests<Mid0072>
     {
         [TestMethod]
+        [TestCategory("ASCII")]
         public void Mid0072AllRevisions()
         {
             string pack = @"00200072002         ";
@@ -18,6 +19,7 @@ namespace MIDTesters.Alarm
         }
 
         [TestMethod]
+        [TestCategory("ByteArray")]
         public void Mid0072ByteAllRevisions()
         {
             string pack = @"00200072002         ";

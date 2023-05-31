@@ -4,9 +4,11 @@ using OpenProtocolInterpreter.Time;
 namespace MIDTesters.Time
 {
     [TestClass]
+    [TestCategory("Time")]
     public class TestMid0080 : DefaultMidTests<Mid0080>
     {
         [TestMethod]
+        [TestCategory("ASCII")]
         public void Mid0080AllRevisions()
         {
             string pack = @"00200080            ";
@@ -17,6 +19,7 @@ namespace MIDTesters.Time
         }
 
         [TestMethod]
+        [TestCategory("ByteArray")]
         public void Mid0080ByteAllRevisions()
         {
             string package = "00200080            ";

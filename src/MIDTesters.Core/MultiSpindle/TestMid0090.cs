@@ -4,9 +4,11 @@ using OpenProtocolInterpreter.MultiSpindle;
 namespace MIDTesters.MultiSpindle
 {
     [TestClass]
+    [TestCategory("MultiSpindle")]
     public class TestMid0090 : DefaultMidTests<Mid0090>
     {
         [TestMethod]
+        [TestCategory("ASCII")]
         public void Mid0090AllRevisions()
         {
             string pack = @"00200090   1        ";
@@ -18,6 +20,7 @@ namespace MIDTesters.MultiSpindle
         }
 
         [TestMethod]
+        [TestCategory("ByteArray")]
         public void Mid0090ByteRevision1()
         {
             string package = @"00200090   1        ";

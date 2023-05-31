@@ -4,9 +4,11 @@ using OpenProtocolInterpreter.ParameterSet;
 namespace MIDTesters.ParameterSet
 {
     [TestClass]
+    [TestCategory("ParameterSet")]
     public class TestMid0013 : DefaultMidTests<Mid0013>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0013Revision1()
         {
             string pack = @"01040013            0100102Airbag1                  0310403050012000600150007001400080036009007201000480";
@@ -26,6 +28,7 @@ namespace MIDTesters.ParameterSet
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0013ByteRevision1()
         {
             string package = "01040013            0100102Airbag1                  0310403050012000600150007001400080036009007201000480";
@@ -46,6 +49,7 @@ namespace MIDTesters.ParameterSet
         }
 
         [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ASCII")]
         public void Mid0013Revision2()
         {
             string pack = @"01200013002         0100102Airbag1                  03104030500120006001500070014000800360090072010004801102021112017854";
@@ -67,6 +71,7 @@ namespace MIDTesters.ParameterSet
         }
 
         [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ByteArray")]
         public void Mid0013ByteRevision2()
         {
             string package = @"01200013002         0100102Airbag1                  03104030500120006001500070014000800360090072010004801102021112017854";
@@ -89,6 +94,7 @@ namespace MIDTesters.ParameterSet
         }
 
         [TestMethod]
+        [TestCategory("Revision 5"), TestCategory("ASCII")]
         public void Mid0013Revision5()
         {
             string pack = @"01410013005         0100102Airbag1                  03104030500120006001500070014000800360090072010004801102021112017854132001-05-29:12:34:33";
@@ -111,6 +117,7 @@ namespace MIDTesters.ParameterSet
         }
 
         [TestMethod]
+        [TestCategory("Revision 5"), TestCategory("ByteArray")]
         public void Mid0013ByteRevision5()
         {
             string package = @"01410013005         0100102Airbag1                  03104030500120006001500070014000800360090072010004801102021112017854132001-05-29:12:34:33";

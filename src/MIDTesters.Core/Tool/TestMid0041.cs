@@ -4,9 +4,11 @@ using OpenProtocolInterpreter.Tool;
 namespace MIDTesters.Tool
 {
     [TestClass]
+    [TestCategory("Tool")]
     public class TestMid0041 : DefaultMidTests<Mid0041>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0041Revision1()
         {
             string package = "00810041001         01ABCDEFG-123456024294967295032017-12-01:20:12:4504GFEDCBA-10";
@@ -20,6 +22,7 @@ namespace MIDTesters.Tool
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0041ByteRevision1()
         {
             string package = "00810041001         01ABCDEFG-123456024294967295032017-12-01:20:12:4504GFEDCBA-10";
@@ -34,6 +37,7 @@ namespace MIDTesters.Tool
         }
 
         [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ASCII")]
         public void Mid0041Revision2()
         {
             string package = "01560041002         01ABCDEFG-123456024294967295032017-12-01:20:12:4504GFEDCBA-1005002000062018-06-04:10:12:45074284967295081009551011111Version 1.0.0      ";
@@ -57,6 +61,7 @@ namespace MIDTesters.Tool
         }
 
         [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ByteArray")]
         public void Mid0041ByteRevision2()
         {
             string package = "01560041002         01ABCDEFG-123456024294967295032017-12-01:20:12:4504GFEDCBA-1005002000062018-06-04:10:12:45074284967295081009551011111Version 1.0.0      ";
@@ -81,6 +86,7 @@ namespace MIDTesters.Tool
         }
 
         [TestMethod]
+        [TestCategory("Revision 3"), TestCategory("ASCII")]
         public void Mid0041Revision3()
         {
             string package = "01800041003         01ABCDEFG-123456024294967295032017-12-01:20:12:4504GFEDCBA-1005002000062018-06-04:10:12:45074284967295081009551011111Version 1.0.0      120006001300123014004000";
@@ -107,6 +113,7 @@ namespace MIDTesters.Tool
         }
 
         [TestMethod]
+        [TestCategory("Revision 3"), TestCategory("ByteArray")]
         public void Mid0041ByteRevision3()
         {
             string package = "01800041003         01ABCDEFG-123456024294967295032017-12-01:20:12:4504GFEDCBA-1005002000062018-06-04:10:12:45074284967295081009551011111Version 1.0.0      120006001300123014004000";
@@ -134,6 +141,7 @@ namespace MIDTesters.Tool
         }
 
         [TestMethod]
+        [TestCategory("Revision 4"), TestCategory("ASCII")]
         public void Mid0041Revision4()
         {
             string package = "01840041004         01ABCDEFG-123456024294967295032017-12-01:20:12:4504GFEDCBA-1005002000062018-06-04:10:12:45074284967295081009551011111Version 1.0.0      1200060013001230140040001503";
@@ -161,6 +169,7 @@ namespace MIDTesters.Tool
         }
 
         [TestMethod]
+        [TestCategory("Revision 4"), TestCategory("ByteArray")]
         public void Mid0041ByteRevision4()
         {
             string package = "01840041004         01ABCDEFG-123456024294967295032017-12-01:20:12:4504GFEDCBA-1005002000062018-06-04:10:12:45074284967295081009551011111Version 1.0.0      1200060013001230140040001503";
@@ -189,6 +198,7 @@ namespace MIDTesters.Tool
         }
 
         [TestMethod]
+        [TestCategory("Revision 5"), TestCategory("ASCII")]
         public void Mid0041Revision5()
         {
             string package = "01980041005         01ABCDEFG-123456024294967295032017-12-01:20:12:4504GFEDCBA-1005002000062018-06-04:10:12:45074284967295081009551011111Version 1.0.0      120006001300123014004000150316Tool Model  ";
@@ -217,6 +227,7 @@ namespace MIDTesters.Tool
         }
 
         [TestMethod]
+        [TestCategory("Revision 5"), TestCategory("ByteArray")]
         public void Mid0041ByteRevision5()
         {
             string package = "01980041005         01ABCDEFG-123456024294967295032017-12-01:20:12:4504GFEDCBA-1005002000062018-06-04:10:12:45074284967295081009551011111Version 1.0.0      120006001300123014004000150316Tool Model  ";
@@ -246,6 +257,7 @@ namespace MIDTesters.Tool
         }
 
         [TestMethod]
+        [TestCategory("Revision 6"), TestCategory("ASCII")]
         public void Mid0041Revision6()
         {
             string package = "02360041006         01ABCDEFG-123456024294967295032017-12-01:20:12:4504GFEDCBA-1005002000062018-06-04:10:12:45074284967295081009551011111Version 1.0.0      120006001300123014004000150316Tool Model  17000118Tool Article Number           ";
@@ -276,6 +288,7 @@ namespace MIDTesters.Tool
         }
 
         [TestMethod]
+        [TestCategory("Revision 6"), TestCategory("ByteArray")]
         public void Mid0041ByteRevision6()
         {
             string package = "02360041006         01ABCDEFG-123456024294967295032017-12-01:20:12:4504GFEDCBA-1005002000062018-06-04:10:12:45074284967295081009551011111Version 1.0.0      120006001300123014004000150316Tool Model  17000118Tool Article Number           ";
@@ -307,6 +320,7 @@ namespace MIDTesters.Tool
         }
 
         [TestMethod]
+        [TestCategory("Revision 7"), TestCategory("ASCII")]
         public void Mid0041Revision7()
         {
             string package = "02600041007         01ABCDEFG-123456024294967295032017-12-01:20:12:4504GFEDCBA-1005002000062018-06-04:10:12:45074284967295081009551011111Version 1.0.0      120006001300123014004000150316Tool Model  17000118Tool Article Number           190010002003200021013000";
@@ -340,6 +354,7 @@ namespace MIDTesters.Tool
         }
 
         [TestMethod]
+        [TestCategory("Revision 7"), TestCategory("ByteArray")]
         public void Mid0041ByteRevision7()
         {
             string package = "02600041007         01ABCDEFG-123456024294967295032017-12-01:20:12:4504GFEDCBA-1005002000062018-06-04:10:12:45074284967295081009551011111Version 1.0.0      120006001300123014004000150316Tool Model  17000118Tool Article Number           190010002003200021013000";

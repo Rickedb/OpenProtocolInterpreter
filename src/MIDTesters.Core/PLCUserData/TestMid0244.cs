@@ -4,9 +4,11 @@ using OpenProtocolInterpreter.PLCUserData;
 namespace MIDTesters.PLCUserData
 {
     [TestClass]
+    [TestCategory("PLCUserData")]
     public class TestMid0244 : DefaultMidTests<Mid0244>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0244Revision1()
         {
             string package = "00200244            ";
@@ -17,6 +19,7 @@ namespace MIDTesters.PLCUserData
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0244ByteRevision1()
         {
             string package = "00200244            ";

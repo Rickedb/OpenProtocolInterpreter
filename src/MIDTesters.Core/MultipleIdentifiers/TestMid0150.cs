@@ -4,9 +4,11 @@ using OpenProtocolInterpreter.MultipleIdentifiers;
 namespace MIDTesters.MultipleIdentifiers
 {
     [TestClass]
+    [TestCategory("MultipleIdentifiers")]
     public class TestMid0150 : DefaultMidTests<Mid0150>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0150Revision1()
         {
             string identifier = "My identifier less than 100";
@@ -19,6 +21,7 @@ namespace MIDTesters.MultipleIdentifiers
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0150ByteRevision1()
         {
             string identifier = "My identifier less than 100";

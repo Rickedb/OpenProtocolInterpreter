@@ -4,9 +4,11 @@ using OpenProtocolInterpreter.Communication;
 namespace MIDTesters.Communication
 {
     [TestClass]
+    [TestCategory("Communication")]
     public class TestMid0009 : DefaultMidTests<Mid0009>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0009Revision1()
         {
             string pack = @"00430009            002200214lengthequals14";
@@ -20,6 +22,7 @@ namespace MIDTesters.Communication
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0009ByteRevision1()
         {
             string pack = @"00430009            002200214lengthequals14";

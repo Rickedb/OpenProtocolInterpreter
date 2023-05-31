@@ -1,10 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace MIDTesters.Core.Converters
 {
@@ -47,6 +45,22 @@ namespace MIDTesters.Core.Converters
             bytes[0] = OpenProtocolConvert.ToByte(booleans);
             var value = BitConverter.ToInt64(bytes, 0);
             Assert.AreEqual(178L, value);
+        }
+
+        [TestMethod]
+        [TestCategory("Byte")]
+        public void ConcurrencyTest()
+        {
+            var iterations = 10000;
+            var done = new CountdownEvent(iterations);
+            var result = Parallel.For(0, iterations, x =>
+            {
+                GetBit();
+                ToByte();
+                done.Signal();
+            });
+
+            done.Wait();
         }
     }
 }

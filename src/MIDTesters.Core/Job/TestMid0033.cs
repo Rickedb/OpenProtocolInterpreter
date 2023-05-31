@@ -4,9 +4,11 @@ using OpenProtocolInterpreter.Job;
 namespace MIDTesters.Job
 {
     [TestClass]
+    [TestCategory("Job")]
     public class TestMid0033 : DefaultMidTests<Mid0033>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0033Revision1()
         {
             string package = "01150033001         010402My Job 4                 031045000057000406107108109110211112021315:011:1:02;11:015:1:02;";
@@ -29,6 +31,7 @@ namespace MIDTesters.Job
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0033ByteRevision1()
         {
             string package = "01150033001         010402My Job 4                 031045000057000406107108109110211112021315:011:1:02;11:015:1:02;";
@@ -52,6 +55,7 @@ namespace MIDTesters.Job
         }
 
         [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ASCII")]
         public void Mid0033Revision2()
         {
             string package = "01170033002         01000402My Job 4                 031045000057000406107108109110211112021315:011:1:02;11:015:1:02;";
@@ -74,6 +78,7 @@ namespace MIDTesters.Job
         }
 
         [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ByteArray")]
         public void Mid0033ByteRevision2()
         {
             string package = "01170033002         01000402My Job 4                 031045000057000406107108109110211112021315:011:1:02;11:015:1:02;";
@@ -97,6 +102,7 @@ namespace MIDTesters.Job
         }
 
         [TestMethod]
+        [TestCategory("Revision 3"), TestCategory("ASCII")]
         public void Mid0033Revision3()
         {
             string package = "01810033003         01000402My Job 4                 031045000057000406107108109110211112021315:011:1:02:02:Job Step 1 Name          :03;11:015:1:02:01:Job Step 2 Name          :05;";
@@ -119,6 +125,7 @@ namespace MIDTesters.Job
         }
 
         [TestMethod]
+        [TestCategory("Revision 3"), TestCategory("ByteArray")]
         public void Mid0033ByteRevision3()
         {
             string package = "01810033003         01000402My Job 4                 031045000057000406107108109110211112021315:011:1:02:02:Job Step 1 Name          :03;11:015:1:02:01:Job Step 2 Name          :05;";
@@ -142,6 +149,7 @@ namespace MIDTesters.Job
         }
 
         [TestMethod]
+        [TestCategory("Revision 4"), TestCategory("ASCII")]
         public void Mid0033Revision4()
         {
             string package = "01910033004         01000402My Job 4                 031045000057000406107108109110211112021315:011:1:02:0002:Job Step 1 Name          :03:05;11:015:1:02:0001:Job Step 2 Name          :05:02;";
@@ -164,6 +172,7 @@ namespace MIDTesters.Job
         }
 
         [TestMethod]
+        [TestCategory("Revision 4"), TestCategory("ByteArray")]
         public void Mid0033ByteRevision4()
         {
             string package = "01910033004         01000402My Job 4                 031045000057000406107108109110211112021315:011:1:02:0002:Job Step 1 Name          :03:05;11:015:1:02:0001:Job Step 2 Name          :05:02;";

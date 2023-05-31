@@ -4,9 +4,11 @@ using OpenProtocolInterpreter.IOInterface;
 namespace MIDTesters.IOInterface
 {
     [TestClass]
+    [TestCategory("IOInterface")]
     public class TestMid0215 : DefaultMidTests<Mid0215>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0215Revision1()
         {
             string package = "00920215001         010302001000210031004010012000300140010300110020003100410051006100700080";
@@ -22,6 +24,7 @@ namespace MIDTesters.IOInterface
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0215ByteRevision1()
         {
             string package = "00920215001         010302001000210031004010012000300140010300110020003100410051006100700080";
@@ -38,6 +41,7 @@ namespace MIDTesters.IOInterface
         }
 
         [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ASCII")]
         public void Mid0215Revision2()
         {
             string package = "00920215002         010302070300100021003100400051006000710407050011002000310041005100610070";
@@ -56,6 +60,7 @@ namespace MIDTesters.IOInterface
         }
 
         [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ByteArray")]
         public void Mid0215ByteRevision2()
         {
             string package = "00920215002         010302070300100021003100400051006000710407050011002000310041005100610070";

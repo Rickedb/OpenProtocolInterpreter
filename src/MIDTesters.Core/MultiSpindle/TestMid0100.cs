@@ -4,9 +4,11 @@ using OpenProtocolInterpreter.MultiSpindle;
 namespace MIDTesters.MultiSpindle
 {
     [TestClass]
+    [TestCategory("MultiSpindle")]
     public class TestMid0100 : DefaultMidTests<Mid0100>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0100Revision1()
         {
             string pack = @"00200100001         ";
@@ -17,6 +19,7 @@ namespace MIDTesters.MultiSpindle
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0100ByteRevision1()
         {
             string package = @"00200100001         ";
@@ -28,6 +31,7 @@ namespace MIDTesters.MultiSpindle
         }
 
         [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ASCII")]
         public void Mid0100Revision2()
         {
             string pack = @"00300100002         0123456789";
@@ -39,6 +43,7 @@ namespace MIDTesters.MultiSpindle
         }
 
         [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ByteArray")]
         public void Mid0100ByteRevision2()
         {
             string package = @"00300100002         0123456789";
@@ -51,6 +56,7 @@ namespace MIDTesters.MultiSpindle
         }
 
         [TestMethod]
+        [TestCategory("Revision 3"), TestCategory("ASCII")]
         public void Mid0100Revision3()
         {
             string pack = @"00310100003         01234567891";
@@ -63,6 +69,7 @@ namespace MIDTesters.MultiSpindle
         }
 
         [TestMethod]
+        [TestCategory("Revision 3"), TestCategory("ByteArray")]
         public void Mid0100ByteRevision3()
         {
             string package = @"00310100003         01234567891";

@@ -4,9 +4,11 @@ using OpenProtocolInterpreter.Job;
 namespace MIDTesters.Job
 {
     [TestClass]
+    [TestCategory("Job")]
     public class TestMid0035 : DefaultMidTests<Mid0035>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0035Revision1()
         {
             string package = "00630035001         0101020030040008050003062001-12-01:20:12:45";
@@ -22,6 +24,7 @@ namespace MIDTesters.Job
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0035ByteRevision1()
         {
             string package = "00630035001         0101020030040008050003062001-12-01:20:12:45";
@@ -38,6 +41,7 @@ namespace MIDTesters.Job
         }
 
         [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ASCII")]
         public void Mid0035Revision2()
         {
             string package = "00650035002         010001020030040008050003062001-12-01:20:12:45";
@@ -53,6 +57,7 @@ namespace MIDTesters.Job
         }
 
         [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ByteArray")]
         public void Mid0035ByteRevision2()
         {
             string package = "00650035002         010001020030040008050003062001-12-01:20:12:45";
@@ -69,6 +74,7 @@ namespace MIDTesters.Job
         }
 
         [TestMethod]
+        [TestCategory("Revision 3"), TestCategory("ASCII")]
         public void Mid0035Revision3()
         {
             string package = "00790035003         010001020030040008050003062001-12-01:20:12:4507120080100912";
@@ -87,6 +93,7 @@ namespace MIDTesters.Job
         }
 
         [TestMethod]
+        [TestCategory("Revision 3"), TestCategory("ByteArray")]
         public void Mid0035ByteRevision3()
         {
             string package = "00790035003         010001020030040008050003062001-12-01:20:12:4507120080100912";
@@ -106,6 +113,7 @@ namespace MIDTesters.Job
         }
 
         [TestMethod]
+        [TestCategory("Revision 4"), TestCategory("ASCII")]
         public void Mid0035Revision4()
         {
             string package = "00830035004         010001020030040008050003062001-12-01:20:12:45071200801009121001";
@@ -125,6 +133,7 @@ namespace MIDTesters.Job
         }
 
         [TestMethod]
+        [TestCategory("Revision 4"), TestCategory("ByteArray")]
         public void Mid0035ByteRevision4()
         {
             string package = "00830035004         010001020030040008050003062001-12-01:20:12:45071200801009121001";
@@ -143,7 +152,9 @@ namespace MIDTesters.Job
             Assert.IsNotNull(mid.JobTighteningStatus);
             AssertEqualPackages(bytes, mid);
         }
+
         [TestMethod]
+        [TestCategory("Revision 5"), TestCategory("ASCII")]
         public void Mid0035Revision5()
         {
             string package = "01980035005         010001020030040008050003062001-12-01:20:12:45071200801009121001111234512VINVINN12345678912345678913IdentifierResultPart2xxxx14IdentifierResultPart3xxxx15IdentifierResultPart4xxxx";
@@ -168,6 +179,7 @@ namespace MIDTesters.Job
         }
 
         [TestMethod]
+        [TestCategory("Revision 5"), TestCategory("ByteArray")]
         public void Mid0035ByteRevision5()
         {
             string package = "01980035005         010001020030040008050003062001-12-01:20:12:45071200801009121001111234512VINVINN12345678912345678913IdentifierResultPart2xxxx14IdentifierResultPart3xxxx15IdentifierResultPart4xxxx";

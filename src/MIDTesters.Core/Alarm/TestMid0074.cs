@@ -4,10 +4,11 @@ using OpenProtocolInterpreter.Alarm;
 namespace MIDTesters.Alarm
 {
     [TestClass]
+    [TestCategory("Alarm")]
     public class TestMid0074 : DefaultMidTests<Mid0074>
     {
         [TestMethod]
-        [TestCategory("Alarm")]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0074Revision1()
         {
             string pack = @"00240074001         E851";
@@ -19,7 +20,7 @@ namespace MIDTesters.Alarm
         }
 
         [TestMethod]
-        [TestCategory("Alarm"), TestCategory("Byte")]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0074ByteRevision1()
         {
             string pack = @"00240074001         E851";
@@ -32,7 +33,7 @@ namespace MIDTesters.Alarm
         }
 
         [TestMethod]
-        [TestCategory("Alarm")]
+        [TestCategory("Revision 2"), TestCategory("ASCII")]
         public void Mid0074Revision2()
         {
             string pack = @"00250074002         E8514";
@@ -44,7 +45,7 @@ namespace MIDTesters.Alarm
         }
 
         [TestMethod]
-        [TestCategory("Alarm"), TestCategory("Byte")]
+        [TestCategory("Revision 2"), TestCategory("ByteArray")]
         public void Mid0074ByteRevision2()
         {
             string pack = @"00250074002         E8514";
