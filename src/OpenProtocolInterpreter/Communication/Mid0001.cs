@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Communication
 {
@@ -9,31 +8,34 @@ namespace OpenProtocolInterpreter.Communication
     /// <para>Message sent by Integrator</para>
     /// <para>Answers: <see cref="Mid0002"/> Communication start acknowledge or <see cref="Mid0004"/> Command error, Client already connected or MID revision unsupported</para>
     /// </summary>
-    public class Mid0001 : Mid, ICommunication, IIntegrator
+    public class Mid0001 : Mid, ICommunication, IIntegrator, IAnswerableBy<Mid0002>, IDeclinableCommand
     {
-        private readonly IValueConverter<bool> _boolConverter;
-        private const int LAST_REVISION = 7;
         public const int MID = 1;
+
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.ClientAlreadyConnected, Error.MidRevisionUnsupported };
 
         public bool OptionalKeepAlive
         {
-            get => GetField(7, (int)DataFields.USE_KEEPALIVE).GetValue(_boolConverter.Convert);
-            set => GetField(7, (int)DataFields.USE_KEEPALIVE).SetValue(_boolConverter.Convert, value);
+            get => GetField(7, (int)DataFields.UseKeepAlive).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(7, (int)DataFields.UseKeepAlive).SetValue(OpenProtocolConvert.ToString, value);
         }
 
-        public Mid0001() : this(LAST_REVISION)
+        public Mid0001() : this(DEFAULT_REVISION)
         {
 
         }
 
-        public Mid0001(int revision = 6) : base(MID, revision)
+        public Mid0001(Header header) : base(header)
         {
-            _boolConverter = new BoolConverter();
         }
 
-        public Mid0001(bool optionalKeepAlive, int revision = 7) : this(revision)
+        public Mid0001(int revision) : this(new Header()
         {
-            OptionalKeepAlive = optionalKeepAlive;
+            Mid = MID,
+            Revision = revision
+        })
+        {
+
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -43,16 +45,16 @@ namespace OpenProtocolInterpreter.Communication
                 {
                     7, new List<DataField>()
                             {
-                                new DataField((int)DataFields.USE_KEEPALIVE, 20, 1)
+                                new DataField((int)DataFields.UseKeepAlive, 20, 1)
                             }
                 }
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
             //Rev 7
-            USE_KEEPALIVE
+            UseKeepAlive
         }
     }
 }

@@ -1,24 +1,25 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.MotorTuning;
 
 namespace MIDTesters.MotorTuning
 {
     [TestClass]
-    public class TestMid0502 : MidTester
+    [TestCategory("MotorTuning")]
+    public class TestMid0502 : DefaultMidTests<Mid0502>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0502Revision1()
         {
             string package = "00200502            ";
             var mid = _midInterpreter.Parse(package);
 
             Assert.AreEqual(typeof(Mid0502), mid.GetType());
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid, true);
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0502ByteRevision1()
         {
             string package = "00200502            ";
@@ -26,7 +27,7 @@ namespace MIDTesters.MotorTuning
             var mid = _midInterpreter.Parse(bytes);
 
             Assert.AreEqual(typeof(Mid0502), mid.GetType());
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid, true);
         }
     }
 }

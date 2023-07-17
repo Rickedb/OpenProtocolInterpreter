@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.AutomaticManualMode
 {
@@ -12,10 +11,8 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
     /// <para>Message sent by: Controller</para>
     /// <para>Answer: <see cref="Mid0402"/> Automatic/Manual mode acknowledge</para>
     /// </summary>
-    public class Mid0401 : Mid, IAutomaticManualMode, IController
+    public class Mid0401 : Mid, IAutomaticManualMode, IController, IAcknowledgeable<Mid0402>
     {
-        private readonly IValueConverter<bool> _boolConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 401;
 
         /// <summary>
@@ -24,23 +21,21 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
         /// </summary>
         public bool ManualAutomaticMode
         {
-            get => GetField(1,(int)DataFields.MANUAL_AUTOMATIC_MODE).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.MANUAL_AUTOMATIC_MODE).SetValue(_boolConverter.Convert, value);
+            get => GetField(1, (int)DataFields.ManualAutomaticMode).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, (int)DataFields.ManualAutomaticMode).SetValue(OpenProtocolConvert.ToString, value);
         }
 
-        public Mid0401() : this(0)
+        public Mid0401() : this(new Header()
+        {
+            Mid = MID,
+            Revision = DEFAULT_REVISION,
+        })
         {
 
         }
 
-        public Mid0401(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
+        public Mid0401(Header header) : base(header)
         {
-            _boolConverter = new BoolConverter();
-        }
-
-        public Mid0401(bool manualAutomaticMode, int? noAckFlag = 0) : this(noAckFlag)
-        {
-            ManualAutomaticMode = manualAutomaticMode;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -50,15 +45,15 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.MANUAL_AUTOMATIC_MODE, 20, 1, false)
+                                new DataField((int)DataFields.ManualAutomaticMode, 20, 1, false)
                             }
                 }
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            MANUAL_AUTOMATIC_MODE
+            ManualAutomaticMode
         }
     }
 }

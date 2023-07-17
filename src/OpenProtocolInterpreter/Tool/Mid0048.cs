@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Tool
@@ -12,37 +11,29 @@ namespace OpenProtocolInterpreter.Tool
     /// </summary>
     public class Mid0048 : Mid, ITool, IController
     {
-        private readonly IValueConverter<int> _intConverter;
-        private readonly IValueConverter<DateTime> _dateConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 48;
 
         public PairingStatus PairingStatus
         {
-            get => (PairingStatus)GetField(1,(int)DataFields.PAIRING_STATUS).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.PAIRING_STATUS).SetValue(_intConverter.Convert, (int)value);
+            get => (PairingStatus)GetField(1,(int)DataFields.PairingStatus).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.PairingStatus).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
         public DateTime TimeStamp
         {
-            get => GetField(1,(int)DataFields.TIMESTAMP).GetValue(_dateConverter.Convert);
-            set => GetField(1,(int)DataFields.TIMESTAMP).SetValue(_dateConverter.Convert, value);
+            get => GetField(1,(int)DataFields.Timestamp).GetValue(OpenProtocolConvert.ToDateTime);
+            set => GetField(1,(int)DataFields.Timestamp).SetValue(OpenProtocolConvert.ToString, value);
         }
 
-        public Mid0048() : base(MID, LAST_REVISION)
+        public Mid0048() : this(new Header()
         {
-            _intConverter = new Int32Converter();
-            _dateConverter = new DateConverter();
+            Mid = MID,
+            Revision = DEFAULT_REVISION
+        })
+        {
         }
 
-        /// <summary>
-        /// Revision 1 Constructor
-        /// </summary>
-        /// <param name="pairingStatus">Status of the tool pairing, a two byte-long and specified by two ASCII digits.</param>
-        /// <param name="timeStamp">Time stamp for each status change or time for fetch. It is 19 bytes long and is specified by 19 ASCII characters</param>
-        public Mid0048(PairingStatus pairingStatus, DateTime timeStamp) : this()
+        public Mid0048(Header header) : base(header)
         {
-            PairingStatus = pairingStatus;
-            TimeStamp = timeStamp;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -52,17 +43,17 @@ namespace OpenProtocolInterpreter.Tool
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.PAIRING_STATUS, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED),
-                                new DataField((int)DataFields.TIMESTAMP, 24, 19)
+                                new DataField((int)DataFields.PairingStatus, 20, 2, '0', PaddingOrientation.LeftPadded),
+                                new DataField((int)DataFields.Timestamp, 24, 19)
                             }
                 }
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            PAIRING_STATUS,
-            TIMESTAMP
+            PairingStatus,
+            Timestamp
         }
     }
 }

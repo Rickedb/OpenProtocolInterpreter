@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.Vin
+﻿using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.Vin
 {
     /// <summary>
     /// Vehicle ID Number subscribe
@@ -25,19 +27,24 @@
     ///             <see cref="Communication.Mid0004"/> Command error, VIN subscription already exists
     /// </para>
     /// </summary>
-    public class Mid0051 : Mid, IVin, IIntegrator
+    public class Mid0051 : Mid, IVin, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 2;
         public const int MID = 51;
 
-        public Mid0051() : this(LAST_REVISION)
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.VINUploadSubscriptionAlreadyExists };
+
+        public Mid0051() : this(DEFAULT_REVISION)
         {
 
         }
 
-        public Mid0051(int revision = LAST_REVISION, int ? noAckFlag = 0) : base(MID, revision, noAckFlag)
+        public Mid0051(int revision, bool noAckFlag = false) : base(MID, revision, noAckFlag)
         {
 
+        }
+
+        public Mid0051(Header header) : base(header)
+        {
         }
     }
 }

@@ -9,11 +9,15 @@
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: <see cref="Mid0411"/> AutoDisable settings reply</para>
     /// </summary>
-    public class Mid0410 : Mid, IAutomaticManualMode, IIntegrator
+    public class Mid0410 : Mid, IAutomaticManualMode, IIntegrator, IAnswerableBy<Mid0411>
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 410;
 
-        public Mid0410() : base(MID, LAST_REVISION) { }
+        public Mid0410() : base(MID, DEFAULT_REVISION) { }
+
+        public Mid0410(Header header) : base(header)
+        {
+
+        }
     }
 }

@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.PowerMACS
 {
@@ -20,33 +19,44 @@ namespace OpenProtocolInterpreter.PowerMACS
     ///         <see cref="Communication.Mid0004"/> Command error, Subscription already exists or MID revision unsupported
     /// </para>
     /// </summary>
-    public class Mid0105 : Mid, IPowerMACS, IIntegrator
+    public class Mid0105 : Mid, IPowerMACS, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private readonly IValueConverter<bool> _boolConverter;
-        private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 4;
         public const int MID = 105;
+
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SubscriptionAlreadyExists, Error.MidRevisionUnsupported };
 
         public int DataNumberSystem
         {
-            get => GetField(2,(int)DataFields.DATA_NUMBER_SYSTEM).GetValue(_intConverter.Convert);
-            set => GetField(2,(int)DataFields.DATA_NUMBER_SYSTEM).SetValue(_intConverter.Convert, value);
+            get => GetField(2,(int)DataFields.DataNumberSystem).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(2,(int)DataFields.DataNumberSystem).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool SendOnlyNewData
         {
-            get => GetField(3,(int)DataFields.SEND_ONLY_NEW_DATA).GetValue(_boolConverter.Convert);
-            set => GetField(3,(int)DataFields.SEND_ONLY_NEW_DATA).SetValue(_boolConverter.Convert, value);
+            get => GetField(3,(int)DataFields.SendOnlyNewData).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(3,(int)DataFields.SendOnlyNewData).SetValue(OpenProtocolConvert.ToString, value);
         }
 
-        public Mid0105() : this(LAST_REVISION)
+        public Mid0105() : this(DEFAULT_REVISION)
         {
 
         }
 
-        public Mid0105(int revision = LAST_REVISION, int? noAckFlag = 0) : base(MID, revision, noAckFlag)
+        public Mid0105(Header header) : base(header)
         {
-            _boolConverter = new BoolConverter();
-            _intConverter = new Int32Converter();
+        }
+
+        public Mid0105(bool noAckFlag = false) : this(DEFAULT_REVISION, noAckFlag)
+        {
+            
+        }
+
+        public Mid0105(int revision, bool noAckFlag = false) : this(new Header()
+        {
+            Mid = MID, 
+            Revision = revision, 
+            NoAckFlag = noAckFlag
+        })
+        {
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -54,30 +64,24 @@ namespace OpenProtocolInterpreter.PowerMACS
             return new Dictionary<int, List<DataField>>()
             {
                 {
-                    1, new List<DataField>()
-                },
-                {
                     2, new List<DataField>()
                             {
-                                new DataField((int)DataFields.DATA_NUMBER_SYSTEM, 20, 10, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
+                                new DataField((int)DataFields.DataNumberSystem, 20, 10, '0', PaddingOrientation.LeftPadded, false),
                             }
                 },
                 {
                     3, new List<DataField>()
                             {
-                                new DataField((int)DataFields.SEND_ONLY_NEW_DATA, 30, 1, false)
+                                new DataField((int)DataFields.SendOnlyNewData, 30, 1, false)
                             }
-                },
-                {
-                    4, new List<DataField>()
                 },
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            DATA_NUMBER_SYSTEM,
-            SEND_ONLY_NEW_DATA
+            DataNumberSystem,
+            SendOnlyNewData
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.PLCUserData
 {
@@ -35,48 +34,57 @@ namespace OpenProtocolInterpreter.PLCUserData
     ///                 MID revision not supported.
     /// </para>
     /// </summary>
-    public class Mid0245 : Mid, IPLCUserData, IIntegrator
+    public class Mid0245 : Mid, IPLCUserData, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
-        private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 245;
+
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[]
+        {
+            Error.InvalidData,
+            Error.ControllerIsNotASyncMasterOrStationController,
+            Error.MidRevisionUnsupported
+        };
 
         public int Offset
         {
-            get => GetField(1, (int)DataFields.OFFSET).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.OFFSET).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.Offset).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.Offset).SetValue(OpenProtocolConvert.ToString, value);
         }
         public string UserData
         {
-            get => GetField(1, (int)DataFields.USER_DATA).Value;
-            set => GetField(1, (int)DataFields.USER_DATA).SetValue(value);
+            get => GetField(1, (int)DataFields.UserData).Value;
+            set
+            {
+                var field = GetField(1, (int)DataFields.UserData);
+                field.Size = value.Length < 200 ? value.Length : 200;
+                field.SetValue(value);
+            }
         }
 
-        public Mid0245() : base(MID, LAST_REVISION)
+        public Mid0245() : this(DEFAULT_REVISION)
         {
-            _intConverter = new Int32Converter();
+        }
+
+        public Mid0245(int revision) : this(new Header()
+        {
+            Mid = MID,
+            Revision = revision
+        })
+        {
+        }
+
+        public Mid0245(Header header) : base(header)
+        {
             if (string.IsNullOrEmpty(UserData))
             {
                 UserData = string.Empty.PadRight(2);
             }
         }
 
-        public Mid0245(int offset, string userData) : this()
-        {
-            Offset = offset;
-            UserData = userData;
-        }
-
-        public override string Pack()
-        {
-            GetField(1, (int)DataFields.USER_DATA).Size = UserData.Length;
-            return base.Pack();
-        }
-
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
-            GetField(1, (int)DataFields.USER_DATA).Size = HeaderData.Length - 23;
+            Header = ProcessHeader(package);
+            GetField(1, (int)DataFields.UserData).Size = Header.Length - 23;
             ProcessDataFields(package);
             return this;
         }
@@ -88,8 +96,8 @@ namespace OpenProtocolInterpreter.PLCUserData
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.OFFSET, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
-                        new DataField((int)DataFields.USER_DATA, 23, 2, ' ', DataField.PaddingOrientations.RIGHT_PADDED, false)
+                        new DataField((int)DataFields.Offset, 20, 3, '0', PaddingOrientation.LeftPadded, false),
+                        new DataField((int)DataFields.UserData, 23, 2, ' ', PaddingOrientation.RightPadded, false)
                     }
                 }
             };
@@ -97,8 +105,8 @@ namespace OpenProtocolInterpreter.PLCUserData
 
         internal enum DataFields
         {
-            OFFSET,
-            USER_DATA
+            Offset,
+            UserData
         }
     }
 }

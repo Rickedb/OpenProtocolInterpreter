@@ -10,7 +10,7 @@ namespace OpenProtocolInterpreter
     public class DataField
     {
         private readonly char _paddingChar;
-        private readonly PaddingOrientations _paddingOrientation;
+        private readonly PaddingOrientation _paddingOrientation;
         private object CachedValue;
 
         public bool HasPrefix { get; set; }
@@ -29,7 +29,7 @@ namespace OpenProtocolInterpreter
             _paddingChar = ' ';
         }
 
-        public DataField(int field, int index, int size, char paddingChar, PaddingOrientations paddingOrientation = PaddingOrientations.RIGHT_PADDED, bool hasPrefix = true)
+        public DataField(int field, int index, int size, char paddingChar, PaddingOrientation paddingOrientation = PaddingOrientation.RightPadded, bool hasPrefix = true)
         {
             _paddingChar = paddingChar;
             _paddingOrientation = paddingOrientation;
@@ -59,14 +59,14 @@ namespace OpenProtocolInterpreter
             return (T)CachedValue;
         }
 
-        public virtual void SetValue<T>(Func<char, int, PaddingOrientations, T, string> converter, T value)
+        public virtual void SetValue<T>(Func<char, int, PaddingOrientation, T, string> converter, T value)
         {
             CachedValue = null;
             Value = converter(_paddingChar, Size, _paddingOrientation, value);
             Size = Value.Length;
         }
 
-        public virtual void SetRawValue<T>(Func<char, int, PaddingOrientations, T, byte[]> converter, T value)
+        public virtual void SetRawValue<T>(Func<char, int, PaddingOrientation, T, byte[]> converter, T value)
         {
             CachedValue = null;
             RawValue = converter(_paddingChar, Size, _paddingOrientation, value);
@@ -76,17 +76,11 @@ namespace OpenProtocolInterpreter
         public virtual void SetValue(string value)
         {
             CachedValue = null;
-            SetValue(new Converters.ValueConverter().GetPadded, value);
+            SetValue(OpenProtocolConvert.TruncatePadded, value);
         }
 
         private bool IsValueNotCached<T>() => CachedValue == null || IsNotTypeOf<T>();
 
         private bool IsNotTypeOf<T>() => !CachedValue.GetType().Equals(typeof(T));
-
-        public enum PaddingOrientations
-        {
-            RIGHT_PADDED,
-            LEFT_PADDED
-        }
     }
 }

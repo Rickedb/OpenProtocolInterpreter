@@ -5,13 +5,15 @@
     /// </summary>
     public enum ResultType
     {
-        TIGHTENING = 1,
-        LOOSENING = 2,
-        BATCH_INCREMENT = 3,
-        BATCH_DECREMENT = 4,
-        BYPASS_PARAMETER_SET_RESULT = 5,
-        ABORT_JOB_RESULT = 6,
-        SYNC_TIGHTENING = 7,
-        REFERENCE_SETUP = 8
+        Tightening = 1,
+        Loosening = 2,
+        BatchIncrement = 3,
+        BatchDecrement = 4,
+        BypassParameterSetResult = 5,
+        AbortJobResult = 6,
+        SyncTightening = 7,
+        ReferenceSetup = 8,
+        BatchReset = 9,
+        JobRestart = 10
     }
 }

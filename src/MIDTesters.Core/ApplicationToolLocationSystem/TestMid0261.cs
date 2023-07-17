@@ -1,25 +1,26 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.ApplicationToolLocationSystem;
 
 namespace MIDTesters.ApplicationToolLocationSystem
 {
     [TestClass]
-    public class TestMid0261 : MidTester
+    [TestCategory("ApplicationToolLocationSystem")]
+    public class TestMid0261 : DefaultMidTests<Mid0261>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0261Revision1()
         {
             string package = "00200261   1        ";
             var mid = _midInterpreter.Parse(package);
 
             Assert.AreEqual(typeof(Mid0261), mid.GetType());
-            Assert.IsNotNull(mid.HeaderData.NoAckFlag);
-            Assert.AreEqual(package, mid.Pack());
+            Assert.IsTrue(mid.Header.NoAckFlag);
+            AssertEqualPackages(package, mid, true);
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0261ByteRevision1()
         {
             string package = "00200261   1        ";
@@ -27,7 +28,8 @@ namespace MIDTesters.ApplicationToolLocationSystem
             var mid = _midInterpreter.Parse(bytes);
 
             Assert.AreEqual(typeof(Mid0261), mid.GetType());
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            Assert.IsTrue(mid.Header.NoAckFlag);
+            AssertEqualPackages(bytes, mid, true);
         }
     }
 }

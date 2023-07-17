@@ -11,34 +11,33 @@ namespace OpenProtocolInterpreter.PLCUserData
     ///         <see cref="Communication.Mid0004"/> Command error, Invalid data, or Controller is not a sync master/station controller
     /// </para>
     /// </summary>
-    public class Mid0240 : Mid, IPLCUserData, IIntegrator
+    public class Mid0240 : Mid, IPLCUserData, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 240;
+
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.InvalidData, Error.ControllerIsNotASyncMasterOrStationController };
 
         public string UserData
         {
-            get => GetField(1, (int)DataFields.USER_DATA).Value;
-            set => GetField(1, (int)DataFields.USER_DATA).SetValue(value);
+            get => GetField(1, (int)DataFields.UserData).Value;
+            set
+            {
+                var field = GetField(1, (int)DataFields.UserData);
+                field.Size = value.Length < 200 ? value.Length : 200;
+                field.SetValue(value);
+            }
         }
 
-        public Mid0240() : base(MID, LAST_REVISION) { }
+        public Mid0240() : base(MID, DEFAULT_REVISION) { }
 
-        public Mid0240(string userData) : this()
+        public Mid0240(Header header) : base(header)
         {
-            UserData = userData;
-        }
-
-        public override string Pack()
-        {
-            GetField(1, (int)DataFields.USER_DATA).Size = UserData.Length;
-            return base.Pack();
         }
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
-            GetField(1, (int)DataFields.USER_DATA).Size = package.Length - 20;
+            Header = ProcessHeader(package);
+            GetField(1, (int)DataFields.UserData).Size = Header.Length - 20;
             ProcessDataFields(package);
             return this;
         }
@@ -50,7 +49,7 @@ namespace OpenProtocolInterpreter.PLCUserData
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.USER_DATA, 20, 200, ' ', DataField.PaddingOrientations.RIGHT_PADDED, false)
+                        new DataField((int)DataFields.UserData, 20, 200, ' ', PaddingOrientation.RightPadded, false)
                     }
                 }
             };
@@ -58,7 +57,7 @@ namespace OpenProtocolInterpreter.PLCUserData
 
         internal enum DataFields
         {
-            USER_DATA
+            UserData
         }
     }
 }

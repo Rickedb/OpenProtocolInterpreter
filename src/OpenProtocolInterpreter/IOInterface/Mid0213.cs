@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.IOInterface
+﻿using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.IOInterface
 {
     /// <summary>
     /// Status externally monitored inputs unsubscribe
@@ -9,11 +11,16 @@
     ///             Status externally monitored inputs subscription does not exist
     /// </para>
     /// </summary>
-    public class Mid0213 : Mid, IIOInterface, IIntegrator
+    public class Mid0213 : Mid, IIOInterface, IIntegrator, IUnsubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 213;
 
-        public Mid0213() : base(MID, LAST_REVISION) { }
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.StatusExternalMonitoredInputsSubscriptionDoesntExists };
+
+        public Mid0213() : base(MID, DEFAULT_REVISION) { }
+
+        public Mid0213(Header header) : base(header)
+        {
+        }
     }
 }

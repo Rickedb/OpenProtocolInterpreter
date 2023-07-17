@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.LinkCommunication
 {
@@ -17,35 +16,30 @@ namespace OpenProtocolInterpreter.LinkCommunication
     /// </summary>
     public class Mid9998 : Mid, ILinkCommunication, IController, IIntegrator
     {
-        private readonly IValueConverter<int> _intConverter;
         public const int MID = 9998;
-        private const int LAST_REVISION = 1;
 
         public int MidNumber
         {
-            get => GetField(1, (int)DataFields.MID_NUMBER).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.MID_NUMBER).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.MidNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.MidNumber).SetValue(OpenProtocolConvert.ToString, value);
         }
         public LinkCommunicationError ErrorCode
         {
-            get => (LinkCommunicationError)GetField(1, (int)DataFields.ERROR_CODE).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.ERROR_CODE).SetValue(_intConverter.Convert, (int)value);
+            get => (LinkCommunicationError)GetField(1, (int)DataFields.ErrorCode).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.ErrorCode).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
 
-        public Mid9998() : base(MID, LAST_REVISION)
+        public Mid9998() : this(new Header()
         {
-            _intConverter = new Int32Converter();
+            Mid = MID,
+            Revision = DEFAULT_REVISION
+        })
+        {
+            
         }
 
-        /// <summary>
-        /// Revision 1 Constructor
-        /// </summary>
-        /// <param name="midNumber">MID number to which the acknowledgment error belongs to</param>
-        /// <param name="errorCode">Error code for the sent message</param>
-        public Mid9998(int midNumber, LinkCommunicationError errorCode) : this()
+        public Mid9998(Header header) : base(header)
         {
-            MidNumber = midNumber;
-            ErrorCode = errorCode;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -55,17 +49,17 @@ namespace OpenProtocolInterpreter.LinkCommunication
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.MID_NUMBER, 20, 4, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
-                                new DataField((int)DataFields.ERROR_CODE, 24, 4, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                                new DataField((int)DataFields.MidNumber, 20, 4, '0', PaddingOrientation.LeftPadded, false),
+                                new DataField((int)DataFields.ErrorCode, 24, 4, '0', PaddingOrientation.LeftPadded, false)
                             }
                 }
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            MID_NUMBER,
-            ERROR_CODE
+            MidNumber,
+            ErrorCode
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Tightening
 {
@@ -22,31 +21,34 @@ namespace OpenProtocolInterpreter.Tightening
     ///             MID revision not supported
     /// </para>
     /// </summary>
-    public class Mid0064 : Mid, ITightening, IIntegrator
+    public class Mid0064 : Mid, ITightening, IIntegrator, IAnswerableBy<Mid0065>, IDeclinableCommand
     {
-        private readonly IValueConverter<long> _longConverter;
-        private const int LAST_REVISION = 6;
         public const int MID = 64;
+
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.TighteningIdRequestNotFound, Error.MidRevisionUnsupported };
 
         public long TighteningId
         {
-            get => GetField(1,(int)DataFields.TIGHTENING_ID).GetValue(_longConverter.Convert);
-            set => GetField(1,(int)DataFields.TIGHTENING_ID).SetValue(_longConverter.Convert, value);
+            get => GetField(1,(int)DataFields.TighteningId).GetValue(OpenProtocolConvert.ToInt64);
+            set => GetField(1,(int)DataFields.TighteningId).SetValue(OpenProtocolConvert.ToString, value);
         }
 
-        public Mid0064() : this(LAST_REVISION)
+        public Mid0064() : this(DEFAULT_REVISION)
         {
 
         }
 
-        public Mid0064(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0064(Header header) : base(header)
         {
-            _longConverter = new Int64Converter();
+
         }
 
-        public Mid0064(long tighteningId, int revision = LAST_REVISION) : this(revision)
+        public Mid0064(int revision) : this(new Header()
         {
-            TighteningId = tighteningId;
+            Mid = MID,
+            Revision = revision
+        })
+        {
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -56,20 +58,15 @@ namespace OpenProtocolInterpreter.Tightening
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.TIGHTENING_ID, 20, 10, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                                new DataField((int)DataFields.TighteningId, 20, 10, '0', PaddingOrientation.LeftPadded, false)
                             }
                 },
-                { 2, new List<DataField>() },
-                { 3, new List<DataField>() },
-                { 4, new List<DataField>() },
-                { 5, new List<DataField>() },
-                { 6, new List<DataField>() }
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            TIGHTENING_ID
+            TighteningId
         }
     }
 }

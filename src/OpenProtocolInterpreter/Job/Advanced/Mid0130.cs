@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Job.Advanced
 {
@@ -9,10 +8,8 @@ namespace OpenProtocolInterpreter.Job.Advanced
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted</para>
     /// </summary>
-    public class Mid0130 : Mid, IAdvancedJob, IIntegrator
+    public class Mid0130 : Mid, IAdvancedJob, IIntegrator, IAcceptableCommand
     {
-        private readonly IValueConverter<bool> _boolConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 130;
 
         /// <summary>
@@ -21,18 +18,21 @@ namespace OpenProtocolInterpreter.Job.Advanced
         /// </summary>
         public bool JobOffStatus
         {
-            get => GetField(1,(int)DataFields.JOB_OFF_STATUS).GetValue(_boolConverter.Convert);
-            set => GetField(1,(int)DataFields.JOB_OFF_STATUS).SetValue(_boolConverter.Convert, value);
+            get => GetField(1,(int)DataFields.JobOffStatus).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1,(int)DataFields.JobOffStatus).SetValue(OpenProtocolConvert.ToString, value);
         }
 
-        public Mid0130() : base(MID, LAST_REVISION)
+        public Mid0130() : this(new Header()
         {
-            _boolConverter = new BoolConverter();
+            Mid = MID, 
+            Revision = DEFAULT_REVISION
+        })
+        {
+            
         }
 
-        public Mid0130(bool jobOffStatus) : this()
+        public Mid0130(Header header) : base(header)
         {
-            JobOffStatus = jobOffStatus;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -42,15 +42,15 @@ namespace OpenProtocolInterpreter.Job.Advanced
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.JOB_OFF_STATUS, 20, 1, false),
+                                new DataField((int)DataFields.JobOffStatus, 20, 1, false),
                             }
                 }
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            JOB_OFF_STATUS
+            JobOffStatus
         }
     }
 }

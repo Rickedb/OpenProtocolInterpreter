@@ -14,51 +14,36 @@ namespace OpenProtocolInterpreter.Vin
     ///             <see cref="Communication.Mid0004"/> Command error, VIN input source not granted
     /// </para>
     /// </summary>
-    public class Mid0050 : Mid, IVin, IIntegrator
+    public class Mid0050 : Mid, IVin, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 50;
+
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.VINInputSourceNotGranted };
 
         public string VinNumber
         {
-            get => GetField(1, (int)DataFields.VIN_NUMBER).Value;
-            set => GetField(1, (int)DataFields.VIN_NUMBER).SetValue(value);
+            get => GetField(1, (int)DataFields.VinNumber).Value;
+            set => GetField(1, (int)DataFields.VinNumber).SetValue(value);
         }
 
-        public Mid0050() : base(MID, LAST_REVISION) { }
+        public Mid0050() : base(MID, DEFAULT_REVISION) { }
 
-        /// <summary>
-        /// Revision 1 Constructor
-        /// </summary>
-        /// <param name="vinNumber">Dynamic with max 25 ASCII characters.</param>
-        public Mid0050(string vinNumber) : this()
+        public Mid0050(Header header) : base(header)
         {
-            VinNumber = vinNumber;
         }
 
         public override string Pack()
         {
-            GetField(1, (int)DataFields.VIN_NUMBER).Size = VinNumber.Length;
+            GetField(1, (int)DataFields.VinNumber).Size = VinNumber.Length;
             return base.Pack();
         }
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
-            GetField(1, (int)DataFields.VIN_NUMBER).Size = HeaderData.Length - 20;
+            Header = ProcessHeader(package);
+            GetField(1, (int)DataFields.VinNumber).Size = Header.Length - 20;
             ProcessDataFields(package);
             return this;
-        }
-
-        /// <summary>
-        /// Validate all fields size
-        /// </summary>
-        public bool Validate(out string error)
-        {
-            error = string.Empty;
-            if (VinNumber.Length > 25)
-                error = new System.ArgumentOutOfRangeException(nameof(VinNumber), "Max of 25 characters").Message;
-            return !string.IsNullOrEmpty(error);
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -68,15 +53,15 @@ namespace OpenProtocolInterpreter.Vin
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.VIN_NUMBER, 20, 0, false), //dynamic
+                                new DataField((int)DataFields.VinNumber, 20, 0, false), //dynamic
                             }
                 }
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            VIN_NUMBER
+            VinNumber
         }
     }
 }

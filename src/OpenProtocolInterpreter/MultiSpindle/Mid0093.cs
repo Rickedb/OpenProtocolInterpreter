@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.MultiSpindle
+﻿using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.MultiSpindle
 {
     /// <summary>
     /// Multi-spindle status unsubscribe
@@ -9,14 +11,19 @@
     /// <see cref="Communication.Mid0004"/> Command error, Multi-spindle status subscription does not exist
     /// </para>
     /// </summary>
-    public class Mid0093 : Mid, IMultiSpindle, IIntegrator
+    public class Mid0093 : Mid, IMultiSpindle, IIntegrator, IUnsubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 93;
 
-        public Mid0093() : base(MID, LAST_REVISION)
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.MultiSpindleStatusSubscriptionDoesntExists };
+
+        public Mid0093() : base(MID, DEFAULT_REVISION)
         {
 
+        }
+
+        public Mid0093(Header header) : base(header)
+        {
         }
     }
 }

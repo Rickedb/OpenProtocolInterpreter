@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.MultiSpindle
 {
@@ -22,60 +21,75 @@ namespace OpenProtocolInterpreter.MultiSpindle
     ///     Multi-spindle result subscription already exists or MID revision unsupported
     /// </para>
     /// </summary>
-    public class Mid0100 : Mid, IMultiSpindle, IIntegrator
+    public class Mid0100 : Mid, IMultiSpindle, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private readonly IValueConverter<long> _longConverter;
-        private readonly IValueConverter<bool> _boolConverter;
-        private const int LAST_REVISION = 4;
         public const int MID = 100;
+
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] 
+        { 
+            Error.ControllerIsNotASyncMasterOrStationController,
+            Error.MultiSpindleResultSubscriptionAlreadyExists,
+            Error.MidRevisionUnsupported
+        };
 
         public long DataNumberSystem
         {
-            get => GetField(2, (int)DataFields.DATA_NUMBER_SYSTEM).GetValue(_longConverter.Convert);
-            set => GetField(2, (int)DataFields.DATA_NUMBER_SYSTEM).SetValue(_longConverter.Convert, value);
+            get => GetField(2, (int)DataFields.DataNumberSystem).GetValue(OpenProtocolConvert.ToInt64);
+            set => GetField(2, (int)DataFields.DataNumberSystem).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public bool SendOnlyNewData
         {
-            get => GetField(3, (int)DataFields.SEND_ONLY_NEW_DATA).GetValue(_boolConverter.Convert);
-            set => GetField(3, (int)DataFields.SEND_ONLY_NEW_DATA).SetValue(_boolConverter.Convert, value);
+            get => GetField(3, (int)DataFields.SendOnlyNewData).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(3, (int)DataFields.SendOnlyNewData).SetValue(OpenProtocolConvert.ToString, value);
         }
 
-        public Mid0100() : this(LAST_REVISION)
+        public Mid0100() : this(DEFAULT_REVISION)
         {
 
         }
 
-        public Mid0100(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0100(Header header) : base(header)
         {
-            _longConverter = new Int64Converter();
-            _boolConverter = new BoolConverter();
+        }
+
+        public Mid0100(bool noAckFlag = false) : this(DEFAULT_REVISION, noAckFlag)
+        {
+
+        }
+
+        public Mid0100(int revision, bool noAckFlag = false) : this(new Header()
+        {
+            Mid = MID,
+            Revision = revision,
+            NoAckFlag = noAckFlag
+        })
+        {
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()
             {
-                { 1, new List<DataField>() },
                 {
                     2, new List<DataField>()
                             {
-                                new DataField((int)DataFields.DATA_NUMBER_SYSTEM, 20, 10, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
+                                new DataField((int)DataFields.DataNumberSystem, 20, 10, '0', PaddingOrientation.LeftPadded, false),
                             }
                 },
                 {
                     3, new List<DataField>()
                             {
-                                new DataField((int)DataFields.SEND_ONLY_NEW_DATA, 30, 1, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
+                                new DataField((int)DataFields.SendOnlyNewData, 30, 1, '0', PaddingOrientation.LeftPadded, false),
                             }
                 }
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            DATA_NUMBER_SYSTEM,
-            SEND_ONLY_NEW_DATA
+            DataNumberSystem,
+            SendOnlyNewData
         }
     }
 }

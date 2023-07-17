@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.IOInterface
 {
@@ -15,31 +14,32 @@ namespace OpenProtocolInterpreter.IOInterface
     ///         <see cref="Communication.Mid0004"/> Command error, Faulty IO device ID, or IO device not connected
     /// </para>
     /// </summary>
-    public class Mid0214 : Mid, IIOInterface, IIntegrator
+    public class Mid0214 : Mid, IIOInterface, IIntegrator, IAnswerableBy<Mid0215>, IDeclinableCommand
     {
-        private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 2;
         public const int MID = 214;
+
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.FaultyIODeviceId, Error.IODeviceNotConnected };
 
         public int DeviceNumber
         {
-            get => GetField(1,(int)DataFields.DEVICE_NUMBER).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.DEVICE_NUMBER).SetValue(_intConverter.Convert, value);
+            get => GetField(1,(int)DataFields.DeviceNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.DeviceNumber).SetValue(OpenProtocolConvert.ToString, value);
         }
 
-        public Mid0214() : this(LAST_REVISION)
+        public Mid0214() : this(DEFAULT_REVISION)
         {
-
         }
 
-        public Mid0214(int revision = LAST_REVISION) : base(MID, revision)
+        public Mid0214(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
         }
 
-        public Mid0214(int deviceNumber, int revision = LAST_REVISION) : this(revision)
+        public Mid0214(int revision) : this(new Header()
         {
-            DeviceNumber = deviceNumber;
+            Mid = MID,
+            Revision = revision
+        })
+        {
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -49,16 +49,15 @@ namespace OpenProtocolInterpreter.IOInterface
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.DEVICE_NUMBER, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                        new DataField((int)DataFields.DeviceNumber, 20, 2, '0', PaddingOrientation.LeftPadded, false)
                     }
-                },
-                { 2, new List<DataField>() }
+                }
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            DEVICE_NUMBER
+            DeviceNumber
         }
     }
 }

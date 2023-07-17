@@ -1,14 +1,15 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Tightening;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace MIDTesters.Tightening
 {
     [TestClass]
+    [TestCategory("Tightening")]
     public class TestMid0065 : MidTester
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0065Revision1()
         {
             string package = @"01180065001         01012345678902AIRBAG                   03001040002050060070080014670900046102001-04-22:14:54:34112";
@@ -26,10 +27,11 @@ namespace MIDTesters.Tightening
             Assert.IsNotNull(mid.Angle);
             Assert.IsNotNull(mid.Timestamp);
             Assert.IsNotNull(mid.BatchStatus);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0065ByteRevision1()
         {
             string package = @"01180065001         01012345678902AIRBAG                   03001040002050060070080014670900046102001-04-22:14:54:34112";
@@ -48,10 +50,11 @@ namespace MIDTesters.Tightening
             Assert.IsNotNull(mid.Angle);
             Assert.IsNotNull(mid.Timestamp);
             Assert.IsNotNull(mid.BatchStatus);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
 
         [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ASCII")]
         public void Mid0065Revision2()
         {
             string package = @"02260065002         01012345678902AIRBAG                   030001040020510060093807000008000009010011112013214115016217118000004189819001000200036021002502200223000215240010252500012266553527ABCDEFG-123   282019-01-05:09:00:05";
@@ -85,10 +88,11 @@ namespace MIDTesters.Tightening
             Assert.IsNotNull(mid.SyncTighteningId);
             Assert.IsNotNull(mid.ToolSerialNumber);
             Assert.IsNotNull(mid.Timestamp);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
 
         [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ByteArray")]
         public void Mid0065ByteRevision2()
         {
             List<byte> bytes = new List<byte>();
@@ -156,10 +160,11 @@ namespace MIDTesters.Tightening
             Assert.IsNotNull(mid.SyncTighteningId);
             Assert.IsNotNull(mid.ToolSerialNumber);
             Assert.IsNotNull(mid.Timestamp);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
 
         [TestMethod]
+        [TestCategory("Revision 3"), TestCategory("ASCII")]
         public void Mid0065Revision3()
         {
             string package = @"02330065003         01012345678902AIRBAG                   030001040020510060093807000008000009010011112013214115016217118000004189819001000200036021002502200223000215240010252500012266553527ABCDEFG-123   282019-01-05:09:00:052973008";
@@ -195,10 +200,11 @@ namespace MIDTesters.Tightening
             Assert.IsNotNull(mid.Timestamp);
             Assert.IsNotNull(mid.TorqueValuesUnit);
             Assert.IsNotNull(mid.ResultType);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
 
         [TestMethod]
+        [TestCategory("Revision 3"), TestCategory("ByteArray")]
         public void Mid0065ByteRevision3()
         {
             List<byte> bytes = new List<byte>();
@@ -268,10 +274,11 @@ namespace MIDTesters.Tightening
             Assert.IsNotNull(mid.Timestamp);
             Assert.IsNotNull(mid.TorqueValuesUnit);
             Assert.IsNotNull(mid.ResultType);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
 
         [TestMethod]
+        [TestCategory("Revision 4"), TestCategory("ASCII")]
         public void Mid0065Revision4()
         {
             string package = @"03140065004         01012345678902AIRBAG                   030001040020510060093807000008000009010011112013214115016217118000004189819001000200036021002502200223000215240010252500012266553527ABCDEFG-123   282019-01-05:09:00:05297300831Identifier result part 2 32Identifier result part 3 33Identifier result part 4 ";
@@ -310,10 +317,11 @@ namespace MIDTesters.Tightening
             Assert.IsNotNull(mid.IdentifierResultPart2);
             Assert.IsNotNull(mid.IdentifierResultPart3);
             Assert.IsNotNull(mid.IdentifierResultPart4);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
 
         [TestMethod]
+        [TestCategory("Revision 4"), TestCategory("ByteArray")]
         public void Mid0065ByteRevision4()
         {
             List<byte> bytes = new List<byte>();
@@ -386,10 +394,11 @@ namespace MIDTesters.Tightening
             Assert.IsNotNull(mid.IdentifierResultPart2);
             Assert.IsNotNull(mid.IdentifierResultPart3);
             Assert.IsNotNull(mid.IdentifierResultPart4);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
 
         [TestMethod]
+        [TestCategory("Revision 5"), TestCategory("ASCII")]
         public void Mid0065Revision5()
         {
             string package = @"03200065005         01012345678902AIRBAG                   030001040020510060093807000008000009010011112013214115016217118000004189819001000200036021002502200223000215240010252500012266553527ABCDEFG-123   282019-01-05:09:00:05297300831Identifier result part 2 32Identifier result part 3 33Identifier result part 4 34E124";
@@ -429,10 +438,11 @@ namespace MIDTesters.Tightening
             Assert.IsNotNull(mid.IdentifierResultPart3);
             Assert.IsNotNull(mid.IdentifierResultPart4);
             Assert.IsNotNull(mid.CustomerTighteningErrorCode);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
 
         [TestMethod]
+        [TestCategory("Revision 5"), TestCategory("ByteArray")]
         public void Mid0065ByteRevision5()
         {
             List<byte> bytes = new List<byte>();
@@ -506,10 +516,11 @@ namespace MIDTesters.Tightening
             Assert.IsNotNull(mid.IdentifierResultPart3);
             Assert.IsNotNull(mid.IdentifierResultPart4);
             Assert.IsNotNull(mid.CustomerTighteningErrorCode);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
 
         [TestMethod]
+        [TestCategory("Revision 6"), TestCategory("ASCII")]
         public void Mid0065Revision6()
         {
             string package = @"03400065006         01012345678902AIRBAG                   030001040020510060093807000008000009010011112013214115016217118000004189819001000200036021002502200223000215240010252500012266553527ABCDEFG-123   282019-01-05:09:00:05297300831Identifier result part 2 32Identifier result part 3 33Identifier result part 4 34E12435005100360000000042";
@@ -551,10 +562,11 @@ namespace MIDTesters.Tightening
             Assert.IsNotNull(mid.CustomerTighteningErrorCode);
             Assert.IsNotNull(mid.PrevailTorqueCompensateValue);
             Assert.IsNotNull(mid.TighteningErrorStatus2);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
 
         [TestMethod]
+        [TestCategory("Revision 6"), TestCategory("ByteArray")]
         public void Mid0065ByteRevision6()
         {
             List<byte> bytes = new List<byte>();
@@ -645,10 +657,11 @@ namespace MIDTesters.Tightening
             Assert.IsNotNull(mid.CustomerTighteningErrorCode);
             Assert.IsNotNull(mid.PrevailTorqueCompensateValue);
             Assert.IsNotNull(mid.TighteningErrorStatus2);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
 
         [TestMethod]
+        [TestCategory("Revision 7"), TestCategory("ASCII")]
         public void Mid0065Revision7()
         {
             string package = @"03790065007         01012345678902AIRBAG                   030001040020510060093807000008000009010011112013214115016217118000004189819001000200036021002502200223000215240010252500012266553527ABCDEFG-123   282019-01-05:09:00:05297300831Identifier result part 2 32Identifier result part 3 33Identifier result part 4 34E1243500510036000000004237429496729538Station Name             ";
@@ -692,10 +705,11 @@ namespace MIDTesters.Tightening
             Assert.IsNotNull(mid.TighteningErrorStatus2);
             Assert.AreNotEqual(0, mid.StationId);
             Assert.IsNotNull(mid.StationName);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
 
         [TestMethod]
+        [TestCategory("Revision 7"), TestCategory("ByteArray")]
         public void Mid0065ByteRevision7()
         {
             List<byte> bytes = new List<byte>();
@@ -748,7 +762,7 @@ namespace MIDTesters.Tightening
             string untilTighteningErrorStatus2 = "19001000200036021002502200223000215240010252500012266553527ABCDEFG-123   282019-01-05:09:00:05297300831Identifier result part 2 32Identifier result part 3 33Identifier result part 4 34E1243500510036";
             bytes.AddRange(GetAsciiBytes(untilTighteningErrorStatus2));
             bytes.AddRange(GetAsciiBytes(tighteningErrorStatus2, 10));
-
+            
             string untilEnd = "37429496729538Station Name             ";
             bytes.AddRange(GetAsciiBytes(untilEnd));
             var mid = _midInterpreter.Parse<Mid0065>(bytes.ToArray());
@@ -791,10 +805,11 @@ namespace MIDTesters.Tightening
             Assert.IsNotNull(mid.TighteningErrorStatus2);
             Assert.AreNotEqual(0, mid.StationId);
             Assert.IsNotNull(mid.StationName);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
 
         [TestMethod]
+        [TestCategory("Revision 8"), TestCategory("ASCII")]
         public void Mid0065Revision8()
         {
             string package = @"04060065008         01012345678902AIRBAG                   030001040020510060093807000008000009010011112013214115016217118000004189819001000200036021002502200223000215240010252500012266553527ABCDEFG-123   282019-01-05:09:00:05297300831Identifier result part 2 32Identifier result part 3 33Identifier result part 4 34E1243500510036000000004237429496729538Station Name             390010004024165214342005232";
@@ -842,10 +857,11 @@ namespace MIDTesters.Tightening
             Assert.IsNotNull(mid.PostViewTorqueActivated);
             Assert.AreNotEqual(0, mid.PostViewTorqueHigh);
             Assert.AreNotEqual(0, mid.PostViewTorqueLow);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
 
         [TestMethod]
+        [TestCategory("Revision 8"), TestCategory("ByteArray")]
         public void Mid0065ByteRevision8()
         {
             List<byte> bytes = new List<byte>();
@@ -945,7 +961,7 @@ namespace MIDTesters.Tightening
             Assert.IsNotNull(mid.PostViewTorqueActivated);
             Assert.AreNotEqual(0, mid.PostViewTorqueHigh);
             Assert.AreNotEqual(0, mid.PostViewTorqueLow);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
     }
 }

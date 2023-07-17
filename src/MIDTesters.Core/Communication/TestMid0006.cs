@@ -1,13 +1,14 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Communication;
-using System.Linq;
 
 namespace MIDTesters.Communication
 {
     [TestClass]
-    public class TestMid0006 : MidTester
+    [TestCategory("Communication")]
+    public class TestMid0006 : DefaultMidTests<Mid0006>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0006Revision1()
         {
             string pack = @"00430006            001800214lengthequals14";
@@ -18,10 +19,11 @@ namespace MIDTesters.Communication
             Assert.IsNotNull(mid.WantedRevision);
             Assert.IsNotNull(mid.ExtraDataLength);
             Assert.IsNotNull(mid.ExtraData);
-            Assert.AreEqual(pack, mid.Pack());
+            AssertEqualPackages(pack, mid, true);
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0006ByteRevision1()
         {
             string pack = @"00430006            001800214lengthequals14";
@@ -33,7 +35,7 @@ namespace MIDTesters.Communication
             Assert.IsNotNull(mid.WantedRevision);
             Assert.IsNotNull(mid.ExtraDataLength);
             Assert.IsNotNull(mid.ExtraData);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid, true);
         }
     }
 }

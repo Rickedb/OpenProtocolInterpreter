@@ -1,36 +1,35 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.AutomaticManualMode;
 
 namespace MIDTesters.AutomaticManualMode
 {
     [TestClass]
-    public class TestMid0411 : MidTester
+    [TestCategory("AutomaticManualMode")]
+    public class TestMid0411 : DefaultMidTests<Mid0411>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0411Revision1()
         {
             string package = "00240411            0105";
             var mid = _midInterpreter.Parse<Mid0411>(package);
 
-            Assert.AreEqual(typeof(Mid0411), mid.GetType());
             Assert.IsNotNull(mid.AutoDisableSetting);
             Assert.IsNotNull(mid.CurrentBatch);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid, true);
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0411ByteRevision1()
         {
             string package = "00240411            0105";
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0411>(bytes);
 
-            Assert.AreEqual(typeof(Mid0411), mid.GetType());
             Assert.IsNotNull(mid.AutoDisableSetting);
             Assert.IsNotNull(mid.CurrentBatch);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid, true);
         }
     }
 }

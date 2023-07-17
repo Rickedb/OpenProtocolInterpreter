@@ -1,45 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net6</TargetFrameworks>
     <LangVersion>latest</LangVersion>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-    <FileVersion>4.0.0.0</FileVersion>
-    <Version>4.0.0</Version>
+    <AssemblyVersion>6.0.0.0</AssemblyVersion>
+    <FileVersion>6.0.0.0</FileVersion>
+    <Version>6.0.0</Version>
     <Description>Converts the ugly package that came from Open Protocol to an object</Description>
-    <Copyright>Copyright © 2022</Copyright>
+    <Copyright>Copyright © 2023</Copyright>
     <Authors>Henrique Dal Bello Batista</Authors>
     <Company>Henrique Dal Bello Batista</Company>
     <PackageProjectUrl>https://github.com/Rickedb/OpenProtocolInterpreter</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Rickedb/OpenProtocolInterpreter</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>CSharp Open Protocol Atlas Copco</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReleaseNotes>Breaking changes:
+    <PackageReleaseNotes>Improvements
 
-- RevisionsByFields is no longer a public property due to serialization issues
-- CalibrationUnit.LBF_LN fixed to CalibrationUnit.LBF_IN
-- CalibrationUnit.NCM changed from 5 to 8
-- TorqueValuesUnit.LBF_LN fixed to TorqueValuesUnit.LBF_IN
+      - Interface segregation to represent types of mid
 
-New revisions:
+      New Features
 
-- Mid0001, revisions 6 and 7
-- Mid0012, revision 5
-- Mid0013, revisions 3 to 5
-- Mid0032, revision 4
-- Mid0040, revision 6 and 7
-- Mid0041, revision 6 and 7
-- Mid0042, revision 2
-- Mid0043, revision 2
-- Mid0045, revision 2
-- Mid0071, revision 3
-- Mid0074, revision 2
-- Mid0140, revisions 2 and 3 (pending unit tests)
-- Mid1201, revision 2
-
-Fixes:
-
-- Fixed SpeedOrPressStatusConverter used in Mid0101</PackageReleaseNotes>
+      - Along with interfaces, added easy-use extensions
+      - Added new Errors</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 

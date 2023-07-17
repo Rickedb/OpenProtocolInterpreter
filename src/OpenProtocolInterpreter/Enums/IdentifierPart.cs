@@ -5,7 +5,7 @@
     /// </summary>
     public enum IdentifierPart
     {
-        JOB_VIN_NUMBER = 0,
-        OTHER = 1
+        JobVINNumber = 0,
+        Other = 1
     }
 }

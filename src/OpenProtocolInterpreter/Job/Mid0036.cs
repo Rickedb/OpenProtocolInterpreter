@@ -6,16 +6,19 @@
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: None</para>
     /// </summary>
-    public class Mid0036 : Mid, IJob, IIntegrator
+    public class Mid0036 : Mid, IJob, IIntegrator, IAcknowledge
     {
-        private const int LAST_REVISION = 4;
         public const int MID = 36;
 
-        public Mid0036() : this(LAST_REVISION)
+        public Mid0036() : this(DEFAULT_REVISION)
         {
 
         }
 
-        public Mid0036(int revision = LAST_REVISION) : base(MID, revision) {  }
+        public Mid0036(Header header) : base(header)
+        {
+        }
+
+        public Mid0036(int revision) : base(MID, revision) {  }
     }
 }

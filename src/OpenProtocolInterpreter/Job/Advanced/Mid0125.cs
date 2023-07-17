@@ -6,16 +6,17 @@
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: None</para>
     /// </summary>
-    public class Mid0125 : Mid, IAdvancedJob, IIntegrator
+    public class Mid0125 : Mid, IAdvancedJob, IIntegrator, IAcknowledge
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 125;
 
-        public Mid0125() : this(0)
+        public Mid0125() : base(MID, DEFAULT_REVISION)
         {
 
         }
 
-        public Mid0125(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) { }
+        public Mid0125(Header header) : base(header)
+        {
+        }
     }
 }

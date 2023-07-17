@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Time
@@ -12,28 +11,24 @@ namespace OpenProtocolInterpreter.Time
     /// </summary>
     public class Mid0081 : Mid, ITime, IController
     {
-        private readonly IValueConverter<DateTime> _dateConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 81;
 
         public DateTime Time
         {
-            get => GetField(1,(int)DataFields.TIME).GetValue(_dateConverter.Convert);
-            set => GetField(1,(int)DataFields.TIME).SetValue(_dateConverter.Convert, value);
+            get => GetField(1,(int)DataFields.Time).GetValue(OpenProtocolConvert.ToDateTime);
+            set => GetField(1,(int)DataFields.Time).SetValue(OpenProtocolConvert.ToString, value);
         }
 
-        public Mid0081() : base(MID, LAST_REVISION)
+        public Mid0081() : this(new Header()
         {
-            _dateConverter = new DateConverter();
+            Mid = MID, 
+            Revision = DEFAULT_REVISION
+        })
+        {
         }
 
-        /// <summary>
-        /// Revision 1 Constructor
-        /// </summary>
-        /// <param name="time"></param>
-        public Mid0081(DateTime time) : this()
+        public Mid0081(Header header) : base(header)
         {
-            Time = time;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -43,15 +38,15 @@ namespace OpenProtocolInterpreter.Time
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.TIME, 20, 19, false)
+                                new DataField((int)DataFields.Time, 20, 19, false)
                             }
                 }
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            TIME
+            Time
         }
     }
 }

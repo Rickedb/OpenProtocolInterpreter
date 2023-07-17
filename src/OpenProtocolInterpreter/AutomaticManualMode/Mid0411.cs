@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.AutomaticManualMode
 {
@@ -31,30 +30,30 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
     /// </summary>
     public class Mid0411 : Mid, IAutomaticManualMode, IController
     {
-        private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 411;
 
         public int AutoDisableSetting
         {
-            get => GetField(1,(int)DataFields.AUTO_DISABLE_SETTING).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.AUTO_DISABLE_SETTING).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.AutoDisableSetting).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.AutoDisableSetting).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int CurrentBatch
         {
-            get => GetField(1,(int)DataFields.CURRENT_BATCH).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.CURRENT_BATCH).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.CurrentBatch).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.CurrentBatch).SetValue(OpenProtocolConvert.ToString, value);
         }
 
-        public Mid0411() : base(MID, LAST_REVISION)
+        public Mid0411() : this(new Header()
         {
-            _intConverter = new Int32Converter();
+            Mid= MID,
+            Revision = DEFAULT_REVISION
+        })
+        {
+            
         }
 
-        public Mid0411(int autoDisableSetting, int currentBatch) : this()
+        public Mid0411(Header header) : base(header)
         {
-            AutoDisableSetting = autoDisableSetting;
-            CurrentBatch = currentBatch;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -64,17 +63,17 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.AUTO_DISABLE_SETTING, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
-                                new DataField((int)DataFields.CURRENT_BATCH, 22, 2, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                                new DataField((int)DataFields.AutoDisableSetting, 20, 2, '0', PaddingOrientation.LeftPadded, false),
+                                new DataField((int)DataFields.CurrentBatch, 22, 2, '0', PaddingOrientation.LeftPadded, false)
                             }
                 }
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            AUTO_DISABLE_SETTING,
-            CURRENT_BATCH
+            AutoDisableSetting,
+            CurrentBatch
         }
     }
 }

@@ -18,25 +18,25 @@ namespace OpenProtocolInterpreter.UserInterface
     ///             <see cref="Communication.Mid0004"/> Command error, User text could not be displayed
     /// </para>
     /// </summary>
-    public class Mid0110 : Mid, IUserInterface, IIntegrator
+    public class Mid0110 : Mid, IUserInterface, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 110;
+
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { };
 
         public string UserText
         {
-            get => GetField(1,(int)DataFields.USER_TEXT).Value;
-            set => GetField(1,(int)DataFields.USER_TEXT).SetValue(value);
+            get => GetField(1,(int)DataFields.UserText).Value;
+            set => GetField(1,(int)DataFields.UserText).SetValue(value);
         }
 
-        public Mid0110() : base(MID, LAST_REVISION)
+        public Mid0110() : base(MID, DEFAULT_REVISION)
         {
 
         }
 
-        public Mid0110(string userText) : this()
+        public Mid0110(Header header) : base(header)
         {
-            UserText = userText;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -46,15 +46,15 @@ namespace OpenProtocolInterpreter.UserInterface
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.USER_TEXT, 20, 4, ' ', DataField.PaddingOrientations.RIGHT_PADDED, false),
+                                new DataField((int)DataFields.UserText, 20, 4, ' ', PaddingOrientation.RightPadded, false),
                             }
                 }
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            USER_TEXT
+            UserText
         }
     }
 }

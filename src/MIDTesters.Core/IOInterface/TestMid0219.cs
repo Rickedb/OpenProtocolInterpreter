@@ -1,35 +1,33 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.IOInterface;
 
 namespace MIDTesters.IOInterface
 {
     [TestClass]
-    public class TestMid0219 : MidTester
+    [TestCategory("IOInterface")]
+    public class TestMid0219 : DefaultMidTests<Mid0219>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0219Revision1()
         {
             string package = "00230219            102";
             var mid = _midInterpreter.Parse<Mid0219>(package);
 
-            Assert.AreEqual(typeof(Mid0219), mid.GetType());
             Assert.IsNotNull(mid.RelayNumber);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid, true);
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0219ByteRevision1()
         {
             string package = "00230219            102";
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0219>(bytes);
 
-            Assert.AreEqual(typeof(Mid0219), mid.GetType());
             Assert.IsNotNull(mid.RelayNumber);
-
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid, true);
         }
     }
 }

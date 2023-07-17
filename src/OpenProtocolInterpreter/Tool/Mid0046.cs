@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Tool
 {
@@ -10,35 +9,33 @@ namespace OpenProtocolInterpreter.Tool
     /// <para>Warning 2: the new configuration will not be active until the next controller reboot!</para>
     /// <para>Message sent by: Integrator</para>
     /// <para>
-    ///     Answer: MID 0005 Command accepted or 
-    ///             MID 0004 Command error, Programming control not granted or 
-    ///                                     Invalid data (value not supported by controller)
+    ///     Answer: <see cref="Communication.Mid0005"/> Command accepted or 
+    ///             <see cref="Communication.Mid0004"/> Command error, Programming control not granted or 
+    ///                                                 Invalid data (value not supported by controller)
     /// </para>
     /// </summary>
-    public class Mid0046 : Mid, ITool, IIntegrator
+    public class Mid0046 : Mid, ITool, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
-        private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 46;
+
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.ProgrammingControlNotGranted, Error.InvalidData };
 
         public PrimaryTool PrimaryTool
         {
-            get => (PrimaryTool)GetField(1,(int)DataFields.PRIMARY_TOOL).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.PRIMARY_TOOL).SetValue(_intConverter.Convert, (int)value);
+            get => (PrimaryTool)GetField(1,(int)DataFields.PrimaryTool).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.PrimaryTool).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
 
-        public Mid0046() : base(MID, LAST_REVISION)
+        public Mid0046() : this(new Header()
         {
-            _intConverter = new Int32Converter();
+            Mid = MID, 
+            Revision = DEFAULT_REVISION
+        })
+        {
         }
 
-        /// <summary>
-        /// Revision 1 Constructor
-        /// </summary>
-        /// <param name="primaryTool">Primary tool. The primary tool is two byte-long and specified by two ASCII digits.</param>
-        public Mid0046(PrimaryTool primaryTool) : this()
+        public Mid0046(Header header) : base(header)
         {
-            PrimaryTool = primaryTool;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -48,15 +45,15 @@ namespace OpenProtocolInterpreter.Tool
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.PRIMARY_TOOL, 20, 2, '0', DataField.PaddingOrientations.LEFT_PADDED)
+                                new DataField((int)DataFields.PrimaryTool, 20, 2, '0', PaddingOrientation.LeftPadded)
                             }
                 }
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            PRIMARY_TOOL
+            PrimaryTool
         }
     }
 }

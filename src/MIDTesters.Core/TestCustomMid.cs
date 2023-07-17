@@ -1,13 +1,13 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter;
-using OpenProtocolInterpreter.Converters;
 using OpenProtocolInterpreter.Time;
 using System;
 using System.Collections.Generic;
 
-namespace MIDTesters.Core
+namespace MIDTesters
 {
     [TestClass]
+    [TestCategory("Customization")]
     public class TestCustomMid : MidTester
     {
         public static DateTime Now;
@@ -29,7 +29,7 @@ namespace MIDTesters.Core
             Assert.IsNotNull(mid.Time);
             Assert.IsNotNull(mid.FormattedDate);
             Assert.AreEqual(mid.FormattedDate, "01/12/2017 20:12:45");
-            Assert.AreEqual($"00390081            {Now:yyyy-MM-dd:HH:mm:ss}", mid.Pack());
+            AssertEqualPackages($"00390081            {Now:yyyy-MM-dd:HH:mm:ss}", mid, true);
         }
 
         [TestMethod]
@@ -43,7 +43,7 @@ namespace MIDTesters.Core
             Assert.AreEqual(typeof(NewMid0083), mid.GetType());
             Assert.IsNotNull(mid.Time);
             Assert.IsNotNull(mid.TimeZone);
-            Assert.AreEqual(pack, mid.Pack());
+            AssertEqualPackages(pack, mid, true);
         }
     }
 
@@ -69,14 +69,13 @@ namespace MIDTesters.Core
 
     public class NewMid0083 : Mid
     {
-        private readonly IValueConverter<DateTime> _dateConverter;
         private const int LAST_REVISION = 1;
         public const int MID = 83;
 
         public DateTime Time
         {
-            get => GetField(1, (int)DataFields.TIME).GetValue(_dateConverter.Convert);
-            set => GetField(1, (int)DataFields.TIME).SetValue(_dateConverter.Convert, value);
+            get => GetField(1, (int)DataFields.TIME).GetValue(OpenProtocolConvert.ToDateTime);
+            set => GetField(1, (int)DataFields.TIME).SetValue(OpenProtocolConvert.ToString, value);
         }
         public string TimeZone
         {
@@ -86,7 +85,6 @@ namespace MIDTesters.Core
 
         public NewMid0083() : base(MID, LAST_REVISION)
         {
-            _dateConverter = new DateConverter();
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

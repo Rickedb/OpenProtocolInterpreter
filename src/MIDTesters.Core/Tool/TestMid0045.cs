@@ -1,39 +1,39 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Tool;
 
 namespace MIDTesters.Tool
 {
     [TestClass]
-    public class TestMid0045 : MidTester
+    [TestCategory("Tool")]
+    public class TestMid0045 : DefaultMidTests<Mid0045>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0045Revision1()
         {
             string package = "00310045            01402003000";
             var mid = _midInterpreter.Parse<Mid0045>(package);
 
-            Assert.AreEqual(typeof(Mid0045), mid.GetType());
             Assert.IsNotNull(mid.CalibrationValueUnit);
             Assert.IsNotNull(mid.CalibrationValue);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid, true);
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0045ByteRevision1()
         {
             string package = "00310045            01402003000";
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0045>(bytes);
 
-            Assert.AreEqual(typeof(Mid0045), mid.GetType());
             Assert.IsNotNull(mid.CalibrationValueUnit);
             Assert.IsNotNull(mid.CalibrationValue);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid, true);
         }
 
         [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ASCII")]
         public void Mid0045Revision2()
         {
             string package = "00350045002         014020030000301";
@@ -43,10 +43,11 @@ namespace MIDTesters.Tool
             Assert.IsNotNull(mid.CalibrationValueUnit);
             Assert.IsNotNull(mid.CalibrationValue);
             Assert.IsNotNull(mid.ChannelNumber);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
 
         [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ByteArray")]
         public void Mid0045ByteRevision2()
         {
             string package = "00350045002         014020030000302";
@@ -57,7 +58,7 @@ namespace MIDTesters.Tool
             Assert.IsNotNull(mid.CalibrationValueUnit);
             Assert.IsNotNull(mid.CalibrationValue);
             Assert.IsNotNull(mid.ChannelNumber);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
     }
 }

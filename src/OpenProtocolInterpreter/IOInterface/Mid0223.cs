@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.IOInterface
 {
@@ -13,26 +12,29 @@ namespace OpenProtocolInterpreter.IOInterface
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted or <see cref="Communication.Mid0004"/> Command error, The relay function subscription does not exist</para>
     /// </summary>
-    public class Mid0223 : Mid, IIOInterface, IIntegrator
+    public class Mid0223 : Mid, IIOInterface, IIntegrator, IUnsubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 223;
+
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.RelayFunctionSubscriptionDoesntExists };
 
         public DigitalInputNumber DigitalInputNumber
         {
-            get => (DigitalInputNumber)GetField(1,(int)DataFields.DIGITAL_INPUT_NUMBER).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.DIGITAL_INPUT_NUMBER).SetValue(_intConverter.Convert, (int)value);
+            get => (DigitalInputNumber)GetField(1,(int)DataFields.DigitalInputNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1,(int)DataFields.DigitalInputNumber).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
 
-        public Mid0223() : base(MID, LAST_REVISION)
+        public Mid0223() : this(new Header()
         {
-            _intConverter = new Int32Converter();
+            Mid = MID, 
+            Revision = DEFAULT_REVISION
+        })
+        {
+            
         }
 
-        public Mid0223(DigitalInputNumber digitalInputNumber) : this()
+        public Mid0223(Header header) : base(header)
         {
-            DigitalInputNumber = digitalInputNumber;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -42,15 +44,15 @@ namespace OpenProtocolInterpreter.IOInterface
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.DIGITAL_INPUT_NUMBER, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                        new DataField((int)DataFields.DigitalInputNumber, 20, 3, '0', PaddingOrientation.LeftPadded, false)
                     }
                 }
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            DIGITAL_INPUT_NUMBER
+            DigitalInputNumber
         }
     }
 }

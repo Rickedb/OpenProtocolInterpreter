@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.PowerMACS
+﻿using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.PowerMACS
 {
     /// <summary>
     /// Last Power MACS tightening result data unsubscribe
@@ -9,16 +11,21 @@
     ///         <see cref="Communication.Mid0004"/> Command error, Subscription does not exist
     /// </para>
     /// </summary>
-    public class Mid0109 : Mid, IPowerMACS, IIntegrator
+    public class Mid0109 : Mid, IPowerMACS, IIntegrator, IUnsubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 109;
 
-        public Mid0109() : this(LAST_REVISION)
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SubscriptionDoesntExists };
+
+        public Mid0109() : this(DEFAULT_REVISION)
         {
 
         }
 
-        public Mid0109(int revision = LAST_REVISION) : base(MID, revision) { }
+        public Mid0109(int revision) : base(MID, revision) { }
+
+        public Mid0109(Header header) : base(header)
+        {
+        }
     }
 }

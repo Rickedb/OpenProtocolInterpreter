@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Communication
 {
@@ -22,7 +18,74 @@ namespace OpenProtocolInterpreter.Communication
     ///         MID revision unsupported or Invalid data code and the MID subscribed for
     /// </para>
     /// </summary>
-    internal class Mid0009
+    public class Mid0009 : Mid, ICommunication, IIntegrator
     {
+        public const int MID = 9;
+
+        public string UnsubscriptionMid
+        {
+            get => GetField(1, (int)DataFields.UnsubscriptionMid).Value;
+            set => GetField(1, (int)DataFields.UnsubscriptionMid).SetValue(value);
+        }
+        public int ExtraDataRevision
+        {
+            get => GetField(1, (int)DataFields.ExtraDataRevision).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.ExtraDataRevision).SetValue(OpenProtocolConvert.ToString, value);
+        }
+        public int ExtraDataLength
+        {
+            get => GetField(1, (int)DataFields.ExtraDataLength).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.ExtraDataLength).SetValue(OpenProtocolConvert.ToString, value);
+        }
+        public string ExtraData
+        {
+            get => GetField(1, (int)DataFields.ExtraData).Value;
+            set => GetField(1, (int)DataFields.ExtraData).SetValue(value);
+        }
+
+        public Mid0009() : this(new Header()
+        {
+            Mid = MID,
+            Revision = DEFAULT_REVISION
+        })
+        {
+
+        }
+
+        public Mid0009(Header header) : base(header)
+        {
+        }
+
+        public override Mid Parse(string package)
+        {
+            Header = ProcessHeader(package);
+            GetField(1, (int)DataFields.ExtraData).Size = Header.Length - 29;
+            ProcessDataFields(package);
+            return this;
+        }
+
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        {
+            return new Dictionary<int, List<DataField>>()
+            {
+                {
+                    1, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.UnsubscriptionMid, 20, 4, '0', PaddingOrientation.LeftPadded, false),
+                                new DataField((int)DataFields.ExtraDataRevision, 24, 3, '0', PaddingOrientation.LeftPadded, false),
+                                new DataField((int)DataFields.ExtraDataLength, 27, 2, '0', PaddingOrientation.LeftPadded, false),
+                                new DataField((int)DataFields.ExtraData, 29, 0, ' ', PaddingOrientation.RightPadded, false)
+                            }
+                }
+            };
+        }
+
+        protected enum DataFields
+        {
+            UnsubscriptionMid,
+            ExtraDataRevision,
+            ExtraDataLength,
+            ExtraData
+        }
     }
 }

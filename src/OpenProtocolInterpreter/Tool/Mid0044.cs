@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.Tool
+﻿using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.Tool
 {
     /// <summary>
     /// Disconnect tool request
@@ -15,14 +17,19 @@
     ///             <see cref="Communication.Mid0004"/> Command error, Tool currently in use
     /// </para>
     /// </summary>
-    public class Mid0044 : Mid, ITool, IIntegrator
+    public class Mid0044 : Mid, ITool, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 44;
 
-        public Mid0044() : base(MID, LAST_REVISION)
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.ToolCurrentlyInUse };
+
+        public Mid0044() : base(MID, DEFAULT_REVISION)
         {
 
+        }
+
+        public Mid0044(Header header) : base(header)
+        {
         }
     }
 }

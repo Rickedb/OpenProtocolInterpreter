@@ -19,7 +19,8 @@ namespace OpenProtocolInterpreter.Communication
                { Mid0004.MID, new MidCompiledInstance(typeof(Mid0004)) },
                { Mid0005.MID, new MidCompiledInstance(typeof(Mid0005)) },
                { Mid0006.MID, new MidCompiledInstance(typeof(Mid0006)) },
-               { Mid0008.MID, new MidCompiledInstance(typeof(Mid0008)) }
+               { Mid0008.MID, new MidCompiledInstance(typeof(Mid0008)) },
+               { Mid0009.MID, new MidCompiledInstance(typeof(Mid0009)) }
             };
         }
 

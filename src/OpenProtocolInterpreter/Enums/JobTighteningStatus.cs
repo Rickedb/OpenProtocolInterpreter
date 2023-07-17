@@ -5,15 +5,16 @@
     /// </summary>
     public enum JobTighteningStatus
     {
-        OFF = 0,
-        NOK = 1,
-        ABORTED = 3,
-        INCREMENTED = 4,
-        DECREMENTED = 5,
-        BYPASSED = 6,
-        RESET_BATCH = 7,
-        LOOSENING = 8,
-        FREE_BATCH = 9,
-        JOB_ABORTED = 10
+        Off = 0,
+        Nok = 1,
+        Aborted = 3,
+        Incremented = 4,
+        Decremented = 5,
+        Bypassed = 6,
+        ResetBatch = 7,
+        Loosening = 8,
+        FreeBatch = 9,
+        JobAborted = 10,
+        JobRestart = 11
     }
 }

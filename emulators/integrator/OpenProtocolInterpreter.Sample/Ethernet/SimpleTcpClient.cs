@@ -7,10 +7,6 @@ using System.Threading;
 
 namespace OpenProtocolInterpreter.Sample.Ethernet
 {
-    /// <summary>
-    /// ETHERNET CLASSES TAKEN FROM SimpleTCP Project
-    /// <see cref="https://github.com/BrandonPotter/SimpleTCP" />
-    /// </summary>
     public class SimpleTcpClient : IDisposable
     {
         public SimpleTcpClient()
@@ -231,8 +227,6 @@ namespace OpenProtocolInterpreter.Sample.Ethernet
                 return mReply;
             }
         }
-
-
 
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls

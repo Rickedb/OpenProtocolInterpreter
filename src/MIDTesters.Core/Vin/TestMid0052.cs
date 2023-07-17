@@ -1,116 +1,119 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenProtocolInterpreter;
 using OpenProtocolInterpreter.Vin;
+using System.Linq;
 
 namespace MIDTesters.Vin
 {
     [TestClass]
-    public class TestMid0052 : MidTester
+    [TestCategory("Vin")]
+    public class TestMid0052 : DefaultMidTests<Mid0052>
     {
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0052Revision1VehicleIdLengthHigher()
         {
             string package = "00470052001         VehicleIdNumberHigherThan25";
             var mid = _midInterpreter.Parse<Mid0052>(package);
 
-            Assert.AreEqual(typeof(Mid0052), mid.GetType());
             Assert.IsNotNull(mid.VinNumber);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0052ByteRevision1VehicleIdLengthHigher()
         {
             string package = "00470052001         VehicleIdNumberHigherThan25";
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0052>(bytes);
 
-            Assert.AreEqual(typeof(Mid0052), mid.GetType());
             Assert.IsNotNull(mid.VinNumber);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0052Revision1VehicleIdLengthLower()
         {
-            string package = "00450052001         VehicleIdNumber          ";
+            string package = "00450052001         VehicleIdNumber          \0";
             var mid = _midInterpreter.Parse<Mid0052>(package);
 
-            Assert.AreEqual(typeof(Mid0052), mid.GetType());
             Assert.IsNotNull(mid.VinNumber);
-            Assert.AreEqual(package, mid.Pack());
+            mid.Header.StationId = mid.Header.SpindleId = null;
+            Assert.AreEqual(package, mid.PackWithNul());
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0052ByteRevision1VehicleIdLengthLower()
         {
-            string package = "00450052001         VehicleIdNumber          ";
+            string package = "00450052001         VehicleIdNumber          \0";
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0052>(bytes);
 
-            Assert.AreEqual(typeof(Mid0052), mid.GetType());
             Assert.IsNotNull(mid.VinNumber);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            mid.Header.StationId = mid.Header.SpindleId = null;
+            Assert.IsTrue(mid.PackBytesWithNul().SequenceEqual(bytes));
         }
 
         [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ASCII")]
         public void Mid0052Revision2VehicleIdLengthHigher()
         {
             string package = "01300052002         01VehicleIdNumberHigherThan2502IdentifierPart2          03IdentifierPart3          04IdentifierPart4          ";
             var mid = _midInterpreter.Parse<Mid0052>(package);
 
-            Assert.AreEqual(typeof(Mid0052), mid.GetType());
             Assert.IsNotNull(mid.VinNumber);
             Assert.IsNotNull(mid.IdentifierResultPart2);
             Assert.IsNotNull(mid.IdentifierResultPart3);
             Assert.IsNotNull(mid.IdentifierResultPart4);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
 
         [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ByteArray")]
         public void Mid0052ByteRevision2VehicleIdLengthHigher()
         {
             string package = "01300052002         01VehicleIdNumberHigherThan2502IdentifierPart2          03IdentifierPart3          04IdentifierPart4          ";
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0052>(bytes);
 
-            Assert.AreEqual(typeof(Mid0052), mid.GetType());
             Assert.IsNotNull(mid.VinNumber);
             Assert.IsNotNull(mid.IdentifierResultPart2);
             Assert.IsNotNull(mid.IdentifierResultPart3);
             Assert.IsNotNull(mid.IdentifierResultPart4);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
 
         [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ASCII")]
         public void Mid0052Revision2VehicleIdLengthLower()
         {
             string package = "01280052002         01VehicleIdNumber          02IdentifierPart2          03IdentifierPart3          04IdentifierPart4          ";
             var mid = _midInterpreter.Parse<Mid0052>(package);
 
-            Assert.AreEqual(typeof(Mid0052), mid.GetType());
             Assert.IsNotNull(mid.VinNumber);
             Assert.IsNotNull(mid.IdentifierResultPart2);
             Assert.IsNotNull(mid.IdentifierResultPart3);
             Assert.IsNotNull(mid.IdentifierResultPart4);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
 
         [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ByteArray")]
         public void Mid0052ByteRevision2VehicleIdLengthLower()
         {
             string package = "01280052002         01VehicleIdNumber          02IdentifierPart2          03IdentifierPart3          04IdentifierPart4          ";
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0052>(bytes);
 
-            Assert.AreEqual(typeof(Mid0052), mid.GetType());
             Assert.IsNotNull(mid.VinNumber);
             Assert.IsNotNull(mid.IdentifierResultPart2);
             Assert.IsNotNull(mid.IdentifierResultPart3);
             Assert.IsNotNull(mid.IdentifierResultPart4);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
     }
 }

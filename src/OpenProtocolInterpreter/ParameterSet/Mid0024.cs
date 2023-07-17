@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.ParameterSet
+﻿using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.ParameterSet
 {
     /// <summary>
     /// Lock at batch done unsubscribe
@@ -9,11 +11,16 @@
     ///     <see cref="Communication.Mid0004"/> Command error
     /// </para>
     /// </summary>
-    public class Mid0024 : Mid, IParameterSet, IIntegrator
+    public class Mid0024 : Mid, IParameterSet, IIntegrator, IUnsubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 24;
 
-        public Mid0024() : base(MID, LAST_REVISION) { }
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.LockAtBatchDoneSubscriptionDoesntExists };
+
+        public Mid0024() : base(MID, DEFAULT_REVISION) { }
+
+        public Mid0024(Header header) : base(header)
+        {
+        }
     }
 }

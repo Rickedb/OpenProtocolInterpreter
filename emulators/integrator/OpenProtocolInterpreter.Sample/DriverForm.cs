@@ -1,30 +1,28 @@
-﻿using OpenProtocolInterpreter;
-using OpenProtocolInterpreter.Sample.Driver;
-using OpenProtocolInterpreter.Sample.Driver.Events;
-using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using OpenProtocolInterpreter.Sample.Driver.Helpers;
-using OpenProtocolInterpreter.KeepAlive;
-using System.Drawing;
-using OpenProtocolInterpreter.Tightening;
-using OpenProtocolInterpreter.Communication;
+﻿using OpenProtocolInterpreter.Communication;
 using OpenProtocolInterpreter.Job;
+using OpenProtocolInterpreter.KeepAlive;
+using OpenProtocolInterpreter.Sample.Driver;
 using OpenProtocolInterpreter.Sample.Driver.Commands;
+using OpenProtocolInterpreter.Sample.Driver.Events;
+using OpenProtocolInterpreter.Sample.Driver.Helpers;
+using OpenProtocolInterpreter.Tightening;
+using System;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace OpenProtocolInterpreter.Sample
 {
     public partial class DriverForm : Form
     {
-        private Timer keepAliveTimer;
+        private readonly Timer _keepAliveTimer;
         private OpenProtocolDriver driver;
 
         public DriverForm()
         {
             InitializeComponent();
-            keepAliveTimer = new Timer();
-            keepAliveTimer.Tick += KeepAliveTimer_Tick;
-            keepAliveTimer.Interval = 1000;
+            _keepAliveTimer = new Timer();
+            _keepAliveTimer.Tick += KeepAliveTimer_Tick;
+            _keepAliveTimer.Interval = 1000;
         }
 
         private void BtnConnection_Click(object sender, EventArgs e)
@@ -60,7 +58,7 @@ namespace OpenProtocolInterpreter.Sample
             var client = new Ethernet.SimpleTcpClient().Connect(textIp.Text, (int)numericPort.Value);
             if (driver.BeginCommunication(client))
             {
-                keepAliveTimer.Start();
+                _keepAliveTimer.Start();
                 connectionStatus.Text = "Connected!";
                 connectionStatus.BackColor = Color.Green;
             }
@@ -78,7 +76,7 @@ namespace OpenProtocolInterpreter.Sample
             {
                 Console.WriteLine($"Sending Keep Alive...");
                 var pack = driver.SendAndWaitForResponse(new Mid9999().Pack(), TimeSpan.FromSeconds(10));
-                if (pack != null && pack.HeaderData.Mid == Mid9999.MID)
+                if (pack != null && pack.Header.Mid == Mid9999.MID)
                 {
                     lastMessageArrived.Text = Mid9999.MID.ToString();
                     Console.WriteLine($"Keep Alive Received");
@@ -100,7 +98,7 @@ namespace OpenProtocolInterpreter.Sample
 
             if (pack != null)
             {
-                if (pack.HeaderData.Mid == Mid0004.MID)
+                if (pack.Header.Mid == Mid0004.MID)
                 {
                     var mid04 = pack as Mid0004;
                     Console.WriteLine($@"Error while subscribing (MID 0004):
@@ -127,7 +125,7 @@ namespace OpenProtocolInterpreter.Sample
 
             if (pack != null)
             {
-                if (pack.HeaderData.Mid == Mid0004.MID)
+                if (pack.Header.Mid == Mid0004.MID)
                 {
                     var mid04 = pack as Mid0004;
                     Console.WriteLine($@"Error while subscribing (MID 0004):
@@ -200,7 +198,7 @@ namespace OpenProtocolInterpreter.Sample
                                  Angle: <{tighteningMid.Angle}>
                                  TimeStamp: <{tighteningMid.Timestamp.ToString("yyyy-MM-dd:HH:mm:ss")}>
                                  Last Change In Parameter Set: <{tighteningMid.LastChangeInParameterSet.ToString("yyyy-MM-dd:HH:mm:ss")}>
-                                 Batch Status: <{(int)tighteningMid.BatchStatus}> ({tighteningMid.BatchStatus.ToString()})
+                                 Batch Status: <{(int)tighteningMid.BatchStatus}> ({tighteningMid.BatchStatus})
                                  TighteningID: <{tighteningMid.TighteningId}>");
         }
 

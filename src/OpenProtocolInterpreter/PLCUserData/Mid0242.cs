@@ -8,39 +8,35 @@ namespace OpenProtocolInterpreter.PLCUserData
     /// <para>Message sent by: Controller</para>
     /// <para>Answer: <see cref="Mid0243"/> User data acknowledge</para>
     /// </summary>
-    public class Mid0242 : Mid, IPLCUserData, IController
+    public class Mid0242 : Mid, IPLCUserData, IController, IAcknowledgeable<Mid0243>
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 242;
 
         public string UserData
         {
-            get => GetField(1, (int)DataFields.USER_DATA).Value;
-            set => GetField(1, (int)DataFields.USER_DATA).SetValue(value);
+            get => GetField(1, (int)DataFields.UserData).Value;
+            set => GetField(1, (int)DataFields.UserData).SetValue(value);
         }
 
-        public Mid0242() : this(0)
+        public Mid0242() : base(MID, DEFAULT_REVISION)
         {
 
         }
 
-        public Mid0242(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) { }
-
-        public Mid0242(string userData, int? noAckFlag = 0) : this(noAckFlag)
+        public Mid0242(Header header) : base(header)
         {
-            UserData = userData;
         }
 
         public override string Pack()
         {
-            GetField(1, (int)DataFields.USER_DATA).Size = UserData.Length;
+            GetField(1, (int)DataFields.UserData).Size = UserData.Length;
             return base.Pack();
         }
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
-            GetField(1, (int)DataFields.USER_DATA).Size = package.Length - 20;
+            Header = ProcessHeader(package);
+            GetField(1, (int)DataFields.UserData).Size = Header.Length - 20;
             ProcessDataFields(package);
             return this;
         }
@@ -52,7 +48,7 @@ namespace OpenProtocolInterpreter.PLCUserData
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.USER_DATA, 20, 200, ' ', DataField.PaddingOrientations.RIGHT_PADDED, false)
+                        new DataField((int)DataFields.UserData, 20, 200, ' ', PaddingOrientation.RightPadded, false)
                     }
                 }
             };
@@ -60,7 +56,7 @@ namespace OpenProtocolInterpreter.PLCUserData
 
         internal enum DataFields
         {
-            USER_DATA
+            UserData
         }
     }
 }

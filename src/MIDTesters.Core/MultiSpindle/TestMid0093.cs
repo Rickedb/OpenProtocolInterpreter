@@ -1,23 +1,25 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.MultiSpindle;
-using System.Linq;
 
 namespace MIDTesters.MultiSpindle
 {
     [TestClass]
-    public class TestMid0093 : MidTester
+    [TestCategory("MultiSpindle")]
+    public class TestMid0093 : DefaultMidTests<Mid0093>
     {
         [TestMethod]
+        [TestCategory("ASCII")]
         public void Mid0093AllRevisions()
         {
             string pack = @"00200093            ";
             var mid = _midInterpreter.Parse(pack);
 
             Assert.AreEqual(typeof(Mid0093), mid.GetType());
-            Assert.AreEqual(pack, mid.Pack());
+            AssertEqualPackages(pack, mid, true);
         }
 
         [TestMethod]
+        [TestCategory("ByteArray")]
         public void Mid0093ByteAllRevisions()
         {
             string package = @"00200093            ";
@@ -25,7 +27,7 @@ namespace MIDTesters.MultiSpindle
             var mid = _midInterpreter.Parse(bytes);
 
             Assert.AreEqual(typeof(Mid0093), mid.GetType());
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid, true);
         }
     }
 }

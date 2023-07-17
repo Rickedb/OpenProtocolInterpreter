@@ -2,8 +2,8 @@
 {
     public enum ToolHealth
     {
-        NOT_APPLICABLE = 0,
-        OK = 1,
-        NOK = 2
+        NotApplicable = 0,
+        Ok = 1,
+        Nok = 2
     }
 }

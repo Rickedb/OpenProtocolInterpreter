@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
+﻿using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
 {
     /// <summary>
     /// Open Protocol commands disabled unsubscribe
@@ -10,11 +12,16 @@
     ///         subscription does not exist
     /// </para>
     /// </summary>
-    public class Mid0423 : Mid, IOpenProtocolCommandsDisabled, IIntegrator
+    public class Mid0423 : Mid, IOpenProtocolCommandsDisabled, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 423;
 
-        public Mid0423() : base(MID, LAST_REVISION) { }
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.OpenProtocolCommandsDisabledSubscriptionDoesntExists };
+
+        public Mid0423() : base(MID, DEFAULT_REVISION) { }
+
+        public Mid0423(Header header) : base(header)
+        {
+        }
     }
 }

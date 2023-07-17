@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.PLCUserData
+﻿using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.PLCUserData
 {
     /// <summary>
     /// User data subscribe
@@ -13,16 +15,23 @@
     ///         Controller is not a sync master/station controller
     /// </para>
     /// </summary>
-    public class Mid0241 : Mid, IPLCUserData, IIntegrator
+    public class Mid0241 : Mid, IPLCUserData, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 241;
 
-        public Mid0241() : this(0)
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SubscriptionAlreadyExists, Error.ControllerIsNotASyncMasterOrStationController };
+
+        public Mid0241() : this(false)
         {
 
         }
 
-        public Mid0241(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) { }
+        public Mid0241(bool noAckFlag = false) : base(MID, DEFAULT_REVISION, noAckFlag) 
+        { 
+        }
+
+        public Mid0241(Header header) : base(header)
+        {
+        }
     }
 }

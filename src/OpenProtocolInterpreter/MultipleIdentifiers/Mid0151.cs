@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.MultipleIdentifiers
+﻿using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.MultipleIdentifiers
 {
     /// <summary>
     /// Multiple identifier and result parts subscribe
@@ -15,16 +17,21 @@
     ///       <see cref="Communication.Mid0004"/> Command error, Multiple identifier and result parts subscription already exists
     /// </para>        
     /// </summary>
-    public class Mid0151 : Mid, IMultipleIdentifier, IIntegrator
+    public class Mid0151 : Mid, IMultipleIdentifier, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 151;
 
-        public Mid0151() : this(0)
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SubscriptionAlreadyExists };
+
+        public Mid0151() : this(false)
         {
 
         }
 
-        public Mid0151(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) { }
+        public Mid0151(bool noAckFlag = false) : base(MID, DEFAULT_REVISION, noAckFlag) { }
+
+        public Mid0151(Header header) : base(header)
+        {
+        }
     }
 }

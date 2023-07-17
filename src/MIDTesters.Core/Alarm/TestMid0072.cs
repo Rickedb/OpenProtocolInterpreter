@@ -1,31 +1,33 @@
-﻿using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Alarm;
 
 namespace MIDTesters.Alarm
 {
     [TestClass]
-    public class TestMid0072 : MidTester
+    [TestCategory("Alarm")]
+    public class TestMid0072 : DefaultMidTests<Mid0072>
     {
         [TestMethod]
+        [TestCategory("ASCII")]
         public void Mid0072AllRevisions()
         {
             string pack = @"00200072002         ";
-            var mid = _midInterpreter.Parse<Mid0072>(pack);
+            var mid = _midInterpreter.Parse(pack);
 
             Assert.AreEqual(typeof(Mid0072), mid.GetType());
-            Assert.AreEqual(pack, mid.Pack());
+            AssertEqualPackages(pack, mid);
         }
 
         [TestMethod]
+        [TestCategory("ByteArray")]
         public void Mid0072ByteAllRevisions()
         {
             string pack = @"00200072002         ";
             byte[] bytes = GetAsciiBytes(pack);
-            var mid = _midInterpreter.Parse<Mid0072>(bytes);
+            var mid = _midInterpreter.Parse(bytes);
 
             Assert.AreEqual(typeof(Mid0072), mid.GetType());
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
     }
 }

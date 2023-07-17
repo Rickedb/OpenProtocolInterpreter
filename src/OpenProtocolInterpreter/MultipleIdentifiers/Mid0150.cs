@@ -8,34 +8,39 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
     /// <para>Message sent by: Integrator</para>
     ///<para>Answer: <see cref="Communication.Mid0005"/> Command accepted or <see cref="Communication.Mid0004"/> Command error, Identifier input source not granted</para> 
     /// </summary>
-    public class Mid0150 : Mid, IMultipleIdentifier, IIntegrator
+    public class Mid0150 : Mid, IMultipleIdentifier, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 150;
+
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.IdentifierInputSourceNotGranted };
 
         public string IdentifierData
         {
-            get => GetField(1, (int)DataFields.IDENTIFIER_DATA).Value;
-            set => GetField(1, (int)DataFields.IDENTIFIER_DATA).SetValue(value);
+            get => GetField(1, (int)DataFields.IdentifierData).Value;
+            set
+            {
+                var field = GetField(1, (int)DataFields.IdentifierData);
+                field.Size = value.Length < 100 ? value.Length : 100;
+                field.SetValue(value);
+            }
         }
 
-        public Mid0150() : base(MID, LAST_REVISION) { }
-
-        public Mid0150(string identifierData) : this()
+        public Mid0150() : this(new Header()
         {
-            IdentifierData = identifierData;
+            Mid = MID,
+            Revision = DEFAULT_REVISION
+        }) 
+        { 
         }
 
-        public override string Pack()
+        public Mid0150(Header header) : base(header)
         {
-            GetField(1, (int)DataFields.IDENTIFIER_DATA).Size = IdentifierData.Length;
-            return base.Pack();
         }
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
-            GetField(1, (int)DataFields.IDENTIFIER_DATA).Size = HeaderData.Length - 20;
+            Header = ProcessHeader(package);
+            GetField(1, (int)DataFields.IdentifierData).Size = Header.Length - 20;
             ProcessDataFields(package);
             return this;
         }
@@ -47,15 +52,15 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.IDENTIFIER_DATA, 20, 0, false)
+                        new DataField((int)DataFields.IdentifierData, 20, 0, false)
                     }
                 }
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            IDENTIFIER_DATA
+            IdentifierData
         }
     }
 }

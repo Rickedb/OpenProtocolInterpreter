@@ -9,11 +9,14 @@
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: <see cref="Mid0005"/> Command accepted</para>
     /// </summary>
-    public class Mid0003 : Mid, ICommunication, IIntegrator
+    public class Mid0003 : Mid, ICommunication, IIntegrator, IAcceptableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 3;
 
-        public Mid0003() : base(MID, LAST_REVISION) { }
+        public Mid0003() : base(MID, DEFAULT_REVISION) { }
+
+        public Mid0003(Header header) : base(header)
+        {
+        }
     }
 }

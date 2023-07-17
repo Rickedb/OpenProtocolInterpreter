@@ -1,23 +1,25 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Job;
-using System.Linq;
 
 namespace MIDTesters.Job
 {
     [TestClass]
-    public class TestMid0036 : MidTester
+    [TestCategory("Job")]
+    public class TestMid0036 : DefaultMidTests<Mid0036>
     {
         [TestMethod]
+        [TestCategory("ASCII")]
         public void Mid0036AllRevisions()
         {
             string package = "00200036001         ";
             var mid = _midInterpreter.Parse(package);
 
             Assert.AreEqual(typeof(Mid0036), mid.GetType());
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid);
         }
 
         [TestMethod]
+        [TestCategory("ByteArray")]
         public void Mid0036ByteAllRevisions()
         {
             string package = "00200036001         ";
@@ -25,7 +27,7 @@ namespace MIDTesters.Job
             var mid = _midInterpreter.Parse(bytes);
 
             Assert.AreEqual(typeof(Mid0036), mid.GetType());
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid);
         }
     }
 }

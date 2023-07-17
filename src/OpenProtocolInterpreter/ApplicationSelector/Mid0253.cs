@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.ApplicationSelector
+﻿using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.ApplicationSelector
 {
     /// <summary>
     /// Selector socket info unsubscribe
@@ -6,11 +8,17 @@
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted or <see cref="Communication.Mid0004"/> Command error, The selector socket info subscription does not exist</para>
     /// </summary>
-    public class Mid0253 : Mid, IApplicationSelector, IIntegrator
+    public class Mid0253 : Mid, IApplicationSelector, IIntegrator, IUnsubscription, IAcceptableCommand, IDeclinableCommand
     {
         public const int MID = 253;
-        private const int LAST_REVISION = 1;
 
-        public Mid0253() : base(MID, LAST_REVISION) { }
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SelectorSocketInfoSubscriptionDoesntExists };
+
+        public Mid0253() : base(MID, DEFAULT_REVISION) { }
+
+        public Mid0253(Header header) : base(header)
+        {
+
+        }
     }
 }

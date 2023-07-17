@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.IOInterface
 {
@@ -18,31 +17,35 @@ namespace OpenProtocolInterpreter.IOInterface
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted or <see cref="Communication.Mid0004"/> Command error, The digital input function subscription already exists</para>
     /// </summary>
-    public class Mid0220 : Mid, IIOInterface, IIntegrator
+    public class Mid0220 : Mid, IIOInterface, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 220;
+
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] {  };
 
         public DigitalInputNumber DigitalInputNumber
         {
-            get => (DigitalInputNumber)GetField(1,(int)DataFields.DIGITAL_INPUT_NUMBER).GetValue(_intConverter.Convert);
-            set => GetField(1,(int)DataFields.DIGITAL_INPUT_NUMBER).SetValue(_intConverter.Convert, (int)value);
+            get => (DigitalInputNumber)GetField(1, (int)DataFields.DigitalInputNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.DigitalInputNumber).SetValue(OpenProtocolConvert.ToString, (int)value);
         }
 
-        public Mid0220() : this(0)
+        public Mid0220() : this(false)
         {
 
         }
 
-        public Mid0220(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
+        public Mid0220(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
         }
 
-        public Mid0220(DigitalInputNumber digitalInputNumber, int? noAckFlag = 0) : this(noAckFlag)
+        public Mid0220(bool noAckFlag = false) : this(new Header()
         {
-            DigitalInputNumber = digitalInputNumber;
+            Mid = MID,
+            Revision = DEFAULT_REVISION,
+            NoAckFlag = noAckFlag
+        })
+        {
+
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -52,15 +55,15 @@ namespace OpenProtocolInterpreter.IOInterface
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.DIGITAL_INPUT_NUMBER, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                        new DataField((int)DataFields.DigitalInputNumber, 20, 3, '0', PaddingOrientation.LeftPadded, false)
                     }
                 }
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            DIGITAL_INPUT_NUMBER
+            DigitalInputNumber
         }
     }
 }

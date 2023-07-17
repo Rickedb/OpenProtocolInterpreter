@@ -1,34 +1,45 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.PLCUserData;
 
 namespace MIDTesters.PLCUserData
 {
     [TestClass]
-    public class TestMid0240 : MidTester
+    [TestCategory("PLCUserData")]
+    public class TestMid0240 : DefaultMidTests<Mid0240>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0240Revision1()
         {
-            string package = "00470240            My identifier less than 100";
+            string package = "00470240            My identifier less than 200";
             var mid = _midInterpreter.Parse<Mid0240>(package);
 
-            Assert.AreEqual(typeof(Mid0240), mid.GetType());
             Assert.IsNotNull(mid.UserData);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid, true);
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0240ByteRevision1()
         {
-            string package = "00470240            My identifier less than 100";
+            string package = "00470240            My identifier less than 200";
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0240>(bytes);
-
-            Assert.AreEqual(typeof(Mid0240), mid.GetType());
+            
             Assert.IsNotNull(mid.UserData);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid, true);
+        }
+
+        [TestMethod]
+        public void Mid0240ShouldTrucanteUserData()
+        {
+            string userData = "the phrase the quick brown fox jumps over the lazy dog should test all the letter keys in your keyboard ";
+            userData += userData; //double it to get 208 characters
+
+            var mid0240 = new Mid0240() { UserData = userData };
+            Assert.IsNotNull(mid0240.UserData);
+            Assert.AreEqual(userData.Substring(0, 200), mid0240.UserData);
+            Assert.IsTrue(mid0240.Pack().Length == 220);
         }
     }
 }

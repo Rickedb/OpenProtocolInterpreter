@@ -6,11 +6,16 @@
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted</para>
     /// </summary>
-    public class Mid0157 : Mid, IMultipleIdentifier, IIntegrator
+    public class Mid0157 : Mid, IMultipleIdentifier, IIntegrator, IAcceptableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 157;
 
-        public Mid0157() : base(MID, LAST_REVISION) { }
+        public Mid0157() : base(MID, DEFAULT_REVISION) 
+        {
+        }
+
+        public Mid0157(Header header) : base(header)
+        {
+        }
     }
 }

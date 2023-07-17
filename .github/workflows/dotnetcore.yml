@@ -1,0 +1,36 @@
+name: dotnetcore
+
+on: 
+  pull_request:
+    types: [opened, synchronize]
+  push:
+    branches-ignore:
+      - master
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@master
+        with:
+          dotnet-version: | 
+            3.1.x
+            6.0.x
+      - name: Build library (.net core)
+        run: dotnet build src/OpenProtocolInterpreter/OpenProtocolInterpreter.csproj --configuration release
+  test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Build and run .net core tests
+        uses: actions/setup-dotnet@master
+        with:
+          dotnet-version: | 
+            3.1.x
+            6.0.x
+      - name: Test Mids
+        run: |
+          dotnet build src/MIDTesters.Core/MIDTesters.Core.csproj
+          dotnet test src/MIDTesters.Core/MIDTesters.Core.csproj

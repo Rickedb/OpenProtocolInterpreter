@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.AutomaticManualMode
+﻿using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.AutomaticManualMode
 {
     /// <summary>
     /// Automatic/Manual mode subscribe
@@ -12,16 +14,29 @@
     ///     Automatic/Manual mode subscribe already exists
     /// </para>
     /// </summary>
-    public class Mid0400 : Mid, IAutomaticManualMode, IIntegrator
+    public class Mid0400 : Mid, IAutomaticManualMode, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 400;
 
-        public Mid0400() : this(0)
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.AutomaticManualModeSubscribeAlreadyExists };
+
+        public Mid0400() : this(false)
         {
 
         }
 
-        public Mid0400(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) { }
+        public Mid0400(bool noAckFlag = false) : this(new Header()
+        {
+            Mid = MID,
+            Revision = DEFAULT_REVISION, 
+            NoAckFlag = noAckFlag
+        }) 
+        { 
+        }
+
+        public Mid0400(Header header) : base(header)
+        {
+
+        }
     }
 }

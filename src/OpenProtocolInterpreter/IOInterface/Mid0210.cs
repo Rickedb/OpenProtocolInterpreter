@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.IOInterface
+﻿using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.IOInterface
 {
     /// <summary>
     /// Status externally monitored inputs subscribe
@@ -15,16 +17,21 @@
     ///     <see cref="Mid0211"/> Status externally monitored inputs.
     /// </para>
     /// </summary>
-    public class Mid0210 : Mid, IIOInterface, IIntegrator
+    public class Mid0210 : Mid, IIOInterface, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand, IAnswerableBy<Mid0211>
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 210;
 
-        public Mid0210() : this(0)
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.StatusExternalMonitoredInputsSubscriptionAlreadyExists };
+
+        public Mid0210() : this(false)
         {
 
         }
 
-        public Mid0210(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag) { }
+        public Mid0210(bool noAckFlag = false) : base(MID, DEFAULT_REVISION, noAckFlag) { }
+
+        public Mid0210(Header header) : base(header)
+        {
+        }
     }
 }

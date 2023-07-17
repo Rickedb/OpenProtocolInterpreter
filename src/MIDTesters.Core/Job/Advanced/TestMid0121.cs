@@ -1,34 +1,35 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Job.Advanced;
 
 namespace MIDTesters.Job.Advanced
 {
     [TestClass]
-    public class TestMid0121 : MidTester
+    [TestCategory("Job"), TestCategory("Advanced Job")]
+    public class TestMid0121 : DefaultMidTests<Mid0121>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0121Revision1()
         {
-            string package = "00200121   0        ";
+            string package = "00200121   1        ";
             var mid = _midInterpreter.Parse(package);
 
             Assert.AreEqual(typeof(Mid0121), mid.GetType());
-            Assert.IsNotNull(mid.HeaderData.NoAckFlag);
-            Assert.AreEqual(package, mid.Pack());
+            Assert.IsTrue(mid.Header.NoAckFlag);
+            AssertEqualPackages(package, mid, true);
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0121ByteRevision1()
         {
-            string package = "00200121   0        ";
+            string package = "00200121   1        ";
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse(bytes);
 
             Assert.AreEqual(typeof(Mid0121), mid.GetType());
-            Assert.IsNotNull(mid.HeaderData.NoAckFlag);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            Assert.IsTrue(mid.Header.NoAckFlag);
+            AssertEqualPackages(bytes, mid, true);
         }
     }
 }

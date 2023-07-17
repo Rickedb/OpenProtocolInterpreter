@@ -1,20 +1,19 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Statistic;
 
 namespace MIDTesters.Statistic
 {
     [TestClass]
-    public class TestMid0301 : MidTester
+    [TestCategory("Statistic")]
+    public class TestMid0301 : DefaultMidTests<Mid0301>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0301Revision1()
         {
             string package = "01070301            010020205031234560465432105999999061111072222083333094444105555116666127777138888149999";
             var mid = _midInterpreter.Parse<Mid0301>(package);
 
-            Assert.AreEqual(typeof(Mid0301), mid.GetType());
             Assert.IsNotNull(mid.ParameterSetId);
             Assert.IsNotNull(mid.HistogramType);
             Assert.IsNotNull(mid.SigmaHistogram);
@@ -29,17 +28,17 @@ namespace MIDTesters.Statistic
             Assert.IsNotNull(mid.SeventhBar);
             Assert.IsNotNull(mid.EighthBar);
             Assert.IsNotNull(mid.NinethBar);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid, true);
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0301ByteRevision1()
         {
             string package = "01070301            010020205031234560465432105999999061111072222083333094444105555116666127777138888149999";
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0301>(bytes);
 
-            Assert.AreEqual(typeof(Mid0301), mid.GetType());
             Assert.IsNotNull(mid.ParameterSetId);
             Assert.IsNotNull(mid.HistogramType);
             Assert.IsNotNull(mid.SigmaHistogram);
@@ -54,7 +53,7 @@ namespace MIDTesters.Statistic
             Assert.IsNotNull(mid.SeventhBar);
             Assert.IsNotNull(mid.EighthBar);
             Assert.IsNotNull(mid.NinethBar);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid, true);
         }
     }
 }

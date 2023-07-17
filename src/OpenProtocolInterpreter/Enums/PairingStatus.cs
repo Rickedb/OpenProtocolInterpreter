@@ -8,42 +8,42 @@
         /// <summary>
         /// Tool not mounted yet
         /// </summary>
-        UNDEFINED,
+        Undefined = 0,
         /// <summary>
         /// Pairing allowed and started
         /// </summary>
-        ACCEPTED,
+        Accepted = 1,
         /// <summary>
         /// Normal pairing sequence as OK
         /// </summary>
-        INQUIRY,
+        Inquiry = 2,
         /// <summary>
         /// Normal pairing sequence as OK
         /// </summary>
-        SENDPIN,
+        SendPin = 3,
         /// <summary>
         /// Normal pairing sequence as OK
         /// </summary>
-        PINOK,
+        PinOk = 4,
         /// <summary>
         /// Normal pairing sequence as OK
         /// </summary>
-        READY,
+        Ready = 5,
         /// <summary>
         /// Ongoing Pairing Aborted
         /// </summary>
-        ABORTED,
+        Aborted = 6,
         /// <summary>
         /// Pairing not allowed. Program control.
         /// </summary>
-        DENIED,
+        Denied = 7,
         /// <summary>
         /// Pairing attempt failed
         /// </summary>
-        FAILED,
+        Failed = 8,
         /// <summary>
         /// Pairing never done before or disconnected
         /// </summary>
-        UNREADY
+        Unready = 9
     }
 }

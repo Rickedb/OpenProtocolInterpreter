@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.LinkCommunication
 {
@@ -17,28 +16,24 @@ namespace OpenProtocolInterpreter.LinkCommunication
     /// </summary>
     public class Mid9997 : Mid, ILinkCommunication, IIntegrator, IController
     {
-        private readonly IValueConverter<int> _intConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 9997;
 
         public int MidNumber
         {
-            get => GetField(1, (int)DataFields.MID_NUMBER).GetValue(_intConverter.Convert);
-            set => GetField(1, (int)DataFields.MID_NUMBER).SetValue(_intConverter.Convert, value);
+            get => GetField(1, (int)DataFields.MidNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.MidNumber).SetValue(OpenProtocolConvert.ToString, value);
         }
 
-        public Mid9997() :base(MID, LAST_REVISION)
+        public Mid9997(Header header) : base(header)
         {
-            _intConverter = new Int32Converter();
         }
 
-        /// <summary>
-        /// Revision 1 Constructor
-        /// </summary>
-        /// <param name="midNumber">Acknowledged MID number</param>
-        public Mid9997(int midNumber) : this()
+        public Mid9997() : this(new Header()
         {
-            MidNumber = midNumber;
+            Mid = MID,
+            Revision = DEFAULT_REVISION
+        })
+        {
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -48,15 +43,15 @@ namespace OpenProtocolInterpreter.LinkCommunication
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.MID_NUMBER, 20, 4, '0', DataField.PaddingOrientations.LEFT_PADDED, false)
+                                new DataField((int)DataFields.MidNumber, 20, 4, '0', PaddingOrientation.LeftPadded, false)
                             }
                 }
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            MID_NUMBER
+            MidNumber
         }
     }
 }

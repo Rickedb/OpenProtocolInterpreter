@@ -1,5 +1,4 @@
-﻿using OpenProtocolInterpreter.Converters;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace OpenProtocolInterpreter.ParameterSet
@@ -16,9 +15,6 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// </summary>
     public class Mid0011 : Mid, IParameterSet, IController
     {
-        private readonly IValueConverter<int> _intConverter;
-        private readonly IValueConverter<IEnumerable<int>> _intListConverter;
-        private const int LAST_REVISION = 1;
         public const int MID = 11;
 
         public int TotalParameterSets
@@ -28,36 +24,54 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public List<int> ParameterSets { get; set; }
 
-        public Mid0011() : base(MID, LAST_REVISION)
+        public Mid0011() : this(new Header()
         {
-            _intConverter = new Int32Converter();
-            _intListConverter = new ParameterSetIdListConverter(_intConverter);
+            Mid = MID, 
+            Revision = DEFAULT_REVISION
+        })
+        {
+        }
+
+        public Mid0011(Header header) : base(header)
+        {
             if (ParameterSets == null)
                 ParameterSets = new List<int>();
         }
 
-        public Mid0011(IEnumerable<int> parameterSets) : this()
-        {
-            ParameterSets = parameterSets.ToList();
-        }
-
         public override string Pack()
         {
-            GetField(1, (int)DataFields.TOTAL_PARAMETER_SETS).SetValue(_intConverter.Convert, TotalParameterSets);
-            var eachParameterField = GetField(1, (int)DataFields.EACH_PARAMETER_SET);
-            eachParameterField.Value = _intListConverter.Convert(ParameterSets);
+            GetField(1, (int)DataFields.TotalParameterSets).SetValue(OpenProtocolConvert.ToString, TotalParameterSets);
+            var eachParameterField = GetField(1, (int)DataFields.EachParameterSet);
+            eachParameterField.Value = PackParameterSetIdList();
             eachParameterField.Size = eachParameterField.Value.Length;
             return base.Pack();
         }
 
         public override Mid Parse(string package)
         {
-            HeaderData = ProcessHeader(package);
+            Header = ProcessHeader(package);
 
-            GetField(1, (int)DataFields.EACH_PARAMETER_SET).Size = HeaderData.Length - GetField(1, (int)DataFields.EACH_PARAMETER_SET).Index;
+            GetField(1, (int)DataFields.EachParameterSet).Size = Header.Length - GetField(1, (int)DataFields.EachParameterSet).Index;
             ProcessDataFields(package);
-            ParameterSets = _intListConverter.Convert(GetField(1, (int)DataFields.EACH_PARAMETER_SET).Value).ToList();
+            ParameterSets = ParseParameterSetIdList(GetField(1, (int)DataFields.EachParameterSet).Value).ToList();
             return this;
+        }
+
+        protected virtual string PackParameterSetIdList()
+        {
+            string pack = string.Empty;
+            foreach (var v in ParameterSets)
+                pack += OpenProtocolConvert.ToString('0', 3, PaddingOrientation.LeftPadded, v);
+            return pack;
+        }
+
+        protected virtual List<int> ParseParameterSetIdList(string section)
+        {
+            var list = new List<int>();
+            for (int i = 0; i < section.Length; i += 3)
+                list.Add(OpenProtocolConvert.ToInt32(section.Substring(i, 3)));
+
+            return list;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -67,17 +81,17 @@ namespace OpenProtocolInterpreter.ParameterSet
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.TOTAL_PARAMETER_SETS, 20, 3, '0', DataField.PaddingOrientations.LEFT_PADDED, false),
-                                new DataField((int)DataFields.EACH_PARAMETER_SET, 23, 3, false)
+                                new DataField((int)DataFields.TotalParameterSets, 20, 3, '0', PaddingOrientation.LeftPadded, false),
+                                new DataField((int)DataFields.EachParameterSet, 23, 3, false)
                             }
                 }
             };
         }
 
-        public enum DataFields
+        protected enum DataFields
         {
-            TOTAL_PARAMETER_SETS,
-            EACH_PARAMETER_SET
+            TotalParameterSets,
+            EachParameterSet
         }
     }
 }

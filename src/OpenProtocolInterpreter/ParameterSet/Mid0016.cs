@@ -6,11 +6,15 @@
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: None</para>
     /// </summary>
-    public class Mid0016 : Mid, IParameterSet, IIntegrator
+    public class Mid0016 : Mid, IParameterSet, IIntegrator, IAcknowledge
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 16;
 
-        public Mid0016() : base(MID, LAST_REVISION) { }
+        public Mid0016() : base(MID, DEFAULT_REVISION) { }
+
+        public Mid0016(Header header) : base(header)
+        {
+        }
+        public Mid0016(int revision) : base(MID, revision) { }
     }
 }

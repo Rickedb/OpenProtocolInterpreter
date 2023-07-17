@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter.Job.Advanced
+﻿using System.Collections.Generic;
+
+namespace OpenProtocolInterpreter.Job.Advanced
 {
     /// <summary>
     /// Job line control info subscribe
@@ -10,17 +12,22 @@
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: <see cref="Communication.Mid0005"/> or <see cref="Communication.Mid0004"/> Command error, Job line control info subscription already exists</para>
     /// </summary>
-    public class Mid0120 : Mid, IAdvancedJob, IIntegrator
+    public class Mid0120 : Mid, IAdvancedJob, IIntegrator, ISubscription, IAcceptableCommand, IDeclinableCommand
     {
-        private const int LAST_REVISION = 1;
         public const int MID = 120;
 
-        public Mid0120() : this(0)
+        public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JobLineControlInfoSubscriptionAlreadyExists };
+
+        public Mid0120() : this(false)
         {
 
         }
 
-        public Mid0120(int? noAckFlag = 0) : base(MID, LAST_REVISION, noAckFlag)
+        public Mid0120(bool noAckFlag = false) : base(MID, DEFAULT_REVISION, noAckFlag)
+        {
+        }
+
+        public Mid0120(Header header) : base(header)
         {
         }
     }

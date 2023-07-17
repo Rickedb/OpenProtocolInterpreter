@@ -1,21 +1,20 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.IOInterface;
 
 namespace MIDTesters.IOInterface
 {
     [TestClass]
-    public class TestMid0211 : MidTester
+    [TestCategory("IOInterface")]
+    public class TestMid0211 : DefaultMidTests<Mid0211>
     {
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0211Revision1()
         {
             string package = "00280211   1        10101011";
             var mid = _midInterpreter.Parse<Mid0211>(package);
 
-            Assert.AreEqual(typeof(Mid0211), mid.GetType());
-            Assert.IsNotNull(mid.HeaderData.NoAckFlag);
+            Assert.IsTrue(mid.Header.NoAckFlag);
             Assert.IsNotNull(mid.StatusDigInOne);
             Assert.IsNotNull(mid.StatusDigInTwo);
             Assert.IsNotNull(mid.StatusDigInThree);
@@ -24,18 +23,18 @@ namespace MIDTesters.IOInterface
             Assert.IsNotNull(mid.StatusDigInSix);
             Assert.IsNotNull(mid.StatusDigInSeven);
             Assert.IsNotNull(mid.StatusDigInEight);
-            Assert.AreEqual(package, mid.Pack());
+            AssertEqualPackages(package, mid, true);
         }
 
         [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0211ByteRevision1()
         {
             string package = "00280211   1        10101011";
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0211>(bytes);
 
-            Assert.AreEqual(typeof(Mid0211), mid.GetType());
-            Assert.IsNotNull(mid.HeaderData.NoAckFlag);
+            Assert.IsTrue(mid.Header.NoAckFlag);
             Assert.IsNotNull(mid.StatusDigInOne);
             Assert.IsNotNull(mid.StatusDigInTwo);
             Assert.IsNotNull(mid.StatusDigInThree);
@@ -44,7 +43,7 @@ namespace MIDTesters.IOInterface
             Assert.IsNotNull(mid.StatusDigInSix);
             Assert.IsNotNull(mid.StatusDigInSeven);
             Assert.IsNotNull(mid.StatusDigInEight);
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(bytes));
+            AssertEqualPackages(bytes, mid, true);
         }
     }
 }
