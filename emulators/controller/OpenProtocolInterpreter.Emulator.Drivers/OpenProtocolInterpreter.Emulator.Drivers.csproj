@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OpenProtocolInterpreter" Version="4.2.0" />
+    <PackageReference Include="OpenProtocolInterpreter" Version="6.0.0" />
     <PackageReference Include="SuperSimpleTcp" Version="2.5.0.2" />
   </ItemGroup>
 

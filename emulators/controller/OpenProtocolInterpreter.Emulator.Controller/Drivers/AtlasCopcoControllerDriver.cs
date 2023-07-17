@@ -64,11 +64,16 @@ namespace OpenProtocolInterpreter.Emulator.Controller.Drivers
 
         protected virtual Mid OnCommunicationStart(Mid0001 mid)
         {
-            return new Mid0002(1, 1, "New Controller");
+            return new Mid0002()
+            {
+                CellId = 1,
+                ChannelId = 1,
+                ControllerName = "New Controller"
+            };
         }
 
-        protected virtual Mid PositiveAcknowledge(Mid mid) => new Mid0005(mid.HeaderData.Mid);
-        protected virtual Mid NegativeAcknowledge(Mid mid) => new Mid0004(mid.HeaderData.Mid, Error.COMMAND_FAILED);
+        protected virtual Mid PositiveAcknowledge(Mid mid) => new Mid0005() { MidAccepted = mid.Header.Mid };
+        protected virtual Mid NegativeAcknowledge(Mid mid) => new Mid0004() { ErrorCode = Error.CommandFailed, FailedMid = mid.Header.Mid };
 
         private void OnClientConnected(object sender, ClientConnectedEventArgs e)
         {
@@ -87,10 +92,10 @@ namespace OpenProtocolInterpreter.Emulator.Controller.Drivers
         private void OnDataReceived(object sender, DataReceivedEventArgs e)
         {
             var mid = _midInterpreter.Parse(e.Data);
-            if(_autoReplies.TryGetValue(mid.HeaderData.Mid, out var responseCreator))
+            if (_autoReplies.TryGetValue(mid.Header.Mid, out var responseCreator))
             {
                 var responseMid = responseCreator(mid);
-                var bytes = responseMid.PackBytes();
+                var bytes = responseMid.PackBytesWithNul();
                 Server.Send(e.IpPort, bytes);
             }
             MessageReceived?.Invoke(this, new MidMessageEvent

@@ -68,16 +68,25 @@ namespace OpenProtocolInterpreter.Emulator.Drivers
 
         protected virtual Mid OnCommunicationStart(Mid0001 mid)
         {
-            return new Mid0002(1, 1, _controllerName);
+            return new Mid0002()
+            {
+                CellId = 1,
+                ChannelId = 1,
+                ControllerName = _controllerName
+            };
         }
 
         protected virtual Mid OnCommunicationStop(Mid0003 mid)
         {
-            return new Mid0005(mid.HeaderData.Mid);
+            return new Mid0005() { MidAccepted = mid.Header.Mid };
         }
 
-        protected virtual Mid PositiveAcknowledge(Mid mid) => new Mid0005(mid.HeaderData.Mid);
-        protected virtual Mid NegativeAcknowledge(Mid mid) => new Mid0004(mid.HeaderData.Mid, Error.COMMAND_FAILED);
+        protected virtual Mid PositiveAcknowledge(Mid mid) => new Mid0005() { MidAccepted = mid.Header.Mid };
+        protected virtual Mid NegativeAcknowledge(Mid mid) => new Mid0004()
+        {
+            FailedMid = mid.Header.Mid,
+            ErrorCode = Error.CommandFailed
+        };
 
         private void OnClientConnected(object sender, ConnectionEventArgs e)
         {
@@ -96,7 +105,7 @@ namespace OpenProtocolInterpreter.Emulator.Drivers
         private void OnDataReceived(object sender, DataReceivedEventArgs e)
         {
             var mid = _midInterpreter.Parse(e.Data);
-            if(_replies.TryGetValue(mid.HeaderData.Mid, out var responseCreator))
+            if(_replies.TryGetValue(mid.Header.Mid, out var responseCreator))
             {
                 var responseMid = responseCreator(mid);
                 var bytes = responseMid.PackBytes();

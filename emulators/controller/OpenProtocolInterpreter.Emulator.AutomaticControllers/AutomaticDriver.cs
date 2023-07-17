@@ -29,7 +29,7 @@ namespace OpenProtocolInterpreter.Emulator.AutomaticControllers
             _timer = new System.Threading.Timer(new TimerCallback(OnTimer), null, Timeout.Infinite, Timeout.Infinite);
             AddOrUpdateReply(new Dictionary<int, Func<Mid, Mid>>()
             {
-                { Mid0030.MID, mid => new Mid0031(_jobIdList.Count, _jobIdList) },
+                { Mid0030.MID, mid => new Mid0031() { JobIds = _jobIdList }  },
                 { Mid0034.MID, mid => PositiveAcknowledge(mid) },
                 { Mid0038.MID, mid => OnJobSelected((Mid0038)mid) },
                 { Mid0050.MID, mid => OnVinDownloadRequest((Mid0050)mid) },
@@ -53,7 +53,7 @@ namespace OpenProtocolInterpreter.Emulator.AutomaticControllers
 
                 var angleStatus = (TighteningValueStatus)(_configuration.TighteningStrategy == Strategy.Random ? _random.Next(0, 2) : 1);
                 var torqueStatus = (TighteningValueStatus)(_configuration.TighteningStrategy == Strategy.Random ? _random.Next(0, 2) : 1);
-                var tighteningStatus = angleStatus == TighteningValueStatus.OK && torqueStatus == TighteningValueStatus.OK;
+                var tighteningStatus = angleStatus == TighteningValueStatus.Ok && torqueStatus == TighteningValueStatus.Ok;
 
                 if (tighteningStatus || OkTighteningSentInJob == 0)
                 {
@@ -82,7 +82,7 @@ namespace OpenProtocolInterpreter.Emulator.AutomaticControllers
                     Angle = GenerateFakeTorqueAngleValue(angleStatus, 60, 360),
                     Timestamp = DateTime.Now,
                     LastChangeInParameterSet = DateTime.Today,
-                    BatchStatus = OkTighteningSentInJob >= 5 ? BatchStatus.OK : BatchStatus.RUNNING,
+                    BatchStatus = OkTighteningSentInJob >= 5 ? BatchStatus.Ok : BatchStatus.Running,
                     TighteningId = _tighteningsPerformed.Count + 1
                 };
                 _tighteningsPerformed.Add(mid61);
@@ -91,11 +91,11 @@ namespace OpenProtocolInterpreter.Emulator.AutomaticControllers
                     await SendAsync(client, mid61);
                 }
 
-                var mid35 = new Mid0035(1)
+                var mid35 = new Mid0035()
                 {
                     JobId = CurrentJobId,
                     VinNumber = CurrentVinNumber,
-                    JobBatchMode = JobBatchMode.ONLY_OK_TIGHTENINGS,
+                    JobBatchMode = JobBatchMode.OnlyOkTightenings,
                     JobBatchSize = 5,
                     JobBatchCounter = OkTighteningSentInJob,
                     TimeStamp = DateTime.Now
@@ -105,12 +105,12 @@ namespace OpenProtocolInterpreter.Emulator.AutomaticControllers
                 {
                     OkTighteningSentInJob = 0;
                     CurrentJobId = 0;
-                    mid35.JobStatus = JobStatus.OK;
+                    mid35.JobStatus = JobStatus.Ok;
                     _timer.Change(Timeout.Infinite, Timeout.Infinite);
                 }
                 else
                 {
-                    mid35.JobStatus = JobStatus.NOT_COMPLETED;
+                    mid35.JobStatus = JobStatus.NotCompleted;
                     var delay = _random.Next(_configuration.MinTighteningDelay, _configuration.MaxTighteningDelay);
                     _timer.Change(delay, Timeout.Infinite);
                 }
@@ -145,7 +145,11 @@ namespace OpenProtocolInterpreter.Emulator.AutomaticControllers
         {
             if (_tighteningsPerformed.Count < mid.TighteningId || _tighteningsPerformed.Count == 0)
             {
-                return new Mid0004(mid.HeaderData.Mid, Error.TIGHTENING_ID_REQUESTED_NOT_FOUND);
+                return new Mid0004()
+                {
+                    FailedMid = mid.Header.Mid,
+                    ErrorCode = Error.TighteningIdRequestNotFound
+                };
             }
 
             var id = (mid.TighteningId > 0 ? (int)mid.TighteningId : _tighteningsPerformed.Count) - 1;
@@ -179,8 +183,8 @@ namespace OpenProtocolInterpreter.Emulator.AutomaticControllers
         {
             return status switch
             {
-                TighteningValueStatus.LOW => _random.Next(0, min),
-                TighteningValueStatus.HIGH => _random.Next(max, max + 200),
+                TighteningValueStatus.Low => _random.Next(0, min),
+                TighteningValueStatus.High => _random.Next(max, max + 200),
                 _ => _random.Next(min, max),
             };
         }
