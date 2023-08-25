@@ -16,7 +16,11 @@ namespace OpenProtocolInterpreter.Sample.Driver.Commands
         public bool Execute(int jobId)
         {
             Console.WriteLine($"Sending job <{jobId}> to controller!");
-            var mid = _driver.SendAndWaitForResponse(new Mid0038(jobId).Pack(), new TimeSpan(0, 0, 10));
+            var jobMid = new Mid0038()
+            {
+                JobId = jobId
+            };
+            var mid = _driver.SendAndWaitForResponse(jobMid.Pack(), new TimeSpan(0, 0, 10));
 
             if (mid.Header.Mid == Mid0004.MID)
             {
