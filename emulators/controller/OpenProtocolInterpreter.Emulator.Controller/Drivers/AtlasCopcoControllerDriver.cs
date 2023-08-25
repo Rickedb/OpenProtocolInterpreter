@@ -3,6 +3,7 @@ using OpenProtocolInterpreter.Communication;
 using OpenProtocolInterpreter.Emulator.Controller.Events;
 using OpenProtocolInterpreter.Job;
 using OpenProtocolInterpreter.KeepAlive;
+using OpenProtocolInterpreter.ParameterSet;
 using OpenProtocolInterpreter.Tightening;
 using OpenProtocolInterpreter.Vin;
 using SimpleTcp;

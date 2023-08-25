@@ -3,8 +3,10 @@ using OpenProtocolInterpreter.Communication;
 using OpenProtocolInterpreter.Emulator.Drivers;
 using OpenProtocolInterpreter.Job;
 using OpenProtocolInterpreter.Job.Advanced;
+using OpenProtocolInterpreter.ParameterSet;
 using OpenProtocolInterpreter.Tightening;
 using OpenProtocolInterpreter.Vin;
+using System;
 
 namespace OpenProtocolInterpreter.Emulator.AutomaticControllers
 {
@@ -29,7 +31,9 @@ namespace OpenProtocolInterpreter.Emulator.AutomaticControllers
             _timer = new System.Threading.Timer(new TimerCallback(OnTimer), null, Timeout.Infinite, Timeout.Infinite);
             AddOrUpdateReply(new Dictionary<int, Func<Mid, Mid>>()
             {
+                { Mid0010.MID, mid => new Mid0011() },
                 { Mid0030.MID, mid => new Mid0031() { JobIds = _jobIdList }  },
+                { Mid0032.MID, mid => OnJobRequested((Mid0032)mid) },
                 { Mid0034.MID, mid => PositiveAcknowledge(mid) },
                 { Mid0038.MID, mid => OnJobSelected((Mid0038)mid) },
                 { Mid0050.MID, mid => OnVinDownloadRequest((Mid0050)mid) },
@@ -43,7 +47,9 @@ namespace OpenProtocolInterpreter.Emulator.AutomaticControllers
 
         public Task StartAsync()
         {
-            return StartAsync(_configuration.Port);
+            var task = StartAsync(_configuration.Port);
+            Task.Delay(5000).ContinueWith(x => OnJobSelected(new Mid0038() { JobId = 1 }));
+            return task;
         }
 
         private async void OnTimer(object? obj)
@@ -101,20 +107,20 @@ namespace OpenProtocolInterpreter.Emulator.AutomaticControllers
                     TimeStamp = DateTime.Now
                 };
 
-                if (OkTighteningSentInJob >= 5)
-                {
-                    OkTighteningSentInJob = 0;
-                    CurrentJobId = 0;
-                    mid35.JobStatus = JobStatus.Ok;
-                    _timer.Change(Timeout.Infinite, Timeout.Infinite);
-                }
-                else
-                {
-                    mid35.JobStatus = JobStatus.NotCompleted;
-                    var delay = _random.Next(_configuration.MinTighteningDelay, _configuration.MaxTighteningDelay);
-                    _timer.Change(delay, Timeout.Infinite);
-                }
+                //if (OkTighteningSentInJob >= 5)
+                //{
+                //    OkTighteningSentInJob = 0;
+                //    CurrentJobId = 0;
+                //    mid35.JobStatus = JobStatus.Ok;
+                //    _timer.Change(Timeout.Infinite, Timeout.Infinite);
+                //}
+                //else
+                //{
+                //}
 
+                mid35.JobStatus = JobStatus.NotCompleted;
+                var delay = _random.Next(_configuration.MinTighteningDelay, _configuration.MaxTighteningDelay);
+                _timer.Change(delay, Timeout.Infinite);
                 foreach (var client in ConnectedClients)
                 {
                     await SendAsync(client, mid35);
@@ -124,6 +130,25 @@ namespace OpenProtocolInterpreter.Emulator.AutomaticControllers
             {
 
             }
+        }
+
+        private Mid OnJobRequested(Mid0032 mid)
+        {
+            CurrentJobId = mid.JobId;
+            return new Mid0033()
+            {
+                JobId = mid.JobId,
+                ForcedOrder = (ForcedOrder)_random.Next(0, 2),
+                MaxTimeForFirstTightening = _random.Next(0, 9999),
+                MaxTimeToCompleteJob = _random.Next(0, 99999),
+                JobBatchMode = (JobBatchMode)_random.Next(0, 1),
+                LockAtJobDone = false,
+                UseLineControl = true,
+                RepeatJob = true,
+                ToolLoosening = (ToolLoosening)_random.Next(0, 2),
+                Reserved = (Reserved)_random.Next(0, 1),
+                ParameterSetList = new List<Job.ParameterSet>()
+            };
         }
 
         private Mid OnJobSelected(Mid0038 mid)
