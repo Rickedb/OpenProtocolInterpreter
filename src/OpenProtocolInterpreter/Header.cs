@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter
+﻿using System.Text;
+
+namespace OpenProtocolInterpreter
 {
     /// <summary>
     /// Represents a Mid header
@@ -71,16 +73,17 @@
 
         public override string ToString()
         {
-            string header = Length.ToString().PadLeft(4, '0');
-            header += Mid.ToString().PadLeft(4, '0');
-            header += (Revision > 0) ? Revision.ToString().PadLeft(3, '0') : "   ";
-            header += NoAckFlag ? "1" : " ";
-            header += (StationId != null) ? StationId.ToString().PadLeft(2, '0') : string.Empty.PadLeft(2, ' ');
-            header += (SpindleId != null) ? SpindleId.ToString().PadLeft(2, '0') : string.Empty.PadLeft(2, ' ');
-            header += (SequenceNumber > 0) ? SequenceNumber.ToString().PadLeft(2, '0') : string.Empty.PadLeft(2, ' ');
-            header += NumberOfMessages.ToString().PadLeft(1, ' ');
-            header += MessageNumber.ToString().PadLeft(1, ' ');
-            return header;
+            StringBuilder header = new StringBuilder();
+            header.Append(Length.ToString($"D{4}"));
+            header.Append(Mid.ToString($"D{4}"));
+            header.Append((Revision > 0)? Revision.ToString($"D{3}"): "   ");
+            header.Append(NoAckFlag ? "1" : " ");
+            header.Append((StationId != null) ? ((int)StationId).ToString($"D{2}") : "  ");
+            header.Append((SpindleId != null) ? ((int)SpindleId).ToString($"D{2}") : "  ");
+            header.Append((SequenceNumber != null) ? ((int)SequenceNumber).ToString($"D{2}") : "  ");
+            header.Append((NumberOfMessages != null) ? ((int)NumberOfMessages ).ToString() : " ");
+            header.Append((MessageNumber != null) ? ((int)MessageNumber ).ToString() : " ");
+            return header.ToString();
         }
     }
 }
