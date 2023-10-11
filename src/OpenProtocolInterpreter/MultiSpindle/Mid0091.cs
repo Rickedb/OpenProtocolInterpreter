@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace OpenProtocolInterpreter.MultiSpindle
 {
@@ -49,8 +50,7 @@ namespace OpenProtocolInterpreter.MultiSpindle
 
         public Mid0091(Header header) : base(header)
         {
-            if (SpindlesStatus == null)
-                SpindlesStatus = new List<SpindleStatus>();
+            SpindlesStatus ??= [];
         }
 
         public override string Pack()
@@ -71,13 +71,13 @@ namespace OpenProtocolInterpreter.MultiSpindle
 
         protected virtual string PackSpindlesStatus()
         {
-            string pack = string.Empty;
+            var builder = new StringBuilder();
             foreach (var spindle in SpindlesStatus)
-                pack += OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, spindle.SpindleNumber) +
-                           OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, spindle.ChannelId) +
-                           OpenProtocolConvert.ToString(spindle.SyncOverallStatus);
+                builder.Append(OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, spindle.SpindleNumber) +
+                                OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, spindle.ChannelId) +
+                                OpenProtocolConvert.ToString(spindle.SyncOverallStatus));
 
-            return pack;
+            return builder.ToString();
         }
 
         protected virtual List<SpindleStatus> ParseSpindlesStatus(string section)
@@ -105,11 +105,11 @@ namespace OpenProtocolInterpreter.MultiSpindle
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.NumberOfSpindles, 20, 2, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.SyncTighteningId, 24, 5, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.Time, 31, 19),
-                                new DataField((int)DataFields.SyncOverallStatus, 52, 1),
-                                new DataField((int)DataFields.SpindleStatus, 55, 5)
+                                new((int)DataFields.NumberOfSpindles, 20, 2, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.SyncTighteningId, 24, 5, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.Time, 31, 19),
+                                new((int)DataFields.SyncOverallStatus, 52, 1),
+                                new((int)DataFields.SpindleStatus, 55, 5)
                             }
                 }
             };

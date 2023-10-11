@@ -79,17 +79,17 @@ namespace OpenProtocolInterpreter.Alarm
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.AlarmStatus, 20, 1),
-                                new DataField((int)DataFields.ErrorCode, 23, 4, ' ', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.ControllerReadyStatus, 29, 1),
-                                new DataField((int)DataFields.ToolReadyStatus, 32, 1),
-                                new DataField((int)DataFields.Time, 35, 19)
+                                new((int)DataFields.AlarmStatus, 20, 1),
+                                new((int)DataFields.ErrorCode, 23, 4, ' ', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.ControllerReadyStatus, 29, 1),
+                                new((int)DataFields.ToolReadyStatus, 32, 1),
+                                new((int)DataFields.Time, 35, 19)
                             }
                 },
                 {
                     3, new List<DataField>()
                             {
-                                new DataField((int)DataFields.ToolHealth, 57, 1),
+                                new((int)DataFields.ToolHealth, 57, 1),
                             }
                 }
             };

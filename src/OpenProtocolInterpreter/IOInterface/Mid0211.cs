@@ -76,14 +76,14 @@ namespace OpenProtocolInterpreter.IOInterface
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.StatusDigIn1, 20, 1, false),
-                        new DataField((int)DataFields.StatusDigIn2, 21, 1, false),
-                        new DataField((int)DataFields.StatusDigIn3, 22, 1, false),
-                        new DataField((int)DataFields.StatusDigIn4, 23, 1, false),
-                        new DataField((int)DataFields.StatusDigIn5, 24, 1, false),
-                        new DataField((int)DataFields.StatusDigIn6, 25, 1, false),
-                        new DataField((int)DataFields.StatusDigIn7, 26, 1, false),
-                        new DataField((int)DataFields.StatusDigIn8, 27, 1, false)
+                        new((int)DataFields.StatusDigIn1, 20, 1, false),
+                        new((int)DataFields.StatusDigIn2, 21, 1, false),
+                        new((int)DataFields.StatusDigIn3, 22, 1, false),
+                        new((int)DataFields.StatusDigIn4, 23, 1, false),
+                        new((int)DataFields.StatusDigIn5, 24, 1, false),
+                        new((int)DataFields.StatusDigIn6, 25, 1, false),
+                        new((int)DataFields.StatusDigIn7, 26, 1, false),
+                        new((int)DataFields.StatusDigIn8, 27, 1, false)
                     }
                 }
             };

@@ -66,13 +66,13 @@ namespace OpenProtocolInterpreter.PowerMACS
                 {
                     2, new List<DataField>()
                             {
-                                new DataField((int)DataFields.DataNumberSystem, 20, 10, '0', PaddingOrientation.LeftPadded, false),
+                                new((int)DataFields.DataNumberSystem, 20, 10, '0', PaddingOrientation.LeftPadded, false),
                             }
                 },
                 {
                     3, new List<DataField>()
                             {
-                                new DataField((int)DataFields.SendOnlyNewData, 30, 1, false)
+                                new((int)DataFields.SendOnlyNewData, 30, 1, false)
                             }
                 },
             };

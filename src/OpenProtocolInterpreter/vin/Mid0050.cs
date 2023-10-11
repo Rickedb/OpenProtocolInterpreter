@@ -53,7 +53,7 @@ namespace OpenProtocolInterpreter.Vin
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.VinNumber, 20, 0, false), //dynamic
+                                new((int)DataFields.VinNumber, 20, 0, false), //dynamic
                             }
                 }
             };

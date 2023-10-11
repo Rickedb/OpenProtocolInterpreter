@@ -53,7 +53,7 @@ namespace OpenProtocolInterpreter.Tightening
                  false
             });
 
-            var asciiInt = System.BitConverter.ToInt32(bytes, 0).ToString().PadLeft(5, '0');
+            var asciiInt = System.BitConverter.ToInt32(bytes, 0).ToString("D5");
             return Encoding.ASCII.GetBytes(asciiInt);
         }
 

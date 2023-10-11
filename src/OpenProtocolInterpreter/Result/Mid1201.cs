@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace OpenProtocolInterpreter.Result
 {
@@ -80,8 +81,8 @@ namespace OpenProtocolInterpreter.Result
 
         public Mid1201(Header header) : base(header)
         {
-            ObjectDataList = new List<ObjectData>();
-            VariableDataFields = new List<VariableDataField>();
+            ObjectDataList = [];
+            VariableDataFields = [];
         }
 
         public override string Pack()
@@ -118,13 +119,13 @@ namespace OpenProtocolInterpreter.Result
 
         protected virtual string PackObjectDataList()
         {
-            string pack = string.Empty;
+            var builder = new StringBuilder();
             foreach (var v in ObjectDataList)
             {
-                pack += v.Pack();
+                builder.Append(v.Pack());
             }
 
-            return pack;
+            return builder.ToString();
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -134,16 +135,16 @@ namespace OpenProtocolInterpreter.Result
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.TotalMessages, 20, 3, '0', PaddingOrientation.LeftPadded, false),
-                        new DataField((int)DataFields.MessageNumber, 23, 3, '0', PaddingOrientation.LeftPadded, false),
-                        new DataField((int)DataFields.ResultDataIdentifier, 26, 10, '0', PaddingOrientation.LeftPadded, false),
-                        new DataField((int)DataFields.Time, 36, 19, '0', PaddingOrientation.LeftPadded, false),
-                        new DataField((int)DataFields.ResultStatus, 55, 1, false),
-                        new DataField((int)DataFields.OperationType, 56, 2, '0', PaddingOrientation.LeftPadded, false),
-                        new DataField((int)DataFields.NumberOfObjects, 58, 3, '0', PaddingOrientation.LeftPadded, false),
-                        new DataField((int)DataFields.ObjectData, 61, 0, false),
-                        new DataField((int)DataFields.NumberOfDataFields, 0, 3, '0', PaddingOrientation.LeftPadded, false),
-                        new DataField((int)DataFields.DataFieldList, 0, 0, false)
+                        new((int)DataFields.TotalMessages, 20, 3, '0', PaddingOrientation.LeftPadded, false),
+                        new((int)DataFields.MessageNumber, 23, 3, '0', PaddingOrientation.LeftPadded, false),
+                        new((int)DataFields.ResultDataIdentifier, 26, 10, '0', PaddingOrientation.LeftPadded, false),
+                        new((int)DataFields.Time, 36, 19, '0', PaddingOrientation.LeftPadded, false),
+                        new((int)DataFields.ResultStatus, 55, 1, false),
+                        new((int)DataFields.OperationType, 56, 2, '0', PaddingOrientation.LeftPadded, false),
+                        new((int)DataFields.NumberOfObjects, 58, 3, '0', PaddingOrientation.LeftPadded, false),
+                        new((int)DataFields.ObjectData, 61, 0, false),
+                        new((int)DataFields.NumberOfDataFields, 0, 3, '0', PaddingOrientation.LeftPadded, false),
+                        new((int)DataFields.DataFieldList, 0, 0, false)
                     }
                 }
             };

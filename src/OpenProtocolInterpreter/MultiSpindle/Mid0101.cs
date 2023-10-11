@@ -213,36 +213,36 @@ namespace OpenProtocolInterpreter.MultiSpindle
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.NumberOfSpindlesOrPresses, 20, 2, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.VinNumber, 24, 25, ' '),
-                                new DataField((int)DataFields.JobId, 51, 2, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.ParameterSetId, 55, 3, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.BatchSize, 60, 4, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.BatchCounter, 66, 4, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.BatchStatus, 72, 1),
-                                new DataField((int)DataFields.TorqueOrForceMinLimit, 75, 6, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.TorqueOrForceMaxLimit, 83, 6, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.TorqueOrForceFinalTarget, 91, 6, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.AngleOrStrokeMinLimit, 99, 5, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.AngleOrStrokeMaxLimit, 106, 5, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.FinalAngleOrStrokeTarget, 113, 5, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.LastChangeInParameterSet, 120, 19),
-                                new DataField((int)DataFields.Timestamp, 141, 19),
-                                new DataField((int)DataFields.SyncTighteningId, 162, 5, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.SyncOverallStatus, 169, 1),
-                                new DataField((int)DataFields.SpindesOrPressesStatus, 172, 0)
+                                new((int)DataFields.NumberOfSpindlesOrPresses, 20, 2, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.VinNumber, 24, 25, ' '),
+                                new((int)DataFields.JobId, 51, 2, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.ParameterSetId, 55, 3, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.BatchSize, 60, 4, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.BatchCounter, 66, 4, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.BatchStatus, 72, 1),
+                                new((int)DataFields.TorqueOrForceMinLimit, 75, 6, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.TorqueOrForceMaxLimit, 83, 6, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.TorqueOrForceFinalTarget, 91, 6, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.AngleOrStrokeMinLimit, 99, 5, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.AngleOrStrokeMaxLimit, 106, 5, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.FinalAngleOrStrokeTarget, 113, 5, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.LastChangeInParameterSet, 120, 19),
+                                new((int)DataFields.Timestamp, 141, 19),
+                                new((int)DataFields.SyncTighteningId, 162, 5, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.SyncOverallStatus, 169, 1),
+                                new((int)DataFields.SpindesOrPressesStatus, 172, 0)
                             }
                 },
                 {
                     4, new List<DataField>()
                             {
-                                new DataField((int)DataFields.SystemSubType, 0, 3, '0', PaddingOrientation.LeftPadded)
+                                new((int)DataFields.SystemSubType, 0, 3, '0', PaddingOrientation.LeftPadded)
                             }
                 },
                 {
                     5, new List<DataField>()
                             {
-                                new DataField((int)DataFields.JobSequenceNumber, 0, 5, '0', PaddingOrientation.LeftPadded)
+                                new((int)DataFields.JobSequenceNumber, 0, 5, '0', PaddingOrientation.LeftPadded)
                             }
                 }
             };

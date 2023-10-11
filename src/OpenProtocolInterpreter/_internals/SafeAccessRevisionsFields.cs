@@ -11,7 +11,7 @@ namespace OpenProtocolInterpreter
             {
                 if (!ContainsKey(index))
                 {
-                    Add(index, new List<DataField>());
+                    Add(index, []);
                 }
 
                 return this[index];

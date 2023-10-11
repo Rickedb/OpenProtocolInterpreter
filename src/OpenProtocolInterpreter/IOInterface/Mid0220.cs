@@ -55,7 +55,7 @@ namespace OpenProtocolInterpreter.IOInterface
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.DigitalInputNumber, 20, 3, '0', PaddingOrientation.LeftPadded, false)
+                        new((int)DataFields.DigitalInputNumber, 20, 3, '0', PaddingOrientation.LeftPadded, false)
                     }
                 }
             };

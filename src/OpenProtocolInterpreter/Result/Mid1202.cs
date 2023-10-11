@@ -64,7 +64,7 @@ namespace OpenProtocolInterpreter.Result
 
         public Mid1202(Header header) : base(header)
         {
-            VariableDataFields = new List<VariableDataField>();
+            VariableDataFields = [];
         }
 
         public override string Pack()
@@ -92,12 +92,12 @@ namespace OpenProtocolInterpreter.Result
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.TOTAL_MESSAGES, 20, 3, '0', PaddingOrientation.LeftPadded, false),
-                        new DataField((int)DataFields.MESSAGE_NUMBER, 23, 3, '0', PaddingOrientation.LeftPadded, false),
-                        new DataField((int)DataFields.RESULT_DATA_ID, 26, 10, '0', PaddingOrientation.LeftPadded, false),
-                        new DataField((int)DataFields.OBJECT_ID, 36, 4, '0', PaddingOrientation.LeftPadded, false),
-                        new DataField((int)DataFields.NUMBER_DATA_FIELDS, 40, 3, '0', PaddingOrientation.LeftPadded, false),
-                        new DataField((int)DataFields.VARIABLE_DATA_FIELDS, 43, 0, false) //defined at runtime
+                        new((int)DataFields.TOTAL_MESSAGES, 20, 3, '0', PaddingOrientation.LeftPadded, false),
+                        new((int)DataFields.MESSAGE_NUMBER, 23, 3, '0', PaddingOrientation.LeftPadded, false),
+                        new((int)DataFields.RESULT_DATA_ID, 26, 10, '0', PaddingOrientation.LeftPadded, false),
+                        new((int)DataFields.OBJECT_ID, 36, 4, '0', PaddingOrientation.LeftPadded, false),
+                        new((int)DataFields.NUMBER_DATA_FIELDS, 40, 3, '0', PaddingOrientation.LeftPadded, false),
+                        new((int)DataFields.VARIABLE_DATA_FIELDS, 43, 0, false) //defined at runtime
                     }
                 }
             };

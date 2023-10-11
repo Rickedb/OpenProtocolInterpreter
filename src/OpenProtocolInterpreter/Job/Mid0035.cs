@@ -131,36 +131,36 @@ namespace OpenProtocolInterpreter.Job
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.JobId, 20, 2, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.JobStatus, 24, 1),
-                                new DataField((int)DataFields.JobBatchMode, 27, 1),
-                                new DataField((int)DataFields.JobBatchSize, 30, 4, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.JobBatchCounter, 36, 4, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.Timestamp, 42, 19)
+                                new((int)DataFields.JobId, 20, 2, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.JobStatus, 24, 1),
+                                new((int)DataFields.JobBatchMode, 27, 1),
+                                new((int)DataFields.JobBatchSize, 30, 4, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.JobBatchCounter, 36, 4, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.Timestamp, 42, 19)
                             }
                 },
                 {
                     3, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.JobCurrentStep, 65, 3, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.JobTotalNumberOfSteps, 70, 3, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.JobStepType, 75, 2, '0', PaddingOrientation.LeftPadded)
+                                new((int)DataFields.JobCurrentStep, 65, 3, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.JobTotalNumberOfSteps, 70, 3, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.JobStepType, 75, 2, '0', PaddingOrientation.LeftPadded)
                             }
                 },
                 {
                     4, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.JobTighteningStatus, 79, 2, ' ', PaddingOrientation.LeftPadded)
+                                new((int)DataFields.JobTighteningStatus, 79, 2, ' ', PaddingOrientation.LeftPadded)
                             }
                 },
                 {
                     5, new  List<DataField>()
                     {
-                        new DataField((int)DataFields.JobSequenceNumber, 83, 5, '0', PaddingOrientation.LeftPadded),
-                        new DataField((int)DataFields.VinNumber, 90 , 25, ' ', PaddingOrientation.LeftPadded),
-                        new DataField((int)DataFields.IdentifierResultPart2, 117, 25, '0', PaddingOrientation.LeftPadded),
-                        new DataField((int)DataFields.IdentifierResultPart3, 144, 25, '0', PaddingOrientation.LeftPadded),
-                        new DataField((int)DataFields.IdentifierResultPart4, 171, 25, '0', PaddingOrientation.LeftPadded),
+                        new((int)DataFields.JobSequenceNumber, 83, 5, '0', PaddingOrientation.LeftPadded),
+                        new((int)DataFields.VinNumber, 90 , 25, ' ', PaddingOrientation.LeftPadded),
+                        new((int)DataFields.IdentifierResultPart2, 117, 25, '0', PaddingOrientation.LeftPadded),
+                        new((int)DataFields.IdentifierResultPart3, 144, 25, '0', PaddingOrientation.LeftPadded),
+                        new((int)DataFields.IdentifierResultPart4, 171, 25, '0', PaddingOrientation.LeftPadded),
                     }
                 }
             };

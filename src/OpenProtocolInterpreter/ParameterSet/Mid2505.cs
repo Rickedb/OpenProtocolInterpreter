@@ -48,7 +48,7 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public Mid2505(Header header) : base(header)
         {
-            VariableDataFields = new List<VariableDataField>();
+            VariableDataFields = [];
         }
 
         public override string Pack()
@@ -74,9 +74,9 @@ namespace OpenProtocolInterpreter.ParameterSet
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.ParameterSetId, 20, 3, '0', PaddingOrientation.LeftPadded, false),
-                                new DataField((int)DataFields.NumberOfParameterDataFields, 23, 3, '0', PaddingOrientation.LeftPadded, false),
-                                new DataField((int)DataFields.DataFields, 26, 0, false)
+                                new((int)DataFields.ParameterSetId, 20, 3, '0', PaddingOrientation.LeftPadded, false),
+                                new((int)DataFields.NumberOfParameterDataFields, 23, 3, '0', PaddingOrientation.LeftPadded, false),
+                                new((int)DataFields.DataFields, 26, 0, false)
                             }
                 }
             };

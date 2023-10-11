@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text;
 
 namespace OpenProtocolInterpreter
 {
@@ -32,11 +33,11 @@ namespace OpenProtocolInterpreter
 
         public static DateTime ToDateTime(string value)
         {
-            var convertedValue = System.DateTime.Now;
+            var convertedValue = DateTime.Now;
             if (!string.IsNullOrWhiteSpace(value.ToString()))
             {
                 var date = value.ToString();
-                System.DateTime.TryParse(date.Substring(0, 10) + " " + date.Substring(11, 8), out convertedValue);
+                DateTime.TryParse(date.Substring(0, 10) + " " + date.Substring(11, 8), out convertedValue);
             }
 
             return convertedValue;
@@ -115,12 +116,12 @@ namespace OpenProtocolInterpreter
 
         public static string ToString(IEnumerable<VariableDataField> value)
         {
-            string pack = string.Empty;
+            var builder = new StringBuilder();
             foreach (var v in value)
             {
-                pack += v.Pack();
+                builder.Append(v.Pack());
             }
-            return pack;
+            return builder.ToString();
         }
 
         public static bool GetBit(byte b, int bitNumber) => (b & (1 << bitNumber - 1)) != 0;

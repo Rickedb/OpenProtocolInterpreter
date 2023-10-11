@@ -30,10 +30,7 @@ namespace OpenProtocolInterpreter.Tool
 
         public Mid0701(Header header) : base(header)
         {
-            if (Tools == null)
-            {
-                Tools = new List<ToolData>();
-            }
+            Tools ??= [];
         }
 
         public override string Pack()
@@ -74,8 +71,8 @@ namespace OpenProtocolInterpreter.Tool
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.TotalTools, 20, 3, '0', PaddingOrientation.LeftPadded, false),
-                                new DataField((int)DataFields.EachTool, 23, 3, false)
+                                new((int)DataFields.TotalTools, 20, 3, '0', PaddingOrientation.LeftPadded, false),
+                                new((int)DataFields.EachTool, 23, 3, false)
                             }
                 }
             };

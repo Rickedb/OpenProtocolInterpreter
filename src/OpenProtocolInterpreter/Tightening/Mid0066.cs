@@ -37,7 +37,7 @@ namespace OpenProtocolInterpreter.Tightening
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.NumberOfOfflineResults, 20, 2, '0', PaddingOrientation.LeftPadded, false)
+                                new((int)DataFields.NumberOfOfflineResults, 20, 2, '0', PaddingOrientation.LeftPadded, false)
                             }
                 }
             };

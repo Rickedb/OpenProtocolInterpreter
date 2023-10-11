@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace OpenProtocolInterpreter.ApplicationSelector
 {
@@ -41,8 +42,7 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
         public Mid0254(Header header) : base(header)
         {
-            if (GreenLights == null)
-                GreenLights = new List<LightCommand>();
+            GreenLights ??= [];
         }
 
         public override string Pack()
@@ -60,11 +60,11 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
         protected virtual string PackGreenLights()
         {
-            string pack = string.Empty;
+            var builder = new StringBuilder(GreenLights.Count);
             foreach (var e in GreenLights)
-                pack += OpenProtocolConvert.ToString((int)e);
+                builder.Append(OpenProtocolConvert.ToString((int)e));
 
-            return pack;
+            return builder.ToString();
         }
 
         protected virtual List<LightCommand> ParseGreenLights(string value)
@@ -83,8 +83,8 @@ namespace OpenProtocolInterpreter.ApplicationSelector
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.DeviceId, 20, 2, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.GreenLightCommand, 24, 8)
+                                new((int)DataFields.DeviceId, 20, 2, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.GreenLightCommand, 24, 8)
                             }
                 }
             };

@@ -58,8 +58,8 @@ namespace OpenProtocolInterpreter.Communication
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.Mid, 20, 4, '0', PaddingOrientation.LeftPadded, false),
-                                new DataField((int)DataFields.ErrorCode, 24, 2, '0', PaddingOrientation.LeftPadded, false)
+                                new((int)DataFields.Mid, 20, 4, '0', PaddingOrientation.LeftPadded, false),
+                                new((int)DataFields.ErrorCode, 24, 2, '0', PaddingOrientation.LeftPadded, false)
                             }
                 }
             };

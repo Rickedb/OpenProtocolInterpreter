@@ -46,7 +46,7 @@ namespace OpenProtocolInterpreter.UserInterface
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.UserText, 20, 4, ' ', PaddingOrientation.RightPadded, false),
+                                new((int)DataFields.UserText, 20, 4, ' ', PaddingOrientation.RightPadded, false),
                             }
                 }
             };

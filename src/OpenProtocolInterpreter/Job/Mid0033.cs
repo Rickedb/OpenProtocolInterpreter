@@ -82,8 +82,7 @@ namespace OpenProtocolInterpreter.Job
 
         public Mid0033(Header header) : base(header)
         {
-            if (ParameterSetList == null)
-                ParameterSetList = new List<ParameterSet>();
+            ParameterSetList ??= [];
             HandleRevisions();
         }
 
@@ -135,19 +134,19 @@ namespace OpenProtocolInterpreter.Job
                     {
                         1, new List<DataField>()
                                 {
-                                    new DataField((int)DataFields.JobId, 20, 2, '0', PaddingOrientation.LeftPadded),
-                                    new DataField((int)DataFields.JobName, 24, 25, ' '),
-                                    new DataField((int)DataFields.ForcedOrder, 51, 1),
-                                    new DataField((int)DataFields.MaxTimeForFirstTightening, 54, 4, '0', PaddingOrientation.LeftPadded),
-                                    new DataField((int)DataFields.MaxTimeToCompleteJob, 60, 5, '0', PaddingOrientation.LeftPadded),
-                                    new DataField((int)DataFields.JobBatchDone, 67, 1),
-                                    new DataField((int)DataFields.LockAtJobDone, 70, 1),
-                                    new DataField((int)DataFields.UseLineControl, 73, 1),
-                                    new DataField((int)DataFields.RepeatJob, 76, 1),
-                                    new DataField((int)DataFields.ToolLoosening, 79, 1),
-                                    new DataField((int)DataFields.Reserved, 82, 1),
-                                    new DataField((int)DataFields.NumberOfParameterSets, 85, 2, '0', PaddingOrientation.LeftPadded),
-                                    new DataField((int)DataFields.ParameterSetList, 89, 0) // defined at runtime
+                                    new((int)DataFields.JobId, 20, 2, '0', PaddingOrientation.LeftPadded),
+                                    new((int)DataFields.JobName, 24, 25, ' '),
+                                    new((int)DataFields.ForcedOrder, 51, 1),
+                                    new((int)DataFields.MaxTimeForFirstTightening, 54, 4, '0', PaddingOrientation.LeftPadded),
+                                    new((int)DataFields.MaxTimeToCompleteJob, 60, 5, '0', PaddingOrientation.LeftPadded),
+                                    new((int)DataFields.JobBatchDone, 67, 1),
+                                    new((int)DataFields.LockAtJobDone, 70, 1),
+                                    new((int)DataFields.UseLineControl, 73, 1),
+                                    new((int)DataFields.RepeatJob, 76, 1),
+                                    new((int)DataFields.ToolLoosening, 79, 1),
+                                    new((int)DataFields.Reserved, 82, 1),
+                                    new((int)DataFields.NumberOfParameterSets, 85, 2, '0', PaddingOrientation.LeftPadded),
+                                    new((int)DataFields.ParameterSetList, 89, 0) // defined at runtime
                                 }
                     },
                 };

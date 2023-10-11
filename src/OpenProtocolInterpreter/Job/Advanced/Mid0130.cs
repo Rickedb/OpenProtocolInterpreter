@@ -42,7 +42,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.JobOffStatus, 20, 1, false),
+                                new((int)DataFields.JobOffStatus, 20, 1, false),
                             }
                 }
             };

@@ -44,7 +44,7 @@ namespace OpenProtocolInterpreter.IOInterface
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.RelayNumber, 20, 3, '0', PaddingOrientation.LeftPadded, false)
+                        new((int)DataFields.RelayNumber, 20, 3, '0', PaddingOrientation.LeftPadded, false)
                     }
                 }
             };

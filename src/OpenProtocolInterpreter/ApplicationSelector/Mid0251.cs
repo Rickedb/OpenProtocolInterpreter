@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 
 namespace OpenProtocolInterpreter.ApplicationSelector
 {
@@ -35,13 +36,12 @@ namespace OpenProtocolInterpreter.ApplicationSelector
             Revision = DEFAULT_REVISION
         })
         {
-            
+
         }
 
         public Mid0251(Header header) : base(header)
         {
-            if (SocketStatus == null)
-                SocketStatus = new List<bool>();
+            SocketStatus ??= [];
         }
 
         public override string Pack()
@@ -63,11 +63,11 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
         protected virtual string PackSocketStatus()
         {
-            string pack = string.Empty;
+            var builder = new StringBuilder(SocketStatus.Count);
             foreach (var v in SocketStatus)
-                pack += OpenProtocolConvert.ToString(v);
+                builder.Append(OpenProtocolConvert.ToString(v));
 
-            return pack;
+            return builder.ToString();
         }
 
         protected virtual List<bool> ParseSocketStatus(string section)
@@ -86,9 +86,9 @@ namespace OpenProtocolInterpreter.ApplicationSelector
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.DeviceId, 20, 2, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.NumberOfSockets, 24, 2, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.SocketStatus, 28, 0)
+                                new((int)DataFields.DeviceId, 20, 2, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.NumberOfSockets, 24, 2, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.SocketStatus, 28, 0)
                             }
                 }
             };

@@ -95,15 +95,15 @@ namespace OpenProtocolInterpreter.Vin
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.VinNumber, 20, 25, ' ', PaddingOrientation.RightPadded, false)
+                                new((int)DataFields.VinNumber, 20, 25, ' ', PaddingOrientation.RightPadded, false)
                             }
                 },
                 {
                     2, new List<DataField>()
                             {
-                                new DataField((int)DataFields.IdentifierResultPart2, 47, 25, ' '),
-                                new DataField((int)DataFields.IdentifierResultPart3, 74, 25, ' '),
-                                new DataField((int)DataFields.IdentifierResultPart4, 101, 25, ' ')
+                                new((int)DataFields.IdentifierResultPart2, 47, 25, ' '),
+                                new((int)DataFields.IdentifierResultPart3, 74, 25, ' '),
+                                new((int)DataFields.IdentifierResultPart4, 101, 25, ' ')
                             }
                 }
             };

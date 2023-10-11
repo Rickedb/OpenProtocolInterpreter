@@ -46,8 +46,8 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.ToolTagId, 20, 8),
-                        new DataField((int)DataFields.ToolStatus, 30, 2, '0', PaddingOrientation.LeftPadded)
+                        new((int)DataFields.ToolTagId, 20, 8),
+                        new((int)DataFields.ToolStatus, 30, 2, '0', PaddingOrientation.LeftPadded)
                     }
                 }
             };

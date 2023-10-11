@@ -53,8 +53,8 @@ namespace OpenProtocolInterpreter.Tightening
         public byte[] PackBytes()
         {
             byte[] bytes = new byte[10];
-            bytes[0] = OpenProtocolConvert.ToByte(new bool[]
-            {
+            bytes[0] = OpenProtocolConvert.ToByte(
+            [
                 RundownAngleMaxShutOff,
                 RundownAngleMinShutOff,
                 TorqueMaxShutOff,
@@ -63,9 +63,9 @@ namespace OpenProtocolInterpreter.Tightening
                 SelftapTorqueMinShutOff,
                 PrevailTorqueMaxShutOff,
                 PrevailTorqueMinShutOff
-            });
-            bytes[1] = OpenProtocolConvert.ToByte(new bool[]
-            {
+            ]);
+            bytes[1] = OpenProtocolConvert.ToByte(
+            [
                  PrevailTorqueCompensateOverflow ,
                  CurrentMonitoringMaxShutOff,
                  PostViewTorqueMinTorqueShutOff,
@@ -74,9 +74,9 @@ namespace OpenProtocolInterpreter.Tightening
                  TriggerLost,
                  TorqueLessThanTarget,
                  ToolHot
-            });
-            bytes[2] = OpenProtocolConvert.ToByte(new bool[]
-            {
+            ]);
+            bytes[2] = OpenProtocolConvert.ToByte(
+            [
                 MultistageAbort,
                 Rehit,
                 DsMeasureFailed,
@@ -85,9 +85,9 @@ namespace OpenProtocolInterpreter.Tightening
                 RemoveFastenerLimitExceeded,
                 DisableDrive,
                 TransducerLost
-            });
-            bytes[3] = OpenProtocolConvert.ToByte(new bool[]
-            {
+            ]);
+            bytes[3] = OpenProtocolConvert.ToByte(
+            [
                 TransducerShorted,
                 TransducerCorrupt,
                 SyncTimeout,
@@ -96,9 +96,9 @@ namespace OpenProtocolInterpreter.Tightening
                 AngleMaxMonitor,
                 YieldNutOff,
                 YieldTooFewSamples
-            });
+            ]);
 
-            var asciiLong = System.BitConverter.ToInt64(bytes, 0).ToString().PadLeft(10, '0');
+            var asciiLong = System.BitConverter.ToInt64(bytes, 0).ToString("D10");
             return Encoding.ASCII.GetBytes(asciiLong);
         }
 
@@ -189,10 +189,10 @@ namespace OpenProtocolInterpreter.Tightening
 
         public byte[] PackBytes()
         {
-            byte[] bytes = new byte[]
-            {
-                OpenProtocolConvert.ToByte(new bool[]
-                {
+            byte[] bytes =
+            [
+                OpenProtocolConvert.ToByte(
+                [
                     DriveDeactivated,
                     ToolStall,
                     DriveHot,
@@ -201,9 +201,9 @@ namespace OpenProtocolInterpreter.Tightening
                     ReactionBarFailed,
                     SnugMax,
                     CycleAbort,
-                }),
-                OpenProtocolConvert.ToByte(new bool[]
-                {
+                ]),
+                OpenProtocolConvert.ToByte(
+                [
                     NeckingFailure,
                     EffectiveLoosening,
                     OverSpeed,
@@ -212,9 +212,9 @@ namespace OpenProtocolInterpreter.Tightening
                     SnugMonLow,
                     SnugMonHigh,
                     DynamicMinCurrent,
-                }),
-                OpenProtocolConvert.ToByte(new bool[]
-                {
+                ]),
+                OpenProtocolConvert.ToByte(
+                [
                     DynamicMaxCurrent,
                     LatentResult,
                     OpenProtocolConvert.GetBit(Reserved[2], 3),
@@ -223,7 +223,7 @@ namespace OpenProtocolInterpreter.Tightening
                     OpenProtocolConvert.GetBit(Reserved[2], 6),
                     OpenProtocolConvert.GetBit(Reserved[2], 7),
                     OpenProtocolConvert.GetBit(Reserved[2], 8)
-                }),
+                ]),
                 Reserved[3],
                 Reserved[4],
                 Reserved[5],
@@ -231,7 +231,7 @@ namespace OpenProtocolInterpreter.Tightening
                 Reserved[7],
                 Reserved[8],
                 Reserved[9]
-            };
+            ];
 
             var asciiLong = System.BitConverter.ToInt64(bytes, 0).ToString().PadLeft(10, '0');
             return Encoding.ASCII.GetBytes(asciiLong);
@@ -273,7 +273,7 @@ namespace OpenProtocolInterpreter.Tightening
             };
 
             //set only 19 and 20 bytes to reserved
-            obj.Reserved[0] = OpenProtocolConvert.ToByte(new bool[] { OpenProtocolConvert.GetBit(value[2], 3), OpenProtocolConvert.GetBit(value[2], 4), false, false, false, false, false, false });
+            obj.Reserved[0] = OpenProtocolConvert.ToByte([OpenProtocolConvert.GetBit(value[2], 3), OpenProtocolConvert.GetBit(value[2], 4), false, false, false, false, false, false]);
 
             return obj;
         }

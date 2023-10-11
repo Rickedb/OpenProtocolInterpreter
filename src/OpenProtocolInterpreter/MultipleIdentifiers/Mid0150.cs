@@ -52,7 +52,7 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.IdentifierData, 20, 0, false)
+                        new((int)DataFields.IdentifierData, 20, 0, false)
                     }
                 }
             };

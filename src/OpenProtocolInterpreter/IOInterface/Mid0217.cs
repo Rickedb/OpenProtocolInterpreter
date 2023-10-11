@@ -48,8 +48,8 @@ namespace OpenProtocolInterpreter.IOInterface
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.RelayNumber, 20, 3, '0', PaddingOrientation.LeftPadded),
-                        new DataField((int)DataFields.RelayStatus, 25, 1)
+                        new((int)DataFields.RelayNumber, 20, 3, '0', PaddingOrientation.LeftPadded),
+                        new((int)DataFields.RelayStatus, 25, 1)
                     }
                 }
             };

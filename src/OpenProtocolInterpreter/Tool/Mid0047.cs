@@ -47,7 +47,7 @@ namespace OpenProtocolInterpreter.Tool
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.PairingHandlingType, 20, 2, '0', PaddingOrientation.LeftPadded)
+                                new((int)DataFields.PairingHandlingType, 20, 2, '0', PaddingOrientation.LeftPadded)
                             }
                 }
             };

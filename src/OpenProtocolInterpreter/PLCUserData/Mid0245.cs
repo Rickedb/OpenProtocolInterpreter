@@ -77,7 +77,7 @@ namespace OpenProtocolInterpreter.PLCUserData
         {
             if (string.IsNullOrEmpty(UserData))
             {
-                UserData = string.Empty.PadRight(2);
+                UserData = "  ";
             }
         }
 
@@ -96,8 +96,8 @@ namespace OpenProtocolInterpreter.PLCUserData
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.Offset, 20, 3, '0', PaddingOrientation.LeftPadded, false),
-                        new DataField((int)DataFields.UserData, 23, 2, ' ', PaddingOrientation.RightPadded, false)
+                        new((int)DataFields.Offset, 20, 3, '0', PaddingOrientation.LeftPadded, false),
+                        new((int)DataFields.UserData, 23, 2, ' ', PaddingOrientation.RightPadded, false)
                     }
                 }
             };

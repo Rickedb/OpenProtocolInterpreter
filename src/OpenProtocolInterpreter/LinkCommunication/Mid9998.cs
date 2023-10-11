@@ -49,8 +49,8 @@ namespace OpenProtocolInterpreter.LinkCommunication
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.MidNumber, 20, 4, '0', PaddingOrientation.LeftPadded, false),
-                                new DataField((int)DataFields.ErrorCode, 24, 4, '0', PaddingOrientation.LeftPadded, false)
+                                new((int)DataFields.MidNumber, 20, 4, '0', PaddingOrientation.LeftPadded, false),
+                                new((int)DataFields.ErrorCode, 24, 4, '0', PaddingOrientation.LeftPadded, false)
                             }
                 }
             };

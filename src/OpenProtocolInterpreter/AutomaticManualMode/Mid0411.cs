@@ -63,8 +63,8 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.AutoDisableSetting, 20, 2, '0', PaddingOrientation.LeftPadded, false),
-                                new DataField((int)DataFields.CurrentBatch, 22, 2, '0', PaddingOrientation.LeftPadded, false)
+                                new((int)DataFields.AutoDisableSetting, 20, 2, '0', PaddingOrientation.LeftPadded, false),
+                                new((int)DataFields.CurrentBatch, 22, 2, '0', PaddingOrientation.LeftPadded, false)
                             }
                 }
             };

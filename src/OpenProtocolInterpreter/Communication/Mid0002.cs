@@ -169,53 +169,53 @@ namespace OpenProtocolInterpreter.Communication
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.CellId, 20, 4, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.ChannelId, 26, 2, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.ControllerName, 30, 25, ' ')
+                                new((int)DataFields.CellId, 20, 4, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.ChannelId, 26, 2, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.ControllerName, 30, 25, ' ')
                             }
                 },
                 {
                     2, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.SupplierCode, 57, 3, ' ')
+                                new((int)DataFields.SupplierCode, 57, 3, ' ')
                             }
                 },
                 {
                     3, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.OpenProtocolVersion, 62, 19, ' '),
-                                new DataField((int)DataFields.ControllerSoftwareVersion, 83, 19, ' '),
-                                new DataField((int)DataFields.ToolSoftwareVersion, 104, 19, ' ')
+                                new((int)DataFields.OpenProtocolVersion, 62, 19, ' '),
+                                new((int)DataFields.ControllerSoftwareVersion, 83, 19, ' '),
+                                new((int)DataFields.ToolSoftwareVersion, 104, 19, ' ')
                             }
                 },
                 {
                     4, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.RBUType, 125, 24, ' '),
-                                new DataField((int)DataFields.ControllerSerialNumber, 151, 10, ' ')
+                                new((int)DataFields.RBUType, 125, 24, ' '),
+                                new((int)DataFields.ControllerSerialNumber, 151, 10, ' ')
                             }
                 },
                 {
                     5, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.SystemType, 163, 3, '0'),
-                                new DataField((int)DataFields.SystemSubtype, 168, 3, '0')
+                                new((int)DataFields.SystemType, 163, 3, '0'),
+                                new((int)DataFields.SystemSubtype, 168, 3, '0')
                             }
                 },
                 {
                     6, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.SequenceNumberSupport, 173, 1),
-                                new DataField((int)DataFields.LinkingHandlingSupport, 176, 1),
-                                new DataField((int)DataFields.StationCellId, 179, 10, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.StationCellName, 191, 25),
-                                new DataField((int)DataFields.ClientId, 218, 1)
+                                new((int)DataFields.SequenceNumberSupport, 173, 1),
+                                new((int)DataFields.LinkingHandlingSupport, 176, 1),
+                                new((int)DataFields.StationCellId, 179, 10, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.StationCellName, 191, 25),
+                                new((int)DataFields.ClientId, 218, 1)
                             }
                 },
                 {
                     7, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.OptionalKeepAlive, 221, 1)
+                                new((int)DataFields.OptionalKeepAlive, 221, 1)
                             }
                 }
             };

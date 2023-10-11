@@ -34,8 +34,7 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public Mid0011(Header header) : base(header)
         {
-            if (ParameterSets == null)
-                ParameterSets = new List<int>();
+            ParameterSets ??= [];
         }
 
         public override string Pack()
@@ -81,8 +80,8 @@ namespace OpenProtocolInterpreter.ParameterSet
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.TotalParameterSets, 20, 3, '0', PaddingOrientation.LeftPadded, false),
-                                new DataField((int)DataFields.EachParameterSet, 23, 3, false)
+                                new((int)DataFields.TotalParameterSets, 20, 3, '0', PaddingOrientation.LeftPadded, false),
+                                new((int)DataFields.EachParameterSet, 23, 3, false)
                             }
                 }
             };

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace OpenProtocolInterpreter.IOInterface
 {
@@ -47,8 +48,8 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public Mid0215(Header header) : base(header)
         {
-            Relays = new List<Relay>();
-            DigitalInputs = new List<DigitalInput>();
+            Relays = [];
+            DigitalInputs = [];
         }
 
         public Mid0215(int revision) : this(new Header()
@@ -95,14 +96,14 @@ namespace OpenProtocolInterpreter.IOInterface
                 GetField(1, (int)DataFields.DigitalInputList).Value = PackDigitalInputs();
             }
 
-            string pkg = BuildHeader();
+            var builder = new StringBuilder(BuildHeader());
             int prefixIndex = 1;
             foreach (var field in RevisionsByFields[Header.Revision])
             {
-                pkg += prefixIndex.ToString().PadLeft(2, '0') + field.Value;
+                builder.Append(string.Concat(prefixIndex.ToString("D2"), field.Value));
                 prefixIndex++;
             }
-            return pkg;
+            return builder.ToString();
         }
 
         public override Mid Parse(string package)
@@ -157,19 +158,19 @@ namespace OpenProtocolInterpreter.IOInterface
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.IODeviceId, 20, 2, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.RelayList, 24, 32),
-                                new DataField((int)DataFields.DigitalInputList, 58, 32)
+                                new((int)DataFields.IODeviceId, 20, 2, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.RelayList, 24, 32),
+                                new((int)DataFields.DigitalInputList, 58, 32)
                             }
                 },
                 {
                     2, new List<DataField>()
                             {
-                                new DataField((int)DataFields.IODeviceId, 20, 2, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.NumberOfRelays, 24, 2, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.RelayList, 28, 0),
-                                new DataField((int)DataFields.NumberOfDigitalInputs, 0, 2, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.DigitalInputList, 0, 0)
+                                new((int)DataFields.IODeviceId, 20, 2, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.NumberOfRelays, 24, 2, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.RelayList, 28, 0),
+                                new((int)DataFields.NumberOfDigitalInputs, 0, 2, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.DigitalInputList, 0, 0)
                             }
                 }
             };

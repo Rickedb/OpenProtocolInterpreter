@@ -65,10 +65,10 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.FirstIdentifierStatus, 20, 30),
-                                new DataField((int)DataFields.SecondIdentifierStatus, 52, 30),
-                                new DataField((int)DataFields.ThirdIdentifierStatus, 84, 30),
-                                new DataField((int)DataFields.FourthIdentifierStatus, 116, 30)
+                                new((int)DataFields.FirstIdentifierStatus, 20, 30),
+                                new((int)DataFields.SecondIdentifierStatus, 52, 30),
+                                new((int)DataFields.ThirdIdentifierStatus, 84, 30),
+                                new((int)DataFields.FourthIdentifierStatus, 116, 30)
                             }
                 }
             };

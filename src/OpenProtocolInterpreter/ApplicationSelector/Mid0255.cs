@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 
 namespace OpenProtocolInterpreter.ApplicationSelector
 {
@@ -40,8 +41,7 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
         public Mid0255(Header header) : base(header)
         {
-            if (RedLights == null)
-                RedLights = new List<LightCommand>();
+            RedLights ??= [];
         }
 
         public override string Pack()
@@ -59,11 +59,11 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
         protected virtual string PackRedLights()
         {
-            string pack = string.Empty;
+            var builder = new StringBuilder(RedLights.Count);
             foreach (var e in RedLights)
-                pack += OpenProtocolConvert.ToString((int)e);
+                builder.Append(OpenProtocolConvert.ToString((int)e));
 
-            return pack;
+            return builder.ToString();
         }
 
         protected virtual List<LightCommand> ParseRedLights(string value)
@@ -82,8 +82,8 @@ namespace OpenProtocolInterpreter.ApplicationSelector
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.DeviceId, 20, 2, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.RedLightCommand, 24, 8)
+                                new((int)DataFields.DeviceId, 20, 2, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.RedLightCommand, 24, 8)
                             }
                 }
             };

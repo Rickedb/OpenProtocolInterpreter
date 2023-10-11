@@ -42,7 +42,7 @@ namespace OpenProtocolInterpreter.ParameterSet
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.ParameterSetId, 20, 3, '0', PaddingOrientation.LeftPadded, false)
+                                new((int)DataFields.ParameterSetId, 20, 3, '0', PaddingOrientation.LeftPadded, false)
                             }
                 }
             };

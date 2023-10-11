@@ -45,7 +45,7 @@ namespace OpenProtocolInterpreter.Communication
                 {
                     7, new List<DataField>()
                             {
-                                new DataField((int)DataFields.UseKeepAlive, 20, 1)
+                                new((int)DataFields.UseKeepAlive, 20, 1)
                             }
                 }
             };

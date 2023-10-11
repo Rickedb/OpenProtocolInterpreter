@@ -105,20 +105,20 @@ namespace OpenProtocolInterpreter.Statistic
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.ParameterSetId, 20, 3, '0', PaddingOrientation.LeftPadded),
-                        new DataField((int)DataFields.HistogramType, 25, 2, '0', PaddingOrientation.LeftPadded),
-                        new DataField((int)DataFields.SigmaHistogram, 29, 6, '0', PaddingOrientation.LeftPadded),
-                        new DataField((int)DataFields.MeanValueHistogram, 37, 6, '0', PaddingOrientation.LeftPadded),
-                        new DataField((int)DataFields.ClassRange, 45, 6, '0', PaddingOrientation.LeftPadded),
-                        new DataField((int)DataFields.Bar1, 53, 4, '0', PaddingOrientation.LeftPadded),
-                        new DataField((int)DataFields.Bar2, 59, 4, '0', PaddingOrientation.LeftPadded),
-                        new DataField((int)DataFields.Bar3, 65, 4, '0', PaddingOrientation.LeftPadded),
-                        new DataField((int)DataFields.Bar4, 71, 4, '0', PaddingOrientation.LeftPadded),
-                        new DataField((int)DataFields.Bar5, 77, 4, '0', PaddingOrientation.LeftPadded),
-                        new DataField((int)DataFields.Bar6, 83, 4, '0', PaddingOrientation.LeftPadded),
-                        new DataField((int)DataFields.Bar7, 89, 4, '0', PaddingOrientation.LeftPadded),
-                        new DataField((int)DataFields.Bar8, 95, 4, '0', PaddingOrientation.LeftPadded),
-                        new DataField((int)DataFields.Bar9, 101, 4, '0', PaddingOrientation.LeftPadded)
+                        new((int)DataFields.ParameterSetId, 20, 3, '0', PaddingOrientation.LeftPadded),
+                        new((int)DataFields.HistogramType, 25, 2, '0', PaddingOrientation.LeftPadded),
+                        new((int)DataFields.SigmaHistogram, 29, 6, '0', PaddingOrientation.LeftPadded),
+                        new((int)DataFields.MeanValueHistogram, 37, 6, '0', PaddingOrientation.LeftPadded),
+                        new((int)DataFields.ClassRange, 45, 6, '0', PaddingOrientation.LeftPadded),
+                        new((int)DataFields.Bar1, 53, 4, '0', PaddingOrientation.LeftPadded),
+                        new((int)DataFields.Bar2, 59, 4, '0', PaddingOrientation.LeftPadded),
+                        new((int)DataFields.Bar3, 65, 4, '0', PaddingOrientation.LeftPadded),
+                        new((int)DataFields.Bar4, 71, 4, '0', PaddingOrientation.LeftPadded),
+                        new((int)DataFields.Bar5, 77, 4, '0', PaddingOrientation.LeftPadded),
+                        new((int)DataFields.Bar6, 83, 4, '0', PaddingOrientation.LeftPadded),
+                        new((int)DataFields.Bar7, 89, 4, '0', PaddingOrientation.LeftPadded),
+                        new((int)DataFields.Bar8, 95, 4, '0', PaddingOrientation.LeftPadded),
+                        new((int)DataFields.Bar9, 101, 4, '0', PaddingOrientation.LeftPadded)
                     }
                 }
             };

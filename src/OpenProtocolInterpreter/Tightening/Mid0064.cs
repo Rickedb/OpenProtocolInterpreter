@@ -58,7 +58,7 @@ namespace OpenProtocolInterpreter.Tightening
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.TighteningId, 20, 10, '0', PaddingOrientation.LeftPadded, false)
+                                new((int)DataFields.TighteningId, 20, 10, '0', PaddingOrientation.LeftPadded, false)
                             }
                 },
             };

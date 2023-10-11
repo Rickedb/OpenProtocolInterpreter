@@ -25,7 +25,7 @@ namespace OpenProtocolInterpreter.Tool
 
         public Mid0702(Header header) : base(header)
         {
-            ToolDataUpload = new List<VariableDataField>();
+            ToolDataUpload = [];
         }
 
         public override string Pack()
@@ -52,9 +52,9 @@ namespace OpenProtocolInterpreter.Tool
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.ToolNumber, 20, 4, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.NumberOfToolParameters, 26, 2, '0', PaddingOrientation.LeftPadded, false),
-                                new DataField((int)DataFields.EachToolDataUpload, 28, 0, false)
+                                new((int)DataFields.ToolNumber, 20, 4, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.NumberOfToolParameters, 26, 2, '0', PaddingOrientation.LeftPadded, false),
+                                new((int)DataFields.EachToolDataUpload, 28, 0, false)
                             }
                 }
             };

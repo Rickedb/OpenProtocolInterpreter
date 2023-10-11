@@ -86,16 +86,16 @@ namespace OpenProtocolInterpreter.IOInterface
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.StatusRelay1, 20, 1, false),
-                        new DataField((int)DataFields.StatusRelay2, 21, 1, false),
-                        new DataField((int)DataFields.StatusRelay3, 22, 1, false),
-                        new DataField((int)DataFields.StatusRelay4, 23, 1, false),
-                        new DataField((int)DataFields.StatusRelay5, 24, 1, false),
-                        new DataField((int)DataFields.StatusRelay6, 25, 1, false),
-                        new DataField((int)DataFields.StatusRelay7, 26, 1, false),
-                        new DataField((int)DataFields.StatusRelay8, 27, 1, false),
-                        new DataField((int)DataFields.StatusRelay9, 28, 1, false),
-                        new DataField((int)DataFields.StatusRelay10, 29, 1, false)
+                        new((int)DataFields.StatusRelay1, 20, 1, false),
+                        new((int)DataFields.StatusRelay2, 21, 1, false),
+                        new((int)DataFields.StatusRelay3, 22, 1, false),
+                        new((int)DataFields.StatusRelay4, 23, 1, false),
+                        new((int)DataFields.StatusRelay5, 24, 1, false),
+                        new((int)DataFields.StatusRelay6, 25, 1, false),
+                        new((int)DataFields.StatusRelay7, 26, 1, false),
+                        new((int)DataFields.StatusRelay8, 27, 1, false),
+                        new((int)DataFields.StatusRelay9, 28, 1, false),
+                        new((int)DataFields.StatusRelay10, 29, 1, false)
                     }
                 }
             };

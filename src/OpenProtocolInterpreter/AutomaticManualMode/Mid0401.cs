@@ -45,7 +45,7 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.ManualAutomaticMode, 20, 1, false)
+                                new((int)DataFields.ManualAutomaticMode, 20, 1, false)
                             }
                 }
             };

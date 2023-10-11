@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace OpenProtocolInterpreter.Tightening
 {
@@ -338,7 +339,7 @@ namespace OpenProtocolInterpreter.Tightening
 
         public Mid0061(int revision) : this(new Header()
         {
-            Mid = MID, 
+            Mid = MID,
             Revision = revision
         })
         {
@@ -376,7 +377,7 @@ namespace OpenProtocolInterpreter.Tightening
 
         public override string Pack()
         {
-            string package = string.Empty;
+            var builder = new StringBuilder();
             int prefixIndex = 1;
             if (Header.Revision > 1 && Header.Revision != 999)
             {
@@ -396,25 +397,25 @@ namespace OpenProtocolInterpreter.Tightening
                     stageResultField.SetValue(PackStageResults());
                 }
 
-                package = BuildHeader();
+                builder.Append(BuildHeader());
                 int processUntil = Header.Revision != 998 ? Header.Revision : 6;
                 for (int i = 2; i <= processUntil; i++)
                 {
-                    package += Pack(RevisionsByFields[i], ref prefixIndex);
+                    builder.Append(Pack(RevisionsByFields[i], ref prefixIndex));
                 }
 
                 if (Header.Revision == 998)
                 {
-                    package += Pack(RevisionsByFields[998], ref prefixIndex);
+                    builder.Append(Pack(RevisionsByFields[998], ref prefixIndex));
                 }
             }
             else
             {
-                package = BuildHeader();
-                package += Pack(RevisionsByFields[Header.Revision], ref prefixIndex);
+                builder.Append(BuildHeader());
+                builder.Append(Pack(RevisionsByFields[Header.Revision], ref prefixIndex));
             }
 
-            return package;
+            return builder.ToString();
         }
 
         protected override void ProcessDataFields(string package)
@@ -454,13 +455,13 @@ namespace OpenProtocolInterpreter.Tightening
 
         protected virtual string PackStageResults()
         {
-            string pack = string.Empty;
+            var builder = new StringBuilder();
             foreach (var v in StageResults)
             {
-                pack += v.Pack();
+                builder.Append(v.Pack());
             }
 
-            return pack;
+            return builder.ToString();
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -471,152 +472,152 @@ namespace OpenProtocolInterpreter.Tightening
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.CellId, 20, 4, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.ChannelId, 26, 2, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.TorqueControllerName, 30, 25, ' '),
-                                new DataField((int)DataFields.VinNumber, 57, 25, ' '),
-                                new DataField((int)DataFields.JobId, 84, 2, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.ParameterSetId, 88, 3, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.BatchSize, 93, 4, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.BatchCounter, 99, 4, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.TighteningStatus, 105, 1),
-                                new DataField((int)DataFields.TorqueStatus, 108, 1),
-                                new DataField((int)DataFields.AngleStatus, 111, 1),
-                                new DataField((int)DataFields.TorqueMinLimit, 114, 6, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.TorqueMaxLimit, 122, 6, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.TorqueFinalTarget, 130, 6, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.Torque, 138, 6, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.AngleMinLimit, 146, 5, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.AngleMaxLimit, 153, 5, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.AngleFinalTarget, 160, 5, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.Angle, 167, 5, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.Timestamp, 174, 19),
-                                new DataField((int)DataFields.LastChangeInParameterSet, 195, 19),
-                                new DataField((int)DataFields.BatchStatus, 216, 1),
-                                new DataField((int)DataFields.TighteningId, 219, 10, '0', PaddingOrientation.LeftPadded)
+                                new((int)DataFields.CellId, 20, 4, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.ChannelId, 26, 2, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.TorqueControllerName, 30, 25, ' '),
+                                new((int)DataFields.VinNumber, 57, 25, ' '),
+                                new((int)DataFields.JobId, 84, 2, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.ParameterSetId, 88, 3, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.BatchSize, 93, 4, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.BatchCounter, 99, 4, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.TighteningStatus, 105, 1),
+                                new((int)DataFields.TorqueStatus, 108, 1),
+                                new((int)DataFields.AngleStatus, 111, 1),
+                                new((int)DataFields.TorqueMinLimit, 114, 6, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.TorqueMaxLimit, 122, 6, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.TorqueFinalTarget, 130, 6, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.Torque, 138, 6, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.AngleMinLimit, 146, 5, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.AngleMaxLimit, 153, 5, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.AngleFinalTarget, 160, 5, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.Angle, 167, 5, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.Timestamp, 174, 19),
+                                new((int)DataFields.LastChangeInParameterSet, 195, 19),
+                                new((int)DataFields.BatchStatus, 216, 1),
+                                new((int)DataFields.TighteningId, 219, 10, '0', PaddingOrientation.LeftPadded)
                             }
                 },
                 {
                     2, new List<DataField>()
                             {
-                                new DataField((int)DataFields.CellId, 20, 4, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.ChannelId, 26, 2, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.TorqueControllerName, 30, 25, ' '),
-                                new DataField((int)DataFields.VinNumber, 57, 25, ' '),
-                                new DataField((int)DataFields.JobId, 84, 4, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.ParameterSetId, 90, 3, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.Strategy, 95, 2, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.StrategyOptions, 99, 5, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.BatchSize, 106, 4, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.BatchCounter, 112, 4, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.TighteningStatus, 118, 1),
-                                new DataField((int)DataFields.BatchStatus, 121, 1),
-                                new DataField((int)DataFields.TorqueStatus, 124, 1),
-                                new DataField((int)DataFields.AngleStatus, 127, 1),
-                                new DataField((int)DataFields.RundownAngleStatus, 130, 1),
-                                new DataField((int)DataFields.CurrentMonitoringStatus, 133, 1),
-                                new DataField((int)DataFields.SelftapStatus, 136, 1),
-                                new DataField((int)DataFields.PrevailTorqueMonitoringStatus, 139, 1),
-                                new DataField((int)DataFields.PrevailTorqueCompensateStatus, 142, 1),
-                                new DataField((int)DataFields.TighteningErrorStatus, 145, 10, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.TorqueMinLimit, 157, 6, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.TorqueMaxLimit, 165, 6, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.TorqueFinalTarget, 173, 6, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.Torque, 181, 6, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.AngleMinLimit, 189, 5, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.AngleMaxLimit, 196, 5, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.AngleFinalTarget, 203, 5, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.Angle, 210, 5, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.RundownAngleMin, 217, 5, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.RundownAngleMax, 224, 5, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.RundownAngle, 231, 5, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.CurrentMonitoringMin, 238, 3, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.CurrentMonitoringMax, 243, 3, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.CurrentMonitoringValue, 248, 3, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.SelftapMin, 253, 6, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.SelftapMax, 261, 6, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.SelftapTorque, 269, 6, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.PrevailTorqueMonitoringMin, 277, 6, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.PrevailTorqueMonitoringMax, 285, 6, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.PrevailTorque, 293, 6, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.TighteningId, 301, 10, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.JobSequenceNumber, 313, 5, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.SyncTighteningId, 320, 5, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.ToolSerialNumber, 327, 14, ' '),
-                                new DataField((int)DataFields.Timestamp, 343, 19),
-                                new DataField((int)DataFields.LastChangeInParameterSet, 364, 19)
+                                new((int)DataFields.CellId, 20, 4, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.ChannelId, 26, 2, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.TorqueControllerName, 30, 25, ' '),
+                                new((int)DataFields.VinNumber, 57, 25, ' '),
+                                new((int)DataFields.JobId, 84, 4, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.ParameterSetId, 90, 3, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.Strategy, 95, 2, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.StrategyOptions, 99, 5, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.BatchSize, 106, 4, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.BatchCounter, 112, 4, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.TighteningStatus, 118, 1),
+                                new((int)DataFields.BatchStatus, 121, 1),
+                                new((int)DataFields.TorqueStatus, 124, 1),
+                                new((int)DataFields.AngleStatus, 127, 1),
+                                new((int)DataFields.RundownAngleStatus, 130, 1),
+                                new((int)DataFields.CurrentMonitoringStatus, 133, 1),
+                                new((int)DataFields.SelftapStatus, 136, 1),
+                                new((int)DataFields.PrevailTorqueMonitoringStatus, 139, 1),
+                                new((int)DataFields.PrevailTorqueCompensateStatus, 142, 1),
+                                new((int)DataFields.TighteningErrorStatus, 145, 10, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.TorqueMinLimit, 157, 6, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.TorqueMaxLimit, 165, 6, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.TorqueFinalTarget, 173, 6, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.Torque, 181, 6, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.AngleMinLimit, 189, 5, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.AngleMaxLimit, 196, 5, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.AngleFinalTarget, 203, 5, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.Angle, 210, 5, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.RundownAngleMin, 217, 5, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.RundownAngleMax, 224, 5, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.RundownAngle, 231, 5, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.CurrentMonitoringMin, 238, 3, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.CurrentMonitoringMax, 243, 3, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.CurrentMonitoringValue, 248, 3, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.SelftapMin, 253, 6, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.SelftapMax, 261, 6, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.SelftapTorque, 269, 6, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.PrevailTorqueMonitoringMin, 277, 6, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.PrevailTorqueMonitoringMax, 285, 6, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.PrevailTorque, 293, 6, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.TighteningId, 301, 10, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.JobSequenceNumber, 313, 5, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.SyncTighteningId, 320, 5, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.ToolSerialNumber, 327, 14, ' '),
+                                new((int)DataFields.Timestamp, 343, 19),
+                                new((int)DataFields.LastChangeInParameterSet, 364, 19)
                             }
                 },
                 {
                     3, new List<DataField>()
                             {
-                                new DataField((int)DataFields.ParameterSetName, 385, 25, ' '),
-                                new DataField((int)DataFields.TorqueValuesUnit, 412, 1),
-                                new DataField((int)DataFields.ResultType, 415, 2, '0', PaddingOrientation.LeftPadded)
+                                new((int)DataFields.ParameterSetName, 385, 25, ' '),
+                                new((int)DataFields.TorqueValuesUnit, 412, 1),
+                                new((int)DataFields.ResultType, 415, 2, '0', PaddingOrientation.LeftPadded)
                             }
                 },
                 {
                     4, new List<DataField>()
                             {
-                                new DataField((int)DataFields.IdentifierResultPart2, 419, 25, ' '),
-                                new DataField((int)DataFields.IdentifierResultPart3, 446, 25, ' '),
-                                new DataField((int)DataFields.IdentifierResultPart4, 473, 25, ' ')
+                                new((int)DataFields.IdentifierResultPart2, 419, 25, ' '),
+                                new((int)DataFields.IdentifierResultPart3, 446, 25, ' '),
+                                new((int)DataFields.IdentifierResultPart4, 473, 25, ' ')
                             }
                 },
                 {
                     5, new List<DataField>()
                             {
-                                new DataField((int)DataFields.CustomerTighteningErrorCode, 500, 4, ' '),
+                                new((int)DataFields.CustomerTighteningErrorCode, 500, 4, ' '),
                             }
                 },
                 {
                     6, new List<DataField>()
                             {
-                                new DataField((int)DataFields.PrevailTorqueCompensateValue, 506, 6, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.TighteningErrorStatus2, 514, 10, '0', PaddingOrientation.LeftPadded)
+                                new((int)DataFields.PrevailTorqueCompensateValue, 506, 6, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.TighteningErrorStatus2, 514, 10, '0', PaddingOrientation.LeftPadded)
                             }
                 },
                 {
                     7, new List<DataField>()
                             {
-                                new DataField((int)DataFields.CompensatedAngle, 526, 7, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.FinalAngleDecimal, 535, 7, '0', PaddingOrientation.LeftPadded)
+                                new((int)DataFields.CompensatedAngle, 526, 7, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.FinalAngleDecimal, 535, 7, '0', PaddingOrientation.LeftPadded)
                             }
                 },
                 {
                     8, new List<DataField>()
                             {
-                                new DataField((int)DataFields.StartFinalAngle, 544, 6, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.PostViewTorqueActivated, 552, 1),
-                                new DataField((int)DataFields.PostViewTorqueHigh, 555, 6, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.PostViewTorqueLow, 563, 6, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.StartFinalAngle, 544, 6, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.PostViewTorqueActivated, 552, 1),
+                                new((int)DataFields.PostViewTorqueHigh, 555, 6, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.PostViewTorqueLow, 563, 6, '0', PaddingOrientation.LeftPadded),
                             }
                 },
                 {
                     998, new List<DataField>()
                             {
-                                new DataField((int)DataFields.NumberOfStagesInMultistage, 526, 2, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.NumberOfStageResults, 530, 2, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.StageResult, 534, 11)
+                                new((int)DataFields.NumberOfStagesInMultistage, 526, 2, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.NumberOfStageResults, 530, 2, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.StageResult, 534, 11)
                             }
                 },
                 {
                     999, new List<DataField>()
                             {
-                                new DataField((int)DataFields.VinNumber, 20, 25, ' ', hasPrefix: false),
-                                new DataField((int)DataFields.JobId, 45, 2, '0', PaddingOrientation.LeftPadded, false),
-                                new DataField((int)DataFields.ParameterSetId, 47, 3, '0', PaddingOrientation.LeftPadded, false),
-                                new DataField((int)DataFields.BatchSize, 50, 4, '0', PaddingOrientation.LeftPadded, false),
-                                new DataField((int)DataFields.BatchCounter, 54, 4, '0', PaddingOrientation.LeftPadded, false),
-                                new DataField((int)DataFields.BatchStatus, 58, 1, false),
-                                new DataField((int)DataFields.TighteningStatus, 59, 1, false),
-                                new DataField((int)DataFields.TorqueStatus, 60, 1, false),
-                                new DataField((int)DataFields.AngleStatus, 61, 1, false),
-                                new DataField((int)DataFields.Torque, 62, 6, '0', PaddingOrientation.LeftPadded, false),
-                                new DataField((int)DataFields.Angle, 68, 5, '0', PaddingOrientation.LeftPadded, false),
-                                new DataField((int)DataFields.Timestamp, 73, 19, false),
-                                new DataField((int)DataFields.LastChangeInParameterSet, 92, 19, false),
-                                new DataField((int)DataFields.TighteningId, 111, 10, '0', PaddingOrientation.LeftPadded, false)
+                                new((int)DataFields.VinNumber, 20, 25, ' ', hasPrefix: false),
+                                new((int)DataFields.JobId, 45, 2, '0', PaddingOrientation.LeftPadded, false),
+                                new((int)DataFields.ParameterSetId, 47, 3, '0', PaddingOrientation.LeftPadded, false),
+                                new((int)DataFields.BatchSize, 50, 4, '0', PaddingOrientation.LeftPadded, false),
+                                new((int)DataFields.BatchCounter, 54, 4, '0', PaddingOrientation.LeftPadded, false),
+                                new((int)DataFields.BatchStatus, 58, 1, false),
+                                new((int)DataFields.TighteningStatus, 59, 1, false),
+                                new((int)DataFields.TorqueStatus, 60, 1, false),
+                                new((int)DataFields.AngleStatus, 61, 1, false),
+                                new((int)DataFields.Torque, 62, 6, '0', PaddingOrientation.LeftPadded, false),
+                                new((int)DataFields.Angle, 68, 5, '0', PaddingOrientation.LeftPadded, false),
+                                new((int)DataFields.Timestamp, 73, 19, false),
+                                new((int)DataFields.LastChangeInParameterSet, 92, 19, false),
+                                new((int)DataFields.TighteningId, 111, 10, '0', PaddingOrientation.LeftPadded, false)
                             }
                 }
             };

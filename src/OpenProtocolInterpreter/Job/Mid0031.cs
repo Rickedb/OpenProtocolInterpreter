@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 
 namespace OpenProtocolInterpreter.Job
 {
@@ -32,8 +33,7 @@ namespace OpenProtocolInterpreter.Job
 
         public Mid0031(Header header) : base(header)
         {
-            if (JobIds == null)
-                JobIds = new List<int>();
+            JobIds ??= [];
             HandleRevisions();
         }
 
@@ -71,11 +71,11 @@ namespace OpenProtocolInterpreter.Job
 
         protected virtual string PackJobIdList()
         {
-            string pack = string.Empty;
+            var builder = new StringBuilder();
             foreach (var v in JobIds)
-                pack += OpenProtocolConvert.ToString('0', JobSize, PaddingOrientation.LeftPadded, v);
+                builder.Append(OpenProtocolConvert.ToString('0', JobSize, PaddingOrientation.LeftPadded, v));
 
-            return pack;
+            return builder.ToString();
         }
 
         protected virtual List<int> ParseJobIdList(string section)
@@ -101,8 +101,8 @@ namespace OpenProtocolInterpreter.Job
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.NumberOfJobs, 20, 2, '0', PaddingOrientation.LeftPadded, false),
-                                new DataField((int)DataFields.EachJobId, 22, 2, '0', PaddingOrientation.LeftPadded, false)
+                                new((int)DataFields.NumberOfJobs, 20, 2, '0', PaddingOrientation.LeftPadded, false),
+                                new((int)DataFields.EachJobId, 22, 2, '0', PaddingOrientation.LeftPadded, false)
                             }
                 },
             };

@@ -38,7 +38,7 @@ namespace OpenProtocolInterpreter.Time
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.Time, 20, 19, false)
+                                new((int)DataFields.Time, 20, 19, false)
                             }
                 }
             };

@@ -49,7 +49,7 @@ namespace OpenProtocolInterpreter.IOInterface
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.DeviceNumber, 20, 2, '0', PaddingOrientation.LeftPadded, false)
+                        new((int)DataFields.DeviceNumber, 20, 2, '0', PaddingOrientation.LeftPadded, false)
                     }
                 }
             };

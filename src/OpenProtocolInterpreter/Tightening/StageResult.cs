@@ -12,10 +12,8 @@ namespace OpenProtocolInterpreter.Tightening
 
         public string Pack()
         {
-            var pack = string.Empty;
-            pack += OpenProtocolConvert.TruncatedDecimalToString('0', 6, PaddingOrientation.LeftPadded, Torque);
-            pack += OpenProtocolConvert.ToString('0', 5, PaddingOrientation.LeftPadded, Angle);
-            return pack;
+            return OpenProtocolConvert.TruncatedDecimalToString('0', 6, PaddingOrientation.LeftPadded, Torque) +
+                    OpenProtocolConvert.ToString('0', 5, PaddingOrientation.LeftPadded, Angle);
         }
 
         public static StageResult Parse(string value)

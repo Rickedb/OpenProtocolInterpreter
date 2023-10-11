@@ -38,7 +38,7 @@ namespace OpenProtocolInterpreter.Tool
 
         public Mid0703(Header header) : base(header)
         {
-            CalibrationParameters = new List<VariableDataField>();
+            CalibrationParameters = [];
         }
 
         public override string Pack()
@@ -65,9 +65,9 @@ namespace OpenProtocolInterpreter.Tool
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.ToolNumber, 20, 4, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.NumberOfCalibrationParameters, 26, 2, '0', PaddingOrientation.LeftPadded, false),
-                                new DataField((int)DataFields.EachCalibrationParameter, 28, 0, false)
+                                new((int)DataFields.ToolNumber, 20, 4, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.NumberOfCalibrationParameters, 26, 2, '0', PaddingOrientation.LeftPadded, false),
+                                new((int)DataFields.EachCalibrationParameter, 28, 0, false)
                             }
                 }
             };
