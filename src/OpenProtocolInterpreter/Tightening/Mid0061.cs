@@ -315,6 +315,22 @@ namespace OpenProtocolInterpreter.Tightening
             get => GetField(8, (int)DataFields.PostViewTorqueLow).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
             set => GetField(8, (int)DataFields.PostViewTorqueLow).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
         }
+        //Rev 9 addition
+        public decimal CurrentMonitoringAmpere
+        {
+            get => GetField(9, (int)DataFields.CurrentMonitoringAmp).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(9, (int)DataFields.CurrentMonitoringAmp).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
+        }
+        public decimal CurrentMonitoringAmpereMin
+        {
+            get => GetField(9, (int)DataFields.CurrentMonitoringAmpMin).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(9, (int)DataFields.CurrentMonitoringAmpMin).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
+        }
+        public decimal CurrentMonitoringAmpereMax
+        {
+            get => GetField(9, (int)DataFields.CurrentMonitoringAmpMax).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(9, (int)DataFields.CurrentMonitoringAmpMax).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
+        }
         //Rev 998 addition
         public int NumberOfStagesInMultistage
         {
@@ -398,8 +414,8 @@ namespace OpenProtocolInterpreter.Tightening
                 }
 
                 builder.Append(BuildHeader());
-                int processUntil = Header.Revision != 998 ? Header.Revision : 6;
-                for (int i = 2; i <= processUntil; i++)
+                int processUntilRevision = Header.Revision != 998 ? Header.Revision : 6;
+                for (int i = 2; i <= processUntilRevision; i++)
                 {
                     builder.Append(Pack(RevisionsByFields[i], ref prefixIndex));
                 }
@@ -594,6 +610,14 @@ namespace OpenProtocolInterpreter.Tightening
                             }
                 },
                 {
+                    9, new List<DataField>()
+                            {
+                                new((int)DataFields.CurrentMonitoringAmp, 571, 5, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.CurrentMonitoringAmpMin, 578, 5, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.CurrentMonitoringAmpMax, 585, 5, '0', PaddingOrientation.LeftPadded),
+                            }
+                },
+                {
                     998, new List<DataField>()
                             {
                                 new((int)DataFields.NumberOfStagesInMultistage, 526, 2, '0', PaddingOrientation.LeftPadded),
@@ -708,6 +732,10 @@ namespace OpenProtocolInterpreter.Tightening
             PostViewTorqueActivated,
             PostViewTorqueHigh,
             PostViewTorqueLow,
+            //Rev 9
+            CurrentMonitoringAmp,
+            CurrentMonitoringAmpMin,
+            CurrentMonitoringAmpMax,
             //Rev 998 (Go over 7)
             NumberOfStagesInMultistage,
             NumberOfStageResults,
