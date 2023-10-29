@@ -331,7 +331,58 @@ namespace OpenProtocolInterpreter.Tightening
             get => GetField(9, (int)DataFields.CurrentMonitoringAmpMax).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
             set => GetField(9, (int)DataFields.CurrentMonitoringAmpMax).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
         }
-        //Rev 998 addition
+        //Rev 10 addition
+        public int AngleNumeratorScaleFactor
+        {
+            get => GetField(10, (int)DataFields.AngleNumeratorScaleFactor).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(10, (int)DataFields.AngleNumeratorScaleFactor).SetValue(OpenProtocolConvert.ToString, value);
+        }
+        public int AngleDenominatorScaleFactor
+        {
+            get => GetField(10, (int)DataFields.AngleDenominatorScaleFactor).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(10, (int)DataFields.AngleDenominatorScaleFactor).SetValue(OpenProtocolConvert.ToString, value);
+        }
+        public TighteningValueStatus OverallAngleStatus
+        {
+            get => (TighteningValueStatus)GetField(10, (int)DataFields.OverallAngleStatus).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(10, (int)DataFields.OverallAngleStatus).SetValue(OpenProtocolConvert.ToString, (int)value);
+        }
+        public int OverallAngleMin
+        {
+            get => GetField(10, (int)DataFields.OverallAngleMin).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(10, (int)DataFields.OverallAngleMin).SetValue(OpenProtocolConvert.ToString, value);
+        }
+        public int OverallAngleMax
+        {
+            get => GetField(10, (int)DataFields.OverallAngleMax).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(10, (int)DataFields.OverallAngleMax).SetValue(OpenProtocolConvert.ToString, value);
+        }
+        public int OverallAngle
+        {
+            get => GetField(10, (int)DataFields.OverallAngle).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(10, (int)DataFields.OverallAngle).SetValue(OpenProtocolConvert.ToString, value);
+        }
+        public decimal PeakTorque
+        {
+            get => GetField(10, (int)DataFields.PeakTorque).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(10, (int)DataFields.PeakTorque).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
+        }
+        public decimal ResidualBreakawayTorque
+        {
+            get => GetField(10, (int)DataFields.ResidualBreakawayTorque).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(10, (int)DataFields.ResidualBreakawayTorque).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
+        }
+        public decimal StartRundownAngle
+        {
+            get => GetField(10, (int)DataFields.StartRundownAngle).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(10, (int)DataFields.StartRundownAngle).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
+        }
+        public decimal RundownAngleComplete
+        {
+            get => GetField(10, (int)DataFields.RundownAngleComplete).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(10, (int)DataFields.RundownAngleComplete).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
+        }
+        //Rev 998 addition 
         public int NumberOfStagesInMultistage
         {
             get => GetField(998, (int)DataFields.NumberOfStagesInMultistage).GetValue(OpenProtocolConvert.ToInt32);
@@ -442,17 +493,17 @@ namespace OpenProtocolInterpreter.Tightening
             }
             else
             {
-                int processUntil = Header.Revision;
+                int processUntilRevision = Header.Revision;
                 if (Header.Revision == 998)
                 {
-                    processUntil = 6;
+                    processUntilRevision = 6;
                     var stageResultField = GetField(998, (int)DataFields.StageResult);
                     stageResultField.Size = Header.Length - stageResultField.Index - 2;
                     ProcessDataFields(RevisionsByFields[998], package);
                     StageResults = StageResult.ParseAll(stageResultField.Value).ToList();
                 }
 
-                for (int i = 2; i <= processUntil; i++)
+                for (int i = 2; i <= processUntilRevision; i++)
                     ProcessDataFields(RevisionsByFields[i], package);
 
                 var strategyOptionsField = GetField(2, (int)DataFields.StrategyOptions);
@@ -583,7 +634,7 @@ namespace OpenProtocolInterpreter.Tightening
                 {
                     5, new List<DataField>()
                             {
-                                new((int)DataFields.CustomerTighteningErrorCode, 500, 4, ' '),
+                                new((int)DataFields.CustomerTighteningErrorCode, 500, 4, ' ')
                             }
                 },
                 {
@@ -606,7 +657,7 @@ namespace OpenProtocolInterpreter.Tightening
                                 new((int)DataFields.StartFinalAngle, 544, 6, '0', PaddingOrientation.LeftPadded),
                                 new((int)DataFields.PostViewTorqueActivated, 552, 1),
                                 new((int)DataFields.PostViewTorqueHigh, 555, 6, '0', PaddingOrientation.LeftPadded),
-                                new((int)DataFields.PostViewTorqueLow, 563, 6, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.PostViewTorqueLow, 563, 6, '0', PaddingOrientation.LeftPadded)
                             }
                 },
                 {
@@ -614,7 +665,22 @@ namespace OpenProtocolInterpreter.Tightening
                             {
                                 new((int)DataFields.CurrentMonitoringAmp, 571, 5, '0', PaddingOrientation.LeftPadded),
                                 new((int)DataFields.CurrentMonitoringAmpMin, 578, 5, '0', PaddingOrientation.LeftPadded),
-                                new((int)DataFields.CurrentMonitoringAmpMax, 585, 5, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.CurrentMonitoringAmpMax, 585, 5, '0', PaddingOrientation.LeftPadded)
+                            }
+                },
+                {
+                    10, new List<DataField>()
+                            {
+                                new((int)DataFields.AngleNumeratorScaleFactor, 592, 5, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.AngleDenominatorScaleFactor, 599, 5, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.OverallAngleStatus, 606, 1),
+                                new((int)DataFields.OverallAngleMin, 609, 5, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.OverallAngleMax, 616, 5, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.OverallAngle, 623, 5, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.PeakTorque, 630, 6, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.ResidualBreakawayTorque, 638, 6, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.StartRundownAngle, 646, 6, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.RundownAngleComplete, 654, 6, '0', PaddingOrientation.LeftPadded)
                             }
                 },
                 {
@@ -736,6 +802,17 @@ namespace OpenProtocolInterpreter.Tightening
             CurrentMonitoringAmp,
             CurrentMonitoringAmpMin,
             CurrentMonitoringAmpMax,
+            //Rev 10
+            AngleNumeratorScaleFactor,
+            AngleDenominatorScaleFactor,
+            OverallAngleStatus,
+            OverallAngleMin,
+            OverallAngleMax,
+            OverallAngle,
+            PeakTorque,
+            ResidualBreakawayTorque,
+            StartRundownAngle,
+            RundownAngleComplete,
             //Rev 998 (Go over 7)
             NumberOfStagesInMultistage,
             NumberOfStageResults,

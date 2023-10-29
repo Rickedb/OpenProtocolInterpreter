@@ -1413,6 +1413,225 @@ namespace MIDTesters.Tightening
         }
 
         [TestMethod]
+        [TestCategory("Revision 10"), TestCategory("ASCII")]
+        public void Mid0061Revision10()
+        {
+            var pack = "06620061010         010000020003RA ST6.2 ETV100          04                         05000006001070208000670900001000001101221301401501611711811912000000081942100340022004600230040002400050525000202600420270000028000002900100300085031000043200033150340003500000036999900370000003800000039000000400000004100001848874200000430000044      C0761275452020-06-25:01:04:39462020-06-24:10:48:5347Test Parameter Set       482490550Identifier result part 2 51Identifier result part 3 52Identifier result part 4 53E124540015005500000000425600100005709999005800100059260652143610052326200100630005064001506500001660000167168-00206900100700012071003291720010057300011074009000";
+            var mid = _midInterpreter.Parse<Mid0061>(pack);
+
+            Assert.AreEqual(typeof(Mid0061), mid.GetType());
+            Assert.IsNotNull(mid.CellId);
+            Assert.IsNotNull(mid.ChannelId);
+            Assert.IsNotNull(mid.TorqueControllerName);
+            Assert.IsNotNull(mid.VinNumber);
+            Assert.IsNotNull(mid.JobId);
+            Assert.IsNotNull(mid.ParameterSetId);
+            Assert.IsNotNull(mid.Strategy);
+            Assert.IsNotNull(mid.StrategyOptions);
+            Assert.IsNotNull(mid.BatchSize);
+            Assert.IsNotNull(mid.BatchCounter);
+            Assert.IsNotNull(mid.TighteningStatus);
+            Assert.IsNotNull(mid.BatchStatus);
+            Assert.IsNotNull(mid.TorqueStatus);
+            Assert.IsNotNull(mid.AngleStatus);
+            Assert.IsNotNull(mid.RundownAngleStatus);
+            Assert.IsNotNull(mid.CurrentMonitoringStatus);
+            Assert.IsNotNull(mid.SelftapStatus);
+            Assert.IsNotNull(mid.PrevailTorqueCompensateStatus);
+            Assert.IsNotNull(mid.TighteningErrorStatus);
+            Assert.IsNotNull(mid.TorqueMinLimit);
+            Assert.IsNotNull(mid.TorqueMaxLimit);
+            Assert.IsNotNull(mid.TorqueFinalTarget);
+            Assert.IsNotNull(mid.Torque);
+            Assert.IsNotNull(mid.AngleMinLimit);
+            Assert.IsNotNull(mid.AngleMaxLimit);
+            Assert.IsNotNull(mid.AngleFinalTarget);
+            Assert.IsNotNull(mid.Angle);
+            Assert.IsNotNull(mid.RundownAngle);
+            Assert.IsNotNull(mid.CurrentMonitoringMin);
+            Assert.IsNotNull(mid.CurrentMonitoringMax);
+            Assert.IsNotNull(mid.CurrentMonitoringValue);
+            Assert.IsNotNull(mid.SelftapMin);
+            Assert.IsNotNull(mid.SelftapMax);
+            Assert.IsNotNull(mid.SelftapTorque);
+            Assert.IsNotNull(mid.PrevailTorqueMonitoringMin);
+            Assert.IsNotNull(mid.PrevailTorqueMonitoringMax);
+            Assert.IsNotNull(mid.PrevailTorque);
+            Assert.IsNotNull(mid.TighteningId);
+            Assert.IsNotNull(mid.JobSequenceNumber);
+            Assert.IsNotNull(mid.SyncTighteningId);
+            Assert.IsNotNull(mid.ToolSerialNumber);
+            Assert.IsNotNull(mid.Timestamp);
+            Assert.IsNotNull(mid.LastChangeInParameterSet);
+            Assert.IsNotNull(mid.ParameterSetName);
+            Assert.IsNotNull(mid.TorqueValuesUnit);
+            Assert.IsNotNull(mid.ResultType);
+            Assert.IsNotNull(mid.IdentifierResultPart2);
+            Assert.IsNotNull(mid.IdentifierResultPart3);
+            Assert.IsNotNull(mid.IdentifierResultPart4);
+            Assert.IsNotNull(mid.CustomerTighteningErrorCode);
+            Assert.IsNotNull(mid.PrevailTorqueCompensateValue);
+            Assert.IsNotNull(mid.TighteningErrorStatus2);
+            Assert.IsNotNull(mid.CompensatedAngle);
+            Assert.IsNotNull(mid.FinalAngleDecimal);
+            Assert.AreNotEqual(0, mid.StartFinalAngle);
+            Assert.IsNotNull(mid.PostViewTorqueActivated);
+            Assert.AreNotEqual(0, mid.PostViewTorqueHigh);
+            Assert.AreNotEqual(0, mid.PostViewTorqueLow);
+            Assert.AreNotEqual(0, mid.CurrentMonitoringAmpere);
+            Assert.AreNotEqual(0, mid.CurrentMonitoringAmpereMin);
+            Assert.AreNotEqual(0, mid.CurrentMonitoringAmpereMax);
+            Assert.AreNotEqual(0, mid.AngleNumeratorScaleFactor);
+            Assert.AreNotEqual(0, mid.AngleDenominatorScaleFactor);
+            Assert.IsNotNull(mid.OverallAngleStatus);
+            Assert.AreNotEqual(0, mid.OverallAngleMin);
+            Assert.AreNotEqual(0, mid.OverallAngleMax);
+            Assert.AreNotEqual(0, mid.OverallAngle);
+            Assert.AreNotEqual(0, mid.PeakTorque);
+            Assert.AreNotEqual(0, mid.ResidualBreakawayTorque);
+            Assert.AreNotEqual(0, mid.StartRundownAngle);
+            Assert.AreNotEqual(0, mid.RundownAngleComplete);
+            Assert.AreNotEqual(0, mid.OverallAngle);
+
+            AssertEqualPackages(pack, mid);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 10"), TestCategory("ByteArray")]
+        public void Mid0061ByteRevision10()
+        {
+            List<byte> bytes = new List<byte>();
+
+            var strategyOptions = new byte[] //5 bytes long
+            {
+                0xAA, //1010 1010
+                0x03, //0000 0011
+                0x00,
+                0x00,
+                0x00
+            };
+            var tighteningErrorStatus = new byte[] //10 bytes long
+            {
+                0xAA, //1010 1010
+                0x03, //0000 0011
+                0x0A, //0000 1010 
+                0xD1, //1101 0001
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00
+            };
+
+            var tighteningErrorStatus2 = new byte[] //10 bytes long
+            {
+                0xAA, //1010 1010
+                0x03, //0000 0011 
+                0x02, //0000 0010
+                0x00, //Reserved from bit 19 to rest
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+                0x00
+            };
+
+            string untilStrategyOptions = "06620061010         010001020103airbag7                  04KPOL3456JKLO897          05000606003071208";
+            bytes.AddRange(GetAsciiBytes(untilStrategyOptions));
+            bytes.AddRange(GetAsciiBytes(strategyOptions, 5));
+
+            string untilTighteningErrorStatus = "09000010000011012013114015216117018219120";
+            bytes.AddRange(GetAsciiBytes(untilTighteningErrorStatus));
+            bytes.AddRange(GetAsciiBytes(tighteningErrorStatus, 10));
+
+            string untilTighteningErrorStatus2 = "2100084022001400230012002400073925000002609999270000028000002900000300999931050003200033050340453500001036000125370005483800001039999900405555004142949672954265500436053544ABCDEFG-123456452001-06-02:09:54:09462001-05-29:12:34:3347Test Parameter Set       482490550Identifier result part 2 51Identifier result part 3 52Identifier result part 4 53E1245400150055";
+            bytes.AddRange(GetAsciiBytes(untilTighteningErrorStatus2));
+            bytes.AddRange(GetAsciiBytes(tighteningErrorStatus2, 10));
+
+            string untilEnd = "5600100005709999005800100059260652143610052326200100630005064001506500001660000167168-00206900100700012071003291720010057300011074009000";
+            bytes.AddRange(GetAsciiBytes(untilEnd));
+
+            var mid = _midInterpreter.Parse<Mid0061>(bytes.ToArray());
+
+            Assert.AreEqual(typeof(Mid0061), mid.GetType());
+            Assert.IsNotNull(mid.CellId);
+            Assert.IsNotNull(mid.ChannelId);
+            Assert.IsNotNull(mid.TorqueControllerName);
+            Assert.IsNotNull(mid.VinNumber);
+            Assert.IsNotNull(mid.JobId);
+            Assert.IsNotNull(mid.ParameterSetId);
+            Assert.IsNotNull(mid.Strategy);
+            Assert.IsNotNull(mid.StrategyOptions);
+            Assert.IsNotNull(mid.BatchSize);
+            Assert.IsNotNull(mid.BatchCounter);
+            Assert.IsNotNull(mid.TighteningStatus);
+            Assert.IsNotNull(mid.BatchStatus);
+            Assert.IsNotNull(mid.TorqueStatus);
+            Assert.IsNotNull(mid.AngleStatus);
+            Assert.IsNotNull(mid.RundownAngleStatus);
+            Assert.IsNotNull(mid.CurrentMonitoringStatus);
+            Assert.IsNotNull(mid.SelftapStatus);
+            Assert.IsNotNull(mid.PrevailTorqueCompensateStatus);
+            Assert.IsNotNull(mid.TighteningErrorStatus);
+            Assert.IsNotNull(mid.TorqueMinLimit);
+            Assert.IsNotNull(mid.TorqueMaxLimit);
+            Assert.IsNotNull(mid.TorqueFinalTarget);
+            Assert.IsNotNull(mid.Torque);
+            Assert.IsNotNull(mid.AngleMinLimit);
+            Assert.IsNotNull(mid.AngleMaxLimit);
+            Assert.IsNotNull(mid.AngleFinalTarget);
+            Assert.IsNotNull(mid.Angle);
+            Assert.IsNotNull(mid.RundownAngle);
+            Assert.IsNotNull(mid.CurrentMonitoringMin);
+            Assert.IsNotNull(mid.CurrentMonitoringMax);
+            Assert.IsNotNull(mid.CurrentMonitoringValue);
+            Assert.IsNotNull(mid.SelftapMin);
+            Assert.IsNotNull(mid.SelftapMax);
+            Assert.IsNotNull(mid.SelftapTorque);
+            Assert.IsNotNull(mid.PrevailTorqueMonitoringMin);
+            Assert.IsNotNull(mid.PrevailTorqueMonitoringMax);
+            Assert.IsNotNull(mid.PrevailTorque);
+            Assert.IsNotNull(mid.TighteningId);
+            Assert.IsNotNull(mid.JobSequenceNumber);
+            Assert.IsNotNull(mid.SyncTighteningId);
+            Assert.IsNotNull(mid.ToolSerialNumber);
+            Assert.IsNotNull(mid.Timestamp);
+            Assert.IsNotNull(mid.LastChangeInParameterSet);
+            Assert.IsNotNull(mid.ParameterSetName);
+            Assert.IsNotNull(mid.TorqueValuesUnit);
+            Assert.IsNotNull(mid.ResultType);
+            Assert.IsNotNull(mid.IdentifierResultPart2);
+            Assert.IsNotNull(mid.IdentifierResultPart3);
+            Assert.IsNotNull(mid.IdentifierResultPart4);
+            Assert.IsNotNull(mid.CustomerTighteningErrorCode);
+            Assert.IsNotNull(mid.PrevailTorqueCompensateValue);
+            Assert.IsNotNull(mid.TighteningErrorStatus2);
+            Assert.IsNotNull(mid.CompensatedAngle);
+            Assert.IsNotNull(mid.FinalAngleDecimal);
+            Assert.AreNotEqual(0, mid.StartFinalAngle);
+            Assert.IsNotNull(mid.PostViewTorqueActivated);
+            Assert.AreNotEqual(0, mid.PostViewTorqueHigh);
+            Assert.AreNotEqual(0, mid.PostViewTorqueLow);
+            Assert.AreNotEqual(0, mid.CurrentMonitoringAmpere);
+            Assert.AreNotEqual(0, mid.CurrentMonitoringAmpereMin);
+            Assert.AreNotEqual(0, mid.CurrentMonitoringAmpereMax);
+            Assert.AreNotEqual(0, mid.AngleNumeratorScaleFactor);
+            Assert.AreNotEqual(0, mid.AngleDenominatorScaleFactor);
+            Assert.IsNotNull(mid.OverallAngleStatus);
+            Assert.AreNotEqual(0, mid.OverallAngleMin);
+            Assert.AreNotEqual(0, mid.OverallAngleMax);
+            Assert.AreNotEqual(0, mid.OverallAngle);
+            Assert.AreNotEqual(0, mid.PeakTorque);
+            Assert.AreNotEqual(0, mid.ResidualBreakawayTorque);
+            Assert.AreNotEqual(0, mid.StartRundownAngle);
+            Assert.AreNotEqual(0, mid.RundownAngleComplete);
+            Assert.AreNotEqual(0, mid.OverallAngle);
+            AssertEqualPackages(bytes, mid);
+        }
+
+        [TestMethod]
         [TestCategory("Revision 998"), TestCategory("ASCII")]
         public void Mid0061Revision998()
         {
