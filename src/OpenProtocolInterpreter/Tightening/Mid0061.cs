@@ -382,6 +382,17 @@ namespace OpenProtocolInterpreter.Tightening
             get => GetField(10, (int)DataFields.RundownAngleComplete).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
             set => GetField(10, (int)DataFields.RundownAngleComplete).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
         }
+        //Rev 11
+        public decimal ClickTorque
+        {
+            get => GetField(11, (int)DataFields.ClickTorque).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(11, (int)DataFields.ClickTorque).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
+        }
+        public int ClickAngle
+        {
+            get => GetField(11, (int)DataFields.ClickAngle).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(11, (int)DataFields.ClickAngle).SetValue(OpenProtocolConvert.ToString, value);
+        }
         //Rev 998 addition 
         public int NumberOfStagesInMultistage
         {
@@ -684,6 +695,13 @@ namespace OpenProtocolInterpreter.Tightening
                             }
                 },
                 {
+                    11, new List<DataField>()
+                            {
+                                new((int)DataFields.ClickTorque, 662, 6, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.ClickAngle, 670, 5, '0', PaddingOrientation.LeftPadded),
+                            }
+                },
+                {
                     998, new List<DataField>()
                             {
                                 new((int)DataFields.NumberOfStagesInMultistage, 526, 2, '0', PaddingOrientation.LeftPadded),
@@ -813,7 +831,10 @@ namespace OpenProtocolInterpreter.Tightening
             ResidualBreakawayTorque,
             StartRundownAngle,
             RundownAngleComplete,
-            //Rev 998 (Go over 7)
+            //Rev 11
+            ClickTorque,
+            ClickAngle,
+            //Rev 998 (Go over rev 7)
             NumberOfStagesInMultistage,
             NumberOfStageResults,
             StageResult
