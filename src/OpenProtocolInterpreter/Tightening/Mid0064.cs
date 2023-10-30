@@ -32,6 +32,11 @@ namespace OpenProtocolInterpreter.Tightening
             get => GetField(1,(int)DataFields.TighteningId).GetValue(OpenProtocolConvert.ToInt64);
             set => GetField(1,(int)DataFields.TighteningId).SetValue(OpenProtocolConvert.ToString, value);
         }
+        public bool OfflineResult
+        {
+            get => GetField(10, (int)DataFields.OfflineResult).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(10, (int)DataFields.OfflineResult).SetValue(OpenProtocolConvert.ToString, value);
+        }
 
         public Mid0064() : this(DEFAULT_REVISION)
         {
@@ -61,12 +66,19 @@ namespace OpenProtocolInterpreter.Tightening
                                 new((int)DataFields.TighteningId, 20, 10, '0', PaddingOrientation.LeftPadded, false)
                             }
                 },
+                {
+                    10, new List<DataField>()
+                            {
+                                new((int)DataFields.OfflineResult, 30, 1, false)
+                            }
+                }
             };
         }
 
         protected enum DataFields
         {
-            TighteningId
+            TighteningId,
+            OfflineResult
         }
     }
 }
