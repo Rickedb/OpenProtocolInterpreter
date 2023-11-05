@@ -219,6 +219,22 @@ namespace OpenProtocolInterpreter.Tightening
             get => GetField(8, (int)DataFields.PostViewTorqueLow).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
             set => GetField(8, (int)DataFields.PostViewTorqueLow).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
         }
+        //Rev 9
+        public decimal CurrentMonitoringAmpere
+        {
+            get => GetField(9, (int)DataFields.CurrentMonitoringAmp).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(9, (int)DataFields.CurrentMonitoringAmp).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
+        }
+        public decimal CurrentMonitoringAmpereMin
+        {
+            get => GetField(9, (int)DataFields.CurrentMonitoringAmpMin).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(9, (int)DataFields.CurrentMonitoringAmpMin).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
+        }
+        public decimal CurrentMonitoringAmpereMax
+        {
+            get => GetField(9, (int)DataFields.CurrentMonitoringAmpMax).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(9, (int)DataFields.CurrentMonitoringAmpMax).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
+        }
 
         public Mid0065() : this(DEFAULT_REVISION)
         {
@@ -232,7 +248,7 @@ namespace OpenProtocolInterpreter.Tightening
 
         public Mid0065(int revision) : this(new Header()
         {
-            Mid = MID, 
+            Mid = MID,
             Revision = revision
         })
         {
@@ -410,6 +426,14 @@ namespace OpenProtocolInterpreter.Tightening
                                 new((int)DataFields.PostViewTorqueHigh, 390, 6, '0', PaddingOrientation.LeftPadded),
                                 new((int)DataFields.PostViewTorqueLow, 398, 6, '0', PaddingOrientation.LeftPadded),
                             }
+                },
+                {
+                    9, new List<DataField>()
+                            {
+                                new((int)DataFields.CurrentMonitoringAmp, 406, 5, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.CurrentMonitoringAmpMin, 413, 5, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.CurrentMonitoringAmpMax, 420, 5, '0', PaddingOrientation.LeftPadded)
+                            }
                 }
             };
         }
@@ -466,7 +490,11 @@ namespace OpenProtocolInterpreter.Tightening
             StartFinalAngle,
             PostViewTorqueActivated,
             PostViewTorqueHigh,
-            PostViewTorqueLow
-    }
+            PostViewTorqueLow,
+            //Rev 9
+            CurrentMonitoringAmp,
+            CurrentMonitoringAmpMin,
+            CurrentMonitoringAmpMax,
+        }
     }
 }
