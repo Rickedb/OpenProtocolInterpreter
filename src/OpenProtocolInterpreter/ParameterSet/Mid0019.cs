@@ -19,18 +19,18 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public int ParameterSetId
         {
-            get => GetField(1,(int)DataFields.ParameterSetId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1,(int)DataFields.ParameterSetId).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, (int)DataFields.ParameterSetId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.ParameterSetId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int BatchSize
         {
-            get => GetField(1,(int)DataFields.BatchSize).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1,(int)DataFields.BatchSize).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, (int)DataFields.BatchSize).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, (int)DataFields.BatchSize).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0019() : this(new Header()
         {
-            Mid = MID, 
+            Mid = MID,
             Revision = DEFAULT_REVISION
         })
         {
@@ -38,6 +38,33 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public Mid0019(Header header) : base(header)
         {
+        }
+
+        public override string Pack()
+        {
+            HandleRevision();
+            return base.Pack();
+        }
+
+        public override Mid Parse(string package)
+        {
+            Header = ProcessHeader(package);
+            HandleRevision();
+            ProcessDataFields(package);
+            return this;
+        }
+
+        private void HandleRevision()
+        {
+            var batchSizeField = GetField(1, (int)DataFields.BatchSize);
+            if (Header.Revision > 1)
+            {
+                batchSizeField.Size = 4;
+            }
+            else
+            {
+                batchSizeField.Size = 2;
+            }
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()

@@ -31,5 +31,30 @@ namespace MIDTesters.ParameterSet
             Assert.IsNotNull(mid.BatchSize);
             AssertEqualPackages(bytes, mid, true);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ASCII")]
+        public void Mid0019Revision2()
+        {
+            string package = "00270019002         7770050";
+            var mid = _midInterpreter.Parse<Mid0019>(package);
+
+            Assert.IsNotNull(mid.ParameterSetId);
+            Assert.IsNotNull(mid.BatchSize);
+            AssertEqualPackages(package, mid);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ByteArray")]
+        public void Mid0019ByteRevision2()
+        {
+            string package = "00270019002         7770050";
+            byte[] bytes = GetAsciiBytes(package);
+            var mid = _midInterpreter.Parse<Mid0019>(bytes);
+
+            Assert.IsNotNull(mid.ParameterSetId);
+            Assert.IsNotNull(mid.BatchSize);
+            AssertEqualPackages(bytes, mid);
+        }
     }
 }
