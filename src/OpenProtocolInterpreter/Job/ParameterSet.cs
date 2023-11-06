@@ -27,16 +27,12 @@ namespace OpenProtocolInterpreter.Job
                 OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, ChannelId),
                 OpenProtocolConvert.ToString('0', 3, PaddingOrientation.LeftPadded, TypeId),
                 OpenProtocolConvert.ToString(AutoValue),
-                OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, BatchSize)
+                OpenProtocolConvert.ToString('0', revision > 4 ? 4 : 2, PaddingOrientation.LeftPadded, BatchSize)
             };
 
             if (revision > 2)
             {
-                if (revision > 3)
-                    values.Add(OpenProtocolConvert.ToString('0', 4, PaddingOrientation.LeftPadded, IdentifierNumber));
-                else
-                    values.Add(OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, Socket));
-
+                values.Add(OpenProtocolConvert.ToString('0', revision > 3 ? 4 : 2, PaddingOrientation.LeftPadded, IdentifierNumber));
                 values.Add(JobStepName.PadRight(25));
                 values.Add(OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, JobStepType));
 

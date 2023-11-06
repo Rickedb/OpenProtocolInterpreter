@@ -83,7 +83,6 @@ namespace OpenProtocolInterpreter.Job
         public Mid0033(Header header) : base(header)
         {
             ParameterSetList ??= [];
-            HandleRevisions();
         }
 
         public Mid0033(int revision) : this(new Header()
@@ -175,12 +174,14 @@ namespace OpenProtocolInterpreter.Job
 
         private int GetEachParameterSetSize()
         {
-            switch (Header.Revision)
+            return Header.Revision switch
             {
-                case 3: return 44;
-                case 4: return 49;
-                default: return 12;
+                3 => 44,
+                4 => 49,
+                5 => 51,
+                _ => 12,
             };
+            ;
         }
 
         protected enum DataFields
@@ -197,8 +198,7 @@ namespace OpenProtocolInterpreter.Job
             ToolLoosening,
             Reserved,
             NumberOfParameterSets,
-            ParameterSetList,
-            //rev 3
+            ParameterSetList
         }
     }
 }
