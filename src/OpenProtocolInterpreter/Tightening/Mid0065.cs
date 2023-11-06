@@ -235,6 +235,57 @@ namespace OpenProtocolInterpreter.Tightening
             get => GetField(9, (int)DataFields.CurrentMonitoringAmpMax).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
             set => GetField(9, (int)DataFields.CurrentMonitoringAmpMax).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
         }
+        //Rev 10 addition
+        public int AngleNumeratorScaleFactor
+        {
+            get => GetField(10, (int)DataFields.AngleNumeratorScaleFactor).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(10, (int)DataFields.AngleNumeratorScaleFactor).SetValue(OpenProtocolConvert.ToString, value);
+        }
+        public int AngleDenominatorScaleFactor
+        {
+            get => GetField(10, (int)DataFields.AngleDenominatorScaleFactor).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(10, (int)DataFields.AngleDenominatorScaleFactor).SetValue(OpenProtocolConvert.ToString, value);
+        }
+        public TighteningValueStatus OverallAngleStatus
+        {
+            get => (TighteningValueStatus)GetField(10, (int)DataFields.OverallAngleStatus).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(10, (int)DataFields.OverallAngleStatus).SetValue(OpenProtocolConvert.ToString, (int)value);
+        }
+        public int OverallAngleMin
+        {
+            get => GetField(10, (int)DataFields.OverallAngleMin).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(10, (int)DataFields.OverallAngleMin).SetValue(OpenProtocolConvert.ToString, value);
+        }
+        public int OverallAngleMax
+        {
+            get => GetField(10, (int)DataFields.OverallAngleMax).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(10, (int)DataFields.OverallAngleMax).SetValue(OpenProtocolConvert.ToString, value);
+        }
+        public int OverallAngle
+        {
+            get => GetField(10, (int)DataFields.OverallAngle).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(10, (int)DataFields.OverallAngle).SetValue(OpenProtocolConvert.ToString, value);
+        }
+        public decimal PeakTorque
+        {
+            get => GetField(10, (int)DataFields.PeakTorque).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(10, (int)DataFields.PeakTorque).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
+        }
+        public decimal ResidualBreakawayTorque
+        {
+            get => GetField(10, (int)DataFields.ResidualBreakawayTorque).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(10, (int)DataFields.ResidualBreakawayTorque).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
+        }
+        public decimal StartRundownAngle
+        {
+            get => GetField(10, (int)DataFields.StartRundownAngle).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(10, (int)DataFields.StartRundownAngle).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
+        }
+        public decimal RundownAngleComplete
+        {
+            get => GetField(10, (int)DataFields.RundownAngleComplete).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(10, (int)DataFields.RundownAngleComplete).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
+        }
 
         public Mid0065() : this(DEFAULT_REVISION)
         {
@@ -434,7 +485,22 @@ namespace OpenProtocolInterpreter.Tightening
                                 new((int)DataFields.CurrentMonitoringAmpMin, 413, 5, '0', PaddingOrientation.LeftPadded),
                                 new((int)DataFields.CurrentMonitoringAmpMax, 420, 5, '0', PaddingOrientation.LeftPadded)
                             }
-                }
+                },
+                {
+                    10, new List<DataField>()
+                            {
+                                new((int)DataFields.AngleNumeratorScaleFactor, 427, 5, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.AngleDenominatorScaleFactor, 434, 5, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.OverallAngleStatus, 441, 1),
+                                new((int)DataFields.OverallAngleMin, 444, 5, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.OverallAngleMax, 451, 5, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.OverallAngle, 458, 5, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.PeakTorque, 465, 6, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.ResidualBreakawayTorque, 473, 6, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.StartRundownAngle, 481, 6, '0', PaddingOrientation.LeftPadded),
+                                new((int)DataFields.RundownAngleComplete, 489, 6, '0', PaddingOrientation.LeftPadded)
+                            }
+                },
             };
         }
 
@@ -495,6 +561,17 @@ namespace OpenProtocolInterpreter.Tightening
             CurrentMonitoringAmp,
             CurrentMonitoringAmpMin,
             CurrentMonitoringAmpMax,
+            //Rev 10
+            AngleNumeratorScaleFactor,
+            AngleDenominatorScaleFactor,
+            OverallAngleStatus,
+            OverallAngleMin,
+            OverallAngleMax,
+            OverallAngle,
+            PeakTorque,
+            ResidualBreakawayTorque,
+            StartRundownAngle,
+            RundownAngleComplete,
         }
     }
 }
