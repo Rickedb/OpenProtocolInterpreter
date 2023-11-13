@@ -32,7 +32,15 @@ namespace OpenProtocolInterpreter.Job
 
             if (revision > 2)
             {
-                values.Add(OpenProtocolConvert.ToString('0', revision > 3 ? 4 : 2, PaddingOrientation.LeftPadded, IdentifierNumber));
+                if (revision == 3)
+                {
+                    values.Add(OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, Socket));
+                }
+                else
+                {
+                    values.Add(OpenProtocolConvert.ToString('0', 4, PaddingOrientation.LeftPadded, IdentifierNumber));
+                }
+
                 values.Add(JobStepName.PadRight(25));
                 values.Add(OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, JobStepType));
 

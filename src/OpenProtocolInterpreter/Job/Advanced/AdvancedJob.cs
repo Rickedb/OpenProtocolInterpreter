@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenProtocolInterpreter.Job.Advanced
 {
@@ -26,24 +27,25 @@ namespace OpenProtocolInterpreter.Job.Advanced
 
         public string Pack(int revision)
         {
+            var batchSizeFieldSize = revision > 3 && revision != 999 ? 4 : 2;
             var fields = new List<string>
                 {
                     OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, ChannelId),
-                    OpenProtocolConvert.ToString('0', 3, PaddingOrientation.LeftPadded, revision),
-                    OpenProtocolConvert.ToString((int)revision),
-                    OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, revision),
-                    OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, revision)
+                    OpenProtocolConvert.ToString('0', 3, PaddingOrientation.LeftPadded, ProgramId),
+                    OpenProtocolConvert.ToString((int)AutoSelect),
+                    OpenProtocolConvert.ToString('0', batchSizeFieldSize, PaddingOrientation.LeftPadded, BatchSize),
+                    OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, MaxCoherentNok)
                 };
 
             if (revision > 1)
             {
-                fields.Add(OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, revision));
+                fields.Add(OpenProtocolConvert.ToString('0', batchSizeFieldSize, PaddingOrientation.LeftPadded, BatchCounter));
                 if (revision != 999)
                 {
-                    fields.Add(OpenProtocolConvert.ToString('0', 4, PaddingOrientation.LeftPadded, revision));
+                    fields.Add(OpenProtocolConvert.ToString('0', 4, PaddingOrientation.LeftPadded, IdentifierNumber));
                     fields.Add(OpenProtocolConvert.TruncatePadded(' ', 25, PaddingOrientation.RightPadded, JobStepName));
-                    fields.Add(OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, revision));
-                    if (revision == 3)
+                    fields.Add(OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, JobStepType));
+                    if (revision > 2)
                     {
                         fields.Add(OpenProtocolConvert.ToString((int)ToolLoosening));
                         fields.Add(OpenProtocolConvert.ToString((int)JobBatchMode));
@@ -77,7 +79,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
                     obj.IdentifierNumber = OpenProtocolConvert.ToInt32(fields[6]);
                     obj.JobStepName = fields[7];
                     obj.JobStepType = OpenProtocolConvert.ToInt32(fields[8]);
-                    if (revision == 3)
+                    if (revision > 2)
                     {
                         obj.ToolLoosening = (ToolLoosening)OpenProtocolConvert.ToInt32(fields[9]);
                         obj.JobBatchMode = (BatchMode)OpenProtocolConvert.ToInt32(fields[10]);
@@ -98,11 +100,24 @@ namespace OpenProtocolInterpreter.Job.Advanced
                 yield break;
             }
 
-            var splitted = section.Split(';');
-            foreach (var advancedJob in splitted)
+            var jobs = section.Split(';').ToList();
+            jobs.RemoveAll(string.IsNullOrWhiteSpace); //remove last one which will probably be empty
+            foreach (var advancedJob in jobs)
             {
                 yield return Parse(advancedJob, revision);
             }
+        }
+
+        internal static int GetDefaultSize(int revision)
+        {
+            return revision switch
+            {
+                2 => 52,
+                3 => 63,
+                4 => 67,
+                999 => 18,
+                _ => 15,
+            };
         }
     }
 }

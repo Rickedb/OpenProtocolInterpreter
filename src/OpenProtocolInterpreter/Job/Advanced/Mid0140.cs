@@ -136,15 +136,23 @@ namespace OpenProtocolInterpreter.Job.Advanced
         {
 
         }
+        protected override string BuildHeader()
+        {
+            var revision = GetNormalizedRevision();
+            Header.Length = 20 + RevisionsByFields[revision].Sum(x=> x.Size + (x.HasPrefix ? 2 : 0));
+            return Header.ToString();
+        }
 
         public override string Pack()
         {
             var revision = GetNormalizedRevision();
+            ResetDataFields(revision);
             var jobListField = GetField(revision, (int)DataFields.JobList);
-            jobListField.Size = JobList.Count * GetJobListSize();
-            AdjustDataFieldsIndexes();
-            jobListField.Value = PackJobList();
-            return base.Pack();
+            jobListField.Size = JobList.Count * AdvancedJob.GetDefaultSize(revision);
+            AdjustDataFieldsIndexes(jobListField.Index + jobListField.Size + 2, revision);
+            jobListField.Value = PackJobList(revision);
+            int prefixIndex = 1;
+            return string.Concat(BuildHeader(), base.Pack(RevisionsByFields[revision], ref prefixIndex));
         }
 
         public override Mid Parse(string package)
@@ -152,71 +160,56 @@ namespace OpenProtocolInterpreter.Job.Advanced
             Header = ProcessHeader(package);
             int length = Header.Length;
             var revision = GetNormalizedRevision();
-            foreach (var rev in RevisionsByFields[revision])
-                length -= rev.Size;
-
+            ResetDataFields(revision);
+            var numberOfParameterSetsField = RevisionsByFields[revision].First(x => x.Field == (int)DataFields.NumberOfParameterSets);
+            var numberOfParameterSets = int.Parse(package.Substring(numberOfParameterSetsField.Index + 2, numberOfParameterSetsField.Size));
             var jobListField = GetField(revision, (int)DataFields.JobList);
-            jobListField.Size = length;
-            AdjustDataFieldsIndexes();
-            base.ProcessDataFields(package);
-            JobList = AdvancedJob.ParseAll(jobListField.Value, Header.Revision).ToList();
+            jobListField.Size = numberOfParameterSets * AdvancedJob.GetDefaultSize(revision);
+            AdjustDataFieldsIndexes(jobListField.Index + jobListField.Size + 2, revision);
+            base.ProcessDataFields(RevisionsByFields[revision], package);
+            JobList = AdvancedJob.ParseAll(jobListField.Value, revision).ToList();
             return this;
         }
 
-        protected virtual string PackJobList()
+        protected virtual string PackJobList(int revision)
         {
             var advancedJobsList = new List<string>();
 
             foreach (var job in JobList)
             {
-                advancedJobsList.Add(job.Pack(Header.Revision));
+                advancedJobsList.Add(job.Pack(revision));
             }
 
-            return string.Join(";", advancedJobsList);
+            return string.Join(";", advancedJobsList) + ";";
         }
 
-        private void AdjustDataFieldsIndexes()
+        private void AdjustDataFieldsIndexes(int currentIndex, int revision)
         {
-            var revision = GetNormalizedRevision();
-            var jobListField = GetField(revision, (int)DataFields.JobList);
-            jobListField.Size = NumberOfParameterSets * GetJobListSize();
-            int index = jobListField.Index + jobListField.Size + 2;
-            int startAt = revision != 2 ? (int)DataFields.ForcedOrder : (int)DataFields.JobSequenceNumber;
             foreach (var field in RevisionsByFields[revision])
             {
-                if (field.Field >= startAt)
+                if (field.Field > (int)DataFields.JobList)
                 {
-                    field.Index = index;
-                    index += 2 + field.Size;
+                    field.Index = currentIndex;
+                    currentIndex += 2 + field.Size;
                 }
             }
 
         }
 
-        private int GetNormalizedRevision()
-        {
-            if (Header.Revision == 999)
-            {
-                return 1;
-            }
+        private int GetNormalizedRevision() => Header.Revision > 0 ? Header.Revision : 1;
 
-            return Header.Revision;
-        }
-
-        private int GetJobListSize()
+        private void ResetDataFields(int revision)
         {
-            var revision = GetNormalizedRevision();
-            return revision switch
-            {
-                2 => 52,
-                3 => 63,
-                999 => 18,
-                _ => 15,
-            };
+            //TODO: think of a better approach in case user repeats packing or parsing
+            var fields = RevisionsByFields[revision].Where(x => x.Field > (int)DataFields.JobList);
+            foreach (var field in fields)
+                field.Index = 0;
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
+            //All the workarounds are made due to inconsistent "additions" from protocol, since there are many fields moved
+            //to JobList/Parameter list, the DataFields start to shuffle every revision
             return new Dictionary<int, List<DataField>>()
                 {
                     {
@@ -234,7 +227,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
                                         new((int)DataFields.BatchStatusAtIncrement, 0, 1),
                                         new((int)DataFields.DecrementBatchAtOkLoosening, 0, 1),
                                         new((int)DataFields.MaxTimeForFirstTightening, 0, 4, '0', PaddingOrientation.LeftPadded),
-                                        new((int)DataFields.MaxTimeToCompleteJob, 0, 4, '0', PaddingOrientation.LeftPadded),
+                                        new((int)DataFields.MaxTimeToCompleteJob, 0, 5, '0', PaddingOrientation.LeftPadded),
                                         new((int)DataFields.DisplayResultAtAutoSelect, 0, 4, '0', PaddingOrientation.LeftPadded),
                                         new((int)DataFields.UseLineControl, 0, 1),
                                         new((int)DataFields.IdentifierResultPart, 0, 1),
@@ -250,6 +243,21 @@ namespace OpenProtocolInterpreter.Job.Advanced
                                         new((int)DataFields.JobName, 26, 25, ' '),
                                         new((int)DataFields.NumberOfParameterSets, 53, 2, '0', PaddingOrientation.LeftPadded),
                                         new((int)DataFields.JobList, 57, 0),
+                                        new((int)DataFields.ForcedOrder, 0, 1),
+                                        new((int)DataFields.LockAtJobDone, 0, 1),
+                                        new((int)DataFields.ToolLoosening, 0, 1),
+                                        new((int)DataFields.RepeatJob, 0, 1),
+                                        new((int)DataFields.JobBatchDone, 0, 1),
+                                        new((int)DataFields.BatchStatusAtIncrement, 0, 1),
+                                        new((int)DataFields.DecrementBatchAtOkLoosening, 0, 1),
+                                        new((int)DataFields.MaxTimeForFirstTightening, 0, 4, '0', PaddingOrientation.LeftPadded),
+                                        new((int)DataFields.MaxTimeToCompleteJob, 0, 5, '0', PaddingOrientation.LeftPadded),
+                                        new((int)DataFields.DisplayResultAtAutoSelect, 0, 4, '0', PaddingOrientation.LeftPadded),
+                                        new((int)DataFields.UseLineControl, 0, 1),
+                                        new((int)DataFields.IdentifierResultPart, 0, 1),
+                                        new((int)DataFields.ResultOfNonTightenings, 0, 1),
+                                        new((int)DataFields.ResetAllIdentifiersAtJobDone, 0, 1),
+                                        new((int)DataFields.Reserved, 0, 1),
                                         new((int)DataFields.JobSequenceNumber, 0, 5),
                                 }
                     },
@@ -262,8 +270,30 @@ namespace OpenProtocolInterpreter.Job.Advanced
                                         new((int)DataFields.JobList, 57, 0),
                                         new((int)DataFields.ForcedOrder, 0, 1),
                                         new((int)DataFields.LockAtJobDone, 0, 1),
+                                        new((int)DataFields.RepeatJob, 0, 1),
                                         new((int)DataFields.MaxTimeForFirstTightening, 0, 4, '0', PaddingOrientation.LeftPadded),
-                                        new((int)DataFields.MaxTimeToCompleteJob, 0, 4, '0', PaddingOrientation.LeftPadded),
+                                        new((int)DataFields.MaxTimeToCompleteJob, 0, 5, '0', PaddingOrientation.LeftPadded),
+                                        new((int)DataFields.DisplayResultAtAutoSelect, 0, 4, '0', PaddingOrientation.LeftPadded),
+                                        new((int)DataFields.UseLineControl, 0, 1),
+                                        new((int)DataFields.IdentifierResultPart, 0, 1),
+                                        new((int)DataFields.ResultOfNonTightenings, 0, 1),
+                                        new((int)DataFields.ResetAllIdentifiersAtJobDone, 0, 1),
+                                        new((int)DataFields.Reserved, 0, 1),
+                                        new((int)DataFields.JobSequenceNumber, 0, 5)
+                                }
+                    },
+                    {
+                        4, new List<DataField>()
+                                {
+                                        new((int)DataFields.JobId, 20, 4, '0', PaddingOrientation.LeftPadded),
+                                        new((int)DataFields.JobName, 26, 25, ' '),
+                                        new((int)DataFields.NumberOfParameterSets, 53, 2, '0', PaddingOrientation.LeftPadded),
+                                        new((int)DataFields.JobList, 57, 0),
+                                        new((int)DataFields.ForcedOrder, 0, 1),
+                                        new((int)DataFields.LockAtJobDone, 0, 1),
+                                        new((int)DataFields.RepeatJob, 0, 1),
+                                        new((int)DataFields.MaxTimeForFirstTightening, 0, 4, '0', PaddingOrientation.LeftPadded),
+                                        new((int)DataFields.MaxTimeToCompleteJob, 0, 5, '0', PaddingOrientation.LeftPadded),
                                         new((int)DataFields.DisplayResultAtAutoSelect, 0, 4, '0', PaddingOrientation.LeftPadded),
                                         new((int)DataFields.UseLineControl, 0, 1),
                                         new((int)DataFields.IdentifierResultPart, 0, 1),
