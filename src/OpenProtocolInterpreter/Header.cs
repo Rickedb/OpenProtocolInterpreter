@@ -27,6 +27,15 @@ namespace OpenProtocolInterpreter
         public int Revision { get; set; }
 
         /// <summary>
+        /// The MID Revision is unique per MID and is used in case different versions are available for the same MID. 
+        /// Using the revision number the integrator can subscribe or ask for different versions of the same MID.
+        /// <para>
+        ///     Note: Enforces the default MID Revision to 1 when it's either send three spaces or 000 or 001.
+        /// </para>
+        /// </summary>
+        public int StandardizedRevision => Revision > 0 ? Revision : 1;
+
+        /// <summary>
         /// Define if subscriber will acknowledge each "push" message sent by controller (reliable mode) or just push without waiting for a receive acknowledgement from subscriber (unreliable mode)
         /// <para>Notes:</para>
         /// <list type="number">
@@ -70,6 +79,9 @@ namespace OpenProtocolInterpreter
         {
             Length = 20; //default length
         }
+
+        public void EnforceRevisionStandardization()
+            => Revision = StandardizedRevision;
 
         public override string ToString()
         {

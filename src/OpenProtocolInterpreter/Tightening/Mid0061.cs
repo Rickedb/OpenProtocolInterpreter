@@ -477,20 +477,20 @@ namespace OpenProtocolInterpreter.Tightening
 
                 builder.Append(BuildHeader());
                 int processUntilRevision = Header.Revision != 998 ? Header.Revision : 6;
-                for (int i = 2; i <= processUntilRevision; i++)
+                for (int revision = 2; revision <= processUntilRevision; revision++)
                 {
-                    builder.Append(Pack(RevisionsByFields[i], ref prefixIndex));
+                    builder.Append(Pack(revision, ref prefixIndex));
                 }
 
                 if (Header.Revision == 998)
                 {
-                    builder.Append(Pack(RevisionsByFields[998], ref prefixIndex));
+                    builder.Append(Pack(998, ref prefixIndex));
                 }
             }
             else
             {
                 builder.Append(BuildHeader());
-                builder.Append(Pack(RevisionsByFields[Header.Revision], ref prefixIndex));
+                builder.Append(Pack(Header.Revision, ref prefixIndex));
             }
 
             return builder.ToString();
@@ -500,7 +500,7 @@ namespace OpenProtocolInterpreter.Tightening
         {
             if (Header.Revision == 1 || Header.Revision == 999)
             {
-                ProcessDataFields(RevisionsByFields[Header.Revision], package);
+                ProcessDataFields(Header.Revision, package);
             }
             else
             {
@@ -510,12 +510,12 @@ namespace OpenProtocolInterpreter.Tightening
                     processUntilRevision = 6;
                     var stageResultField = GetField(998, (int)DataFields.StageResult);
                     stageResultField.Size = Header.Length - stageResultField.Index - 2;
-                    ProcessDataFields(RevisionsByFields[998], package);
+                    ProcessDataFields(998, package);
                     StageResults = StageResult.ParseAll(stageResultField.Value).ToList();
                 }
 
-                for (int i = 2; i <= processUntilRevision; i++)
-                    ProcessDataFields(RevisionsByFields[i], package);
+                for (int revision = 2; revision <= processUntilRevision; revision++)
+                    ProcessDataFields(revision, package);
 
                 var strategyOptionsField = GetField(2, (int)DataFields.StrategyOptions);
                 StrategyOptions = StrategyOptions.Parse(strategyOptionsField.Value);

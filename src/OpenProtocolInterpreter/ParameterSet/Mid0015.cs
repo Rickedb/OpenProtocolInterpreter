@@ -118,14 +118,14 @@ namespace OpenProtocolInterpreter.ParameterSet
         public override string Pack()
         {
             int index = 1;
-            return BuildHeader() + base.Pack(RevisionsByFields[Header.Revision], ref index);
+            return BuildHeader() + base.Pack(Header.Revision, ref index);
         }
 
         public override Mid Parse(string package)
         {
             Header = ProcessHeader(package);
             Header.Revision = Header.Revision > 0 ? Header.Revision : 1;
-            ProcessDataFields(RevisionsByFields[Header.Revision], package);
+            ProcessDataFields(Header.Revision, package);
             return this;
         }
 

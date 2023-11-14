@@ -152,7 +152,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
             AdjustDataFieldsIndexes(jobListField.Index + jobListField.Size + 2, revision);
             jobListField.Value = PackJobList(revision);
             int prefixIndex = 1;
-            return string.Concat(BuildHeader(), base.Pack(RevisionsByFields[revision], ref prefixIndex));
+            return string.Concat(BuildHeader(), base.Pack(revision, ref prefixIndex));
         }
 
         public override Mid Parse(string package)
@@ -166,7 +166,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
             var jobListField = GetField(revision, (int)DataFields.JobList);
             jobListField.Size = numberOfParameterSets * AdvancedJob.GetDefaultSize(revision);
             AdjustDataFieldsIndexes(jobListField.Index + jobListField.Size + 2, revision);
-            base.ProcessDataFields(RevisionsByFields[revision], package);
+            base.ProcessDataFields(revision, package);
             JobList = AdvancedJob.ParseAll(jobListField.Value, revision).ToList();
             return this;
         }

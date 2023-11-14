@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace OpenProtocolInterpreter
@@ -58,18 +59,26 @@ namespace OpenProtocolInterpreter
 
             var builder = new StringBuilder(header);
             int prefixIndex = 1;
-            for (int i = 1; i <= (Header.Revision > 0 ? Header.Revision : 1); i++)
+            var revision = (Header.Revision > 0 ? Header.Revision : 1);
+            for (int i = 1; i <= revision; i++)
             {
-                if (RevisionsByFields.TryGetValue(i, out var dataFields))
-                {
-                    builder.Append(Pack(dataFields, ref prefixIndex));
-                }
+                builder.Append(Pack(i, ref prefixIndex));
             }
 
             return builder.ToString();
         }
 
         public virtual byte[] PackBytes() => Encoding.ASCII.GetBytes(Pack());
+
+        protected virtual string Pack(int revision, ref int prefixIndex)
+        {
+            if (!RevisionsByFields.TryGetValue(revision, out var dataFields))
+            {
+                return string.Empty;
+            }
+
+            return Pack(dataFields, ref prefixIndex);
+        }
 
         protected virtual string Pack(List<DataField> dataFields, ref int prefixIndex)
         {
@@ -140,10 +149,15 @@ namespace OpenProtocolInterpreter
             int revision = Header.Revision > 0 ? Header.Revision : 1;
             for (int i = 1; i <= revision; i++)
             {
-                if (RevisionsByFields.TryGetValue(i, out var field))
-                {
-                    ProcessDataFields(field, package);
-                }
+                ProcessDataFields(i, package);
+            }
+        }
+
+        protected virtual void ProcessDataFields(int revision, string package)
+        {
+            if (RevisionsByFields.TryGetValue(revision, out var fields))
+            {
+                ProcessDataFields(fields, package);
             }
         }
 
@@ -186,7 +200,15 @@ namespace OpenProtocolInterpreter
             }
         }
 
-        protected DataField GetField(int revision, int field) => RevisionsByFields[revision].FirstOrDefault(x => x.Field == field);
+        protected DataField GetField(int revision, int field)
+        {
+            if (!RevisionsByFields.TryGetValue(revision, out var fields))
+            {
+                return DataField.Default;
+            }
+
+            return fields.FirstOrDefault(x => x.Field == field) ?? DataField.Default;
+        }
 
         protected string ToAscii(byte[] bytes) => Encoding.ASCII.GetString(bytes);
 

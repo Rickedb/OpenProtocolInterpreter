@@ -352,14 +352,14 @@ namespace OpenProtocolInterpreter.Tightening
                 }
 
                 int processUntil = Header.Revision;
-                for (int i = 2; i <= processUntil; i++)
+                for (int revision = 2; revision <= processUntil; revision++)
                 {
-                    builder.Append(Pack(RevisionsByFields[i], ref prefixIndex));
+                    builder.Append(Pack(revision, ref prefixIndex));
                 }
             }
             else
             {
-                builder.Append(Pack(RevisionsByFields[Header.Revision], ref prefixIndex));
+                builder.Append(Pack(Header.Revision, ref prefixIndex));
             }
 
             return builder.ToString();
@@ -369,13 +369,13 @@ namespace OpenProtocolInterpreter.Tightening
         {
             if (Header.Revision == 1)
             {
-                ProcessDataFields(RevisionsByFields[Header.Revision], package);
+                ProcessDataFields(Header.Revision, package);
             }
             else
             {
                 int processUntil = Header.Revision;
-                for (int i = 2; i <= processUntil; i++)
-                    ProcessDataFields(RevisionsByFields[i], package);
+                for (int revision = 2; revision <= processUntil; revision++)
+                    ProcessDataFields(revision, package);
 
                 var strategyOptionsField = GetField(2, (int)DataFields.StrategyOptions);
                 StrategyOptions = StrategyOptions.Parse(strategyOptionsField.Value);

@@ -13,6 +13,8 @@ namespace OpenProtocolInterpreter
         private readonly PaddingOrientation _paddingOrientation;
         private object CachedValue;
 
+        internal static DataField Default = new(-1, -1, -1);
+
         public bool HasPrefix { get; set; }
         public int Field { get; set; }
         public int Index { get; set; }
