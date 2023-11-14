@@ -34,5 +34,7 @@ namespace OpenProtocolInterpreter.Result
                 yield return Parse(section);
             }
         }
+
+        internal static int Size(int revision) => revision > 2 ? 10 : 5;
     }
 }

@@ -27,5 +27,26 @@ namespace MIDTesters.Core.Result
 
             AssertEqualPackages(bytes, mid, true);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ASCII")]
+        public void Mid1201Revision2()
+        {
+            string package = "00731201002         00200100000001532022-11-14:09:35:10000000800100100000";
+            var mid = _midInterpreter.Parse<Mid1201>(package);
+
+            AssertEqualPackages(package, mid);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ByteArray")]
+        public void Mid1201ByteRevision2()
+        {
+            string package = "00731201002         00200100000001532022-11-14:09:35:10000000800100100000";
+            byte[] bytes = GetAsciiBytes(package);
+            var mid = _midInterpreter.Parse<Mid1201>(bytes);
+
+            AssertEqualPackages(bytes, mid);
+        }
     }
 }
