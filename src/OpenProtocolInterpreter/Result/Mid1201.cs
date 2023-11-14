@@ -127,7 +127,7 @@ namespace OpenProtocolInterpreter.Result
             dataFieldListField.Size = Header.Length - dataFieldListField.Index;
 
             ProcessDataFields(revision, package);
-            ObjectDataList = ObjectData.ParseAll(objectDataField.Value).ToList();
+            ObjectDataList = ObjectData.ParseAll(revision, objectDataField.Value).ToList();
             VariableDataFields = VariableDataField.ParseAll(dataFieldListField.Value).ToList();
             return this;
         }
@@ -137,7 +137,7 @@ namespace OpenProtocolInterpreter.Result
             var builder = new StringBuilder();
             foreach (var v in ObjectDataList)
             {
-                builder.Append(v.Pack());
+                builder.Append(v.Pack(Header.StandardizedRevision));
             }
 
             return builder.ToString();
@@ -165,6 +165,22 @@ namespace OpenProtocolInterpreter.Result
                 },
                 {
                     2, new List<DataField>()
+                    {
+                        new((int)DataFields.TotalMessages, 20, 3, '0', PaddingOrientation.LeftPadded, false),
+                        new((int)DataFields.MessageNumber, 23, 3, '0', PaddingOrientation.LeftPadded, false),
+                        new((int)DataFields.ResultDataIdentifier, 26, 10, '0', PaddingOrientation.LeftPadded, false),
+                        new((int)DataFields.Time, 36, 19, '0', PaddingOrientation.LeftPadded, false),
+                        new((int)DataFields.ResultStatus, 55, 1, false),
+                        new((int)DataFields.OperationType, 56, 2, '0', PaddingOrientation.LeftPadded, false),
+                        new((int)DataFields.RequestMid, 58, 4, '0', PaddingOrientation.LeftPadded, false),
+                        new((int)DataFields.NumberOfObjects, 62, 3, '0', PaddingOrientation.LeftPadded, false),
+                        new((int)DataFields.ObjectData, 65, 0, false),
+                        new((int)DataFields.NumberOfDataFields, 0, 3, '0', PaddingOrientation.LeftPadded, false),
+                        new((int)DataFields.DataFieldList, 0, 0, false)
+                    }
+                },
+                {
+                    3, new List<DataField>()
                     {
                         new((int)DataFields.TotalMessages, 20, 3, '0', PaddingOrientation.LeftPadded, false),
                         new((int)DataFields.MessageNumber, 23, 3, '0', PaddingOrientation.LeftPadded, false),
