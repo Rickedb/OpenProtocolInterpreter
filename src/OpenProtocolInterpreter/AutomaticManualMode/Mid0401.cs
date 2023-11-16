@@ -21,8 +21,8 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
         /// </summary>
         public bool ManualAutomaticMode
         {
-            get => GetField(1, (int)DataFields.ManualAutomaticMode).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1, (int)DataFields.ManualAutomaticMode).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.ManualAutomaticMode).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, DataFields.ManualAutomaticMode).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0401() : this(new Header()
@@ -45,7 +45,7 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
                 {
                     1, new List<DataField>()
                             {
-                                new((int)DataFields.ManualAutomaticMode, 20, 1, false)
+                                DataField.Boolean(DataFields.ManualAutomaticMode, 20, false)
                             }
                 }
             };

@@ -57,7 +57,7 @@ namespace OpenProtocolInterpreter
         public static decimal ToDecimal(string value)
         {
             decimal decimalValue = 0;
-            if (value != null)
+            if (!string.IsNullOrWhiteSpace(value))
                 decimal.TryParse(value.Replace(',', '.'), NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign, _formatProvider, out decimalValue);
 
             return decimalValue;
@@ -77,25 +77,25 @@ namespace OpenProtocolInterpreter
 
         public static decimal ToTruncatedDecimal(string value)
         {
-            int intValue = 0;
-            if (value != null)
-                int.TryParse(value.ToString(), out intValue);
-
+            int intValue = ToInt32(value);
             return intValue / 100m;
         }
 
         public static string ToString(int value)
             => value.ToString();
 
+        public static string ToString<TEnum>(TEnum value) where TEnum : struct, Enum
+           => ToString(value.GetHashCode());
+
         public static string ToString(char paddingChar, int size, PaddingOrientation orientation, int value)
+            => TruncatePadded(paddingChar, size, orientation, ToString(value));
+
+        public static string ToString<TEnum>(char paddingChar, int size, PaddingOrientation orientation, TEnum value) where TEnum : struct, Enum
             => TruncatePadded(paddingChar, size, orientation, ToString(value));
 
         public static int ToInt32(string value)
         {
-            int convertedValue = 0;
-            if (value != null)
-                int.TryParse(value.ToString(), out convertedValue);
-
+            int.TryParse(value, out int convertedValue);
             return convertedValue;
         }
 
@@ -107,10 +107,7 @@ namespace OpenProtocolInterpreter
 
         public static long ToInt64(string value)
         {
-            long convertedValue = 0;
-            if (value != null)
-                long.TryParse(value.ToString(), out convertedValue);
-
+            long.TryParse(value.ToString(), out long convertedValue);
             return convertedValue;
         }
 

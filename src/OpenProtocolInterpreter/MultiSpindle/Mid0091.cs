@@ -19,23 +19,23 @@ namespace OpenProtocolInterpreter.MultiSpindle
 
         public int NumberOfSpindles
         {
-            get => GetField(1, (int)DataFields.NumberOfSpindles).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, (int)DataFields.NumberOfSpindles).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.NumberOfSpindles).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.NumberOfSpindles).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int SyncTighteningId
         {
-            get => GetField(1, (int)DataFields.SyncTighteningId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, (int)DataFields.SyncTighteningId).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.SyncTighteningId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.SyncTighteningId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public DateTime Time
         {
-            get => GetField(1, (int)DataFields.Time).GetValue(OpenProtocolConvert.ToDateTime);
-            set => GetField(1, (int)DataFields.Time).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.Time).GetValue(OpenProtocolConvert.ToDateTime);
+            set => GetField(1, DataFields.Time).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool SyncOverallStatus
         {
-            get => GetField(1, (int)DataFields.SyncOverallStatus).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1, (int)DataFields.SyncOverallStatus).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.SyncOverallStatus).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, DataFields.SyncOverallStatus).SetValue(OpenProtocolConvert.ToString, value);
         }
         public List<SpindleStatus> SpindlesStatus { get; set; }
 
@@ -55,20 +55,21 @@ namespace OpenProtocolInterpreter.MultiSpindle
 
         public override string Pack()
         {
-            GetField(1, (int)DataFields.SpindleStatus).Value = PackSpindlesStatus();
+            GetField(1, DataFields.SpindleStatus).Value = PackSpindlesStatus();
             return base.Pack();
         }
 
         public override Mid Parse(string package)
         {
             Header = ProcessHeader(package);
-            var spindleField = GetField(1, (int)DataFields.SpindleStatus);
+            var spindleField = GetField(1, DataFields.SpindleStatus);
             spindleField.Size = Header.Length - spindleField.Index - 2;
             base.Parse(package);
             SpindlesStatus = ParseSpindlesStatus(spindleField.Value);
             return this;
         }
 
+        //TODO: move to SpindleStatus class
         protected virtual string PackSpindlesStatus()
         {
             var builder = new StringBuilder();
@@ -105,11 +106,11 @@ namespace OpenProtocolInterpreter.MultiSpindle
                 {
                     1, new List<DataField>()
                             {
-                                new((int)DataFields.NumberOfSpindles, 20, 2, '0', PaddingOrientation.LeftPadded),
-                                new((int)DataFields.SyncTighteningId, 24, 5, '0', PaddingOrientation.LeftPadded),
-                                new((int)DataFields.Time, 31, 19),
-                                new((int)DataFields.SyncOverallStatus, 52, 1),
-                                new((int)DataFields.SpindleStatus, 55, 5)
+                                DataField.Number(DataFields.NumberOfSpindles, 20, 2),
+                                DataField.Number(DataFields.SyncTighteningId, 24, 5),
+                                DataField.Timestamp(DataFields.Time, 31),
+                                DataField.Boolean(DataFields.SyncOverallStatus, 52),
+                                new(DataFields.SpindleStatus, 55, 5)
                             }
                 }
             };

@@ -21,18 +21,18 @@ namespace OpenProtocolInterpreter.Tool
 
         public CalibrationUnit CalibrationValueUnit
         {
-            get => (CalibrationUnit)GetField(1, (int)DataFields.CalibrationValueUnit).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, (int)DataFields.CalibrationValueUnit).SetValue(OpenProtocolConvert.ToString, (int)value);
+            get => (CalibrationUnit)GetField(1, DataFields.CalibrationValueUnit).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.CalibrationValueUnit).SetValue(OpenProtocolConvert.ToString, value);
         }
         public decimal CalibrationValue
         {
-            get => GetField(1, (int)DataFields.CalibrationValue).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
-            set => GetField(1, (int)DataFields.CalibrationValue).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
+            get => GetField(1, DataFields.CalibrationValue).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
+            set => GetField(1, DataFields.CalibrationValue).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
         }
         public int ChannelNumber
         {
-            get => GetField(2, (int)DataFields.ChannelNumber).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(2, (int)DataFields.ChannelNumber).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(2, DataFields.ChannelNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(2, DataFields.ChannelNumber).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0045() : this(DEFAULT_REVISION)
@@ -58,14 +58,14 @@ namespace OpenProtocolInterpreter.Tool
                 {
                     1, new List<DataField>()
                             {
-                                new((int)DataFields.CalibrationValueUnit, 20, 1),
-                                new((int)DataFields.CalibrationValue, 23, 6, '0', PaddingOrientation.LeftPadded)
+                                DataField.Number(DataFields.CalibrationValueUnit, 20, 1),
+                                DataField.Number(DataFields.CalibrationValue, 23, 6)
                             }
                 },
                 {
                     2, new List<DataField>()
                             {
-                                new((int)DataFields.ChannelNumber, 31, 2, '0', PaddingOrientation.LeftPadded),
+                                DataField.Number(DataFields.ChannelNumber, 31, 2),
                             }
                 }
             };

@@ -210,9 +210,12 @@ namespace OpenProtocolInterpreter
             return fields.FirstOrDefault(x => x.Field == field) ?? DataField.Default;
         }
 
-        protected string ToAscii(byte[] bytes) => Encoding.ASCII.GetString(bytes);
+        protected DataField GetField<TEnum>(int revision, TEnum field) where TEnum : struct, Enum
+            => GetField(revision, field.GetHashCode());
 
-        protected byte[] ToBytes(string value) => Encoding.ASCII.GetBytes(value);
+        protected static string ToAscii(byte[] bytes) => Encoding.ASCII.GetString(bytes);
+
+        protected static byte[] ToBytes(string value) => Encoding.ASCII.GetBytes(value);
 
     }
 }

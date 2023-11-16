@@ -16,33 +16,33 @@ namespace OpenProtocolInterpreter.Alarm
 
         public bool AlarmStatus
         {
-            get => GetField(1, (int)DataFields.AlarmStatus).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1, (int)DataFields.AlarmStatus).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.AlarmStatus).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, DataFields.AlarmStatus).SetValue(OpenProtocolConvert.ToString, value);
         }
         public string ErrorCode
         {
-            get => GetField(1, (int)DataFields.ErrorCode).Value;
-            set => GetField(1, (int)DataFields.ErrorCode).SetValue(value);
+            get => GetField(1, DataFields.ErrorCode).Value;
+            set => GetField(1, DataFields.ErrorCode).SetValue(value);
         }
         public bool ControllerReadyStatus
         {
-            get => GetField(1, (int)DataFields.ControllerReadyStatus).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1, (int)DataFields.ControllerReadyStatus).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.ControllerReadyStatus).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, DataFields.ControllerReadyStatus).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool ToolReadyStatus
         {
-            get => GetField(1, (int)DataFields.ToolReadyStatus).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1, (int)DataFields.ToolReadyStatus).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.ToolReadyStatus).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, DataFields.ToolReadyStatus).SetValue(OpenProtocolConvert.ToString, value);
         }
         public DateTime Time
         {
-            get => GetField(1, (int)DataFields.Time).GetValue(OpenProtocolConvert.ToDateTime);
-            set => GetField(1, (int)DataFields.Time).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.Time).GetValue(OpenProtocolConvert.ToDateTime);
+            set => GetField(1, DataFields.Time).SetValue(OpenProtocolConvert.ToString, value);
         }
         public ToolHealth ToolHealth
         {
-            get => (ToolHealth)GetField(3, (int)DataFields.ToolHealth).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(3, (int)DataFields.ToolHealth).SetValue(OpenProtocolConvert.ToString, (int)value);
+            get => (ToolHealth)GetField(3, DataFields.ToolHealth).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(3, DataFields.ToolHealth).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0076() : this(DEFAULT_REVISION)
@@ -79,17 +79,17 @@ namespace OpenProtocolInterpreter.Alarm
                 {
                     1, new List<DataField>()
                             {
-                                new((int)DataFields.AlarmStatus, 20, 1),
-                                new((int)DataFields.ErrorCode, 23, 4, ' ', PaddingOrientation.LeftPadded),
-                                new((int)DataFields.ControllerReadyStatus, 29, 1),
-                                new((int)DataFields.ToolReadyStatus, 32, 1),
-                                new((int)DataFields.Time, 35, 19)
+                                DataField.Boolean(DataFields.AlarmStatus, 20),
+                                DataField.String(DataFields.ErrorCode, 23, 4, PaddingOrientation.LeftPadded),
+                                DataField.Boolean(DataFields.ControllerReadyStatus, 29),
+                                DataField.Boolean(DataFields.ToolReadyStatus, 32),
+                                DataField.Timestamp(DataFields.Time, 35)
                             }
                 },
                 {
                     3, new List<DataField>()
                             {
-                                new((int)DataFields.ToolHealth, 57, 1),
+                                DataField.Number(DataFields.ToolHealth, 57, 1),
                             }
                 }
             };
@@ -97,7 +97,7 @@ namespace OpenProtocolInterpreter.Alarm
 
         private void HandleRevision()
         {
-            var errorCodeField = GetField(1, (int)DataFields.ErrorCode);
+            var errorCodeField = GetField(1, DataFields.ErrorCode);
             errorCodeField.Size = Header.Revision > 1 ? 5 : 4;
 
             int index = errorCodeField.Index + errorCodeField.Size;

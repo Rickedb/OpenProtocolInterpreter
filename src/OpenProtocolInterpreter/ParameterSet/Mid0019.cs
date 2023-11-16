@@ -19,13 +19,13 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public int ParameterSetId
         {
-            get => GetField(1, (int)DataFields.ParameterSetId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, (int)DataFields.ParameterSetId).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.ParameterSetId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.ParameterSetId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int BatchSize
         {
-            get => GetField(1, (int)DataFields.BatchSize).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, (int)DataFields.BatchSize).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.BatchSize).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.BatchSize).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0019() : this(new Header()
@@ -56,7 +56,7 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         private void HandleRevision()
         {
-            var batchSizeField = GetField(1, (int)DataFields.BatchSize);
+            var batchSizeField = GetField(1, DataFields.BatchSize);
             if (Header.Revision > 1)
             {
                 batchSizeField.Size = 4;
@@ -74,8 +74,8 @@ namespace OpenProtocolInterpreter.ParameterSet
                 {
                     1, new List<DataField>()
                             {
-                                new((int)DataFields.ParameterSetId, 20, 3, '0', PaddingOrientation.LeftPadded, false),
-                                new((int)DataFields.BatchSize, 23, 2, '0', PaddingOrientation.LeftPadded, false),
+                                DataField.Number(DataFields.ParameterSetId, 20, 3, false),
+                                DataField.Number(DataFields.BatchSize, 23, 2, false),
                             }
                 }
             };

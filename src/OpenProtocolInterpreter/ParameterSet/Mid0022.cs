@@ -14,8 +14,8 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public bool RelayStatus
         {
-            get => GetField(1, (int)DataFields.RelayStatus).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1, (int)DataFields.RelayStatus).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.RelayStatus).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, DataFields.RelayStatus).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0022() : this(new Header()
@@ -37,7 +37,7 @@ namespace OpenProtocolInterpreter.ParameterSet
                 {
                     1, new List<DataField>()
                             {
-                                new((int)DataFields.RelayStatus, 20, 1, false)
+                                DataField.Boolean(DataFields.RelayStatus, 20, false)
                             }
                 }
             };

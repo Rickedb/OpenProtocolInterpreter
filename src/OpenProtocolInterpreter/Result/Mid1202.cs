@@ -28,33 +28,33 @@ namespace OpenProtocolInterpreter.Result
 
         public int TotalNumberOfMessages
         {
-            get => GetField(Header.StandardizedRevision, (int)DataFields.TOTAL_MESSAGES).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(Header.StandardizedRevision, (int)DataFields.TOTAL_MESSAGES).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(Header.StandardizedRevision, DataFields.TotalMessages).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(Header.StandardizedRevision, DataFields.TotalMessages).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int MessageNumber
         {
-            get => GetField(Header.StandardizedRevision, (int)DataFields.MESSAGE_NUMBER).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(Header.StandardizedRevision, (int)DataFields.MESSAGE_NUMBER).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(Header.StandardizedRevision, DataFields.MessageNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(Header.StandardizedRevision, DataFields.MessageNumber).SetValue(OpenProtocolConvert.ToString, value);
         }
-        public int ResultDataIdentifier
+        public long ResultDataIdentifier
         {
-            get => GetField(Header.StandardizedRevision, (int)DataFields.RESULT_DATA_ID).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(Header.StandardizedRevision, (int)DataFields.RESULT_DATA_ID).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(Header.StandardizedRevision, DataFields.ResultDataIdentifier).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(Header.StandardizedRevision, DataFields.ResultDataIdentifier).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int ObjectId
         {
-            get => GetField(Header.StandardizedRevision, (int)DataFields.OBJECT_ID).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(Header.StandardizedRevision, (int)DataFields.OBJECT_ID).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(Header.StandardizedRevision, DataFields.ObjectId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(Header.StandardizedRevision, DataFields.ObjectId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public string NodeGuid
         {
-            get => GetField(Header.StandardizedRevision, (int)DataFields.NODE_GUID).Value;
-            set => GetField(Header.StandardizedRevision, (int)DataFields.NODE_GUID).SetValue(value);
+            get => GetField(Header.StandardizedRevision, DataFields.NodeGuid).Value;
+            set => GetField(Header.StandardizedRevision, DataFields.NodeGuid).SetValue(value);
         }
         public int NumberOfDataFields
         {
-            get => GetField(Header.StandardizedRevision, (int)DataFields.NUMBER_DATA_FIELDS).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(Header.StandardizedRevision, (int)DataFields.NUMBER_DATA_FIELDS).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(Header.StandardizedRevision, DataFields.NumberOfDataFields).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(Header.StandardizedRevision, DataFields.NumberOfDataFields).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public List<VariableDataField> VariableDataFields { get; set; }
@@ -81,7 +81,7 @@ namespace OpenProtocolInterpreter.Result
         {
             NumberOfDataFields = VariableDataFields.Count;
             var revision = Header.StandardizedRevision;
-            GetField(revision, (int)DataFields.VARIABLE_DATA_FIELDS).SetValue(OpenProtocolConvert.ToString(VariableDataFields));
+            GetField(revision, DataFields.VariableDataFields).SetValue(OpenProtocolConvert.ToString(VariableDataFields));
             int prefixIndex = 0;
             return string.Concat(BuildHeader(), base.Pack(revision, ref prefixIndex));
         }
@@ -90,7 +90,7 @@ namespace OpenProtocolInterpreter.Result
         {
             Header = ProcessHeader(package);
             var revision = Header.StandardizedRevision;
-            var variableDataField = GetField(revision, (int)DataFields.VARIABLE_DATA_FIELDS);
+            var variableDataField = GetField(revision, DataFields.VariableDataFields);
             variableDataField.Size = Header.Length - variableDataField.Index;
             ProcessDataFields(revision, package);
 
@@ -105,24 +105,24 @@ namespace OpenProtocolInterpreter.Result
                 {
                     1, new List<DataField>()
                     {
-                        new((int)DataFields.TOTAL_MESSAGES, 20, 3, '0', PaddingOrientation.LeftPadded, false),
-                        new((int)DataFields.MESSAGE_NUMBER, 23, 3, '0', PaddingOrientation.LeftPadded, false),
-                        new((int)DataFields.RESULT_DATA_ID, 26, 10, '0', PaddingOrientation.LeftPadded, false),
-                        new((int)DataFields.OBJECT_ID, 36, 4, '0', PaddingOrientation.LeftPadded, false),
-                        new((int)DataFields.NUMBER_DATA_FIELDS, 40, 3, '0', PaddingOrientation.LeftPadded, false),
-                        new((int)DataFields.VARIABLE_DATA_FIELDS, 43, 0, false) //defined at runtime
+                        DataField.Number(DataFields.TotalMessages, 20, 3, false),
+                        DataField.Number(DataFields.MessageNumber, 23, 3, false),
+                        DataField.Number(DataFields.ResultDataIdentifier, 26, 10, false),
+                        DataField.Number(DataFields.ObjectId, 36, 4, false),
+                        DataField.Number(DataFields.NumberOfDataFields, 40, 3, false),
+                        DataField.Volatile(DataFields.VariableDataFields, 43, false) //defined at runtime
                     }
                 },
                 {
                     2, new List<DataField>()
                     {
-                        new((int)DataFields.TOTAL_MESSAGES, 20, 3, '0', PaddingOrientation.LeftPadded, false),
-                        new((int)DataFields.MESSAGE_NUMBER, 23, 3, '0', PaddingOrientation.LeftPadded, false),
-                        new((int)DataFields.RESULT_DATA_ID, 26, 10, '0', PaddingOrientation.LeftPadded, false),
-                        new((int)DataFields.OBJECT_ID, 36, 4, '0', PaddingOrientation.LeftPadded, false),
-                        new((int)DataFields.NODE_GUID, 40, 36, ' ', PaddingOrientation.LeftPadded, false),
-                        new((int)DataFields.NUMBER_DATA_FIELDS, 76, 3, '0', PaddingOrientation.LeftPadded, false),
-                        new((int)DataFields.VARIABLE_DATA_FIELDS, 79, 0, false) //defined at runtime
+                        DataField.Number(DataFields.TotalMessages, 20, 3, false),
+                        DataField.Number(DataFields.MessageNumber, 23, 3, false),
+                        DataField.Number(DataFields.ResultDataIdentifier, 26, 10, false),
+                        DataField.Number(DataFields.ObjectId, 36, 4, false),
+                        DataField.String(DataFields.NodeGuid, 40, 36, false),
+                        DataField.Number(DataFields.NumberOfDataFields, 76, 3, false),
+                        DataField.Volatile(DataFields.VariableDataFields, 79, false) //defined at runtime
                     }
                 }
             };
@@ -130,13 +130,13 @@ namespace OpenProtocolInterpreter.Result
 
         protected enum DataFields
         {
-            TOTAL_MESSAGES,
-            MESSAGE_NUMBER,
-            RESULT_DATA_ID,
-            OBJECT_ID,
-            NODE_GUID,
-            NUMBER_DATA_FIELDS,
-            VARIABLE_DATA_FIELDS
+            TotalMessages,
+            MessageNumber,
+            ResultDataIdentifier,
+            ObjectId,
+            NodeGuid,
+            NumberOfDataFields,
+            VariableDataFields
         }
     }
 }

@@ -27,13 +27,13 @@ namespace OpenProtocolInterpreter.PowerMACS
 
         public int DataNumberSystem
         {
-            get => GetField(2,(int)DataFields.DataNumberSystem).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(2,(int)DataFields.DataNumberSystem).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(2, DataFields.DataNumberSystem).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(2, DataFields.DataNumberSystem).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool SendOnlyNewData
         {
-            get => GetField(3,(int)DataFields.SendOnlyNewData).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(3,(int)DataFields.SendOnlyNewData).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(3, DataFields.SendOnlyNewData).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(3, DataFields.SendOnlyNewData).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0105() : this(DEFAULT_REVISION)
@@ -47,13 +47,13 @@ namespace OpenProtocolInterpreter.PowerMACS
 
         public Mid0105(bool noAckFlag = false) : this(DEFAULT_REVISION, noAckFlag)
         {
-            
+
         }
 
         public Mid0105(int revision, bool noAckFlag = false) : this(new Header()
         {
-            Mid = MID, 
-            Revision = revision, 
+            Mid = MID,
+            Revision = revision,
             NoAckFlag = noAckFlag
         })
         {
@@ -66,13 +66,13 @@ namespace OpenProtocolInterpreter.PowerMACS
                 {
                     2, new List<DataField>()
                             {
-                                new((int)DataFields.DataNumberSystem, 20, 10, '0', PaddingOrientation.LeftPadded, false),
+                                DataField.Number(DataFields.DataNumberSystem, 20, 10, false),
                             }
                 },
                 {
                     3, new List<DataField>()
                             {
-                                new((int)DataFields.SendOnlyNewData, 30, 1, false)
+                                DataField.Boolean(DataFields.SendOnlyNewData, 30, false)
                             }
                 },
             };

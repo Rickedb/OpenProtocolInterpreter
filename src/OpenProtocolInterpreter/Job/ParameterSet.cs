@@ -97,5 +97,14 @@ namespace OpenProtocolInterpreter.Job
                 yield return Parse(psetData, revision);
             }
         }
+
+        public static int Size(int revision)
+            => revision switch
+            {
+                3 => 44,
+                4 => 49,
+                5 => 51,
+                _ => 12,
+            };
     }
 }

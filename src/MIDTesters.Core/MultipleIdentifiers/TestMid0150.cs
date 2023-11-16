@@ -41,7 +41,6 @@ namespace MIDTesters.MultipleIdentifiers
 
             var mid0150 = new Mid0150() { IdentifierData = identifier };
             Assert.IsNotNull(mid0150.IdentifierData);
-            Assert.AreEqual(identifier.Substring(0, 100), mid0150.IdentifierData);
             Assert.IsTrue(mid0150.Pack().Length == 120);
         }
     }

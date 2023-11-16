@@ -20,8 +20,8 @@ namespace OpenProtocolInterpreter.LinkCommunication
 
         public int MidNumber
         {
-            get => GetField(1, (int)DataFields.MidNumber).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, (int)DataFields.MidNumber).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.MidNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.MidNumber).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid9997(Header header) : base(header)
@@ -43,7 +43,7 @@ namespace OpenProtocolInterpreter.LinkCommunication
                 {
                     1, new List<DataField>()
                             {
-                                new((int)DataFields.MidNumber, 20, 4, '0', PaddingOrientation.LeftPadded, false)
+                                DataField.Number(DataFields.MidNumber, 20, 4, false)
                             }
                 }
             };
