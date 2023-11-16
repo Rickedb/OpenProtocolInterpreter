@@ -22,8 +22,8 @@ namespace OpenProtocolInterpreter.Vin
 
         public string VinNumber
         {
-            get => GetField(1, (int)DataFields.VinNumber).Value;
-            set => GetField(1, (int)DataFields.VinNumber).SetValue(value);
+            get => GetField(1, DataFields.VinNumber).Value;
+            set => GetField(1, DataFields.VinNumber).SetValue(value);
         }
 
         public Mid0050() : base(MID, DEFAULT_REVISION) { }
@@ -34,14 +34,14 @@ namespace OpenProtocolInterpreter.Vin
 
         public override string Pack()
         {
-            GetField(1, (int)DataFields.VinNumber).Size = VinNumber.Length;
+            GetField(1, DataFields.VinNumber).Size = VinNumber.Length;
             return base.Pack();
         }
 
         public override Mid Parse(string package)
         {
             Header = ProcessHeader(package);
-            GetField(1, (int)DataFields.VinNumber).Size = Header.Length - 20;
+            GetField(1, DataFields.VinNumber).Size = Header.Length - 20;
             ProcessDataFields(package);
             return this;
         }
@@ -53,7 +53,7 @@ namespace OpenProtocolInterpreter.Vin
                 {
                     1, new List<DataField>()
                             {
-                                new((int)DataFields.VinNumber, 20, 0, false), //dynamic
+                                DataField.Volatile(DataFields.VinNumber, 20, false), //dynamic
                             }
                 }
             };

@@ -16,13 +16,8 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
 
         public string IdentifierData
         {
-            get => GetField(1, (int)DataFields.IdentifierData).Value;
-            set
-            {
-                var field = GetField(1, (int)DataFields.IdentifierData);
-                field.Size = value.Length < 100 ? value.Length : 100;
-                field.SetValue(value);
-            }
+            get => GetField(1, DataFields.IdentifierData).Value;
+            set => GetField(1, DataFields.IdentifierData).SetValue(value);
         }
 
         public Mid0150() : this(new Header()
@@ -37,10 +32,22 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
         {
         }
 
+        public override string Pack()
+        {
+            var identifierDataField = GetField(1, DataFields.IdentifierData);
+            if(identifierDataField.Value.Length > 100)
+            {
+                identifierDataField.Value = identifierDataField.Value.Substring(0, 100);
+            }
+
+            identifierDataField.Size = identifierDataField.Value.Length;
+            return base.Pack();
+        }
+
         public override Mid Parse(string package)
         {
             Header = ProcessHeader(package);
-            GetField(1, (int)DataFields.IdentifierData).Size = Header.Length - 20;
+            GetField(1, DataFields.IdentifierData).Size = Header.Length - 20;
             ProcessDataFields(package);
             return this;
         }
@@ -52,7 +59,7 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
                 {
                     1, new List<DataField>()
                     {
-                        new((int)DataFields.IdentifierData, 20, 0, false)
+                        DataField.Volatile(DataFields.IdentifierData, 20, false)
                     }
                 }
             };

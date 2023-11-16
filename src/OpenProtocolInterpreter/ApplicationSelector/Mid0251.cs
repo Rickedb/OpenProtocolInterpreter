@@ -20,13 +20,13 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
         public int DeviceId
         {
-            get => GetField(1, (int)DataFields.DeviceId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, (int)DataFields.DeviceId).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.DeviceId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.DeviceId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int NumberOfSockets
         {
-            get => GetField(1, (int)DataFields.NumberOfSockets).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, (int)DataFields.NumberOfSockets).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.NumberOfSockets).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.NumberOfSockets).SetValue(OpenProtocolConvert.ToString, value);
         }
         public List<bool> SocketStatus { get; set; }
 
@@ -46,8 +46,8 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
         public override string Pack()
         {
-            GetField(1, (int)DataFields.SocketStatus).Size = NumberOfSockets;
-            GetField(1, (int)DataFields.SocketStatus).Value = PackSocketStatus();
+            GetField(1, DataFields.SocketStatus).Size = NumberOfSockets;
+            GetField(1, DataFields.SocketStatus).Value = PackSocketStatus();
             return base.Pack();
         }
 
@@ -55,9 +55,9 @@ namespace OpenProtocolInterpreter.ApplicationSelector
         {
             Header = ProcessHeader(package);
 
-            GetField(1, (int)DataFields.SocketStatus).Size = Header.Length - 30;
+            GetField(1, DataFields.SocketStatus).Size = Header.Length - 30;
             ProcessDataFields(package);
-            SocketStatus = ParseSocketStatus(GetField(1, (int)DataFields.SocketStatus).Value);
+            SocketStatus = ParseSocketStatus(GetField(1, DataFields.SocketStatus).Value);
             return this;
         }
 
@@ -86,9 +86,9 @@ namespace OpenProtocolInterpreter.ApplicationSelector
                 {
                     1, new List<DataField>()
                             {
-                                new((int)DataFields.DeviceId, 20, 2, '0', PaddingOrientation.LeftPadded),
-                                new((int)DataFields.NumberOfSockets, 24, 2, '0', PaddingOrientation.LeftPadded),
-                                new((int)DataFields.SocketStatus, 28, 0)
+                                DataField.Number(DataFields.DeviceId, 20, 2),
+                                DataField.Number(DataFields.NumberOfSockets, 24, 2),
+                                DataField.Volatile(DataFields.SocketStatus, 28)
                             }
                 }
             };

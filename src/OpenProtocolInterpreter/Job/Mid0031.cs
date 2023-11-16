@@ -20,8 +20,8 @@ namespace OpenProtocolInterpreter.Job
 
         public int TotalJobs
         {
-            get => GetField(1, (int)DataFields.NumberOfJobs).GetValue(OpenProtocolConvert.ToInt32);
-            private set => GetField(1, (int)DataFields.NumberOfJobs).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.NumberOfJobs).GetValue(OpenProtocolConvert.ToInt32);
+            private set => GetField(1, DataFields.NumberOfJobs).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public List<int> JobIds { get; set; }
@@ -50,7 +50,7 @@ namespace OpenProtocolInterpreter.Job
         {
             TotalJobs = JobIds.Count;
 
-            var eachJobField = GetField(1, (int)DataFields.EachJobId);
+            var eachJobField = GetField(1, DataFields.EachJobId);
             eachJobField.Size = JobSize * TotalJobs;
             eachJobField.Value = PackJobIdList();
             return base.Pack();
@@ -61,7 +61,7 @@ namespace OpenProtocolInterpreter.Job
             Header = ProcessHeader(package);
             HandleRevisions();
 
-            var eachJobField = GetField(1, (int)DataFields.EachJobId);
+            var eachJobField = GetField(1, DataFields.EachJobId);
             eachJobField.Size = Header.Length - eachJobField.Index;
             base.Parse(package);
             JobIds = ParseJobIdList(eachJobField.Value);
@@ -72,8 +72,8 @@ namespace OpenProtocolInterpreter.Job
         protected virtual string PackJobIdList()
         {
             var builder = new StringBuilder();
-            foreach (var v in JobIds)
-                builder.Append(OpenProtocolConvert.ToString('0', JobSize, PaddingOrientation.LeftPadded, v));
+            foreach (var jobId in JobIds)
+                builder.Append(OpenProtocolConvert.ToString('0', JobSize, PaddingOrientation.LeftPadded, jobId));
 
             return builder.ToString();
         }
@@ -101,8 +101,8 @@ namespace OpenProtocolInterpreter.Job
                 {
                     1, new List<DataField>()
                             {
-                                new((int)DataFields.NumberOfJobs, 20, 2, '0', PaddingOrientation.LeftPadded, false),
-                                new((int)DataFields.EachJobId, 22, 2, '0', PaddingOrientation.LeftPadded, false)
+                                DataField.Number(DataFields.NumberOfJobs, 20, 2, false),
+                                DataField.Number(DataFields.EachJobId, 22, 2, false)
                             }
                 },
             };
@@ -112,12 +112,12 @@ namespace OpenProtocolInterpreter.Job
         {
             if (Header.Revision > 1)
             {
-                GetField(1, (int)DataFields.NumberOfJobs).Size = 4;
-                GetField(1, (int)DataFields.EachJobId).Index = 24;
+                GetField(1, DataFields.NumberOfJobs).Size = 4;
+                GetField(1, DataFields.EachJobId).Index = 24;
             }
             else
             {
-                GetField(1, (int)DataFields.NumberOfJobs).Size = GetField(1, (int)DataFields.EachJobId).Size = 2;
+                GetField(1, DataFields.NumberOfJobs).Size = GetField(1, DataFields.EachJobId).Size = 2;
             }
         }
 

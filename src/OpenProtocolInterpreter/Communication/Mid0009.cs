@@ -24,23 +24,23 @@ namespace OpenProtocolInterpreter.Communication
 
         public string UnsubscriptionMid
         {
-            get => GetField(1, (int)DataFields.UnsubscriptionMid).Value;
-            set => GetField(1, (int)DataFields.UnsubscriptionMid).SetValue(value);
+            get => GetField(1, DataFields.UnsubscriptionMid).Value;
+            set => GetField(1, DataFields.UnsubscriptionMid).SetValue(value);
         }
         public int ExtraDataRevision
         {
-            get => GetField(1, (int)DataFields.ExtraDataRevision).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, (int)DataFields.ExtraDataRevision).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.ExtraDataRevision).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.ExtraDataRevision).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int ExtraDataLength
         {
-            get => GetField(1, (int)DataFields.ExtraDataLength).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, (int)DataFields.ExtraDataLength).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.ExtraDataLength).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.ExtraDataLength).SetValue(OpenProtocolConvert.ToString, value);
         }
         public string ExtraData
         {
-            get => GetField(1, (int)DataFields.ExtraData).Value;
-            set => GetField(1, (int)DataFields.ExtraData).SetValue(value);
+            get => GetField(1, DataFields.ExtraData).Value;
+            set => GetField(1, DataFields.ExtraData).SetValue(value);
         }
 
         public Mid0009() : this(new Header()
@@ -59,7 +59,7 @@ namespace OpenProtocolInterpreter.Communication
         public override Mid Parse(string package)
         {
             Header = ProcessHeader(package);
-            GetField(1, (int)DataFields.ExtraData).Size = Header.Length - 29;
+            GetField(1, DataFields.ExtraData).Size = Header.Length - 29;
             ProcessDataFields(package);
             return this;
         }
@@ -71,10 +71,10 @@ namespace OpenProtocolInterpreter.Communication
                 {
                     1, new List<DataField>()
                             {
-                                new((int)DataFields.UnsubscriptionMid, 20, 4, '0', PaddingOrientation.LeftPadded, false),
-                                new((int)DataFields.ExtraDataRevision, 24, 3, '0', PaddingOrientation.LeftPadded, false),
-                                new((int)DataFields.ExtraDataLength, 27, 2, '0', PaddingOrientation.LeftPadded, false),
-                                new((int)DataFields.ExtraData, 29, 0, ' ', PaddingOrientation.RightPadded, false)
+                                DataField.Number(DataFields.UnsubscriptionMid, 20, 4, false),
+                                DataField.Number(DataFields.ExtraDataRevision, 24, 3, false),
+                                DataField.Number(DataFields.ExtraDataLength, 27, 2, false),
+                                DataField.Volatile(DataFields.ExtraData, 29, false)
                             }
                 }
             };

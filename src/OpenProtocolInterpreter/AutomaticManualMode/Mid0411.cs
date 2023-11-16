@@ -34,13 +34,13 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
 
         public int AutoDisableSetting
         {
-            get => GetField(1, (int)DataFields.AutoDisableSetting).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, (int)DataFields.AutoDisableSetting).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.AutoDisableSetting).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.AutoDisableSetting).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int CurrentBatch
         {
-            get => GetField(1, (int)DataFields.CurrentBatch).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, (int)DataFields.CurrentBatch).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.CurrentBatch).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.CurrentBatch).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0411() : this(new Header()
@@ -63,8 +63,8 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
                 {
                     1, new List<DataField>()
                             {
-                                new((int)DataFields.AutoDisableSetting, 20, 2, '0', PaddingOrientation.LeftPadded, false),
-                                new((int)DataFields.CurrentBatch, 22, 2, '0', PaddingOrientation.LeftPadded, false)
+                                DataField.Number(DataFields.AutoDisableSetting, 20, 2, false),
+                                DataField.Number(DataFields.CurrentBatch, 22, 2, false)
                             }
                 }
             };

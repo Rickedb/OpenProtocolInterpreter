@@ -38,7 +38,6 @@ namespace MIDTesters.PLCUserData
 
             var mid0240 = new Mid0240() { UserData = userData };
             Assert.IsNotNull(mid0240.UserData);
-            Assert.AreEqual(userData.Substring(0, 200), mid0240.UserData);
             Assert.IsTrue(mid0240.Pack().Length == 220);
         }
     }

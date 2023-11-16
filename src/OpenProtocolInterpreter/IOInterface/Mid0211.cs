@@ -14,55 +14,55 @@ namespace OpenProtocolInterpreter.IOInterface
     public class Mid0211 : Mid, IIOInterface, IController, IAcknowledgeable<Mid0212>
     {
         public const int MID = 211;
-        
+
         public bool StatusDigInOne
         {
-            get => GetField(1,(int)DataFields.StatusDigIn1).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1,(int)DataFields.StatusDigIn1).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.StatusDigIn1).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, DataFields.StatusDigIn1).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool StatusDigInTwo
         {
-            get => GetField(1,(int)DataFields.StatusDigIn2).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1,(int)DataFields.StatusDigIn2).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.StatusDigIn2).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, DataFields.StatusDigIn2).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool StatusDigInThree
         {
-            get => GetField(1,(int)DataFields.StatusDigIn3).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1,(int)DataFields.StatusDigIn3).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.StatusDigIn3).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, DataFields.StatusDigIn3).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool StatusDigInFour
         {
-            get => GetField(1,(int)DataFields.StatusDigIn4).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1,(int)DataFields.StatusDigIn4).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.StatusDigIn4).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, DataFields.StatusDigIn4).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool StatusDigInFive
         {
-            get => GetField(1,(int)DataFields.StatusDigIn5).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1,(int)DataFields.StatusDigIn5).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.StatusDigIn5).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, DataFields.StatusDigIn5).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool StatusDigInSix
         {
-            get => GetField(1,(int)DataFields.StatusDigIn6).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1,(int)DataFields.StatusDigIn6).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.StatusDigIn6).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, DataFields.StatusDigIn6).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool StatusDigInSeven
         {
-            get => GetField(1,(int)DataFields.StatusDigIn7).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1,(int)DataFields.StatusDigIn7).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.StatusDigIn7).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, DataFields.StatusDigIn7).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool StatusDigInEight
         {
-            get => GetField(1,(int)DataFields.StatusDigIn8).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1,(int)DataFields.StatusDigIn8).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.StatusDigIn8).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, DataFields.StatusDigIn8).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0211() : this(new Header()
         {
-            Mid = MID, 
+            Mid = MID,
             Revision = DEFAULT_REVISION
         })
         {
-            
+
         }
 
         public Mid0211(Header header) : base(header)
@@ -76,14 +76,14 @@ namespace OpenProtocolInterpreter.IOInterface
                 {
                     1, new List<DataField>()
                     {
-                        new((int)DataFields.StatusDigIn1, 20, 1, false),
-                        new((int)DataFields.StatusDigIn2, 21, 1, false),
-                        new((int)DataFields.StatusDigIn3, 22, 1, false),
-                        new((int)DataFields.StatusDigIn4, 23, 1, false),
-                        new((int)DataFields.StatusDigIn5, 24, 1, false),
-                        new((int)DataFields.StatusDigIn6, 25, 1, false),
-                        new((int)DataFields.StatusDigIn7, 26, 1, false),
-                        new((int)DataFields.StatusDigIn8, 27, 1, false)
+                        DataField.Boolean(DataFields.StatusDigIn1, 20, false),
+                        DataField.Boolean(DataFields.StatusDigIn2, 21, false),
+                        DataField.Boolean(DataFields.StatusDigIn3, 22, false),
+                        DataField.Boolean(DataFields.StatusDigIn4, 23, false),
+                        DataField.Boolean(DataFields.StatusDigIn5, 24, false),
+                        DataField.Boolean(DataFields.StatusDigIn6, 25, false),
+                        DataField.Boolean(DataFields.StatusDigIn7, 26, false),
+                        DataField.Boolean(DataFields.StatusDigIn8, 27, false)
                     }
                 }
             };

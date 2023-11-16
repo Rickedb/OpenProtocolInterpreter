@@ -28,38 +28,38 @@ namespace OpenProtocolInterpreter.UserInterface
 
         public int TextDuration
         {
-            get => GetField(1,(int)DataFields.TextDuration).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1,(int)DataFields.TextDuration).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.TextDuration).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.TextDuration).SetValue(OpenProtocolConvert.ToString, value);
         }
         public RemovalCondition RemovalCondition
         {
-            get => (RemovalCondition)GetField(1,(int)DataFields.RemovalCondition).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1,(int)DataFields.RemovalCondition).SetValue(OpenProtocolConvert.ToString, (int)value);
+            get => (RemovalCondition)GetField(1, DataFields.RemovalCondition).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.RemovalCondition).SetValue(OpenProtocolConvert.ToString, value);
         }
         public string Line1
         {
-            get => GetField(1,(int)DataFields.Line1Header).Value;
-            set => GetField(1,(int)DataFields.Line1Header).SetValue(value);
+            get => GetField(1, DataFields.Line1Header).Value;
+            set => GetField(1, DataFields.Line1Header).SetValue(value);
         }
         public string Line2
         {
-            get => GetField(1,(int)DataFields.Line2).Value;
-            set => GetField(1,(int)DataFields.Line2).SetValue(value);
+            get => GetField(1, DataFields.Line2).Value;
+            set => GetField(1, DataFields.Line2).SetValue(value);
         }
         public string Line3
         {
-            get => GetField(1,(int)DataFields.Line3).Value;
-            set => GetField(1,(int)DataFields.Line3).SetValue(value);
+            get => GetField(1, DataFields.Line3).Value;
+            set => GetField(1, DataFields.Line3).SetValue(value);
         }
         public string Line4
         {
-            get => GetField(1,(int)DataFields.Line4).Value;
-            set => GetField(1,(int)DataFields.Line4).SetValue(value);
+            get => GetField(1, DataFields.Line4).Value;
+            set => GetField(1, DataFields.Line4).SetValue(value);
         }
 
         public Mid0111() : this(new Header()
         {
-            Mid = MID, 
+            Mid = MID,
             Revision = DEFAULT_REVISION
         })
         {
@@ -76,12 +76,12 @@ namespace OpenProtocolInterpreter.UserInterface
                 {
                     1, new List<DataField>()
                             {
-                                new((int)DataFields.TextDuration, 20, 4, '0', PaddingOrientation.LeftPadded),
-                                new((int)DataFields.RemovalCondition, 26, 1),
-                                new((int)DataFields.Line1Header, 29, 25, ' '),
-                                new((int)DataFields.Line2, 56, 25, ' '),
-                                new((int)DataFields.Line3, 83, 25, ' '),
-                                new((int)DataFields.Line4, 110, 25, ' ')
+                                DataField.Number(DataFields.TextDuration, 20, 4),
+                                DataField.Number(DataFields.RemovalCondition, 26, 1),
+                                DataField.String(DataFields.Line1Header, 29, 25),
+                                DataField.String(DataFields.Line2, 56, 25),
+                                DataField.String(DataFields.Line3, 83, 25),
+                                DataField.String(DataFields.Line4, 110, 25)
                             }
                 }
             };

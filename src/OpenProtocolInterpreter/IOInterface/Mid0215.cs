@@ -24,21 +24,21 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public int IODeviceId
         {
-            get => GetField(Header.Revision, (int)DataFields.IODeviceId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(Header.Revision, (int)DataFields.IODeviceId).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(Header.StandardizedRevision, DataFields.IODeviceId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(Header.StandardizedRevision, DataFields.IODeviceId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public List<Relay> Relays { get; set; }
         public List<DigitalInput> DigitalInputs { get; set; }
         //rev 2
         public int NumberOfRelays
         {
-            get => GetField(2, (int)DataFields.NumberOfRelays).GetValue(OpenProtocolConvert.ToInt32);
-            private set => GetField(2, (int)DataFields.NumberOfRelays).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(2, DataFields.NumberOfRelays).GetValue(OpenProtocolConvert.ToInt32);
+            private set => GetField(2, DataFields.NumberOfRelays).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int NumberOfDigitalInputs
         {
-            get => GetField(2, (int)DataFields.NumberOfDigitalInputs).GetValue(OpenProtocolConvert.ToInt32);
-            private set => GetField(2, (int)DataFields.NumberOfDigitalInputs).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(2, DataFields.NumberOfDigitalInputs).GetValue(OpenProtocolConvert.ToInt32);
+            private set => GetField(2, DataFields.NumberOfDigitalInputs).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0215() : this(DEFAULT_REVISION)
@@ -66,7 +66,7 @@ namespace OpenProtocolInterpreter.IOInterface
             if (RevisionsByFields.Any())
             {
                 Header.Length = 20;
-                var revision = Header.Revision > 0 ? Header.Revision : 1;
+                var revision = Header.StandardizedRevision;
                 foreach (var dataField in RevisionsByFields[revision])
                     Header.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
             }
@@ -80,25 +80,24 @@ namespace OpenProtocolInterpreter.IOInterface
                 NumberOfRelays = Relays.Count;
                 NumberOfDigitalInputs = DigitalInputs.Count;
 
-                var relayListField = GetField(2, (int)DataFields.RelayList);
+                var relayListField = GetField(2, DataFields.RelayList);
                 relayListField.Size = NumberOfRelays * 4;
                 relayListField.Value = PackRelays();
-                GetField(2, (int)DataFields.NumberOfDigitalInputs).Index = relayListField.Index + relayListField.Size;
+                GetField(2, DataFields.NumberOfDigitalInputs).Index = relayListField.Index + relayListField.Size;
 
-                GetField(2, (int)DataFields.DigitalInputList).Index = GetField(2, (int)DataFields.NumberOfDigitalInputs).Index + 2;
-                GetField(2, (int)DataFields.DigitalInputList).Size = NumberOfDigitalInputs * 4;
-                GetField(2, (int)DataFields.DigitalInputList).Value = PackDigitalInputs();
+                GetField(2, DataFields.DigitalInputList).Index = GetField(2, DataFields.NumberOfDigitalInputs).Index + 2;
+                GetField(2, DataFields.DigitalInputList).Size = NumberOfDigitalInputs * 4;
+                GetField(2, DataFields.DigitalInputList).Value = PackDigitalInputs();
             }
             else
             {
-                Header.Revision = 1;
-                GetField(1, (int)DataFields.RelayList).Value = PackRelays();
-                GetField(1, (int)DataFields.DigitalInputList).Value = PackDigitalInputs();
+                GetField(1, DataFields.RelayList).Value = PackRelays();
+                GetField(1, DataFields.DigitalInputList).Value = PackDigitalInputs();
             }
 
             var builder = new StringBuilder(BuildHeader());
             int prefixIndex = 1;
-            foreach (var field in RevisionsByFields[Header.Revision])
+            foreach (var field in RevisionsByFields[Header.StandardizedRevision])
             {
                 builder.Append(string.Concat(prefixIndex.ToString("D2"), field.Value));
                 prefixIndex++;
@@ -110,16 +109,16 @@ namespace OpenProtocolInterpreter.IOInterface
         {
             Header = ProcessHeader(package);
 
-            var revision = Header.Revision > 1 ? 2 : 1;
+            var revision = Header.StandardizedRevision;
 
-            var relayListField = GetField(revision, (int)DataFields.RelayList);
-            var digitalListField = GetField(revision, (int)DataFields.DigitalInputList);
+            var relayListField = GetField(revision, DataFields.RelayList);
+            var digitalListField = GetField(revision, DataFields.DigitalInputList);
             if (revision > 1)
             {
-                int numberOfRelays = OpenProtocolConvert.ToInt32(GetValue(GetField(2, (int)DataFields.NumberOfRelays), package));
+                int numberOfRelays = OpenProtocolConvert.ToInt32(GetValue(GetField(2, DataFields.NumberOfRelays), package));
                 relayListField.Size = numberOfRelays * 4;
 
-                var numberOfDigitalInputsField = GetField(2, (int)DataFields.NumberOfDigitalInputs);
+                var numberOfDigitalInputsField = GetField(2, DataFields.NumberOfDigitalInputs);
                 numberOfDigitalInputsField.Index = relayListField.Index + 2 + relayListField.Size;
 
                 digitalListField.Index = numberOfDigitalInputsField.Index + 2 + numberOfDigitalInputsField.Size;
@@ -129,26 +128,26 @@ namespace OpenProtocolInterpreter.IOInterface
             ProcessDataFields(package);
 
             Relays = Relay.ParseAll(relayListField.Value).ToList();
-            DigitalInputs =DigitalInput.ParseAll(digitalListField.Value).ToList();
+            DigitalInputs = DigitalInput.ParseAll(digitalListField.Value).ToList();
             return this;
         }
 
         protected virtual string PackRelays()
         {
-            string pack = string.Empty;
+            var value = new StringBuilder();
             foreach (var relay in Relays)
-                pack += relay.Pack();
+                value.Append(relay.Pack());
 
-            return pack;
+            return value.ToString();
         }
 
         protected virtual string PackDigitalInputs()
         {
-            string pack = string.Empty;
+            var value = new StringBuilder();
             foreach (var digitalInput in DigitalInputs)
-                pack += digitalInput.Pack();
+                value.Append(digitalInput.Pack());
 
-            return pack;
+            return value.ToString();
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -158,19 +157,19 @@ namespace OpenProtocolInterpreter.IOInterface
                 {
                     1, new List<DataField>()
                             {
-                                new((int)DataFields.IODeviceId, 20, 2, '0', PaddingOrientation.LeftPadded),
-                                new((int)DataFields.RelayList, 24, 32),
-                                new((int)DataFields.DigitalInputList, 58, 32)
+                                DataField.Number(DataFields.IODeviceId, 20, 2),
+                                new(DataFields.RelayList, 24, 32),
+                                new(DataFields.DigitalInputList, 58, 32)
                             }
                 },
                 {
                     2, new List<DataField>()
                             {
-                                new((int)DataFields.IODeviceId, 20, 2, '0', PaddingOrientation.LeftPadded),
-                                new((int)DataFields.NumberOfRelays, 24, 2, '0', PaddingOrientation.LeftPadded),
-                                new((int)DataFields.RelayList, 28, 0),
-                                new((int)DataFields.NumberOfDigitalInputs, 0, 2, '0', PaddingOrientation.LeftPadded),
-                                new((int)DataFields.DigitalInputList, 0, 0)
+                                DataField.Number(DataFields.IODeviceId, 20, 2),
+                                DataField.Number(DataFields.NumberOfRelays, 24, 2),
+                                DataField.Volatile(DataFields.RelayList, 28),
+                                new(DataFields.NumberOfDigitalInputs, 0, 2, '0', PaddingOrientation.LeftPadded),
+                                DataField.Volatile(DataFields.DigitalInputList)
                             }
                 }
             };

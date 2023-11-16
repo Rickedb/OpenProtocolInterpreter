@@ -28,8 +28,8 @@ namespace OpenProtocolInterpreter.Communication
 
         public int MidAccepted
         {
-            get => GetField(1, (int)DataFields.MidAccepted).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, (int)DataFields.MidAccepted).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.MidAccepted).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.MidAccepted).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0005() : this(DEFAULT_REVISION)
@@ -57,7 +57,7 @@ namespace OpenProtocolInterpreter.Communication
                 {
                     1, new List<DataField>()
                             {
-                                new((int)DataFields.MidAccepted, 20, 4, '0', PaddingOrientation.LeftPadded, false)
+                                DataField.Number(DataFields.MidAccepted, 20, 4, false)
                             }
                 }
             };

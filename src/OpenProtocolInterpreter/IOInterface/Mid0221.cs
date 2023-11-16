@@ -20,13 +20,13 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public DigitalInputNumber DigitalInputNumber
         {
-            get => (DigitalInputNumber)GetField(1,(int)DataFields.DigitalInputNumber).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1,(int)DataFields.DigitalInputNumber).SetValue(OpenProtocolConvert.ToString, (int)value);
+            get => (DigitalInputNumber)GetField(1, DataFields.DigitalInputNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.DigitalInputNumber).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool DigitalInputStatus
         {
-            get => GetField(1,(int)DataFields.DigitalInputStatus).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1,(int)DataFields.DigitalInputStatus).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.DigitalInputStatus).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, DataFields.DigitalInputStatus).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0221() : this(new Header()
@@ -48,8 +48,8 @@ namespace OpenProtocolInterpreter.IOInterface
                 {
                     1, new List<DataField>()
                     {
-                        new((int)DataFields.DigitalInputNumber, 20, 3, '0', PaddingOrientation.LeftPadded),
-                        new((int)DataFields.DigitalInputStatus, 25, 1)
+                        DataField.Number(DataFields.DigitalInputNumber, 20, 3),
+                        DataField.Boolean(DataFields.DigitalInputStatus, 25)
                     }
                 }
             };

@@ -47,18 +47,13 @@ namespace OpenProtocolInterpreter.PLCUserData
 
         public int Offset
         {
-            get => GetField(1, (int)DataFields.Offset).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, (int)DataFields.Offset).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.Offset).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.Offset).SetValue(OpenProtocolConvert.ToString, value);
         }
         public string UserData
         {
-            get => GetField(1, (int)DataFields.UserData).Value;
-            set
-            {
-                var field = GetField(1, (int)DataFields.UserData);
-                field.Size = value.Length < 200 ? value.Length : 200;
-                field.SetValue(value);
-            }
+            get => GetField(1, DataFields.UserData).Value;
+            set => GetField(1, DataFields.UserData).SetValue(value);
         }
 
         public Mid0245() : this(DEFAULT_REVISION)
@@ -75,16 +70,29 @@ namespace OpenProtocolInterpreter.PLCUserData
 
         public Mid0245(Header header) : base(header)
         {
-            if (string.IsNullOrEmpty(UserData))
+
+        }
+
+        public override string Pack()
+        {
+            var userDataField = GetField(1, DataFields.UserData);
+            if (string.IsNullOrEmpty(userDataField.Value))
             {
-                UserData = "  ";
+                userDataField.Value = "  ";
             }
+            else if (userDataField.Value.Length > 200)
+            {
+                userDataField.Value = userDataField.Value.Substring(0, 200);
+            }
+
+            userDataField.Size = userDataField.Value.Length;
+            return base.Pack();
         }
 
         public override Mid Parse(string package)
         {
             Header = ProcessHeader(package);
-            GetField(1, (int)DataFields.UserData).Size = Header.Length - 23;
+            GetField(1, DataFields.UserData).Size = Header.Length - 23;
             ProcessDataFields(package);
             return this;
         }
@@ -96,8 +104,8 @@ namespace OpenProtocolInterpreter.PLCUserData
                 {
                     1, new List<DataField>()
                     {
-                        new((int)DataFields.Offset, 20, 3, '0', PaddingOrientation.LeftPadded, false),
-                        new((int)DataFields.UserData, 23, 2, ' ', PaddingOrientation.RightPadded, false)
+                        DataField.Number(DataFields.Offset, 20, 3, false),
+                        DataField.Volatile(DataFields.UserData, 23, false)
                     }
                 }
             };

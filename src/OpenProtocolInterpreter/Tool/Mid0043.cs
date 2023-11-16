@@ -13,8 +13,8 @@ namespace OpenProtocolInterpreter.Tool
 
         public int ToolNumber
         {
-            get => GetField(2, (int)DataFields.ToolNumber).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(2, (int)DataFields.ToolNumber).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(2, DataFields.ToolNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(2, DataFields.ToolNumber).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0043() : this(DEFAULT_REVISION)
@@ -41,7 +41,7 @@ namespace OpenProtocolInterpreter.Tool
                 {
                     2, new List<DataField>()
                             {
-                                new((int)DataFields.ToolNumber, 20, 4, '0', PaddingOrientation.LeftPadded),
+                                DataField.Number(DataFields.ToolNumber, 20, 4),
                             }
                 },
             };

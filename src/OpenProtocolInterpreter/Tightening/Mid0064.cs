@@ -29,13 +29,13 @@ namespace OpenProtocolInterpreter.Tightening
 
         public long TighteningId
         {
-            get => GetField(1,(int)DataFields.TighteningId).GetValue(OpenProtocolConvert.ToInt64);
-            set => GetField(1,(int)DataFields.TighteningId).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.TighteningId).GetValue(OpenProtocolConvert.ToInt64);
+            set => GetField(1, DataFields.TighteningId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public bool OfflineResult
         {
-            get => GetField(10, (int)DataFields.OfflineResult).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(10, (int)DataFields.OfflineResult).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(10, DataFields.OfflineResult).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(10, DataFields.OfflineResult).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0064() : this(DEFAULT_REVISION)
@@ -63,13 +63,13 @@ namespace OpenProtocolInterpreter.Tightening
                 {
                     1, new List<DataField>()
                             {
-                                new((int)DataFields.TighteningId, 20, 10, '0', PaddingOrientation.LeftPadded, false)
+                                DataField.Number(DataFields.TighteningId, 20, 10, false)
                             }
                 },
                 {
                     10, new List<DataField>()
                             {
-                                new((int)DataFields.OfflineResult, 30, 1, false)
+                                DataField.Boolean(DataFields.OfflineResult, 30, false)
                             }
                 }
             };

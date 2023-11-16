@@ -18,8 +18,8 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public int ParameterSetId
         {
-            get => GetField(1,(int)DataFields.ParameterSetId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1,(int)DataFields.ParameterSetId).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.ParameterSetId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.ParameterSetId).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid2504() : this(new Header()
@@ -42,7 +42,7 @@ namespace OpenProtocolInterpreter.ParameterSet
                 {
                     1, new List<DataField>()
                             {
-                                new((int)DataFields.ParameterSetId, 20, 3, '0', PaddingOrientation.LeftPadded, false)
+                                DataField.Number(DataFields.ParameterSetId, 20, 3, false)
                             }
                 }
             };

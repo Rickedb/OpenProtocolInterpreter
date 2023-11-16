@@ -7,6 +7,8 @@ namespace OpenProtocolInterpreter
     /// </summary>
     public sealed class Header
     {
+        public const int DefaultSize = 20;
+
         /// <summary>
         /// Length of the header plus the data field excluding the NUL termination.
         /// </summary>
@@ -77,7 +79,7 @@ namespace OpenProtocolInterpreter
 
         public Header()
         {
-            Length = 20; //default length
+            Length = DefaultSize; //default length
         }
 
         public void EnforceRevisionStandardization()

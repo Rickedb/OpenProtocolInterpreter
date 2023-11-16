@@ -21,8 +21,8 @@ namespace OpenProtocolInterpreter.PowerMACS
 
         public bool BoltData
         {
-            get => GetField(1, (int)DataFields.BoltData).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1, (int)DataFields.BoltData).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.BoltData).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, DataFields.BoltData).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0108() : this(DEFAULT_REVISION)
@@ -49,7 +49,7 @@ namespace OpenProtocolInterpreter.PowerMACS
                 {
                     1, new List<DataField>()
                             {
-                                new((int)DataFields.BoltData, 20, 1, false),
+                                DataField.Boolean(DataFields.BoltData, 20, false),
                             }
                 },
             };

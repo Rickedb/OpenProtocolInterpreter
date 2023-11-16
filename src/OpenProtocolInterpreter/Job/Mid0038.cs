@@ -16,8 +16,8 @@ namespace OpenProtocolInterpreter.Job
 
         public int JobId
         {
-            get => GetField(1, (int)DataFields.JobId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, (int)DataFields.JobId).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.JobId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.JobId).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0038() : this(DEFAULT_REVISION)
@@ -27,7 +27,7 @@ namespace OpenProtocolInterpreter.Job
         
         public Mid0038(Header header) : base(header)
         {
-            HandleRevision();
+            
         }
 
         public Mid0038(int revision) : this(new Header()
@@ -36,6 +36,12 @@ namespace OpenProtocolInterpreter.Job
             Revision = revision
         })
         {
+        }
+
+        public override string Pack()
+        {
+            HandleRevision();
+            return base.Pack();
         }
 
         public override Mid Parse(string package)
@@ -53,7 +59,7 @@ namespace OpenProtocolInterpreter.Job
                 {
                     1, new List<DataField>()
                             {
-                                new((int)DataFields.JobId, 20, 2, '0', PaddingOrientation.LeftPadded, false),
+                                DataField.Number(DataFields.JobId, 20, 2, false),
                             }
                 }
             };
@@ -63,11 +69,11 @@ namespace OpenProtocolInterpreter.Job
         {
             if (Header.Revision > 1)
             {
-                GetField(1, (int)DataFields.JobId).Size = 4;
+                GetField(1, DataFields.JobId).Size = 4;
             }
             else
             {
-                GetField(1, (int)DataFields.JobId).Size = 2;
+                GetField(1, DataFields.JobId).Size = 2;
             }
         }
 

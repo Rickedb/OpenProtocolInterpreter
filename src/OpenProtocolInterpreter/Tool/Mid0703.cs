@@ -22,8 +22,8 @@ namespace OpenProtocolInterpreter.Tool
 
         public int ToolNumber
         {
-            get => GetField(1, (int)DataFields.ToolNumber).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, (int)DataFields.ToolNumber).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.ToolNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.ToolNumber).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int NumberOfCalibrationParameters => CalibrationParameters.Count;
         public List<VariableDataField> CalibrationParameters { get; set; }
@@ -43,15 +43,15 @@ namespace OpenProtocolInterpreter.Tool
 
         public override string Pack()
         {
-            GetField(1, (int)DataFields.NumberOfCalibrationParameters).SetValue(OpenProtocolConvert.ToString, CalibrationParameters.Count);
-            GetField(1, (int)DataFields.EachCalibrationParameter).Value = OpenProtocolConvert.ToString(CalibrationParameters);
+            GetField(1, DataFields.NumberOfCalibrationParameters).SetValue(OpenProtocolConvert.ToString, CalibrationParameters.Count);
+            GetField(1, DataFields.EachCalibrationParameter).Value = OpenProtocolConvert.ToString(CalibrationParameters);
             return base.Pack();
         }
 
         public override Mid Parse(string package)
         {
             Header = ProcessHeader(package);
-            var dataFieldsField = GetField(1, (int)DataFields.EachCalibrationParameter);
+            var dataFieldsField = GetField(1, DataFields.EachCalibrationParameter);
             dataFieldsField.Size = Header.Length - dataFieldsField.Index;
             ProcessDataFields(package);
             CalibrationParameters = VariableDataField.ParseAll(dataFieldsField.Value).ToList();
@@ -65,9 +65,9 @@ namespace OpenProtocolInterpreter.Tool
                 {
                     1, new List<DataField>()
                             {
-                                new((int)DataFields.ToolNumber, 20, 4, '0', PaddingOrientation.LeftPadded),
-                                new((int)DataFields.NumberOfCalibrationParameters, 26, 2, '0', PaddingOrientation.LeftPadded, false),
-                                new((int)DataFields.EachCalibrationParameter, 28, 0, false)
+                                DataField.Number(DataFields.ToolNumber, 20, 4),
+                                DataField.Number(DataFields.NumberOfCalibrationParameters, 26, 2, false),
+                                new(DataFields.EachCalibrationParameter, 28, 0, false)
                             }
                 }
             };
