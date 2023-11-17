@@ -51,6 +51,26 @@ namespace OpenProtocolInterpreter.Communication
 
         }
 
+        public override string Pack()
+        {
+            HandleRevision();
+            return base.Pack();
+        }
+
+        public override Mid Parse(string package)
+        {
+            Header = ProcessHeader(package);
+            HandleRevision();
+            ProcessDataFields(package);
+            return this;
+        }
+
+        private void HandleRevision()
+        {
+            var errorCodeField = GetField(1, DataFields.ErrorCode);
+            errorCodeField.Size = Header.Revision > 1 ? 3 : 2;
+        }
+
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()

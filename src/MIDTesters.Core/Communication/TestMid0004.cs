@@ -31,5 +31,30 @@ namespace MIDTesters.Communication
             Assert.IsNotNull(mid.ErrorCode);
             AssertEqualPackages(bytes, mid, true);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ASCII")]
+        public void Mid0004Revision2()
+        {
+            string pack = @"00270004002         0018021";
+            var mid = _midInterpreter.Parse<Mid0004>(pack);
+
+            Assert.IsNotNull(mid.FailedMid);
+            Assert.IsNotNull(mid.ErrorCode);
+            AssertEqualPackages(pack, mid);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ByteArray")]
+        public void Mid0004ByteRevision2()
+        {
+            string pack = @"00270004002         0018021";
+            byte[] bytes = GetAsciiBytes(pack);
+            var mid = _midInterpreter.Parse<Mid0004>(bytes);
+
+            Assert.IsNotNull(mid.FailedMid);
+            Assert.IsNotNull(mid.ErrorCode);
+            AssertEqualPackages(bytes, mid);
+        }
     }
 }
