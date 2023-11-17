@@ -29,7 +29,8 @@ namespace OpenProtocolInterpreter.ParameterSet
                 { Mid0023.MID, new MidCompiledInstance(typeof(Mid0023)) },
                 { Mid0024.MID, new MidCompiledInstance(typeof(Mid0024)) },
                 { Mid2504.MID, new MidCompiledInstance(typeof(Mid2504)) },
-                { Mid2505.MID, new MidCompiledInstance(typeof(Mid2505)) }
+                { Mid2505.MID, new MidCompiledInstance(typeof(Mid2505)) },
+                { Mid2506.MID, new MidCompiledInstance(typeof(Mid2506)) }
             };
         }
 
@@ -43,6 +44,6 @@ namespace OpenProtocolInterpreter.ParameterSet
             FilterSelectedMids(mode);
         }
 
-        public override bool IsAssignableTo(int mid) => mid > 9 && mid < 26 || mid > 2499 && mid < 2506;
+        public override bool IsAssignableTo(int mid) => mid > 9 && mid < 26 || mid > 2499 && mid < 2507;
     }
 }
