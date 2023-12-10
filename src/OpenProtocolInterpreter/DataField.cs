@@ -109,7 +109,7 @@ namespace OpenProtocolInterpreter
         public static DataField Boolean(Enum field, int index, bool hasPrefix = true)
            => new(field, index, 1, hasPrefix);
 
-        public static DataField DateTime(int field, int index, bool hasPrefix = true)
+        public static DataField Timestamp(int field, int index, bool hasPrefix = true)
            => new(field, index, 19, hasPrefix);
         public static DataField Timestamp(Enum field, int index, bool hasPrefix = true)
            => new(field, index, 19, hasPrefix);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Tightening;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
@@ -37,7 +38,7 @@ namespace OpenProtocolInterpreter
             if (!string.IsNullOrWhiteSpace(value.ToString()))
             {
                 var date = value.ToString();
-                DateTime.TryParse(date.Substring(0, 10) + " " + date.Substring(11, 8), out convertedValue);
+                DateTime.TryParse($"{date.Substring(0, 10)} {date.Substring(11, 8)}", out convertedValue);
             }
 
             return convertedValue;
@@ -112,6 +113,16 @@ namespace OpenProtocolInterpreter
         }
 
         public static string ToString(IEnumerable<VariableDataField> value)
+        {
+            var builder = new StringBuilder();
+            foreach (var v in value)
+            {
+                builder.Append(v.Pack());
+            }
+            return builder.ToString();
+        }
+
+        public static string ToString(IEnumerable<TighteningResultDataField> value)
         {
             var builder = new StringBuilder();
             foreach (var v in value)
