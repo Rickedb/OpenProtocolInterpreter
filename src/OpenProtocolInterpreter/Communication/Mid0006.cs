@@ -3,7 +3,7 @@
 namespace OpenProtocolInterpreter.Communication
 {
     /// <summary>
-    /// Application Communication positive acknowledge
+    /// Application data message request
     /// <para>
     ///     Do a request for data. This message is used for ALL request handling.
     ///     When used it substitutes the use of all MID special request messages.

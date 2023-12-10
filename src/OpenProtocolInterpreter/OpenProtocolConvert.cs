@@ -122,16 +122,6 @@ namespace OpenProtocolInterpreter
             return builder.ToString();
         }
 
-        public static string ToString(IEnumerable<TighteningResultDataField> value)
-        {
-            var builder = new StringBuilder();
-            foreach (var v in value)
-            {
-                builder.Append(v.Pack());
-            }
-            return builder.ToString();
-        }
-
         public static bool GetBit(byte b, int bitNumber) => (b & (1 << bitNumber - 1)) != 0;
 
         public static byte ToByte(bool[] values)
