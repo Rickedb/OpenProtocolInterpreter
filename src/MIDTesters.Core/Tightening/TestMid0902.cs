@@ -1,18 +1,12 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Tightening;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MIDTesters.Core.Tightening
 {
     [TestClass]
     [TestCategory("Tightening")]
-    public class TestMid0902 : MidTester
+    public class TestMid0902 : DefaultMidTests<Mid0902>
     {
-
         [TestMethod]
         [TestCategory("Revision 1"), TestCategory("ASCII")]
         public void Mid0902Revision1()

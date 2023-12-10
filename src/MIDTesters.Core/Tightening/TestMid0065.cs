@@ -6,7 +6,7 @@ namespace MIDTesters.Tightening
 {
     [TestClass]
     [TestCategory("Tightening")]
-    public class TestMid0065 : MidTester
+    public class TestMid0065 : DefaultMidTests<Mid0065>
     {
         [TestMethod]
         [TestCategory("Revision 1"), TestCategory("ASCII")]
