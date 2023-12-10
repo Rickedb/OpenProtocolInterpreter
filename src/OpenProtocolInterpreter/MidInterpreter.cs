@@ -12,18 +12,18 @@ namespace OpenProtocolInterpreter
     /// </summary>
     public class MidInterpreter
     {
-        private readonly IList<IMessagesTemplate> _messagesTemplates;
-        private readonly IDictionary<int, IMessagesTemplate> _fastAccessTemplate;
+        private readonly Dictionary<Type, Lazy<IMessagesTemplate>> _messagesTemplates;
+        private readonly SortedDictionary<int, IMessagesTemplate> _midTemplates;
 
         public MidInterpreter()
         {
-            _messagesTemplates = new List<IMessagesTemplate>();
-            _fastAccessTemplate = new Dictionary<int, IMessagesTemplate>();
+            _messagesTemplates = new Dictionary<Type, Lazy<IMessagesTemplate>>();
+            _midTemplates = new SortedDictionary<int, IMessagesTemplate>();
         }
 
-        public string Pack(Mid mid) => mid.Pack();
+        public static string Pack(Mid mid) => mid.Pack();
 
-        public byte[] PackBytes(Mid mid) => mid.PackBytes();
+        public static byte[] PackBytes(Mid mid) => mid.PackBytes();
 
         public Mid Parse(string package)
         {
@@ -67,30 +67,40 @@ namespace OpenProtocolInterpreter
 
         internal void UseTemplate(IMessagesTemplate template)
         {
-            if (!_messagesTemplates.Any(x => x.GetType().Equals(template.GetType())))
+            var type = template.GetType();
+            if (!_messagesTemplates.ContainsKey(type))
             {
-                _messagesTemplates.Add(template);
+                _messagesTemplates.Add(type, new Lazy<IMessagesTemplate>(() => template));
+            }
+        }
+
+        internal void UseTemplate(Type type, Lazy<IMessagesTemplate> template)
+        {
+            if (!_messagesTemplates.ContainsKey(type))
+            {
+                _messagesTemplates.Add(type, template);
             }
         }
 
         internal void UseTemplate<T>() where T : IMessagesTemplate
         {
-            var instance = (IMessagesTemplate)Activator.CreateInstance(typeof(T));
-            UseTemplate(instance);
+            UseTemplate<T>(InterpreterMode.Both);
         }
 
         internal void UseTemplate<T>(InterpreterMode mode) where T : IMessagesTemplate
         {
-            var instance = (IMessagesTemplate)Activator.CreateInstance(typeof(T), new object[] { mode });
-            UseTemplate(instance);
+            var type = typeof(T);
+            var instance = new Lazy<IMessagesTemplate>(() => (IMessagesTemplate)Activator.CreateInstance(type, [mode]));
+            UseTemplate(type, instance);
         }
 
         internal void UseTemplate<T>(IEnumerable<Type> types) where T : IMessagesTemplate
         {
             if (types.Any())
             {
-                var instance = (IMessagesTemplate)Activator.CreateInstance(typeof(T), new object[] { types });
-                UseTemplate(instance);
+                var type = typeof(T);
+                var instance = new Lazy<IMessagesTemplate>(() => (IMessagesTemplate)Activator.CreateInstance(type, [types]));
+                UseTemplate(type, instance);
             }
         }
 
@@ -98,45 +108,42 @@ namespace OpenProtocolInterpreter
         {
             if (types.Any())
             {
-                var instance = _messagesTemplates.FirstOrDefault(x => x.GetType().Equals(typeof(T)));
-                if(instance == default)
+                var type = typeof(T);
+                if (!_messagesTemplates.TryGetValue(type, out var instance))
                 {
-                    instance = (IMessagesTemplate)Activator.CreateInstance(typeof(T), new object[] { types.Select(x=> x.Value) });
-                    UseTemplate(instance);
+                    instance = new Lazy<IMessagesTemplate>(() => (IMessagesTemplate)Activator.CreateInstance(type, []));
+                    UseTemplate(type, instance);
                 }
 
-                instance.AddOrUpdateTemplate(types);
+                instance.Value.AddOrUpdateTemplate(types);
             }
         }
 
         private IMessagesTemplate GetMessageTemplate(int mid)
         {
-            if (!_fastAccessTemplate.TryGetValue(mid, out IMessagesTemplate template))
+            if (!_midTemplates.TryGetValue(mid, out IMessagesTemplate template))
             {
-
-                template = _messagesTemplates.FirstOrDefault(x => x.IsAssignableTo(mid));
-                if (template == null)
+                var lazy = _messagesTemplates.Values.FirstOrDefault(x => x.Value.IsAssignableTo(mid));
+                if (lazy == null)
                 {
                     throw new NotImplementedException($@"Could not found a message parser for mid {mid}, please register it before using");
                 }
 
-                _fastAccessTemplate.Add(mid, template);
+                template = lazy.Value;
+                _midTemplates.Add(mid, template);
             }
 
             return template;
         }
 
-        private Mid TryParseStandaloneMid(int mid)
+        private static Mid TryParseStandaloneMid(int mid)
         {
-            switch (mid)
+            return mid switch
             {
-                case KeepAlive.Mid9999.MID:
-                    return new KeepAlive.Mid9999();
-                case ApplicationController.Mid0270.MID:
-                    return new ApplicationController.Mid0270();
-            }
-
-            return default;
+                KeepAlive.Mid9999.MID => new KeepAlive.Mid9999(),
+                ApplicationController.Mid0270.MID => new ApplicationController.Mid0270(),
+                _ => default,
+            };
         }
     }
 }
