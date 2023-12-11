@@ -459,7 +459,7 @@
         </member>
         <member name="T:OpenProtocolInterpreter.Communication.Mid0006">
             <summary>
-            Application Communication positive acknowledge
+            Application data message request
             <para>
                 Do a request for data. This message is used for ALL request handling.
                 When used it substitutes the use of all MID special request messages.
@@ -2439,6 +2439,15 @@
             </para>
             </summary>
         </member>
+        <member name="P:OpenProtocolInterpreter.Header.StandardizedRevision">
+            <summary>
+            The MID Revision is unique per MID and is used in case different versions are available for the same MID. 
+            Using the revision number the integrator can subscribe or ask for different versions of the same MID.
+            <para>
+                Note: Enforces the default MID Revision to 1 when it's either send three spaces or 000 or 001.
+            </para>
+            </summary>
+        </member>
         <member name="P:OpenProtocolInterpreter.Header.NoAckFlag">
             <summary>
             Define if subscriber will acknowledge each "push" message sent by controller (reliable mode) or just push without waiting for a receive acknowledgement from subscriber (unreliable mode)
@@ -4046,6 +4055,18 @@
             </para>
             </summary>
         </member>
+        <member name="T:OpenProtocolInterpreter.MultiSpindle.Mid0104">
+            <summary>
+            Old Multi spindle result request
+            <para>Request for an old multi spindle result.</para>
+            <para>Note: MID 0104 can’t be used if there is an active subscription for multiple spindle results.</para>
+            <para>Message sent by: Integrator</para>
+            <para>
+            Answer: <see cref="T:OpenProtocolInterpreter.MultiSpindle.Mid0101"/> Command accepted or 
+            <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, Multi spindle result subscription already exists
+            </para>
+            </summary>
+        </member>
         <member name="T:OpenProtocolInterpreter.MultiSpindle.MultiSpindleMessages">
             <summary>
             Template for <see cref="T:OpenProtocolInterpreter.MultiSpindle.IMultiSpindle"/> implementers.
@@ -4334,6 +4355,19 @@
             A dynamic pset is created from a preexisting Pset in the Controller and selected for tightenings. 
             The message can substitute Pset selection, Set Identifier, Reset All Identifier, Reset Latest Identifier, Set Batch Size, Disable Tool and Enable Tool.
             </para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.ParameterSet.Mid2506">
+            <summary>
+            Tightening Program Delete
+            <para>Message sent by: Integrator</para>
+            <para>
+                Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or
+                <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error
+            </para>
+            <para> This message deletes one or all programs in controller. </para>
+            <para> <b>Note</b>: If a running program is included in MID 2506 deletion the program shall finish before deletion. </para>
+            <para> <b>Note</b>: Deleting programs included in other nodes may give unwanted behaviour. It will behave identical to a manual delete of the program. </para>
             </summary>
         </member>
         <member name="T:OpenProtocolInterpreter.ParameterSet.ParameterSetMessages">
@@ -4755,6 +4789,15 @@
             <para>Answer: None</para>
             </summary>
         </member>
+        <member name="T:OpenProtocolInterpreter.Tightening.Mid0902">
+            <summary>
+            Tightening Result DB Info Upload
+            <para>This message contains information concerning the tightening result database on the controller.</para>
+            <para><see cref="T:OpenProtocolInterpreter.Communication.Mid0006"/> Application Data Message Request shall be used for fetching this message</para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: None</para>
+            </summary>
+        </member>
         <member name="T:OpenProtocolInterpreter.Tightening.StageResult">
             <summary>
             Represents a Stage Result entity
@@ -4947,6 +4990,21 @@
             <para>
                 Answer: <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or 
                         <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, with code Calibration failed
+            </para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Tool.Mid0704">
+            <summary>
+            Tool Data status reply with generic data
+            <para>
+                Upload requested parameters from given tool.
+            </para>    
+            <para>Message sent by: Controller</para>
+            <para>
+                Answer: None
+            </para>
+            <para>
+                The list will contain requested parameters from the tool.
             </para>
             </summary>
         </member>
