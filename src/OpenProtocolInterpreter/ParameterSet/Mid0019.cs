@@ -19,18 +19,18 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public int ParameterSetId
         {
-            get => GetField(1,(int)DataFields.ParameterSetId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1,(int)DataFields.ParameterSetId).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.ParameterSetId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.ParameterSetId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int BatchSize
         {
-            get => GetField(1,(int)DataFields.BatchSize).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1,(int)DataFields.BatchSize).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.BatchSize).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.BatchSize).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0019() : this(new Header()
         {
-            Mid = MID, 
+            Mid = MID,
             Revision = DEFAULT_REVISION
         })
         {
@@ -40,6 +40,33 @@ namespace OpenProtocolInterpreter.ParameterSet
         {
         }
 
+        public override string Pack()
+        {
+            HandleRevision();
+            return base.Pack();
+        }
+
+        public override Mid Parse(string package)
+        {
+            Header = ProcessHeader(package);
+            HandleRevision();
+            ProcessDataFields(package);
+            return this;
+        }
+
+        private void HandleRevision()
+        {
+            var batchSizeField = GetField(1, DataFields.BatchSize);
+            if (Header.Revision > 1)
+            {
+                batchSizeField.Size = 4;
+            }
+            else
+            {
+                batchSizeField.Size = 2;
+            }
+        }
+
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()
@@ -47,8 +74,8 @@ namespace OpenProtocolInterpreter.ParameterSet
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.ParameterSetId, 20, 3, '0', PaddingOrientation.LeftPadded, false),
-                                new DataField((int)DataFields.BatchSize, 23, 2, '0', PaddingOrientation.LeftPadded, false),
+                                DataField.Number(DataFields.ParameterSetId, 20, 3, false),
+                                DataField.Number(DataFields.BatchSize, 23, 2, false),
                             }
                 }
             };

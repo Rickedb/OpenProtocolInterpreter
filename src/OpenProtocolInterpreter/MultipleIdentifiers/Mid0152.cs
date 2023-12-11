@@ -39,10 +39,10 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
 
         public override string Pack()
         {
-            GetField(1, (int)DataFields.FirstIdentifierStatus).Value = FirstIdentifierStatus.Pack();
-            GetField(1, (int)DataFields.SecondIdentifierStatus).Value = SecondIdentifierStatus.Pack();
-            GetField(1, (int)DataFields.ThirdIdentifierStatus).Value = ThirdIdentifierStatus.Pack();
-            GetField(1, (int)DataFields.FourthIdentifierStatus).Value = FourthIdentifierStatus.Pack();
+            GetField(1, DataFields.FirstIdentifierStatus).Value = FirstIdentifierStatus.Pack();
+            GetField(1, DataFields.SecondIdentifierStatus).Value = SecondIdentifierStatus.Pack();
+            GetField(1, DataFields.ThirdIdentifierStatus).Value = ThirdIdentifierStatus.Pack();
+            GetField(1, DataFields.FourthIdentifierStatus).Value = FourthIdentifierStatus.Pack();
             return base.Pack();
         }
 
@@ -50,10 +50,10 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
         {
             base.Parse(package);
 
-            FirstIdentifierStatus = IdentifierStatus.Parse(GetField(1, (int)DataFields.FirstIdentifierStatus).Value);
-            SecondIdentifierStatus = IdentifierStatus.Parse(GetField(1, (int)DataFields.SecondIdentifierStatus).Value);
-            ThirdIdentifierStatus = IdentifierStatus.Parse(GetField(1, (int)DataFields.ThirdIdentifierStatus).Value);
-            FourthIdentifierStatus = IdentifierStatus.Parse(GetField(1, (int)DataFields.FourthIdentifierStatus).Value);
+            FirstIdentifierStatus = IdentifierStatus.Parse(GetField(1, DataFields.FirstIdentifierStatus).Value);
+            SecondIdentifierStatus = IdentifierStatus.Parse(GetField(1, DataFields.SecondIdentifierStatus).Value);
+            ThirdIdentifierStatus = IdentifierStatus.Parse(GetField(1, DataFields.ThirdIdentifierStatus).Value);
+            FourthIdentifierStatus = IdentifierStatus.Parse(GetField(1, DataFields.FourthIdentifierStatus).Value);
 
             return this;
         }
@@ -65,10 +65,10 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.FirstIdentifierStatus, 20, 30),
-                                new DataField((int)DataFields.SecondIdentifierStatus, 52, 30),
-                                new DataField((int)DataFields.ThirdIdentifierStatus, 84, 30),
-                                new DataField((int)DataFields.FourthIdentifierStatus, 116, 30)
+                                new(DataFields.FirstIdentifierStatus, 20, 30),
+                                new(DataFields.SecondIdentifierStatus, 52, 30),
+                                new(DataFields.ThirdIdentifierStatus, 84, 30),
+                                new(DataFields.FourthIdentifierStatus, 116, 30)
                             }
                 }
             };

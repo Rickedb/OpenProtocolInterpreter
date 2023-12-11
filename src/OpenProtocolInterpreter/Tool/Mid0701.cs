@@ -30,16 +30,13 @@ namespace OpenProtocolInterpreter.Tool
 
         public Mid0701(Header header) : base(header)
         {
-            if (Tools == null)
-            {
-                Tools = new List<ToolData>();
-            }
+            Tools ??= [];
         }
 
         public override string Pack()
         {
-            GetField(1, (int)DataFields.TotalTools).SetValue(OpenProtocolConvert.ToString, TotalTools);
-            var eachToolField = GetField(1, (int)DataFields.EachTool);
+            GetField(1, DataFields.TotalTools).SetValue(OpenProtocolConvert.ToString, TotalTools);
+            var eachToolField = GetField(1, DataFields.EachTool);
             eachToolField.Value = PackTools();
             eachToolField.Size = eachToolField.Value.Length;
             return base.Pack();
@@ -49,7 +46,7 @@ namespace OpenProtocolInterpreter.Tool
         {
             Header = ProcessHeader(package);
 
-            var eachToolField = GetField(1, (int)DataFields.EachTool);
+            var eachToolField = GetField(1, DataFields.EachTool);
             eachToolField.Size = Header.Length - eachToolField.Index;
             ProcessDataFields(package);
             Tools = ToolData.ParseAll(eachToolField.Value).ToList();
@@ -74,8 +71,8 @@ namespace OpenProtocolInterpreter.Tool
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.TotalTools, 20, 3, '0', PaddingOrientation.LeftPadded, false),
-                                new DataField((int)DataFields.EachTool, 23, 3, false)
+                                DataField.Number(DataFields.TotalTools, 20, 3, false),
+                                new(DataFields.EachTool, 23, 3, false)
                             }
                 }
             };

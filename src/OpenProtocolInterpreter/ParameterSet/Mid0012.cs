@@ -19,13 +19,13 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public int ParameterSetId
         {
-            get => GetField(1, (int)DataFields.ParameterSetId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, (int)DataFields.ParameterSetId).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.ParameterSetId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.ParameterSetId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int ParameterSetFileVersion
         {
-            get => GetField(3, (int)DataFields.PSetFileVersion).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(3, (int)DataFields.PSetFileVersion).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(3, DataFields.PSetFileVersion).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(3, DataFields.PSetFileVersion).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0012() : this(DEFAULT_REVISION)
@@ -52,13 +52,13 @@ namespace OpenProtocolInterpreter.ParameterSet
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.ParameterSetId, 20, 3, '0', PaddingOrientation.LeftPadded, false)
+                                DataField.Number(DataFields.ParameterSetId, 20, 3, false)
                             }
                 },
                 {
                     3, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.PSetFileVersion, 23, 8, '0', PaddingOrientation.LeftPadded, false)
+                                DataField.Number(DataFields.PSetFileVersion, 23, 8, false)
                             }
                 },
             };

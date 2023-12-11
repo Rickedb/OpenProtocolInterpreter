@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 
 namespace OpenProtocolInterpreter.ApplicationSelector
 {
@@ -24,8 +25,8 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
         public int DeviceId
         {
-            get => GetField(1, (int)DataFields.DeviceId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, (int)DataFields.DeviceId).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.DeviceId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.DeviceId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public List<LightCommand> RedLights { get; set; }
 
@@ -40,30 +41,29 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
         public Mid0255(Header header) : base(header)
         {
-            if (RedLights == null)
-                RedLights = new List<LightCommand>();
+            RedLights ??= [];
         }
 
         public override string Pack()
         {
-            GetField(1, (int)DataFields.RedLightCommand).Value = PackRedLights();
+            GetField(1, DataFields.RedLightCommand).Value = PackRedLights();
             return base.Pack();
         }
 
         public override Mid Parse(string package)
         {
             base.Parse(package);
-            RedLights = ParseRedLights(GetField(1, (int)DataFields.RedLightCommand).Value);
+            RedLights = ParseRedLights(GetField(1, DataFields.RedLightCommand).Value);
             return this;
         }
 
         protected virtual string PackRedLights()
         {
-            string pack = string.Empty;
+            var builder = new StringBuilder(RedLights.Count);
             foreach (var e in RedLights)
-                pack += OpenProtocolConvert.ToString((int)e);
+                builder.Append(OpenProtocolConvert.ToString(e));
 
-            return pack;
+            return builder.ToString();
         }
 
         protected virtual List<LightCommand> ParseRedLights(string value)
@@ -82,8 +82,8 @@ namespace OpenProtocolInterpreter.ApplicationSelector
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.DeviceId, 20, 2, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.RedLightCommand, 24, 8)
+                                DataField.Number(DataFields.DeviceId, 20, 2),
+                                new(DataFields.RedLightCommand, 24, 8)
                             }
                 }
             };

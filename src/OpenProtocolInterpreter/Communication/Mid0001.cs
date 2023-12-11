@@ -16,8 +16,8 @@ namespace OpenProtocolInterpreter.Communication
 
         public bool OptionalKeepAlive
         {
-            get => GetField(7, (int)DataFields.UseKeepAlive).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(7, (int)DataFields.UseKeepAlive).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(7, DataFields.UseKeepAlive).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(7, DataFields.UseKeepAlive).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0001() : this(DEFAULT_REVISION)
@@ -45,7 +45,7 @@ namespace OpenProtocolInterpreter.Communication
                 {
                     7, new List<DataField>()
                             {
-                                new DataField((int)DataFields.UseKeepAlive, 20, 1)
+                                DataField.Boolean(DataFields.UseKeepAlive, 20)
                             }
                 }
             };

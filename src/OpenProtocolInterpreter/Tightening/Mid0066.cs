@@ -14,13 +14,19 @@ namespace OpenProtocolInterpreter.Tightening
 
         public int NumberOfOfflineResults
         {
-            get => GetField(1, (int)DataFields.NumberOfOfflineResults).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, (int)DataFields.NumberOfOfflineResults).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.NumberOfOfflineResults).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.NumberOfOfflineResults).SetValue(OpenProtocolConvert.ToString, value);
+        }
+
+        public int NumberOfOfflineCurves
+        {
+            get => GetField(2, DataFields.NumberOfOfflineCurves).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(2, DataFields.NumberOfOfflineCurves).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0066() : this(new Header()
         {
-            Mid = MID, 
+            Mid = MID,
             Revision = DEFAULT_REVISION
         })
         {
@@ -30,6 +36,25 @@ namespace OpenProtocolInterpreter.Tightening
         {
         }
 
+        public override Mid Parse(string package)
+        {
+            Header = ProcessHeader(package);
+            HandleRevisionSizes();
+            ProcessDataFields(package);
+            return this;
+        }
+
+        public override string Pack()
+        {
+            HandleRevisionSizes();
+            return base.Pack();
+        }
+
+        private void HandleRevisionSizes()
+        {
+            GetField(1, DataFields.NumberOfOfflineResults).Size = Header.Revision > 1 ? 3 : 2;
+        }
+
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()
@@ -37,7 +62,13 @@ namespace OpenProtocolInterpreter.Tightening
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.NumberOfOfflineResults, 20, 2, '0', PaddingOrientation.LeftPadded, false)
+                                DataField.Number(DataFields.NumberOfOfflineResults, 20, 2)
+                            }
+                },
+                {
+                    2, new List<DataField>()
+                            {
+                                DataField.Number(DataFields.NumberOfOfflineCurves, 25, 3),
                             }
                 }
             };
@@ -45,7 +76,8 @@ namespace OpenProtocolInterpreter.Tightening
 
         protected enum DataFields
         {
-            NumberOfOfflineResults
+            NumberOfOfflineResults,
+            NumberOfOfflineCurves
         }
     }
 }

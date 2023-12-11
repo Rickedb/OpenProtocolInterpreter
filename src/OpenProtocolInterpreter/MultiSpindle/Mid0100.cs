@@ -34,14 +34,14 @@ namespace OpenProtocolInterpreter.MultiSpindle
 
         public long DataNumberSystem
         {
-            get => GetField(2, (int)DataFields.DataNumberSystem).GetValue(OpenProtocolConvert.ToInt64);
-            set => GetField(2, (int)DataFields.DataNumberSystem).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(2, DataFields.DataNumberSystem).GetValue(OpenProtocolConvert.ToInt64);
+            set => GetField(2, DataFields.DataNumberSystem).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public bool SendOnlyNewData
         {
-            get => GetField(3, (int)DataFields.SendOnlyNewData).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(3, (int)DataFields.SendOnlyNewData).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(3, DataFields.SendOnlyNewData).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(3, DataFields.SendOnlyNewData).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0100() : this(DEFAULT_REVISION)
@@ -74,13 +74,13 @@ namespace OpenProtocolInterpreter.MultiSpindle
                 {
                     2, new List<DataField>()
                             {
-                                new DataField((int)DataFields.DataNumberSystem, 20, 10, '0', PaddingOrientation.LeftPadded, false),
+                                DataField.Number(DataFields.DataNumberSystem, 20, 10, false),
                             }
                 },
                 {
                     3, new List<DataField>()
                             {
-                                new DataField((int)DataFields.SendOnlyNewData, 30, 1, '0', PaddingOrientation.LeftPadded, false),
+                                DataField.Boolean(DataFields.SendOnlyNewData, 30, false),
                             }
                 }
             };

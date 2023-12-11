@@ -1,10 +1,14 @@
-﻿namespace OpenProtocolInterpreter
+﻿using System.Text;
+
+namespace OpenProtocolInterpreter
 {
     /// <summary>
     /// Represents a Mid header
     /// </summary>
     public sealed class Header
     {
+        public const int DefaultSize = 20;
+
         /// <summary>
         /// Length of the header plus the data field excluding the NUL termination.
         /// </summary>
@@ -23,6 +27,15 @@
         /// </para>
         /// </summary>
         public int Revision { get; set; }
+
+        /// <summary>
+        /// The MID Revision is unique per MID and is used in case different versions are available for the same MID. 
+        /// Using the revision number the integrator can subscribe or ask for different versions of the same MID.
+        /// <para>
+        ///     Note: Enforces the default MID Revision to 1 when it's either send three spaces or 000 or 001.
+        /// </para>
+        /// </summary>
+        public int StandardizedRevision => Revision > 0 ? Revision : 1;
 
         /// <summary>
         /// Define if subscriber will acknowledge each "push" message sent by controller (reliable mode) or just push without waiting for a receive acknowledgement from subscriber (unreliable mode)
@@ -66,21 +79,24 @@
 
         public Header()
         {
-            Length = 20; //default length
+            Length = DefaultSize; //default length
         }
+
+        public void EnforceRevisionStandardization()
+            => Revision = StandardizedRevision;
 
         public override string ToString()
         {
-            string header = Length.ToString().PadLeft(4, '0');
-            header += Mid.ToString().PadLeft(4, '0');
-            header += (Revision > 0) ? Revision.ToString().PadLeft(3, '0') : "   ";
-            header += NoAckFlag ? "1" : " ";
-            header += (StationId != null) ? StationId.ToString().PadLeft(2, '0') : string.Empty.PadLeft(2, ' ');
-            header += (SpindleId != null) ? SpindleId.ToString().PadLeft(2, '0') : string.Empty.PadLeft(2, ' ');
-            header += (SequenceNumber > 0) ? SequenceNumber.ToString().PadLeft(2, '0') : string.Empty.PadLeft(2, ' ');
-            header += NumberOfMessages.ToString().PadLeft(1, ' ');
-            header += MessageNumber.ToString().PadLeft(1, ' ');
-            return header;
+            var builder = new StringBuilder(Length.ToString("D4"));
+            builder.Append(Mid.ToString("D4"));
+            builder.Append((Revision > 0) ? Revision.ToString("D3") : "   ");
+            builder.Append(NoAckFlag ? "1" : " ");
+            builder.Append(StationId.HasValue ? StationId.Value.ToString("D2") : "  ");
+            builder.Append(SpindleId.HasValue ? SpindleId.Value.ToString("D2") : "  ");
+            builder.Append(SequenceNumber.HasValue ? SequenceNumber.Value.ToString("D2") : "  ");
+            builder.Append(NumberOfMessages.HasValue ? NumberOfMessages.ToString() : " ");
+            builder.Append(MessageNumber.HasValue ? MessageNumber.ToString() : " ");
+            return builder.ToString();
         }
     }
 }

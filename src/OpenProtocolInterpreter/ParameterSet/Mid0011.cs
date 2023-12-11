@@ -34,14 +34,13 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public Mid0011(Header header) : base(header)
         {
-            if (ParameterSets == null)
-                ParameterSets = new List<int>();
+            ParameterSets ??= [];
         }
 
         public override string Pack()
         {
-            GetField(1, (int)DataFields.TotalParameterSets).SetValue(OpenProtocolConvert.ToString, TotalParameterSets);
-            var eachParameterField = GetField(1, (int)DataFields.EachParameterSet);
+            GetField(1, DataFields.TotalParameterSets).SetValue(OpenProtocolConvert.ToString, TotalParameterSets);
+            var eachParameterField = GetField(1, DataFields.EachParameterSet);
             eachParameterField.Value = PackParameterSetIdList();
             eachParameterField.Size = eachParameterField.Value.Length;
             return base.Pack();
@@ -51,9 +50,9 @@ namespace OpenProtocolInterpreter.ParameterSet
         {
             Header = ProcessHeader(package);
 
-            GetField(1, (int)DataFields.EachParameterSet).Size = Header.Length - GetField(1, (int)DataFields.EachParameterSet).Index;
+            GetField(1, DataFields.EachParameterSet).Size = Header.Length - GetField(1, DataFields.EachParameterSet).Index;
             ProcessDataFields(package);
-            ParameterSets = ParseParameterSetIdList(GetField(1, (int)DataFields.EachParameterSet).Value).ToList();
+            ParameterSets = ParseParameterSetIdList(GetField(1, DataFields.EachParameterSet).Value).ToList();
             return this;
         }
 
@@ -81,8 +80,8 @@ namespace OpenProtocolInterpreter.ParameterSet
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.TotalParameterSets, 20, 3, '0', PaddingOrientation.LeftPadded, false),
-                                new DataField((int)DataFields.EachParameterSet, 23, 3, false)
+                                DataField.Number(DataFields.TotalParameterSets, 20, 3, false),
+                                new(DataFields.EachParameterSet, 23, 3, false)
                             }
                 }
             };

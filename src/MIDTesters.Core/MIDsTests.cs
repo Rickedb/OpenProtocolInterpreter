@@ -7,10 +7,10 @@ using System.Diagnostics;
 
 namespace MIDTesters
 {
-    //[TestClass]
+    //[Microsoft.VisualStudio.TestTools.UnitTesting.TestClass]
     public class MIDsTests
     {
-        //[TestMethod]
+        //[Microsoft.VisualStudio.TestTools.UnitTesting.TestMethod]
         public void TestProcessingTime()
         {
             long total = 0;
@@ -39,7 +39,7 @@ namespace MIDTesters
             for (int i = 0; i < 1000000; i++)
             {
 
-                watch.Start();
+                watch.Restart();
                 var myMid106 = myTEmplate.Parse<Mid0061>(mid61);
                 watch.Stop();
                 total += watch.ElapsedTicks;
@@ -49,14 +49,14 @@ namespace MIDTesters
 
             //All MIDs
             watch.Start();
-            myTEmplate = new MidInterpreter();
+            myTEmplate = new MidInterpreter().UseAllMessages();
             watch.Stop();
             Debug.WriteLine("[AllMIDs] Elapsed time to construct MidInterpreter: " + new TimeSpan(watch.ElapsedTicks));
 
             total = 0;
             for (int i = 0; i < 1000000; i++)
             {
-                watch.Start();
+                watch.Restart();
                 var myMid500 = myTEmplate.Parse<Mid0061>(mid61);
                 watch.Stop();
                 total += watch.ElapsedTicks;

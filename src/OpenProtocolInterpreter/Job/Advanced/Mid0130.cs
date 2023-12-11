@@ -18,17 +18,17 @@ namespace OpenProtocolInterpreter.Job.Advanced
         /// </summary>
         public bool JobOffStatus
         {
-            get => GetField(1,(int)DataFields.JobOffStatus).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1,(int)DataFields.JobOffStatus).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.JobOffStatus).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, DataFields.JobOffStatus).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0130() : this(new Header()
         {
-            Mid = MID, 
+            Mid = MID,
             Revision = DEFAULT_REVISION
         })
         {
-            
+
         }
 
         public Mid0130(Header header) : base(header)
@@ -42,7 +42,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.JobOffStatus, 20, 1, false),
+                                DataField.Boolean(DataFields.JobOffStatus, 20, false),
                             }
                 }
             };

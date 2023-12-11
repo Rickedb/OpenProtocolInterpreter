@@ -18,65 +18,65 @@ namespace OpenProtocolInterpreter.Communication
 
         public int CellId
         {
-            get => GetField(1, (int)DataFields.CellId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, (int)DataFields.CellId).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.CellId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.CellId).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public int ChannelId
         {
-            get => GetField(1, (int)DataFields.ChannelId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, (int)DataFields.ChannelId).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.ChannelId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.ChannelId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public string ControllerName
         {
-            get => GetField(1, (int)DataFields.ControllerName).Value;
-            set => GetField(1, (int)DataFields.ControllerName).SetValue(value);
+            get => GetField(1, DataFields.ControllerName).Value;
+            set => GetField(1, DataFields.ControllerName).SetValue(value);
         }
 
         //Rev 2
         public string SupplierCode
         {
-            get => GetField(2, (int)DataFields.SupplierCode).Value;
-            set => GetField(2, (int)DataFields.SupplierCode).SetValue(value);
+            get => GetField(2, DataFields.SupplierCode).Value;
+            set => GetField(2, DataFields.SupplierCode).SetValue(value);
         }
 
         //Rev 3
         public string OpenProtocolVersion
         {
-            get => GetField(3, (int)DataFields.OpenProtocolVersion).Value;
-            set => GetField(3, (int)DataFields.OpenProtocolVersion).SetValue(value);
+            get => GetField(3, DataFields.OpenProtocolVersion).Value;
+            set => GetField(3, DataFields.OpenProtocolVersion).SetValue(value);
         }
 
         public string ControllerSoftwareVersion
         {
-            get => GetField(3, (int)DataFields.ControllerSoftwareVersion).Value;
-            set => GetField(3, (int)DataFields.ControllerSoftwareVersion).SetValue(value);
+            get => GetField(3, DataFields.ControllerSoftwareVersion).Value;
+            set => GetField(3, DataFields.ControllerSoftwareVersion).SetValue(value);
         }
 
         public string ToolSoftwareVersion
         {
-            get => GetField(3, (int)DataFields.ToolSoftwareVersion).Value;
-            set => GetField(3, (int)DataFields.ToolSoftwareVersion).SetValue(value);
+            get => GetField(3, DataFields.ToolSoftwareVersion).Value;
+            set => GetField(3, DataFields.ToolSoftwareVersion).SetValue(value);
         }
 
         //Rev 4
         public string RBUType
         {
-            get => GetField(4, (int)DataFields.RBUType).Value;
-            set => GetField(4, (int)DataFields.RBUType).SetValue(value);
+            get => GetField(4, DataFields.RBUType).Value;
+            set => GetField(4, DataFields.RBUType).SetValue(value);
         }
 
         public string ControllerSerialNumber
         {
-            get => GetField(4, (int)DataFields.ControllerSerialNumber).Value;
-            set => GetField(4, (int)DataFields.ControllerSerialNumber).SetValue(value);
+            get => GetField(4, DataFields.ControllerSerialNumber).Value;
+            set => GetField(4, DataFields.ControllerSerialNumber).SetValue(value);
         }
 
         //Rev 5 
         public SystemType SystemType
         {
-            get => (SystemType)GetField(5, (int)DataFields.SystemType).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(5, (int)DataFields.SystemType).SetValue(OpenProtocolConvert.ToString, (int)value);
+            get => (SystemType)GetField(5, DataFields.SystemType).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(5, DataFields.SystemType).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         /// <summary>
@@ -89,21 +89,21 @@ namespace OpenProtocolInterpreter.Communication
         /// </summary>
         public SystemSubType SystemSubType
         {
-            get => (SystemSubType)GetField(5, (int)DataFields.SystemSubtype).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(5, (int)DataFields.SystemSubtype).SetValue(OpenProtocolConvert.ToString, (int)value);
+            get => (SystemSubType)GetField(5, DataFields.SystemSubtype).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(5, DataFields.SystemSubtype).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         //Rev 6
         public bool SequenceNumberSupport
         {
-            get => GetField(6, (int)DataFields.SequenceNumberSupport).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(6, (int)DataFields.SequenceNumberSupport).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(6, DataFields.SequenceNumberSupport).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(6, DataFields.SequenceNumberSupport).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public bool LinkingHandlingSupport
         {
-            get => GetField(6, (int)DataFields.LinkingHandlingSupport).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(6, (int)DataFields.LinkingHandlingSupport).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(6, DataFields.LinkingHandlingSupport).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(6, DataFields.LinkingHandlingSupport).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         /// <summary>
@@ -112,8 +112,8 @@ namespace OpenProtocolInterpreter.Communication
         /// </summary>
         public long StationCellId 
         {
-            get => GetField(6, (int)DataFields.StationCellId).GetValue(OpenProtocolConvert.ToInt64);
-            set => GetField(6, (int)DataFields.StationCellId).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(6, DataFields.StationCellId).GetValue(OpenProtocolConvert.ToInt64);
+            set => GetField(6, DataFields.StationCellId).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         /// <summary>
@@ -122,14 +122,14 @@ namespace OpenProtocolInterpreter.Communication
         /// </summary>
         public string StationCellName
         {
-            get => GetField(6, (int)DataFields.StationCellName).Value;
-            set => GetField(6, (int)DataFields.StationCellName).SetValue(value);
+            get => GetField(6, DataFields.StationCellName).Value;
+            set => GetField(6, DataFields.StationCellName).SetValue(value);
         }
 
         public string ClientId
         {
-            get => GetField(6, (int)DataFields.ClientId).Value;
-            set => GetField(6, (int)DataFields.ClientId).SetValue(value);
+            get => GetField(6, DataFields.ClientId).Value;
+            set => GetField(6, DataFields.ClientId).SetValue(value);
         }
 
         //Rev 7
@@ -139,8 +139,8 @@ namespace OpenProtocolInterpreter.Communication
         /// </summary>
         public bool OptionalKeepAlive 
         {
-            get => GetField(7, (int)DataFields.OptionalKeepAlive).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(7, (int)DataFields.OptionalKeepAlive).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(7, DataFields.OptionalKeepAlive).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(7, DataFields.OptionalKeepAlive).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0002() : this(DEFAULT_REVISION)
@@ -169,53 +169,53 @@ namespace OpenProtocolInterpreter.Communication
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.CellId, 20, 4, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.ChannelId, 26, 2, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.ControllerName, 30, 25, ' ')
+                                DataField.Number(DataFields.CellId, 20, 4),
+                                DataField.Number(DataFields.ChannelId, 26, 2),
+                                DataField.String(DataFields.ControllerName, 30, 25)
                             }
                 },
                 {
                     2, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.SupplierCode, 57, 3, ' ')
+                                DataField.String(DataFields.SupplierCode, 57, 3)
                             }
                 },
                 {
                     3, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.OpenProtocolVersion, 62, 19, ' '),
-                                new DataField((int)DataFields.ControllerSoftwareVersion, 83, 19, ' '),
-                                new DataField((int)DataFields.ToolSoftwareVersion, 104, 19, ' ')
+                                DataField.String(DataFields.OpenProtocolVersion, 62, 19),
+                                DataField.String(DataFields.ControllerSoftwareVersion, 83, 19),
+                                DataField.String(DataFields.ToolSoftwareVersion, 104, 19)
                             }
                 },
                 {
                     4, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.RBUType, 125, 24, ' '),
-                                new DataField((int)DataFields.ControllerSerialNumber, 151, 10, ' ')
+                                DataField.String(DataFields.RBUType, 125, 24),
+                                DataField.String(DataFields.ControllerSerialNumber, 151, 10)
                             }
                 },
                 {
                     5, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.SystemType, 163, 3, '0'),
-                                new DataField((int)DataFields.SystemSubtype, 168, 3, '0')
+                                DataField.Number(DataFields.SystemType, 163, 3),
+                                DataField.Number(DataFields.SystemSubtype, 168, 3)
                             }
                 },
                 {
                     6, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.SequenceNumberSupport, 173, 1),
-                                new DataField((int)DataFields.LinkingHandlingSupport, 176, 1),
-                                new DataField((int)DataFields.StationCellId, 179, 10, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.StationCellName, 191, 25),
-                                new DataField((int)DataFields.ClientId, 218, 1)
+                                DataField.Boolean(DataFields.SequenceNumberSupport, 173),
+                                DataField.Boolean(DataFields.LinkingHandlingSupport, 176),
+                                DataField.Number(DataFields.StationCellId, 179, 10),
+                                DataField.String(DataFields.StationCellName, 191, 25),
+                                DataField.String(DataFields.ClientId, 218, 1)
                             }
                 },
                 {
                     7, new  List<DataField>()
                             {
-                                new DataField((int)DataFields.OptionalKeepAlive, 221, 1)
+                                DataField.Boolean(DataFields.OptionalKeepAlive, 221)
                             }
                 }
             };

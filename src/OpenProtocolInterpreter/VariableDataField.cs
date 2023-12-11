@@ -51,14 +51,12 @@ namespace OpenProtocolInterpreter
 
         public string Pack()
         {
-            string pack = string.Empty;
-            pack += OpenProtocolConvert.ToString('0', 5, PaddingOrientation.LeftPadded, ParameterId);
-            pack += OpenProtocolConvert.ToString('0', 3, PaddingOrientation.LeftPadded, Length);
-            pack += OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, (int)DataType);
-            pack += OpenProtocolConvert.ToString('0', 3, PaddingOrientation.LeftPadded, (int)Unit);
-            pack += OpenProtocolConvert.ToString('0', 4, PaddingOrientation.LeftPadded, StepNumber);
-            pack += OpenProtocolConvert.TruncatePadded(' ', Length, PaddingOrientation.RightPadded, DataValue);
-            return pack;
+            return OpenProtocolConvert.ToString('0', 5, PaddingOrientation.LeftPadded, ParameterId) +
+                    OpenProtocolConvert.ToString('0', 3, PaddingOrientation.LeftPadded, Length) +
+                    OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, (int)DataType) + 
+                    OpenProtocolConvert.ToString('0', 3, PaddingOrientation.LeftPadded, (int)Unit) +
+                    OpenProtocolConvert.ToString('0', 4, PaddingOrientation.LeftPadded, StepNumber) +
+                    OpenProtocolConvert.TruncatePadded(' ', Length, PaddingOrientation.RightPadded, DataValue);
         }
 
         public static VariableDataField Parse(string value)

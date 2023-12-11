@@ -20,13 +20,13 @@ namespace OpenProtocolInterpreter.LinkCommunication
 
         public int MidNumber
         {
-            get => GetField(1, (int)DataFields.MidNumber).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, (int)DataFields.MidNumber).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.MidNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.MidNumber).SetValue(OpenProtocolConvert.ToString, value);
         }
         public LinkCommunicationError ErrorCode
         {
-            get => (LinkCommunicationError)GetField(1, (int)DataFields.ErrorCode).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, (int)DataFields.ErrorCode).SetValue(OpenProtocolConvert.ToString, (int)value);
+            get => (LinkCommunicationError)GetField(1, DataFields.ErrorCode).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.ErrorCode).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid9998() : this(new Header()
@@ -49,8 +49,8 @@ namespace OpenProtocolInterpreter.LinkCommunication
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.MidNumber, 20, 4, '0', PaddingOrientation.LeftPadded, false),
-                                new DataField((int)DataFields.ErrorCode, 24, 4, '0', PaddingOrientation.LeftPadded, false)
+                                DataField.Number(DataFields.MidNumber, 20, 4, false),
+                                DataField.Number(DataFields.ErrorCode, 24, 4, false)
                             }
                 }
             };

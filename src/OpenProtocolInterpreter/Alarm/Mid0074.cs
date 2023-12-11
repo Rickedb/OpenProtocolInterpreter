@@ -15,8 +15,8 @@ namespace OpenProtocolInterpreter.Alarm
 
         public string ErrorCode
         {
-            get => GetField(1, (int)DataFields.ErrorCode).Value;
-            set => GetField(1, (int)DataFields.ErrorCode).SetValue(value);
+            get => GetField(1, DataFields.ErrorCode).Value;
+            set => GetField(1, DataFields.ErrorCode).SetValue(value);
         }
 
         public Mid0074() : this(DEFAULT_REVISION)
@@ -55,7 +55,7 @@ namespace OpenProtocolInterpreter.Alarm
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.ErrorCode, 20, 4, ' ', PaddingOrientation.LeftPadded, false)
+                                DataField.String(DataFields.ErrorCode, 20, 4, PaddingOrientation.LeftPadded, false)
                             }
                 }
             };

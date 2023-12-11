@@ -20,7 +20,8 @@ namespace OpenProtocolInterpreter.MultiSpindle
                 { Mid0100.MID, new MidCompiledInstance(typeof(Mid0100)) },
                 { Mid0101.MID, new MidCompiledInstance(typeof(Mid0101)) },
                 { Mid0102.MID, new MidCompiledInstance(typeof(Mid0102)) },
-                { Mid0103.MID, new MidCompiledInstance(typeof(Mid0103)) }
+                { Mid0103.MID, new MidCompiledInstance(typeof(Mid0103)) },
+                { Mid0104.MID, new MidCompiledInstance(typeof(Mid0104)) },
             };
         }
 
@@ -34,6 +35,6 @@ namespace OpenProtocolInterpreter.MultiSpindle
             FilterSelectedMids(mode);
         }
 
-        public override bool IsAssignableTo(int mid) => mid > 89 && mid < 104;
+        public override bool IsAssignableTo(int mid) => mid > 89 && mid < 105;
     }
 }

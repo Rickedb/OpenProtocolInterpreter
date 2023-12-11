@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace OpenProtocolInterpreter
@@ -21,14 +22,14 @@ namespace OpenProtocolInterpreter
             RevisionsByFields = new SafeAccessRevisionsFields(RegisterDatafields());
         }
 
-        public Mid(int mid, int revision, bool noAckFlag = false): this(new Header()
+        public Mid(int mid, int revision, bool noAckFlag = false) : this(new Header()
         {
             Mid = mid,
             Revision = revision,
             NoAckFlag = noAckFlag
         })
         {
-            
+
         }
 
         protected virtual byte[] BuildRawHeader() => ToBytes(BuildHeader());
@@ -52,46 +53,55 @@ namespace OpenProtocolInterpreter
 
         public virtual string Pack()
         {
+            var header = BuildHeader();
             if (!RevisionsByFields.Any())
-                return BuildHeader();
+                return header;
 
-            string package = BuildHeader();
+            var builder = new StringBuilder(header);
             int prefixIndex = 1;
-            for (int i = 1; i <= (Header.Revision > 0 ? Header.Revision : 1); i++)
+            var revision = (Header.Revision > 0 ? Header.Revision : 1);
+            for (int i = 1; i <= revision; i++)
             {
-                if (RevisionsByFields.TryGetValue(i, out var dataFields))
-                {
-                    package += Pack(dataFields, ref prefixIndex);
-                }
+                builder.Append(Pack(i, ref prefixIndex));
             }
 
-            return package;
+            return builder.ToString();
         }
 
         public virtual byte[] PackBytes() => Encoding.ASCII.GetBytes(Pack());
 
+        protected virtual string Pack(int revision, ref int prefixIndex)
+        {
+            if (!RevisionsByFields.TryGetValue(revision, out var dataFields))
+            {
+                return string.Empty;
+            }
+
+            return Pack(dataFields, ref prefixIndex);
+        }
+
         protected virtual string Pack(List<DataField> dataFields, ref int prefixIndex)
         {
-            string package = string.Empty;
+            var builder = new StringBuilder();
             foreach (var dataField in dataFields)
             {
                 if (dataField.HasPrefix)
                 {
-                    package += prefixIndex.ToString().PadLeft(2, '0') + dataField.Value;
+                    builder.Append(prefixIndex.ToString("D2"));
                     prefixIndex++;
                 }
-                else
-                    package += dataField.Value;
+
+                builder.Append(dataField.Value);
             }
 
-            return package;
+            return builder.ToString();
         }
 
-        protected virtual Dictionary<int, List<DataField>> RegisterDatafields() => new Dictionary<int, List<DataField>>();
+        protected virtual Dictionary<int, List<DataField>> RegisterDatafields() => new();
 
         protected virtual Header ProcessHeader(string package)
         {
-            if(package.Length < 20)
+            if (package.Length < 20)
             {
                 package = package.PadRight(20, ' ');
             }
@@ -99,13 +109,13 @@ namespace OpenProtocolInterpreter
             static bool IsNotEmptyOrZero(string package, out int value)
             {
                 value = 0;
-                return !string.IsNullOrWhiteSpace(package) && (int.TryParse(package, out value) && value > 0);
+                return !string.IsNullOrWhiteSpace(package) && int.TryParse(package, out value) && value > 0;
             }
 
             var header = new Header
             {
-                Length = Convert.ToInt32(package.Substring(0, 4)),
-                Mid = Convert.ToInt32(package.Substring(4, 4)),
+                Length = int.Parse(package.Substring(0, 4)),
+                Mid = int.Parse(package.Substring(4, 4)),
                 Revision = IsNotEmptyOrZero(package.Substring(8, 3), out var revision) ? revision : 1,
                 NoAckFlag = !string.IsNullOrWhiteSpace(package.Substring(11, 1)),
                 StationId = int.TryParse(package.Substring(12, 2), out var stationId) ? stationId : 1,
@@ -139,10 +149,15 @@ namespace OpenProtocolInterpreter
             int revision = Header.Revision > 0 ? Header.Revision : 1;
             for (int i = 1; i <= revision; i++)
             {
-                if (RevisionsByFields.TryGetValue(i, out var field))
-                {
-                    ProcessDataFields(field, package);
-                }
+                ProcessDataFields(i, package);
+            }
+        }
+
+        protected virtual void ProcessDataFields(int revision, string package)
+        {
+            if (RevisionsByFields.TryGetValue(revision, out var fields))
+            {
+                ProcessDataFields(fields, package);
             }
         }
 
@@ -185,11 +200,22 @@ namespace OpenProtocolInterpreter
             }
         }
 
-        protected DataField GetField(int revision, int field) => RevisionsByFields[revision].FirstOrDefault(x => x.Field == field);
+        protected DataField GetField(int revision, int field)
+        {
+            if (!RevisionsByFields.TryGetValue(revision, out var fields))
+            {
+                return DataField.Default;
+            }
 
-        protected string ToAscii(byte[] bytes) => Encoding.ASCII.GetString(bytes);
+            return fields.FirstOrDefault(x => x.Field == field) ?? DataField.Default;
+        }
 
-        protected byte[] ToBytes(string value) => Encoding.ASCII.GetBytes(value);
+        protected DataField GetField<TEnum>(int revision, TEnum field) where TEnum : struct, Enum
+            => GetField(revision, field.GetHashCode());
+
+        protected static string ToAscii(byte[] bytes) => Encoding.ASCII.GetString(bytes);
+
+        protected static byte[] ToBytes(string value) => Encoding.ASCII.GetBytes(value);
 
     }
 }

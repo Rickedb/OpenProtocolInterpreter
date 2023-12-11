@@ -22,8 +22,8 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public int DeviceNumber
         {
-            get => GetField(1,(int)DataFields.DeviceNumber).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1,(int)DataFields.DeviceNumber).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.DeviceNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.DeviceNumber).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0214() : this(DEFAULT_REVISION)
@@ -49,7 +49,7 @@ namespace OpenProtocolInterpreter.IOInterface
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.DeviceNumber, 20, 2, '0', PaddingOrientation.LeftPadded, false)
+                        DataField.Number(DataFields.DeviceNumber, 20, 2, false)
                     }
                 }
             };

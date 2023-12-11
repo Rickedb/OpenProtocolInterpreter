@@ -16,13 +16,13 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
 
         public string ToolTagId
         {
-            get => GetField(1,(int)DataFields.ToolTagId).Value;
-            set => GetField(1,(int)DataFields.ToolTagId).SetValue(value);
+            get => GetField(1, DataFields.ToolTagId).Value;
+            set => GetField(1, DataFields.ToolTagId).SetValue(value);
         }
         public ToolStatus ToolStatus
         {
-            get => (ToolStatus)GetField(1,(int)DataFields.ToolStatus).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1,(int)DataFields.ToolStatus).SetValue(OpenProtocolConvert.ToString, (int)value);
+            get => (ToolStatus)GetField(1, DataFields.ToolStatus).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.ToolStatus).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0265() : this(new Header()
@@ -31,7 +31,7 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
             Revision = DEFAULT_REVISION
         })
         {
-            
+
         }
 
         public Mid0265(Header header) : base(header)
@@ -46,8 +46,8 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.ToolTagId, 20, 8),
-                        new DataField((int)DataFields.ToolStatus, 30, 2, '0', PaddingOrientation.LeftPadded)
+                       DataField.String(DataFields.ToolTagId, 20, 8),
+                       DataField.Number(DataFields.ToolStatus, 30, 2)
                     }
                 }
             };

@@ -1,4 +1,4 @@
-name: .Net Framework
+name: .Net Standard
 
 on: 
   pull_request:
@@ -13,7 +13,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@master
-      - name: Setup .Net Framework
+      - name: Setup .Net Standard
         uses: actions/setup-dotnet@master
       - name: build
         run: | 

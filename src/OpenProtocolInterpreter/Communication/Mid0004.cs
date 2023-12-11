@@ -24,13 +24,13 @@ namespace OpenProtocolInterpreter.Communication
 
         public int FailedMid
         {
-            get => GetField(1, (int)DataFields.Mid).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, (int)DataFields.Mid).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.Mid).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.Mid).SetValue(OpenProtocolConvert.ToString, value);
         }
         public Error ErrorCode
         {
-            get => (Error)GetField(1, (int)DataFields.ErrorCode).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, (int)DataFields.ErrorCode).SetValue(OpenProtocolConvert.ToString, (int)value);
+            get => (Error)GetField(1, DataFields.ErrorCode).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.ErrorCode).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0004() : this(DEFAULT_REVISION)
@@ -51,6 +51,26 @@ namespace OpenProtocolInterpreter.Communication
 
         }
 
+        public override string Pack()
+        {
+            HandleRevision();
+            return base.Pack();
+        }
+
+        public override Mid Parse(string package)
+        {
+            Header = ProcessHeader(package);
+            HandleRevision();
+            ProcessDataFields(package);
+            return this;
+        }
+
+        private void HandleRevision()
+        {
+            var errorCodeField = GetField(1, DataFields.ErrorCode);
+            errorCodeField.Size = Header.Revision > 1 ? 3 : 2;
+        }
+
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()
@@ -58,8 +78,8 @@ namespace OpenProtocolInterpreter.Communication
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.Mid, 20, 4, '0', PaddingOrientation.LeftPadded, false),
-                                new DataField((int)DataFields.ErrorCode, 24, 2, '0', PaddingOrientation.LeftPadded, false)
+                                DataField.Number(DataFields.Mid, 20, 4, false),
+                                DataField.Number(DataFields.ErrorCode, 24, 2, false)
                             }
                 }
             };

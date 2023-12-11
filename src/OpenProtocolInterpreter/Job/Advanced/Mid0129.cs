@@ -23,13 +23,13 @@ namespace OpenProtocolInterpreter.Job.Advanced
 
         public int ChannelId
         {
-            get => GetField(2, (int)DataFields.ChannelId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(2, (int)DataFields.ChannelId).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(2, DataFields.ChannelId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(2, DataFields.ChannelId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int ParameterSetId
         {
-            get => GetField(2, (int)DataFields.ParameterSetId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(2, (int)DataFields.ParameterSetId).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(2, DataFields.ParameterSetId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(2, DataFields.ParameterSetId).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0129() : this(DEFAULT_REVISION)
@@ -57,8 +57,8 @@ namespace OpenProtocolInterpreter.Job.Advanced
                 {
                     2, new List<DataField>()
                             {
-                                new DataField((int)DataFields.ChannelId, 20, 2, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.ParameterSetId, 24, 3, '0', PaddingOrientation.LeftPadded)
+                                DataField.Number(DataFields.ChannelId, 20, 2),
+                                DataField.Number(DataFields.ParameterSetId, 24, 3)
                             }
                 }
             };

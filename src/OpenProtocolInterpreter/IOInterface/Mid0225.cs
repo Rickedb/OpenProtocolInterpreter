@@ -24,8 +24,8 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public DigitalInputNumber DigitalInputNumber
         {
-            get => (DigitalInputNumber)GetField(1,(int)DataFields.DigitalInputNumber).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1,(int)DataFields.DigitalInputNumber).SetValue(OpenProtocolConvert.ToString, (int)value);
+            get => (DigitalInputNumber)GetField(1, DataFields.DigitalInputNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.DigitalInputNumber).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0225() : this(new Header()
@@ -48,7 +48,7 @@ namespace OpenProtocolInterpreter.IOInterface
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.DigitalInputNumber, 20, 3, '0', PaddingOrientation.LeftPadded, false)
+                        DataField.Number(DataFields.DigitalInputNumber, 20, 3, false)
                     }
                 }
             };

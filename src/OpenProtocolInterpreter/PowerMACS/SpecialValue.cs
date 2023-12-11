@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 
 namespace OpenProtocolInterpreter.PowerMACS
 {
@@ -15,15 +16,16 @@ namespace OpenProtocolInterpreter.PowerMACS
 
         public string Pack(bool useStepNumber)
         {
-            var package = VariableName.PadRight(20, ' ') +
+            var builder = new StringBuilder();
+            builder.Append(VariableName.PadRight(20, ' ') +
                            Type.Type.PadRight(2, ' ') +
                            OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, Length) +
-                           Value.ToString().PadRight(Length, ' ');
+                           Value.ToString().PadRight(Length, ' '));
 
             if (useStepNumber)
-                package += OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, StepNumber);
+                builder.Append(OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, StepNumber));
 
-            return package;
+            return builder.ToString();
         }
 
         public static SpecialValue Parse(string value, bool useStepNumber)

@@ -24,18 +24,18 @@ namespace OpenProtocolInterpreter.Statistic
 
         public int ParameterSetId
         {
-            get => GetField(1,(int)DataFields.ParameterSetId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1,(int)DataFields.ParameterSetId).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.ParameterSetId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.ParameterSetId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public HistogramType HistogramType
         {
-            get => (HistogramType)GetField(1,(int)DataFields.HistogramType).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1,(int)DataFields.HistogramType).SetValue(OpenProtocolConvert.ToString, (int)value);
+            get => (HistogramType)GetField(1, DataFields.HistogramType).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.HistogramType).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0300() : this(new Header()
         {
-            Mid = MID, 
+            Mid = MID,
             Revision = DEFAULT_REVISION
         })
         {
@@ -52,12 +52,12 @@ namespace OpenProtocolInterpreter.Statistic
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.ParameterSetId, 20, 3, '0', PaddingOrientation.LeftPadded),
-                        new DataField((int)DataFields.HistogramType, 25, 2, '0', PaddingOrientation.LeftPadded)
+                        DataField.Number(DataFields.ParameterSetId, 20, 3),
+                        DataField.Number(DataFields.HistogramType, 25, 2)
                     }
                 }
             };
-        }      
+        }
 
         protected enum DataFields
         {

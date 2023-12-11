@@ -194,5 +194,52 @@ namespace MIDTesters.Job
             Assert.IsNotNull(mid.ParameterSetList);
             AssertEqualPackages(bytes, mid);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 5"), TestCategory("ASCII")]
+        public void Mid0033Revision5()
+        {
+            string package = "01950033005         01000402My Job 4                 031045000057000406107108109110211112021315:011:1:0002:0002:Job Step 1 Name          :03:05;11:015:1:0002:0001:Job Step 2 Name          :05:02;";
+            var mid = _midInterpreter.Parse<Mid0033>(package);
+
+            Assert.IsNotNull(mid.JobId);
+            Assert.IsNotNull(mid.JobName);
+            Assert.IsNotNull(mid.ForcedOrder);
+            Assert.IsNotNull(mid.MaxTimeForFirstTightening);
+            Assert.IsNotNull(mid.MaxTimeToCompleteJob);
+            Assert.IsNotNull(mid.JobBatchMode);
+            Assert.IsNotNull(mid.LockAtJobDone);
+            Assert.IsNotNull(mid.UseLineControl);
+            Assert.IsNotNull(mid.RepeatJob);
+            Assert.IsNotNull(mid.ToolLoosening);
+            Assert.IsNotNull(mid.Reserved);
+            Assert.IsNotNull(mid.NumberOfParameterSets);
+            Assert.IsNotNull(mid.ParameterSetList);
+            AssertEqualPackages(package, mid);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 5"), TestCategory("ByteArray")]
+        public void Mid0033ByteRevision5()
+        {
+            string package = "01950033005         01000402My Job 4                 031045000057000406107108109110211112021315:011:1:0002:0002:Job Step 1 Name          :03:05;11:015:1:0002:0001:Job Step 2 Name          :05:02;";
+            byte[] bytes = GetAsciiBytes(package);
+            var mid = _midInterpreter.Parse<Mid0033>(bytes);
+
+            Assert.IsNotNull(mid.JobId);
+            Assert.IsNotNull(mid.JobName);
+            Assert.IsNotNull(mid.ForcedOrder);
+            Assert.IsNotNull(mid.MaxTimeForFirstTightening);
+            Assert.IsNotNull(mid.MaxTimeToCompleteJob);
+            Assert.IsNotNull(mid.JobBatchMode);
+            Assert.IsNotNull(mid.LockAtJobDone);
+            Assert.IsNotNull(mid.UseLineControl);
+            Assert.IsNotNull(mid.RepeatJob);
+            Assert.IsNotNull(mid.ToolLoosening);
+            Assert.IsNotNull(mid.Reserved);
+            Assert.IsNotNull(mid.NumberOfParameterSets);
+            Assert.IsNotNull(mid.ParameterSetList);
+            AssertEqualPackages(bytes, mid);
+        }
     }
 }

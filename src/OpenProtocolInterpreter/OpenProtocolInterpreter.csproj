@@ -1,11 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net6</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net6;net8</TargetFrameworks>
     <LangVersion>latest</LangVersion>
-    <AssemblyVersion>6.0.0.0</AssemblyVersion>
-    <FileVersion>6.0.0.0</FileVersion>
-    <Version>6.0.0</Version>
+    <Version>6.1.0</Version>
     <Description>Converts the ugly package that came from Open Protocol to an object</Description>
     <Copyright>Copyright © 2023</Copyright>
     <Authors>Henrique Dal Bello Batista</Authors>
@@ -15,14 +13,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>CSharp Open Protocol Atlas Copco</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReleaseNotes>Improvements
-
-      - Interface segregation to represent types of mid
-
-      New Features
-
-      - Along with interfaces, added easy-use extensions
-      - Added new Errors</PackageReleaseNotes>
+    <PackageReleaseNotes>See release notes at: https://github.com/Rickedb/OpenProtocolInterpreter/releases/tag/6.1.0</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 

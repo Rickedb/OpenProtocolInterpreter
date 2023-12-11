@@ -10,8 +10,8 @@ namespace OpenProtocolInterpreter
 #pragma warning disable CS0661 // Type defines operator == or operator != but does not override Object.GetHashCode()
     public class DataType
     {
-        private static readonly List<DataType> _dataTypesDefinition = new List<DataType>()
-        {
+        private static readonly List<DataType> _dataTypesDefinition =
+        [
             new DataType(1, "UI", 0),
             new DataType(2, "I ", 0),
             new DataType(3, "F ", 0),
@@ -25,7 +25,7 @@ namespace OpenProtocolInterpreter
             new DataType(50, "FA", 0),
             new DataType(51, "UA", 0),
             new DataType(52, "IA", 0)
-        };
+        ];
 
         private int _valueSent;
 

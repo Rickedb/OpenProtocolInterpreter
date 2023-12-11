@@ -23,8 +23,8 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public RelayNumber RelayNumber
         {
-            get => (RelayNumber)GetField(1,(int)DataFields.RelayNumber).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1,(int)DataFields.RelayNumber).SetValue(OpenProtocolConvert.ToString, (int)value);
+            get => (RelayNumber)GetField(1, DataFields.RelayNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.RelayNumber).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0216() : this(false)
@@ -53,7 +53,7 @@ namespace OpenProtocolInterpreter.IOInterface
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.RelayNumber, 20, 3, '0', PaddingOrientation.LeftPadded, false)
+                        DataField.Number(DataFields.RelayNumber, 20, 3, false)
                     }
                 }
             };

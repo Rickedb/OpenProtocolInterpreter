@@ -22,13 +22,13 @@ namespace OpenProtocolInterpreter.Tool
 
         public PrimaryTool PrimaryTool
         {
-            get => (PrimaryTool)GetField(1,(int)DataFields.PrimaryTool).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1,(int)DataFields.PrimaryTool).SetValue(OpenProtocolConvert.ToString, (int)value);
+            get => (PrimaryTool)GetField(1, DataFields.PrimaryTool).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.PrimaryTool).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0046() : this(new Header()
         {
-            Mid = MID, 
+            Mid = MID,
             Revision = DEFAULT_REVISION
         })
         {
@@ -45,7 +45,7 @@ namespace OpenProtocolInterpreter.Tool
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.PrimaryTool, 20, 2, '0', PaddingOrientation.LeftPadded)
+                                DataField.Number(DataFields.PrimaryTool, 20, 2)
                             }
                 }
             };

@@ -27,15 +27,19 @@ namespace OpenProtocolInterpreter.Job
                 OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, ChannelId),
                 OpenProtocolConvert.ToString('0', 3, PaddingOrientation.LeftPadded, TypeId),
                 OpenProtocolConvert.ToString(AutoValue),
-                OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, BatchSize)
+                OpenProtocolConvert.ToString('0', revision > 4 ? 4 : 2, PaddingOrientation.LeftPadded, BatchSize)
             };
 
             if (revision > 2)
             {
-                if (revision > 3)
-                    values.Add(OpenProtocolConvert.ToString('0', 4, PaddingOrientation.LeftPadded, IdentifierNumber));
-                else
+                if (revision == 3)
+                {
                     values.Add(OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, Socket));
+                }
+                else
+                {
+                    values.Add(OpenProtocolConvert.ToString('0', 4, PaddingOrientation.LeftPadded, IdentifierNumber));
+                }
 
                 values.Add(JobStepName.PadRight(25));
                 values.Add(OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, JobStepType));
@@ -93,5 +97,14 @@ namespace OpenProtocolInterpreter.Job
                 yield return Parse(psetData, revision);
             }
         }
+
+        public static int Size(int revision)
+            => revision switch
+            {
+                3 => 44,
+                4 => 49,
+                5 => 51,
+                _ => 12,
+            };
     }
 }

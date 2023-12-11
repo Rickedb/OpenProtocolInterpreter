@@ -1,6 +1,8 @@
-﻿using System;
+﻿using OpenProtocolInterpreter.Tightening;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text;
 
 namespace OpenProtocolInterpreter
 {
@@ -32,11 +34,11 @@ namespace OpenProtocolInterpreter
 
         public static DateTime ToDateTime(string value)
         {
-            var convertedValue = System.DateTime.Now;
+            var convertedValue = DateTime.Now;
             if (!string.IsNullOrWhiteSpace(value.ToString()))
             {
                 var date = value.ToString();
-                System.DateTime.TryParse(date.Substring(0, 10) + " " + date.Substring(11, 8), out convertedValue);
+                DateTime.TryParse($"{date.Substring(0, 10)} {date.Substring(11, 8)}", out convertedValue);
             }
 
             return convertedValue;
@@ -56,7 +58,7 @@ namespace OpenProtocolInterpreter
         public static decimal ToDecimal(string value)
         {
             decimal decimalValue = 0;
-            if (value != null)
+            if (!string.IsNullOrWhiteSpace(value))
                 decimal.TryParse(value.Replace(',', '.'), NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign, _formatProvider, out decimalValue);
 
             return decimalValue;
@@ -76,25 +78,25 @@ namespace OpenProtocolInterpreter
 
         public static decimal ToTruncatedDecimal(string value)
         {
-            int intValue = 0;
-            if (value != null)
-                int.TryParse(value.ToString(), out intValue);
-
+            int intValue = ToInt32(value);
             return intValue / 100m;
         }
 
         public static string ToString(int value)
             => value.ToString();
 
+        public static string ToString<TEnum>(TEnum value) where TEnum : struct, Enum
+           => ToString(value.GetHashCode());
+
         public static string ToString(char paddingChar, int size, PaddingOrientation orientation, int value)
+            => TruncatePadded(paddingChar, size, orientation, ToString(value));
+
+        public static string ToString<TEnum>(char paddingChar, int size, PaddingOrientation orientation, TEnum value) where TEnum : struct, Enum
             => TruncatePadded(paddingChar, size, orientation, ToString(value));
 
         public static int ToInt32(string value)
         {
-            int convertedValue = 0;
-            if (value != null)
-                int.TryParse(value.ToString(), out convertedValue);
-
+            int.TryParse(value, out int convertedValue);
             return convertedValue;
         }
 
@@ -106,21 +108,18 @@ namespace OpenProtocolInterpreter
 
         public static long ToInt64(string value)
         {
-            long convertedValue = 0;
-            if (value != null)
-                long.TryParse(value.ToString(), out convertedValue);
-
+            long.TryParse(value.ToString(), out long convertedValue);
             return convertedValue;
         }
 
         public static string ToString(IEnumerable<VariableDataField> value)
         {
-            string pack = string.Empty;
+            var builder = new StringBuilder();
             foreach (var v in value)
             {
-                pack += v.Pack();
+                builder.Append(v.Pack());
             }
-            return pack;
+            return builder.ToString();
         }
 
         public static bool GetBit(byte b, int bitNumber) => (b & (1 << bitNumber - 1)) != 0;

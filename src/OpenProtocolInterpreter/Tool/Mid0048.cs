@@ -15,13 +15,13 @@ namespace OpenProtocolInterpreter.Tool
 
         public PairingStatus PairingStatus
         {
-            get => (PairingStatus)GetField(1,(int)DataFields.PairingStatus).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1,(int)DataFields.PairingStatus).SetValue(OpenProtocolConvert.ToString, (int)value);
+            get => (PairingStatus)GetField(1, DataFields.PairingStatus).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.PairingStatus).SetValue(OpenProtocolConvert.ToString, value);
         }
         public DateTime TimeStamp
         {
-            get => GetField(1,(int)DataFields.Timestamp).GetValue(OpenProtocolConvert.ToDateTime);
-            set => GetField(1,(int)DataFields.Timestamp).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.Timestamp).GetValue(OpenProtocolConvert.ToDateTime);
+            set => GetField(1, DataFields.Timestamp).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0048() : this(new Header()
@@ -43,8 +43,8 @@ namespace OpenProtocolInterpreter.Tool
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.PairingStatus, 20, 2, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.Timestamp, 24, 19)
+                                DataField.Number(DataFields.PairingStatus, 20, 2),
+                                DataField.Timestamp(DataFields.Timestamp, 24)
                             }
                 }
             };

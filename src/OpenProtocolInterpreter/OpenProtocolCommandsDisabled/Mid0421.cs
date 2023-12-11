@@ -16,16 +16,16 @@ namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
     public class Mid0421 : Mid, IOpenProtocolCommandsDisabled, IController, IAcknowledgeable<Mid0422>
     {
         public const int MID = 421;
-        
+
         public bool DigitalInputStatus
         {
-            get => GetField(1,(int)DataFields.DigitalInputStatus).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1,(int)DataFields.DigitalInputStatus).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.DigitalInputStatus).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(1, DataFields.DigitalInputStatus).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0421() : this(new Header()
         {
-            Mid = MID, 
+            Mid = MID,
             Revision = DEFAULT_REVISION
         })
         {
@@ -42,7 +42,7 @@ namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.DigitalInputStatus, 20, 1, false)
+                                DataField.Boolean(DataFields.DigitalInputStatus, 20, false)
                             }
                 }
             };

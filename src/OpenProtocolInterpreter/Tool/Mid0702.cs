@@ -9,8 +9,8 @@ namespace OpenProtocolInterpreter.Tool
 
         public int ToolNumber
         {
-            get => GetField(1, (int)DataFields.ToolNumber).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, (int)DataFields.ToolNumber).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.ToolNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.ToolNumber).SetValue(OpenProtocolConvert.ToString, value);
         }
         public int NumberOfToolParameters => ToolDataUpload.Count;
         public List<VariableDataField> ToolDataUpload { get; set; }
@@ -25,20 +25,20 @@ namespace OpenProtocolInterpreter.Tool
 
         public Mid0702(Header header) : base(header)
         {
-            ToolDataUpload = new List<VariableDataField>();
+            ToolDataUpload = [];
         }
 
         public override string Pack()
         {
-            GetField(1, (int)DataFields.NumberOfToolParameters).SetValue(OpenProtocolConvert.ToString, ToolDataUpload.Count);
-            GetField(1, (int)DataFields.EachToolDataUpload).Value = OpenProtocolConvert.ToString(ToolDataUpload);
+            GetField(1, DataFields.NumberOfToolParameters).SetValue(OpenProtocolConvert.ToString, ToolDataUpload.Count);
+            GetField(1, DataFields.EachToolDataUpload).Value = OpenProtocolConvert.ToString(ToolDataUpload);
             return base.Pack();
         }
 
         public override Mid Parse(string package)
         {
             Header = ProcessHeader(package);
-            var dataFieldsField = GetField(1, (int)DataFields.EachToolDataUpload);
+            var dataFieldsField = GetField(1, DataFields.EachToolDataUpload);
             dataFieldsField.Size = Header.Length - dataFieldsField.Index;
             ProcessDataFields(package);
             ToolDataUpload = VariableDataField.ParseAll(dataFieldsField.Value).ToList();
@@ -52,9 +52,9 @@ namespace OpenProtocolInterpreter.Tool
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.ToolNumber, 20, 4, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.NumberOfToolParameters, 26, 2, '0', PaddingOrientation.LeftPadded, false),
-                                new DataField((int)DataFields.EachToolDataUpload, 28, 0, false)
+                                DataField.Number(DataFields.ToolNumber, 20, 4),
+                                DataField.Number(DataFields.NumberOfToolParameters, 26, 2, false),
+                                new(DataFields.EachToolDataUpload, 28, 0, false)
                             }
                 }
             };

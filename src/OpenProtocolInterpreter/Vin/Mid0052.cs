@@ -25,23 +25,23 @@ namespace OpenProtocolInterpreter.Vin
 
         public string VinNumber
         {
-            get => GetField(1, (int)DataFields.VinNumber).Value;
-            set => GetField(1, (int)DataFields.VinNumber).SetValue(value);
+            get => GetField(1, DataFields.VinNumber).Value;
+            set => GetField(1, DataFields.VinNumber).SetValue(value);
         }
         public string IdentifierResultPart2
         {
-            get => GetField(2, (int)DataFields.IdentifierResultPart2).Value;
-            set => GetField(2, (int)DataFields.IdentifierResultPart2).SetValue(value);
+            get => GetField(2, DataFields.IdentifierResultPart2).Value;
+            set => GetField(2, DataFields.IdentifierResultPart2).SetValue(value);
         }
         public string IdentifierResultPart3
         {
-            get => GetField(2, (int)DataFields.IdentifierResultPart3).Value;
-            set => GetField(2, (int)DataFields.IdentifierResultPart3).SetValue(value);
+            get => GetField(2, DataFields.IdentifierResultPart3).Value;
+            set => GetField(2, DataFields.IdentifierResultPart3).SetValue(value);
         }
         public string IdentifierResultPart4
         {
-            get => GetField(2, (int)DataFields.IdentifierResultPart4).Value;
-            set => GetField(2, (int)DataFields.IdentifierResultPart4).SetValue(value);
+            get => GetField(2, DataFields.IdentifierResultPart4).Value;
+            set => GetField(2, DataFields.IdentifierResultPart4).SetValue(value);
         }
 
         public Mid0052() : this(DEFAULT_REVISION)
@@ -57,7 +57,7 @@ namespace OpenProtocolInterpreter.Vin
 
         public override string Pack()
         {
-            var vinNumberField = GetField(1, (int)DataFields.VinNumber);
+            var vinNumberField = GetField(1, DataFields.VinNumber);
             if (Header.Revision > 1)
                 vinNumberField.HasPrefix = true;
 
@@ -71,19 +71,19 @@ namespace OpenProtocolInterpreter.Vin
             Header = ProcessHeader(package);
             if (Header.Revision > 1)
             {
-                var vinNumberField = GetField(1, (int)DataFields.VinNumber);
+                var vinNumberField = GetField(1, DataFields.VinNumber);
                 vinNumberField.HasPrefix = true;
                 vinNumberField.Size = Header.Length - 103;
                 if (vinNumberField.Size > 25)
                 {
                     int addedSize = vinNumberField.Size - 25;
-                    GetField(2, (int)DataFields.IdentifierResultPart2).Index += addedSize;
-                    GetField(2, (int)DataFields.IdentifierResultPart3).Index += addedSize;
-                    GetField(2, (int)DataFields.IdentifierResultPart4).Index += addedSize;
+                    GetField(2, DataFields.IdentifierResultPart2).Index += addedSize;
+                    GetField(2, DataFields.IdentifierResultPart3).Index += addedSize;
+                    GetField(2, DataFields.IdentifierResultPart4).Index += addedSize;
                 }
             }
             else
-                GetField(1, (int)DataFields.VinNumber).Size = Header.Length - 20;
+                GetField(1, DataFields.VinNumber).Size = Header.Length - 20;
             ProcessDataFields(package);
             return this;
         }
@@ -95,15 +95,15 @@ namespace OpenProtocolInterpreter.Vin
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.VinNumber, 20, 25, ' ', PaddingOrientation.RightPadded, false)
+                                DataField.String(DataFields.VinNumber, 20, 25, false)
                             }
                 },
                 {
                     2, new List<DataField>()
                             {
-                                new DataField((int)DataFields.IdentifierResultPart2, 47, 25, ' '),
-                                new DataField((int)DataFields.IdentifierResultPart3, 74, 25, ' '),
-                                new DataField((int)DataFields.IdentifierResultPart4, 101, 25, ' ')
+                                DataField.String(DataFields.IdentifierResultPart2, 47, 25),
+                                DataField.String(DataFields.IdentifierResultPart3, 74, 25),
+                                DataField.String(DataFields.IdentifierResultPart4, 101, 25)
                             }
                 }
             };

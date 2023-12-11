@@ -14,8 +14,8 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
 
         public string ToolTagId
         {
-            get => GetField(1,(int)DataFields.ToolTagId).Value;
-            set => GetField(1,(int)DataFields.ToolTagId).SetValue(value);
+            get => GetField(1, DataFields.ToolTagId).Value;
+            set => GetField(1, DataFields.ToolTagId).SetValue(value);
         }
 
         public Mid0262() : base(MID, DEFAULT_REVISION)
@@ -35,7 +35,7 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
                 {
                     1, new List<DataField>()
                     {
-                        new DataField((int)DataFields.ToolTagId, 20, 8)
+                        DataField.String(DataFields.ToolTagId, 20, 8)
                     }
                 }
             };

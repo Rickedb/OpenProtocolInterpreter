@@ -95,6 +95,11 @@
         ClientAlreadyConnected = 96,
         MidRevisionUnsupported = 97,
         ControllerInternalRequestTimeout = 98,
-        UnknownMid = 99
+        UnknownMid = 99,
+        IllegalPID = 100,
+        TighteningInProgress = 101,
+        DeleteOfObjectNotPossible = 102,
+        IllegalProgramId = 103,
+        IllegalNodeType = 104
     }
 }

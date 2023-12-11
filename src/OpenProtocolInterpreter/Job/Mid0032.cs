@@ -16,8 +16,8 @@ namespace OpenProtocolInterpreter.Job
 
         public int JobId
         {
-            get => GetField(1, (int)DataFields.JobId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, (int)DataFields.JobId).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.JobId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.JobId).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0032() : this(DEFAULT_REVISION)
@@ -54,7 +54,7 @@ namespace OpenProtocolInterpreter.Job
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.JobId, 20, 2, '0', PaddingOrientation.LeftPadded, false),
+                                DataField.Number(DataFields.JobId, 20, 2, false),
                             }
                 }
             };
@@ -63,9 +63,9 @@ namespace OpenProtocolInterpreter.Job
         private void HandleRevision()
         {
             if (Header.Revision == 1)
-                GetField(1, (int)DataFields.JobId).Size = 2;
+                GetField(1, DataFields.JobId).Size = 2;
             else
-                GetField(1, (int)DataFields.JobId).Size = 4;
+                GetField(1, DataFields.JobId).Size = 4;
         }
 
         protected enum DataFields

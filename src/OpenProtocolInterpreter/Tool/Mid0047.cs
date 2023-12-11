@@ -24,13 +24,13 @@ namespace OpenProtocolInterpreter.Tool
 
         public PairingHandlingType PairingHandlingType
         {
-            get => (PairingHandlingType)GetField(1,(int)DataFields.PairingHandlingType).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1,(int)DataFields.PairingHandlingType).SetValue(OpenProtocolConvert.ToString, (int)value);
+            get => (PairingHandlingType)GetField(1, DataFields.PairingHandlingType).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.PairingHandlingType).SetValue(OpenProtocolConvert.ToString, value);
         }
 
         public Mid0047() : this(new Header()
         {
-            Mid = MID, 
+            Mid = MID,
             Revision = DEFAULT_REVISION
         })
         {
@@ -47,7 +47,7 @@ namespace OpenProtocolInterpreter.Tool
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.PairingHandlingType, 20, 2, '0', PaddingOrientation.LeftPadded)
+                                DataField.Number(DataFields.PairingHandlingType, 20, 2)
                             }
                 }
             };

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace OpenProtocolInterpreter.ApplicationSelector
 {
@@ -25,8 +26,8 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
         public int DeviceId
         {
-            get => GetField(1, (int)DataFields.DeviceId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, (int)DataFields.DeviceId).SetValue(OpenProtocolConvert.ToString, value);
+            get => GetField(1, DataFields.DeviceId).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(1, DataFields.DeviceId).SetValue(OpenProtocolConvert.ToString, value);
         }
         public List<LightCommand> GreenLights { get; set; }
 
@@ -41,30 +42,29 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
         public Mid0254(Header header) : base(header)
         {
-            if (GreenLights == null)
-                GreenLights = new List<LightCommand>();
+            GreenLights ??= [];
         }
 
         public override string Pack()
         {
-            GetField(1, (int)DataFields.GreenLightCommand).Value = PackGreenLights();
+            GetField(1, DataFields.GreenLightCommand).Value = PackGreenLights();
             return base.Pack();
         }
 
         public override Mid Parse(string package)
         {
             base.Parse(package);
-            GreenLights = ParseGreenLights(GetField(1, (int)DataFields.GreenLightCommand).Value).ToList();
+            GreenLights = ParseGreenLights(GetField(1, DataFields.GreenLightCommand).Value).ToList();
             return this;
         }
 
         protected virtual string PackGreenLights()
         {
-            string pack = string.Empty;
+            var builder = new StringBuilder(GreenLights.Count);
             foreach (var e in GreenLights)
-                pack += OpenProtocolConvert.ToString((int)e);
+                builder.Append(OpenProtocolConvert.ToString((int)e));
 
-            return pack;
+            return builder.ToString();
         }
 
         protected virtual List<LightCommand> ParseGreenLights(string value)
@@ -83,8 +83,8 @@ namespace OpenProtocolInterpreter.ApplicationSelector
                 {
                     1, new List<DataField>()
                             {
-                                new DataField((int)DataFields.DeviceId, 20, 2, '0', PaddingOrientation.LeftPadded),
-                                new DataField((int)DataFields.GreenLightCommand, 24, 8)
+                                DataField.Number(DataFields.DeviceId, 20, 2),
+                                new(DataFields.GreenLightCommand, 24, 8)
                             }
                 }
             };
