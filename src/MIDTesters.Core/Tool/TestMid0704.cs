@@ -24,7 +24,7 @@ namespace MIDTesters.Core.Tool
         [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid0704ByteRevision1()
         {
-            string package = "01050704001         ";
+            string package = "00700704001         00201200012040000000QST50-150CTT012150010200000003";
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0704>(bytes);
 
