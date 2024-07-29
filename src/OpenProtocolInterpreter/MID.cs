@@ -58,6 +58,15 @@ namespace OpenProtocolInterpreter
                 return header;
 
             var builder = new StringBuilder(header);
+            builder.Append(PackDataFields());
+            return builder.ToString();
+        }
+
+        public virtual byte[] PackBytes() => Encoding.ASCII.GetBytes(Pack());
+
+        internal string PackDataFields()
+        {
+            var builder = new StringBuilder();
             int prefixIndex = 1;
             var revision = (Header.Revision > 0 ? Header.Revision : 1);
             for (int i = 1; i <= revision; i++)
@@ -67,8 +76,6 @@ namespace OpenProtocolInterpreter
 
             return builder.ToString();
         }
-
-        public virtual byte[] PackBytes() => Encoding.ASCII.GetBytes(Pack());
 
         protected virtual string Pack(int revision, ref int prefixIndex)
         {

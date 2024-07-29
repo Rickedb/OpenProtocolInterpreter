@@ -64,6 +64,21 @@ namespace OpenProtocolInterpreter.Communication
             return this;
         }
 
+        public void SetExtraDataFromMid<TMid>(TMid mid) where TMid : Mid, ISubscription
+        {
+            SubscriptionMid = mid.Header.Mid.ToString("D4");
+            WantedRevision = mid.Header.Revision;
+            ExtraData = mid.Pack(mid);
+            ExtraDataLength = ExtraData.Length;
+        }
+
+        public static Mid0008 New<TMid>(TMid mid) where TMid : Mid, ISubscription
+        {
+            var mid8 = new Mid0008();
+            mid8.SetExtraDataFromMid(mid);
+            return mid8;
+        }
+
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
         {
             return new Dictionary<int, List<DataField>>()
