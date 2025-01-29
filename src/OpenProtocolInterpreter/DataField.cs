@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Drawing;
-using System.Linq;
 
 namespace OpenProtocolInterpreter
 {
@@ -67,7 +65,7 @@ namespace OpenProtocolInterpreter
 
         public virtual T GetValue<T>(Func<byte[], T> converter)
         {
-            if (RawValue == default || !RawValue.Any())
+            if (RawValue == default || RawValue.Length == 0)
                 CachedValue = default(T);
             else if (IsValueNotCached<T>())
                 CachedValue = converter(RawValue);
