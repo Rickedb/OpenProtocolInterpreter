@@ -54,7 +54,7 @@ namespace OpenProtocolInterpreter.Emulator.Controller.Models
             {
                 Id = id,
                 RotationDirection = (RotationDirection)random.Next(0, 1),
-                BatchSize = random.Next(1, 10),
+                BatchSize = random.Next(1, 2),
                 MinTorque = random.Next(10, 100),
                 MaxTorque = random.Next(200, 300),
                 TorqueFinalTarget = random.Next(120, 140),

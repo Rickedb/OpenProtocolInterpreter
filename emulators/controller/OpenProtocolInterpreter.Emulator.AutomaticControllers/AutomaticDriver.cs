@@ -48,7 +48,7 @@ namespace OpenProtocolInterpreter.Emulator.AutomaticControllers
         public Task StartAsync()
         {
             var task = StartAsync(_configuration.Port);
-            Task.Delay(5000).ContinueWith(x => OnJobSelected(new Mid0038() { JobId = 1 }));
+            //Task.Delay(5000).ContinueWith(x => OnJobSelected(new Mid0038() { JobId = 1 }));
             return task;
         }
 
@@ -56,9 +56,8 @@ namespace OpenProtocolInterpreter.Emulator.AutomaticControllers
         {
             try
             {
-
-                var angleStatus = (TighteningValueStatus)(_configuration.TighteningStrategy == Strategy.Random ? _random.Next(0, 2) : 1);
-                var torqueStatus = (TighteningValueStatus)(_configuration.TighteningStrategy == Strategy.Random ? _random.Next(0, 2) : 1);
+                var angleStatus = TighteningValueStatus.Ok;// (TighteningValueStatus)(_configuration.TighteningStrategy == Strategy.Random ? _random.Next(0, 2) : 1);
+                var torqueStatus = TighteningValueStatus.Ok;// (TighteningValueStatus)(_configuration.TighteningStrategy == Strategy.Random ? _random.Next(0, 2) : 1);
                 var tighteningStatus = angleStatus == TighteningValueStatus.Ok && torqueStatus == TighteningValueStatus.Ok;
 
                 if (tighteningStatus || OkTighteningSentInJob == 0)
@@ -102,25 +101,25 @@ namespace OpenProtocolInterpreter.Emulator.AutomaticControllers
                     JobId = CurrentJobId,
                     VinNumber = CurrentVinNumber,
                     JobBatchMode = JobBatchMode.OnlyOkTightenings,
-                    JobBatchSize = 5,
+                    JobBatchSize = 3,
                     JobBatchCounter = OkTighteningSentInJob,
                     TimeStamp = DateTime.Now
                 };
 
-                //if (OkTighteningSentInJob >= 5)
-                //{
-                //    OkTighteningSentInJob = 0;
-                //    CurrentJobId = 0;
-                //    mid35.JobStatus = JobStatus.Ok;
-                //    _timer.Change(Timeout.Infinite, Timeout.Infinite);
-                //}
-                //else
-                //{
-                //}
+                if (OkTighteningSentInJob >= 3)
+                {
+                    OkTighteningSentInJob = 0;
+                    CurrentJobId = 0;
+                    mid35.JobStatus = JobStatus.Ok;
+                    _timer.Change(Timeout.Infinite, Timeout.Infinite);
+                }
+                else
+                {
+                    mid35.JobStatus = JobStatus.NotCompleted;
+                    var delay = _random.Next(_configuration.MinTighteningDelay, _configuration.MaxTighteningDelay);
+                    _timer.Change(delay, Timeout.Infinite);
+                }
 
-                mid35.JobStatus = JobStatus.NotCompleted;
-                var delay = _random.Next(_configuration.MinTighteningDelay, _configuration.MaxTighteningDelay);
-                _timer.Change(delay, Timeout.Infinite);
                 foreach (var client in ConnectedClients)
                 {
                     await SendAsync(client, mid35);

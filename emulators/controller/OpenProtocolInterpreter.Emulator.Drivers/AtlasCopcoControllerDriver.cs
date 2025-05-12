@@ -35,7 +35,7 @@ namespace OpenProtocolInterpreter.Emulator.Drivers
         public virtual Task StartAsync(int port)
         {
             Server = new SimpleTcpServer("127.0.0.1", port);
-            Server.Settings.IdleClientTimeoutMs = 10000;
+            Server.Settings.IdleClientTimeoutMs = 15000;
             Server.Events.ClientConnected += OnClientConnected;
             Server.Events.ClientDisconnected += OnClientDisconnected;
             Server.Events.DataReceived += OnDataReceived;

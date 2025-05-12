@@ -34,7 +34,7 @@ namespace OpenProtocolInterpreter.Sample.Driver
         public OpenProtocolDriver(IEnumerable<Type> usedMids)
         {
             OnReceivedMID = new Dictionary<Type, ReceivedCommandActionDelegate>();
-            _midInterpreter = new MidInterpreter().UseAllMessages(usedMids.ToArray());
+            _midInterpreter = new MidInterpreter().UseAllMessages();
         }
 
         public bool BeginCommunication(SimpleTcpClient client)
@@ -88,7 +88,7 @@ namespace OpenProtocolInterpreter.Sample.Driver
         {
             try
             {
-                System.Threading.Thread.Sleep(500);
+                System.Threading.Thread.Sleep(100);
                 Mid midResponse = null;
 
                 Console.WriteLine($"Sending message: {message}");
@@ -147,7 +147,7 @@ namespace OpenProtocolInterpreter.Sample.Driver
         {
             try
             {
-                var message = SendAndWaitForResponse(new Mid0001(1).Pack(), TimeSpan.FromSeconds(10));
+                var message = SendAndWaitForResponse(new Mid0001().Pack(), TimeSpan.FromSeconds(10));
                 if (message != null)
                     switch (message.Header.Mid)
                     {

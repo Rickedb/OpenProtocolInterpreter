@@ -38,7 +38,7 @@ namespace OpenProtocolInterpreter.Emulator.Controller.Drivers
             {
                 { Mid0001.MID, mid => OnCommunicationStart((Mid0001)mid) },
                 { Mid0034.MID,mid => PositiveAcknowledge(mid) },
-                { Mid0038.MID,mid => PositiveAcknowledge(mid) },
+                { Mid0038.MID,mid => new Mid0004() { ErrorCode = Error.JobCannotBeSet, FailedMid = mid.Header.Mid } },//PositiveAcknowledge(mid)
                 { Mid0050.MID, mid => PositiveAcknowledge(mid) },
                 { Mid0051.MID, mid => PositiveAcknowledge(mid) },
                 { Mid0060.MID, mid => PositiveAcknowledge(mid) },

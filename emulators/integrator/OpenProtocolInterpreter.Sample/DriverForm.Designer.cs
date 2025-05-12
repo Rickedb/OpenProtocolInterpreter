@@ -93,6 +93,7 @@
             this.textIp.Name = "textIp";
             this.textIp.Size = new System.Drawing.Size(160, 22);
             this.textIp.TabIndex = 2;
+            this.textIp.Text = "127.0.0.1";
             // 
             // label1
             // 
