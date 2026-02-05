@@ -38,7 +38,7 @@ namespace OpenProtocolInterpreter
         {
             if (RevisionsByFields.Any())
             {
-                Header.Length = 20;
+                Header.Length = Header.DefaultSize;
                 for (int i = 1; i <= Header.StandardizedRevision; i++)
                 {
                     if (RevisionsByFields.TryGetValue(i, out var dataFields))
