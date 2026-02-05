@@ -52,5 +52,17 @@ namespace MIDTesters.Job
             Assert.IsNotNull(mid.JobId);
             AssertEqualPackages(bytes, mid);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("ByteArray")]
+        public void Mid0038PackRevision2()
+        {
+            var mid = new Mid0038(2);
+            mid.JobId = 1;
+            var actual = mid.PackBytes();
+            var package = "00240038002         0001";
+
+            CollectionAssert.AreEqual(GetAsciiBytes(package), actual);
+        }
     }
 }
