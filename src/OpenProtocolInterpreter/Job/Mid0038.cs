@@ -58,23 +58,26 @@ namespace OpenProtocolInterpreter.Job
             {
                 {
                     1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.JobId, 20, 2, false),
-                            }
+                    {
+                        DataField.Number(DataFields.JobId, 20, GetJobIdSize(), false),
+                    }
                 }
             };
         }
 
         private void HandleRevision()
         {
-            if (Header.Revision > 1)
+            var dataField = GetField(1, DataFields.JobId);
+            dataField.Size = GetJobIdSize();
+        }
+
+        private int GetJobIdSize()
+        {
+            return Header.StandardizedRevision switch
             {
-                GetField(1, DataFields.JobId).Size = 4;
-            }
-            else
-            {
-                GetField(1, DataFields.JobId).Size = 2;
-            }
+                <= 1 => 2,
+                _ => 4
+            };
         }
 
         protected enum DataFields
