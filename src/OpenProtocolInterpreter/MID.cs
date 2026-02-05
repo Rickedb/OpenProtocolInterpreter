@@ -39,7 +39,7 @@ namespace OpenProtocolInterpreter
             if (RevisionsByFields.Any())
             {
                 Header.Length = 20;
-                for (int i = 1; i <= (Header.Revision > 0 ? Header.Revision : 1); i++)
+                for (int i = 1; i <= Header.StandardizedRevision; i++)
                 {
                     if (RevisionsByFields.TryGetValue(i, out var dataFields))
                     {
@@ -59,7 +59,7 @@ namespace OpenProtocolInterpreter
 
             var builder = new StringBuilder(header);
             int prefixIndex = 1;
-            var revision = (Header.Revision > 0 ? Header.Revision : 1);
+            var revision = Header.StandardizedRevision;
             for (int i = 1; i <= revision; i++)
             {
                 builder.Append(Pack(i, ref prefixIndex));
