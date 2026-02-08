@@ -61,6 +61,33 @@ namespace MIDTesters.Core.Converters
 
         [TestMethod]
         [TestCategory("Decimal")]
+        public void DecimalWithExponentToDecimal()
+        {
+            var value = "1.23E+02";
+            var result = OpenProtocolConvert.ToDecimal(value);
+            Assert.AreEqual(123m, result);
+        }
+
+        [TestMethod]
+        [TestCategory("Decimal")]
+        public void DecimalWithNegativeExponentToDecimal()
+        {
+            var value = "1.5E-03";
+            var result = OpenProtocolConvert.ToDecimal(value);
+            Assert.AreEqual(0.0015m, result);
+        }
+
+        [TestMethod]
+        [TestCategory("Decimal")]
+        public void DecimalWithLowercaseExponentToDecimal()
+        {
+            var value = "2.5e+01";
+            var result = OpenProtocolConvert.ToDecimal(value);
+            Assert.AreEqual(25m, result);
+        }
+
+        [TestMethod]
+        [TestCategory("Decimal")]
         public void ConcurrencyTest()
         {
             var iterations = 10000;
