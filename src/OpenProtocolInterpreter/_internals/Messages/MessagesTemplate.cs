@@ -97,7 +97,7 @@ namespace OpenProtocolInterpreter.Messages
         /// <param name="mids">Ignored mid instances</param>
         private void FilterSelectedMids(IEnumerable<MidCompiledInstance> mids)
         {
-            var ignoredMids = _templates.Where(x => !mids.Contains(x.Value));
+            var ignoredMids = _templates.Where(x => !mids.Contains(x.Value)).ToList();
             foreach (var ignore in ignoredMids)
                 _templates.Remove(ignore);
         }
