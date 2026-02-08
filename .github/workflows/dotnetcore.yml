@@ -19,6 +19,7 @@ jobs:
             3.1.x
             6.0.x
             8.0.x
+            10.0.x
       - name: Build library (.net core)
         run: dotnet build src/OpenProtocolInterpreter/OpenProtocolInterpreter.csproj --configuration release
   test:
@@ -32,7 +33,7 @@ jobs:
             3.1.x
             6.0.x
             8.0.x
-      - name: Test Mids
+            10.0.x
         run: |
           dotnet build src/MIDTesters.Core/MIDTesters.Core.csproj
           dotnet test src/MIDTesters.Core/MIDTesters.Core.csproj
