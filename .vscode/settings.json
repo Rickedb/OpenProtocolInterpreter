@@ -1,0 +1,8 @@
+{
+  "dotnet.defaultSolution": "OpenProtocolInterpreter.sln",
+  "omnisharp.useModernNet": true,
+  "omnisharp.enableRoslynAnalyzers": true,
+  "omnisharp.enableEditorConfigSupport": true,
+  "omnisharp.enableDecompilationSupport": true,
+  "dotnet.completion.showCompletionItemsFromUnimportedNamespaces": true
+}
