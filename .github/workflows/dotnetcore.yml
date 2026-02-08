@@ -26,7 +26,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@master
-      - name: Build and run .net core tests
+      - name: Setup .NET Core
         uses: actions/setup-dotnet@master
         with:
           dotnet-version: | 
@@ -34,6 +34,7 @@ jobs:
             6.0.x
             8.0.x
             10.0.x
+      - name: Build and run .net core tests
         run: |
           dotnet build src/MIDTesters.Core/MIDTesters.Core.csproj
           dotnet test src/MIDTesters.Core/MIDTesters.Core.csproj
