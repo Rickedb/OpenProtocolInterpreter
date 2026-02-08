@@ -35,7 +35,7 @@ namespace MIDTesters
             Assert.AreEqual(expected, mid.Pack());
         }
 
-        protected void AssertEqualPackages(IEnumerable<byte> expected, Mid mid, bool useEmptyRevision = false)
+        protected void AssertEqualPackages(IReadOnlyCollection<byte> expected, Mid mid, bool useEmptyRevision = false)
         {
             if (useEmptyRevision)
             {
@@ -43,7 +43,7 @@ namespace MIDTesters
             }
 
             mid.Header.StationId = mid.Header.SpindleId = null;
-            Assert.IsTrue(mid.PackBytes().SequenceEqual(expected));
+            CollectionAssert.AreEqual(expected.ToArray(), mid.PackBytes());
         }
     }
 }
