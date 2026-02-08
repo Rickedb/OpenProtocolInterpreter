@@ -59,7 +59,7 @@ namespace OpenProtocolInterpreter
         {
             decimal decimalValue = 0;
             if (!string.IsNullOrWhiteSpace(value))
-                decimal.TryParse(value.Replace(',', '.'), NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign, _formatProvider, out decimalValue);
+                decimal.TryParse(value.Replace(',', '.'), NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign | NumberStyles.AllowExponent, _formatProvider, out decimalValue);
 
             return decimalValue;
         }
