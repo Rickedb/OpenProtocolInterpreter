@@ -309,24 +309,34 @@ But if you wish, you can support and help to motivate the constant improving of 
 
 ### List of still unavailable Mids
 
- - Mid 0700;
- - Mid 0900;
- - Mid 0901;
- - Mid 1000;
- - Mid 1001;
- - Mid 1601;
- - Mid 1602;
- - Mid 1900;
- - Mid 1901;
- - Mid 2100;
- - Mid 2500;
- - Mid 2501;
- - Mid 2600;
- - Mid 2601;
- - Mid 2602;
- - Mid 2603;
- - Mid 2604;
- - Mid 2605;
- - Mid 2606.
+| MID | Description | Notes |
+| - | - | - |
+| 0007 | Reserved | Reserved by Atlas Copco |
+| 0049 | Pairing Status Acknowledge | |
+| 0700 | Tightening data download status for radio tools | |
+| 0900 | Result traces curve | |
+| 0901 | Result traces curve plot data | |
+| 1000 | Alarm | |
+| 1001 | Alarm acknowledge | |
+| 1601 | Dynamic identifier message | |
+| 1602 | Dynamic identifier data acknowledge | |
+| 1900 | Selector socket info | |
+| 1901 | Selector socket control | |
+| 2100 | Device command | |
+| 2500 | Program data download | |
+| 2501 | Program data upload reply | |
+| 2502 | Password request | |
+| 2503 | Password response | |
+| 2600 | Mode ID upload request | |
+| 2601 | Mode ID upload reply | |
+| 2602 | Mode data upload request | |
+| 2603 | Mode data upload reply | |
+| 2604 | Mode selected | |
+| 2605 | Mode selected acknowledge | |
+| 2606 | Select Mode | |
+| 8000 | Audi emergency status subscribe | |
+| 8001 | Audi emergency status | |
+| 8002 | Audi emergency status acknowledge | |
+| 8003 | Audi emergency status unsubscribe | |
 
 Feel free to fork and contribute to add any of those mids.
