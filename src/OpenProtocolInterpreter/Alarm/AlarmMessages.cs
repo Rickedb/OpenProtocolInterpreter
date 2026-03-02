@@ -22,6 +22,8 @@ namespace OpenProtocolInterpreter.Alarm
                { Mid0076.MID,  new MidCompiledInstance(typeof(Mid0076)) },
                { Mid0077.MID,  new MidCompiledInstance(typeof(Mid0077)) },
                { Mid0078.MID,  new MidCompiledInstance(typeof(Mid0078)) },
+               { Mid1000.MID,  new MidCompiledInstance(typeof(Mid1000)) },
+               { Mid1001.MID,  new MidCompiledInstance(typeof(Mid1001)) },
             };
         }
 
@@ -35,6 +37,6 @@ namespace OpenProtocolInterpreter.Alarm
             FilterSelectedMids(mode);
         }
 
-        public override bool IsAssignableTo(int mid) => mid > 69 && mid < 79;
+        public override bool IsAssignableTo(int mid) => mid > 69 && mid < 79 || mid > 999 && mid < 1002;
     }
 }
