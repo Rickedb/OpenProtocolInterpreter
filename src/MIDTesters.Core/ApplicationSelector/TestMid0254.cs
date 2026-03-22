@@ -1,5 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenProtocolInterpreter;
 using OpenProtocolInterpreter.ApplicationSelector;
+using System.Collections.Generic;
 
 namespace MIDTesters.ApplicationSelector
 {
@@ -14,8 +16,10 @@ namespace MIDTesters.ApplicationSelector
             string package = "00340254            01110201221022";
             var mid = _midInterpreter.Parse<Mid0254>(package);
 
-            Assert.IsNotNull(mid.DeviceId);
-            Assert.IsNotNull(mid.GreenLights);
+            Assert.AreEqual(11, mid.DeviceId);
+            CollectionAssert.AreEqual(
+                new List<LightCommand> { LightCommand.Off, LightCommand.Steady, LightCommand.Flashing, LightCommand.Flashing, LightCommand.Steady, LightCommand.Off, LightCommand.Flashing, LightCommand.Flashing },
+                mid.GreenLights);
             AssertEqualPackages(package, mid, true);
         }
 
@@ -27,8 +31,18 @@ namespace MIDTesters.ApplicationSelector
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0254>(bytes);
 
-            Assert.IsNotNull(mid.DeviceId);
-            Assert.IsNotNull(mid.GreenLights);
+            Assert.AreEqual(11, mid.DeviceId);
+            CollectionAssert.AreEqual(new List<LightCommand> 
+            {
+                 LightCommand.Off, 
+                 LightCommand.Steady, 
+                 LightCommand.Flashing, 
+                 LightCommand.Flashing, 
+                 LightCommand.Steady, 
+                 LightCommand.Off, 
+                 LightCommand.Flashing, 
+                 LightCommand.Flashing 
+            }, mid.GreenLights);
             AssertEqualPackages(bytes, mid, true);
         }
     }
