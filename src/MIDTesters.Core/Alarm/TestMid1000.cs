@@ -1,5 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Alarm;
+using System;
 
 namespace MIDTesters.Alarm
 {
@@ -14,10 +15,10 @@ namespace MIDTesters.Alarm
             string pack = "00911000001         ABCDE2017-12-01:20:12:4500201700009040000000ALARMTEXT017010010100000001";
             var mid = _midInterpreter.Parse<Mid1000>(pack);
 
-            Assert.IsNotNull(mid.AlarmCode);
-            Assert.IsNotNull(mid.Time);
-            Assert.IsNotNull(mid.AlarmDataFields);
+            Assert.AreEqual("ABCDE", mid.AlarmCode);
+            Assert.AreEqual(new DateTime(2017, 12, 1, 20, 12, 45), mid.Time);
             Assert.AreEqual(2, mid.NumberOfDataFields);
+            Assert.AreEqual(2, mid.AlarmDataFields.Count);
             AssertEqualPackages(pack, mid);
         }
 
@@ -29,10 +30,10 @@ namespace MIDTesters.Alarm
             byte[] bytes = GetAsciiBytes(pack);
             var mid = _midInterpreter.Parse<Mid1000>(bytes);
 
-            Assert.IsNotNull(mid.AlarmCode);
-            Assert.IsNotNull(mid.Time);
-            Assert.IsNotNull(mid.AlarmDataFields);
+            Assert.AreEqual("ABCDE", mid.AlarmCode);
+            Assert.AreEqual(new DateTime(2017, 12, 1, 20, 12, 45), mid.Time);
             Assert.AreEqual(2, mid.NumberOfDataFields);
+            Assert.AreEqual(2, mid.AlarmDataFields.Count);
             AssertEqualPackages(bytes, mid);
         }
     }

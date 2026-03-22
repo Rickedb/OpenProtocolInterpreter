@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Alarm;
+using System;
 
 namespace MIDTesters.Alarm
 {
@@ -14,10 +15,10 @@ namespace MIDTesters.Alarm
             string pack = @"00530071001         01E851021031042017-12-01:20:12:45";
             var mid = _midInterpreter.Parse<Mid0071>(pack);
 
-            Assert.IsNotNull(mid.ErrorCode);
-            Assert.IsNotNull(mid.ControllerReadyStatus);
-            Assert.IsNotNull(mid.ToolReadyStatus);
-            Assert.IsNotNull(mid.Time);
+            Assert.AreEqual("E851", mid.ErrorCode);
+            Assert.IsTrue(mid.ControllerReadyStatus);
+            Assert.IsTrue(mid.ToolReadyStatus);
+            Assert.AreEqual(new DateTime(2017, 12, 1, 20, 12, 45), mid.Time);
             AssertEqualPackages(pack, mid);
         }
 
@@ -29,10 +30,10 @@ namespace MIDTesters.Alarm
             byte[] bytes = GetAsciiBytes(pack);
             var mid = _midInterpreter.Parse<Mid0071>(bytes);
 
-            Assert.IsNotNull(mid.ErrorCode);
-            Assert.IsNotNull(mid.ControllerReadyStatus);
-            Assert.IsNotNull(mid.ToolReadyStatus);
-            Assert.IsNotNull(mid.Time);
+            Assert.AreEqual("E851", mid.ErrorCode);
+            Assert.IsTrue(mid.ControllerReadyStatus);
+            Assert.IsTrue(mid.ToolReadyStatus);
+            Assert.AreEqual(new DateTime(2017, 12, 1, 20, 12, 45), mid.Time);
             AssertEqualPackages(bytes, mid);
         }
 
@@ -43,11 +44,11 @@ namespace MIDTesters.Alarm
             string pack = @"01060071002         01E1021021031042017-12-01:20:12:4505Alarm Text                                        ";
             var mid = _midInterpreter.Parse<Mid0071>(pack);
 
-            Assert.IsNotNull(mid.ErrorCode);
-            Assert.IsNotNull(mid.ControllerReadyStatus);
-            Assert.IsNotNull(mid.ToolReadyStatus);
-            Assert.IsNotNull(mid.Time);
-            Assert.IsNotNull(mid.AlarmText);
+            Assert.AreEqual("E1021", mid.ErrorCode);
+            Assert.IsTrue(mid.ControllerReadyStatus);
+            Assert.IsTrue(mid.ToolReadyStatus);
+            Assert.AreEqual(new DateTime(2017, 12, 1, 20, 12, 45), mid.Time);
+            Assert.AreEqual("Alarm Text                                        ", mid.AlarmText);
             AssertEqualPackages(pack, mid);
         }
 
@@ -59,11 +60,11 @@ namespace MIDTesters.Alarm
             byte[] bytes = GetAsciiBytes(pack);
             var mid = _midInterpreter.Parse<Mid0071>(bytes);
 
-            Assert.IsNotNull(mid.ErrorCode);
-            Assert.IsNotNull(mid.ControllerReadyStatus);
-            Assert.IsNotNull(mid.ToolReadyStatus);
-            Assert.IsNotNull(mid.Time);
-            Assert.IsNotNull(mid.AlarmText);
+            Assert.AreEqual("E1021", mid.ErrorCode);
+            Assert.IsTrue(mid.ControllerReadyStatus);
+            Assert.IsTrue(mid.ToolReadyStatus);
+            Assert.AreEqual(new DateTime(2017, 12, 1, 20, 12, 45), mid.Time);
+            Assert.AreEqual("Alarm Text                                        ", mid.AlarmText);
             AssertEqualPackages(bytes, mid);
         }
     }

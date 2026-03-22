@@ -14,8 +14,7 @@ namespace MIDTesters.Alarm
             string pack = @"00240074001         E851";
             var mid = _midInterpreter.Parse<Mid0074>(pack);
 
-            Assert.IsNotNull(mid.ErrorCode);
-            Assert.AreEqual(4, mid.ErrorCode.Length);
+            Assert.AreEqual("E851", mid.ErrorCode);
             AssertEqualPackages(pack, mid);
         }
 
@@ -27,8 +26,7 @@ namespace MIDTesters.Alarm
             byte[] bytes = GetAsciiBytes(pack);
             var mid = _midInterpreter.Parse<Mid0074>(bytes);
 
-            Assert.IsNotNull(mid.ErrorCode);
-            Assert.AreEqual(4, mid.ErrorCode.Length);
+            Assert.AreEqual("E851", mid.ErrorCode);
             AssertEqualPackages(bytes, mid);
         }
 
@@ -39,8 +37,7 @@ namespace MIDTesters.Alarm
             string pack = @"00250074002         E8514";
             var mid = _midInterpreter.Parse<Mid0074>(pack);
 
-            Assert.IsNotNull(mid.ErrorCode);
-            Assert.AreEqual(5, mid.ErrorCode.Length);
+            Assert.AreEqual("E8514", mid.ErrorCode);
             AssertEqualPackages(pack, mid);
         }
 
@@ -52,8 +49,7 @@ namespace MIDTesters.Alarm
             byte[] bytes = GetAsciiBytes(pack);
             var mid = _midInterpreter.Parse<Mid0074>(bytes);
 
-            Assert.IsNotNull(mid.ErrorCode);
-            Assert.AreEqual(5, mid.ErrorCode.Length);
+            Assert.AreEqual("E8514", mid.ErrorCode);
             AssertEqualPackages(bytes, mid);
         }
     }
