@@ -14,7 +14,7 @@ namespace MIDTesters.Core.Tool
             string package = "01050702001         0100400301200012040000000QST50-150CTT01202012040000000SERIALNUMBER0120300201000000011";
             var mid = _midInterpreter.Parse<Mid0702>(package);
 
-            Assert.IsNotNull(mid.ToolDataUpload);
+            Assert.AreEqual(3, mid.ToolDataUpload.Count);
             Assert.AreEqual(3, mid.NumberOfToolParameters);
             Assert.AreEqual(40, mid.ToolNumber);
             AssertEqualPackages(package, mid);
@@ -28,7 +28,7 @@ namespace MIDTesters.Core.Tool
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0702>(bytes);
 
-            Assert.IsNotNull(mid.ToolDataUpload);
+            Assert.AreEqual(3, mid.ToolDataUpload.Count);
             Assert.AreEqual(3, mid.NumberOfToolParameters);
             Assert.AreEqual(40, mid.ToolNumber);
             AssertEqualPackages(bytes, mid);

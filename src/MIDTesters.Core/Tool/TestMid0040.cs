@@ -37,7 +37,7 @@ namespace MIDTesters.Tool
             string package = "00260040007         010001";
             var mid = _midInterpreter.Parse<Mid0040>(package);
 
-            Assert.IsNotNull(mid.ToolNumber);
+            Assert.AreEqual(1, mid.ToolNumber);
             AssertEqualPackages(package, mid);
         }
 
@@ -49,7 +49,7 @@ namespace MIDTesters.Tool
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0040>(bytes);
 
-            Assert.IsNotNull(mid.ToolNumber);
+            Assert.AreEqual(1, mid.ToolNumber);
             AssertEqualPackages(bytes, mid);
         }
     }

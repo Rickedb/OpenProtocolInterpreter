@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenProtocolInterpreter;
 using OpenProtocolInterpreter.Tool;
 
 namespace MIDTesters.Tool
@@ -14,8 +15,8 @@ namespace MIDTesters.Tool
             string package = "00310045            01402003000";
             var mid = _midInterpreter.Parse<Mid0045>(package);
 
-            Assert.IsNotNull(mid.CalibrationValueUnit);
-            Assert.IsNotNull(mid.CalibrationValue);
+            Assert.AreEqual(CalibrationUnit.Kpm, mid.CalibrationValueUnit);
+            Assert.AreEqual(30.00m, mid.CalibrationValue);
             AssertEqualPackages(package, mid, true);
         }
 
@@ -27,8 +28,8 @@ namespace MIDTesters.Tool
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0045>(bytes);
 
-            Assert.IsNotNull(mid.CalibrationValueUnit);
-            Assert.IsNotNull(mid.CalibrationValue);
+            Assert.AreEqual(CalibrationUnit.Kpm, mid.CalibrationValueUnit);
+            Assert.AreEqual(30.00m, mid.CalibrationValue);
             AssertEqualPackages(bytes, mid, true);
         }
 
@@ -40,9 +41,9 @@ namespace MIDTesters.Tool
             var mid = _midInterpreter.Parse<Mid0045>(package);
 
             Assert.AreEqual(typeof(Mid0045), mid.GetType());
-            Assert.IsNotNull(mid.CalibrationValueUnit);
-            Assert.IsNotNull(mid.CalibrationValue);
-            Assert.IsNotNull(mid.ChannelNumber);
+            Assert.AreEqual(CalibrationUnit.Kpm, mid.CalibrationValueUnit);
+            Assert.AreEqual(30.00m, mid.CalibrationValue);
+            Assert.AreEqual(1, mid.ChannelNumber);
             AssertEqualPackages(package, mid);
         }
 
@@ -55,9 +56,9 @@ namespace MIDTesters.Tool
             var mid = _midInterpreter.Parse<Mid0045>(bytes);
 
             Assert.AreEqual(typeof(Mid0045), mid.GetType());
-            Assert.IsNotNull(mid.CalibrationValueUnit);
-            Assert.IsNotNull(mid.CalibrationValue);
-            Assert.IsNotNull(mid.ChannelNumber);
+            Assert.AreEqual(CalibrationUnit.Kpm, mid.CalibrationValueUnit);
+            Assert.AreEqual(30.00m, mid.CalibrationValue);
+            Assert.AreEqual(2, mid.ChannelNumber);
             AssertEqualPackages(bytes, mid);
         }
     }

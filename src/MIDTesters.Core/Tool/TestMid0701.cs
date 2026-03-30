@@ -14,8 +14,8 @@ namespace MIDTesters.Tool
             string package = "02110701001         0020001Tool 1 Serial number          Tool 1 Model Name             Tool 1 Model Article Number   0002Tool 2 Serial number          Tool 2 Model Name             Tool 2 Model Article Number   ";
             var mid = _midInterpreter.Parse<Mid0701>(package);
 
-            Assert.IsNotNull(mid.Tools);
-            Assert.AreNotEqual(0, mid.TotalTools);
+            Assert.AreEqual(2, mid.Tools.Count);
+            Assert.AreEqual(2, mid.TotalTools);
             AssertEqualPackages(package, mid);
         }
 
@@ -27,8 +27,8 @@ namespace MIDTesters.Tool
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0701>(bytes);
 
-            Assert.IsNotNull(mid.Tools);
-            Assert.AreNotEqual(0, mid.TotalTools);
+            Assert.AreEqual(2, mid.Tools.Count);
+            Assert.AreEqual(2, mid.TotalTools);
             AssertEqualPackages(bytes, mid);
         }
     }

@@ -14,9 +14,8 @@ namespace MIDTesters.Core.Tool
             string package = "00700704001         00201200012040000000QST50-150CTT012150010200000003";
             var mid = _midInterpreter.Parse<Mid0704>(package);
 
-            Assert.AreNotEqual(0, mid.NumberOfDataFields);
-            Assert.IsNotNull(mid.VariableDataFields);
-            Assert.AreNotEqual(0, mid.VariableDataFields.Count);
+            Assert.AreEqual(2, mid.NumberOfDataFields);
+            Assert.AreEqual(2, mid.VariableDataFields.Count);
             AssertEqualPackages(package, mid);
         }
 
@@ -28,9 +27,8 @@ namespace MIDTesters.Core.Tool
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0704>(bytes);
 
-            Assert.AreNotEqual(0, mid.NumberOfDataFields);
-            Assert.IsNotNull(mid.VariableDataFields);
-            Assert.AreNotEqual(0, mid.VariableDataFields.Count);
+            Assert.AreEqual(2, mid.NumberOfDataFields);
+            Assert.AreEqual(2, mid.VariableDataFields.Count);
             AssertEqualPackages(bytes, mid);
         }
     }
