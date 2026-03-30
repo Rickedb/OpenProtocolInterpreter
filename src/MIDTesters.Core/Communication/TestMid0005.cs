@@ -14,7 +14,7 @@ namespace MIDTesters.Communication
             string pack = @"00240005            0018";
             var mid = _midInterpreter.Parse<Mid0005>(pack);
 
-            Assert.IsNotNull(mid.MidAccepted);
+            Assert.AreEqual(18, mid.MidAccepted);
             AssertEqualPackages(pack, mid, true);
         }
 
@@ -26,7 +26,7 @@ namespace MIDTesters.Communication
             byte[] bytes = GetAsciiBytes(pack);
             var mid = _midInterpreter.Parse<Mid0005>(bytes);
 
-            Assert.IsNotNull(mid.MidAccepted);
+            Assert.AreEqual(18, mid.MidAccepted);
             AssertEqualPackages(bytes, mid, true);
         }
     }

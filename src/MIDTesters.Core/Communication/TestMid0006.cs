@@ -15,10 +15,10 @@ namespace MIDTesters.Communication
             var mid = _midInterpreter.Parse<Mid0006>(pack);
 
             Assert.AreEqual(typeof(Mid0006), mid.GetType());
-            Assert.IsNotNull(mid.RequestedMid);
-            Assert.IsNotNull(mid.WantedRevision);
-            Assert.IsNotNull(mid.ExtraDataLength);
-            Assert.IsNotNull(mid.ExtraData);
+            Assert.AreEqual(18, mid.RequestedMid);
+            Assert.AreEqual(2, mid.WantedRevision);
+            Assert.AreEqual(14, mid.ExtraDataLength);
+            Assert.AreEqual("lengthequals14", mid.ExtraData);
             AssertEqualPackages(pack, mid, true);
         }
 
@@ -31,10 +31,10 @@ namespace MIDTesters.Communication
             var mid = _midInterpreter.Parse<Mid0006>(bytes);
 
             Assert.AreEqual(typeof(Mid0006), mid.GetType());
-            Assert.IsNotNull(mid.RequestedMid);
-            Assert.IsNotNull(mid.WantedRevision);
-            Assert.IsNotNull(mid.ExtraDataLength);
-            Assert.IsNotNull(mid.ExtraData);
+            Assert.AreEqual(18, mid.RequestedMid);
+            Assert.AreEqual(2, mid.WantedRevision);
+            Assert.AreEqual(14, mid.ExtraDataLength);
+            Assert.AreEqual("lengthequals14", mid.ExtraData);
             AssertEqualPackages(bytes, mid, true);
         }
     }

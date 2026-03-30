@@ -37,7 +37,7 @@ namespace MIDTesters.Communication
             var package = "00230001007         011";
             var mid = _midInterpreter.Parse<Mid0001>(package);
 
-            Assert.IsNotNull(mid.OptionalKeepAlive);
+            Assert.IsTrue(mid.OptionalKeepAlive);
             AssertEqualPackages(package, mid);
         }
 
@@ -49,7 +49,7 @@ namespace MIDTesters.Communication
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0001>(bytes);
 
-            Assert.IsNotNull(mid.OptionalKeepAlive);
+            Assert.IsTrue(mid.OptionalKeepAlive);
             AssertEqualPackages(bytes, mid);
         }
     }

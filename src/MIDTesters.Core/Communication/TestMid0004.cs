@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Communication;
+using OpenProtocolInterpreter;
 
 namespace MIDTesters.Communication
 {
@@ -14,8 +15,8 @@ namespace MIDTesters.Communication
             string pack = @"00260004            001802";
             var mid = _midInterpreter.Parse<Mid0004>(pack);
 
-            Assert.IsNotNull(mid.FailedMid);
-            Assert.IsNotNull(mid.ErrorCode);
+            Assert.AreEqual(18, mid.FailedMid);
+            Assert.AreEqual(Error.ParameterSetIdNotPresent, mid.ErrorCode);
             AssertEqualPackages(pack, mid, true);
         }
 
@@ -27,8 +28,8 @@ namespace MIDTesters.Communication
             byte[] bytes = GetAsciiBytes(pack);
             var mid = _midInterpreter.Parse<Mid0004>(bytes);
 
-            Assert.IsNotNull(mid.FailedMid);
-            Assert.IsNotNull(mid.ErrorCode);
+            Assert.AreEqual(18, mid.FailedMid);
+            Assert.AreEqual(Error.ParameterSetIdNotPresent, mid.ErrorCode);
             AssertEqualPackages(bytes, mid, true);
         }
 
@@ -39,8 +40,8 @@ namespace MIDTesters.Communication
             string pack = @"00270004002         0018021";
             var mid = _midInterpreter.Parse<Mid0004>(pack);
 
-            Assert.IsNotNull(mid.FailedMid);
-            Assert.IsNotNull(mid.ErrorCode);
+            Assert.AreEqual(18, mid.FailedMid);
+            Assert.AreEqual(Error.JobNotRunning, mid.ErrorCode);
             AssertEqualPackages(pack, mid);
         }
 
@@ -52,8 +53,8 @@ namespace MIDTesters.Communication
             byte[] bytes = GetAsciiBytes(pack);
             var mid = _midInterpreter.Parse<Mid0004>(bytes);
 
-            Assert.IsNotNull(mid.FailedMid);
-            Assert.IsNotNull(mid.ErrorCode);
+            Assert.AreEqual(18, mid.FailedMid);
+            Assert.AreEqual(Error.JobNotRunning, mid.ErrorCode);
             AssertEqualPackages(bytes, mid);
         }
     }
