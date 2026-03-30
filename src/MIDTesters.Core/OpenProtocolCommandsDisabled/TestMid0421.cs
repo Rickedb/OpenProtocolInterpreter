@@ -14,7 +14,7 @@ namespace MIDTesters.OpenProtocolCommandsDisabled
             string package = "00210421            1";
             var mid = _midInterpreter.Parse<Mid0421>(package);
 
-            Assert.IsNotNull(mid.DigitalInputStatus);
+            Assert.IsTrue(mid.DigitalInputStatus);
             AssertEqualPackages(package, mid, true);
         }
 
@@ -26,7 +26,7 @@ namespace MIDTesters.OpenProtocolCommandsDisabled
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0421>(bytes);
 
-            Assert.IsNotNull(mid.DigitalInputStatus);
+            Assert.IsTrue(mid.DigitalInputStatus);
             AssertEqualPackages(bytes, mid, true);
         }
     }
