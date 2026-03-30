@@ -38,7 +38,7 @@ namespace MIDTesters.MultiSpindle
             var mid = _midInterpreter.Parse<Mid0100>(pack);
 
             Assert.AreEqual(typeof(Mid0100), mid.GetType());
-            Assert.IsNotNull(mid.DataNumberSystem);
+            Assert.AreEqual(123456789L, mid.DataNumberSystem);
             AssertEqualPackages(pack, mid);
         }
 
@@ -51,7 +51,7 @@ namespace MIDTesters.MultiSpindle
             var mid = _midInterpreter.Parse<Mid0100>(bytes);
 
             Assert.AreEqual(typeof(Mid0100), mid.GetType());
-            Assert.IsNotNull(mid.DataNumberSystem);
+            Assert.AreEqual(123456789L, mid.DataNumberSystem);
             AssertEqualPackages(bytes, mid);
         }
 
@@ -63,8 +63,8 @@ namespace MIDTesters.MultiSpindle
             var mid = _midInterpreter.Parse<Mid0100>(pack);
 
             Assert.AreEqual(typeof(Mid0100), mid.GetType());
-            Assert.IsNotNull(mid.DataNumberSystem);
-            Assert.IsNotNull(mid.SendOnlyNewData);
+            Assert.AreEqual(123456789L, mid.DataNumberSystem);
+            Assert.IsTrue(mid.SendOnlyNewData);
             AssertEqualPackages(pack, mid);
         }
 
@@ -77,8 +77,8 @@ namespace MIDTesters.MultiSpindle
             var mid = _midInterpreter.Parse<Mid0100>(bytes);
 
             Assert.AreEqual(typeof(Mid0100), mid.GetType());
-            Assert.IsNotNull(mid.DataNumberSystem);
-            Assert.IsNotNull(mid.SendOnlyNewData);
+            Assert.AreEqual(123456789L, mid.DataNumberSystem);
+            Assert.IsTrue(mid.SendOnlyNewData);
             AssertEqualPackages(bytes, mid);
         }
     }

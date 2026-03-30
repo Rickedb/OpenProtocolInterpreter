@@ -14,7 +14,7 @@ namespace MIDTesters.Core.MultiSpindle
             string pack = @"00320104            013009021015";
             var mid = _midInterpreter.Parse<Mid0104>(pack);
 
-            Assert.AreNotEqual(0, mid.RequestedResultIndex);
+            Assert.AreEqual(3009021015L, mid.RequestedResultIndex);
             AssertEqualPackages(pack, mid, true);
         }
 
@@ -26,7 +26,7 @@ namespace MIDTesters.Core.MultiSpindle
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0104>(bytes);
 
-            Assert.AreNotEqual(0, mid.RequestedResultIndex);
+            Assert.AreEqual(3009021015L, mid.RequestedResultIndex);
             AssertEqualPackages(bytes, mid, true);
         }
     }

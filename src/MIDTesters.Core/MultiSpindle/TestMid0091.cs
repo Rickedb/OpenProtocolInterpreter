@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.MultiSpindle;
 
 namespace MIDTesters.MultiSpindle
@@ -14,11 +15,11 @@ namespace MIDTesters.MultiSpindle
             string pack = @"00670091   1        01020265535032017-01-25:10:20:20041050101102031";
             var mid = _midInterpreter.Parse<Mid0091>(pack);
 
-            Assert.IsNotNull(mid.NumberOfSpindles);
-            Assert.IsNotNull(mid.SyncTighteningId);
-            Assert.IsNotNull(mid.Time);
-            Assert.IsNotNull(mid.SyncOverallStatus);
-            Assert.IsNotNull(mid.SpindlesStatus);
+            Assert.AreEqual(2, mid.NumberOfSpindles);
+            Assert.AreEqual(65535, mid.SyncTighteningId);
+            Assert.AreEqual(new DateTime(2017, 1, 25, 10, 20, 20), mid.Time);
+            Assert.IsTrue(mid.SyncOverallStatus);
+            Assert.AreEqual(2, mid.SpindlesStatus.Count);
             AssertEqualPackages(pack, mid, true);
         }
 
@@ -30,11 +31,11 @@ namespace MIDTesters.MultiSpindle
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0091>(bytes);
 
-            Assert.IsNotNull(mid.NumberOfSpindles);
-            Assert.IsNotNull(mid.SyncTighteningId);
-            Assert.IsNotNull(mid.Time);
-            Assert.IsNotNull(mid.SyncOverallStatus);
-            Assert.IsNotNull(mid.SpindlesStatus);
+            Assert.AreEqual(2, mid.NumberOfSpindles);
+            Assert.AreEqual(65535, mid.SyncTighteningId);
+            Assert.AreEqual(new DateTime(2017, 1, 25, 10, 20, 20), mid.Time);
+            Assert.IsTrue(mid.SyncOverallStatus);
+            Assert.AreEqual(2, mid.SpindlesStatus.Count);
             AssertEqualPackages(bytes, mid, true);
         }
     }
