@@ -15,7 +15,7 @@ namespace MIDTesters.PLCUserData
             var mid = _midInterpreter.Parse<Mid0242>(package);
 
             Assert.IsTrue(mid.Header.NoAckFlag);
-            Assert.IsNotNull(mid.UserData);
+            Assert.AreEqual("My identifier less than", mid.UserData);
             AssertEqualPackages(package, mid, true);
         }
 
@@ -28,7 +28,7 @@ namespace MIDTesters.PLCUserData
             var mid = _midInterpreter.Parse<Mid0242>(bytes);
 
             Assert.IsTrue(mid.Header.NoAckFlag);
-            Assert.IsNotNull(mid.UserData);
+            Assert.AreEqual("My identifier less than", mid.UserData);
             AssertEqualPackages(bytes, mid, true);
         }
     }
