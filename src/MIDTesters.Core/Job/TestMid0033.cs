@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenProtocolInterpreter;
 using OpenProtocolInterpreter.Job;
 
 namespace MIDTesters.Job
@@ -14,19 +15,19 @@ namespace MIDTesters.Job
             string package = "01150033001         010402My Job 4                 031045000057000406107108109110211112021315:011:1:02;11:015:1:02;";
             var mid = _midInterpreter.Parse<Mid0033>(package);
 
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.JobName);
-            Assert.IsNotNull(mid.ForcedOrder);
-            Assert.IsNotNull(mid.MaxTimeForFirstTightening);
-            Assert.IsNotNull(mid.MaxTimeToCompleteJob);
-            Assert.IsNotNull(mid.JobBatchMode);
-            Assert.IsNotNull(mid.LockAtJobDone);
-            Assert.IsNotNull(mid.UseLineControl);
-            Assert.IsNotNull(mid.RepeatJob);
-            Assert.IsNotNull(mid.ToolLoosening);
-            Assert.IsNotNull(mid.Reserved);
-            Assert.IsNotNull(mid.NumberOfParameterSets);
-            Assert.IsNotNull(mid.ParameterSetList);
+            Assert.AreEqual(4, mid.JobId);
+            Assert.AreEqual("My Job 4", mid.JobName.TrimEnd());
+            Assert.AreEqual(ForcedOrder.ForcedOrder, mid.ForcedOrder);
+            Assert.AreEqual(5000, mid.MaxTimeForFirstTightening);
+            Assert.AreEqual(70004, mid.MaxTimeToCompleteJob);
+            Assert.AreEqual(JobBatchMode.OkAndNokTightenings, mid.JobBatchMode);
+            Assert.IsTrue(mid.LockAtJobDone);
+            Assert.IsTrue(mid.UseLineControl);
+            Assert.IsTrue(mid.RepeatJob);
+            Assert.AreEqual(ToolLoosening.EnableOnlyOnNokTightenings, mid.ToolLoosening);
+            Assert.AreEqual(Reserved.G, mid.Reserved);
+            Assert.AreEqual(2, mid.NumberOfParameterSets);
+            Assert.AreEqual(2, mid.ParameterSetList.Count);
             AssertEqualPackages(package, mid);
         }
 
@@ -38,19 +39,19 @@ namespace MIDTesters.Job
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0033>(bytes);
 
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.JobName);
-            Assert.IsNotNull(mid.ForcedOrder);
-            Assert.IsNotNull(mid.MaxTimeForFirstTightening);
-            Assert.IsNotNull(mid.MaxTimeToCompleteJob);
-            Assert.IsNotNull(mid.JobBatchMode);
-            Assert.IsNotNull(mid.LockAtJobDone);
-            Assert.IsNotNull(mid.UseLineControl);
-            Assert.IsNotNull(mid.RepeatJob);
-            Assert.IsNotNull(mid.ToolLoosening);
-            Assert.IsNotNull(mid.Reserved);
-            Assert.IsNotNull(mid.NumberOfParameterSets);
-            Assert.IsNotNull(mid.ParameterSetList);
+            Assert.AreEqual(4, mid.JobId);
+            Assert.AreEqual("My Job 4", mid.JobName.TrimEnd());
+            Assert.AreEqual(ForcedOrder.ForcedOrder, mid.ForcedOrder);
+            Assert.AreEqual(5000, mid.MaxTimeForFirstTightening);
+            Assert.AreEqual(70004, mid.MaxTimeToCompleteJob);
+            Assert.AreEqual(JobBatchMode.OkAndNokTightenings, mid.JobBatchMode);
+            Assert.IsTrue(mid.LockAtJobDone);
+            Assert.IsTrue(mid.UseLineControl);
+            Assert.IsTrue(mid.RepeatJob);
+            Assert.AreEqual(ToolLoosening.EnableOnlyOnNokTightenings, mid.ToolLoosening);
+            Assert.AreEqual(Reserved.G, mid.Reserved);
+            Assert.AreEqual(2, mid.NumberOfParameterSets);
+            Assert.AreEqual(2, mid.ParameterSetList.Count);
             AssertEqualPackages(bytes, mid);
         }
 
@@ -61,19 +62,19 @@ namespace MIDTesters.Job
             string package = "01170033002         01000402My Job 4                 031045000057000406107108109110211112021315:011:1:02;11:015:1:02;";
             var mid = _midInterpreter.Parse<Mid0033>(package);
 
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.JobName);
-            Assert.IsNotNull(mid.ForcedOrder);
-            Assert.IsNotNull(mid.MaxTimeForFirstTightening);
-            Assert.IsNotNull(mid.MaxTimeToCompleteJob);
-            Assert.IsNotNull(mid.JobBatchMode);
-            Assert.IsNotNull(mid.LockAtJobDone);
-            Assert.IsNotNull(mid.UseLineControl);
-            Assert.IsNotNull(mid.RepeatJob);
-            Assert.IsNotNull(mid.ToolLoosening);
-            Assert.IsNotNull(mid.Reserved);
-            Assert.IsNotNull(mid.NumberOfParameterSets);
-            Assert.IsNotNull(mid.ParameterSetList);
+            Assert.AreEqual(4, mid.JobId);
+            Assert.AreEqual("My Job 4", mid.JobName.TrimEnd());
+            Assert.AreEqual(ForcedOrder.ForcedOrder, mid.ForcedOrder);
+            Assert.AreEqual(5000, mid.MaxTimeForFirstTightening);
+            Assert.AreEqual(70004, mid.MaxTimeToCompleteJob);
+            Assert.AreEqual(JobBatchMode.OkAndNokTightenings, mid.JobBatchMode);
+            Assert.IsTrue(mid.LockAtJobDone);
+            Assert.IsTrue(mid.UseLineControl);
+            Assert.IsTrue(mid.RepeatJob);
+            Assert.AreEqual(ToolLoosening.EnableOnlyOnNokTightenings, mid.ToolLoosening);
+            Assert.AreEqual(Reserved.G, mid.Reserved);
+            Assert.AreEqual(2, mid.NumberOfParameterSets);
+            Assert.AreEqual(2, mid.ParameterSetList.Count);
             AssertEqualPackages(package, mid);
         }
 
@@ -85,19 +86,19 @@ namespace MIDTesters.Job
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0033>(bytes);
 
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.JobName);
-            Assert.IsNotNull(mid.ForcedOrder);
-            Assert.IsNotNull(mid.MaxTimeForFirstTightening);
-            Assert.IsNotNull(mid.MaxTimeToCompleteJob);
-            Assert.IsNotNull(mid.JobBatchMode);
-            Assert.IsNotNull(mid.LockAtJobDone);
-            Assert.IsNotNull(mid.UseLineControl);
-            Assert.IsNotNull(mid.RepeatJob);
-            Assert.IsNotNull(mid.ToolLoosening);
-            Assert.IsNotNull(mid.Reserved);
-            Assert.IsNotNull(mid.NumberOfParameterSets);
-            Assert.IsNotNull(mid.ParameterSetList);
+            Assert.AreEqual(4, mid.JobId);
+            Assert.AreEqual("My Job 4", mid.JobName.TrimEnd());
+            Assert.AreEqual(ForcedOrder.ForcedOrder, mid.ForcedOrder);
+            Assert.AreEqual(5000, mid.MaxTimeForFirstTightening);
+            Assert.AreEqual(70004, mid.MaxTimeToCompleteJob);
+            Assert.AreEqual(JobBatchMode.OkAndNokTightenings, mid.JobBatchMode);
+            Assert.IsTrue(mid.LockAtJobDone);
+            Assert.IsTrue(mid.UseLineControl);
+            Assert.IsTrue(mid.RepeatJob);
+            Assert.AreEqual(ToolLoosening.EnableOnlyOnNokTightenings, mid.ToolLoosening);
+            Assert.AreEqual(Reserved.G, mid.Reserved);
+            Assert.AreEqual(2, mid.NumberOfParameterSets);
+            Assert.AreEqual(2, mid.ParameterSetList.Count);
             AssertEqualPackages(bytes, mid);
         }
 
@@ -108,19 +109,19 @@ namespace MIDTesters.Job
             string package = "01810033003         01000402My Job 4                 031045000057000406107108109110211112021315:011:1:02:02:Job Step 1 Name          :03;11:015:1:02:01:Job Step 2 Name          :05;";
             var mid = _midInterpreter.Parse<Mid0033>(package);
 
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.JobName);
-            Assert.IsNotNull(mid.ForcedOrder);
-            Assert.IsNotNull(mid.MaxTimeForFirstTightening);
-            Assert.IsNotNull(mid.MaxTimeToCompleteJob);
-            Assert.IsNotNull(mid.JobBatchMode);
-            Assert.IsNotNull(mid.LockAtJobDone);
-            Assert.IsNotNull(mid.UseLineControl);
-            Assert.IsNotNull(mid.RepeatJob);
-            Assert.IsNotNull(mid.ToolLoosening);
-            Assert.IsNotNull(mid.Reserved);
-            Assert.IsNotNull(mid.NumberOfParameterSets);
-            Assert.IsNotNull(mid.ParameterSetList);
+            Assert.AreEqual(4, mid.JobId);
+            Assert.AreEqual("My Job 4", mid.JobName.TrimEnd());
+            Assert.AreEqual(ForcedOrder.ForcedOrder, mid.ForcedOrder);
+            Assert.AreEqual(5000, mid.MaxTimeForFirstTightening);
+            Assert.AreEqual(70004, mid.MaxTimeToCompleteJob);
+            Assert.AreEqual(JobBatchMode.OkAndNokTightenings, mid.JobBatchMode);
+            Assert.IsTrue(mid.LockAtJobDone);
+            Assert.IsTrue(mid.UseLineControl);
+            Assert.IsTrue(mid.RepeatJob);
+            Assert.AreEqual(ToolLoosening.EnableOnlyOnNokTightenings, mid.ToolLoosening);
+            Assert.AreEqual(Reserved.G, mid.Reserved);
+            Assert.AreEqual(2, mid.NumberOfParameterSets);
+            Assert.AreEqual(2, mid.ParameterSetList.Count);
             AssertEqualPackages(package, mid);
         }
 
@@ -132,19 +133,19 @@ namespace MIDTesters.Job
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0033>(bytes);
 
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.JobName);
-            Assert.IsNotNull(mid.ForcedOrder);
-            Assert.IsNotNull(mid.MaxTimeForFirstTightening);
-            Assert.IsNotNull(mid.MaxTimeToCompleteJob);
-            Assert.IsNotNull(mid.JobBatchMode);
-            Assert.IsNotNull(mid.LockAtJobDone);
-            Assert.IsNotNull(mid.UseLineControl);
-            Assert.IsNotNull(mid.RepeatJob);
-            Assert.IsNotNull(mid.ToolLoosening);
-            Assert.IsNotNull(mid.Reserved);
-            Assert.IsNotNull(mid.NumberOfParameterSets);
-            Assert.IsNotNull(mid.ParameterSetList);
+            Assert.AreEqual(4, mid.JobId);
+            Assert.AreEqual("My Job 4", mid.JobName.TrimEnd());
+            Assert.AreEqual(ForcedOrder.ForcedOrder, mid.ForcedOrder);
+            Assert.AreEqual(5000, mid.MaxTimeForFirstTightening);
+            Assert.AreEqual(70004, mid.MaxTimeToCompleteJob);
+            Assert.AreEqual(JobBatchMode.OkAndNokTightenings, mid.JobBatchMode);
+            Assert.IsTrue(mid.LockAtJobDone);
+            Assert.IsTrue(mid.UseLineControl);
+            Assert.IsTrue(mid.RepeatJob);
+            Assert.AreEqual(ToolLoosening.EnableOnlyOnNokTightenings, mid.ToolLoosening);
+            Assert.AreEqual(Reserved.G, mid.Reserved);
+            Assert.AreEqual(2, mid.NumberOfParameterSets);
+            Assert.AreEqual(2, mid.ParameterSetList.Count);
             AssertEqualPackages(bytes, mid);
         }
 
@@ -155,19 +156,19 @@ namespace MIDTesters.Job
             string package = "01910033004         01000402My Job 4                 031045000057000406107108109110211112021315:011:1:02:0002:Job Step 1 Name          :03:05;11:015:1:02:0001:Job Step 2 Name          :05:02;";
             var mid = _midInterpreter.Parse<Mid0033>(package);
 
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.JobName);
-            Assert.IsNotNull(mid.ForcedOrder);
-            Assert.IsNotNull(mid.MaxTimeForFirstTightening);
-            Assert.IsNotNull(mid.MaxTimeToCompleteJob);
-            Assert.IsNotNull(mid.JobBatchMode);
-            Assert.IsNotNull(mid.LockAtJobDone);
-            Assert.IsNotNull(mid.UseLineControl);
-            Assert.IsNotNull(mid.RepeatJob);
-            Assert.IsNotNull(mid.ToolLoosening);
-            Assert.IsNotNull(mid.Reserved);
-            Assert.IsNotNull(mid.NumberOfParameterSets);
-            Assert.IsNotNull(mid.ParameterSetList);
+            Assert.AreEqual(4, mid.JobId);
+            Assert.AreEqual("My Job 4", mid.JobName.TrimEnd());
+            Assert.AreEqual(ForcedOrder.ForcedOrder, mid.ForcedOrder);
+            Assert.AreEqual(5000, mid.MaxTimeForFirstTightening);
+            Assert.AreEqual(70004, mid.MaxTimeToCompleteJob);
+            Assert.AreEqual(JobBatchMode.OkAndNokTightenings, mid.JobBatchMode);
+            Assert.IsTrue(mid.LockAtJobDone);
+            Assert.IsTrue(mid.UseLineControl);
+            Assert.IsTrue(mid.RepeatJob);
+            Assert.AreEqual(ToolLoosening.EnableOnlyOnNokTightenings, mid.ToolLoosening);
+            Assert.AreEqual(Reserved.G, mid.Reserved);
+            Assert.AreEqual(2, mid.NumberOfParameterSets);
+            Assert.AreEqual(2, mid.ParameterSetList.Count);
             AssertEqualPackages(package, mid);
         }
 
@@ -179,19 +180,19 @@ namespace MIDTesters.Job
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0033>(bytes);
 
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.JobName);
-            Assert.IsNotNull(mid.ForcedOrder);
-            Assert.IsNotNull(mid.MaxTimeForFirstTightening);
-            Assert.IsNotNull(mid.MaxTimeToCompleteJob);
-            Assert.IsNotNull(mid.JobBatchMode);
-            Assert.IsNotNull(mid.LockAtJobDone);
-            Assert.IsNotNull(mid.UseLineControl);
-            Assert.IsNotNull(mid.RepeatJob);
-            Assert.IsNotNull(mid.ToolLoosening);
-            Assert.IsNotNull(mid.Reserved);
-            Assert.IsNotNull(mid.NumberOfParameterSets);
-            Assert.IsNotNull(mid.ParameterSetList);
+            Assert.AreEqual(4, mid.JobId);
+            Assert.AreEqual("My Job 4", mid.JobName.TrimEnd());
+            Assert.AreEqual(ForcedOrder.ForcedOrder, mid.ForcedOrder);
+            Assert.AreEqual(5000, mid.MaxTimeForFirstTightening);
+            Assert.AreEqual(70004, mid.MaxTimeToCompleteJob);
+            Assert.AreEqual(JobBatchMode.OkAndNokTightenings, mid.JobBatchMode);
+            Assert.IsTrue(mid.LockAtJobDone);
+            Assert.IsTrue(mid.UseLineControl);
+            Assert.IsTrue(mid.RepeatJob);
+            Assert.AreEqual(ToolLoosening.EnableOnlyOnNokTightenings, mid.ToolLoosening);
+            Assert.AreEqual(Reserved.G, mid.Reserved);
+            Assert.AreEqual(2, mid.NumberOfParameterSets);
+            Assert.AreEqual(2, mid.ParameterSetList.Count);
             AssertEqualPackages(bytes, mid);
         }
 
@@ -202,19 +203,19 @@ namespace MIDTesters.Job
             string package = "01950033005         01000402My Job 4                 031045000057000406107108109110211112021315:011:1:0002:0002:Job Step 1 Name          :03:05;11:015:1:0002:0001:Job Step 2 Name          :05:02;";
             var mid = _midInterpreter.Parse<Mid0033>(package);
 
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.JobName);
-            Assert.IsNotNull(mid.ForcedOrder);
-            Assert.IsNotNull(mid.MaxTimeForFirstTightening);
-            Assert.IsNotNull(mid.MaxTimeToCompleteJob);
-            Assert.IsNotNull(mid.JobBatchMode);
-            Assert.IsNotNull(mid.LockAtJobDone);
-            Assert.IsNotNull(mid.UseLineControl);
-            Assert.IsNotNull(mid.RepeatJob);
-            Assert.IsNotNull(mid.ToolLoosening);
-            Assert.IsNotNull(mid.Reserved);
-            Assert.IsNotNull(mid.NumberOfParameterSets);
-            Assert.IsNotNull(mid.ParameterSetList);
+            Assert.AreEqual(4, mid.JobId);
+            Assert.AreEqual("My Job 4", mid.JobName.TrimEnd());
+            Assert.AreEqual(ForcedOrder.ForcedOrder, mid.ForcedOrder);
+            Assert.AreEqual(5000, mid.MaxTimeForFirstTightening);
+            Assert.AreEqual(70004, mid.MaxTimeToCompleteJob);
+            Assert.AreEqual(JobBatchMode.OkAndNokTightenings, mid.JobBatchMode);
+            Assert.IsTrue(mid.LockAtJobDone);
+            Assert.IsTrue(mid.UseLineControl);
+            Assert.IsTrue(mid.RepeatJob);
+            Assert.AreEqual(ToolLoosening.EnableOnlyOnNokTightenings, mid.ToolLoosening);
+            Assert.AreEqual(Reserved.G, mid.Reserved);
+            Assert.AreEqual(2, mid.NumberOfParameterSets);
+            Assert.AreEqual(2, mid.ParameterSetList.Count);
             AssertEqualPackages(package, mid);
         }
 
@@ -226,19 +227,19 @@ namespace MIDTesters.Job
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0033>(bytes);
 
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.JobName);
-            Assert.IsNotNull(mid.ForcedOrder);
-            Assert.IsNotNull(mid.MaxTimeForFirstTightening);
-            Assert.IsNotNull(mid.MaxTimeToCompleteJob);
-            Assert.IsNotNull(mid.JobBatchMode);
-            Assert.IsNotNull(mid.LockAtJobDone);
-            Assert.IsNotNull(mid.UseLineControl);
-            Assert.IsNotNull(mid.RepeatJob);
-            Assert.IsNotNull(mid.ToolLoosening);
-            Assert.IsNotNull(mid.Reserved);
-            Assert.IsNotNull(mid.NumberOfParameterSets);
-            Assert.IsNotNull(mid.ParameterSetList);
+            Assert.AreEqual(4, mid.JobId);
+            Assert.AreEqual("My Job 4", mid.JobName.TrimEnd());
+            Assert.AreEqual(ForcedOrder.ForcedOrder, mid.ForcedOrder);
+            Assert.AreEqual(5000, mid.MaxTimeForFirstTightening);
+            Assert.AreEqual(70004, mid.MaxTimeToCompleteJob);
+            Assert.AreEqual(JobBatchMode.OkAndNokTightenings, mid.JobBatchMode);
+            Assert.IsTrue(mid.LockAtJobDone);
+            Assert.IsTrue(mid.UseLineControl);
+            Assert.IsTrue(mid.RepeatJob);
+            Assert.AreEqual(ToolLoosening.EnableOnlyOnNokTightenings, mid.ToolLoosening);
+            Assert.AreEqual(Reserved.G, mid.Reserved);
+            Assert.AreEqual(2, mid.NumberOfParameterSets);
+            Assert.AreEqual(2, mid.ParameterSetList.Count);
             AssertEqualPackages(bytes, mid);
         }
     }

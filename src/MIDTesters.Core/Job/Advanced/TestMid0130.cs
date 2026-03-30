@@ -14,7 +14,7 @@ namespace MIDTesters.Job.Advanced
             string package = "00210130            1";
             var mid = _midInterpreter.Parse<Mid0130>(package);
 
-            Assert.IsNotNull(mid.JobOffStatus);
+            Assert.IsTrue(mid.JobOffStatus);
             AssertEqualPackages(package, mid, true);
         }
 
@@ -26,7 +26,7 @@ namespace MIDTesters.Job.Advanced
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0130>(bytes);
 
-            Assert.IsNotNull(mid.JobOffStatus);
+            Assert.IsTrue(mid.JobOffStatus);
             AssertEqualPackages(bytes, mid, true);
         }
     }

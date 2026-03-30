@@ -14,7 +14,7 @@ namespace MIDTesters.Job
             string package = "00220032001         04";
             var mid = _midInterpreter.Parse<Mid0032>(package);
 
-            Assert.IsNotNull(mid.JobId);
+            Assert.AreEqual(4, mid.JobId);
             AssertEqualPackages(package, mid);
         }
 
@@ -26,7 +26,7 @@ namespace MIDTesters.Job
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0032>(bytes);
 
-            Assert.IsNotNull(mid.JobId);
+            Assert.AreEqual(4, mid.JobId);
             AssertEqualPackages(bytes, mid);
         }
 
@@ -37,7 +37,7 @@ namespace MIDTesters.Job
             string package = "00240032002         0002";
             var mid = _midInterpreter.Parse<Mid0032>(package);
 
-            Assert.IsNotNull(mid.JobId);
+            Assert.AreEqual(2, mid.JobId);
             AssertEqualPackages(package, mid);
         }
 
@@ -49,7 +49,7 @@ namespace MIDTesters.Job
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0032>(bytes);
 
-            Assert.IsNotNull(mid.JobId);
+            Assert.AreEqual(2, mid.JobId);
             AssertEqualPackages(bytes, mid);
         }
 
@@ -60,7 +60,7 @@ namespace MIDTesters.Job
             string package = "00240032003         0003";
             var mid = _midInterpreter.Parse<Mid0032>(package);
 
-            Assert.IsNotNull(mid.JobId);
+            Assert.AreEqual(3, mid.JobId);
             AssertEqualPackages(package, mid);
         }
 
@@ -72,7 +72,7 @@ namespace MIDTesters.Job
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0032>(bytes);
 
-            Assert.IsNotNull(mid.JobId);
+            Assert.AreEqual(3, mid.JobId);
             AssertEqualPackages(bytes, mid);
         }
 
@@ -83,7 +83,7 @@ namespace MIDTesters.Job
             string package = "00240032004         0003";
             var mid = _midInterpreter.Parse<Mid0032>(package);
 
-            Assert.IsNotNull(mid.JobId);
+            Assert.AreEqual(3, mid.JobId);
             AssertEqualPackages(package, mid);
         }
 
@@ -95,7 +95,7 @@ namespace MIDTesters.Job
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0032>(bytes);
 
-            Assert.IsNotNull(mid.JobId);
+            Assert.AreEqual(3, mid.JobId);
             AssertEqualPackages(bytes, mid);
         }
     }

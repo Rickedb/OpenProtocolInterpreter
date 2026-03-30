@@ -17,20 +17,19 @@ namespace MIDTesters.Core.Job.Advanced
             var mid = _midInterpreter.Parse<Mid0140>(package);
 
             Assert.AreEqual(typeof(Mid0140), mid.GetType());
-            Assert.AreNotEqual(0, mid.JobId);
-            Assert.AreNotEqual(string.Empty, mid.JobName);
-            Assert.AreNotEqual(0, mid.NumberOfParameterSets);
-            Assert.IsNotNull(mid.JobList);
-            Assert.AreNotEqual(0, mid.JobList.Count);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual("Job 1", mid.JobName.TrimEnd());
+            Assert.AreEqual(2, mid.NumberOfParameterSets);
+            Assert.AreEqual(2, mid.JobList.Count);
             Assert.AreEqual(ForcedOrder.ForcedOrder, mid.ForcedOrder);
             Assert.IsTrue(mid.LockAtJobDone);
             Assert.AreEqual(ToolLoosening.EnableOnlyOnNokTightenings, mid.ToolLoosening);
             Assert.IsTrue(mid.RepeatJob);
             Assert.AreEqual(BatchMode.BothOkAndNok, mid.BatchMode);
             Assert.IsTrue(mid.DecrementBatchAtOkLoosening);
-            Assert.AreNotEqual(0, mid.MaxTimeForFirstTightening);
-            Assert.AreNotEqual(0, mid.MaxTimeToCompleteJob);
-            Assert.AreNotEqual(0, mid.DisplayResultAtAutoSelect);
+            Assert.AreEqual(100, mid.MaxTimeForFirstTightening);
+            Assert.AreEqual(10000, mid.MaxTimeToCompleteJob);
+            Assert.AreEqual(90, mid.DisplayResultAtAutoSelect);
             Assert.IsTrue(mid.UsingLineControl);
             Assert.AreEqual(IdentifierPart.Other, mid.IdentifierResultPart);
             Assert.IsTrue(mid.ResultOfNonTightenings);
@@ -48,20 +47,19 @@ namespace MIDTesters.Core.Job.Advanced
             var mid = _midInterpreter.Parse<Mid0140>(bytes);
 
             Assert.AreEqual(typeof(Mid0140), mid.GetType());
-            Assert.AreNotEqual(0, mid.JobId);
-            Assert.AreNotEqual(string.Empty, mid.JobName);
-            Assert.AreNotEqual(0, mid.NumberOfParameterSets);
-            Assert.IsNotNull(mid.JobList);
-            Assert.AreNotEqual(0, mid.JobList.Count);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual("Job 1", mid.JobName.TrimEnd());
+            Assert.AreEqual(2, mid.NumberOfParameterSets);
+            Assert.AreEqual(2, mid.JobList.Count);
             Assert.AreEqual(ForcedOrder.ForcedOrder, mid.ForcedOrder);
             Assert.IsTrue(mid.LockAtJobDone);
             Assert.AreEqual(ToolLoosening.EnableOnlyOnNokTightenings, mid.ToolLoosening);
             Assert.IsTrue(mid.RepeatJob);
             Assert.AreEqual(BatchMode.BothOkAndNok, mid.BatchMode);
             Assert.IsTrue(mid.DecrementBatchAtOkLoosening);
-            Assert.AreNotEqual(0, mid.MaxTimeForFirstTightening);
-            Assert.AreNotEqual(0, mid.MaxTimeToCompleteJob);
-            Assert.AreNotEqual(0, mid.DisplayResultAtAutoSelect);
+            Assert.AreEqual(100, mid.MaxTimeForFirstTightening);
+            Assert.AreEqual(10000, mid.MaxTimeToCompleteJob);
+            Assert.AreEqual(90, mid.DisplayResultAtAutoSelect);
             Assert.IsTrue(mid.UsingLineControl);
             Assert.AreEqual(IdentifierPart.Other, mid.IdentifierResultPart);
             Assert.IsTrue(mid.ResultOfNonTightenings);
@@ -78,26 +76,25 @@ namespace MIDTesters.Core.Job.Advanced
             var mid = _midInterpreter.Parse<Mid0140>(package);
             
             Assert.AreEqual(typeof(Mid0140), mid.GetType());
-            Assert.AreNotEqual(0, mid.JobId);
-            Assert.AreNotEqual(string.Empty, mid.JobName);
-            Assert.AreNotEqual(0, mid.NumberOfParameterSets);
-            Assert.IsNotNull(mid.JobList);
-            Assert.AreNotEqual(0, mid.JobList.Count);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual("Job 1", mid.JobName.TrimEnd());
+            Assert.AreEqual(2, mid.NumberOfParameterSets);
+            Assert.AreEqual(2, mid.JobList.Count);
             Assert.AreEqual(ForcedOrder.ForcedOrder, mid.ForcedOrder);
             Assert.IsTrue(mid.LockAtJobDone);
             Assert.AreEqual(ToolLoosening.EnableOnlyOnNokTightenings, mid.ToolLoosening);
             Assert.IsTrue(mid.RepeatJob);
             Assert.AreEqual(BatchMode.BothOkAndNok, mid.BatchMode);
             Assert.IsTrue(mid.DecrementBatchAtOkLoosening);
-            Assert.AreNotEqual(0, mid.MaxTimeForFirstTightening);
-            Assert.AreNotEqual(0, mid.MaxTimeToCompleteJob);
-            Assert.AreNotEqual(0, mid.DisplayResultAtAutoSelect);
+            Assert.AreEqual(100, mid.MaxTimeForFirstTightening);
+            Assert.AreEqual(10000, mid.MaxTimeToCompleteJob);
+            Assert.AreEqual(90, mid.DisplayResultAtAutoSelect);
             Assert.IsTrue(mid.UsingLineControl);
             Assert.AreEqual(IdentifierPart.Other, mid.IdentifierResultPart);
             Assert.IsTrue(mid.ResultOfNonTightenings);
             Assert.IsTrue(mid.ResetAllIdentifiersAtJobDone);
             Assert.AreEqual(Reserved.G, mid.Reserved);
-            Assert.AreNotEqual(0, mid.JobSequenceNumber);
+            Assert.AreEqual(120, mid.JobSequenceNumber);
             AssertEqualPackages(package, mid);
         }
 
@@ -110,9 +107,9 @@ namespace MIDTesters.Core.Job.Advanced
             var mid = _midInterpreter.Parse<Mid0140>(bytes);
 
             Assert.AreEqual(typeof(Mid0140), mid.GetType());
-            Assert.AreNotEqual(0, mid.JobId);
-            Assert.AreNotEqual(string.Empty, mid.JobName);
-            Assert.AreNotEqual(0, mid.NumberOfParameterSets);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual("Job 1", mid.JobName.TrimEnd());
+            Assert.AreEqual(2, mid.NumberOfParameterSets);
             AssertEqualPackages(bytes, mid);
         }
 
@@ -124,23 +121,22 @@ namespace MIDTesters.Core.Job.Advanced
             var mid = _midInterpreter.Parse<Mid0140>(package);
 
             Assert.AreEqual(typeof(Mid0140), mid.GetType());
-            Assert.AreNotEqual(0, mid.JobId);
-            Assert.AreNotEqual(string.Empty, mid.JobName);
-            Assert.AreNotEqual(0, mid.NumberOfParameterSets);
-            Assert.IsNotNull(mid.JobList);
-            Assert.AreNotEqual(0, mid.JobList.Count);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual("Job 1", mid.JobName.TrimEnd());
+            Assert.AreEqual(2, mid.NumberOfParameterSets);
+            Assert.AreEqual(2, mid.JobList.Count);
             Assert.AreEqual(ForcedOrder.ForcedOrder, mid.ForcedOrder);
             Assert.IsTrue(mid.LockAtJobDone);
             Assert.IsTrue(mid.RepeatJob);
-            Assert.AreNotEqual(0, mid.MaxTimeForFirstTightening);
-            Assert.AreNotEqual(0, mid.MaxTimeToCompleteJob);
-            Assert.AreNotEqual(0, mid.DisplayResultAtAutoSelect);
+            Assert.AreEqual(100, mid.MaxTimeForFirstTightening);
+            Assert.AreEqual(900, mid.MaxTimeToCompleteJob);
+            Assert.AreEqual(90, mid.DisplayResultAtAutoSelect);
             Assert.IsTrue(mid.UsingLineControl);
             Assert.AreEqual(IdentifierPart.Other, mid.IdentifierResultPart);
             Assert.IsTrue(mid.ResultOfNonTightenings);
             Assert.IsTrue(mid.ResetAllIdentifiersAtJobDone);
             Assert.AreEqual(Reserved.G, mid.Reserved);
-            Assert.AreNotEqual(0, mid.JobSequenceNumber);
+            Assert.AreEqual(5000, mid.JobSequenceNumber);
             AssertEqualPackages(package, mid);
         }
 
@@ -153,23 +149,22 @@ namespace MIDTesters.Core.Job.Advanced
             var mid = _midInterpreter.Parse<Mid0140>(bytes);
 
             Assert.AreEqual(typeof(Mid0140), mid.GetType());
-            Assert.AreNotEqual(0, mid.JobId);
-            Assert.AreNotEqual(string.Empty, mid.JobName);
-            Assert.AreNotEqual(0, mid.NumberOfParameterSets);
-            Assert.IsNotNull(mid.JobList);
-            Assert.AreNotEqual(0, mid.JobList.Count);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual("Job 1", mid.JobName.TrimEnd());
+            Assert.AreEqual(2, mid.NumberOfParameterSets);
+            Assert.AreEqual(2, mid.JobList.Count);
             Assert.AreEqual(ForcedOrder.ForcedOrder, mid.ForcedOrder);
             Assert.IsTrue(mid.LockAtJobDone);
             Assert.IsTrue(mid.RepeatJob);
-            Assert.AreNotEqual(0, mid.MaxTimeForFirstTightening);
-            Assert.AreNotEqual(0, mid.MaxTimeToCompleteJob);
-            Assert.AreNotEqual(0, mid.DisplayResultAtAutoSelect);
+            Assert.AreEqual(100, mid.MaxTimeForFirstTightening);
+            Assert.AreEqual(900, mid.MaxTimeToCompleteJob);
+            Assert.AreEqual(90, mid.DisplayResultAtAutoSelect);
             Assert.IsTrue(mid.UsingLineControl);
             Assert.AreEqual(IdentifierPart.Other, mid.IdentifierResultPart);
             Assert.IsTrue(mid.ResultOfNonTightenings);
             Assert.IsTrue(mid.ResetAllIdentifiersAtJobDone);
             Assert.AreEqual(Reserved.G, mid.Reserved);
-            Assert.AreNotEqual(0, mid.JobSequenceNumber);
+            Assert.AreEqual(5000, mid.JobSequenceNumber);
             AssertEqualPackages(bytes, mid);
         }
 
@@ -181,23 +176,22 @@ namespace MIDTesters.Core.Job.Advanced
             var mid = _midInterpreter.Parse<Mid0140>(package);
 
             Assert.AreEqual(typeof(Mid0140), mid.GetType());
-            Assert.AreNotEqual(0, mid.JobId);
-            Assert.AreNotEqual(string.Empty, mid.JobName);
-            Assert.AreNotEqual(0, mid.NumberOfParameterSets);
-            Assert.IsNotNull(mid.JobList);
-            Assert.AreNotEqual(0, mid.JobList.Count);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual("Job 1", mid.JobName.TrimEnd());
+            Assert.AreEqual(2, mid.NumberOfParameterSets);
+            Assert.AreEqual(2, mid.JobList.Count);
             Assert.AreEqual(ForcedOrder.ForcedOrder, mid.ForcedOrder);
             Assert.IsTrue(mid.LockAtJobDone);
             Assert.IsTrue(mid.RepeatJob);
-            Assert.AreNotEqual(0, mid.MaxTimeForFirstTightening);
-            Assert.AreNotEqual(0, mid.MaxTimeToCompleteJob);
-            Assert.AreNotEqual(0, mid.DisplayResultAtAutoSelect);
+            Assert.AreEqual(100, mid.MaxTimeForFirstTightening);
+            Assert.AreEqual(900, mid.MaxTimeToCompleteJob);
+            Assert.AreEqual(90, mid.DisplayResultAtAutoSelect);
             Assert.IsTrue(mid.UsingLineControl);
             Assert.AreEqual(IdentifierPart.Other, mid.IdentifierResultPart);
             Assert.IsTrue(mid.ResultOfNonTightenings);
             Assert.IsTrue(mid.ResetAllIdentifiersAtJobDone);
             Assert.AreEqual(Reserved.G, mid.Reserved);
-            Assert.AreNotEqual(0, mid.JobSequenceNumber);
+            Assert.AreEqual(5000, mid.JobSequenceNumber);
             AssertEqualPackages(package, mid);
         }
 
@@ -210,23 +204,22 @@ namespace MIDTesters.Core.Job.Advanced
             var mid = _midInterpreter.Parse<Mid0140>(bytes);
 
             Assert.AreEqual(typeof(Mid0140), mid.GetType());
-            Assert.AreNotEqual(0, mid.JobId);
-            Assert.AreNotEqual(string.Empty, mid.JobName);
-            Assert.AreNotEqual(0, mid.NumberOfParameterSets);
-            Assert.IsNotNull(mid.JobList);
-            Assert.AreNotEqual(0, mid.JobList.Count);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual("Job 1", mid.JobName.TrimEnd());
+            Assert.AreEqual(2, mid.NumberOfParameterSets);
+            Assert.AreEqual(2, mid.JobList.Count);
             Assert.AreEqual(ForcedOrder.ForcedOrder, mid.ForcedOrder);
             Assert.IsTrue(mid.LockAtJobDone);
             Assert.IsTrue(mid.RepeatJob);
-            Assert.AreNotEqual(0, mid.MaxTimeForFirstTightening);
-            Assert.AreNotEqual(0, mid.MaxTimeToCompleteJob);
-            Assert.AreNotEqual(0, mid.DisplayResultAtAutoSelect);
+            Assert.AreEqual(100, mid.MaxTimeForFirstTightening);
+            Assert.AreEqual(900, mid.MaxTimeToCompleteJob);
+            Assert.AreEqual(90, mid.DisplayResultAtAutoSelect);
             Assert.IsTrue(mid.UsingLineControl);
             Assert.AreEqual(IdentifierPart.Other, mid.IdentifierResultPart);
             Assert.IsTrue(mid.ResultOfNonTightenings);
             Assert.IsTrue(mid.ResetAllIdentifiersAtJobDone);
             Assert.AreEqual(Reserved.G, mid.Reserved);
-            Assert.AreNotEqual(0, mid.JobSequenceNumber);
+            Assert.AreEqual(5000, mid.JobSequenceNumber);
             AssertEqualPackages(bytes, mid);
         }
     }
