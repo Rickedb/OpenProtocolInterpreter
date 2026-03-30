@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.UserInterface;
+using OpenProtocolInterpreter;
 
 namespace MIDTesters.UserInterface
 {
@@ -14,12 +15,12 @@ namespace MIDTesters.UserInterface
             string package = "01370111001         01200502103Header Text              04Line 2 Text              05Line 3 Text              06Line 4 Text              ";
             var mid = _midInterpreter.Parse<Mid0111>(package);
 
-            Assert.IsNotNull(mid.TextDuration);
-            Assert.IsNotNull(mid.RemovalCondition);
-            Assert.IsNotNull(mid.Line1);
-            Assert.IsNotNull(mid.Line2);
-            Assert.IsNotNull(mid.Line3);
-            Assert.IsNotNull(mid.Line4);
+            Assert.AreEqual(2005, mid.TextDuration);
+            Assert.AreEqual(RemovalCondition.Acknowledge, mid.RemovalCondition);
+            Assert.AreEqual("Header Text", mid.Line1.TrimEnd());
+            Assert.AreEqual("Line 2 Text", mid.Line2.TrimEnd());
+            Assert.AreEqual("Line 3 Text", mid.Line3.TrimEnd());
+            Assert.AreEqual("Line 4 Text", mid.Line4.TrimEnd());
             AssertEqualPackages(package, mid);
         }
 
@@ -31,12 +32,12 @@ namespace MIDTesters.UserInterface
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0111>(bytes);
 
-            Assert.IsNotNull(mid.TextDuration);
-            Assert.IsNotNull(mid.RemovalCondition);
-            Assert.IsNotNull(mid.Line1);
-            Assert.IsNotNull(mid.Line2);
-            Assert.IsNotNull(mid.Line3);
-            Assert.IsNotNull(mid.Line4);
+            Assert.AreEqual(2005, mid.TextDuration);
+            Assert.AreEqual(RemovalCondition.Acknowledge, mid.RemovalCondition);
+            Assert.AreEqual("Header Text", mid.Line1.TrimEnd());
+            Assert.AreEqual("Line 2 Text", mid.Line2.TrimEnd());
+            Assert.AreEqual("Line 3 Text", mid.Line3.TrimEnd());
+            Assert.AreEqual("Line 4 Text", mid.Line4.TrimEnd());
             AssertEqualPackages(bytes, mid);
         }
     }
