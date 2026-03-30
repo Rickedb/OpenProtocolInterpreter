@@ -14,9 +14,7 @@ namespace MIDTesters.IOInterface
             string package = "00920215001         010302001000210031004010012000300140010300110020003100410051006100700080";
             var mid = _midInterpreter.Parse<Mid0215>(package);
 
-            Assert.IsNotNull(mid.IODeviceId);
-            Assert.IsNotNull(mid.Relays);
-            Assert.IsNotNull(mid.DigitalInputs);
+            Assert.AreEqual(3, mid.IODeviceId);
             Assert.AreEqual(8, mid.Relays.Count);
             Assert.AreEqual(8, mid.DigitalInputs.Count);
 
@@ -31,9 +29,7 @@ namespace MIDTesters.IOInterface
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0215>(bytes);
 
-            Assert.IsNotNull(mid.IODeviceId);
-            Assert.IsNotNull(mid.Relays);
-            Assert.IsNotNull(mid.DigitalInputs);
+            Assert.AreEqual(3, mid.IODeviceId);
             Assert.AreEqual(8, mid.Relays.Count);
             Assert.AreEqual(8, mid.DigitalInputs.Count);
 
@@ -47,14 +43,11 @@ namespace MIDTesters.IOInterface
             string package = "00920215002         010302070300100021003100400051006000710407050011002000310041005100610070";
             var mid = _midInterpreter.Parse<Mid0215>(package);
 
-            Assert.IsNotNull(mid.IODeviceId);
-            Assert.IsNotNull(mid.Relays);
-            Assert.IsNotNull(mid.DigitalInputs);
+            Assert.AreEqual(3, mid.IODeviceId);
             Assert.AreEqual(7, mid.Relays.Count);
             Assert.AreEqual(7, mid.DigitalInputs.Count);
-
-            Assert.IsNotNull(mid.NumberOfDigitalInputs);
-            Assert.IsNotNull(mid.NumberOfRelays);
+            Assert.AreEqual(7, mid.NumberOfRelays);
+            Assert.AreEqual(7, mid.NumberOfDigitalInputs);
 
             AssertEqualPackages(package, mid);
         }
@@ -67,14 +60,11 @@ namespace MIDTesters.IOInterface
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0215>(bytes);
 
-            Assert.IsNotNull(mid.IODeviceId);
-            Assert.IsNotNull(mid.Relays);
-            Assert.IsNotNull(mid.DigitalInputs);
+            Assert.AreEqual(3, mid.IODeviceId);
             Assert.AreEqual(7, mid.Relays.Count);
             Assert.AreEqual(7, mid.DigitalInputs.Count);
-
-            Assert.IsNotNull(mid.NumberOfDigitalInputs);
-            Assert.IsNotNull(mid.NumberOfRelays);
+            Assert.AreEqual(7, mid.NumberOfRelays);
+            Assert.AreEqual(7, mid.NumberOfDigitalInputs);
 
             AssertEqualPackages(bytes, mid);
         }
