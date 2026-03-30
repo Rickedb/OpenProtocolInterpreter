@@ -16,7 +16,7 @@ namespace MIDTesters.MultipleIdentifiers
             var mid = _midInterpreter.Parse<Mid0150>(package);
 
             var mid0150 = new Mid0150() { IdentifierData = identifier };
-            Assert.IsNotNull(mid.IdentifierData);
+            Assert.AreEqual("My identifier less than 100", mid.IdentifierData);
             AssertEqualPackages(package, mid0150);
         }
 
@@ -30,7 +30,7 @@ namespace MIDTesters.MultipleIdentifiers
             var mid = _midInterpreter.Parse<Mid0150>(bytes);
 
             var mid0150 = new Mid0150() { IdentifierData = identifier };
-            Assert.IsNotNull(mid.IdentifierData);
+            Assert.AreEqual("My identifier less than 100", mid.IdentifierData);
             AssertEqualPackages(bytes, mid0150);
         }
 
@@ -40,7 +40,6 @@ namespace MIDTesters.MultipleIdentifiers
             string identifier = "the phrase the quick brown fox jumps over the lazy dog should test all the letter keys in your keyboard"; //103 characters
 
             var mid0150 = new Mid0150() { IdentifierData = identifier };
-            Assert.IsNotNull(mid0150.IdentifierData);
             Assert.IsTrue(mid0150.Pack().Length == 120);
         }
     }
