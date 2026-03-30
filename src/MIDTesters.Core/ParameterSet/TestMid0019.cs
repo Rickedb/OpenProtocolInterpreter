@@ -14,8 +14,8 @@ namespace MIDTesters.ParameterSet
             string package = "00250019            77750";
             var mid = _midInterpreter.Parse<Mid0019>(package);
 
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.BatchSize);
+            Assert.AreEqual(777, mid.ParameterSetId);
+            Assert.AreEqual(50, mid.BatchSize);
             AssertEqualPackages(package, mid, true);
         }
 
@@ -27,8 +27,8 @@ namespace MIDTesters.ParameterSet
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0019>(bytes);
 
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.BatchSize);
+            Assert.AreEqual(777, mid.ParameterSetId);
+            Assert.AreEqual(50, mid.BatchSize);
             AssertEqualPackages(bytes, mid, true);
         }
 
@@ -39,8 +39,8 @@ namespace MIDTesters.ParameterSet
             string package = "00270019002         7770050";
             var mid = _midInterpreter.Parse<Mid0019>(package);
 
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.BatchSize);
+            Assert.AreEqual(777, mid.ParameterSetId);
+            Assert.AreEqual(50, mid.BatchSize);
             AssertEqualPackages(package, mid);
         }
 
@@ -52,8 +52,8 @@ namespace MIDTesters.ParameterSet
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0019>(bytes);
 
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.BatchSize);
+            Assert.AreEqual(777, mid.ParameterSetId);
+            Assert.AreEqual(50, mid.BatchSize);
             AssertEqualPackages(bytes, mid);
         }
     }

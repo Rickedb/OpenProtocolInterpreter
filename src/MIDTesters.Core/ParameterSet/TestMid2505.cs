@@ -16,7 +16,6 @@ namespace MIDTesters.Core.ParameterSet
 
             Assert.AreEqual(10, mid.ParameterSetId);
             Assert.AreEqual(2, mid.NumberOfParameterDataFields);
-            Assert.IsNotNull(mid.VariableDataFields);
             Assert.AreEqual(2, mid.VariableDataFields.Count);
             AssertEqualPackages(package, mid);
         }
@@ -29,7 +28,7 @@ namespace MIDTesters.Core.ParameterSet
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid2505>(bytes);
 
-            Assert.IsNotNull(mid.ParameterSetId);
+            Assert.AreEqual(10, mid.ParameterSetId);
             AssertEqualPackages(bytes, mid);
         }
     }

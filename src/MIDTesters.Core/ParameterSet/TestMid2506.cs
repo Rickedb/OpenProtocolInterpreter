@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenProtocolInterpreter;
 using OpenProtocolInterpreter.ParameterSet;
 
 namespace MIDTesters.Core.ParameterSet
@@ -14,8 +15,8 @@ namespace MIDTesters.Core.ParameterSet
             string package = "00272506001         0030201";
             var mid = _midInterpreter.Parse<Mid2506>(package);
 
-            Assert.AreNotEqual(0, mid.ProgramId);
-            Assert.AreNotEqual(0, (int)mid.NodeType);
+            Assert.AreEqual(30, mid.ProgramId);
+            Assert.AreEqual(NodeType.MultistepTighteningProgram, mid.NodeType);
             AssertEqualPackages(package, mid);
         }
 
@@ -27,8 +28,8 @@ namespace MIDTesters.Core.ParameterSet
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid2506>(bytes);
 
-            Assert.AreNotEqual(0, mid.ProgramId);
-            Assert.AreNotEqual(0, (int)mid.NodeType);
+            Assert.AreEqual(30, mid.ProgramId);
+            Assert.AreEqual(NodeType.MultistepTighteningProgram, mid.NodeType);
             AssertEqualPackages(bytes, mid);
         }
     }
