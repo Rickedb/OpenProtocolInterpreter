@@ -14,7 +14,7 @@ namespace MIDTesters.AutomaticManualMode
             string package = "00210401   1        1";
             var mid = _midInterpreter.Parse<Mid0401>(package);
 
-            Assert.IsNotNull(mid.ManualAutomaticMode);
+            Assert.IsTrue(mid.ManualAutomaticMode);
             AssertEqualPackages(package, mid, true);
         }
 
@@ -26,7 +26,7 @@ namespace MIDTesters.AutomaticManualMode
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0401>(bytes);
 
-            Assert.IsNotNull(mid.ManualAutomaticMode);
+            Assert.IsTrue(mid.ManualAutomaticMode);
             AssertEqualPackages(bytes, mid, true);
         }
     }
