@@ -4,5 +4,10 @@
   "omnisharp.enableRoslynAnalyzers": true,
   "omnisharp.enableEditorConfigSupport": true,
   "omnisharp.enableDecompilationSupport": true,
-  "dotnet.completion.showCompletionItemsFromUnimportedNamespaces": true
+  "dotnet.completion.showCompletionItemsFromUnimportedNamespaces": true,
+  "chat.tools.terminal.autoApprove": {
+    "dotnet build": true,
+    "dotnet test": true
+  },
+  "dotnet.preferCSharpExtension": true
 }
