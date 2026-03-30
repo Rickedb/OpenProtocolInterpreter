@@ -61,7 +61,7 @@ namespace MIDTesters.PowerMACS
             var mid = _midInterpreter.Parse<Mid0105>(pack);
 
             Assert.IsNotNull(mid.DataNumberSystem);
-            Assert.IsNotNull(mid.SendOnlyNewData);
+            Assert.IsTrue(mid.SendOnlyNewData);
             AssertEqualPackages(pack, mid);
         }
 
@@ -74,7 +74,7 @@ namespace MIDTesters.PowerMACS
             var mid = _midInterpreter.Parse<Mid0105>(bytes);
 
             Assert.IsNotNull(mid.DataNumberSystem);
-            Assert.IsNotNull(mid.SendOnlyNewData);
+            Assert.IsTrue(mid.SendOnlyNewData);
             AssertEqualPackages(bytes, mid);
         }
 
@@ -86,7 +86,7 @@ namespace MIDTesters.PowerMACS
             var mid = _midInterpreter.Parse<Mid0105>(pack);
 
             Assert.IsNotNull(mid.DataNumberSystem);
-            Assert.IsNotNull(mid.SendOnlyNewData);
+            Assert.IsTrue(mid.SendOnlyNewData);
             AssertEqualPackages(pack, mid);
         }
 
@@ -99,7 +99,7 @@ namespace MIDTesters.PowerMACS
             var mid = _midInterpreter.Parse<Mid0105>(bytes);
 
             Assert.IsNotNull(mid.DataNumberSystem);
-            Assert.IsNotNull(mid.SendOnlyNewData);
+            Assert.IsTrue(mid.SendOnlyNewData);
             AssertEqualPackages(bytes, mid);
         }
     }
