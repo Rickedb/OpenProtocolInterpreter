@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenProtocolInterpreter;
 using OpenProtocolInterpreter.Statistic;
 
 namespace MIDTesters.Statistic
@@ -14,20 +15,20 @@ namespace MIDTesters.Statistic
             string package = "01070301            010020205031234560465432105999999061111072222083333094444105555116666127777138888149999";
             var mid = _midInterpreter.Parse<Mid0301>(package);
 
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.HistogramType);
-            Assert.IsNotNull(mid.SigmaHistogram);
-            Assert.IsNotNull(mid.MeanValueHistogram);
-            Assert.IsNotNull(mid.ClassRange);
-            Assert.IsNotNull(mid.FirstBar);
-            Assert.IsNotNull(mid.SecondBar);
-            Assert.IsNotNull(mid.ThirdBar);
-            Assert.IsNotNull(mid.FourthBar);
-            Assert.IsNotNull(mid.FifthBar);
-            Assert.IsNotNull(mid.SixthBar);
-            Assert.IsNotNull(mid.SeventhBar);
-            Assert.IsNotNull(mid.EighthBar);
-            Assert.IsNotNull(mid.NinethBar);
+            Assert.AreEqual(2, mid.ParameterSetId);
+            Assert.AreEqual(HistogramType.RundownAngle, mid.HistogramType);
+            Assert.AreEqual(1234.56m, mid.SigmaHistogram);
+            Assert.AreEqual(6543.21m, mid.MeanValueHistogram);
+            Assert.AreEqual(9999.99m, mid.ClassRange);
+            Assert.AreEqual(1111, mid.FirstBar);
+            Assert.AreEqual(2222, mid.SecondBar);
+            Assert.AreEqual(3333, mid.ThirdBar);
+            Assert.AreEqual(4444, mid.FourthBar);
+            Assert.AreEqual(5555, mid.FifthBar);
+            Assert.AreEqual(6666, mid.SixthBar);
+            Assert.AreEqual(7777, mid.SeventhBar);
+            Assert.AreEqual(8888, mid.EighthBar);
+            Assert.AreEqual(9999, mid.NinethBar);
             AssertEqualPackages(package, mid, true);
         }
 
@@ -39,20 +40,20 @@ namespace MIDTesters.Statistic
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0301>(bytes);
 
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.HistogramType);
-            Assert.IsNotNull(mid.SigmaHistogram);
-            Assert.IsNotNull(mid.MeanValueHistogram);
-            Assert.IsNotNull(mid.ClassRange);
-            Assert.IsNotNull(mid.FirstBar);
-            Assert.IsNotNull(mid.SecondBar);
-            Assert.IsNotNull(mid.ThirdBar);
-            Assert.IsNotNull(mid.FourthBar);
-            Assert.IsNotNull(mid.FifthBar);
-            Assert.IsNotNull(mid.SixthBar);
-            Assert.IsNotNull(mid.SeventhBar);
-            Assert.IsNotNull(mid.EighthBar);
-            Assert.IsNotNull(mid.NinethBar);
+            Assert.AreEqual(2, mid.ParameterSetId);
+            Assert.AreEqual(HistogramType.RundownAngle, mid.HistogramType);
+            Assert.AreEqual(1234.56m, mid.SigmaHistogram);
+            Assert.AreEqual(6543.21m, mid.MeanValueHistogram);
+            Assert.AreEqual(9999.99m, mid.ClassRange);
+            Assert.AreEqual(1111, mid.FirstBar);
+            Assert.AreEqual(2222, mid.SecondBar);
+            Assert.AreEqual(3333, mid.ThirdBar);
+            Assert.AreEqual(4444, mid.FourthBar);
+            Assert.AreEqual(5555, mid.FifthBar);
+            Assert.AreEqual(6666, mid.SixthBar);
+            Assert.AreEqual(7777, mid.SeventhBar);
+            Assert.AreEqual(8888, mid.EighthBar);
+            Assert.AreEqual(9999, mid.NinethBar);
             AssertEqualPackages(bytes, mid, true);
         }
     }
