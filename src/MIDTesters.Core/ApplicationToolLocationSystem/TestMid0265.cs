@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenProtocolInterpreter;
 using OpenProtocolInterpreter.ApplicationToolLocationSystem;
 
 namespace MIDTesters.ApplicationToolLocationSystem
@@ -14,8 +15,8 @@ namespace MIDTesters.ApplicationToolLocationSystem
             string package = "00340265001         013200078D0202";
             var mid = _midInterpreter.Parse<Mid0265>(package);
 
-            Assert.IsNotNull(mid.ToolTagId);
-            Assert.IsNotNull(mid.ToolStatus);
+            Assert.AreEqual("3200078D", mid.ToolTagId);
+            Assert.AreEqual(ToolStatus.Inoperable, mid.ToolStatus);
             AssertEqualPackages(package, mid);
         }
 
@@ -27,8 +28,8 @@ namespace MIDTesters.ApplicationToolLocationSystem
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0265>(bytes);
 
-            Assert.IsNotNull(mid.ToolTagId);
-            Assert.IsNotNull(mid.ToolStatus);
+            Assert.AreEqual("3200078D", mid.ToolTagId);
+            Assert.AreEqual(ToolStatus.Inoperable, mid.ToolStatus);
             AssertEqualPackages(bytes, mid);
         }
     }
