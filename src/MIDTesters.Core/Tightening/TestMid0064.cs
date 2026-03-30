@@ -15,7 +15,7 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse<Mid0064>(package);
 
             Assert.AreEqual(typeof(Mid0064), mid.GetType());
-            Assert.IsNotNull(mid.TighteningId);
+            Assert.AreEqual(123456789L, mid.TighteningId);
             AssertEqualPackages(package, mid);
         }
 
@@ -28,7 +28,7 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse<Mid0064>(bytes);
 
             Assert.AreEqual(typeof(Mid0064), mid.GetType());
-            Assert.IsNotNull(mid.TighteningId);
+            Assert.AreEqual(123456789L, mid.TighteningId);
             AssertEqualPackages(bytes, mid);
         }
 
@@ -40,7 +40,7 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse<Mid0064>(package);
 
             Assert.AreEqual(typeof(Mid0064), mid.GetType());
-            Assert.IsNotNull(mid.TighteningId);
+            Assert.AreEqual(123456789L, mid.TighteningId);
             Assert.IsTrue(mid.OfflineResult);
             AssertEqualPackages(package, mid);
         }
@@ -54,7 +54,7 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse<Mid0064>(bytes);
 
             Assert.AreEqual(typeof(Mid0064), mid.GetType());
-            Assert.IsNotNull(mid.TighteningId);
+            Assert.AreEqual(123456789L, mid.TighteningId);
             Assert.IsTrue(mid.OfflineResult);
             AssertEqualPackages(bytes, mid);
         }
