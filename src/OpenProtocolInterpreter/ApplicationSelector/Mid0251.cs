@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace OpenProtocolInterpreter.ApplicationSelector
@@ -51,7 +52,7 @@ namespace OpenProtocolInterpreter.ApplicationSelector
             return base.Pack();
         }
 
-        public override Mid Parse(string package)
+        public override Mid Parse(ReadOnlySpan<char> package)
         {
             Header = ProcessHeader(package);
 

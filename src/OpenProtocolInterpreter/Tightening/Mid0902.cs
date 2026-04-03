@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -69,7 +69,7 @@ namespace OpenProtocolInterpreter.Tightening
             return string.Concat(BuildHeader(), base.Pack(revision, ref index));
         }
 
-        public override Mid Parse(string package)
+        public override Mid Parse(ReadOnlySpan<char> package)
         {
             Header = ProcessHeader(package);
 

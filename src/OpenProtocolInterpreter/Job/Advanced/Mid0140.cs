@@ -1,3 +1,4 @@
+using System;
 ﻿using System.Collections.Generic;
 using System.Linq;
 
@@ -155,14 +156,14 @@ namespace OpenProtocolInterpreter.Job.Advanced
             return string.Concat(BuildHeader(), base.Pack(revision, ref prefixIndex));
         }
 
-        public override Mid Parse(string package)
+        public override Mid Parse(ReadOnlySpan<char> package)
         {
             Header = ProcessHeader(package);
             int length = Header.Length;
             var revision = Header.StandardizedRevision;
             ResetDataFields(revision);
             var numberOfParameterSetsField = RevisionsByFields[revision].First(x => x.Field == (int)DataFields.NumberOfParameterSets);
-            var numberOfParameterSets = int.Parse(package.Substring(numberOfParameterSetsField.Index + 2, numberOfParameterSetsField.Size));
+            var numberOfParameterSets = int.Parse(package.Slice(numberOfParameterSetsField.Index + 2, numberOfParameterSetsField.Size).ToString());
             var jobListField = GetField(revision, DataFields.JobList);
             jobListField.Size = numberOfParameterSets * AdvancedJob.GetDefaultSize(revision);
             AdjustDataFieldsIndexes(jobListField.Index + jobListField.Size + 2, revision);

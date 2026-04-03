@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -108,13 +108,13 @@ namespace OpenProtocolInterpreter.Result
             return string.Concat(BuildHeader(), base.Pack(revision, ref index));
         }
 
-        public override Mid Parse(string package)
+        public override Mid Parse(ReadOnlySpan<char> package)
         {
             Header = ProcessHeader(package);
 
             var revision = Header.StandardizedRevision;
             var rawTotalObjectData = GetValue(GetField(revision, DataFields.NumberOfObjects), package);
-            int totalObjectData = OpenProtocolConvert.ToInt32(rawTotalObjectData);
+            int totalObjectData = OpenProtocolConvert.ToInt32(rawTotalObjectData.ToString());
 
             var objectDataField = GetField(revision, DataFields.ObjectData);
             objectDataField.Size = totalObjectData * ObjectData.Size(Header.Revision);

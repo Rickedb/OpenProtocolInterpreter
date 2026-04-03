@@ -365,7 +365,7 @@ namespace OpenProtocolInterpreter.Tightening
             return builder.ToString();
         }
 
-        protected override void ProcessDataFields(string package)
+        protected override void ProcessDataFields(ReadOnlySpan<char> package)
         {
             if (Header.Revision == 1)
             {

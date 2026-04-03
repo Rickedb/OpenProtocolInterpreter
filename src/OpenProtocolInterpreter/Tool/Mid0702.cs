@@ -1,3 +1,4 @@
+using System;
 ﻿using System.Collections.Generic;
 using System.Linq;
 
@@ -35,7 +36,7 @@ namespace OpenProtocolInterpreter.Tool
             return base.Pack();
         }
 
-        public override Mid Parse(string package)
+        public override Mid Parse(ReadOnlySpan<char> package)
         {
             Header = ProcessHeader(package);
             var dataFieldsField = GetField(1, DataFields.EachToolDataUpload);

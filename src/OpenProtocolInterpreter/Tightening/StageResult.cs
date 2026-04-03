@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Tightening
 {
@@ -25,6 +26,15 @@ namespace OpenProtocolInterpreter.Tightening
             };
         }
 
+        public static StageResult Parse(ReadOnlySpan<char> value)
+        {
+            return new StageResult()
+            {
+                Torque = OpenProtocolConvert.ToTruncatedDecimal(value.Slice(0, 6)),
+                Angle = OpenProtocolConvert.ToInt32(value.Slice(6, 5))
+            };
+        }
+
         public static IEnumerable<StageResult> ParseAll(string value)
         {
             const int sectionSize = 11;
@@ -33,6 +43,15 @@ namespace OpenProtocolInterpreter.Tightening
                 var section = value.Substring(i, sectionSize);
                 yield return Parse(section);
             }
+        }
+
+        public static IEnumerable<StageResult> ParseAll(ReadOnlySpan<char> value)
+        {
+            var result = new List<StageResult>();
+            const int sectionSize = 11;
+            for (int i = 0; i < value.Length; i += sectionSize)
+                result.Add(Parse(value.Slice(i, sectionSize)));
+            return result;
         }
     }
 }

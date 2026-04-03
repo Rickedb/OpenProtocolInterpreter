@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Communication
 {
@@ -53,7 +54,7 @@ namespace OpenProtocolInterpreter.Communication
         {
         }
 
-        public override Mid Parse(string package)
+        public override Mid Parse(ReadOnlySpan<char> package)
         {
             Header = ProcessHeader(package);
             GetField(1, DataFields.ExtraData).Size = Header.Length - 29;

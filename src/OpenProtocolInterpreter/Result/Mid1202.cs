@@ -1,3 +1,4 @@
+using System;
 ﻿using System.Collections.Generic;
 using System.Linq;
 
@@ -86,7 +87,7 @@ namespace OpenProtocolInterpreter.Result
             return string.Concat(BuildHeader(), base.Pack(revision, ref prefixIndex));
         }
 
-        public override Mid Parse(string package)
+        public override Mid Parse(ReadOnlySpan<char> package)
         {
             Header = ProcessHeader(package);
             var revision = Header.StandardizedRevision;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -140,11 +140,11 @@ namespace OpenProtocolInterpreter.PowerMACS
             return base.Pack();
         }
 
-        public override Mid Parse(string package)
+        public override Mid Parse(ReadOnlySpan<char> package)
         {
             Header = ProcessHeader(package);
 
-            int numberOfBoltResults = OpenProtocolConvert.ToInt32(GetValue(GetField(1, DataFields.NumberOfBoltResults), package));
+            int numberOfBoltResults = OpenProtocolConvert.ToInt32(GetValue(GetField(1, DataFields.NumberOfBoltResults), package).ToString());
             var boltResultField = GetField(1, DataFields.BoltResults);
             boltResultField.Size = 29 * numberOfBoltResults;
 
@@ -157,7 +157,7 @@ namespace OpenProtocolInterpreter.PowerMACS
             var stepResultsField = GetField(1, DataFields.StepResults);
             stepResultsField.Index = 2 + allStepDataSentField.Index + allStepDataSentField.Size;
 
-            int numberOfStepResults = OpenProtocolConvert.ToInt32(GetValue(numberOfStepResultsField, package));
+            int numberOfStepResults = OpenProtocolConvert.ToInt32(GetValue(numberOfStepResultsField, package).ToString());
             stepResultsField.Size = 31 * numberOfStepResults;
 
             var numberOfSpecialValuesField = GetField(1, DataFields.NumberOfSpecialValues);

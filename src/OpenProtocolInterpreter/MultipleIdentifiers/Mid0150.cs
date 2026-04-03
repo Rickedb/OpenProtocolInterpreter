@@ -1,3 +1,4 @@
+using System;
 ﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.MultipleIdentifiers
@@ -44,7 +45,7 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
             return base.Pack();
         }
 
-        public override Mid Parse(string package)
+        public override Mid Parse(ReadOnlySpan<char> package)
         {
             Header = ProcessHeader(package);
             GetField(1, DataFields.IdentifierData).Size = Header.Length - 20;

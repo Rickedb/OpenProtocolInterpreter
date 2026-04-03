@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -105,7 +106,7 @@ namespace OpenProtocolInterpreter.IOInterface
             return builder.ToString();
         }
 
-        public override Mid Parse(string package)
+        public override Mid Parse(ReadOnlySpan<char> package)
         {
             Header = ProcessHeader(package);
 
@@ -115,7 +116,7 @@ namespace OpenProtocolInterpreter.IOInterface
             var digitalListField = GetField(revision, DataFields.DigitalInputList);
             if (revision > 1)
             {
-                int numberOfRelays = OpenProtocolConvert.ToInt32(GetValue(GetField(2, DataFields.NumberOfRelays), package));
+                int numberOfRelays = OpenProtocolConvert.ToInt32(GetValue(GetField(2, DataFields.NumberOfRelays), package).ToString());
                 relayListField.Size = numberOfRelays * 4;
 
                 var numberOfDigitalInputsField = GetField(2, DataFields.NumberOfDigitalInputs);

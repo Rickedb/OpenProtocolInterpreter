@@ -65,6 +65,12 @@ namespace OpenProtocolInterpreter
             return Parse(value, length);
         }
 
+        public static VariableDataField Parse(ReadOnlySpan<char> value)
+        {
+            var length = OpenProtocolConvert.ToInt32(value.Slice(5, 3));
+            return Parse(value, length);
+        }
+
         public static IEnumerable<VariableDataField> ParseAll(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
@@ -82,6 +88,22 @@ namespace OpenProtocolInterpreter
             }
         }
 
+        public static IEnumerable<VariableDataField> ParseAll(ReadOnlySpan<char> value)
+        {
+            if (value.IsWhiteSpace() || value.IsEmpty)
+                return System.Array.Empty<VariableDataField>();
+
+            var result = new System.Collections.Generic.List<VariableDataField>();
+            int valueLength;
+            const int fixedLength = 17;
+            for (int i = 0; i < value.Length; i += fixedLength + valueLength)
+            {
+                valueLength = OpenProtocolConvert.ToInt32(value.Slice(i + 5, 3));
+                result.Add(Parse(value.Slice(i, fixedLength + valueLength), valueLength));
+            }
+            return result;
+        }
+
         private static VariableDataField Parse(string value, int length)
         {
             return new VariableDataField()
@@ -92,6 +114,19 @@ namespace OpenProtocolInterpreter
                 Unit = (DataUnitType)OpenProtocolConvert.ToInt32(value.Substring(10, 3)),
                 StepNumber = OpenProtocolConvert.ToInt32(value.Substring(13, 4)),
                 DataValue = value.Substring(17, length)
+            };
+        }
+
+        private static VariableDataField Parse(ReadOnlySpan<char> value, int length)
+        {
+            return new VariableDataField()
+            {
+                ParameterId = OpenProtocolConvert.ToInt32(value.Slice(0, 5)),
+                Length = length,
+                DataType = (DataTypeDefinition)OpenProtocolConvert.ToInt32(value.Slice(8, 2)),
+                Unit = (DataUnitType)OpenProtocolConvert.ToInt32(value.Slice(10, 3)),
+                StepNumber = OpenProtocolConvert.ToInt32(value.Slice(13, 4)),
+                DataValue = value.Slice(17, length).ToString()
             };
         }
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -152,11 +152,11 @@ namespace OpenProtocolInterpreter.PowerMACS
             return builder.ToString();
         }
 
-        public override Mid Parse(string package)
+        public override Mid Parse(ReadOnlySpan<char> package)
         {
             Header = ProcessHeader(package);
 
-            int numberOfBolts = OpenProtocolConvert.ToInt32(package.Substring(GetField(1, DataFields.NumberOfBolts).Index + 2, GetField(1, DataFields.NumberOfBolts).Size));
+            int numberOfBolts = OpenProtocolConvert.ToInt32(GetValue(GetField(1, DataFields.NumberOfBolts), package).ToString());
             GetField(1, DataFields.BoltData).Size *= numberOfBolts;
 
             var numberOfSpecialValuesField = GetField(1, DataFields.NumberOfSpecialValues);

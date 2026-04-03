@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace OpenProtocolInterpreter.Tightening
 {
@@ -103,6 +104,13 @@ namespace OpenProtocolInterpreter.Tightening
         }
 
         public static TighteningErrorStatus Parse(string value)
+        {
+            var longValue = OpenProtocolConvert.ToInt64(value);
+            var bytes = System.BitConverter.GetBytes(longValue);
+            return Parse(bytes);
+        }
+
+        public static TighteningErrorStatus Parse(ReadOnlySpan<char> value)
         {
             var longValue = OpenProtocolConvert.ToInt64(value);
             var bytes = System.BitConverter.GetBytes(longValue);
@@ -238,6 +246,13 @@ namespace OpenProtocolInterpreter.Tightening
         }
 
         public static TighteningErrorStatus2 Parse(string value)
+        {
+            var longValue = OpenProtocolConvert.ToInt64(value);
+            var bytes = System.BitConverter.GetBytes(longValue);
+            return Parse(bytes);
+        }
+
+        public static TighteningErrorStatus2 Parse(ReadOnlySpan<char> value)
         {
             var longValue = OpenProtocolConvert.ToInt64(value);
             var bytes = System.BitConverter.GetBytes(longValue);

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -59,7 +59,7 @@ namespace OpenProtocolInterpreter.MultiSpindle
             return base.Pack();
         }
 
-        public override Mid Parse(string package)
+        public override Mid Parse(ReadOnlySpan<char> package)
         {
             Header = ProcessHeader(package);
             var spindleField = GetField(1, DataFields.SpindleStatus);

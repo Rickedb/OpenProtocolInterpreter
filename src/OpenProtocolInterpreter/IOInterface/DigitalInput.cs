@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.IOInterface
 {
@@ -25,6 +26,15 @@ namespace OpenProtocolInterpreter.IOInterface
             };
         }
 
+        public static DigitalInput Parse(ReadOnlySpan<char> section)
+        {
+            return new DigitalInput()
+            {
+                Number = (DigitalInputNumber)OpenProtocolConvert.ToInt32(section.Slice(0, 3)),
+                Status = OpenProtocolConvert.ToBoolean(section.Slice(3, 1))
+            };
+        }
+
         public static IEnumerable<DigitalInput> ParseAll(string value)
         {
             if(string.IsNullOrEmpty(value))
@@ -38,6 +48,18 @@ namespace OpenProtocolInterpreter.IOInterface
                 var section = value.Substring(i, sectionSize);
                 yield return Parse(section);
             }
+        }
+
+        public static IEnumerable<DigitalInput> ParseAll(ReadOnlySpan<char> value)
+        {
+            if (value.IsEmpty)
+                return System.Array.Empty<DigitalInput>();
+
+            var result = new System.Collections.Generic.List<DigitalInput>();
+            const int sectionSize = 4;
+            for (int i = 0; i < value.Length; i += sectionSize)
+                result.Add(Parse(value.Slice(i, sectionSize)));
+            return result;
         }
 
     }

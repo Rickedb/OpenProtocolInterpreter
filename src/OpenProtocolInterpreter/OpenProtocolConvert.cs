@@ -26,6 +26,17 @@ namespace OpenProtocolInterpreter
             return Convert.ToBoolean(intValue);
         }
 
+        public static bool ToBoolean(ReadOnlySpan<char> value)
+        {
+            int intValue = 0;
+#if NETSTANDARD2_0
+            if (!value.IsEmpty) int.TryParse(value.ToString(), out intValue);
+#else
+            if (!value.IsEmpty) int.TryParse(value, out intValue);
+#endif
+            return Convert.ToBoolean(intValue);
+        }
+
         public static string ToString(DateTime value)
             => value.ToString("yyyy-MM-dd:HH:mm:ss");
 
@@ -82,6 +93,12 @@ namespace OpenProtocolInterpreter
             return intValue / 100m;
         }
 
+        public static decimal ToTruncatedDecimal(ReadOnlySpan<char> value)
+        {
+            int intValue = ToInt32(value);
+            return intValue / 100m;
+        }
+
         public static string ToString(int value)
             => value.ToString();
 
@@ -100,6 +117,16 @@ namespace OpenProtocolInterpreter
             return convertedValue;
         }
 
+        public static int ToInt32(ReadOnlySpan<char> value)
+        {
+#if NETSTANDARD2_0
+            int.TryParse(value.ToString(), out int convertedValue);
+#else
+            int.TryParse(value, out int convertedValue);
+#endif
+            return convertedValue;
+        }
+
         public static string ToString(long value)
            => value.ToString();
 
@@ -109,6 +136,16 @@ namespace OpenProtocolInterpreter
         public static long ToInt64(string value)
         {
             long.TryParse(value.ToString(), out long convertedValue);
+            return convertedValue;
+        }
+
+        public static long ToInt64(ReadOnlySpan<char> value)
+        {
+#if NETSTANDARD2_0
+            long.TryParse(value.ToString(), out long convertedValue);
+#else
+            long.TryParse(value, out long convertedValue);
+#endif
             return convertedValue;
         }
 

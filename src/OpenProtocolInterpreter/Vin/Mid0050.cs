@@ -1,3 +1,4 @@
+using System;
 ﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Vin
@@ -38,7 +39,7 @@ namespace OpenProtocolInterpreter.Vin
             return base.Pack();
         }
 
-        public override Mid Parse(string package)
+        public override Mid Parse(ReadOnlySpan<char> package)
         {
             Header = ProcessHeader(package);
             GetField(1, DataFields.VinNumber).Size = Header.Length - 20;

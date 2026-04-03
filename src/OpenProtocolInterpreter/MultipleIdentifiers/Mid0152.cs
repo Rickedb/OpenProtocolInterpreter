@@ -1,3 +1,4 @@
+using System;
 ﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.MultipleIdentifiers
@@ -46,7 +47,7 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
             return base.Pack();
         }
 
-        public override Mid Parse(string package)
+        public override Mid Parse(ReadOnlySpan<char> package)
         {
             base.Parse(package);
 

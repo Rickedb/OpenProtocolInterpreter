@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Alarm
@@ -64,7 +64,7 @@ namespace OpenProtocolInterpreter.Alarm
 
         }
 
-        public override Mid Parse(string package)
+        public override Mid Parse(ReadOnlySpan<char> package)
         {
             Header = ProcessHeader(package);
             HandleRevision();

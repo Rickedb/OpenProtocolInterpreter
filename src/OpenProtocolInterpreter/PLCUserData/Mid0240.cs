@@ -1,3 +1,4 @@
+using System;
 ﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.PLCUserData
@@ -41,7 +42,7 @@ namespace OpenProtocolInterpreter.PLCUserData
             return base.Pack();
         }
 
-        public override Mid Parse(string package)
+        public override Mid Parse(ReadOnlySpan<char> package)
         {
             Header = ProcessHeader(package);
             GetField(1, DataFields.UserData).Size = Header.Length - 20;

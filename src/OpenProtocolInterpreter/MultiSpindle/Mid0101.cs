@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.MultiSpindle
@@ -146,11 +146,11 @@ namespace OpenProtocolInterpreter.MultiSpindle
             return base.Pack();
         }
 
-        public override Mid Parse(string package)
+        public override Mid Parse(ReadOnlySpan<char> package)
         {
             Header = ProcessHeader(package);
             var spindleOrPressesField = GetField(1, DataFields.NumberOfSpindlesOrPresses);
-            int spindleOrPresses = OpenProtocolConvert.ToInt32(package.Substring(spindleOrPressesField.Index + 2, spindleOrPressesField.Size));
+            int spindleOrPresses = OpenProtocolConvert.ToInt32(GetValue(spindleOrPressesField, package).ToString());
             var spindesOrPressesStatusField = GetField(1, DataFields.SpindesOrPressesStatus);
             spindesOrPressesStatusField.Size = spindleOrPresses * 18;
             if(Header.Revision > 3)

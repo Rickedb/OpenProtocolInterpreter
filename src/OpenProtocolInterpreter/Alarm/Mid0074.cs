@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Alarm
 {
@@ -40,7 +41,7 @@ namespace OpenProtocolInterpreter.Alarm
             return base.Pack();
         }
 
-        public override Mid Parse(string package)
+        public override Mid Parse(ReadOnlySpan<char> package)
         {
             Header = ProcessHeader(package);
             RevisionsByFields[1][(int)DataFields.ErrorCode].Size = Header.Revision == 1 ? 4 : 5;

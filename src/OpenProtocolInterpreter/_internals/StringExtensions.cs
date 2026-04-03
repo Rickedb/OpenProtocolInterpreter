@@ -1,4 +1,6 @@
-﻿namespace OpenProtocolInterpreter
+﻿using System;
+
+namespace OpenProtocolInterpreter
 {
     public static class StringExtensions
     {
@@ -44,6 +46,17 @@
             }
 
             return value.Substring(startIndex, length);
+        }
+
+        internal static string SafeSubstring(this ReadOnlySpan<char> value, int startIndex, int length)
+        {
+            if (value.IsEmpty)
+                return string.Empty;
+
+            if (value.Length < startIndex + length)
+                return startIndex < value.Length ? value.Slice(startIndex).ToString() : string.Empty;
+
+            return value.Slice(startIndex, length).ToString();
         }
     }
 }

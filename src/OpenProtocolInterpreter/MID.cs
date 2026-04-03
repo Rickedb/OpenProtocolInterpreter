@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 
 namespace OpenProtocolInterpreter
@@ -97,38 +96,28 @@ namespace OpenProtocolInterpreter
             return builder.ToString();
         }
 
-        protected virtual Dictionary<int, List<DataField>> RegisterDatafields() => new();
+        protected virtual Dictionary<int, List<DataField>> RegisterDatafields() => [];
 
         protected virtual Header ProcessHeader(string package)
+            => ProcessHeader(package.AsSpan());
+
+        protected virtual Header ProcessHeader(ReadOnlySpan<char> package)
         {
             if (package.Length < 20)
             {
-                package = package.PadRight(20, ' ');
+                Span<char> buffer = stackalloc char[20];
+                package.CopyTo(buffer);
+                buffer.Slice(package.Length).Fill(' ');
+                return ParseHeader(buffer);
             }
 
-            static bool IsNotEmptyOrZero(string package, out int value)
-            {
-                value = 0;
-                return !string.IsNullOrWhiteSpace(package) && int.TryParse(package, out value) && value > 0;
-            }
-
-            var header = new Header
-            {
-                Length = int.Parse(package.Substring(0, 4)),
-                Mid = int.Parse(package.Substring(4, 4)),
-                Revision = IsNotEmptyOrZero(package.Substring(8, 3), out var revision) ? revision : 1,
-                NoAckFlag = !string.IsNullOrWhiteSpace(package.Substring(11, 1)),
-                StationId = int.TryParse(package.Substring(12, 2), out var stationId) ? stationId : 1,
-                SpindleId = int.TryParse(package.Substring(14, 2), out var spindleId) ? spindleId : 1,
-                SequenceNumber = IsNotEmptyOrZero(package.Substring(16, 2), out var sequenceNumber) ? sequenceNumber : default(int?),
-                NumberOfMessages = IsNotEmptyOrZero(package.Substring(18, 1), out var numberOfMessages) ? numberOfMessages : default(int?),
-                MessageNumber = IsNotEmptyOrZero(package.Substring(19, 1), out var messageNumber) ? messageNumber : default(int?)
-            };
-
-            return header;
+            return ParseHeader(package);
         }
 
         public virtual Mid Parse(string package)
+            => Parse(package.AsSpan());
+
+        public virtual Mid Parse(ReadOnlySpan<char> package)
         {
             Header = ProcessHeader(package);
             ProcessDataFields(package);
@@ -153,7 +142,22 @@ namespace OpenProtocolInterpreter
             }
         }
 
+        protected virtual void ProcessDataFields(ReadOnlySpan<char> package)
+        {
+            if (!RevisionsByFields.Any())
+                return;
+
+            int revision = Header.Revision > 0 ? Header.Revision : 1;
+            for (int i = 1; i <= revision; i++)
+            {
+                ProcessDataFields(i, package);
+            }
+        }
+
         protected virtual void ProcessDataFields(int revision, string package)
+            => ProcessDataFields(revision, package.AsSpan());
+
+        protected virtual void ProcessDataFields(int revision, ReadOnlySpan<char> package)
         {
             if (RevisionsByFields.TryGetValue(revision, out var fields))
             {
@@ -162,9 +166,12 @@ namespace OpenProtocolInterpreter
         }
 
         protected virtual void ProcessDataFields(List<DataField> dataFields, string package)
+            => ProcessDataFields(dataFields, package.AsSpan());
+
+        protected virtual void ProcessDataFields(List<DataField> dataFields, ReadOnlySpan<char> package)
         {
             foreach (var dataField in dataFields)
-                dataField.Value = GetValue(dataField, package);
+                dataField.SetValue(GetValue(dataField, package));
         }
 
         protected string GetValue(DataField field, string package)
@@ -178,6 +185,19 @@ namespace OpenProtocolInterpreter
                 return null;
             }
         }
+
+        protected ReadOnlySpan<char> GetValue(DataField field, ReadOnlySpan<char> package)
+        {
+            try
+            {
+                return field.HasPrefix ? package.Slice(2 + field.Index, field.Size) : package.Slice(field.Index, field.Size);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return ReadOnlySpan<char>.Empty;
+            }
+        }
+
 
         protected byte[] GetValue(DataField field, byte[] package)
         {
@@ -214,8 +234,51 @@ namespace OpenProtocolInterpreter
             => GetField(revision, field.GetHashCode());
 
         protected static string ToAscii(byte[] bytes) => Encoding.ASCII.GetString(bytes);
-
         protected static byte[] ToBytes(string value) => Encoding.ASCII.GetBytes(value);
+        protected static Span<byte> ToBytesSpan(string value) => ToBytes(value.AsSpan());
+        protected static Span<byte> ToBytes(ReadOnlySpan<char> value)
+        {
+            var buffer = new byte[value.Length];
+#if NETSTANDARD2_0
+            Encoding.ASCII.GetBytes(value.ToString(), 0, value.Length, buffer, 0);
+#else
+            Encoding.ASCII.GetBytes(value, buffer);
+#endif
+            return buffer;
+        }
 
+        private Header ParseHeader(ReadOnlySpan<char> package)
+        {
+#if NETSTANDARD2_0
+            static bool IsNotEmptyOrZero(ReadOnlySpan<char> package, out int value)
+            {
+                value = 0;
+                return !package.IsWhiteSpace() && int.TryParse(package.ToString(), out value) && value > 0;
+            }
+            static int ParseInt(ReadOnlySpan<char> span) => int.Parse(span.ToString());
+            static bool TryParseInt(ReadOnlySpan<char> span, out int value) => int.TryParse(span.ToString(), out value);
+#else
+            static bool IsNotEmptyOrZero(ReadOnlySpan<char> package, out int value)
+            {
+                value = 0;
+                return !package.IsWhiteSpace() && int.TryParse(package, out value) && value > 0;
+            }
+            static int ParseInt(ReadOnlySpan<char> span) => int.Parse(span);
+            static bool TryParseInt(ReadOnlySpan<char> span, out int value) => int.TryParse(span, out value);
+#endif
+
+            return new Header
+            {
+                Length = ParseInt(package.Slice(0, 4)),
+                Mid = ParseInt(package.Slice(4, 4)),
+                Revision = IsNotEmptyOrZero(package.Slice(8, 3), out var revision) ? revision : 1,
+                NoAckFlag = !package.Slice(11, 1).IsWhiteSpace(),
+                StationId = TryParseInt(package.Slice(12, 2), out var stationId) ? stationId : 1,
+                SpindleId = TryParseInt(package.Slice(14, 2), out var spindleId) ? spindleId : 1,
+                SequenceNumber = IsNotEmptyOrZero(package.Slice(16, 2), out var sequenceNumber) ? sequenceNumber : default(int?),
+                NumberOfMessages = IsNotEmptyOrZero(package.Slice(18, 1), out var numberOfMessages) ? numberOfMessages : default(int?),
+                MessageNumber = IsNotEmptyOrZero(package.Slice(19, 1), out var messageNumber) ? messageNumber : default(int?)
+            };
+        }
     }
 }

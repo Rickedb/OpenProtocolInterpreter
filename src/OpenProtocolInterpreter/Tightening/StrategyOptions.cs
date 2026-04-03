@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace OpenProtocolInterpreter.Tightening
 {
@@ -58,6 +59,13 @@ namespace OpenProtocolInterpreter.Tightening
         }
 
         public static StrategyOptions Parse(string value)
+        {
+            var intValue = OpenProtocolConvert.ToInt32(value);
+            var bytes = System.BitConverter.GetBytes(intValue);
+            return Parse(bytes);
+        }
+
+        public static StrategyOptions Parse(ReadOnlySpan<char> value)
         {
             var intValue = OpenProtocolConvert.ToInt32(value);
             var bytes = System.BitConverter.GetBytes(intValue);

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -51,7 +52,7 @@ namespace OpenProtocolInterpreter.ApplicationSelector
             return base.Pack();
         }
 
-        public override Mid Parse(string package)
+        public override Mid Parse(ReadOnlySpan<char> package)
         {
             base.Parse(package);
             GreenLights = ParseGreenLights(GetField(1, DataFields.GreenLightCommand).Value).ToList();

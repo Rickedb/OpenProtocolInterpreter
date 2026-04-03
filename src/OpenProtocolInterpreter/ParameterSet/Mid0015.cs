@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.ParameterSet
@@ -121,7 +121,7 @@ namespace OpenProtocolInterpreter.ParameterSet
             return BuildHeader() + base.Pack(Header.StandardizedRevision, ref index);
         }
 
-        public override Mid Parse(string package)
+        public override Mid Parse(ReadOnlySpan<char> package)
         {
             Header = ProcessHeader(package);
             ProcessDataFields(Header.StandardizedRevision, package);
