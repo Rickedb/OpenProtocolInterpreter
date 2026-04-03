@@ -76,8 +76,12 @@ namespace OpenProtocolInterpreter
         }
 
         public static string TruncatedDecimalToString(decimal value)
+            => TruncatedDecimalToString(value, 2);
+
+        public static string TruncatedDecimalToString(decimal value, int decimalDigits)
         {
-            int convertedValue = (int)(Math.Round(value, 2) * 100m);
+            var decimals = 10m * decimalDigits;
+            int convertedValue = (int)(Math.Round(value, 2) * decimals);
             return convertedValue.ToString();
         }
 
@@ -87,16 +91,26 @@ namespace OpenProtocolInterpreter
             return TruncatePadded(paddingChar, size, orientation, str);
         }
 
-        public static decimal ToTruncatedDecimal(string value)
+        public static string TruncatedDecimalToString(char paddingChar, int size, PaddingOrientation orientation, decimal value, int decimalDigits)
         {
-            int intValue = ToInt32(value);
-            return intValue / 100m;
+            var str = TruncatedDecimalToString(value, decimalDigits);
+            return TruncatePadded(paddingChar, size, orientation, str);
         }
 
+        public static decimal ToTruncatedDecimal(string value)
+            => ToTruncatedDecimal(value, 2);
+
+        public static decimal ToTruncatedDecimal(string value, int decimalDigits)
+            => ToTruncatedDecimal(value.AsSpan(), 2);
+
         public static decimal ToTruncatedDecimal(ReadOnlySpan<char> value)
+            => ToTruncatedDecimal(value, 2);
+
+        public static decimal ToTruncatedDecimal(ReadOnlySpan<char> value, int decimalDigits)
         {
+            var decimals = 10m * decimalDigits;
             int intValue = ToInt32(value);
-            return intValue / 100m;
+            return intValue / decimals;
         }
 
         public static string ToString(int value)
@@ -120,11 +134,11 @@ namespace OpenProtocolInterpreter
         public static int ToInt32(ReadOnlySpan<char> value)
         {
 #if NETSTANDARD2_0
-            int.TryParse(value.ToString(), out int convertedValue);
+            return ToInt32(value.ToString());
 #else
             int.TryParse(value, out int convertedValue);
-#endif
             return convertedValue;
+#endif
         }
 
         public static string ToString(long value)
@@ -142,11 +156,11 @@ namespace OpenProtocolInterpreter
         public static long ToInt64(ReadOnlySpan<char> value)
         {
 #if NETSTANDARD2_0
-            long.TryParse(value.ToString(), out long convertedValue);
+            return ToInt64(value.ToString());
 #else
             long.TryParse(value, out long convertedValue);
-#endif
             return convertedValue;
+#endif
         }
 
         public static string ToString(IEnumerable<VariableDataField> value)

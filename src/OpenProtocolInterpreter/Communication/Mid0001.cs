@@ -19,6 +19,16 @@ namespace OpenProtocolInterpreter.Communication
             get => GetField(7, DataFields.UseKeepAlive).GetValue(OpenProtocolConvert.ToBoolean);
             set => GetField(7, DataFields.UseKeepAlive).SetValue(OpenProtocolConvert.ToString, value);
         }
+        public bool OptionalToolLockAtDisconnection
+        {
+            get => GetField(8, DataFields.OptionalToolLockAtDisconnection).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(8, DataFields.OptionalToolLockAtDisconnection).SetValue(OpenProtocolConvert.ToString, value);
+        }
+        public decimal OptionalEarlyLock
+        {
+            get => GetField(8, DataFields.OptionalEarlyLock).GetValue(x => OpenProtocolConvert.ToTruncatedDecimal(x, 1));
+            set => GetField(8, DataFields.OptionalEarlyLock).SetValue((paddingChar, size, orientation, v) => OpenProtocolConvert.TruncatedDecimalToString(paddingChar, size, orientation, v, 1), value);
+        }
 
         public Mid0001() : this(DEFAULT_REVISION)
         {
@@ -44,9 +54,16 @@ namespace OpenProtocolInterpreter.Communication
             {
                 {
                     7, new List<DataField>()
-                            {
-                                DataField.Boolean(DataFields.UseKeepAlive, 20)
-                            }
+                    {
+                        DataField.Boolean(DataFields.UseKeepAlive, 20)
+                    }
+                },
+                {
+                    8, new List<DataField>()
+                    {
+                        DataField.Boolean(DataFields.OptionalToolLockAtDisconnection, 24),
+                        DataField.Number(DataFields.OptionalEarlyLock, 26, 4)
+                    }
                 }
             };
         }
@@ -54,7 +71,9 @@ namespace OpenProtocolInterpreter.Communication
         protected enum DataFields
         {
             //Rev 7
-            UseKeepAlive
+            UseKeepAlive,
+            OptionalToolLockAtDisconnection,
+            OptionalEarlyLock
         }
     }
 }

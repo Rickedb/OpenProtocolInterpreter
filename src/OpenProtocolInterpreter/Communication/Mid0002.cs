@@ -110,7 +110,7 @@ namespace OpenProtocolInterpreter.Communication
         /// <para>Station ID for PF6000</para>
         /// <para>Cell ID for PF4000</para>
         /// </summary>
-        public long StationCellId 
+        public long StationCellId
         {
             get => GetField(6, DataFields.StationCellId).GetValue(OpenProtocolConvert.ToInt64);
             set => GetField(6, DataFields.StationCellId).SetValue(OpenProtocolConvert.ToString, value);
@@ -137,10 +137,21 @@ namespace OpenProtocolInterpreter.Communication
         /// <para>False = Use Keep alive (Keep alive is mandatory)</para> 
         /// <para>True = Ignore Keep alive (Keep alive is optional)</para>
         /// </summary>
-        public bool OptionalKeepAlive 
+        public bool OptionalKeepAlive
         {
             get => GetField(7, DataFields.OptionalKeepAlive).GetValue(OpenProtocolConvert.ToBoolean);
             set => GetField(7, DataFields.OptionalKeepAlive).SetValue(OpenProtocolConvert.ToString, value);
+        }
+
+        public bool OptionalToolLockAtDisconnection
+        {
+            get => GetField(8, DataFields.OptionalToolLockAtDisconnection).GetValue(OpenProtocolConvert.ToBoolean);
+            set => GetField(8, DataFields.OptionalToolLockAtDisconnection).SetValue(OpenProtocolConvert.ToString, value);
+        }
+        public decimal OptionalEarlyLock
+        {
+            get => GetField(8, DataFields.OptionalEarlyLock).GetValue(x => OpenProtocolConvert.ToTruncatedDecimal(x, 1));
+            set => GetField(8, DataFields.OptionalEarlyLock).SetValue((paddingChar, size, orientation, v) => OpenProtocolConvert.TruncatedDecimalToString(paddingChar, size, orientation, v, 1), value);
         }
 
         public Mid0002() : this(DEFAULT_REVISION)
@@ -155,11 +166,11 @@ namespace OpenProtocolInterpreter.Communication
 
         public Mid0002(int revision) : this(new Header()
         {
-            Mid= MID, 
+            Mid = MID,
             Revision = revision
         })
         {
-            
+
         }
 
         protected override Dictionary<int, List<DataField>> RegisterDatafields()
@@ -217,6 +228,13 @@ namespace OpenProtocolInterpreter.Communication
                             {
                                 DataField.Boolean(DataFields.OptionalKeepAlive, 221)
                             }
+                },
+                {
+                    8, new List<DataField>()
+                            {
+                                DataField.Boolean(DataFields.OptionalToolLockAtDisconnection, 224),
+                                DataField.Number(DataFields.OptionalEarlyLock, 227, 4)
+                            }
                 }
             };
         }
@@ -246,7 +264,10 @@ namespace OpenProtocolInterpreter.Communication
             StationCellName,
             ClientId,
             //Rev 7
-            OptionalKeepAlive
+            OptionalKeepAlive,
+            //Rev 8
+            OptionalToolLockAtDisconnection,
+            OptionalEarlyLock
         }
     }
 }

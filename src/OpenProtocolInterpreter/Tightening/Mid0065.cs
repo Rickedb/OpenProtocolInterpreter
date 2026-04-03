@@ -298,6 +298,8 @@ namespace OpenProtocolInterpreter.Tightening
             set => GetField(11, DataFields.ClickAngle).SetValue(OpenProtocolConvert.ToString, value);
         }
 
+        public List<StageResult> StageResults { get; set; }
+
         public Mid0065() : this(DEFAULT_REVISION)
         {
 
@@ -373,8 +375,17 @@ namespace OpenProtocolInterpreter.Tightening
             }
             else
             {
-                int processUntil = Header.Revision;
-                for (int revision = 2; revision <= processUntil; revision++)
+                int processUntilRevision = Header.Revision;
+                if (Header.Revision == 998)
+                {
+                    processUntilRevision = 6;
+                    var stageResultField = GetField(998, DataFields.StageResult);
+                    stageResultField.Size = Header.Length - stageResultField.Index - 2;
+                    ProcessDataFields(998, package);
+                    StageResults = StageResult.ParseAll(stageResultField.Value).ToList();
+                }
+
+                for (int revision = 2; revision <= processUntilRevision; revision++)
                     ProcessDataFields(revision, package);
 
                 var strategyOptionsField = GetField(2, DataFields.StrategyOptions);
@@ -518,6 +529,15 @@ namespace OpenProtocolInterpreter.Tightening
                                 DataField.Number(DataFields.ClickTorque, 497, 6),
                                 DataField.Number(DataFields.ClickAngle, 505, 5),
                             }
+                },
+                {
+                    //Revision 998 is a continuation of Revision 6.
+                    998, new List<DataField>()
+                    {
+                        DataField.Number(DataFields.NumberOfStagesInMultistage, 340, 2),
+                        DataField.Number(DataFields.NumberOfStageResults, 344, 2),
+                        new(DataFields.StageResult, 348, 11)
+                    }
                 }
             };
         }
@@ -592,7 +612,11 @@ namespace OpenProtocolInterpreter.Tightening
             RundownAngleComplete,
             //Rev 11
             ClickTorque,
-            ClickAngle
+            ClickAngle,
+            //Rev 998 (Go over rev 7)
+            NumberOfStagesInMultistage,
+            NumberOfStageResults,
+            StageResult
         }
     }
 }

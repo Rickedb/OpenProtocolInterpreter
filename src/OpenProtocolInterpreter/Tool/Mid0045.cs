@@ -35,6 +35,17 @@ namespace OpenProtocolInterpreter.Tool
             set => GetField(2, DataFields.ChannelNumber).SetValue(OpenProtocolConvert.ToString, value);
         }
 
+        public decimal ExtendedCalibrationValue
+        {
+            get => GetField(3, DataFields.ExtendedCalibrationValue).GetValue(x => OpenProtocolConvert.ToTruncatedDecimal(x, 4));
+            set => GetField(3, DataFields.ExtendedCalibrationValue).SetValue((paddingChar, size, orientation, v) => OpenProtocolConvert.TruncatedDecimalToString(paddingChar, size, orientation, v, 4), value);
+        }
+        public int TransducerNumber
+        {
+            get => GetField(3, DataFields.TransducerNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(3, DataFields.TransducerNumber).SetValue(OpenProtocolConvert.ToString, value);
+        }
+
         public Mid0045() : this(DEFAULT_REVISION)
         {
         }
@@ -67,6 +78,13 @@ namespace OpenProtocolInterpreter.Tool
                             {
                                 DataField.Number(DataFields.ChannelNumber, 31, 2),
                             }
+                },
+                {
+                    3, new List<DataField>()
+                    {
+                        DataField.Number(DataFields.ExtendedCalibrationValue, 35, 10),
+                        DataField.Number(DataFields.TransducerNumber, 47, 1)   
+                    }
                 }
             };
         }
@@ -75,7 +93,9 @@ namespace OpenProtocolInterpreter.Tool
         {
             CalibrationValueUnit,
             CalibrationValue,
-            ChannelNumber
+            ChannelNumber,
+            ExtendedCalibrationValue,
+            TransducerNumber
         }
     }
 }
