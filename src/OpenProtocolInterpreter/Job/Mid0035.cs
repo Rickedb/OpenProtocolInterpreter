@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 
 namespace OpenProtocolInterpreter.Job
 {
@@ -97,6 +98,11 @@ namespace OpenProtocolInterpreter.Job
             get => GetField(5, DataFields.IdentifierResultPart4).Value;
             set => GetField(5, DataFields.IdentifierResultPart4).SetValue(value);
         }
+        public string JointId
+        {
+            get => GetField(6, DataFields.JointId).Value;
+            set => GetField(6, DataFields.JointId).SetValue(value);
+        }
 
         public Mid0035() : this(DEFAULT_REVISION)
         {
@@ -168,7 +174,14 @@ namespace OpenProtocolInterpreter.Job
                         DataField.String(DataFields.IdentifierResultPart3, 144, 25),
                         DataField.String(DataFields.IdentifierResultPart4, 171, 25),
                     }
+                },
+                {
+                    6, new List<DataField>()
+                    {
+                        DataField.String(DataFields.JointId, 198, 25)
+                    }
                 }
+
             };
         }
 
@@ -213,7 +226,9 @@ namespace OpenProtocolInterpreter.Job
             VinNumber,
             IdentifierResultPart2,
             IdentifierResultPart3,
-            IdentifierResultPart4
+            IdentifierResultPart4,
+            //Rev 6
+            JointId
         }
     }
 

@@ -297,7 +297,28 @@ namespace OpenProtocolInterpreter.Tightening
             get => GetField(11, DataFields.ClickAngle).GetValue(OpenProtocolConvert.ToInt32);
             set => GetField(11, DataFields.ClickAngle).SetValue(OpenProtocolConvert.ToString, value);
         }
-
+        //Rev 12
+        public int SelectedIdentifierNumber
+        {
+            get => GetField(12, DataFields.SelectedIdentifierNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(12, DataFields.SelectedIdentifierNumber).SetValue(OpenProtocolConvert.ToString, value);
+        }
+        public string JointId
+        {
+            get => GetField(12, DataFields.JointId).Value;
+            set => GetField(12, DataFields.JointId).SetValue(value);
+        }
+        //Rev 998 addition 
+        public int NumberOfStagesInMultistage
+        {
+            get => GetField(998, DataFields.NumberOfStagesInMultistage).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(998, DataFields.NumberOfStagesInMultistage).SetValue(OpenProtocolConvert.ToString, value);
+        }
+        public int NumberOfStageResults
+        {
+            get => GetField(998, DataFields.NumberOfStageResults).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(998, DataFields.NumberOfStageResults).SetValue(OpenProtocolConvert.ToString, value);
+        }
         public List<StageResult> StageResults { get; set; }
 
         public Mid0065() : this(DEFAULT_REVISION)
@@ -531,6 +552,13 @@ namespace OpenProtocolInterpreter.Tightening
                             }
                 },
                 {
+                    12, new List<DataField>()
+                    {
+                        DataField.Number(DataFields.SelectedIdentifierNumber, 512, 4),
+                        DataField.String(DataFields.JointId, 518, 25)
+                    }
+                },
+                {
                     //Revision 998 is a continuation of Revision 6.
                     998, new List<DataField>()
                     {
@@ -613,6 +641,9 @@ namespace OpenProtocolInterpreter.Tightening
             //Rev 11
             ClickTorque,
             ClickAngle,
+            //Rev 12
+            SelectedIdentifierNumber,
+            JointId,
             //Rev 998 (Go over rev 7)
             NumberOfStagesInMultistage,
             NumberOfStageResults,

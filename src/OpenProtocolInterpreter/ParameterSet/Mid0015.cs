@@ -84,6 +84,16 @@ namespace OpenProtocolInterpreter.ParameterSet
             get => GetField(2, DataFields.StartFinalAngle).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
             set => GetField(2, DataFields.StartFinalAngle).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
         }
+        public int SelectedIdentifierNumber
+        {
+            get => GetField(3, DataFields.SelectedIdentifierNumber).GetValue(OpenProtocolConvert.ToInt32);
+            set => GetField(3, DataFields.SelectedIdentifierNumber).SetValue(OpenProtocolConvert.ToString, value);
+        }
+        public string JointId
+        {
+            get => GetField(3, DataFields.JointId).Value;
+            set => GetField(3, DataFields.JointId).SetValue(value);
+        }
 
         public Mid0015() : this(DEFAULT_REVISION)
         {
@@ -156,6 +166,13 @@ namespace OpenProtocolInterpreter.ParameterSet
                                 DataField.Number(DataFields.FirstTarget, 125, 6),
                                 DataField.Number(DataFields.StartFinalAngle, 133, 6)
                             }
+                },
+                {
+                    3, new List<DataField>()
+                    {
+                        DataField.Number(DataFields.SelectedIdentifierNumber, 141, 4),
+                        DataField.String(DataFields.JointId, 147, 25)
+                    }
                 }
             };
         }
@@ -175,7 +192,9 @@ namespace OpenProtocolInterpreter.ParameterSet
             AngleMax,
             FinalAngleTarget,
             FirstTarget,
-            StartFinalAngle
+            StartFinalAngle,
+            SelectedIdentifierNumber,
+            JointId
         }
     }
 }
