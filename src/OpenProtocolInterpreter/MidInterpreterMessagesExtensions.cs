@@ -3,7 +3,9 @@ using OpenProtocolInterpreter.ApplicationController;
 using OpenProtocolInterpreter.ApplicationSelector;
 using OpenProtocolInterpreter.ApplicationToolLocationSystem;
 using OpenProtocolInterpreter.AutomaticManualMode;
+using OpenProtocolInterpreter.Battery;
 using OpenProtocolInterpreter.Communication;
+using OpenProtocolInterpreter.Hvo;
 using OpenProtocolInterpreter.IOInterface;
 using OpenProtocolInterpreter.Job;
 using OpenProtocolInterpreter.Job.Advanced;
@@ -15,13 +17,16 @@ using OpenProtocolInterpreter.OpenProtocolCommandsDisabled;
 using OpenProtocolInterpreter.ParameterSet;
 using OpenProtocolInterpreter.PLCUserData;
 using OpenProtocolInterpreter.PowerMACS;
+using OpenProtocolInterpreter.RexrothJob;
 using OpenProtocolInterpreter.Result;
+using OpenProtocolInterpreter.SocketTray;
 using OpenProtocolInterpreter.Statistic;
 using OpenProtocolInterpreter.Tightening;
 using OpenProtocolInterpreter.Time;
 using OpenProtocolInterpreter.Tool;
 using OpenProtocolInterpreter.UserInterface;
 using OpenProtocolInterpreter.Vin;
+using OpenProtocolInterpreter.Wifi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,10 +53,13 @@ namespace OpenProtocolInterpreter
                 .UseApplicationSelectorMessages(mode)
                 .UseApplicationToolLocationSystemMessages(mode)
                 .UseAutomaticManualModeMessages(mode)
+                .UseBatteryMessages(mode)
                 .UseCommunicationMessages(mode)
+                .UseHvoMessages(mode)
                 .UseIOInterfaceMessages(mode)
                 .UseJobMessages(mode)
                 .UseAdvancedJobMessages(mode)
+                .UseRexrothJobMessages(mode)
                 .UseLinkCommunicationMessages(mode)
                 .UseMotorTuningMessages(mode)
                 .UseMultipleIdentifiersMessages(mode)
@@ -61,12 +69,14 @@ namespace OpenProtocolInterpreter
                 .UsePLCUserDataMessages(mode)
                 .UsePowerMACSMessages(mode)
                 .UseResultMessages(mode)
+                .UseSocketTrayMessages(mode)
                 .UseStatisticMessages(mode)
                 .UseTighteningMessages(mode)
                 .UseTimeMessages(mode)
                 .UseToolMessages(mode)
                 .UseUserInterfaceMessages(mode)
-                .UseVinMessages(mode);
+                .UseVinMessages(mode)
+                .UseWifiMessages(mode);
         }
 
         /// <summary>
@@ -86,10 +96,13 @@ namespace OpenProtocolInterpreter
                 .UseApplicationSelectorMessages(mids.Where(x => DoesImplementInterface(x, typeof(IApplicationSelector))))
                 .UseApplicationToolLocationSystemMessages(mids.Where(x => DoesImplementInterface(x, typeof(IApplicationToolLocationSystem))))
                 .UseAutomaticManualModeMessages(mids.Where(x => DoesImplementInterface(x, typeof(IAutomaticManualMode))))
+                .UseBatteryMessages(mids.Where(x => DoesImplementInterface(x, typeof(IBattery))))
                 .UseCommunicationMessages(mids.Where(x => DoesImplementInterface(x, typeof(ICommunication))))
+                .UseHvoMessages(mids.Where(x => DoesImplementInterface(x, typeof(IHvo))))
                 .UseIOInterfaceMessages(mids.Where(x => DoesImplementInterface(x, typeof(IIOInterface))))
                 .UseJobMessages(mids.Where(x => DoesImplementInterface(x, typeof(IJob))))
                 .UseAdvancedJobMessages(mids.Where(x => DoesImplementInterface(x, typeof(IAdvancedJob))))
+                .UseRexrothJobMessages(mids.Where(x => DoesImplementInterface(x, typeof(IRexrothJob))))
                 .UseLinkCommunicationMessages(mids.Where(x => DoesImplementInterface(x, typeof(ILinkCommunication))))
                 .UseMotorTuningMessages(mids.Where(x => DoesImplementInterface(x, typeof(IMotorTuning))))
                 .UseMultipleIdentifiersMessages(mids.Where(x => DoesImplementInterface(x, typeof(IMultipleIdentifier))))
@@ -99,12 +112,14 @@ namespace OpenProtocolInterpreter
                 .UsePLCUserDataMessages(mids.Where(x => DoesImplementInterface(x, typeof(IPLCUserData))))
                 .UsePowerMACSMessages(mids.Where(x => DoesImplementInterface(x, typeof(IPowerMACS))))
                 .UseResultMessages(mids.Where(x => DoesImplementInterface(x, typeof(IResult))))
+                .UseSocketTrayMessages(mids.Where(x => DoesImplementInterface(x, typeof(ISocketTray))))
                 .UseStatisticMessages(mids.Where(x => DoesImplementInterface(x, typeof(IStatistic))))
                 .UseTighteningMessages(mids.Where(x => DoesImplementInterface(x, typeof(ITightening))))
                 .UseTimeMessages(mids.Where(x => DoesImplementInterface(x, typeof(ITime))))
                 .UseToolMessages(mids.Where(x => DoesImplementInterface(x, typeof(ITool))))
                 .UseUserInterfaceMessages(mids.Where(x => DoesImplementInterface(x, typeof(IUserInterface))))
-                .UseVinMessages(mids.Where(x => DoesImplementInterface(x, typeof(IVin))));
+                .UseVinMessages(mids.Where(x => DoesImplementInterface(x, typeof(IVin))))
+                .UseWifiMessages(mids.Where(x => DoesImplementInterface(x, typeof(IWifi))));
         }
 
         /// <summary>
@@ -995,6 +1010,196 @@ namespace OpenProtocolInterpreter
         {
             ThrowIfInvalid<IUserInterface>(mids);
             midInterpreter.UseTemplate<UserInterfaceMessages>(mids);
+            return midInterpreter;
+        }
+
+        /// <summary>
+        /// Include <see cref="IBattery"/> MIDs into interpreter
+        /// </summary>
+        /// <param name="midInterpreter">MidInterpreter instance</param>
+        /// <param name="mode">Are you the integrator or controller?</param>
+        /// <returns>MidInterpreter instance</returns>
+        public static MidInterpreter UseBatteryMessages(this MidInterpreter midInterpreter, InterpreterMode mode = InterpreterMode.Both)
+        {
+            midInterpreter.UseTemplate<BatteryMessages>(mode);
+            return midInterpreter;
+        }
+
+        /// <summary>
+        /// Include only a specific collection of <see cref="IBattery"/> MIDs into interpreter
+        /// </summary>
+        /// <param name="midInterpreter">MidInterpreter instance</param>
+        /// <param name="mids">Mids that you want to be available for parsing</param>
+        /// <returns>MidInterpreter instance</returns>
+        public static MidInterpreter UseBatteryMessages(this MidInterpreter midInterpreter, IEnumerable<Type> mids)
+        {
+            ThrowIfInvalid<IBattery>(mids);
+            midInterpreter.UseTemplate<BatteryMessages>(mids);
+            return midInterpreter;
+        }
+
+        /// <summary>
+        /// Add all if not added yet and override specified <see cref="IBattery"/> Mids
+        /// </summary>
+        /// <param name="midInterpreter">MidInterpreter instance</param>
+        /// <param name="mids">Dictionary with Mid x your custom type to override</param>
+        /// <returns>MidInterpreter instance</returns>
+        public static MidInterpreter UseBatteryMessages(this MidInterpreter midInterpreter, IDictionary<int, Type> mids)
+        {
+            ThrowIfInvalid<IBattery>(mids);
+            midInterpreter.UseTemplate<BatteryMessages>(mids);
+            return midInterpreter;
+        }
+
+        /// <summary>
+        /// Include <see cref="IHvo"/> MIDs into interpreter
+        /// </summary>
+        /// <param name="midInterpreter">MidInterpreter instance</param>
+        /// <param name="mode">Are you the integrator or controller?</param>
+        /// <returns>MidInterpreter instance</returns>
+        public static MidInterpreter UseHvoMessages(this MidInterpreter midInterpreter, InterpreterMode mode = InterpreterMode.Both)
+        {
+            midInterpreter.UseTemplate<HvoMessages>(mode);
+            return midInterpreter;
+        }
+
+        /// <summary>
+        /// Include only a specific collection of <see cref="IHvo"/> MIDs into interpreter
+        /// </summary>
+        /// <param name="midInterpreter">MidInterpreter instance</param>
+        /// <param name="mids">Mids that you want to be available for parsing</param>
+        /// <returns>MidInterpreter instance</returns>
+        public static MidInterpreter UseHvoMessages(this MidInterpreter midInterpreter, IEnumerable<Type> mids)
+        {
+            ThrowIfInvalid<IHvo>(mids);
+            midInterpreter.UseTemplate<HvoMessages>(mids);
+            return midInterpreter;
+        }
+
+        /// <summary>
+        /// Add all if not added yet and override specified <see cref="IHvo"/> Mids
+        /// </summary>
+        /// <param name="midInterpreter">MidInterpreter instance</param>
+        /// <param name="mids">Dictionary with Mid x your custom type to override</param>
+        /// <returns>MidInterpreter instance</returns>
+        public static MidInterpreter UseHvoMessages(this MidInterpreter midInterpreter, IDictionary<int, Type> mids)
+        {
+            ThrowIfInvalid<IHvo>(mids);
+            midInterpreter.UseTemplate<HvoMessages>(mids);
+            return midInterpreter;
+        }
+
+        /// <summary>
+        /// Include <see cref="IRexrothJob"/> MIDs into interpreter
+        /// </summary>
+        /// <param name="midInterpreter">MidInterpreter instance</param>
+        /// <param name="mode">Are you the integrator or controller?</param>
+        /// <returns>MidInterpreter instance</returns>
+        public static MidInterpreter UseRexrothJobMessages(this MidInterpreter midInterpreter, InterpreterMode mode = InterpreterMode.Both)
+        {
+            midInterpreter.UseTemplate<RexrothJobMessages>(mode);
+            return midInterpreter;
+        }
+
+        /// <summary>
+        /// Include only a specific collection of <see cref="IRexrothJob"/> MIDs into interpreter
+        /// </summary>
+        /// <param name="midInterpreter">MidInterpreter instance</param>
+        /// <param name="mids">Mids that you want to be available for parsing</param>
+        /// <returns>MidInterpreter instance</returns>
+        public static MidInterpreter UseRexrothJobMessages(this MidInterpreter midInterpreter, IEnumerable<Type> mids)
+        {
+            ThrowIfInvalid<IRexrothJob>(mids);
+            midInterpreter.UseTemplate<RexrothJobMessages>(mids);
+            return midInterpreter;
+        }
+
+        /// <summary>
+        /// Add all if not added yet and override specified <see cref="IRexrothJob"/> Mids
+        /// </summary>
+        /// <param name="midInterpreter">MidInterpreter instance</param>
+        /// <param name="mids">Dictionary with Mid x your custom type to override</param>
+        /// <returns>MidInterpreter instance</returns>
+        public static MidInterpreter UseRexrothJobMessages(this MidInterpreter midInterpreter, IDictionary<int, Type> mids)
+        {
+            ThrowIfInvalid<IRexrothJob>(mids);
+            midInterpreter.UseTemplate<RexrothJobMessages>(mids);
+            return midInterpreter;
+        }
+
+        /// <summary>
+        /// Include <see cref="ISocketTray"/> MIDs into interpreter
+        /// </summary>
+        /// <param name="midInterpreter">MidInterpreter instance</param>
+        /// <param name="mode">Are you the integrator or controller?</param>
+        /// <returns>MidInterpreter instance</returns>
+        public static MidInterpreter UseSocketTrayMessages(this MidInterpreter midInterpreter, InterpreterMode mode = InterpreterMode.Both)
+        {
+            midInterpreter.UseTemplate<SocketTrayMessages>(mode);
+            return midInterpreter;
+        }
+
+        /// <summary>
+        /// Include only a specific collection of <see cref="ISocketTray"/> MIDs into interpreter
+        /// </summary>
+        /// <param name="midInterpreter">MidInterpreter instance</param>
+        /// <param name="mids">Mids that you want to be available for parsing</param>
+        /// <returns>MidInterpreter instance</returns>
+        public static MidInterpreter UseSocketTrayMessages(this MidInterpreter midInterpreter, IEnumerable<Type> mids)
+        {
+            ThrowIfInvalid<ISocketTray>(mids);
+            midInterpreter.UseTemplate<SocketTrayMessages>(mids);
+            return midInterpreter;
+        }
+
+        /// <summary>
+        /// Add all if not added yet and override specified <see cref="ISocketTray"/> Mids
+        /// </summary>
+        /// <param name="midInterpreter">MidInterpreter instance</param>
+        /// <param name="mids">Dictionary with Mid x your custom type to override</param>
+        /// <returns>MidInterpreter instance</returns>
+        public static MidInterpreter UseSocketTrayMessages(this MidInterpreter midInterpreter, IDictionary<int, Type> mids)
+        {
+            ThrowIfInvalid<ISocketTray>(mids);
+            midInterpreter.UseTemplate<SocketTrayMessages>(mids);
+            return midInterpreter;
+        }
+
+        /// <summary>
+        /// Include <see cref="IWifi"/> MIDs into interpreter
+        /// </summary>
+        /// <param name="midInterpreter">MidInterpreter instance</param>
+        /// <param name="mode">Are you the integrator or controller?</param>
+        /// <returns>MidInterpreter instance</returns>
+        public static MidInterpreter UseWifiMessages(this MidInterpreter midInterpreter, InterpreterMode mode = InterpreterMode.Both)
+        {
+            midInterpreter.UseTemplate<WifiMessages>(mode);
+            return midInterpreter;
+        }
+
+        /// <summary>
+        /// Include only a specific collection of <see cref="IWifi"/> MIDs into interpreter
+        /// </summary>
+        /// <param name="midInterpreter">MidInterpreter instance</param>
+        /// <param name="mids">Mids that you want to be available for parsing</param>
+        /// <returns>MidInterpreter instance</returns>
+        public static MidInterpreter UseWifiMessages(this MidInterpreter midInterpreter, IEnumerable<Type> mids)
+        {
+            ThrowIfInvalid<IWifi>(mids);
+            midInterpreter.UseTemplate<WifiMessages>(mids);
+            return midInterpreter;
+        }
+
+        /// <summary>
+        /// Add all if not added yet and override specified <see cref="IWifi"/> Mids
+        /// </summary>
+        /// <param name="midInterpreter">MidInterpreter instance</param>
+        /// <param name="mids">Dictionary with Mid x your custom type to override</param>
+        /// <returns>MidInterpreter instance</returns>
+        public static MidInterpreter UseWifiMessages(this MidInterpreter midInterpreter, IDictionary<int, Type> mids)
+        {
+            ThrowIfInvalid<IWifi>(mids);
+            midInterpreter.UseTemplate<WifiMessages>(mids);
             return midInterpreter;
         }
 
