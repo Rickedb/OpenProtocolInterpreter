@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace OpenProtocolInterpreter
 {
@@ -84,6 +85,42 @@ namespace OpenProtocolInterpreter
 
         public void EnforceRevisionStandardization()
             => Revision = StandardizedRevision;
+
+        /// <summary>
+        /// Parses the header from a given package string. 
+        /// <para><i>The package will be padded to 20 characters if it's shorter.</i></para>
+        /// </summary>
+        /// <param name="package">The full package or 20 characters header section string to parse</param>
+        /// <returns>A <see cref="Header"/> instance parsed from the package string.</returns>
+        /// <exception cref="ArgumentException">Any invalid obligatory parameter in the package.</exception>
+        public static Header Parse(string package)
+        {
+            if (package.Length < 20)
+            {
+                package = package.PadRight(20, ' ');
+            }
+
+            static bool IsNotEmptyOrZero(string package, out int value)
+            {
+                value = 0;
+                return !string.IsNullOrWhiteSpace(package) && int.TryParse(package, out value) && value > 0;
+            }
+
+            var header = new Header
+            {
+                Length = int.TryParse(package.Substring(0, 4), out var length) ? length : throw new ArgumentException("Invalid length parameter.", nameof(package)),
+                Mid = int.TryParse(package.Substring(4, 4), out var mid) ? mid : throw new ArgumentException("Invalid MID parameter.", nameof(package)),
+                Revision = IsNotEmptyOrZero(package.Substring(8, 3), out var revision) ? revision : 1,
+                NoAckFlag = !string.IsNullOrWhiteSpace(package.Substring(11, 1)),
+                StationId = int.TryParse(package.Substring(12, 2), out var stationId) ? stationId : 1,
+                SpindleId = int.TryParse(package.Substring(14, 2), out var spindleId) ? spindleId : 1,
+                SequenceNumber = IsNotEmptyOrZero(package.Substring(16, 2), out var sequenceNumber) ? sequenceNumber : default(int?),
+                NumberOfMessages = IsNotEmptyOrZero(package.Substring(18, 1), out var numberOfMessages) ? numberOfMessages : default(int?),
+                MessageNumber = IsNotEmptyOrZero(package.Substring(19, 1), out var messageNumber) ? messageNumber : default(int?)
+            };
+
+            return header;
+        }
 
         public override string ToString()
         {

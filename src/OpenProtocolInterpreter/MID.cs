@@ -99,38 +99,15 @@ namespace OpenProtocolInterpreter
 
         protected virtual Dictionary<int, List<DataField>> RegisterDatafields() => new();
 
+        [Obsolete("Use Header.Parse(string package) instead. This method will be removed in future versions.")]
         protected virtual Header ProcessHeader(string package)
         {
-            if (package.Length < 20)
-            {
-                package = package.PadRight(20, ' ');
-            }
-
-            static bool IsNotEmptyOrZero(string package, out int value)
-            {
-                value = 0;
-                return !string.IsNullOrWhiteSpace(package) && int.TryParse(package, out value) && value > 0;
-            }
-
-            var header = new Header
-            {
-                Length = int.Parse(package.Substring(0, 4)),
-                Mid = int.Parse(package.Substring(4, 4)),
-                Revision = IsNotEmptyOrZero(package.Substring(8, 3), out var revision) ? revision : 1,
-                NoAckFlag = !string.IsNullOrWhiteSpace(package.Substring(11, 1)),
-                StationId = int.TryParse(package.Substring(12, 2), out var stationId) ? stationId : 1,
-                SpindleId = int.TryParse(package.Substring(14, 2), out var spindleId) ? spindleId : 1,
-                SequenceNumber = IsNotEmptyOrZero(package.Substring(16, 2), out var sequenceNumber) ? sequenceNumber : default(int?),
-                NumberOfMessages = IsNotEmptyOrZero(package.Substring(18, 1), out var numberOfMessages) ? numberOfMessages : default(int?),
-                MessageNumber = IsNotEmptyOrZero(package.Substring(19, 1), out var messageNumber) ? messageNumber : default(int?)
-            };
-
-            return header;
+            return Header.Parse(package);
         }
 
         public virtual Mid Parse(string package)
         {
-            Header = ProcessHeader(package);
+            Header = Header.Parse(package);
             ProcessDataFields(package);
             return this;
         }
