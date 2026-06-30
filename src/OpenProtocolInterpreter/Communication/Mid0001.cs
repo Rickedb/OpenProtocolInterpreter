@@ -14,21 +14,14 @@ namespace OpenProtocolInterpreter.Communication
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.ClientAlreadyConnected, Error.MidRevisionUnsupported };
 
-        public bool OptionalKeepAlive
-        {
-            get => GetField(7, DataFields.UseKeepAlive).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(7, DataFields.UseKeepAlive).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public bool OptionalToolLockAtDisconnection
-        {
-            get => GetField(8, DataFields.OptionalToolLockAtDisconnection).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(8, DataFields.OptionalToolLockAtDisconnection).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public decimal OptionalEarlyLock
-        {
-            get => GetField(8, DataFields.OptionalEarlyLock).GetValue(x => OpenProtocolConvert.ToTruncatedDecimal(x, 1));
-            set => GetField(8, DataFields.OptionalEarlyLock).SetValue((paddingChar, size, orientation, v) => OpenProtocolConvert.TruncatedDecimalToString(paddingChar, size, orientation, v, 1), value);
-        }
+        [BooleanDataFieldDefinition(id: 0, revision: 7)]
+        public bool OptionalKeepAlive { get; set; }
+
+        [BooleanDataFieldDefinition(id: 1, revision: 8)]
+        public bool OptionalToolLockAtDisconnection { get; set; }
+
+        [DecimalDataFieldDefinition(id: 2, revision: 8, Size = 4)]
+        public decimal OptionalEarlyLock { get; set; }
 
         public Mid0001() : this(DEFAULT_REVISION)
         {
@@ -45,28 +38,30 @@ namespace OpenProtocolInterpreter.Communication
             Revision = revision
         })
         {
-
         }
 
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    7, new List<DataField>()
-                    {
-                        DataField.Boolean(DataFields.UseKeepAlive, 20)
-                    }
-                },
-                {
-                    8, new List<DataField>()
-                    {
-                        DataField.Boolean(DataFields.OptionalToolLockAtDisconnection, 24),
-                        DataField.Number(DataFields.OptionalEarlyLock, 26, 4)
-                    }
-                }
-            };
-        }
+        // protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        // {
+        //     var fields = new Dictionary<int, List<DataField>>();
+        //     if (Header.Revision >= 7)
+        //     {
+        //         fields.Add(7,
+        //         [
+        //             DataField.Boolean(DataFields.UseKeepAlive, 20).Bind(this, nameof(OptionalKeepAlive))
+        //         ]);
+        //     }
+
+        //     if (Header.Revision >= 8)
+        //     {
+        //         fields.Add(8,
+        //         [
+        //             DataField.Boolean(DataFields.OptionalToolLockAtDisconnection, 24).Bind(this, nameof(OptionalToolLockAtDisconnection)),
+        //             DataField.Decimal(DataFields.OptionalEarlyLock, 26, 4).Bind(this, nameof(OptionalEarlyLock))
+        //         ]);
+        //     }
+
+        //     return fields;
+        // }
 
         protected enum DataFields
         {

@@ -16,68 +16,39 @@ namespace OpenProtocolInterpreter.Communication
     {
         public const int MID = 2;
 
-        public int CellId
-        {
-            get => GetField(1, DataFields.CellId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.CellId).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(id: 0, revision: 1, Size = 4)]
+        public int CellId { get; set; }
 
-        public int ChannelId
-        {
-            get => GetField(1, DataFields.ChannelId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.ChannelId).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public string ControllerName
-        {
-            get => GetField(1, DataFields.ControllerName).Value;
-            set => GetField(1, DataFields.ControllerName).SetValue(value);
-        }
+        [Int32DataFieldDefinition(id: 1, revision: 1, Size = 2)]
+        public int ChannelId { get; set; }
+
+        [StringDataFieldDefinition(id: 2, revision: 1, Size = 25)]
+        public string ControllerName { get; set; }
 
         //Rev 2
-        public string SupplierCode
-        {
-            get => GetField(2, DataFields.SupplierCode).Value;
-            set => GetField(2, DataFields.SupplierCode).SetValue(value);
-        }
+        [StringDataFieldDefinition(id: 3, revision: 2, Size = 3)]
+        public string SupplierCode { get; set; }
 
         //Rev 3
-        public string OpenProtocolVersion
-        {
-            get => GetField(3, DataFields.OpenProtocolVersion).Value;
-            set => GetField(3, DataFields.OpenProtocolVersion).SetValue(value);
-        }
+        [StringDataFieldDefinition(id: 4, revision: 3, Size = 19)]
+        public string OpenProtocolVersion { get; set; }
 
-        public string ControllerSoftwareVersion
-        {
-            get => GetField(3, DataFields.ControllerSoftwareVersion).Value;
-            set => GetField(3, DataFields.ControllerSoftwareVersion).SetValue(value);
-        }
+        [StringDataFieldDefinition(id: 5, revision: 3, Size = 19)]
+        public string ControllerSoftwareVersion { get; set; }
 
-        public string ToolSoftwareVersion
-        {
-            get => GetField(3, DataFields.ToolSoftwareVersion).Value;
-            set => GetField(3, DataFields.ToolSoftwareVersion).SetValue(value);
-        }
+        [StringDataFieldDefinition(id: 6, revision: 3, Size = 19)]
+        public string ToolSoftwareVersion { get; set; }
 
         //Rev 4
-        public string RBUType
-        {
-            get => GetField(4, DataFields.RBUType).Value;
-            set => GetField(4, DataFields.RBUType).SetValue(value);
-        }
+        [StringDataFieldDefinition(id: 7, revision: 4, Size = 24)]
+        public string RBUType { get; set; }
 
-        public string ControllerSerialNumber
-        {
-            get => GetField(4, DataFields.ControllerSerialNumber).Value;
-            set => GetField(4, DataFields.ControllerSerialNumber).SetValue(value);
-        }
+        [StringDataFieldDefinition(id: 8, revision: 4, Size = 10)]
+        public string ControllerSerialNumber { get; set; }
 
         //Rev 5 
-        public SystemType SystemType
-        {
-            get => (SystemType)GetField(5, DataFields.SystemType).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(5, DataFields.SystemType).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(id: 9, revision: 5, Size = 3)]
+        public SystemType SystemType { get; set; }
 
         /// <summary>
         /// <para>If no subtype exists it will be set to 000</para>
@@ -87,72 +58,47 @@ namespace OpenProtocolInterpreter.Communication
         /// <para>001 = a normal tightening system </para>
         /// <para>002 = a system running presses instead of spindles.</para>
         /// </summary>
-        public SystemSubType SystemSubType
-        {
-            get => (SystemSubType)GetField(5, DataFields.SystemSubtype).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(5, DataFields.SystemSubtype).SetValue(OpenProtocolConvert.ToString, value);
-        }
+
+        [Int32DataFieldDefinition(id: 10, revision: 5, Size = 3)]
+        public SystemSubType SystemSubType { get; set; }
 
         //Rev 6
-        public bool SequenceNumberSupport
-        {
-            get => GetField(6, DataFields.SequenceNumberSupport).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(6, DataFields.SequenceNumberSupport).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [BooleanDataFieldDefinition(id: 11, revision: 6)]
+        public bool SequenceNumberSupport { get; set; }
 
-        public bool LinkingHandlingSupport
-        {
-            get => GetField(6, DataFields.LinkingHandlingSupport).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(6, DataFields.LinkingHandlingSupport).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [BooleanDataFieldDefinition(id: 12, revision: 6)]
+        public bool LinkingHandlingSupport { get; set; }
 
         /// <summary>
         /// <para>Station ID for PF6000</para>
         /// <para>Cell ID for PF4000</para>
         /// </summary>
-        public long StationCellId
-        {
-            get => GetField(6, DataFields.StationCellId).GetValue(OpenProtocolConvert.ToInt64);
-            set => GetField(6, DataFields.StationCellId).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int64DataFieldDefinition(id: 13, revision: 6, Size = 10)]
+        public long StationCellId { get; set; }
 
         /// <summary>
         /// <para>Station ID for PF6000</para>
         /// <para>Cell ID for PF4000</para>
         /// </summary>
-        public string StationCellName
-        {
-            get => GetField(6, DataFields.StationCellName).Value;
-            set => GetField(6, DataFields.StationCellName).SetValue(value);
-        }
+        [StringDataFieldDefinition(id: 14, revision: 6, Size = 25)]
+        public string StationCellName { get; set; }
 
-        public string ClientId
-        {
-            get => GetField(6, DataFields.ClientId).Value;
-            set => GetField(6, DataFields.ClientId).SetValue(value);
-        }
+        [StringDataFieldDefinition(id: 15, revision: 6, Size = 1)]
+        public string ClientId { get; set; }
 
         //Rev 7
         /// <summary>
         /// <para>False = Use Keep alive (Keep alive is mandatory)</para> 
         /// <para>True = Ignore Keep alive (Keep alive is optional)</para>
         /// </summary>
-        public bool OptionalKeepAlive
-        {
-            get => GetField(7, DataFields.OptionalKeepAlive).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(7, DataFields.OptionalKeepAlive).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [BooleanDataFieldDefinition(id: 16, revision: 7)]
+        public bool OptionalKeepAlive { get; set; }
 
-        public bool OptionalToolLockAtDisconnection
-        {
-            get => GetField(8, DataFields.OptionalToolLockAtDisconnection).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(8, DataFields.OptionalToolLockAtDisconnection).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public decimal OptionalEarlyLock
-        {
-            get => GetField(8, DataFields.OptionalEarlyLock).GetValue(x => OpenProtocolConvert.ToTruncatedDecimal(x, 1));
-            set => GetField(8, DataFields.OptionalEarlyLock).SetValue((paddingChar, size, orientation, v) => OpenProtocolConvert.TruncatedDecimalToString(paddingChar, size, orientation, v, 1), value);
-        }
+        [BooleanDataFieldDefinition(id: 17, revision: 8)]
+        public bool OptionalToolLockAtDisconnection { get; set; }
+
+        [DecimalDataFieldDefinition(id: 18, revision: 8, Size = 1)]
+        public decimal OptionalEarlyLock { get; set; }
 
         public Mid0002() : this(DEFAULT_REVISION)
         {
@@ -173,71 +119,71 @@ namespace OpenProtocolInterpreter.Communication
 
         }
 
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.CellId, 20, 4),
-                                DataField.Number(DataFields.ChannelId, 26, 2),
-                                DataField.String(DataFields.ControllerName, 30, 25)
-                            }
-                },
-                {
-                    2, new  List<DataField>()
-                            {
-                                DataField.String(DataFields.SupplierCode, 57, 3)
-                            }
-                },
-                {
-                    3, new  List<DataField>()
-                            {
-                                DataField.String(DataFields.OpenProtocolVersion, 62, 19),
-                                DataField.String(DataFields.ControllerSoftwareVersion, 83, 19),
-                                DataField.String(DataFields.ToolSoftwareVersion, 104, 19)
-                            }
-                },
-                {
-                    4, new  List<DataField>()
-                            {
-                                DataField.String(DataFields.RBUType, 125, 24),
-                                DataField.String(DataFields.ControllerSerialNumber, 151, 10)
-                            }
-                },
-                {
-                    5, new  List<DataField>()
-                            {
-                                DataField.Number(DataFields.SystemType, 163, 3),
-                                DataField.Number(DataFields.SystemSubtype, 168, 3)
-                            }
-                },
-                {
-                    6, new  List<DataField>()
-                            {
-                                DataField.Boolean(DataFields.SequenceNumberSupport, 173),
-                                DataField.Boolean(DataFields.LinkingHandlingSupport, 176),
-                                DataField.Number(DataFields.StationCellId, 179, 10),
-                                DataField.String(DataFields.StationCellName, 191, 25),
-                                DataField.String(DataFields.ClientId, 218, 1)
-                            }
-                },
-                {
-                    7, new  List<DataField>()
-                            {
-                                DataField.Boolean(DataFields.OptionalKeepAlive, 221)
-                            }
-                },
-                {
-                    8, new List<DataField>()
-                            {
-                                DataField.Boolean(DataFields.OptionalToolLockAtDisconnection, 224),
-                                DataField.Number(DataFields.OptionalEarlyLock, 227, 4)
-                            }
-                }
-            };
-        }
+        // protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        // {
+        //     return new Dictionary<int, List<DataField>>()
+        //     {
+        //         {
+        //             1, new List<DataField>()
+        //                     {
+        //                         DataField.Number(DataFields.CellId, 20, 4),
+        //                         DataField.Number(DataFields.ChannelId, 26, 2),
+        //                         DataField.String(DataFields.ControllerName, 30, 25)
+        //                     }
+        //         },
+        //         {
+        //             2, new  List<DataField>()
+        //                     {
+        //                         DataField.String(DataFields.SupplierCode, 57, 3)
+        //                     }
+        //         },
+        //         {
+        //             3, new  List<DataField>()
+        //                     {
+        //                         DataField.String(DataFields.OpenProtocolVersion, 62, 19),
+        //                         DataField.String(DataFields.ControllerSoftwareVersion, 83, 19),
+        //                         DataField.String(DataFields.ToolSoftwareVersion, 104, 19)
+        //                     }
+        //         },
+        //         {
+        //             4, new  List<DataField>()
+        //                     {
+        //                         DataField.String(DataFields.RBUType, 125, 24),
+        //                         DataField.String(DataFields.ControllerSerialNumber, 151, 10)
+        //                     }
+        //         },
+        //         {
+        //             5, new  List<DataField>()
+        //                     {
+        //                         DataField.Number(DataFields.SystemType, 163, 3),
+        //                         DataField.Number(DataFields.SystemSubtype, 168, 3)
+        //                     }
+        //         },
+        //         {
+        //             6, new  List<DataField>()
+        //                     {
+        //                         DataField.Boolean(DataFields.SequenceNumberSupport, 173),
+        //                         DataField.Boolean(DataFields.LinkingHandlingSupport, 176),
+        //                         DataField.Number(DataFields.StationCellId, 179, 10),
+        //                         DataField.String(DataFields.StationCellName, 191, 25),
+        //                         DataField.String(DataFields.ClientId, 218, 1)
+        //                     }
+        //         },
+        //         {
+        //             7, new  List<DataField>()
+        //                     {
+        //                         DataField.Boolean(DataFields.OptionalKeepAlive, 221)
+        //                     }
+        //         },
+        //         {
+        //             8, new List<DataField>()
+        //                     {
+        //                         DataField.Boolean(DataFields.OptionalToolLockAtDisconnection, 224),
+        //                         DataField.Number(DataFields.OptionalEarlyLock, 227, 4)
+        //                     }
+        //         }
+        //     };
+        // }
 
         protected enum DataFields
         {

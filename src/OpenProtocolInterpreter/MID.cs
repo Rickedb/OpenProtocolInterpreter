@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace OpenProtocolInterpreter
@@ -10,15 +12,22 @@ namespace OpenProtocolInterpreter
     /// </summary>
     public abstract class Mid
     {
+        private static readonly ConcurrentDictionary<Type, DataFieldMetadata[]> _metadataCache = new();
+
+        private Lazy<Dictionary<int, List<DataField>>> _lazyFields;
         protected const int DEFAULT_REVISION = 1;
 
-        protected Dictionary<int, List<DataField>> RevisionsByFields { get; }
+        protected Dictionary<int, List<DataField>> RevisionsByFields => _lazyFields.Value;
+
+        /// <summary>
+        /// Header of the MID message containing standardized fields.
+        /// </summary>
         public Header Header { get; set; }
 
         public Mid(Header header)
         {
             Header = header;
-            RevisionsByFields = new SafeAccessRevisionsFields(RegisterDatafields());
+            _lazyFields = new Lazy<Dictionary<int, List<DataField>>>(() => new SafeAccessRevisionsFields(RegisterDatafields()));
         }
 
         public Mid(int mid, int revision, bool noAckFlag = false) : this(new Header()
@@ -96,11 +105,65 @@ namespace OpenProtocolInterpreter
             return builder.ToString();
         }
 
-        protected virtual Dictionary<int, List<DataField>> RegisterDatafields() => [];
+        protected virtual Dictionary<int, List<DataFieldDefinition>> RegisterDatafieldsDefinitions()
+        {
+            
+        }
 
+        /// <summary>
+        /// Registers the data fields for the MID, ordered by their revision and field id. This method is called lazily when parsing or packing a MID to ensure revision defined at header.
+        /// <para> Each data field should be decorated with a <see cref="DataFieldDefinitionAttribute"/> to define its specifications. </para>
+        /// <para> The field id in the attribute is used to order the fields in the same revision.</para>
+        /// <para> Mids with custom fields due to different revisions fields should override this method to handle them appropriately.</para>
+        /// </summary>
+        /// <returns>A dictionary where the key is the revision number and the value is a list of data fields for that revision.</returns>
+        protected virtual Dictionary<int, List<DataField>> RegisterDatafields()
+        {
+            var metadata = _metadataCache.GetOrAdd(GetType(), static type =>
+            {
+                var result = new List<DataFieldMetadata>();
+                var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                                     .OrderBy(x => x.GetCustomAttribute<DataFieldDefinitionAttribute>()?.Field ?? x.MetadataToken);
+                int fieldIndex = 20;
+                foreach (var prop in properties)
+                {
+                    var attr = prop.GetCustomAttribute<DataFieldDefinitionAttribute>();
+                    if (attr == null)
+                        continue;
+
+                    result.Add(new DataFieldMetadata(fieldIndex, attr, prop));
+                    fieldIndex += attr.Size + (attr.HasPrefix ? 2 : 0);
+                }
+                return result.ToArray();
+            });
+
+            var fields = new Dictionary<int, List<DataField>>();
+            var currentRevision = Header.Revision;
+            foreach (var m in metadata)
+            {
+                if (currentRevision >= m.Attribute.Revision)
+                {
+                    if (!fields.TryGetValue(m.Attribute.Revision, out var revisionFields))
+                        fields.Add(m.Attribute.Revision, revisionFields = new List<DataField>());
+                    revisionFields.Add(m.Attribute.CreateAndBind(this, m.Property, m.Index));
+                }
+            }
+            return fields;
+        }
+
+        /// <summary>
+        /// Processes the header of the MID message and fills the <see cref="Header"/> property. This method is called before processing the data fields.
+        /// </summary>
+        /// <param name="package">The MID message as a string.</param>
+        /// <returns>The parsed <see cref="Header"/> object.</returns>
         protected virtual Header ProcessHeader(string package)
             => ProcessHeader(package.AsSpan());
 
+        /// <summary>
+        /// Processes the header of the MID message and fills the <see cref="Header"/> property. This method is called before processing the data fields.
+        /// </summary>
+        /// <param name="package">The MID message as a read-only span of characters.</param>
+        /// <returns>The parsed <see cref="Header"/> object.</returns>
         protected virtual Header ProcessHeader(ReadOnlySpan<char> package)
         {
             if (package.Length < 20)
@@ -197,7 +260,6 @@ namespace OpenProtocolInterpreter
                 return ReadOnlySpan<char>.Empty;
             }
         }
-
 
         protected byte[] GetValue(DataField field, byte[] package)
         {
