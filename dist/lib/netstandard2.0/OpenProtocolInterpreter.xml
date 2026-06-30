@@ -88,6 +88,23 @@
             <para>Answer : <see cref="T:OpenProtocolInterpreter.Communication.Mid0005"/> Command accepted or <see cref="T:OpenProtocolInterpreter.Communication.Mid0004"/> Command error, No alarm present or Invalid data</para>
             </summary>
         </member>
+        <member name="T:OpenProtocolInterpreter.Alarm.Mid1000">
+            <summary>
+            Alarm
+            <para>An alarm has appeared in the controller. The current alarm is uploaded from the controller to the integrator.
+            This MID replace the old alarm MID 0071.</para>
+            <para>Message sent by: Controller</para>
+            <para>Answer: <see cref="T:OpenProtocolInterpreter.Alarm.Mid0071"/> Alarm status acknowledge</para>
+            </summary>
+        </member>
+        <member name="T:OpenProtocolInterpreter.Alarm.Mid1001">
+            <summary>
+            Alarm status acknowledge
+            <para>Acknowledge for  <see cref="T:OpenProtocolInterpreter.Alarm.Mid1000"/> Alarm</para>
+            <para>Message sent by: Integrator</para>
+            <para>Answer : None</para>
+            </summary>
+        </member>
         <member name="T:OpenProtocolInterpreter.ApplicationController.ApplicationControllerMessages">
             <summary>
             Template for <see cref="T:OpenProtocolInterpreter.ApplicationController.IApplicationController"/> implementers.

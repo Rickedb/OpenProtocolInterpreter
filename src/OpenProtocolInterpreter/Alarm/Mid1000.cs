@@ -50,7 +50,7 @@ namespace OpenProtocolInterpreter.Alarm
         public override string Pack()
         {
             GetField(1, DataFields.NumberOfDataFields).SetValue(OpenProtocolConvert.ToString, AlarmDataFields.Count);
-            GetField(1, DataFields.EachAlarmDataField).Value = OpenProtocolConvert.ToString(AlarmDataFields);
+            GetField(1, DataFields.EachAlarmDataField).SetValue(OpenProtocolConvert.ToString(AlarmDataFields));
             return base.Pack();
         }
 

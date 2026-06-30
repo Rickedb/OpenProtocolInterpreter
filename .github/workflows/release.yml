@@ -48,4 +48,4 @@ jobs:
       - name: Publish NuGet
         run: |
           dotnet build src/OpenProtocolInterpreter/OpenProtocolInterpreter.csproj --configuration release
-          nuget push src/OpenProtocolInterpreter/bin/release/OpenProtocolInterpreter.6.1.1.nupkg -Source https://api.nuget.org/v3/index.json -SkipDuplicate
+          nuget push src/OpenProtocolInterpreter/bin/release/OpenProtocolInterpreter.6.1.2.nupkg -Source https://api.nuget.org/v3/index.json -SkipDuplicate
