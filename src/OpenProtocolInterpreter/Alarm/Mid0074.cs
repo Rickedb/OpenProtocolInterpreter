@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Alarm
 {
-
     /// <summary>
     /// Alarm acknowledged on controller
     /// <para>The message is sent by the controller to inform the integrator that the current alarm has been acknowledged.</para>
@@ -14,11 +13,8 @@ namespace OpenProtocolInterpreter.Alarm
     {
         public const int MID = 74;
 
-        public string ErrorCode
-        {
-            get => GetField(1, DataFields.ErrorCode).Value;
-            set => GetField(1, DataFields.ErrorCode).SetValue(value);
-        }
+        [StringDataFieldDefinition(field: 0, revision: 1, Size = 4, HasPrefix = false, PaddingOrientation = PaddingOrientation.LeftPadded)]
+        public string ErrorCode { get; set; }
 
         public Mid0074() : this(DEFAULT_REVISION)
         {
@@ -37,31 +33,23 @@ namespace OpenProtocolInterpreter.Alarm
 
         public override string Pack()
         {
-            RevisionsByFields[1][(int)DataFields.ErrorCode].Size = Header.Revision == 1 ? 4 : 5;
+            HandleRevision();
             return base.Pack();
         }
 
-        public override Mid Parse(ReadOnlySpan<char> package)
+        protected override void ProcessDataFields(ReadOnlySpan<char> package)
         {
-            Header = ProcessHeader(package);
-            RevisionsByFields[1][(int)DataFields.ErrorCode].Size = Header.Revision == 1 ? 4 : 5;
-            ProcessDataFields(package);
-            return this;
+            HandleRevision();
+            base.ProcessDataFields(package);
         }
 
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        private void HandleRevision()
         {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.String(DataFields.ErrorCode, 20, 4, PaddingOrientation.LeftPadded, false)
-                            }
-                }
-            };
+            var errorCodeField = GetField(revision: 1, field: 0);
+            errorCodeField.Size = Header.Revision > 1 ? 5 : 4;
         }
 
+        [Obsolete("Use DataFieldDefinition attributes instead")]
         protected enum DataFields
         {
             ErrorCode

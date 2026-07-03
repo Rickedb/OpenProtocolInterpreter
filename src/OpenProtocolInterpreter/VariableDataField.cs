@@ -31,7 +31,7 @@ namespace OpenProtocolInterpreter
 
                 case DataTypeDefinition.Timestamp:
                     return DateTime.TryParseExact(DataValue, "yyyy-MM-dd:HH:mm:ss", null, DateTimeStyles.None, out DateTime dateTime) ? dateTime : DataValue;
-                
+
                 case DataTypeDefinition.Boolean:
                     return OpenProtocolConvert.ToBoolean(DataValue);
 
@@ -53,7 +53,7 @@ namespace OpenProtocolInterpreter
         {
             return OpenProtocolConvert.ToString('0', 5, PaddingOrientation.LeftPadded, ParameterId) +
                     OpenProtocolConvert.ToString('0', 3, PaddingOrientation.LeftPadded, Length) +
-                    OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, (int)DataType) + 
+                    OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, (int)DataType) +
                     OpenProtocolConvert.ToString('0', 3, PaddingOrientation.LeftPadded, (int)Unit) +
                     OpenProtocolConvert.ToString('0', 4, PaddingOrientation.LeftPadded, StepNumber) +
                     OpenProtocolConvert.TruncatePadded(' ', Length, PaddingOrientation.RightPadded, DataValue);
@@ -71,29 +71,29 @@ namespace OpenProtocolInterpreter
             return Parse(value, length);
         }
 
-        public static IEnumerable<VariableDataField> ParseAll(string value)
+        public static List<VariableDataField> ParseAll(string value)
         {
-            if (string.IsNullOrWhiteSpace(value))
+            var list = new List<VariableDataField>();
+            if (!string.IsNullOrWhiteSpace(value))
             {
-                yield break;
+                int valueLength;
+                const int fixedLength = 17;
+                for (int i = 0; i < value.Length; i += fixedLength + valueLength)
+                {
+                    valueLength = OpenProtocolConvert.ToInt32(value.Substring(i + 5, 3));
+                    var section = value.Substring(i, fixedLength + valueLength);
+                    list.Add(Parse(section, valueLength));
+                }
             }
-
-            int valueLength;
-            const int fixedLength = 17;
-            for (int i = 0; i < value.Length; i += fixedLength + valueLength)
-            {
-                valueLength = OpenProtocolConvert.ToInt32(value.Substring(i + 5, 3));
-                var section = value.Substring(i, fixedLength + valueLength);
-                yield return Parse(section, valueLength);
-            }
+            return list;
         }
 
-        public static IEnumerable<VariableDataField> ParseAll(ReadOnlySpan<char> value)
+        public static List<VariableDataField> ParseAll(ReadOnlySpan<char> value)
         {
             if (value.IsWhiteSpace() || value.IsEmpty)
-                return System.Array.Empty<VariableDataField>();
+                return new List<VariableDataField>();
 
-            var result = new System.Collections.Generic.List<VariableDataField>();
+            var result = new List<VariableDataField>();
             int valueLength;
             const int fixedLength = 17;
             for (int i = 0; i < value.Length; i += fixedLength + valueLength)

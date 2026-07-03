@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenProtocolInterpreter;
 using OpenProtocolInterpreter.Alarm;
 using System;
 
@@ -19,6 +20,23 @@ namespace MIDTesters.Alarm
             Assert.AreEqual(new DateTime(2017, 12, 1, 20, 12, 45), mid.Time);
             Assert.AreEqual(2, mid.NumberOfDataFields);
             Assert.AreEqual(2, mid.AlarmDataFields.Count);
+
+            var alarmText = mid.AlarmDataFields[0];
+            Assert.AreEqual(1700, alarmText.ParameterId);
+            Assert.AreEqual(9, alarmText.Length);
+            Assert.AreEqual(DataTypeDefinition.String, alarmText.DataType);
+            Assert.AreEqual(DataUnitType.NoUnit, alarmText.Unit);
+            Assert.AreEqual(0, alarmText.StepNumber);
+            Assert.AreEqual("ALARMTEXT", alarmText.DataValue);
+
+            var alarmFlag = mid.AlarmDataFields[1];
+            Assert.AreEqual(1701, alarmFlag.ParameterId);
+            Assert.AreEqual(1, alarmFlag.Length);
+            Assert.AreEqual(DataTypeDefinition.UnsignedInteger, alarmFlag.DataType);
+            Assert.AreEqual(DataUnitType.NoUnit, alarmFlag.Unit);
+            Assert.AreEqual(0, alarmFlag.StepNumber);
+            Assert.AreEqual("1", alarmFlag.DataValue);
+
             AssertEqualPackages(pack, mid);
         }
 
@@ -26,7 +44,7 @@ namespace MIDTesters.Alarm
         [TestCategory("Revision 1"), TestCategory("ByteArray")]
         public void Mid1000ByteRevision1()
         {
-            string pack = "00911000001         ABCDE2017-12-01:20:12:4500201700009040000000ALARMTEXT017010010100000001";
+            string pack = "00911000001         ABCDE2017-12-01:20:12:4500201700009040000000TEXTALARM017010010100000002";
             byte[] bytes = GetAsciiBytes(pack);
             var mid = _midInterpreter.Parse<Mid1000>(bytes);
 
@@ -34,6 +52,23 @@ namespace MIDTesters.Alarm
             Assert.AreEqual(new DateTime(2017, 12, 1, 20, 12, 45), mid.Time);
             Assert.AreEqual(2, mid.NumberOfDataFields);
             Assert.AreEqual(2, mid.AlarmDataFields.Count);
+
+            var alarmText = mid.AlarmDataFields[0];
+            Assert.AreEqual(1700, alarmText.ParameterId);
+            Assert.AreEqual(9, alarmText.Length);
+            Assert.AreEqual(DataTypeDefinition.String, alarmText.DataType);
+            Assert.AreEqual(DataUnitType.NoUnit, alarmText.Unit);
+            Assert.AreEqual(0, alarmText.StepNumber);
+            Assert.AreEqual("TEXTALARM", alarmText.DataValue);
+
+            var alarmFlag = mid.AlarmDataFields[1];
+            Assert.AreEqual(1701, alarmFlag.ParameterId);
+            Assert.AreEqual(1, alarmFlag.Length);
+            Assert.AreEqual(DataTypeDefinition.UnsignedInteger, alarmFlag.DataType);
+            Assert.AreEqual(DataUnitType.NoUnit, alarmFlag.Unit);
+            Assert.AreEqual(0, alarmFlag.StepNumber);
+            Assert.AreEqual("2", alarmFlag.DataValue);
+
             AssertEqualPackages(bytes, mid);
         }
     }

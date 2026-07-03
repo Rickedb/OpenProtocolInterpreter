@@ -134,6 +134,7 @@ namespace OpenProtocolInterpreter
                     if (attr == null)
                         continue;
 
+                    fieldIndex = attr.Index > 0 ? attr.Index : fieldIndex; //enforced index if defined in attribute
                     result.Add(new DataFieldMetadata(fieldIndex, attr, prop));
                     fieldIndex += attr.Size + (attr.HasPrefix ? 2 : 0);
                 }
@@ -144,12 +145,9 @@ namespace OpenProtocolInterpreter
             var currentRevision = Header.Revision;
             foreach (var m in metadata)
             {
-                if (currentRevision >= m.Attribute.Revision)
-                {
-                    if (!fields.TryGetValue(m.Attribute.Revision, out var revisionFields))
-                        fields.Add(m.Attribute.Revision, revisionFields = new List<DataField>());
-                    revisionFields.Add(m.CreateAndBind(this));
-                }
+                if (!fields.TryGetValue(m.Attribute.Revision, out var revisionFields))
+                    fields.Add(m.Attribute.Revision, revisionFields = new List<DataField>());
+                revisionFields.Add(m.CreateAndBind(this));
             }
             return fields;
         }

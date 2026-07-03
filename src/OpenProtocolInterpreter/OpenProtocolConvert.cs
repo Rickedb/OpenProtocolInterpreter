@@ -163,7 +163,10 @@ namespace OpenProtocolInterpreter
 #endif
         }
 
-        public static string ToString(IEnumerable<VariableDataField> value)
+        public static string ToString(char paddingChar, int size, PaddingOrientation orientation, List<VariableDataField> value)
+            => ToString(value);
+
+        public static string ToString(List<VariableDataField> value)
         {
             var builder = new StringBuilder();
             foreach (var v in value)

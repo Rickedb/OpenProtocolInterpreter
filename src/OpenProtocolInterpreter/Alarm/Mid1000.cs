@@ -15,17 +15,13 @@ namespace OpenProtocolInterpreter.Alarm
     {
         public const int MID = 1000;
 
-        public string AlarmCode
-        {
-            get => GetField(1, DataFields.AlarmCode).Value;
-            set => GetField(1, DataFields.AlarmCode).SetValue(value);
-        }
-        public DateTime Time
-        {
-            get => GetField(1, DataFields.Time).GetValue(OpenProtocolConvert.ToDateTime);
-            set => GetField(1, DataFields.Time).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int NumberOfDataFields => AlarmDataFields.Count;
+        [StringDataFieldDefinition(field: 0, revision: 1, Size = 5, HasPrefix = false, PaddingOrientation = PaddingOrientation.LeftPadded)]
+        public string AlarmCode { get; set; }
+        [TimestampDataFieldDefinition(field: 1, revision: 1, HasPrefix = false)]
+        public DateTime Time { get; set; }
+        [Int32DataFieldDefinition(field: 2, revision: 1, Size = 3, HasPrefix = false)]
+        public int NumberOfDataFields { get; set; }
+        [VariableDataFieldCollectionDefinition(field: 3, revision: 1, HasPrefix = false)]
         public List<VariableDataField> AlarmDataFields { get; set; }
 
         public Mid1000() : this(DEFAULT_REVISION)
@@ -44,42 +40,25 @@ namespace OpenProtocolInterpreter.Alarm
             Revision = revision
         })
         {
-            
+
         }
 
         public override string Pack()
         {
-            GetField(1, DataFields.NumberOfDataFields).SetValue(OpenProtocolConvert.ToString, AlarmDataFields.Count);
-            GetField(1, DataFields.EachAlarmDataField).SetValue(OpenProtocolConvert.ToString(AlarmDataFields));
+            NumberOfDataFields = AlarmDataFields?.Count ?? 0; //Enforce list size even if modified
             return base.Pack();
         }
 
-        public override Mid Parse(ReadOnlySpan<char> package)
+        protected override void ProcessDataField(DataField dataField, ReadOnlySpan<char> package)
         {
-            Header = ProcessHeader(package);
-            var dataFieldsField = GetField(1, DataFields.EachAlarmDataField);
-            dataFieldsField.Size = Header.Length - dataFieldsField.Index;
-            ProcessDataFields(package);
-            AlarmDataFields = VariableDataField.ParseAll(dataFieldsField.Value).ToList();
-            return this;
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
+            if (dataField.Field == 3) //AlarmDataFields
             {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.String(DataFields.AlarmCode, 20, 5, PaddingOrientation.RightPadded, false),
-                                DataField.Timestamp(DataFields.Time, 25, false),
-                                DataField.Number(DataFields.NumberOfDataFields, 44, 3, false),
-                                DataField.Volatile(DataFields.EachAlarmDataField, 47, false)
-                            }
-                }
-            };
+                dataField.Size = Header.Length - dataField.Index;
+            }
+            base.ProcessDataField(dataField, package);
         }
 
+        [Obsolete("Use DataFieldDefinition attributes instead")]
         protected enum DataFields
         {
             AlarmCode,

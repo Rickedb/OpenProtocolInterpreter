@@ -23,13 +23,13 @@ namespace OpenProtocolInterpreter.Communication
     {
         public const int MID = 9;
 
-        [Int32DataFieldDefinition(id: 0, revision: 1, Size = 4, HasPrefix = false)]
+        [Int32DataFieldDefinition(field: 0, revision: 1, Size = 4, HasPrefix = false)]
         public int UnsubscriptionMid { get; set; }
-        [Int32DataFieldDefinition(id: 1, revision: 1, Size = 3, HasPrefix = false)]
+        [Int32DataFieldDefinition(field: 1, revision: 1, Size = 3, HasPrefix = false)]
         public int ExtraDataRevision { get; set; }
-        [Int32DataFieldDefinition(id: 2, revision: 1, Size = 2, HasPrefix = false)]
+        [Int32DataFieldDefinition(field: 2, revision: 1, Size = 2, HasPrefix = false)]
         public int ExtraDataLength { get; set; }
-        [StringDataFieldDefinition(id: 3, revision: 1, Size = 0, HasPrefix = false)]
+        [StringDataFieldDefinition(field: 3, revision: 1, Size = 0, HasPrefix = false)]
         public string ExtraData { get; set; }
 
         public Mid0009() : this(new Header()

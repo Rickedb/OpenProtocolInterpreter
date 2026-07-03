@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Reflection;
 namespace OpenProtocolInterpreter
 {
@@ -65,7 +66,7 @@ namespace OpenProtocolInterpreter
         public StringDataFieldDefinitionAttribute(int revision) : base(revision)
         {
         }
-        public StringDataFieldDefinitionAttribute(int id, int revision) : base(id, revision)
+        public StringDataFieldDefinitionAttribute(int field, int revision) : base(field, revision)
         {
 
         }
@@ -82,7 +83,7 @@ namespace OpenProtocolInterpreter
             PaddingChar = '0';
             PaddingOrientation = PaddingOrientation.LeftPadded;
         }
-        public Int32DataFieldDefinitionAttribute(int id, int revision) : base(id, revision)
+        public Int32DataFieldDefinitionAttribute(int field, int revision) : base(field, revision)
         {
             PaddingChar = '0';
             PaddingOrientation = PaddingOrientation.LeftPadded;
@@ -100,7 +101,7 @@ namespace OpenProtocolInterpreter
             PaddingChar = '0';
             PaddingOrientation = PaddingOrientation.LeftPadded;
         }
-        public Int64DataFieldDefinitionAttribute(int id, int revision) : base(id, revision)
+        public Int64DataFieldDefinitionAttribute(int field, int revision) : base(field, revision)
         {
             PaddingChar = '0';
             PaddingOrientation = PaddingOrientation.LeftPadded;
@@ -127,6 +128,44 @@ namespace OpenProtocolInterpreter
         {
             return DataField.Decimal(Field, index, Size, HasPrefix)
                             .Bind(mid, propertyInfo);
+        }
+    }
+
+    public class TimestampDataFieldDefinitionAttribute : DataFieldDefinitionAttribute
+    {
+        public TimestampDataFieldDefinitionAttribute(int revision) : base(revision)
+        {
+            Size = 19;
+        }
+        public TimestampDataFieldDefinitionAttribute(int field, int revision) : base(field, revision)
+        {
+            Size = 19;
+        }
+        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        {
+            return DataField.Timestamp(Field, index, HasPrefix)
+                            .Bind(mid, propertyInfo);
+        }
+    }
+
+    public class VariableDataFieldCollectionDefinitionAttribute : DataFieldDefinitionAttribute
+    {
+        public VariableDataFieldCollectionDefinitionAttribute(int revision) : base(revision)
+        {
+
+        }
+        public VariableDataFieldCollectionDefinitionAttribute(int field, int revision) : base(field, revision)
+        {
+
+        }
+
+        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        {
+            return new DataField<List<VariableDataField>>(Field, index, Size, HasPrefix)
+            {
+                DefaultConverter = OpenProtocolConvert.ToString,
+                DefaultParser = VariableDataField.ParseAll
+            }.Bind(mid, propertyInfo);
         }
     }
 }

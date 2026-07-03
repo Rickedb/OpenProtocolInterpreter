@@ -13,32 +13,18 @@ namespace OpenProtocolInterpreter.Alarm
     {
         public const int MID = 71;
 
-        public string ErrorCode
-        {
-            get => GetField(1, DataFields.ErrorCode).Value;
-            set => GetField(1, DataFields.ErrorCode).SetValue(value);
-        }
-        public bool ControllerReadyStatus
-        {
-            get => GetField(1, DataFields.ControllerReadyStatus).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1, DataFields.ControllerReadyStatus).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public bool ToolReadyStatus
-        {
-            get => GetField(1, DataFields.ToolReadyStatus).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1, DataFields.ToolReadyStatus).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public DateTime Time
-        {
-            get => GetField(1, DataFields.Time).GetValue(OpenProtocolConvert.ToDateTime);
-            set => GetField(1, DataFields.Time).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        //Rev 2
-        public string AlarmText
-        {
-            get => GetField(2, DataFields.AlarmText).Value;
-            set => GetField(2, DataFields.AlarmText).SetValue(value);
-        }
+        [StringDataFieldDefinition(field: 0, revision: 1, Size = 4, PaddingOrientation = PaddingOrientation.LeftPadded)]
+        public string ErrorCode { get; set; }
+
+        [BooleanDataFieldDefinition(field: 1, revision: 1)]
+        public bool ControllerReadyStatus { get; set; }
+        [BooleanDataFieldDefinition(field: 2, revision: 1)]
+        public bool ToolReadyStatus { get; set; }
+        [TimestampDataFieldDefinition(field: 3, revision: 1)]
+        public DateTime Time { get; set; }
+
+        [StringDataFieldDefinition(field: 4, revision: 2, Index = 54, Size = 50)] //Always has index 54 due to error code field size change
+        public string AlarmText { get; set; }
 
         public Mid0071() : this(DEFAULT_REVISION)
         {
@@ -59,57 +45,33 @@ namespace OpenProtocolInterpreter.Alarm
 
         }
 
-        public override Mid Parse(ReadOnlySpan<char> package)
+        public override string Pack()
         {
-            Header = ProcessHeader(package);
             HandleRevision();
-            ProcessDataFields(package);
-            return this;
+            return base.Pack();
         }
 
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        protected override void ProcessDataFields(ReadOnlySpan<char> package)
         {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.String(DataFields.ErrorCode, 20, 4, PaddingOrientation.LeftPadded),
-                                DataField.Boolean(DataFields.ControllerReadyStatus, 26),
-                                DataField.Boolean(DataFields.ToolReadyStatus, 29),
-                                DataField.Timestamp(DataFields.Time, 32)
-                            }
-                },
-                {
-                    2, new List<DataField>()
-                    {
-                         DataField.String(DataFields.AlarmText, 54, 50),
-                    }
-                }
-            };
+            HandleRevision();
+            base.ProcessDataFields(package);
         }
 
         private void HandleRevision()
         {
-            var errorCodeField = GetField(1, (int)DataFields.ErrorCode);
-            if (Header.Revision > 1)
-            {
-                errorCodeField.Size = 5;
-            }
-            else
-            {
-                errorCodeField.Size = 4;
-            }
+            var errorCodeField = GetField(revision: 1, field: 0);
+            errorCodeField.Size = Header.Revision > 1 ? 5 : 4;
 
             int index = errorCodeField.Index + errorCodeField.Size;
-            for (int i = DataFields.ControllerReadyStatus.GetHashCode(); i < RevisionsByFields[1].Count; i++)
+            for (int fieldIndex = errorCodeField.Field + 1; fieldIndex < RevisionsByFields[1].Count; fieldIndex++)
             {
-                var field = GetField(1, i);
+                var field = GetField(revision: 1, field: fieldIndex);
                 field.Index = 2 + index;
                 index = field.Index + field.Size;
             }
         }
 
+        [Obsolete("Use DataFieldDefinition attributes instead")]
         protected enum DataFields
         {
             ErrorCode,

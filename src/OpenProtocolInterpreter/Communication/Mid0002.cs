@@ -17,38 +17,38 @@ namespace OpenProtocolInterpreter.Communication
     {
         public const int MID = 2;
 
-        [Int32DataFieldDefinition(id: 0, revision: 1, Size = 4)]
+        [Int32DataFieldDefinition(field: 0, revision: 1, Size = 4)]
         public int CellId { get; set; }
 
-        [Int32DataFieldDefinition(id: 1, revision: 1, Size = 2)]
+        [Int32DataFieldDefinition(field: 1, revision: 1, Size = 2)]
         public int ChannelId { get; set; }
 
-        [StringDataFieldDefinition(id: 2, revision: 1, Size = 25)]
+        [StringDataFieldDefinition(field: 2, revision: 1, Size = 25)]
         public string ControllerName { get; set; }
 
         //Rev 2
-        [StringDataFieldDefinition(id: 3, revision: 2, Size = 3)]
+        [StringDataFieldDefinition(field: 3, revision: 2, Size = 3)]
         public string SupplierCode { get; set; }
 
         //Rev 3
-        [StringDataFieldDefinition(id: 4, revision: 3, Size = 19)]
+        [StringDataFieldDefinition(field: 4, revision: 3, Size = 19)]
         public string OpenProtocolVersion { get; set; }
 
-        [StringDataFieldDefinition(id: 5, revision: 3, Size = 19)]
+        [StringDataFieldDefinition(field: 5, revision: 3, Size = 19)]
         public string ControllerSoftwareVersion { get; set; }
 
-        [StringDataFieldDefinition(id: 6, revision: 3, Size = 19)]
+        [StringDataFieldDefinition(field: 6, revision: 3, Size = 19)]
         public string ToolSoftwareVersion { get; set; }
 
         //Rev 4
-        [StringDataFieldDefinition(id: 7, revision: 4, Size = 24)]
+        [StringDataFieldDefinition(field: 7, revision: 4, Size = 24)]
         public string RBUType { get; set; }
 
-        [StringDataFieldDefinition(id: 8, revision: 4, Size = 10)]
+        [StringDataFieldDefinition(field: 8, revision: 4, Size = 10)]
         public string ControllerSerialNumber { get; set; }
 
         //Rev 5
-        [Int32DataFieldDefinition(id: 9, revision: 5, Size = 3)]
+        [Int32DataFieldDefinition(field: 9, revision: 5, Size = 3)]
         public SystemType SystemType { get; set; }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace OpenProtocolInterpreter.Communication
         /// <para>002 = a system running presses instead of spindles.</para>
         /// </summary>
 
-        [Int32DataFieldDefinition(id: 10, revision: 5, Size = 3)]
+        [Int32DataFieldDefinition(field: 10, revision: 5, Size = 3)]
         public SystemSubType SystemSubType { get; set; }
 
         //Rev 6
@@ -74,17 +74,17 @@ namespace OpenProtocolInterpreter.Communication
         /// <para>Station ID for PF6000</para>
         /// <para>Cell ID for PF4000</para>
         /// </summary>
-        [Int64DataFieldDefinition(id: 13, revision: 6, Size = 10)]
+        [Int64DataFieldDefinition(field: 13, revision: 6, Size = 10)]
         public long StationCellId { get; set; }
 
         /// <summary>
         /// <para>Station ID for PF6000</para>
         /// <para>Cell ID for PF4000</para>
         /// </summary>
-        [StringDataFieldDefinition(id: 14, revision: 6, Size = 25)]
+        [StringDataFieldDefinition(field: 14, revision: 6, Size = 25)]
         public string StationCellName { get; set; }
 
-        [StringDataFieldDefinition(id: 15, revision: 6, Size = 1)]
+        [StringDataFieldDefinition(field: 15, revision: 6, Size = 1)]
         public string ClientId { get; set; }
 
         //Rev 7
