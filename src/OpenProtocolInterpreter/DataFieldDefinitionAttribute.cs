@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Reflection;
 namespace OpenProtocolInterpreter
 {
     /// <summary>
-    /// Defines a data field specification in a MID. 
+    /// Defines a data field specification in a MID.
     /// <para>
     /// This attribute is used to decorate properties in a MID class to define how they should be parsed and formatted in the MID message.
     /// </para>
@@ -17,21 +18,28 @@ namespace OpenProtocolInterpreter
         public char PaddingChar { get; set; } = ' ';
         public PaddingOrientation PaddingOrientation { get; set; } = PaddingOrientation.RightPadded;
         public bool HasPrefix { get; set; } = true;
+
         public DataFieldDefinitionAttribute(int revision)
         {
             Revision = revision;
         }
-        public DataFieldDefinitionAttribute(int id, int revision) : this(revision)
+        public DataFieldDefinitionAttribute(int field, int revision) : this(revision)
         {
-            if(id > 99 || id < 0)
+            if (field > 99 || field < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(id), "Data field id must be between 0 and 99");
+                throw new ArgumentOutOfRangeException(nameof(field), "Data field id must be between 0 and 99");
             }
-            Field = id;
+            Field = field;
         }
-        internal virtual DataField CreateAndBind(Mid mid, PropertyInfo propertyInfo)
+
+        internal DataField CreateAndBind(Mid mid, PropertyInfo propertyInfo)
             => CreateAndBind(mid, propertyInfo, Index);
-        internal virtual DataField CreateAndBind(Mid mid, PropertyInfo propertyInfo, int index)
+        internal DataField CreateAndBind(Mid mid, PropertyInfo propertyInfo, int index)
+        {
+            return Build(mid, propertyInfo, index);
+        }
+
+        internal virtual DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
         {
             return new DataField(Field, index, Size, PaddingChar, PaddingOrientation, HasPrefix);
         }
@@ -42,11 +50,11 @@ namespace OpenProtocolInterpreter
         {
             Size = 1;
         }
-        public BooleanDataFieldDefinitionAttribute(int id, int revision) : base(id, revision)
+        public BooleanDataFieldDefinitionAttribute(int field, int revision) : base(field, revision)
         {
             Size = 1;
         }
-        internal override DataField CreateAndBind(Mid mid, PropertyInfo propertyInfo, int index)
+        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
         {
             return DataField.Boolean(Field, index, HasPrefix)
                             .Bind(mid, propertyInfo);
@@ -59,9 +67,9 @@ namespace OpenProtocolInterpreter
         }
         public StringDataFieldDefinitionAttribute(int id, int revision) : base(id, revision)
         {
-         
+
         }
-        internal override DataField CreateAndBind(Mid mid, PropertyInfo propertyInfo, int index)
+        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
         {
             return DataField.String(Field, index, Size, PaddingOrientation, HasPrefix)
                             .Bind(mid, propertyInfo);
@@ -79,7 +87,7 @@ namespace OpenProtocolInterpreter
             PaddingChar = '0';
             PaddingOrientation = PaddingOrientation.LeftPadded;
         }
-        internal override DataField CreateAndBind(Mid mid, PropertyInfo propertyInfo, int index)
+        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
         {
             return DataField.Int32(Field, index, Size, HasPrefix)
                             .Bind(mid, propertyInfo);
@@ -97,7 +105,7 @@ namespace OpenProtocolInterpreter
             PaddingChar = '0';
             PaddingOrientation = PaddingOrientation.LeftPadded;
         }
-        internal override DataField CreateAndBind(Mid mid, PropertyInfo propertyInfo, int index)
+        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
         {
             return DataField.Int64(Field, index, Size, HasPrefix)
                             .Bind(mid, propertyInfo);
@@ -110,12 +118,12 @@ namespace OpenProtocolInterpreter
             PaddingChar = '0';
             PaddingOrientation = PaddingOrientation.LeftPadded;
         }
-        public DecimalDataFieldDefinitionAttribute(int id, int revision) : base(id, revision)
+        public DecimalDataFieldDefinitionAttribute(int field, int revision) : base(field, revision)
         {
             PaddingChar = '0';
             PaddingOrientation = PaddingOrientation.LeftPadded;
         }
-        internal override DataField CreateAndBind(Mid mid, PropertyInfo propertyInfo, int index)
+        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
         {
             return DataField.Decimal(Field, index, Size, HasPrefix)
                             .Bind(mid, propertyInfo);

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Communication
 {
@@ -14,13 +15,13 @@ namespace OpenProtocolInterpreter.Communication
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.ClientAlreadyConnected, Error.MidRevisionUnsupported };
 
-        [BooleanDataFieldDefinition(id: 0, revision: 7)]
+        [BooleanDataFieldDefinition(field: 0, revision: 7)]
         public bool OptionalKeepAlive { get; set; }
 
-        [BooleanDataFieldDefinition(id: 1, revision: 8)]
+        [BooleanDataFieldDefinition(field: 1, revision: 8)]
         public bool OptionalToolLockAtDisconnection { get; set; }
 
-        [DecimalDataFieldDefinition(id: 2, revision: 8, Size = 4)]
+        [DecimalDataFieldDefinition(field: 2, revision: 8, Size = 4)]
         public decimal OptionalEarlyLock { get; set; }
 
         public Mid0001() : this(DEFAULT_REVISION)
@@ -40,29 +41,7 @@ namespace OpenProtocolInterpreter.Communication
         {
         }
 
-        // protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        // {
-        //     var fields = new Dictionary<int, List<DataField>>();
-        //     if (Header.Revision >= 7)
-        //     {
-        //         fields.Add(7,
-        //         [
-        //             DataField.Boolean(DataFields.UseKeepAlive, 20).Bind(this, nameof(OptionalKeepAlive))
-        //         ]);
-        //     }
-
-        //     if (Header.Revision >= 8)
-        //     {
-        //         fields.Add(8,
-        //         [
-        //             DataField.Boolean(DataFields.OptionalToolLockAtDisconnection, 24).Bind(this, nameof(OptionalToolLockAtDisconnection)),
-        //             DataField.Decimal(DataFields.OptionalEarlyLock, 26, 4).Bind(this, nameof(OptionalEarlyLock))
-        //         ]);
-        //     }
-
-        //     return fields;
-        // }
-
+        [Obsolete("Use DataFieldDefinition attributes instead")]
         protected enum DataFields
         {
             //Rev 7

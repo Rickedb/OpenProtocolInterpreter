@@ -15,7 +15,7 @@ namespace OpenProtocolInterpreter.Communication
     /// </para>
     /// <para>Message sent by: Integrator</para>
     /// <para>
-    /// Answer: <see cref="Mid0005"/> Command accepted with the MID subscribed for or <see cref="Mid0004"/> Command error, 
+    /// Answer: <see cref="Mid0005"/> Command accepted with the MID subscribed for or <see cref="Mid0004"/> Command error,
     ///         MID revision unsupported or Invalid data code and the MID subscribed for
     /// </para>
     /// </summary>
@@ -23,26 +23,14 @@ namespace OpenProtocolInterpreter.Communication
     {
         public const int MID = 9;
 
-        public string UnsubscriptionMid
-        {
-            get => GetField(1, DataFields.UnsubscriptionMid).Value;
-            set => GetField(1, DataFields.UnsubscriptionMid).SetValue(value);
-        }
-        public int ExtraDataRevision
-        {
-            get => GetField(1, DataFields.ExtraDataRevision).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.ExtraDataRevision).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int ExtraDataLength
-        {
-            get => GetField(1, DataFields.ExtraDataLength).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.ExtraDataLength).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public string ExtraData
-        {
-            get => GetField(1, DataFields.ExtraData).Value;
-            set => GetField(1, DataFields.ExtraData).SetValue(value);
-        }
+        [Int32DataFieldDefinition(id: 0, revision: 1, Size = 4, HasPrefix = false)]
+        public int UnsubscriptionMid { get; set; }
+        [Int32DataFieldDefinition(id: 1, revision: 1, Size = 3, HasPrefix = false)]
+        public int ExtraDataRevision { get; set; }
+        [Int32DataFieldDefinition(id: 2, revision: 1, Size = 2, HasPrefix = false)]
+        public int ExtraDataLength { get; set; }
+        [StringDataFieldDefinition(id: 3, revision: 1, Size = 0, HasPrefix = false)]
+        public string ExtraData { get; set; }
 
         public Mid0009() : this(new Header()
         {
@@ -57,30 +45,28 @@ namespace OpenProtocolInterpreter.Communication
         {
         }
 
-        public override Mid Parse(ReadOnlySpan<char> package)
+        public override string Pack()
         {
-            Header = ProcessHeader(package);
-            GetField(1, DataFields.ExtraData).Size = Header.Length - 29;
-            ProcessDataFields(package);
-            return this;
+            ExtraDataLength = ExtraData?.Length ?? 0;
+            HandleExtraDataFieldSize();
+            return base.Pack();
         }
 
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        protected override void ProcessDataField(DataField dataField, ReadOnlySpan<char> package)
         {
-            return new Dictionary<int, List<DataField>>()
+            base.ProcessDataField(dataField, package);
+            if (dataField.Field == 2)
             {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.UnsubscriptionMid, 20, 4, false),
-                                DataField.Number(DataFields.ExtraDataRevision, 24, 3, false),
-                                DataField.Number(DataFields.ExtraDataLength, 27, 2, false),
-                                DataField.Volatile(DataFields.ExtraData, 29, false)
-                            }
-                }
-            };
+                HandleExtraDataFieldSize();
+            }
         }
 
+        private void HandleExtraDataFieldSize()
+        {
+            GetField(revision: 1, field: 3).Size = ExtraDataLength;
+        }
+
+        [Obsolete("Use DataFieldDefinition attributes instead")]
         protected enum DataFields
         {
             UnsubscriptionMid,

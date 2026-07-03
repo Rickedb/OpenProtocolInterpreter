@@ -14,7 +14,7 @@ namespace OpenProtocolInterpreter
     {
         private static readonly ConcurrentDictionary<Type, DataFieldMetadata[]> _metadataCache = new();
 
-        private Lazy<Dictionary<int, List<DataField>>> _lazyFields;
+        private readonly Lazy<Dictionary<int, List<DataField>>> _lazyFields;
         protected const int DEFAULT_REVISION = 1;
 
         protected Dictionary<int, List<DataField>> RevisionsByFields => _lazyFields.Value;
@@ -93,6 +93,9 @@ namespace OpenProtocolInterpreter
             var builder = new StringBuilder();
             foreach (var dataField in dataFields)
             {
+                if (dataField is IBackedPropertyDataField backedPropertyDataField)
+                    backedPropertyDataField.SyncWithBackingProperty();
+
                 if (dataField.HasPrefix)
                 {
                     builder.Append(prefixIndex.ToString("D2"));
@@ -107,7 +110,7 @@ namespace OpenProtocolInterpreter
 
         protected virtual Dictionary<int, List<DataFieldDefinition>> RegisterDatafieldsDefinitions()
         {
-            
+            return new Dictionary<int, List<DataFieldDefinition>>();
         }
 
         /// <summary>
@@ -145,7 +148,7 @@ namespace OpenProtocolInterpreter
                 {
                     if (!fields.TryGetValue(m.Attribute.Revision, out var revisionFields))
                         fields.Add(m.Attribute.Revision, revisionFields = new List<DataField>());
-                    revisionFields.Add(m.Attribute.CreateAndBind(this, m.Property, m.Index));
+                    revisionFields.Add(m.CreateAndBind(this));
                 }
             }
             return fields;
@@ -210,7 +213,7 @@ namespace OpenProtocolInterpreter
             if (!RevisionsByFields.Any())
                 return;
 
-            int revision = Header.Revision > 0 ? Header.Revision : 1;
+            int revision = Header.StandardizedRevision;
             for (int i = 1; i <= revision; i++)
             {
                 ProcessDataFields(i, package);
@@ -234,8 +237,14 @@ namespace OpenProtocolInterpreter
         protected virtual void ProcessDataFields(List<DataField> dataFields, ReadOnlySpan<char> package)
         {
             foreach (var dataField in dataFields)
-                dataField.SetValue(GetValue(dataField, package));
+                ProcessDataField(dataField, package);
         }
+
+        protected virtual void ProcessDataField(DataField dataField, string package)
+            => dataField.SetValue(GetValue(dataField, package));
+
+        protected virtual void ProcessDataField(DataField dataField, ReadOnlySpan<char> package)
+            => dataField.SetValue(GetValue(dataField, package));
 
         protected string GetValue(DataField field, string package)
         {

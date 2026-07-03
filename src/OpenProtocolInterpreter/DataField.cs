@@ -4,7 +4,7 @@ using System.Reflection;
 namespace OpenProtocolInterpreter
 {
     /// <summary>
-    /// Represents a single and raw Data Field in <see cref="Mid"/> before being abstracted 
+    /// Represents a single and raw Data Field in <see cref="Mid"/> before being abstracted
     /// to a typed field inside a mid entity
     /// </summary>
     public class DataField
@@ -188,7 +188,7 @@ namespace OpenProtocolInterpreter
         private bool IsNotTypeOf<T>() => !CachedValue.GetType().Equals(typeof(T));
     }
 
-    public class DataField<T> : DataField
+    public class DataField<T> : DataField, IBackedPropertyDataField
     {
         private Mid _owner;
         private PropertyInfo _backingProperty;
@@ -211,6 +211,15 @@ namespace OpenProtocolInterpreter
         {
         }
 
+        public void SyncWithBackingProperty()
+        {
+            if (_backingProperty.GetValue(_owner) is T propValue)
+            {
+                var value = DefaultConverter(PaddingChar, Size, PaddingOrientation, propValue);
+                base.SetValue(value);
+            }
+        }
+
         public override void SetValue(string value)
         {
             base.SetValue(value);
@@ -231,8 +240,14 @@ namespace OpenProtocolInterpreter
         {
             _owner = owner;
             _backingProperty = propertyInfo;
+
             return this;
         }
+    }
+
+    public interface IBackedPropertyDataField
+    {
+        void SyncWithBackingProperty();
     }
 
     public struct DataFieldDefinition
@@ -256,31 +271,11 @@ namespace OpenProtocolInterpreter
             return this;
         }
 
+#if NET6_0_OR_GREATER
         public override readonly int GetHashCode()
         {
             return HashCode.Combine(Field, Revision, Index, Size, PaddingChar, PaddingOrientation, HasPrefix);
         }
-    }
-
-    internal readonly record struct DataFieldMetadata
-    {
-        public int Index { get; init; }
-        public DataFieldDefinitionAttribute Attribute { get; init; }
-        public PropertyInfo Property { get; init; }
-
-        public DataFieldMetadata(DataFieldDefinition definition)
-        {
-
-        }
-
-        public DataFieldMetadata(int index, DataFieldDefinitionAttribute attribute, PropertyInfo property)
-        {
-            Index = index;
-            Attribute = attribute;
-            Property = property;
-        }
-
-        public DataField CreateAndBind(Mid mid)
-            => Attribute.CreateAndBind(mid, Property, Index);
+#endif
     }
 }

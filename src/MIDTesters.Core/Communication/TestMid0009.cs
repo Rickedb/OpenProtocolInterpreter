@@ -14,7 +14,7 @@ namespace MIDTesters.Communication
             string pack = @"00430009            002200214lengthequals14";
             var mid = _midInterpreter.Parse<Mid0009>(pack);
 
-            Assert.AreEqual("0022", mid.UnsubscriptionMid);
+            Assert.AreEqual(22, mid.UnsubscriptionMid);
             Assert.AreEqual(2, mid.ExtraDataRevision);
             Assert.AreEqual(14, mid.ExtraDataLength);
             Assert.AreEqual("lengthequals14", mid.ExtraData);
@@ -29,7 +29,7 @@ namespace MIDTesters.Communication
             byte[] bytes = GetAsciiBytes(pack);
             var mid = _midInterpreter.Parse<Mid0009>(bytes);
 
-            Assert.AreEqual("0022", mid.UnsubscriptionMid);
+            Assert.AreEqual(22, mid.UnsubscriptionMid);
             Assert.AreEqual(2, mid.ExtraDataRevision);
             Assert.AreEqual(14, mid.ExtraDataLength);
             Assert.AreEqual("lengthequals14", mid.ExtraData);

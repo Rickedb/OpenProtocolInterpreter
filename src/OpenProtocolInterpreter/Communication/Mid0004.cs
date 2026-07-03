@@ -6,14 +6,14 @@ namespace OpenProtocolInterpreter.Communication
     /// <summary>
     /// Application Communication negative acknowledge
     /// <para>
-    ///     This message is used by the controller when a request, command or subscription for any reason has 
-    ///     not been performed. 
+    ///     This message is used by the controller when a request, command or subscription for any reason has
+    ///     not been performed.
     ///     The data field contains the message ID of the message request that failed as well as an error code.
     ///     It can also be used by the integrator to acknowledge received subscribed data/events upload and will
     ///     then do all the special subscription data acknowledges obsolete.
     /// </para>
     /// <para>
-    ///     When using the communication acknowledgement of MID 0007 and <see cref="Mid0006"/> together with sequence 
+    ///     When using the communication acknowledgement of MID 0007 and <see cref="Mid0006"/> together with sequence
     ///     numbering this is an application level message only.
     /// </para>
     /// <para>Message sent by: Controller</para>
@@ -23,16 +23,11 @@ namespace OpenProtocolInterpreter.Communication
     {
         public const int MID = 4;
 
-        public int FailedMid
-        {
-            get => GetField(1, DataFields.Mid).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.Mid).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public Error ErrorCode
-        {
-            get => (Error)GetField(1, DataFields.ErrorCode).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.ErrorCode).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(id: 0, revision: 1, Size = 4, HasPrefix = false)]
+        public int FailedMid { get; set; }
+
+        [Int32DataFieldDefinition(id: 1, revision: 1, Size = 2, HasPrefix = false)]
+        public Error ErrorCode { get; set; }
 
         public Mid0004() : this(DEFAULT_REVISION)
         {
@@ -58,35 +53,16 @@ namespace OpenProtocolInterpreter.Communication
             return base.Pack();
         }
 
-        public override Mid Parse(ReadOnlySpan<char> package)
+        protected override void ProcessDataFields(int revision, ReadOnlySpan<char> package)
         {
-            Header = ProcessHeader(package);
             HandleRevision();
-            ProcessDataFields(package);
-            return this;
+            base.ProcessDataFields(revision, package);
         }
 
         private void HandleRevision()
-        {
-            var errorCodeField = GetField(1, DataFields.ErrorCode);
-            errorCodeField.Size = Header.Revision > 1 ? 3 : 2;
-        }
+            => GetField(revision: 1, field: 1).Size = Header.Revision > 1 ? 3 : 2;
 
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.Mid, 20, 4, false),
-                                DataField.Number(DataFields.ErrorCode, 24, 2, false)
-                            }
-                }
-            };
-        }
-
-
+        [Obsolete("Use DataFieldDefinition attributes instead")]
         protected enum DataFields
         {
             Mid,

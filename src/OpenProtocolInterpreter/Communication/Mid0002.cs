@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Communication
 {
     /// <summary>
     /// Application Communication start acknowledge
     /// <para>
-    ///     When accepting the communication start the controller sends as reply, 
+    ///     When accepting the communication start the controller sends as reply,
     ///     a Communication start acknowledge. This message contains some basic information about the
     ///     controller, such as cell ID, channel ID, and name.
     /// </para>
@@ -46,7 +47,7 @@ namespace OpenProtocolInterpreter.Communication
         [StringDataFieldDefinition(id: 8, revision: 4, Size = 10)]
         public string ControllerSerialNumber { get; set; }
 
-        //Rev 5 
+        //Rev 5
         [Int32DataFieldDefinition(id: 9, revision: 5, Size = 3)]
         public SystemType SystemType { get; set; }
 
@@ -63,10 +64,10 @@ namespace OpenProtocolInterpreter.Communication
         public SystemSubType SystemSubType { get; set; }
 
         //Rev 6
-        [BooleanDataFieldDefinition(id: 11, revision: 6)]
+        [BooleanDataFieldDefinition(field: 11, revision: 6)]
         public bool SequenceNumberSupport { get; set; }
 
-        [BooleanDataFieldDefinition(id: 12, revision: 6)]
+        [BooleanDataFieldDefinition(field: 12, revision: 6)]
         public bool LinkingHandlingSupport { get; set; }
 
         /// <summary>
@@ -88,16 +89,16 @@ namespace OpenProtocolInterpreter.Communication
 
         //Rev 7
         /// <summary>
-        /// <para>False = Use Keep alive (Keep alive is mandatory)</para> 
+        /// <para>False = Use Keep alive (Keep alive is mandatory)</para>
         /// <para>True = Ignore Keep alive (Keep alive is optional)</para>
         /// </summary>
-        [BooleanDataFieldDefinition(id: 16, revision: 7)]
+        [BooleanDataFieldDefinition(field: 16, revision: 7)]
         public bool OptionalKeepAlive { get; set; }
 
-        [BooleanDataFieldDefinition(id: 17, revision: 8)]
+        [BooleanDataFieldDefinition(field: 17, revision: 8)]
         public bool OptionalToolLockAtDisconnection { get; set; }
 
-        [DecimalDataFieldDefinition(id: 18, revision: 8, Size = 1)]
+        [DecimalDataFieldDefinition(field: 18, revision: 8, Size = 1)]
         public decimal OptionalEarlyLock { get; set; }
 
         public Mid0002() : this(DEFAULT_REVISION)
@@ -119,72 +120,7 @@ namespace OpenProtocolInterpreter.Communication
 
         }
 
-        // protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        // {
-        //     return new Dictionary<int, List<DataField>>()
-        //     {
-        //         {
-        //             1, new List<DataField>()
-        //                     {
-        //                         DataField.Number(DataFields.CellId, 20, 4),
-        //                         DataField.Number(DataFields.ChannelId, 26, 2),
-        //                         DataField.String(DataFields.ControllerName, 30, 25)
-        //                     }
-        //         },
-        //         {
-        //             2, new  List<DataField>()
-        //                     {
-        //                         DataField.String(DataFields.SupplierCode, 57, 3)
-        //                     }
-        //         },
-        //         {
-        //             3, new  List<DataField>()
-        //                     {
-        //                         DataField.String(DataFields.OpenProtocolVersion, 62, 19),
-        //                         DataField.String(DataFields.ControllerSoftwareVersion, 83, 19),
-        //                         DataField.String(DataFields.ToolSoftwareVersion, 104, 19)
-        //                     }
-        //         },
-        //         {
-        //             4, new  List<DataField>()
-        //                     {
-        //                         DataField.String(DataFields.RBUType, 125, 24),
-        //                         DataField.String(DataFields.ControllerSerialNumber, 151, 10)
-        //                     }
-        //         },
-        //         {
-        //             5, new  List<DataField>()
-        //                     {
-        //                         DataField.Number(DataFields.SystemType, 163, 3),
-        //                         DataField.Number(DataFields.SystemSubtype, 168, 3)
-        //                     }
-        //         },
-        //         {
-        //             6, new  List<DataField>()
-        //                     {
-        //                         DataField.Boolean(DataFields.SequenceNumberSupport, 173),
-        //                         DataField.Boolean(DataFields.LinkingHandlingSupport, 176),
-        //                         DataField.Number(DataFields.StationCellId, 179, 10),
-        //                         DataField.String(DataFields.StationCellName, 191, 25),
-        //                         DataField.String(DataFields.ClientId, 218, 1)
-        //                     }
-        //         },
-        //         {
-        //             7, new  List<DataField>()
-        //                     {
-        //                         DataField.Boolean(DataFields.OptionalKeepAlive, 221)
-        //                     }
-        //         },
-        //         {
-        //             8, new List<DataField>()
-        //                     {
-        //                         DataField.Boolean(DataFields.OptionalToolLockAtDisconnection, 224),
-        //                         DataField.Number(DataFields.OptionalEarlyLock, 227, 4)
-        //                     }
-        //         }
-        //     };
-        // }
-
+        [Obsolete("Use DataFieldDefinition attributes instead")]
         protected enum DataFields
         {
             //Rev 1
