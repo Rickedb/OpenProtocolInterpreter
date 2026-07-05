@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace OpenProtocolInterpreter.ApplicationSelector
@@ -7,9 +8,9 @@ namespace OpenProtocolInterpreter.ApplicationSelector
     /// <summary>
     /// Selector socket info
     /// <para>
-    ///     This message is sent each time a socket is lifted or put back in position. 
-    ///     This MID contains the device ID of the selector the information is coming from, 
-    ///     the number of sockets of the selector device, and the current status of each socket 
+    ///     This message is sent each time a socket is lifted or put back in position.
+    ///     This MID contains the device ID of the selector the information is coming from,
+    ///     the number of sockets of the selector device, and the current status of each socket
     ///     (lifted or not lifted).
     /// </para>
     /// <para>Message sent by: Controller</para>
@@ -19,16 +20,11 @@ namespace OpenProtocolInterpreter.ApplicationSelector
     {
         public const int MID = 251;
 
-        public int DeviceId
-        {
-            get => GetField(1, DataFields.DeviceId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.DeviceId).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int NumberOfSockets
-        {
-            get => GetField(1, DataFields.NumberOfSockets).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.NumberOfSockets).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(field: 0, revision: 1, Size = 2)]
+        public int DeviceId { get; set; }
+        [Int32DataFieldDefinition(field: 1, revision: 1, Size = 2)]
+        public int NumberOfSockets { get; set; }
+        [SocketStatusListDefinition(field: 2, revision: 1)]
         public List<bool> SocketStatus { get; set; }
 
         public Mid0251() : this(new Header()
@@ -47,54 +43,60 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
         public override string Pack()
         {
-            GetField(1, DataFields.SocketStatus).Size = NumberOfSockets;
-            GetField(1, DataFields.SocketStatus).Value = PackSocketStatus();
+            NumberOfSockets = SocketStatus.Count;
+            GetField(revision: 1, field: 2).Size = NumberOfSockets;
             return base.Pack();
         }
 
-        public override Mid Parse(ReadOnlySpan<char> package)
+        protected override void ProcessDataField(DataField dataField, ReadOnlySpan<char> package)
         {
-            Header = ProcessHeader(package);
-
-            GetField(1, DataFields.SocketStatus).Size = Header.Length - 30;
-            ProcessDataFields(package);
-            SocketStatus = ParseSocketStatus(GetField(1, DataFields.SocketStatus).Value);
-            return this;
-        }
-
-        protected virtual string PackSocketStatus()
-        {
-            var builder = new StringBuilder(SocketStatus.Count);
-            foreach (var v in SocketStatus)
-                builder.Append(OpenProtocolConvert.ToString(v));
-
-            return builder.ToString();
-        }
-
-        protected virtual List<bool> ParseSocketStatus(string section)
-        {
-            var list = new List<bool>();
-            foreach (var c in section)
-                list.Add(OpenProtocolConvert.ToBoolean(c.ToString()));
-
-            return list;
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
+            if (dataField.Field == 2)
             {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.DeviceId, 20, 2),
-                                DataField.Number(DataFields.NumberOfSockets, 24, 2),
-                                DataField.Volatile(DataFields.SocketStatus, 28)
-                            }
-                }
-            };
+                dataField.Size = NumberOfSockets;
+            }
+            base.ProcessDataField(dataField, package);
         }
 
+        private class SocketStatusListDefinitionAttribute : DataFieldDefinitionAttribute
+        {
+            public SocketStatusListDefinitionAttribute(int revision) : base(revision)
+            {
+
+            }
+            public SocketStatusListDefinitionAttribute(int field, int revision) : base(field, revision)
+            {
+
+            }
+
+            internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+            {
+                return new DataField<List<bool>>(Field, index, Size, HasPrefix)
+                {
+                    DefaultConverter = PackSocketStatus,
+                    DefaultParser = ParseSocketStatus
+                }.Bind(mid, propertyInfo);
+            }
+
+            protected static string PackSocketStatus(char paddingChar, int size, PaddingOrientation orientation, List<bool> socketStatus)
+            {
+                var builder = new StringBuilder(socketStatus.Count);
+                foreach (var v in socketStatus)
+                    builder.Append(OpenProtocolConvert.ToString(v));
+
+                return builder.ToString();
+            }
+
+            protected static List<bool> ParseSocketStatus(string section)
+            {
+                var list = new List<bool>();
+                foreach (var c in section)
+                    list.Add(OpenProtocolConvert.ToBoolean(c.ToString()));
+
+                return list;
+            }
+        }
+
+        [Obsolete("Use DataFieldDefinition attributes instead")]
         protected enum DataFields
         {
             DeviceId,

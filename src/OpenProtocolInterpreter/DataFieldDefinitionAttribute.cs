@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Text;
 namespace OpenProtocolInterpreter
 {
     /// <summary>
@@ -166,6 +167,45 @@ namespace OpenProtocolInterpreter
                 DefaultConverter = OpenProtocolConvert.ToString,
                 DefaultParser = VariableDataField.ParseAll
             }.Bind(mid, propertyInfo);
+        }
+    }
+
+    public class EnumCollectionDefinitionAttribute<T> : DataFieldDefinitionAttribute where T : Enum
+    {
+        public EnumCollectionDefinitionAttribute(int revision) : base(revision)
+        {
+
+        }
+        public EnumCollectionDefinitionAttribute(int field, int revision) : base(field, revision)
+        {
+
+        }
+
+        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        {
+            return new DataField<List<T>>(Field, index, Size, HasPrefix)
+            {
+                DefaultConverter = PackGreenLights,
+                DefaultParser = ParseGreenLights
+            }.Bind(mid, propertyInfo);
+        }
+
+        private static string PackGreenLights(char paddingChar, int size, PaddingOrientation orientation, List<T> greenLights)
+        {
+            var builder = new StringBuilder(greenLights.Count);
+            foreach (var e in greenLights)
+                builder.Append(OpenProtocolConvert.ToString((int)(object)e));
+
+            return builder.ToString();
+        }
+
+        private static List<T> ParseGreenLights(string value)
+        {
+            var list = new List<T>();
+            foreach (var c in value)
+                list.Add((T)(object)OpenProtocolConvert.ToInt32(c.ToString()));
+
+            return list;
         }
     }
 }
