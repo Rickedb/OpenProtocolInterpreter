@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.AutomaticManualMode
 {
     /// <summary>
     /// Automatic/Manual mode
     /// <para>
-    ///     The operation mode in the controller has changed. 
+    ///     The operation mode in the controller has changed.
     ///     The message includes the new operational mode of the controller.
     /// </para>
     /// <para>Message sent by: Controller</para>
@@ -19,11 +20,8 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
         /// <para>Automatic Mode = false (0)</para>
         /// <para>Manual Mode = true (1)</para>
         /// </summary>
-        public bool ManualAutomaticMode
-        {
-            get => GetField(1, DataFields.ManualAutomaticMode).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1, DataFields.ManualAutomaticMode).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [BooleanDataFieldDefinition(field: 0, revision: 1, HasPrefix = false)]
+        public bool ManualAutomaticMode { get; set; }
 
         public Mid0401() : this(new Header()
         {
@@ -38,19 +36,7 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
         {
         }
 
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Boolean(DataFields.ManualAutomaticMode, 20, false)
-                            }
-                }
-            };
-        }
-
+        [Obsolete("Use DataFieldDefinition attributes instead")]
         protected enum DataFields
         {
             ManualAutomaticMode
