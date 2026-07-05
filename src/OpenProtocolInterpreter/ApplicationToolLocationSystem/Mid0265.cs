@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
 {
@@ -14,16 +15,11 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.MidRevisionUnsupported };
 
-        public string ToolTagId
-        {
-            get => GetField(1, DataFields.ToolTagId).Value;
-            set => GetField(1, DataFields.ToolTagId).SetValue(value);
-        }
-        public ToolStatus ToolStatus
-        {
-            get => (ToolStatus)GetField(1, DataFields.ToolStatus).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.ToolStatus).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [StringDataFieldDefinition(field: 0, revision: 1, Size = 8)]
+        public string ToolTagId { get; set; }
+
+        [Int32DataFieldDefinition(field: 1, revision: 1, Size = 2)]
+        public ToolStatus ToolStatus { get; set; }
 
         public Mid0265() : this(new Header()
         {
@@ -39,20 +35,7 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
 
         }
 
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                    {
-                       DataField.String(DataFields.ToolTagId, 20, 8),
-                       DataField.Number(DataFields.ToolStatus, 30, 2)
-                    }
-                }
-            };
-        }
-
+        [Obsolete("Use DataFieldDefinition attributes instead")]
         protected enum DataFields
         {
             ToolTagId,
