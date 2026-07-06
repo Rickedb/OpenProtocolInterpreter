@@ -185,12 +185,12 @@ namespace OpenProtocolInterpreter
         {
             return new DataField<List<T>>(Field, index, Size, HasPrefix)
             {
-                DefaultConverter = PackGreenLights,
-                DefaultParser = ParseGreenLights
+                DefaultConverter = PackEnums,
+                DefaultParser = ParseEnums
             }.Bind(mid, propertyInfo);
         }
 
-        private static string PackGreenLights(char paddingChar, int size, PaddingOrientation orientation, List<T> greenLights)
+        private static string PackEnums(char paddingChar, int size, PaddingOrientation orientation, List<T> greenLights)
         {
             var builder = new StringBuilder(greenLights.Count);
             foreach (var e in greenLights)
@@ -199,7 +199,7 @@ namespace OpenProtocolInterpreter
             return builder.ToString();
         }
 
-        private static List<T> ParseGreenLights(string value)
+        private static List<T> ParseEnums(string value)
         {
             var list = new List<T>();
             foreach (var c in value)

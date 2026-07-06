@@ -40,14 +40,14 @@ namespace MIDTesters.IOInterface
         [TestCategory("Revision 2"), TestCategory("ASCII")]
         public void Mid0215Revision2()
         {
-            string package = "00920215002         010302070300100021003100400051006000710407050011002000310041005100610070";
+            string package = @"00920215002         010302070300100021003100400051006000710407050011002000310041005100610070";
             var mid = _midInterpreter.Parse<Mid0215>(package);
 
             Assert.AreEqual(3, mid.IODeviceId);
-            Assert.AreEqual(7, mid.Relays.Count);
-            Assert.AreEqual(7, mid.DigitalInputs.Count);
             Assert.AreEqual(7, mid.NumberOfRelays);
+            Assert.AreEqual(7, mid.Relays.Count);
             Assert.AreEqual(7, mid.NumberOfDigitalInputs);
+            Assert.AreEqual(7, mid.DigitalInputs.Count);
 
             AssertEqualPackages(package, mid);
         }

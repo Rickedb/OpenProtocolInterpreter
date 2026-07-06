@@ -211,9 +211,9 @@ namespace OpenProtocolInterpreter
         {
         }
 
-        public void SyncWithBackingProperty()
+        public void SyncWithBackingPropertyIfBound()
         {
-            if (_backingProperty.GetValue(_owner) is T propValue)
+            if (_backingProperty?.GetValue(_owner) is T propValue)
             {
                 var value = DefaultConverter(PaddingChar, Size, PaddingOrientation, propValue);
                 base.SetValue(value);
@@ -247,7 +247,7 @@ namespace OpenProtocolInterpreter
 
     public interface IBackedPropertyDataField
     {
-        void SyncWithBackingProperty();
+        void SyncWithBackingPropertyIfBound();
     }
 
     public struct DataFieldDefinition

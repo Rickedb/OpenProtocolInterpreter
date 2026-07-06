@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.IOInterface
 {
@@ -8,7 +9,7 @@ namespace OpenProtocolInterpreter.IOInterface
     ///     Upload of one specific digital input function status. See Table 80.
     ///     For tracking event functions, <see cref="Mid0221"/> Digital input function, is sent each time the digital input
     ///     function’s status (state) is changed. For digital input functions which are not tracking events, the
-    ///     upload is sent only when the digital input function is set high, 
+    ///     upload is sent only when the digital input function is set high,
     ///     i.e. the data field “Digital input function status” will always be 1 for such functions.
     /// </para>
     /// <para>Message sent by: Controller</para>
@@ -18,16 +19,10 @@ namespace OpenProtocolInterpreter.IOInterface
     {
         public const int MID = 221;
 
-        public DigitalInputNumber DigitalInputNumber
-        {
-            get => (DigitalInputNumber)GetField(1, DataFields.DigitalInputNumber).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.DigitalInputNumber).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public bool DigitalInputStatus
-        {
-            get => GetField(1, DataFields.DigitalInputStatus).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1, DataFields.DigitalInputStatus).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(field: 1, revision: 1, Size = 3)]
+        public DigitalInputNumber DigitalInputNumber { get; set; }
+        [BooleanDataFieldDefinition(field: 2, revision: 1)]
+        public bool DigitalInputStatus { get; set; }
 
         public Mid0221() : this(new Header()
         {
@@ -41,20 +36,7 @@ namespace OpenProtocolInterpreter.IOInterface
         {
         }
 
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                    {
-                        DataField.Number(DataFields.DigitalInputNumber, 20, 3),
-                        DataField.Boolean(DataFields.DigitalInputStatus, 25)
-                    }
-                }
-            };
-        }
-
+        [Obsolete("Use DataFieldDefinition attributes instead")]
         protected enum DataFields
         {
             DigitalInputNumber,

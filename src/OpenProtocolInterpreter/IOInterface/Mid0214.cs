@@ -5,9 +5,9 @@ namespace OpenProtocolInterpreter.IOInterface
     /// <summary>
     /// IO device status request
     /// <para>
-    ///     Request for the status of the relays and digital inputs at a device, e.g. an I/O expander. 
+    ///     Request for the status of the relays and digital inputs at a device, e.g. an I/O expander.
     ///     The device is specified by a device number.
-    /// </para>    
+    /// </para>
     /// <para>Message sent by: Integrator</para>
     /// <para>
     /// Answer: <see cref="Mid0215"/> IO device status or
@@ -20,6 +20,7 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.FaultyIODeviceId, Error.IODeviceNotConnected };
 
+        [Int32DataFieldDefinition(field: 0, revision: 1, Size = 2, HasPrefix = false)]
         public int DeviceNumber
         {
             get => GetField(1, DataFields.DeviceNumber).GetValue(OpenProtocolConvert.ToInt32);
@@ -40,19 +41,6 @@ namespace OpenProtocolInterpreter.IOInterface
             Revision = revision
         })
         {
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                    {
-                        DataField.Number(DataFields.DeviceNumber, 20, 2, false)
-                    }
-                }
-            };
         }
 
         protected enum DataFields

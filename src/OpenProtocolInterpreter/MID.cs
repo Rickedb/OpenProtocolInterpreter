@@ -52,7 +52,7 @@ namespace OpenProtocolInterpreter
                     if (RevisionsByFields.TryGetValue(i, out var dataFields))
                     {
                         foreach (var dataField in dataFields)
-                            Header.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
+                            Header.Length += dataField.TotalSize;
                     }
                 }
             }
@@ -94,7 +94,7 @@ namespace OpenProtocolInterpreter
             foreach (var dataField in dataFields)
             {
                 if (dataField is IBackedPropertyDataField backedPropertyDataField)
-                    backedPropertyDataField.SyncWithBackingProperty();
+                    backedPropertyDataField.SyncWithBackingPropertyIfBound();
 
                 if (dataField.HasPrefix)
                 {
@@ -106,11 +106,6 @@ namespace OpenProtocolInterpreter
             }
 
             return builder.ToString();
-        }
-
-        protected virtual Dictionary<int, List<DataFieldDefinition>> RegisterDatafieldsDefinitions()
-        {
-            return new Dictionary<int, List<DataFieldDefinition>>();
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.IOInterface
 {
@@ -15,46 +16,22 @@ namespace OpenProtocolInterpreter.IOInterface
     {
         public const int MID = 211;
 
-        public bool StatusDigInOne
-        {
-            get => GetField(1, DataFields.StatusDigIn1).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1, DataFields.StatusDigIn1).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public bool StatusDigInTwo
-        {
-            get => GetField(1, DataFields.StatusDigIn2).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1, DataFields.StatusDigIn2).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public bool StatusDigInThree
-        {
-            get => GetField(1, DataFields.StatusDigIn3).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1, DataFields.StatusDigIn3).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public bool StatusDigInFour
-        {
-            get => GetField(1, DataFields.StatusDigIn4).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1, DataFields.StatusDigIn4).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public bool StatusDigInFive
-        {
-            get => GetField(1, DataFields.StatusDigIn5).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1, DataFields.StatusDigIn5).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public bool StatusDigInSix
-        {
-            get => GetField(1, DataFields.StatusDigIn6).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1, DataFields.StatusDigIn6).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public bool StatusDigInSeven
-        {
-            get => GetField(1, DataFields.StatusDigIn7).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1, DataFields.StatusDigIn7).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public bool StatusDigInEight
-        {
-            get => GetField(1, DataFields.StatusDigIn8).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1, DataFields.StatusDigIn8).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [BooleanDataFieldDefinition(field: 0, revision: 1, HasPrefix = false)]
+        public bool StatusDigInOne { get; set; }
+        [BooleanDataFieldDefinition(field: 1, revision: 1, HasPrefix = false)]
+        public bool StatusDigInTwo { get; set; }
+        [BooleanDataFieldDefinition(field: 2, revision: 1, HasPrefix = false)]
+        public bool StatusDigInThree { get; set; }
+        [BooleanDataFieldDefinition(field: 3, revision: 1, HasPrefix = false)]
+        public bool StatusDigInFour { get; set; }
+        [BooleanDataFieldDefinition(field: 4, revision: 1, HasPrefix = false)]
+        public bool StatusDigInFive { get; set; }
+        [BooleanDataFieldDefinition(field: 5, revision: 1, HasPrefix = false)]
+        public bool StatusDigInSix { get; set; }
+        [BooleanDataFieldDefinition(field: 6, revision: 1, HasPrefix = false)]
+        public bool StatusDigInSeven { get; set; }
+        [BooleanDataFieldDefinition(field: 7, revision: 1, HasPrefix = false)]
+        public bool StatusDigInEight { get; set; }
 
         public Mid0211() : this(new Header()
         {
@@ -69,26 +46,7 @@ namespace OpenProtocolInterpreter.IOInterface
         {
         }
 
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                    {
-                        DataField.Boolean(DataFields.StatusDigIn1, 20, false),
-                        DataField.Boolean(DataFields.StatusDigIn2, 21, false),
-                        DataField.Boolean(DataFields.StatusDigIn3, 22, false),
-                        DataField.Boolean(DataFields.StatusDigIn4, 23, false),
-                        DataField.Boolean(DataFields.StatusDigIn5, 24, false),
-                        DataField.Boolean(DataFields.StatusDigIn6, 25, false),
-                        DataField.Boolean(DataFields.StatusDigIn7, 26, false),
-                        DataField.Boolean(DataFields.StatusDigIn8, 27, false)
-                    }
-                }
-            };
-        }
-
+        [Obsolete("Use DataFieldDefinition attributes instead")]
         protected enum DataFields
         {
             StatusDigIn1,

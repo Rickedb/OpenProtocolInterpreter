@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
 
 namespace OpenProtocolInterpreter.IOInterface
 {
@@ -10,6 +13,17 @@ namespace OpenProtocolInterpreter.IOInterface
     {
         public DigitalInputNumber Number { get; set; }
         public bool Status { get; set; }
+
+        public DigitalInput()
+        {
+
+        }
+
+        public DigitalInput(DigitalInputNumber number, bool status)
+        {
+            Number = number;
+            Status = status;
+        }
 
         public string Pack()
         {
@@ -37,7 +51,7 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public static IEnumerable<DigitalInput> ParseAll(string value)
         {
-            if(string.IsNullOrEmpty(value))
+            if (string.IsNullOrEmpty(value))
             {
                 yield break;
             }
@@ -53,14 +67,46 @@ namespace OpenProtocolInterpreter.IOInterface
         public static IEnumerable<DigitalInput> ParseAll(ReadOnlySpan<char> value)
         {
             if (value.IsEmpty)
-                return System.Array.Empty<DigitalInput>();
+                return Array.Empty<DigitalInput>();
 
-            var result = new System.Collections.Generic.List<DigitalInput>();
+            var result = new List<DigitalInput>();
             const int sectionSize = 4;
             for (int i = 0; i < value.Length; i += sectionSize)
                 result.Add(Parse(value.Slice(i, sectionSize)));
             return result;
         }
+    }
 
+    public class DigitalInputCollectionDefinitionAttribute : DataFieldDefinitionAttribute
+    {
+        public DigitalInputCollectionDefinitionAttribute(int revision) : base(revision)
+        {
+
+        }
+        public DigitalInputCollectionDefinitionAttribute(int field, int revision) : base(field, revision)
+        {
+
+        }
+
+        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        {
+            return new DataField<List<DigitalInput>>(Field, index, Size, HasPrefix)
+            {
+                DefaultConverter = PackDigitalInputs,
+                DefaultParser = ParseDigitalInputs
+            }.Bind(mid, propertyInfo);
+        }
+
+        private static string PackDigitalInputs(char paddingChar, int size, PaddingOrientation orientation, List<DigitalInput> digitalInputs)
+        {
+            var builder = new StringBuilder(digitalInputs.Count * 4);
+            foreach (var digitalInput in digitalInputs)
+                builder.Append(digitalInput.Pack());
+
+            return builder.ToString();
+        }
+
+        private static List<DigitalInput> ParseDigitalInputs(string value)
+            => DigitalInput.ParseAll(value).ToList();
     }
 }
