@@ -16,25 +16,34 @@ namespace OpenProtocolInterpreter.IOInterface
     {
         public const int MID = 200;
 
-        [Int32DataFieldDefinition(field: 0, revision: 1, Size = 1, HasPrefix = false)]
-        public RelayStatus StatusRelayOne { get; set; }
         [Int32DataFieldDefinition(field: 1, revision: 1, Size = 1, HasPrefix = false)]
-        public RelayStatus StatusRelayTwo { get; set; }
+        public RelayStatus StatusRelayOne { get; set; }
+
         [Int32DataFieldDefinition(field: 2, revision: 1, Size = 1, HasPrefix = false)]
-        public RelayStatus StatusRelayThree { get; set; }
+        public RelayStatus StatusRelayTwo { get; set; }
+
         [Int32DataFieldDefinition(field: 3, revision: 1, Size = 1, HasPrefix = false)]
-        public RelayStatus StatusRelayFour { get; set; }
+        public RelayStatus StatusRelayThree { get; set; }
+
         [Int32DataFieldDefinition(field: 4, revision: 1, Size = 1, HasPrefix = false)]
-        public RelayStatus StatusRelayFive { get; set; }
+        public RelayStatus StatusRelayFour { get; set; }
+
         [Int32DataFieldDefinition(field: 5, revision: 1, Size = 1, HasPrefix = false)]
-        public RelayStatus StatusRelaySix { get; set; }
+        public RelayStatus StatusRelayFive { get; set; }
+
         [Int32DataFieldDefinition(field: 6, revision: 1, Size = 1, HasPrefix = false)]
-        public RelayStatus StatusRelaySeven { get; set; }
+        public RelayStatus StatusRelaySix { get; set; }
+
         [Int32DataFieldDefinition(field: 7, revision: 1, Size = 1, HasPrefix = false)]
-        public RelayStatus StatusRelayEight { get; set; }
+        public RelayStatus StatusRelaySeven { get; set; }
+
         [Int32DataFieldDefinition(field: 8, revision: 1, Size = 1, HasPrefix = false)]
-        public RelayStatus StatusRelayNine { get; set; }
+        public RelayStatus StatusRelayEight { get; set; }
+
         [Int32DataFieldDefinition(field: 9, revision: 1, Size = 1, HasPrefix = false)]
+        public RelayStatus StatusRelayNine { get; set; }
+
+        [Int32DataFieldDefinition(field: 10, revision: 1, Size = 1, HasPrefix = false)]
         public RelayStatus StatusRelayTen { get; set; }
 
         public Mid0200() : this(new Header()

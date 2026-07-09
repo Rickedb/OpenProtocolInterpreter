@@ -20,11 +20,11 @@ namespace OpenProtocolInterpreter.ApplicationSelector
     {
         public const int MID = 251;
 
-        [Int32DataFieldDefinition(field: 0, revision: 1, Size = 2)]
-        public int DeviceId { get; set; }
         [Int32DataFieldDefinition(field: 1, revision: 1, Size = 2)]
+        public int DeviceId { get; set; }
+        [Int32DataFieldDefinition(field: 2, revision: 1, Size = 2)]
         public int NumberOfSockets { get; set; }
-        [SocketStatusListDefinition(field: 2, revision: 1)]
+        [SocketStatusListDefinition(field: 3, revision: 1)]
         public List<bool> SocketStatus { get; set; }
 
         public Mid0251() : this(new Header()
@@ -44,13 +44,13 @@ namespace OpenProtocolInterpreter.ApplicationSelector
         public override string Pack()
         {
             NumberOfSockets = SocketStatus.Count;
-            GetField(revision: 1, field: 2).Size = NumberOfSockets;
+            GetField(nameof(SocketStatus)).Size = NumberOfSockets;
             return base.Pack();
         }
 
         protected override void ProcessDataField(DataField dataField, ReadOnlySpan<char> package)
         {
-            if (dataField.Field == 2)
+            if (dataField.Field == 3)
             {
                 dataField.Size = NumberOfSockets;
             }

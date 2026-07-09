@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.IOInterface
 {
@@ -20,12 +21,8 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.FaultyIODeviceId, Error.IODeviceNotConnected };
 
-        [Int32DataFieldDefinition(field: 0, revision: 1, Size = 2, HasPrefix = false)]
-        public int DeviceNumber
-        {
-            get => GetField(1, DataFields.DeviceNumber).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.DeviceNumber).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(field: 1, revision: 1, Size = 2, HasPrefix = false)]
+        public int DeviceNumber { get; set; }
 
         public Mid0214() : this(DEFAULT_REVISION)
         {
@@ -43,6 +40,7 @@ namespace OpenProtocolInterpreter.IOInterface
         {
         }
 
+        [Obsolete("Use DataFieldDefinition attributes instead")]
         protected enum DataFields
         {
             DeviceNumber

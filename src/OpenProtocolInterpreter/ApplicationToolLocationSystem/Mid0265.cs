@@ -15,10 +15,10 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.MidRevisionUnsupported };
 
-        [StringDataFieldDefinition(field: 0, revision: 1, Size = 8)]
+        [StringDataFieldDefinition(field: 1, revision: 1, Size = 8)]
         public string ToolTagId { get; set; }
 
-        [Int32DataFieldDefinition(field: 1, revision: 1, Size = 2)]
+        [Int32DataFieldDefinition(field: 2, revision: 1, Size = 2)]
         public ToolStatus ToolStatus { get; set; }
 
         public Mid0265() : this(new Header()

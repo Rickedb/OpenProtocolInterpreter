@@ -33,9 +33,9 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
     {
         public const int MID = 411;
 
-        [Int32DataFieldDefinition(field: 0, revision: 1, Size = 2, HasPrefix = false)]
-        public int AutoDisableSetting { get; set; }
         [Int32DataFieldDefinition(field: 1, revision: 1, Size = 2, HasPrefix = false)]
+        public int AutoDisableSetting { get; set; }
+        [Int32DataFieldDefinition(field: 2, revision: 1, Size = 2, HasPrefix = false)]
         public int CurrentBatch { get; set; }
 
         public Mid0411() : this(new Header()

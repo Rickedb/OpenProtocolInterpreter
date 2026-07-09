@@ -27,14 +27,17 @@ namespace OpenProtocolInterpreter.IOInterface
 
         [Int32DataFieldDefinition(field: 1, revision: 1, Size = 2)]
         public int IODeviceId { get; set; }
+
         [RelayCollectionDefinition(field: 2, revision: 1, Size = 4 * 8)]
         public List<Relay> Relays { get; set; }
+
         [DigitalInputCollectionDefinition(field: 3, revision: 1, Size = 4 * 8)]
         public List<DigitalInput> DigitalInputs { get; set; }
 
         //At revision 2 number of relays/digital inputs comes before their lists
         [Int32DataFieldDefinition(field: 4, revision: 2, Index = 24, Size = 2)]
         public int NumberOfRelays { get; set; }
+
         [Int32DataFieldDefinition(field: 5, revision: 2, Index = 0, Size = 2)]
         public int NumberOfDigitalInputs { get; set; }
 

@@ -15,13 +15,13 @@ namespace OpenProtocolInterpreter.Communication
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.ClientAlreadyConnected, Error.MidRevisionUnsupported };
 
-        [BooleanDataFieldDefinition(field: 0, revision: 7)]
+        [BooleanDataFieldDefinition(field: 1, revision: 7)]
         public bool OptionalKeepAlive { get; set; }
 
-        [BooleanDataFieldDefinition(field: 1, revision: 8)]
+        [BooleanDataFieldDefinition(field: 2, revision: 8)]
         public bool OptionalToolLockAtDisconnection { get; set; }
 
-        [DecimalDataFieldDefinition(field: 2, revision: 8, Size = 4)]
+        [DecimalDataFieldDefinition(field: 3, revision: 8, Size = 4)]
         public decimal OptionalEarlyLock { get; set; }
 
         public Mid0001() : this(DEFAULT_REVISION)

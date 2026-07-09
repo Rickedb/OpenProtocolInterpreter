@@ -23,10 +23,10 @@ namespace OpenProtocolInterpreter.Communication
     {
         public const int MID = 4;
 
-        [Int32DataFieldDefinition(field: 0, revision: 1, Size = 4, HasPrefix = false)]
+        [Int32DataFieldDefinition(field: 1, revision: 1, Size = 4, HasPrefix = false)]
         public int FailedMid { get; set; }
 
-        [Int32DataFieldDefinition(field: 1, revision: 1, Size = 2, HasPrefix = false)]
+        [Int32DataFieldDefinition(field: 2, revision: 1, Size = 2, HasPrefix = false)]
         public Error ErrorCode { get; set; }
 
         public Mid0004() : this(DEFAULT_REVISION)
@@ -60,7 +60,7 @@ namespace OpenProtocolInterpreter.Communication
         }
 
         private void HandleRevision()
-            => GetField(revision: 1, field: 1).Size = Header.Revision > 1 ? 3 : 2;
+            => GetField(nameof(ErrorCode)).Size = Header.Revision > 1 ? 3 : 2;
 
         [Obsolete("Use DataFieldDefinition attributes instead")]
         protected enum DataFields

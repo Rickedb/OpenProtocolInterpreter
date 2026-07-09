@@ -20,7 +20,7 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
         /// <para>Automatic Mode = false (0)</para>
         /// <para>Manual Mode = true (1)</para>
         /// </summary>
-        [BooleanDataFieldDefinition(field: 0, revision: 1, HasPrefix = false)]
+        [BooleanDataFieldDefinition(field: 1, revision: 1, HasPrefix = false)]
         public bool ManualAutomaticMode { get; set; }
 
         public Mid0401() : this(new Header()

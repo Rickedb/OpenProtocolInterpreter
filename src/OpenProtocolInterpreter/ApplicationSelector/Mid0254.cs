@@ -26,10 +26,10 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.FaultyIODeviceId };
 
-        [Int32DataFieldDefinition(field: 0, revision: 1, Size = 2)]
+        [Int32DataFieldDefinition(field: 1, revision: 1, Size = 2)]
         public int DeviceId { get; set; }
 
-        [EnumCollectionDefinition<LightCommand>(field: 1, revision: 1, Size = 8)]
+        [EnumCollectionDefinition<LightCommand>(field: 2, revision: 1, Size = 8)]
         public List<LightCommand> GreenLights { get; set; }
 
         public Mid0254() : this(new Header()
