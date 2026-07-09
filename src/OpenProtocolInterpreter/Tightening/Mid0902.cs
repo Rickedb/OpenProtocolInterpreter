@@ -15,36 +15,25 @@ namespace OpenProtocolInterpreter.Tightening
     {
         public const int MID = 902;
 
-        public long Capacity
-        {
-            get => GetField(1, DataFields.Capacity).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.Capacity).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public long OldestSequenceNumber
-        {
-            get => GetField(1, DataFields.OldestSequenceNumber).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.OldestSequenceNumber).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public DateTime OldestTime
-        {
-            get => GetField(1, DataFields.OldestTime).GetValue(OpenProtocolConvert.ToDateTime);
-            set => GetField(1, DataFields.OldestTime).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public long NewestSequenceNumber
-        {
-            get => GetField(1, DataFields.NewestSequenceNumber).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.NewestTime).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public DateTime NewestTime
-        {
-            get => GetField(1, DataFields.NewestTime).GetValue(OpenProtocolConvert.ToDateTime);
-            set => GetField(1, DataFields.NewestTime).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int NumberOfPIDs
-        {
-            get => GetField(1, DataFields.NumberOfPIDs).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.NumberOfPIDs).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int64DataFieldDefinition(field: 1, revision: 1, Size = 10, HasPrefix = false)]
+        public long Capacity { get; set; }
+
+        [Int64DataFieldDefinition(field: 2, revision: 1, Size = 10, HasPrefix = false)]
+        public long OldestSequenceNumber { get; set; }
+
+        [TimestampDataFieldDefinition(field: 3, revision: 1, HasPrefix = false)]
+        public DateTime OldestTime { get; set; }
+
+        [Int64DataFieldDefinition(field: 4, revision: 1, Size = 10, HasPrefix = false)]
+        public long NewestSequenceNumber { get; set; }
+
+        [TimestampDataFieldDefinition(field: 5, revision: 1, HasPrefix = false)]
+        public DateTime NewestTime { get; set; }
+
+        [Int32DataFieldDefinition(field: 6, revision: 1, Size = 3, HasPrefix = false)]
+        public int NumberOfPIDs { get; set; }
+
+        [VariableDataFieldCollectionDefinition(field: 7, revision: 1, HasPrefix = false)]
         public List<VariableDataField> VariableDataFields { get; set; }
 
         public Mid0902() : this(new Header()
@@ -62,43 +51,20 @@ namespace OpenProtocolInterpreter.Tightening
 
         public override string Pack()
         {
-            var revision = Header.StandardizedRevision;
-            GetField(revision, DataFields.VariableDataFields).SetValue(OpenProtocolConvert.ToString(VariableDataFields));
-
-            var index = 1;
-            return string.Concat(BuildHeader(), base.Pack(revision, ref index));
+            NumberOfPIDs = VariableDataFields?.Count ?? 0; //Enforce list size even if modified
+            return base.Pack();
         }
 
-        public override Mid Parse(ReadOnlySpan<char> package)
+        protected override void ProcessDataField(DataField dataField, ReadOnlySpan<char> package)
         {
-            Header = ProcessHeader(package);
-
-            var field = GetField(1, DataFields.VariableDataFields);
-            field.Size = Header.Length - field.Index;
-            base.Parse(package);
-            VariableDataFields = VariableDataField.ParseAll(field.Value).ToList();
-            return this;
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
+            if (dataField.Field == 7) //VariableDataFields
             {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.Capacity, 20, 10, false),
-                                DataField.Number(DataFields.OldestSequenceNumber, 30, 10, false),
-                                DataField.Timestamp(DataFields.OldestTime, 40, false),
-                                DataField.Number(DataFields.NewestSequenceNumber, 59, 10, false),
-                                DataField.Timestamp(DataFields.NewestTime, 69, false),
-                                DataField.Number(DataFields.NumberOfPIDs, 88, 3, false),
-                                DataField.Volatile(DataFields.VariableDataFields, 91, false)
-                            }
-                }
-            };
+                dataField.Size = Header.Length - dataField.Index;
+            }
+            base.ProcessDataField(dataField, package);
         }
 
+        [Obsolete("Use DataFieldDefinition attributes instead")]
         protected enum DataFields
         {
             Capacity,

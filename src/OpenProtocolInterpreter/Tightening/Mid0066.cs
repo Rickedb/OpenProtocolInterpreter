@@ -1,5 +1,7 @@
 using System;
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace OpenProtocolInterpreter.Tightening
 {
@@ -13,17 +15,13 @@ namespace OpenProtocolInterpreter.Tightening
     {
         public const int MID = 66;
 
-        public int NumberOfOfflineResults
-        {
-            get => GetField(1, DataFields.NumberOfOfflineResults).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.NumberOfOfflineResults).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(field: 1, revision: 1, Index = 20, Size = 2)]
+        [Int32DataFieldDefinition(field: 1, revision: 2, Index = 20, Size = 3)]
+        public int NumberOfOfflineResults { get; set; }
 
-        public int NumberOfOfflineCurves
-        {
-            get => GetField(2, DataFields.NumberOfOfflineCurves).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(2, DataFields.NumberOfOfflineCurves).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(field: 2, revision: 2, Index = 25, Size = 3)]
+        public int NumberOfOfflineCurves { get; set; }
+
 
         public Mid0066() : this(new Header()
         {
@@ -37,44 +35,32 @@ namespace OpenProtocolInterpreter.Tightening
         {
         }
 
+        protected override string BuildHeader()
+        {
+            var fields = RevisionsByFields[Header.StandardizedRevision];
+            Header.Length = Header.DefaultSize + fields.Sum(dataField => dataField.TotalSize);
+            return Header.ToString();
+        }
+
         public override Mid Parse(ReadOnlySpan<char> package)
         {
             Header = ProcessHeader(package);
-            HandleRevisionSizes();
-            ProcessDataFields(package);
+            var fields = RevisionsByFields[Header.StandardizedRevision];
+            ProcessDataFields(fields, package);
             return this;
         }
 
         public override string Pack()
         {
-            HandleRevisionSizes();
-            return base.Pack();
+            var fields = RevisionsByFields[Header.StandardizedRevision];
+            var builder = new StringBuilder(BuildHeader());
+
+            int prefixIndex = 1;
+            builder.Append(Pack(fields, ref prefixIndex));
+            return builder.ToString();
         }
 
-        private void HandleRevisionSizes()
-        {
-            GetField(1, DataFields.NumberOfOfflineResults).Size = Header.Revision > 1 ? 3 : 2;
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.NumberOfOfflineResults, 20, 2)
-                            }
-                },
-                {
-                    2, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.NumberOfOfflineCurves, 25, 3),
-                            }
-                }
-            };
-        }
-
+        [Obsolete("Use DataFieldDefinition attributes instead")]
         protected enum DataFields
         {
             NumberOfOfflineResults,

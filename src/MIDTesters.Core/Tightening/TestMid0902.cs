@@ -2,7 +2,7 @@
 using OpenProtocolInterpreter.Tightening;
 using System;
 
-namespace MIDTesters.Core.Tightening
+namespace MIDTesters.Tightening
 {
     [TestClass]
     [TestCategory("Tightening")]
