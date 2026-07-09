@@ -66,8 +66,8 @@ namespace OpenProtocolInterpreter.IOInterface
                 NumberOfRelays = Relays.Count;
                 NumberOfDigitalInputs = DigitalInputs.Count;
 
-                GetField(revision: 1, field: 2).Size = NumberOfRelays * 4;
-                GetField(revision: 1, field: 3).Size = NumberOfDigitalInputs * 4;
+                GetField(nameof(Relays)).Size = NumberOfRelays * 4;
+                GetField(nameof(DigitalInputs)).Size = NumberOfDigitalInputs * 4;
 
                 var builder = new StringBuilder(BuildHeader());
                 int prefixIndex = 1;
@@ -97,44 +97,21 @@ namespace OpenProtocolInterpreter.IOInterface
 
                 if (index == 2)
                 {
-                    var relays = GetField(revision: 1, field: 2);
+                    var relays = GetField(nameof(Relays));
                     relays.Index = field.Index + field.TotalSize;
                     relays.Size = NumberOfRelays * 4;
                 }
                 else if (index == 3)
                 {
-                    var numberOfDigitalInputs = GetField(revision: 2, field: 5);
+                    var numberOfDigitalInputs = GetField(nameof(NumberOfDigitalInputs));
                     numberOfDigitalInputs.Index = field.Index + field.TotalSize;
                 }
                 else if (index == 4)
                 {
-                    var digitalInputs = GetField(revision: 1, field: 3);
+                    var digitalInputs = GetField(nameof(DigitalInputs));
                     digitalInputs.Index = field.Index + field.TotalSize;
                     digitalInputs.Size = NumberOfDigitalInputs * 4;
                 }
-            }
-        }
-
-        protected override void ProcessDataField(DataField dataField, ReadOnlySpan<char> package)
-        {
-            base.ProcessDataField(dataField, package);
-            if (Header.StandardizedRevision <= 1)
-                return;
-
-            if (dataField.Field == 2)
-            {
-                var relays = GetField(revision: 1, field: 2);
-                relays.Index = dataField.Index + dataField.TotalSize;
-                relays.Size = NumberOfRelays * 4;
-
-                var numberOfDigitalInputs = GetField(revision: 2, field: 4);
-                numberOfDigitalInputs.Index = relays.Index + relays.TotalSize;
-            }
-            else if (dataField.Field == 4)
-            {
-                var digitalInputs = GetField(revision: 1, field: 3);
-                digitalInputs.Index = dataField.Index + dataField.TotalSize;
-                digitalInputs.Size = NumberOfDigitalInputs * 4;
             }
         }
 
@@ -151,17 +128,17 @@ namespace OpenProtocolInterpreter.IOInterface
             var revision = Header.StandardizedRevision;
             if (revision == 1)
             {
-                yield return GetField(revision: 1, field: 1);
-                yield return GetField(revision: 1, field: 2);
-                yield return GetField(revision: 1, field: 3);
+                yield return GetField(nameof(IODeviceId));
+                yield return GetField(nameof(Relays));
+                yield return GetField(nameof(DigitalInputs));
             }
             else
             {
-                yield return GetField(revision: 1, field: 1);
-                yield return GetField(revision: 2, field: 4);
-                yield return GetField(revision: 1, field: 2);
-                yield return GetField(revision: 2, field: 5);
-                yield return GetField(revision: 1, field: 3);
+                yield return GetField(nameof(IODeviceId));
+                yield return GetField(nameof(NumberOfRelays));
+                yield return GetField(nameof(Relays));
+                yield return GetField(nameof(NumberOfDigitalInputs));
+                yield return GetField(nameof(DigitalInputs));
             }
         }
 

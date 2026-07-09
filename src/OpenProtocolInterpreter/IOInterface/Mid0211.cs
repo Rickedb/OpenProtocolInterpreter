@@ -16,21 +16,21 @@ namespace OpenProtocolInterpreter.IOInterface
     {
         public const int MID = 211;
 
-        [BooleanDataFieldDefinition(field: 0, revision: 1, HasPrefix = false)]
-        public bool StatusDigInOne { get; set; }
         [BooleanDataFieldDefinition(field: 1, revision: 1, HasPrefix = false)]
-        public bool StatusDigInTwo { get; set; }
+        public bool StatusDigInOne { get; set; }
         [BooleanDataFieldDefinition(field: 2, revision: 1, HasPrefix = false)]
-        public bool StatusDigInThree { get; set; }
+        public bool StatusDigInTwo { get; set; }
         [BooleanDataFieldDefinition(field: 3, revision: 1, HasPrefix = false)]
-        public bool StatusDigInFour { get; set; }
+        public bool StatusDigInThree { get; set; }
         [BooleanDataFieldDefinition(field: 4, revision: 1, HasPrefix = false)]
-        public bool StatusDigInFive { get; set; }
+        public bool StatusDigInFour { get; set; }
         [BooleanDataFieldDefinition(field: 5, revision: 1, HasPrefix = false)]
-        public bool StatusDigInSix { get; set; }
+        public bool StatusDigInFive { get; set; }
         [BooleanDataFieldDefinition(field: 6, revision: 1, HasPrefix = false)]
-        public bool StatusDigInSeven { get; set; }
+        public bool StatusDigInSix { get; set; }
         [BooleanDataFieldDefinition(field: 7, revision: 1, HasPrefix = false)]
+        public bool StatusDigInSeven { get; set; }
+        [BooleanDataFieldDefinition(field: 8, revision: 1, HasPrefix = false)]
         public bool StatusDigInEight { get; set; }
 
         public Mid0211() : this(new Header()

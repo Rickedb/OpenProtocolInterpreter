@@ -121,17 +121,24 @@ namespace OpenProtocolInterpreter
             {
                 var result = new List<DataFieldMetadata>();
                 var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                                     .OrderBy(x => x.GetCustomAttribute<DataFieldDefinitionAttribute>()?.Field ?? x.MetadataToken);
+                                     .Where(x =>
+                                     {
+                                         return x.CustomAttributes.Any(a => a.AttributeType.IsAssignableTo(typeof(DataFieldDefinitionAttribute)));
+                                     });
                 int fieldIndex = 20;
                 foreach (var prop in properties)
                 {
-                    var attr = prop.GetCustomAttribute<DataFieldDefinitionAttribute>();
-                    if (attr == null)
+                    var attributes = prop.GetCustomAttributes<DataFieldDefinitionAttribute>();
+                    if (!attributes.Any())
                         continue;
 
-                    fieldIndex = attr.Index > 0 ? attr.Index : fieldIndex; //enforced index if defined in attribute
-                    result.Add(new DataFieldMetadata(fieldIndex, attr, prop));
-                    fieldIndex += attr.Size + (attr.HasPrefix ? 2 : 0);
+                    foreach (var attr in attributes)
+                    {
+                        fieldIndex = attr.Index > 0 ? attr.Index : fieldIndex; //enforced index if defined in attribute
+                        attr.Index = fieldIndex;
+                        result.Add(new DataFieldMetadata(fieldIndex, attr, prop));
+                        fieldIndex += attr.Size + (attr.HasPrefix ? 2 : 0);
+                    }
                 }
                 return result.ToArray();
             });
@@ -292,6 +299,19 @@ namespace OpenProtocolInterpreter
             }
 
             return fields.FirstOrDefault(x => x.Field == field) ?? DataField.Default;
+        }
+
+        protected DataField GetField(string propertyName)
+        {
+            var type = GetType();
+            if (!_metadataCache.TryGetValue(type, out var metadata) && !_lazyFields.IsValueCreated)
+            {
+                _ = _lazyFields.Value; // Force initialization of the lazy fields to populate the metadata cache
+                _metadataCache.TryGetValue(type, out metadata);
+            }
+
+            var dataField = metadata.First(x => x.Property.Name == propertyName);
+            return RevisionsByFields[dataField.Attribute.Revision].First(x => x.Field == dataField.Attribute.Field);
         }
 
         protected DataField GetField<TEnum>(int revision, TEnum field) where TEnum : struct, Enum

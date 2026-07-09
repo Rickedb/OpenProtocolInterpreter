@@ -80,7 +80,7 @@ namespace OpenProtocolInterpreter
 
         public static string TruncatedDecimalToString(decimal value, int decimalDigits)
         {
-            var decimals = 10m * decimalDigits;
+            var decimals = (decimal)Math.Pow(10, decimalDigits);
             int convertedValue = (int)(Math.Round(value, 2) * decimals);
             return convertedValue.ToString();
         }
@@ -108,7 +108,7 @@ namespace OpenProtocolInterpreter
 
         public static decimal ToTruncatedDecimal(ReadOnlySpan<char> value, int decimalDigits)
         {
-            var decimals = 10m * decimalDigits;
+            var decimals = (decimal)Math.Pow(10, decimalDigits);
             int intValue = ToInt32(value);
             return intValue / decimals;
         }
@@ -120,7 +120,14 @@ namespace OpenProtocolInterpreter
            => ToString(value.GetHashCode());
 
         public static string ToString(char paddingChar, int size, PaddingOrientation orientation, int value)
-            => TruncatePadded(paddingChar, size, orientation, ToString(value));
+        {
+            if (value < 0)
+            {
+                return string.Concat("-", TruncatePadded(paddingChar, size - 1, orientation, ToString(-value)));
+            }
+
+            return TruncatePadded(paddingChar, size, orientation, ToString(value));
+        }
 
         public static string ToString<TEnum>(char paddingChar, int size, PaddingOrientation orientation, TEnum value) where TEnum : struct, Enum
             => TruncatePadded(paddingChar, size, orientation, ToString(value));
@@ -145,7 +152,13 @@ namespace OpenProtocolInterpreter
            => value.ToString();
 
         public static string ToString(char paddingChar, int size, PaddingOrientation orientation, long value)
-            => TruncatePadded(paddingChar, size, orientation, ToString(value));
+        {
+            if (value < 0)
+            {
+                return string.Concat("-", TruncatePadded(paddingChar, size - 1, orientation, ToString(-value)));
+            }
+            return TruncatePadded(paddingChar, size, orientation, ToString(value));
+        }
 
         public static long ToInt64(string value)
         {

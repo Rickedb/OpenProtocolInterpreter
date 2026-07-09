@@ -11,6 +11,7 @@ namespace OpenProtocolInterpreter
     /// This attribute is used to decorate properties in a MID class to define how they should be parsed and formatted in the MID message.
     /// </para>
     /// </summary>
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
     public class DataFieldDefinitionAttribute : Attribute
     {
         public int Field { get; set; }
@@ -58,7 +59,7 @@ namespace OpenProtocolInterpreter
         }
         internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
         {
-            return DataField.Boolean(Field, index, HasPrefix)
+            return DataField.Boolean(Field, Index, HasPrefix)
                             .Bind(mid, propertyInfo);
         }
     }
@@ -128,6 +129,29 @@ namespace OpenProtocolInterpreter
         internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
         {
             return DataField.Decimal(Field, index, Size, HasPrefix)
+                            .Bind(mid, propertyInfo);
+        }
+    }
+
+    public class TruncatedDecimalDataFieldDefinitionAttribute : DataFieldDefinitionAttribute
+    {
+        public int DecimalPoints { get; set; }
+
+        public TruncatedDecimalDataFieldDefinitionAttribute(int revision) : base(revision)
+        {
+            DecimalPoints = 2;
+            PaddingChar = '0';
+            PaddingOrientation = PaddingOrientation.LeftPadded;
+        }
+        public TruncatedDecimalDataFieldDefinitionAttribute(int field, int revision) : base(field, revision)
+        {
+            DecimalPoints = 2;
+            PaddingChar = '0';
+            PaddingOrientation = PaddingOrientation.LeftPadded;
+        }
+        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        {
+            return DataField.TruncatedDecimal(Field, index, Size, DecimalPoints, HasPrefix)
                             .Bind(mid, propertyInfo);
         }
     }

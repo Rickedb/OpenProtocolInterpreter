@@ -144,6 +144,17 @@ namespace OpenProtocolInterpreter
         public static DataField<decimal> Decimal(Enum field, int index, int size, bool hasPrefix = true)
             => Decimal(field.GetHashCode(), index, size, hasPrefix);
 
+        public static DataField<decimal> TruncatedDecimal(int field, int index, int size, int decimalPoints, bool hasPrefix = true)
+        {
+            return new DataField<decimal>(field, index, size, '0', PaddingOrientation.LeftPadded, hasPrefix)
+            {
+                DefaultConverter = OpenProtocolConvert.TruncatedDecimalToString,
+                DefaultParser = (str) => OpenProtocolConvert.ToTruncatedDecimal(str, decimalPoints)
+            };
+        }
+        public static DataField<decimal> TruncatedDecimal(Enum field, int index, int size, int decimalPoints, bool hasPrefix = true)
+            => TruncatedDecimal(field.GetHashCode(), index, size, decimalPoints, hasPrefix);
+
         public static DataField<int> Int32(int field, int index, int size, bool hasPrefix = true)
         {
             return new DataField<int>(field, index, size, '0', PaddingOrientation.LeftPadded, hasPrefix)

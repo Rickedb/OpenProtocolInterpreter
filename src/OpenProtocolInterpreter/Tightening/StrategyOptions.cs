@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Text;
 
 namespace OpenProtocolInterpreter.Tightening
@@ -54,21 +55,21 @@ namespace OpenProtocolInterpreter.Tightening
                  false
             });
 
-            var asciiInt = System.BitConverter.ToInt32(bytes, 0).ToString("D5");
+            var asciiInt = BitConverter.ToInt32(bytes, 0).ToString("D5");
             return Encoding.ASCII.GetBytes(asciiInt);
         }
 
         public static StrategyOptions Parse(string value)
         {
             var intValue = OpenProtocolConvert.ToInt32(value);
-            var bytes = System.BitConverter.GetBytes(intValue);
+            var bytes = BitConverter.GetBytes(intValue);
             return Parse(bytes);
         }
 
         public static StrategyOptions Parse(ReadOnlySpan<char> value)
         {
             var intValue = OpenProtocolConvert.ToInt32(value);
-            var bytes = System.BitConverter.GetBytes(intValue);
+            var bytes = BitConverter.GetBytes(intValue);
             return Parse(bytes);
         }
 
@@ -91,5 +92,32 @@ namespace OpenProtocolInterpreter.Tightening
                 RbwMonitoring = OpenProtocolConvert.GetBit(value[1], 3)
             };
         }
+    }
+
+    public class StrategyOptionsDefinitionAttribute : DataFieldDefinitionAttribute
+    {
+        public StrategyOptionsDefinitionAttribute(int revision) : base(revision)
+        {
+
+        }
+        public StrategyOptionsDefinitionAttribute(int field, int revision) : base(field, revision)
+        {
+
+        }
+
+        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        {
+            return new DataField<StrategyOptions>(Field, index, Size, HasPrefix)
+            {
+                DefaultConverter = PackStrategyOptions,
+                DefaultParser = ParseStrategyOptions
+            }.Bind(mid, propertyInfo);
+        }
+
+        private static string PackStrategyOptions(char paddingChar, int size, PaddingOrientation orientation, StrategyOptions strategyOptions)
+            => strategyOptions.Pack().PadLeft(size, paddingChar);
+
+        private static StrategyOptions ParseStrategyOptions(string value)
+            => StrategyOptions.Parse(value);
     }
 }
