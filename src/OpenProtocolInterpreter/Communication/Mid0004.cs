@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace OpenProtocolInterpreter.Communication
 {
@@ -23,10 +25,12 @@ namespace OpenProtocolInterpreter.Communication
     {
         public const int MID = 4;
 
-        [Int32DataFieldDefinition(field: 1, revision: 1, Size = 4, HasPrefix = false)]
+        [Int32DataFieldDefinition(field: 1, revision: 1, Index = 20, Size = 4, HasPrefix = false)]
+        [Int32DataFieldDefinition(field: 1, revision: 2, Index = 20, Size = 4, HasPrefix = false)]
         public int FailedMid { get; set; }
 
-        [Int32DataFieldDefinition(field: 2, revision: 1, Size = 2, HasPrefix = false)]
+        [Int32DataFieldDefinition(field: 2, revision: 1, Index = 24, Size = 2, HasPrefix = false)]
+        [Int32DataFieldDefinition(field: 2, revision: 2, Index = 24, Size = 3, HasPrefix = false)]
         public Error ErrorCode { get; set; }
 
         public Mid0004() : this(DEFAULT_REVISION)
@@ -47,20 +51,39 @@ namespace OpenProtocolInterpreter.Communication
 
         }
 
+        protected override string BuildHeader()
+        {
+            if (RevisionsByFields.TryGetValue(Header.StandardizedRevision, out var dataFields))
+            {
+                Header.Length = Header.DefaultSize + dataFields.Sum(x => x.TotalSize);
+            }
+
+            return Header.ToString();
+        }
+
         public override string Pack()
         {
-            HandleRevision();
-            return base.Pack();
+            if (!RevisionsByFields.TryGetValue(Header.StandardizedRevision, out var dataFields))
+            {
+                throw new InvalidOperationException($"No data fields defined for revision {Header.StandardizedRevision}");
+            }
+
+            var builder = new StringBuilder(BuildHeader());
+            int prefixIndex = 1;
+            builder.Append(base.Pack(dataFields, ref prefixIndex));
+            return builder.ToString();
         }
 
         protected override void ProcessDataFields(ReadOnlySpan<char> package)
         {
-            HandleRevision();
-            base.ProcessDataFields(package);
+            if (!RevisionsByFields.TryGetValue(Header.StandardizedRevision, out var dataFields))
+            {
+                throw new InvalidOperationException($"No data fields defined for revision {Header.StandardizedRevision}");
+            }
+
+            base.ProcessDataFields(dataFields, package);
         }
 
-        private void HandleRevision()
-            => GetField(nameof(ErrorCode)).Size = Header.Revision > 1 ? 3 : 2;
 
         [Obsolete("Use DataFieldDefinition attributes instead")]
         protected enum DataFields

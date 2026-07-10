@@ -311,7 +311,7 @@ namespace OpenProtocolInterpreter
             }
 
             var dataField = metadata.First(x => x.Property.Name == propertyName);
-            return RevisionsByFields[dataField.Attribute.Revision].First(x => x.Field == dataField.Attribute.Field);
+            return RevisionsByFields[Header.StandardizedRevision].First(x => x.Field == dataField.Attribute.Field);
         }
 
         protected DataField GetField<TEnum>(int revision, TEnum field) where TEnum : struct, Enum

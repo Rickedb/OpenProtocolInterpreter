@@ -246,7 +246,7 @@ namespace OpenProtocolInterpreter.Tightening
         {
             if (RevisionsByFields.Any())
             {
-                Header.Length = 20;
+                Header.Length = Header.DefaultSize;
                 if (Header.Revision == 998)
                 {
                     var stageResultField = GetField(nameof(StageResults));
@@ -273,7 +273,7 @@ namespace OpenProtocolInterpreter.Tightening
         protected override void ProcessDataFields(ReadOnlySpan<char> package)
         {
             var fields = DataFieldsByRevision().OrderBy(f => f.Index).ToList();
-            ProcessDataFields(fields, package);
+            base.ProcessDataFields(fields, package);
         }
 
         protected override void ProcessDataField(DataField dataField, ReadOnlySpan<char> package)

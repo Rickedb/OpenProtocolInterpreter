@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Text;
 
 namespace OpenProtocolInterpreter.Job
 {
@@ -101,10 +103,45 @@ namespace OpenProtocolInterpreter.Job
         public static int Size(int revision)
             => revision switch
             {
+                1 => 12,
+                2 => 12,
                 3 => 44,
                 4 => 49,
                 5 => 51,
-                _ => 12,
+                _ => 51, //Default will always be the last
             };
+    }
+
+    public class ParameterSetCollectionDefinitionAttribute : DataFieldDefinitionAttribute
+    {
+        public ParameterSetCollectionDefinitionAttribute(int revision) : base(revision)
+        {
+
+        }
+        public ParameterSetCollectionDefinitionAttribute(int field, int revision) : base(field, revision)
+        {
+
+        }
+
+        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        {
+            return new DataField<List<ParameterSet>>(Field, index, Size, HasPrefix)
+            {
+                DefaultConverter = PackParameterSets,
+                DefaultParser = ParseParameterSets
+            }.Bind(mid, propertyInfo);
+        }
+
+        private string PackParameterSets(char paddingChar, int size, PaddingOrientation orientation, List<ParameterSet> parameterSets)
+        {
+            var list = new List<string>();
+            foreach (var parameterSet in parameterSets)
+                list.Add(parameterSet.Pack(Revision));
+
+            return string.Concat(string.Join(";", list), ";");
+        }
+
+        private List<ParameterSet> ParseParameterSets(string value)
+            => ParameterSet.ParseAll(value, Revision).ToList();
     }
 }

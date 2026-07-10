@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Dynamic;
+using System.Linq;
+using System.Text;
 
 namespace OpenProtocolInterpreter.Job
 {
@@ -16,93 +17,63 @@ namespace OpenProtocolInterpreter.Job
     {
         public const int MID = 35;
 
-        public int JobId
-        {
-            get => GetField(1, DataFields.JobId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.JobId).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public JobStatus JobStatus
-        {
-            get => (JobStatus)GetField(1, DataFields.JobStatus).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.JobStatus).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public JobBatchMode JobBatchMode
-        {
-            get => (JobBatchMode)GetField(1, DataFields.JobBatchMode).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.JobBatchMode).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int JobBatchSize
-        {
-            get => GetField(1, DataFields.JobBatchSize).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.JobBatchSize).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int JobBatchCounter
-        {
-            get => GetField(1, DataFields.JobBatchCounter).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.JobBatchCounter).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public DateTime TimeStamp
-        {
-            get => GetField(1, DataFields.Timestamp).GetValue(OpenProtocolConvert.ToDateTime);
-            set => GetField(1, DataFields.Timestamp).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 2)]
+        [Int32DataFieldDefinition(revision: 2, field: 1, Index = 20, Size = 4)]
+        public int JobId { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 2, Index = 24, Size = 1)]
+        [Int32DataFieldDefinition(revision: 2, field: 2, Index = 26, Size = 1)]
+        public JobStatus JobStatus { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 3, Index = 27, Size = 1)]
+        [Int32DataFieldDefinition(revision: 2, field: 3, Index = 29, Size = 1)]
+        public JobBatchMode JobBatchMode { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 4, Index = 30, Size = 4)]
+        [Int32DataFieldDefinition(revision: 2, field: 4, Index = 32, Size = 4)]
+        public int JobBatchSize { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 5, Index = 36, Size = 4)]
+        [Int32DataFieldDefinition(revision: 2, field: 5, Index = 38, Size = 4)]
+        public int JobBatchCounter { get; set; }
+
+        [TimestampDataFieldDefinition(revision: 1, field: 6, Index = 42)]
+        [TimestampDataFieldDefinition(revision: 2, field: 6, Index = 44)]
+        public DateTime TimeStamp { get; set; }
+
         //Rev 3
-        public int JobCurrentStep
-        {
-            get => GetField(3, DataFields.JobCurrentStep).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(3, DataFields.JobCurrentStep).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int JobTotalNumberOfSteps
-        {
-            get => GetField(3, DataFields.JobTotalNumberOfSteps).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(3, DataFields.JobTotalNumberOfSteps).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int JobStepType
-        {
-            get => GetField(3, DataFields.JobStepType).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(3, DataFields.JobStepType).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 3, field: 7, Index = 65, Size = 3)]
+        public int JobCurrentStep { get; set; }
+
+        [Int32DataFieldDefinition(revision: 3, field: 8, Index = 70, Size = 3)]
+        public int JobTotalNumberOfSteps { get; set; }
+
+        [Int32DataFieldDefinition(revision: 3, field: 9, Index = 75, Size = 2)]
+        public int JobStepType { get; set; }
+
         //Rev 4
-        public JobTighteningStatus JobTighteningStatus
-        {
-            get => (JobTighteningStatus)GetField(4, DataFields.JobTighteningStatus).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(4, DataFields.JobTighteningStatus).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 4, field: 10, Index = 79, Size = 2)]
+        public JobTighteningStatus JobTighteningStatus { get; set; }
+
         //Rev 5
-        public int JobSequenceNumber
-        {
-            get => GetField(5, DataFields.JobSequenceNumber).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(5, DataFields.JobSequenceNumber).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 5, field: 11, Index = 83, Size = 5)]
+        public int JobSequenceNumber { get; set; }
 
-        public string VinNumber
-        {
-            get => GetField(5, DataFields.VinNumber).Value;
-            set => GetField(5, DataFields.VinNumber).SetValue(value);
-        }
+        [StringDataFieldDefinition(revision: 5, field: 12, Index = 90, Size = 25)]
+        public string VinNumber { get; set; }
 
-        public string IdentifierResultPart2
-        {
-            get => GetField(5, DataFields.IdentifierResultPart2).Value;
-            set => GetField(5, DataFields.IdentifierResultPart2).SetValue(value);
-        }
+        [StringDataFieldDefinition(revision: 5, field: 13, Index = 117, Size = 25)]
+        public string IdentifierResultPart2 { get; set; }
 
-        public string IdentifierResultPart3
-        {
-            get => GetField(5, DataFields.IdentifierResultPart3).Value;
-            set => GetField(5, DataFields.IdentifierResultPart3).SetValue(value);
-        }
+        [StringDataFieldDefinition(revision: 5, field: 14, Index = 144, Size = 25)]
+        public string IdentifierResultPart3 { get; set; }
 
-        public string IdentifierResultPart4
-        {
-            get => GetField(5, DataFields.IdentifierResultPart4).Value;
-            set => GetField(5, DataFields.IdentifierResultPart4).SetValue(value);
-        }
-        public string JointId
-        {
-            get => GetField(6, DataFields.JointId).Value;
-            set => GetField(6, DataFields.JointId).SetValue(value);
-        }
+        [StringDataFieldDefinition(revision: 5, field: 15, Index = 171, Size = 25)]
+        public string IdentifierResultPart4 { get; set; }
+
+        //Rev 6
+        [StringDataFieldDefinition(revision: 6, field: 16, Index = 198, Size = 25)]
+        public string JointId { get; set; }
 
         public Mid0035() : this(DEFAULT_REVISION)
         {
@@ -122,90 +93,41 @@ namespace OpenProtocolInterpreter.Job
 
         }
 
+        protected override string BuildHeader()
+        {
+            Header.Length = Header.DefaultSize + DataFieldsByRevision().Sum(x => x.TotalSize);
+            return Header.ToString();
+        }
+
         public override string Pack()
         {
-            HandleRevision();
-            return base.Pack();
+            var builder = new StringBuilder();
+            var fields = DataFieldsByRevision().OrderBy(x => x.Index).ToList();
+            int prefixIndex = 1;
+            builder.Append(BuildHeader());
+            builder.Append(base.Pack(fields, ref prefixIndex));
+            return builder.ToString();
         }
 
-        public override Mid Parse(ReadOnlySpan<char> package)
+        protected override void ProcessDataFields(ReadOnlySpan<char> package)
         {
-            Header = ProcessHeader(package);
-            HandleRevision();
-            ProcessDataFields(package);
-            return this;
+            var fields = DataFieldsByRevision().OrderBy(x => x.Index).ToList();
+            base.ProcessDataFields(fields, package);
         }
 
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        private IEnumerable<DataField> DataFieldsByRevision()
         {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.JobId, 20, 2),
-                                DataField.Number(DataFields.JobStatus, 24, 1),
-                                DataField.Number(DataFields.JobBatchMode, 27, 1),
-                                DataField.Number(DataFields.JobBatchSize, 30, 4),
-                                DataField.Number(DataFields.JobBatchCounter, 36, 4),
-                                DataField.Timestamp(DataFields.Timestamp, 42)
-                            }
-                },
-                {
-                    3, new  List<DataField>()
-                            {
-                                DataField.Number(DataFields.JobCurrentStep, 65, 3),
-                                DataField.Number(DataFields.JobTotalNumberOfSteps, 70, 3),
-                                DataField.Number(DataFields.JobStepType, 75, 2)
-                            }
-                },
-                {
-                    4, new  List<DataField>()
-                            {
-                                DataField.Number(DataFields.JobTighteningStatus, 79, 2)
-                            }
-                },
-                {
-                    5, new  List<DataField>()
-                    {
-                        DataField.Number(DataFields.JobSequenceNumber, 83, 5),
-                        DataField.String(DataFields.VinNumber, 90, 25),
-                        DataField.String(DataFields.IdentifierResultPart2, 117, 25),
-                        DataField.String(DataFields.IdentifierResultPart3, 144, 25),
-                        DataField.String(DataFields.IdentifierResultPart4, 171, 25),
-                    }
-                },
-                {
-                    6, new List<DataField>()
-                    {
-                        DataField.String(DataFields.JointId, 198, 25)
-                    }
-                }
+            var fromRevision = Header.StandardizedRevision > 1 ? 2 : 1;
+            var toRevision = Header.StandardizedRevision;
 
-            };
-        }
-
-        private void HandleRevision()
-        {
-            var jobIdField = GetField(1, DataFields.JobId);
-            if (Header.Revision > 1)
+            for (int i = fromRevision; i <= toRevision; i++)
             {
-                jobIdField.Size = 4;
-            }
-            else
-            {
-                jobIdField.Size = 2;
-            }
-
-            int index = jobIdField.Index + jobIdField.Size;
-            for (int i = (int)DataFields.JobStatus; i < RevisionsByFields[1].Count; i++)
-            {
-                var field = GetField(1, i);
-                field.Index = 2 + index;
-                index = field.Index + field.Size;
+                foreach (var dataField in RevisionsByFields[i])
+                    yield return dataField;
             }
         }
 
+        [Obsolete("Use DataFieldDefinition attributes instead")]
         protected enum DataFields
         {
             //rev 1 and 2

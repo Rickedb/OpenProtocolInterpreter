@@ -194,6 +194,54 @@ namespace OpenProtocolInterpreter
         }
     }
 
+    public class Int32CollectionDefinitionAttribute : DataFieldDefinitionAttribute
+    {
+        public int EachFieldSize { get; set; }
+
+        public Int32CollectionDefinitionAttribute(int revision) : base(revision)
+        {
+            PaddingChar = '0';
+            PaddingOrientation = PaddingOrientation.LeftPadded;
+        }
+
+        public Int32CollectionDefinitionAttribute(int field, int revision) : base(field, revision)
+        {
+            PaddingChar = '0';
+            PaddingOrientation = PaddingOrientation.LeftPadded;
+        }
+
+        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        {
+            return new DataField<List<int>>(Field, index, Size, PaddingChar, PaddingOrientation, HasPrefix)
+            {
+                DefaultConverter = PackList,
+                DefaultParser = ParseList
+            }.Bind(mid, propertyInfo);
+        }
+
+        private string PackList(char paddingChar, int size, PaddingOrientation orientation, List<int> list)
+        {
+            var builder = new StringBuilder(list.Count);
+            foreach (var e in list)
+                builder.Append(OpenProtocolConvert.ToString(paddingChar, EachFieldSize, orientation, e));
+
+            return builder.ToString();
+        }
+
+        private List<int> ParseList(string value)
+        {
+            var span = value.AsSpan();
+            var list = new List<int>();
+            for (int i = 0; i < span.Length; i += EachFieldSize)
+            {
+                var slice = span.Slice(i, EachFieldSize);
+                list.Add(OpenProtocolConvert.ToInt32(slice.ToString()));
+            }
+
+            return list;
+        }
+    }
+
     public class EnumCollectionDefinitionAttribute<T> : DataFieldDefinitionAttribute where T : Enum
     {
         public EnumCollectionDefinitionAttribute(int revision) : base(revision)
@@ -214,10 +262,10 @@ namespace OpenProtocolInterpreter
             }.Bind(mid, propertyInfo);
         }
 
-        private static string PackEnums(char paddingChar, int size, PaddingOrientation orientation, List<T> greenLights)
+        private static string PackEnums(char paddingChar, int size, PaddingOrientation orientation, List<T> list)
         {
-            var builder = new StringBuilder(greenLights.Count);
-            foreach (var e in greenLights)
+            var builder = new StringBuilder(list.Count);
+            foreach (var e in list)
                 builder.Append(OpenProtocolConvert.ToString((int)(object)e));
 
             return builder.ToString();
