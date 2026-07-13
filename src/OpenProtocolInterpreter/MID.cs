@@ -121,11 +121,8 @@ namespace OpenProtocolInterpreter
             {
                 var result = new List<DataFieldMetadata>();
                 var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                                     .Where(x =>
-                                     {
-                                         return x.CustomAttributes.Any(a => a.AttributeType.IsAssignableTo(typeof(DataFieldDefinitionAttribute)));
-                                     });
-                int fieldIndex = 20;
+                                     .Where(x => x.CustomAttributes.Any(a => typeof(DataFieldDefinitionAttribute).IsAssignableFrom(a.AttributeType)));
+
                 foreach (var prop in properties)
                 {
                     var attributes = prop.GetCustomAttributes<DataFieldDefinitionAttribute>();
@@ -134,10 +131,7 @@ namespace OpenProtocolInterpreter
 
                     foreach (var attr in attributes)
                     {
-                        fieldIndex = attr.Index > 0 ? attr.Index : fieldIndex; //enforced index if defined in attribute
-                        attr.Index = fieldIndex;
-                        result.Add(new DataFieldMetadata(fieldIndex, attr, prop));
-                        fieldIndex += attr.Size + (attr.HasPrefix ? 2 : 0);
+                        result.Add(new DataFieldMetadata(attr.Index, attr, prop));
                     }
                 }
                 return result.ToArray();

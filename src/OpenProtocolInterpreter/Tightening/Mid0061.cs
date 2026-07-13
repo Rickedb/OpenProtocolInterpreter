@@ -329,7 +329,7 @@ namespace OpenProtocolInterpreter.Tightening
         {
             if (RevisionsByFields.Any())
             {
-                Header.Length = 20;
+                Header.Length = Header.DefaultSize;
                 if (Header.Revision == 998)
                 {
                     var stageResultField = GetField(nameof(StageResults));

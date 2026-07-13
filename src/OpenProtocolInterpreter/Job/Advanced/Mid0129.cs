@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Job.Advanced
 {
     /// <summary>
     /// Job batch increment
     /// <para>
-    ///     Decrement the Job batch if there is a current running Job. 
+    ///     Decrement the Job batch if there is a current running Job.
     ///     Two revisions are available for this MID.
     ///     The default revision or revision 1 does not contain any argument and always decrement the last
     ///     tightening completed in a Job.
@@ -21,16 +22,11 @@ namespace OpenProtocolInterpreter.Job.Advanced
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JobBatchDecrementFailed };
 
-        public int ChannelId
-        {
-            get => GetField(2, DataFields.ChannelId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(2, DataFields.ChannelId).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int ParameterSetId
-        {
-            get => GetField(2, DataFields.ParameterSetId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(2, DataFields.ParameterSetId).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 2, field: 1, Index = 20, Size = 2)]
+        public int ChannelId { get; set; }
+
+        [Int32DataFieldDefinition(revision: 2, field: 2, Index = 24, Size = 3)]
+        public int ParameterSetId { get; set; }
 
         public Mid0129() : this(DEFAULT_REVISION)
         {
@@ -47,23 +43,10 @@ namespace OpenProtocolInterpreter.Job.Advanced
             Revision = revision
         })
         {
-            
+
         }
 
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    2, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.ChannelId, 20, 2),
-                                DataField.Number(DataFields.ParameterSetId, 24, 3)
-                            }
-                }
-            };
-        }
-
+        [Obsolete("Use DataFieldDefinition attributes instead")]
         protected enum DataFields
         {
             ChannelId,

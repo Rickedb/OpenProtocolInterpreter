@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace OpenProtocolInterpreter.Job.Advanced
 {
@@ -112,12 +113,46 @@ namespace OpenProtocolInterpreter.Job.Advanced
         {
             return revision switch
             {
+                1 => 15,
                 2 => 52,
                 3 => 63,
                 4 => 67,
                 999 => 18,
-                _ => 15,
+                _ => 67,
             };
         }
+    }
+
+    public class AdvancedJobCollectionDefinitionAttribute : DataFieldDefinitionAttribute
+    {
+        public AdvancedJobCollectionDefinitionAttribute(int revision) : base(revision)
+        {
+
+        }
+        public AdvancedJobCollectionDefinitionAttribute(int field, int revision) : base(field, revision)
+        {
+
+        }
+
+        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        {
+            return new DataField<List<AdvancedJob>>(Field, index, Size, HasPrefix)
+            {
+                DefaultConverter = PackAdvancedJobs,
+                DefaultParser = ParseAdvancedJobs
+            }.Bind(mid, propertyInfo);
+        }
+
+        private string PackAdvancedJobs(char paddingChar, int size, PaddingOrientation orientation, List<AdvancedJob> advancedJobs)
+        {
+            var list = new List<string>();
+            foreach (var advancedJob in advancedJobs)
+                list.Add(advancedJob.Pack(Revision));
+
+            return string.Concat(string.Join(";", list), ";");
+        }
+
+        private List<AdvancedJob> ParseAdvancedJobs(string value)
+            => AdvancedJob.ParseAll(value, Revision).ToList();
     }
 }
