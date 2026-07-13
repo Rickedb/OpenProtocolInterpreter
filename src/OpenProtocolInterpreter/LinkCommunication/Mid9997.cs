@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.LinkCommunication
 {
@@ -18,11 +19,8 @@ namespace OpenProtocolInterpreter.LinkCommunication
     {
         public const int MID = 9997;
 
-        public int MidNumber
-        {
-            get => GetField(1, DataFields.MidNumber).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.MidNumber).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 4, HasPrefix = false)]
+        public int MidNumber { get; set; }
 
         public Mid9997(Header header) : base(header)
         {
@@ -36,19 +34,7 @@ namespace OpenProtocolInterpreter.LinkCommunication
         {
         }
 
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.MidNumber, 20, 4, false)
-                            }
-                }
-            };
-        }
-
+        [Obsolete("Use DataFieldDefinition attributes instead")]
         protected enum DataFields
         {
             MidNumber
