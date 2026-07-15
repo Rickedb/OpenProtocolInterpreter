@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace OpenProtocolInterpreter.MultipleIdentifiers
 {
@@ -49,5 +50,29 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
                 ResultPart = section.SafeSubstring(5, 25)
             };
         }
+    }
+
+    public class IdentifierStatusDefinitionAttribute : DataFieldDefinitionAttribute
+    {
+        public IdentifierStatusDefinitionAttribute(int revision) : base(revision)
+        {
+
+        }
+        public IdentifierStatusDefinitionAttribute(int field, int revision) : base(field, revision)
+        {
+
+        }
+
+        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        {
+            return new DataField<IdentifierStatus>(Field, index, Size, HasPrefix)
+            {
+                DefaultConverter = Pack,
+                DefaultParser = IdentifierStatus.Parse
+            }.Bind(mid, propertyInfo);
+        }
+
+        private static string Pack(char paddingChar, int size, PaddingOrientation orientation, IdentifierStatus identifierStatus)
+            => identifierStatus.Pack();
     }
 }

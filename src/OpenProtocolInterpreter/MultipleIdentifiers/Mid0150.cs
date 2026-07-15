@@ -1,5 +1,5 @@
 using System;
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.MultipleIdentifiers
 {
@@ -7,7 +7,7 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
     /// Identifier download request
     /// <para>Used by the integrator to send an identifier to the controller.</para>
     /// <para>Message sent by: Integrator</para>
-    ///<para>Answer: <see cref="Communication.Mid0005"/> Command accepted or <see cref="Communication.Mid0004"/> Command error, Identifier input source not granted</para> 
+    ///<para>Answer: <see cref="Communication.Mid0005"/> Command accepted or <see cref="Communication.Mid0004"/> Command error, Identifier input source not granted</para>
     /// </summary>
     public class Mid0150 : Mid, IMultipleIdentifier, IIntegrator, IAcceptableCommand, IDeclinableCommand
     {
@@ -15,57 +15,47 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.IdentifierInputSourceNotGranted };
 
-        public string IdentifierData
-        {
-            get => GetField(1, DataFields.IdentifierData).Value;
-            set => GetField(1, DataFields.IdentifierData).SetValue(value);
-        }
+        [StringDataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 0, HasPrefix = false)]
+        public string IdentifierData { get; set; }
 
         public Mid0150() : this(new Header()
         {
             Mid = MID,
             Revision = DEFAULT_REVISION
-        }) 
-        { 
+        })
+        {
         }
 
         public Mid0150(Header header) : base(header)
         {
         }
 
+        protected override string BuildHeader()
+        {
+
+            Header.Length = Header.DefaultSize + IdentifierData?.Length ?? 0;
+            return Header.ToString();
+        }
+
         public override string Pack()
         {
-            var identifierDataField = GetField(1, DataFields.IdentifierData);
-            if(identifierDataField.Value.Length > 100)
+            if (IdentifierData?.Length > 100)
             {
-                identifierDataField.Value = identifierDataField.Value.Substring(0, 100);
+                IdentifierData = IdentifierData.Substring(0, 100);
             }
 
-            identifierDataField.Size = identifierDataField.Value.Length;
             return base.Pack();
         }
 
         public override Mid Parse(ReadOnlySpan<char> package)
         {
             Header = ProcessHeader(package);
-            GetField(1, DataFields.IdentifierData).Size = Header.Length - 20;
+            GetField(nameof(IdentifierData)).Size = Header.Length - Header.DefaultSize;
             ProcessDataFields(package);
             return this;
         }
 
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                    {
-                        DataField.Volatile(DataFields.IdentifierData, 20, false)
-                    }
-                }
-            };
-        }
-
+        [Obsolete("Use DataFieldDefinition attributes instead")]
         protected enum DataFields
         {
             IdentifierData
