@@ -17,26 +17,15 @@ namespace OpenProtocolInterpreter.MultiSpindle
     {
         public const int MID = 91;
 
-        public int NumberOfSpindles
-        {
-            get => GetField(1, DataFields.NumberOfSpindles).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.NumberOfSpindles).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int SyncTighteningId
-        {
-            get => GetField(1, DataFields.SyncTighteningId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.SyncTighteningId).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public DateTime Time
-        {
-            get => GetField(1, DataFields.Time).GetValue(OpenProtocolConvert.ToDateTime);
-            set => GetField(1, DataFields.Time).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public bool SyncOverallStatus
-        {
-            get => GetField(1, DataFields.SyncOverallStatus).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1, DataFields.SyncOverallStatus).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 2)]
+        public int NumberOfSpindles { get; set; }
+        [Int32DataFieldDefinition(revision: 1, field: 2, Index = 24, Size = 5)]
+        public int SyncTighteningId { get; set; }
+        [TimestampDataFieldDefinition(revision: 1, field: 3, Index = 31)]
+        public DateTime Time { get; set; }
+        [BooleanDataFieldDefinition(revision: 1, field: 4, Index = 52)]
+        public bool SyncOverallStatus { get; set; }
+        [SpindleStatusCollectionDefinition(revision: 1, field: 5, Index = 55, Size = 5)]
         public List<SpindleStatus> SpindlesStatus { get; set; }
 
         public Mid0091() : this(new Header()
@@ -53,69 +42,24 @@ namespace OpenProtocolInterpreter.MultiSpindle
             SpindlesStatus ??= [];
         }
 
+
         public override string Pack()
         {
-            GetField(1, DataFields.SpindleStatus).Value = PackSpindlesStatus();
+            NumberOfSpindles = SpindlesStatus?.Count ?? 0; //Enforce the number of spindles to match the list count
+            GetField(nameof(SpindlesStatus)).Size = NumberOfSpindles * SpindleStatus.DefaultSize;
             return base.Pack();
         }
 
-        public override Mid Parse(ReadOnlySpan<char> package)
+        protected override void ProcessDataField(DataField dataField, ReadOnlySpan<char> package)
         {
-            Header = ProcessHeader(package);
-            var spindleField = GetField(1, DataFields.SpindleStatus);
-            spindleField.Size = Header.Length - spindleField.Index - 2;
-            base.Parse(package);
-            SpindlesStatus = ParseSpindlesStatus(spindleField.Value);
-            return this;
-        }
-
-        //TODO: move to SpindleStatus class
-        protected virtual string PackSpindlesStatus()
-        {
-            var builder = new StringBuilder();
-            foreach (var spindle in SpindlesStatus)
-                builder.Append(OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, spindle.SpindleNumber) +
-                                OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, spindle.ChannelId) +
-                                OpenProtocolConvert.ToString(spindle.SyncOverallStatus));
-
-            return builder.ToString();
-        }
-
-        protected virtual List<SpindleStatus> ParseSpindlesStatus(string section)
-        {
-            var list = new List<SpindleStatus>();
-            for (int i = 0; i < section.Length; i += 5)
+            if (dataField.Field == 5)
             {
-                var obj = new SpindleStatus()
-                {
-                    SpindleNumber = OpenProtocolConvert.ToInt32(section.Substring(i, 2)),
-                    ChannelId = OpenProtocolConvert.ToInt32(section.Substring(i + 2, 2)),
-                    SyncOverallStatus = OpenProtocolConvert.ToBoolean(section.Substring(i + 4, 1))
-                };
-
-                list.Add(obj);
+                dataField.Size = NumberOfSpindles * SpindleStatus.DefaultSize;
             }
-
-            return list;
+            base.ProcessDataField(dataField, package);
         }
 
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.NumberOfSpindles, 20, 2),
-                                DataField.Number(DataFields.SyncTighteningId, 24, 5),
-                                DataField.Timestamp(DataFields.Time, 31),
-                                DataField.Boolean(DataFields.SyncOverallStatus, 52),
-                                new(DataFields.SpindleStatus, 55, 5)
-                            }
-                }
-            };
-        }
-
+        [Obsolete("Use DataFieldDefinition attributes instead")]
         protected enum DataFields
         {
             NumberOfSpindles,

@@ -10,7 +10,7 @@ namespace OpenProtocolInterpreter.MultiSpindle
     /// <para>Note: MID 0104 can’t be used if there is an active subscription for multiple spindle results.</para>
     /// <para>Message sent by: Integrator</para>
     /// <para>
-    /// Answer: <see cref="Mid0101"/> Command accepted or 
+    /// Answer: <see cref="Mid0101"/> Command accepted or
     /// <see cref="Communication.Mid0004"/> Command error, Multi spindle result subscription already exists
     /// </para>
     /// </summary>
@@ -20,11 +20,8 @@ namespace OpenProtocolInterpreter.MultiSpindle
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.MultiSpindleResultSubscriptionAlreadyExists };
 
-        public long RequestedResultIndex
-        {
-            get => GetField(1, DataFields.RequestedResultIndex).GetValue(OpenProtocolConvert.ToInt64);
-            set => GetField(1, DataFields.RequestedResultIndex).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int64DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 10)]
+        public long RequestedResultIndex { get; set; }
 
         public Mid0104() : base(MID, DEFAULT_REVISION) { }
 
@@ -32,19 +29,7 @@ namespace OpenProtocolInterpreter.MultiSpindle
         {
         }
 
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.RequestedResultIndex, 20, 10),
-                            }
-                }
-            };
-        }
-
+        [Obsolete("Use DataFieldDefinition attributes instead")]
         protected enum DataFields
         {
             RequestedResultIndex

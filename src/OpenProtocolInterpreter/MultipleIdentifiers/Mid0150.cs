@@ -32,7 +32,6 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
 
         protected override string BuildHeader()
         {
-
             Header.Length = Header.DefaultSize + IdentifierData?.Length ?? 0;
             return Header.ToString();
         }

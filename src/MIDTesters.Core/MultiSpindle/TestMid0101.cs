@@ -13,11 +13,11 @@ namespace MIDTesters.MultiSpindle
         [TestCategory("Revision 1"), TestCategory("Revision 2"), TestCategory("Revision 3"), TestCategory("ASCII")]
         public void Mid0101Revisions1To3()
         {
-            var pack = "01920101001         010102BM3GA02111900601         030304003050001060001071080006800900092010000800110000012000151300000142019-11-14:14:08:05152019-11-25:11:22:41160091317118010111000809100000";
+            var pack = "02100101001         010202BM3GA02111900601         030304003050001060001071080006800900092010000800110000012000151300000142019-11-14:14:08:05152019-11-25:11:22:41160091317118010111000809100000020111000809100000";
             var mid = _midInterpreter.Parse<Mid0101>(pack);
 
             Assert.AreEqual(typeof(Mid0101), mid.GetType());
-            Assert.AreEqual(1, mid.NumberOfSpindlesOrPresses);
+            Assert.AreEqual(2, mid.NumberOfSpindlesOrPresses);
             Assert.AreEqual("BM3GA02111900601", mid.VinNumber.TrimEnd());
             Assert.AreEqual(3, mid.JobId);
             Assert.AreEqual(3, mid.ParameterSetId);
@@ -34,7 +34,7 @@ namespace MIDTesters.MultiSpindle
             Assert.AreEqual(new DateTime(2019, 11, 25, 11, 22, 41), mid.TimeStamp);
             Assert.AreEqual(913, mid.SyncTighteningId);
             Assert.IsTrue(mid.SyncOverallStatus);
-            Assert.AreEqual(1, mid.SpindlesOrPressesStatus.Count);
+            Assert.AreEqual(2, mid.SpindlesOrPressesStatus.Count);
             AssertEqualPackages(pack, mid);
         }
 
@@ -42,12 +42,12 @@ namespace MIDTesters.MultiSpindle
         [TestCategory("Revision 1"), TestCategory("Revision 2"), TestCategory("Revision 3"), TestCategory("ByteArray")]
         public void Mid0101ByteRevisions1To3()
         {
-            string package = "01920101001         010102BM3GA02111900601         030304003050001060001071080006800900092010000800110000012000151300000142019-11-14:14:08:05152019-11-25:11:22:41160091317118010111000809100000";
+            string package = "02100101001         010202BM3GA02111900601         030304003050001060001071080006800900092010000800110000012000151300000142019-11-14:14:08:05152019-11-25:11:22:41160091317118010111000809100000020111000809100000";
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0101>(bytes);
 
             Assert.AreEqual(typeof(Mid0101), mid.GetType());
-            Assert.AreEqual(1, mid.NumberOfSpindlesOrPresses);
+            Assert.AreEqual(2, mid.NumberOfSpindlesOrPresses);
             Assert.AreEqual("BM3GA02111900601", mid.VinNumber.TrimEnd());
             Assert.AreEqual(3, mid.JobId);
             Assert.AreEqual(3, mid.ParameterSetId);
@@ -64,7 +64,7 @@ namespace MIDTesters.MultiSpindle
             Assert.AreEqual(new DateTime(2019, 11, 25, 11, 22, 41), mid.TimeStamp);
             Assert.AreEqual(913, mid.SyncTighteningId);
             Assert.IsTrue(mid.SyncOverallStatus);
-            Assert.AreEqual(1, mid.SpindlesOrPressesStatus.Count);
+            Assert.AreEqual(2, mid.SpindlesOrPressesStatus.Count);
             AssertEqualPackages(bytes, mid);
         }
 
@@ -72,11 +72,11 @@ namespace MIDTesters.MultiSpindle
         [TestCategory("Revision 4"), TestCategory("ASCII")]
         public void Mid0101Revision4()
         {
-            var pack = "01970101004         010102BM3GA02111900601         030304003050001060001071080006800900092010000800110000012000151300000142019-11-14:14:08:05152019-11-25:11:22:4116009131711801011100080910000019002";
+            var pack = "02150101004         010202BM3GA02111900601         030304003050001060001071080006800900092010000800110000012000151300000142019-11-14:14:08:05152019-11-25:11:22:4116009131711801011100080910000002011100080910000019002";
             var mid = _midInterpreter.Parse<Mid0101>(pack);
 
             Assert.AreEqual(typeof(Mid0101), mid.GetType());
-            Assert.AreEqual(1, mid.NumberOfSpindlesOrPresses);
+            Assert.AreEqual(2, mid.NumberOfSpindlesOrPresses);
             Assert.AreEqual("BM3GA02111900601", mid.VinNumber.TrimEnd());
             Assert.AreEqual(3, mid.JobId);
             Assert.AreEqual(3, mid.ParameterSetId);
@@ -93,7 +93,7 @@ namespace MIDTesters.MultiSpindle
             Assert.AreEqual(new DateTime(2019, 11, 25, 11, 22, 41), mid.TimeStamp);
             Assert.AreEqual(913, mid.SyncTighteningId);
             Assert.IsTrue(mid.SyncOverallStatus);
-            Assert.AreEqual(1, mid.SpindlesOrPressesStatus.Count);
+            Assert.AreEqual(2, mid.SpindlesOrPressesStatus.Count);
             Assert.AreEqual(SystemSubType.SystemRunningPresses, mid.SystemSubType);
             AssertEqualPackages(pack, mid);
         }
@@ -102,12 +102,12 @@ namespace MIDTesters.MultiSpindle
         [TestCategory("Revision 4"), TestCategory("ByteArray")]
         public void Mid0101ByteRevision4()
         {
-            var package = "01970101004         010102BM3GA02111900601         030304003050001060001071080006800900092010000800110000012000151300000142019-11-14:14:08:05152019-11-25:11:22:4116009131711801011100080910000019002";
+            var package = "02150101004         010202BM3GA02111900601         030304003050001060001071080006800900092010000800110000012000151300000142019-11-14:14:08:05152019-11-25:11:22:4116009131711801011100080910000002011100080910000019002";
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0101>(bytes);
 
             Assert.AreEqual(typeof(Mid0101), mid.GetType());
-            Assert.AreEqual(1, mid.NumberOfSpindlesOrPresses);
+            Assert.AreEqual(2, mid.NumberOfSpindlesOrPresses);
             Assert.AreEqual("BM3GA02111900601", mid.VinNumber.TrimEnd());
             Assert.AreEqual(3, mid.JobId);
             Assert.AreEqual(3, mid.ParameterSetId);
@@ -124,7 +124,7 @@ namespace MIDTesters.MultiSpindle
             Assert.AreEqual(new DateTime(2019, 11, 25, 11, 22, 41), mid.TimeStamp);
             Assert.AreEqual(913, mid.SyncTighteningId);
             Assert.IsTrue(mid.SyncOverallStatus);
-            Assert.AreEqual(1, mid.SpindlesOrPressesStatus.Count);
+            Assert.AreEqual(2, mid.SpindlesOrPressesStatus.Count);
             Assert.AreEqual(SystemSubType.SystemRunningPresses, mid.SystemSubType);
             AssertEqualPackages(bytes, mid);
         }
@@ -133,11 +133,11 @@ namespace MIDTesters.MultiSpindle
         [TestCategory("Revision 5"), TestCategory("ASCII")]
         public void Mid0101Revision5()
         {
-            var pack = "02040101005         010102BM3GA02111900601         030304003050001060001071080006800900092010000800110000012000151300000142019-11-14:14:08:05152019-11-25:11:22:41160091317118010111000809100000190022000021";
+            var pack = "02220101005         010202BM3GA02111900601         030304003050001060001071080006800900092010000800110000012000151300000142019-11-14:14:08:05152019-11-25:11:22:41160091317118010111000809100000020111000809100000190022000021";
             var mid = _midInterpreter.Parse<Mid0101>(pack);
 
             Assert.AreEqual(typeof(Mid0101), mid.GetType());
-            Assert.AreEqual(1, mid.NumberOfSpindlesOrPresses);
+            Assert.AreEqual(2, mid.NumberOfSpindlesOrPresses);
             Assert.AreEqual("BM3GA02111900601", mid.VinNumber.TrimEnd());
             Assert.AreEqual(3, mid.JobId);
             Assert.AreEqual(3, mid.ParameterSetId);
@@ -154,7 +154,7 @@ namespace MIDTesters.MultiSpindle
             Assert.AreEqual(new DateTime(2019, 11, 25, 11, 22, 41), mid.TimeStamp);
             Assert.AreEqual(913, mid.SyncTighteningId);
             Assert.IsTrue(mid.SyncOverallStatus);
-            Assert.AreEqual(1, mid.SpindlesOrPressesStatus.Count);
+            Assert.AreEqual(2, mid.SpindlesOrPressesStatus.Count);
             Assert.AreEqual(SystemSubType.SystemRunningPresses, mid.SystemSubType);
             Assert.AreEqual(21, mid.JobSequenceNumber);
             AssertEqualPackages(pack, mid);
@@ -164,12 +164,12 @@ namespace MIDTesters.MultiSpindle
         [TestCategory("Revision 5"), TestCategory("ByteArray")]
         public void Mid0101ByteRevision5()
         {
-            var package = "02040101005         010102BM3GA02111900601         030304003050001060001071080006800900092010000800110000012000151300000142019-11-14:14:08:05152019-11-25:11:22:41160091317118010111000809100000190022000021";
+            var package = "02220101005         010202BM3GA02111900601         030304003050001060001071080006800900092010000800110000012000151300000142019-11-14:14:08:05152019-11-25:11:22:41160091317118010111000809100000020111000809100000190022000021";
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0101>(bytes);
 
             Assert.AreEqual(typeof(Mid0101), mid.GetType());
-            Assert.AreEqual(1, mid.NumberOfSpindlesOrPresses);
+            Assert.AreEqual(2, mid.NumberOfSpindlesOrPresses);
             Assert.AreEqual("BM3GA02111900601", mid.VinNumber.TrimEnd());
             Assert.AreEqual(3, mid.JobId);
             Assert.AreEqual(3, mid.ParameterSetId);
@@ -186,7 +186,7 @@ namespace MIDTesters.MultiSpindle
             Assert.AreEqual(new DateTime(2019, 11, 25, 11, 22, 41), mid.TimeStamp);
             Assert.AreEqual(913, mid.SyncTighteningId);
             Assert.IsTrue(mid.SyncOverallStatus);
-            Assert.AreEqual(1, mid.SpindlesOrPressesStatus.Count);
+            Assert.AreEqual(2, mid.SpindlesOrPressesStatus.Count);
             Assert.AreEqual(SystemSubType.SystemRunningPresses, mid.SystemSubType);
             Assert.AreEqual(21, mid.JobSequenceNumber);
             AssertEqualPackages(bytes, mid);
@@ -196,11 +196,11 @@ namespace MIDTesters.MultiSpindle
         [TestCategory("Revision 6"), TestCategory("ASCII")]
         public void Mid0101Revision6()
         {
-            var pack = "02040101006         010102BM3GA02111900601         030304003050001060001071080006800900092010000800110000012-00151300000142019-11-14:14:08:05152019-11-25:11:22:41160091317118010111000809100000190022000021";
+            var pack = "02220101006         010202BM3GA02111900601         030304003050001060001071080006800900092010000800110000012-00151300000142019-11-14:14:08:05152019-11-25:11:22:41160091317118010111000809100000020111000809100000190022000021";
             var mid = _midInterpreter.Parse<Mid0101>(pack);
 
             Assert.AreEqual(typeof(Mid0101), mid.GetType());
-            Assert.AreEqual(1, mid.NumberOfSpindlesOrPresses);
+            Assert.AreEqual(2, mid.NumberOfSpindlesOrPresses);
             Assert.AreEqual("BM3GA02111900601", mid.VinNumber.TrimEnd());
             Assert.AreEqual(3, mid.JobId);
             Assert.AreEqual(3, mid.ParameterSetId);
@@ -217,7 +217,7 @@ namespace MIDTesters.MultiSpindle
             Assert.AreEqual(new DateTime(2019, 11, 25, 11, 22, 41), mid.TimeStamp);
             Assert.AreEqual(913, mid.SyncTighteningId);
             Assert.IsTrue(mid.SyncOverallStatus);
-            Assert.AreEqual(1, mid.SpindlesOrPressesStatus.Count);
+            Assert.AreEqual(2, mid.SpindlesOrPressesStatus.Count);
             Assert.AreEqual(SystemSubType.SystemRunningPresses, mid.SystemSubType);
             Assert.AreEqual(21, mid.JobSequenceNumber);
             AssertEqualPackages(pack, mid);
@@ -227,12 +227,12 @@ namespace MIDTesters.MultiSpindle
         [TestCategory("Revision 6"), TestCategory("ByteArray")]
         public void Mid0101ByteRevision6()
         {
-            var package = "02040101006         010102BM3GA02111900601         030304003050001060001071080006800900092010000800110000012-00151300000142019-11-14:14:08:05152019-11-25:11:22:41160091317118010111000809100000190022000021";
+            var package = "02220101006         010202BM3GA02111900601         030304003050001060001071080006800900092010000800110000012-00151300000142019-11-14:14:08:05152019-11-25:11:22:41160091317118010111000809100000020111000809100000190022000021";
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0101>(bytes);
 
             Assert.AreEqual(typeof(Mid0101), mid.GetType());
-            Assert.AreEqual(1, mid.NumberOfSpindlesOrPresses);
+            Assert.AreEqual(2, mid.NumberOfSpindlesOrPresses);
             Assert.AreEqual("BM3GA02111900601", mid.VinNumber.TrimEnd());
             Assert.AreEqual(3, mid.JobId);
             Assert.AreEqual(3, mid.ParameterSetId);
@@ -249,7 +249,7 @@ namespace MIDTesters.MultiSpindle
             Assert.AreEqual(new DateTime(2019, 11, 25, 11, 22, 41), mid.TimeStamp);
             Assert.AreEqual(913, mid.SyncTighteningId);
             Assert.IsTrue(mid.SyncOverallStatus);
-            Assert.AreEqual(1, mid.SpindlesOrPressesStatus.Count);
+            Assert.AreEqual(2, mid.SpindlesOrPressesStatus.Count);
             Assert.AreEqual(SystemSubType.SystemRunningPresses, mid.SystemSubType);
             Assert.AreEqual(21, mid.JobSequenceNumber);
             AssertEqualPackages(bytes, mid);

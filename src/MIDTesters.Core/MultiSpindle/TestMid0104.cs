@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.MultiSpindle;
 
-namespace MIDTesters.Core.MultiSpindle
+namespace MIDTesters.MultiSpindle
 {
     [TestClass]
     [TestCategory("MultiSpindle")]

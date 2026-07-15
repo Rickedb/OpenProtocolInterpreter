@@ -86,15 +86,16 @@ namespace OpenProtocolInterpreter
         }
 
         public static string TruncatedDecimalToString(char paddingChar, int size, PaddingOrientation orientation, decimal value)
-        {
-            var str = TruncatedDecimalToString(value);
-            return TruncatePadded(paddingChar, size, orientation, str);
-        }
+            => TruncatedDecimalToString(paddingChar, size, orientation, value, 2);
 
         public static string TruncatedDecimalToString(char paddingChar, int size, PaddingOrientation orientation, decimal value, int decimalDigits)
         {
-            var str = TruncatedDecimalToString(value, decimalDigits);
-            return TruncatePadded(paddingChar, size, orientation, str);
+            if (value < 0)
+            {
+                return string.Concat("-", TruncatePadded(paddingChar, size - 1, orientation, TruncatedDecimalToString(-value, decimalDigits)));
+            }
+
+            return TruncatePadded(paddingChar, size, orientation, TruncatedDecimalToString(value, decimalDigits));
         }
 
         public static decimal ToTruncatedDecimal(string value)
