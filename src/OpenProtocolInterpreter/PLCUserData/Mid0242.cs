@@ -1,5 +1,5 @@
 using System;
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.PLCUserData
 {
@@ -13,11 +13,8 @@ namespace OpenProtocolInterpreter.PLCUserData
     {
         public const int MID = 242;
 
-        public string UserData
-        {
-            get => GetField(1, DataFields.UserData).Value;
-            set => GetField(1, DataFields.UserData).SetValue(value);
-        }
+        [StringDataFieldDefinition(revision: 1, field: 1, Index = 20, HasPrefix = false)]
+        public string UserData { get; set; }
 
         public Mid0242() : base(MID, DEFAULT_REVISION)
         {
@@ -30,34 +27,22 @@ namespace OpenProtocolInterpreter.PLCUserData
 
         public override string Pack()
         {
-            GetField(1, DataFields.UserData).Size = UserData.Length;
+            if (UserData.Length > 200)
+            {
+                UserData = UserData.SafeSubstring(0, 200);
+            }
+
+            GetField(revision: 1, field: 1).Size = UserData.Length; //Enforce size of user data
             return base.Pack();
         }
 
-        public override Mid Parse(ReadOnlySpan<char> package)
+        protected override void ProcessDataField(DataField dataField, ReadOnlySpan<char> package)
         {
-            Header = ProcessHeader(package);
-            GetField(1, DataFields.UserData).Size = Header.Length - 20;
-            ProcessDataFields(package);
-            return this;
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
+            if (dataField.Field == 1) //UserData
             {
-                {
-                    1, new List<DataField>()
-                    {
-                        DataField.Volatile(DataFields.UserData, 20, false)
-                    }
-                }
-            };
-        }
-
-        internal enum DataFields
-        {
-            UserData
+                dataField.Size = Header.Length - dataField.Index;
+            }
+            base.ProcessDataField(dataField, package);
         }
     }
 }

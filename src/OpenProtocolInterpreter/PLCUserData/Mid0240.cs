@@ -1,5 +1,5 @@
 using System;
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.PLCUserData
 {
@@ -8,7 +8,7 @@ namespace OpenProtocolInterpreter.PLCUserData
     /// <para>Used by the integrator to send user data input to the PLC.</para>
     /// <para>Message sent by: Integrator</para>
     /// <para>
-    ///     Answer: <see cref="Communication.Mid0005"/> Command accepted or 
+    ///     Answer: <see cref="Communication.Mid0005"/> Command accepted or
     ///         <see cref="Communication.Mid0004"/> Command error, Invalid data, or Controller is not a sync master/station controller
     /// </para>
     /// </summary>
@@ -18,11 +18,8 @@ namespace OpenProtocolInterpreter.PLCUserData
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.InvalidData, Error.ControllerIsNotASyncMasterOrStationController };
 
-        public string UserData
-        {
-            get => GetField(1, DataFields.UserData).Value;
-            set => GetField(1, DataFields.UserData).SetValue(value);
-        }
+        [StringDataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 200, HasPrefix = false)]
+        public string UserData { get; set; }
 
         public Mid0240() : base(MID, DEFAULT_REVISION) { }
 
@@ -32,40 +29,22 @@ namespace OpenProtocolInterpreter.PLCUserData
 
         public override string Pack()
         {
-            var userDataField = GetField(1, DataFields.UserData);
-            if (userDataField.Value.Length > 200)
+            if (UserData.Length > 200)
             {
-                userDataField.Value = userDataField.Value.Substring(0, 200);
+                UserData = UserData.SafeSubstring(0, 200);
             }
 
-            userDataField.Size = userDataField.Value.Length;
+            GetField(revision: 1, field: 1).Size = UserData.Length; //Enforce size of user data
             return base.Pack();
         }
 
-        public override Mid Parse(ReadOnlySpan<char> package)
+        protected override void ProcessDataField(DataField dataField, ReadOnlySpan<char> package)
         {
-            Header = ProcessHeader(package);
-            GetField(1, DataFields.UserData).Size = Header.Length - 20;
-            ProcessDataFields(package);
-            return this;
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
+            if (dataField.Field == 1) //UserData
             {
-                {
-                    1, new List<DataField>()
-                    {
-                        DataField.Volatile(DataFields.UserData, 20, false)
-                    }
-                }
-            };
-        }
-
-        internal enum DataFields
-        {
-            UserData
+                dataField.Size = Header.Length - dataField.Index;
+            }
+            base.ProcessDataField(dataField, package);
         }
     }
 }
