@@ -1,6 +1,7 @@
 using System;
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace OpenProtocolInterpreter.ParameterSet
 {
@@ -10,7 +11,7 @@ namespace OpenProtocolInterpreter.ParameterSet
     ///     The transmission of all the valid parameter set IDs of the controller. In the revision 000-001 the data
     ///     field contains the number of valid parameter sets currently present in the controller, and the ID of each
     ///     parameter set present.In revision 2 is the number of stages on each Pset/Mset added.
-    /// </para>    
+    /// </para>
     /// <para>Message sent by: Controller</para>
     /// <para>Answer: None</para>
     /// </summary>
@@ -18,16 +19,15 @@ namespace OpenProtocolInterpreter.ParameterSet
     {
         public const int MID = 11;
 
-        public int TotalParameterSets
-        {
-            get => ParameterSets.Count;
-        }
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 3, HasPrefix = false)]
+        public int TotalParameterSets { get; set; }
 
+        [Int32CollectionDefinition(revision: 1, field: 2, Index = 23, EachFieldSize = 3, HasPrefix = false)]
         public List<int> ParameterSets { get; set; }
 
         public Mid0011() : this(new Header()
         {
-            Mid = MID, 
+            Mid = MID,
             Revision = DEFAULT_REVISION
         })
         {
@@ -38,56 +38,22 @@ namespace OpenProtocolInterpreter.ParameterSet
             ParameterSets ??= [];
         }
 
+        protected override void ProcessDataField(DataField dataField, ReadOnlySpan<char> package)
+        {
+            if (dataField.Field == 2) //ParameterSets
+            {
+                dataField.Size = TotalParameterSets * 3;
+            }
+            base.ProcessDataField(dataField, package);
+        }
         public override string Pack()
         {
-            GetField(1, DataFields.TotalParameterSets).SetValue(OpenProtocolConvert.ToString, TotalParameterSets);
-            var eachParameterField = GetField(1, DataFields.EachParameterSet);
-            eachParameterField.Value = PackParameterSetIdList();
-            eachParameterField.Size = eachParameterField.Value.Length;
+            TotalParameterSets = ParameterSets?.Count ?? 0; //Enforce the number of parameter sets to match the list count
+            GetField(nameof(ParameterSets)).Size = TotalParameterSets * 3;
             return base.Pack();
         }
 
-        public override Mid Parse(ReadOnlySpan<char> package)
-        {
-            Header = ProcessHeader(package);
-
-            GetField(1, DataFields.EachParameterSet).Size = Header.Length - GetField(1, DataFields.EachParameterSet).Index;
-            ProcessDataFields(package);
-            ParameterSets = ParseParameterSetIdList(GetField(1, DataFields.EachParameterSet).Value).ToList();
-            return this;
-        }
-
-        protected virtual string PackParameterSetIdList()
-        {
-            string pack = string.Empty;
-            foreach (var v in ParameterSets)
-                pack += OpenProtocolConvert.ToString('0', 3, PaddingOrientation.LeftPadded, v);
-            return pack;
-        }
-
-        protected virtual List<int> ParseParameterSetIdList(string section)
-        {
-            var list = new List<int>();
-            for (int i = 0; i < section.Length; i += 3)
-                list.Add(OpenProtocolConvert.ToInt32(section.Substring(i, 3)));
-
-            return list;
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.TotalParameterSets, 20, 3, false),
-                                new(DataFields.EachParameterSet, 23, 3, false)
-                            }
-                }
-            };
-        }
-
+        [Obsolete("Use DataFieldDefinition attributes instead")]
         protected enum DataFields
         {
             TotalParameterSets,

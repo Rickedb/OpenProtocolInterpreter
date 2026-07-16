@@ -46,6 +46,7 @@ namespace OpenProtocolInterpreter.Alarm
         public override string Pack()
         {
             NumberOfDataFields = AlarmDataFields?.Count ?? 0; //Enforce list size even if modified
+            GetField(revision: 1, field: 3).Size = AlarmDataFields?.Sum(x => x.TotalSize) ?? 0; //Enforce size of variable data fields
             return base.Pack();
         }
 

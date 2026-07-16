@@ -2,7 +2,7 @@
 using OpenProtocolInterpreter;
 using OpenProtocolInterpreter.ParameterSet;
 
-namespace MIDTesters.Core.ParameterSet
+namespace MIDTesters.ParameterSet
 {
     [TestClass]
     [TestCategory("ParameterSet")]

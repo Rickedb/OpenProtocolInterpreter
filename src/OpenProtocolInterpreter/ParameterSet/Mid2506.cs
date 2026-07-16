@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.ParameterSet
 {
@@ -19,16 +20,11 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public IEnumerable<Error> DocumentedPossibleErrors => [];
 
-        public int ProgramId
-        {
-            get => GetField(1, DataFields.ProgramId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.ProgramId).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public NodeType NodeType
-        {
-            get => (NodeType)GetField(1, DataFields.NodeType).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.NodeType).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 4, HasPrefix = false)]
+        public int ProgramId { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 2, Index = 24, Size = 3, HasPrefix = false)]
+        public NodeType NodeType { get; set; }
 
         public Mid2506() : this(new Header()
         {
@@ -44,20 +40,7 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         }
 
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.ProgramId, 20, 4, false),
-                                DataField.Number(DataFields.NodeType, 24, 3, false),
-                            }
-                }
-            };
-        }
-
+        [Obsolete("Use DataFieldDefinition attributes instead")]
         protected enum DataFields
         {
             ProgramId,

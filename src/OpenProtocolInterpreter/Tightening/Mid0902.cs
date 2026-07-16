@@ -47,11 +47,13 @@ namespace OpenProtocolInterpreter.Tightening
 
         public Mid0902(Header header) : base(header)
         {
+            VariableDataFields = [];
         }
 
         public override string Pack()
         {
             NumberOfPIDs = VariableDataFields?.Count ?? 0; //Enforce list size even if modified
+            GetField(revision: 1, field: 7).Size = VariableDataFields?.Sum(x => x.TotalSize) ?? 0; //Enforce size of variable data fields
             return base.Pack();
         }
 

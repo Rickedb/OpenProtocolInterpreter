@@ -1,5 +1,7 @@
 using System;
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace OpenProtocolInterpreter.ParameterSet
 {
@@ -8,7 +10,7 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// <para>This message gives the possibility to set the batch size of a parameter set at run time.</para>
     /// <para>Message sent by: Integrator</para>
     /// <para>
-    ///     Answer: <see cref="Communication.Mid0005"/> Command accepted or 
+    ///     Answer: <see cref="Communication.Mid0005"/> Command accepted or
     ///     <see cref="Communication.Mid0004"/> Command error, Invalid data
     /// </para>
     /// </summary>
@@ -18,16 +20,13 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.InvalidData };
 
-        public int ParameterSetId
-        {
-            get => GetField(1, DataFields.ParameterSetId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.ParameterSetId).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int BatchSize
-        {
-            get => GetField(1, DataFields.BatchSize).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.BatchSize).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 3, HasPrefix = false)]
+        [Int32DataFieldDefinition(revision: 2, field: 1, Index = 20, Size = 3, HasPrefix = false)]
+        public int ParameterSetId { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 2, Index = 23, Size = 2, HasPrefix = false)]
+        [Int32DataFieldDefinition(revision: 2, field: 2, Index = 23, Size = 4, HasPrefix = false)]
+        public int BatchSize { get; set; }
 
         public Mid0019() : this(new Header()
         {
@@ -41,47 +40,41 @@ namespace OpenProtocolInterpreter.ParameterSet
         {
         }
 
+        protected override string BuildHeader()
+        {
+            Header.Length = Header.DefaultSize;
+            if (RevisionsByFields.Any())
+            {
+                var fields = DataFieldsByRevision();
+                Header.Length += fields.Sum(x => x.TotalSize);
+            }
+
+            return Header.ToString();
+        }
+
         public override string Pack()
         {
-            HandleRevision();
-            return base.Pack();
+            var builder = new StringBuilder();
+            var fields = DataFieldsByRevision().ToList();
+
+            int prefixIndex = 1;
+            builder.Append(BuildHeader());
+            builder.Append(Pack(fields, ref prefixIndex));
+
+            return builder.ToString();
         }
 
-        public override Mid Parse(ReadOnlySpan<char> package)
+
+        protected override void ProcessDataFields(ReadOnlySpan<char> package)
         {
-            Header = ProcessHeader(package);
-            HandleRevision();
-            ProcessDataFields(package);
-            return this;
+            var fields = DataFieldsByRevision().ToList();
+            base.ProcessDataFields(fields, package);
         }
 
-        private void HandleRevision()
-        {
-            var batchSizeField = GetField(1, DataFields.BatchSize);
-            if (Header.Revision > 1)
-            {
-                batchSizeField.Size = 4;
-            }
-            else
-            {
-                batchSizeField.Size = 2;
-            }
-        }
+        private IEnumerable<DataField> DataFieldsByRevision()
+            => RevisionsByFields[Header.StandardizedRevision];
 
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.ParameterSetId, 20, 3, false),
-                                DataField.Number(DataFields.BatchSize, 23, 2, false),
-                            }
-                }
-            };
-        }
-
+        [Obsolete("Use DataFieldDefinition attributes instead")]
         protected enum DataFields
         {
             ParameterSetId,

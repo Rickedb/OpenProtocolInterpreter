@@ -9,12 +9,16 @@ namespace OpenProtocolInterpreter
     /// </summary>
     public class VariableDataField
     {
+        private const int DefaultSize = 17;
+
         public int ParameterId { get; set; }
         public int Length { get; set; }
         public DataTypeDefinition DataType { get; set; }
         public DataUnitType Unit { get; set; }
         public int StepNumber { get; set; }
         public string DataValue { get; set; }
+
+        internal int TotalSize => DefaultSize + Length;
 
         public object Convert()
         {

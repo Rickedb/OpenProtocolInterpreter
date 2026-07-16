@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.ParameterSet
 {
@@ -7,7 +8,7 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// <para>Request to upload parameter set data from the controller.</para>
     /// <para>Message sent by: Integrator</para>
     /// <para>
-    /// Answer: <see cref="Mid0013"/> Parameter set data upload reply, or 
+    /// Answer: <see cref="Mid0013"/> Parameter set data upload reply, or
     ///         <see cref="Communication.Mid0004"/> Command error, Parameter set not present
     /// </para>
     /// </summary>
@@ -17,16 +18,10 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.ParameterSetIdNotPresent };
 
-        public int ParameterSetId
-        {
-            get => GetField(1, DataFields.ParameterSetId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.ParameterSetId).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int ParameterSetFileVersion
-        {
-            get => GetField(3, DataFields.PSetFileVersion).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(3, DataFields.PSetFileVersion).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 3, HasPrefix = false)]
+        public int ParameterSetId { get; set; }
+        [Int32DataFieldDefinition(revision: 3, field: 3, Index = 23, Size = 8, HasPrefix = false)]
+        public int ParameterSetFileVersion { get; set; }
 
         public Mid0012() : this(DEFAULT_REVISION)
         {
@@ -45,25 +40,7 @@ namespace OpenProtocolInterpreter.ParameterSet
         {
         }
 
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.ParameterSetId, 20, 3, false)
-                            }
-                },
-                {
-                    3, new  List<DataField>()
-                            {
-                                DataField.Number(DataFields.PSetFileVersion, 23, 8, false)
-                            }
-                },
-            };
-        }
-
+        [Obsolete("Use DataFieldDefinition attributes instead")]
         protected enum DataFields
         {
             //Revision 1-2
