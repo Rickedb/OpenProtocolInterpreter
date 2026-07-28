@@ -15,76 +15,42 @@ namespace OpenProtocolInterpreter.Statistic
     {
         public const int MID = 301;
 
-        public int ParameterSetId
-        {
-            get => GetField(1, DataFields.ParameterSetId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.ParameterSetId).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public HistogramType HistogramType
-        {
-            get => (HistogramType)GetField(1, DataFields.HistogramType).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.HistogramType).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public decimal SigmaHistogram
-        {
-            get => GetField(1, DataFields.SigmaHistogram).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
-            set => GetField(1, DataFields.SigmaHistogram).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
-        }
-        public decimal MeanValueHistogram
-        {
-            get => GetField(1, DataFields.MeanValueHistogram).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
-            set => GetField(1, DataFields.MeanValueHistogram).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
-        }
-        public decimal ClassRange
-        {
-            get => GetField(1, DataFields.ClassRange).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
-            set => GetField(1, DataFields.ClassRange).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
-        }
-        public int FirstBar
-        {
-            get => GetField(1, DataFields.Bar1).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.Bar1).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int SecondBar
-        {
-            get => GetField(1, DataFields.Bar2).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.Bar2).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int ThirdBar
-        {
-            get => GetField(1, DataFields.Bar3).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.Bar3).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int FourthBar
-        {
-            get => GetField(1, DataFields.Bar4).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.Bar4).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int FifthBar
-        {
-            get => GetField(1, DataFields.Bar5).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.Bar5).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int SixthBar
-        {
-            get => GetField(1, DataFields.Bar6).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.Bar6).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int SeventhBar
-        {
-            get => GetField(1, DataFields.Bar7).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.Bar7).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int EighthBar
-        {
-            get => GetField(1, DataFields.Bar8).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.Bar8).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int NinethBar
-        {
-            get => GetField(1, DataFields.Bar9).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.Bar9).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 3)]
+        public int ParameterSetId { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 2, Index = 25, Size = 2)]
+        public HistogramType HistogramType { get; set; }
+
+        [TruncatedDecimalDataFieldDefinition(revision: 1, field: 3, Index = 29, Size = 6)]
+        public decimal SigmaHistogram { get; set; }
+
+        [TruncatedDecimalDataFieldDefinition(revision: 1, field: 4, Index = 37, Size = 6)]
+        public decimal MeanValueHistogram { get; set; }
+
+        [TruncatedDecimalDataFieldDefinition(revision: 1, field: 5, Index = 45, Size = 6)]
+        public decimal ClassRange { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 6, Index = 53, Size = 4)]
+        public int FirstBar { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 7, Index = 59, Size = 4)]
+        public int SecondBar { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 8, Index = 65, Size = 4)]
+        public int ThirdBar { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 9, Index = 71, Size = 4)]
+        public int FourthBar { get; set; }
+        [Int32DataFieldDefinition(revision: 1, field: 10, Index = 77, Size = 4)]
+        public int FifthBar { get; set; }
+        [Int32DataFieldDefinition(revision: 1, field: 11, Index = 83, Size = 4)]
+        public int SixthBar { get; set; }
+        [Int32DataFieldDefinition(revision: 1, field: 12, Index = 89, Size = 4)]
+        public int SeventhBar { get; set; }
+        [Int32DataFieldDefinition(revision: 1, field: 13, Index = 95, Size = 4)]
+        public int EighthBar { get; set; }
+        [Int32DataFieldDefinition(revision: 1, field: 14, Index = 101, Size = 4)]
+        public int NinethBar { get; set; }
 
         public Mid0301() : this(new Header()
         {
@@ -96,53 +62,6 @@ namespace OpenProtocolInterpreter.Statistic
 
         public Mid0301(Header header) : base(header)
         {
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                    {
-                        DataField.Number(DataFields.ParameterSetId, 20, 3),
-                        DataField.Number(DataFields.HistogramType, 25, 2),
-                        DataField.Number(DataFields.SigmaHistogram, 29, 6),
-                        DataField.Number(DataFields.MeanValueHistogram, 37, 6),
-                        DataField.Number(DataFields.ClassRange, 45, 6),
-                        DataField.Number(DataFields.Bar1, 53, 4),
-                        DataField.Number(DataFields.Bar2, 59, 4),
-                        DataField.Number(DataFields.Bar3, 65, 4),
-                        DataField.Number(DataFields.Bar4, 71, 4),
-                        DataField.Number(DataFields.Bar5, 77, 4),
-                        DataField.Number(DataFields.Bar6, 83, 4),
-                        DataField.Number(DataFields.Bar7, 89, 4),
-                        DataField.Number(DataFields.Bar8, 95, 4),
-                        DataField.Number(DataFields.Bar9, 101, 4)
-                    }
-                }
-            };
-        }
-
-        protected enum DataFields
-        {
-            ParameterSetId,
-            HistogramType,
-            SigmaHistogram,
-            /// <summary>
-            /// X-BAR
-            /// </summary>
-            MeanValueHistogram,
-            ClassRange,
-            Bar1,
-            Bar2,
-            Bar3,
-            Bar4,
-            Bar5,
-            Bar6,
-            Bar7,
-            Bar8,
-            Bar9
         }
     }
 }

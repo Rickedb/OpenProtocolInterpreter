@@ -6,13 +6,13 @@ namespace OpenProtocolInterpreter.Statistic
     /// Histogram upload request
     /// <para>
     ///    Request to upload a histogram from the controller for a certain parameter set.
-    ///    The histogram is calculated with all the tightening results currently present in 
-    ///    the controller’s memory and within the statistic acceptance window(statistic min and max limits) 
+    ///    The histogram is calculated with all the tightening results currently present in
+    ///    the controller’s memory and within the statistic acceptance window(statistic min and max limits)
     ///    for the requested parameter set.
     /// </para>
     /// <para>Message sent by: Integrator</para>
     /// <para>
-    ///     Answer: <see cref="Mid0301"/> Histogram upload reply, or 
+    ///     Answer: <see cref="Mid0301"/> Histogram upload reply, or
     ///         <see cref="Communication.Mid0004"/> Command error, No histogram available or Invalid data
     /// </para>
     /// </summary>
@@ -22,16 +22,11 @@ namespace OpenProtocolInterpreter.Statistic
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.NoHistogramAvailable, Error.InvalidData };
 
-        public int ParameterSetId
-        {
-            get => GetField(1, DataFields.ParameterSetId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.ParameterSetId).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public HistogramType HistogramType
-        {
-            get => (HistogramType)GetField(1, DataFields.HistogramType).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.HistogramType).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 3)]
+        public int ParameterSetId { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 2, Index = 25, Size = 2)]
+        public HistogramType HistogramType { get; set; }
 
         public Mid0300() : this(new Header()
         {
@@ -43,26 +38,6 @@ namespace OpenProtocolInterpreter.Statistic
 
         public Mid0300(Header header) : base(header)
         {
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                    {
-                        DataField.Number(DataFields.ParameterSetId, 20, 3),
-                        DataField.Number(DataFields.HistogramType, 25, 2)
-                    }
-                }
-            };
-        }
-
-        protected enum DataFields
-        {
-            ParameterSetId,
-            HistogramType
         }
     }
 }
