@@ -23,13 +23,16 @@ namespace OpenProtocolInterpreter.Communication
     {
         public const int MID = 9;
 
-        [Int32DataFieldDefinition(field: 1, revision: 1, Size = 4, HasPrefix = false)]
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 4, HasPrefix = false)]
         public int UnsubscriptionMid { get; set; }
-        [Int32DataFieldDefinition(field: 2, revision: 1, Size = 3, HasPrefix = false)]
+
+        [Int32DataFieldDefinition(revision: 1, field: 2, Index = 24, Size = 3, HasPrefix = false)]
         public int ExtraDataRevision { get; set; }
-        [Int32DataFieldDefinition(field: 3, revision: 1, Size = 2, HasPrefix = false)]
+
+        [Int32DataFieldDefinition(revision: 1, field: 3, Index = 27, Size = 2, HasPrefix = false)]
         public int ExtraDataLength { get; set; }
-        [StringDataFieldDefinition(field: 4, revision: 1, Size = 0, HasPrefix = false)]
+
+        [StringDataFieldDefinition(revision: 1, field: 4, Index = 29, Size = 0, HasPrefix = false)]
         public string ExtraData { get; set; }
 
         public Mid0009() : this(new Header()
@@ -64,15 +67,6 @@ namespace OpenProtocolInterpreter.Communication
         private void HandleExtraDataFieldSize()
         {
             GetField(nameof(ExtraData)).Size = ExtraDataLength;
-        }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            UnsubscriptionMid,
-            ExtraDataRevision,
-            ExtraDataLength,
-            ExtraData
         }
     }
 }

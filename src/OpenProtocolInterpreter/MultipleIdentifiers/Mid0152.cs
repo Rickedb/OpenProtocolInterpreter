@@ -41,14 +41,5 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
         {
 
         }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            FirstIdentifierStatus,
-            SecondIdentifierStatus,
-            ThirdIdentifierStatus,
-            FourthIdentifierStatus
-        }
     }
 }

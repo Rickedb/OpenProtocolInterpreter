@@ -16,34 +16,34 @@ namespace OpenProtocolInterpreter.IOInterface
     {
         public const int MID = 200;
 
-        [Int32DataFieldDefinition(field: 1, revision: 1, Size = 1, HasPrefix = false)]
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 1, HasPrefix = false)]
         public RelayStatus StatusRelayOne { get; set; }
 
-        [Int32DataFieldDefinition(field: 2, revision: 1, Size = 1, HasPrefix = false)]
+        [Int32DataFieldDefinition(revision: 1, field: 2, Index = 21, Size = 1, HasPrefix = false)]
         public RelayStatus StatusRelayTwo { get; set; }
 
-        [Int32DataFieldDefinition(field: 3, revision: 1, Size = 1, HasPrefix = false)]
+        [Int32DataFieldDefinition(revision: 1, field: 3, Index = 22, Size = 1, HasPrefix = false)]
         public RelayStatus StatusRelayThree { get; set; }
 
-        [Int32DataFieldDefinition(field: 4, revision: 1, Size = 1, HasPrefix = false)]
+        [Int32DataFieldDefinition(revision: 1, field: 4, Index = 23, Size = 1, HasPrefix = false)]
         public RelayStatus StatusRelayFour { get; set; }
 
-        [Int32DataFieldDefinition(field: 5, revision: 1, Size = 1, HasPrefix = false)]
+        [Int32DataFieldDefinition(revision: 1, field: 5, Index = 24, Size = 1, HasPrefix = false)]
         public RelayStatus StatusRelayFive { get; set; }
 
-        [Int32DataFieldDefinition(field: 6, revision: 1, Size = 1, HasPrefix = false)]
+        [Int32DataFieldDefinition(revision: 1, field: 6, Index = 25, Size = 1, HasPrefix = false)]
         public RelayStatus StatusRelaySix { get; set; }
 
-        [Int32DataFieldDefinition(field: 7, revision: 1, Size = 1, HasPrefix = false)]
+        [Int32DataFieldDefinition(revision: 1, field: 7, Index = 26, Size = 1, HasPrefix = false)]
         public RelayStatus StatusRelaySeven { get; set; }
 
-        [Int32DataFieldDefinition(field: 8, revision: 1, Size = 1, HasPrefix = false)]
+        [Int32DataFieldDefinition(revision: 1, field: 8, Index = 27, Size = 1, HasPrefix = false)]
         public RelayStatus StatusRelayEight { get; set; }
 
-        [Int32DataFieldDefinition(field: 9, revision: 1, Size = 1, HasPrefix = false)]
+        [Int32DataFieldDefinition(revision: 1, field: 9, Index = 28, Size = 1, HasPrefix = false)]
         public RelayStatus StatusRelayNine { get; set; }
 
-        [Int32DataFieldDefinition(field: 10, revision: 1, Size = 1, HasPrefix = false)]
+        [Int32DataFieldDefinition(revision: 1, field: 10, Index = 29, Size = 1, HasPrefix = false)]
         public RelayStatus StatusRelayTen { get; set; }
 
         public Mid0200() : this(new Header()
@@ -57,21 +57,6 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public Mid0200(Header header) : base(header)
         {
-        }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            StatusRelay1,
-            StatusRelay2,
-            StatusRelay3,
-            StatusRelay4,
-            StatusRelay5,
-            StatusRelay6,
-            StatusRelay7,
-            StatusRelay8,
-            StatusRelay9,
-            StatusRelay10
         }
     }
 }

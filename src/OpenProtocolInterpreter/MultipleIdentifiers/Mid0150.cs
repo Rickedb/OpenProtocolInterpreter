@@ -53,11 +53,5 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
             ProcessDataFields(package);
             return this;
         }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            IdentifierData
-        }
     }
 }

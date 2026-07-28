@@ -20,11 +20,13 @@ namespace OpenProtocolInterpreter.ApplicationSelector
     {
         public const int MID = 251;
 
-        [Int32DataFieldDefinition(field: 1, revision: 1, Size = 2)]
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 2)]
         public int DeviceId { get; set; }
-        [Int32DataFieldDefinition(field: 2, revision: 1, Size = 2)]
+
+        [Int32DataFieldDefinition(revision: 1, field: 2, Index = 24, Size = 2)]
         public int NumberOfSockets { get; set; }
-        [SocketStatusListDefinition(field: 3, revision: 1)]
+
+        [SocketStatusListDefinition(revision: 1, field: 3, Index = 28)]
         public List<bool> SocketStatus { get; set; }
 
         public Mid0251() : this(new Header()
@@ -94,14 +96,6 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
                 return list;
             }
-        }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            DeviceId,
-            NumberOfSockets,
-            SocketStatus
         }
     }
 }

@@ -26,11 +26,5 @@ namespace OpenProtocolInterpreter.ParameterSet
         public Mid0022(Header header) : base(header)
         {
         }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            RelayStatus
-        }
     }
 }

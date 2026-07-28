@@ -13,7 +13,7 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
     {
         public const int MID = 262;
 
-        [StringDataFieldDefinition(field: 0, revision: 1, Size = 8)]
+        [StringDataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 8)]
         public string ToolTagId { get; set; }
 
         public Mid0262() : base(MID, DEFAULT_REVISION)
@@ -24,12 +24,6 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
         public Mid0262(Header header) : base(header)
         {
 
-        }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            ToolTagId
         }
     }
 }

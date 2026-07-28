@@ -67,4 +67,12 @@ namespace OpenProtocolInterpreter
     public interface IUnsubscription
     {
     }
+
+    /// <summary>
+    /// Contract which a mid can be packed as extra data in a <see cref="Communication.Mid0006"/>.
+    /// </summary>
+    public interface IExtraData
+    {
+        string PackAsExtraData();
+    }
 }

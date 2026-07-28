@@ -14,214 +14,214 @@ namespace OpenProtocolInterpreter.Tightening
     {
         public const int MID = 65;
 
-        [Int64DataFieldDefinition(field: 1, revision: 1, Index = 20, Size = 10)]
-        [Int64DataFieldDefinition(field: 1, revision: 2, Index = 20, Size = 10)]
+        [Int64DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 10)]
+        [Int64DataFieldDefinition(revision: 2, field: 1, Index = 20, Size = 10)]
         public long TighteningId { get; set; }
 
-        [StringDataFieldDefinition(field: 2, revision: 1, Index = 32, Size = 25)]
-        [StringDataFieldDefinition(field: 2, revision: 2, Index = 32, Size = 25)]
+        [StringDataFieldDefinition(revision: 1, field: 2, Index = 32, Size = 25)]
+        [StringDataFieldDefinition(revision: 2, field: 2, Index = 32, Size = 25)]
         public string VinNumber { get; set; }
 
-        [Int32DataFieldDefinition(field: 3, revision: 1, Index = 59, Size = 3)]
-        [Int32DataFieldDefinition(field: 4, revision: 2, Index = 65, Size = 3)]
+        [Int32DataFieldDefinition(revision: 1, field: 3, Index = 59, Size = 3)]
+        [Int32DataFieldDefinition(revision: 2, field: 4, Index = 65, Size = 3)]
         public int ParameterSetId { get; set; }
 
-        [Int32DataFieldDefinition(field: 4, revision: 1, Index = 64, Size = 4)]
-        [Int32DataFieldDefinition(field: 8, revision: 2, Index = 87, Size = 4)]
+        [Int32DataFieldDefinition(revision: 1, field: 4, Index = 64, Size = 4)]
+        [Int32DataFieldDefinition(revision: 2, field: 8, Index = 87, Size = 4)]
         public int BatchCounter { get; set; }
 
-        [BooleanDataFieldDefinition(field: 5, revision: 1, Index = 70, Size = 1)]
-        [BooleanDataFieldDefinition(field: 9, revision: 2, Index = 93, Size = 1)]
+        [BooleanDataFieldDefinition(revision: 1, field: 5, Index = 70, Size = 1)]
+        [BooleanDataFieldDefinition(revision: 2, field: 9, Index = 93, Size = 1)]
         public bool TighteningStatus { get; set; }
 
-        [Int32DataFieldDefinition(field: 6, revision: 1, Index = 73, Size = 1)]
-        [Int32DataFieldDefinition(field: 11, revision: 2, Index = 99, Size = 1)]
+        [Int32DataFieldDefinition(revision: 1, field: 6, Index = 73, Size = 1)]
+        [Int32DataFieldDefinition(revision: 2, field: 11, Index = 99, Size = 1)]
         public TighteningValueStatus TorqueStatus { get; set; }
 
-        [Int32DataFieldDefinition(field: 7, revision: 1, Index = 76, Size = 1)]
-        [Int32DataFieldDefinition(field: 12, revision: 2, Index = 102, Size = 1)]
+        [Int32DataFieldDefinition(revision: 1, field: 7, Index = 76, Size = 1)]
+        [Int32DataFieldDefinition(revision: 2, field: 12, Index = 102, Size = 1)]
         public TighteningValueStatus AngleStatus { get; set; }
 
-        [TruncatedDecimalDataFieldDefinition(field: 8, revision: 1, Index = 79, Size = 6)]
-        [TruncatedDecimalDataFieldDefinition(field: 19, revision: 2, Index = 132, Size = 6)]
+        [TruncatedDecimalDataFieldDefinition(revision: 1, field: 8, Index = 79, Size = 6)]
+        [TruncatedDecimalDataFieldDefinition(revision: 2, field: 19, Index = 132, Size = 6)]
         public decimal Torque { get; set; }
 
-        [Int32DataFieldDefinition(field: 9, revision: 1, Index = 87, Size = 5)]
-        [Int32DataFieldDefinition(field: 20, revision: 2, Index = 140, Size = 5)]
+        [Int32DataFieldDefinition(revision: 1, field: 9, Index = 87, Size = 5)]
+        [Int32DataFieldDefinition(revision: 2, field: 20, Index = 140, Size = 5)]
         public int Angle { get; set; }
 
-        [TimestampDataFieldDefinition(field: 10, revision: 1, Index = 94, Size = 19)]
-        [TimestampDataFieldDefinition(field: 28, revision: 2, Index = 205, Size = 19)]
+        [TimestampDataFieldDefinition(revision: 1, field: 10, Index = 94, Size = 19)]
+        [TimestampDataFieldDefinition(revision: 2, field: 28, Index = 205, Size = 19)]
         public DateTime Timestamp { get; set; }
 
-        [Int32DataFieldDefinition(field: 11, revision: 1, Index = 115, Size = 1)]
-        [Int32DataFieldDefinition(field: 10, revision: 2, Index = 96, Size = 1)]
+        [Int32DataFieldDefinition(revision: 1, field: 11, Index = 115, Size = 1)]
+        [Int32DataFieldDefinition(revision: 2, field: 10, Index = 96, Size = 1)]
         public BatchStatus BatchStatus { get; set; }
 
         //Rev 2
-        [Int32DataFieldDefinition(field: 3, revision: 2, Index = 59, Size = 4)]
+        [Int32DataFieldDefinition(revision: 2, field: 3, Index = 59, Size = 4)]
         public int JobId { get; set; }
 
-        [Int32DataFieldDefinition(field: 5, revision: 2, Index = 70, Size = 2)]
+        [Int32DataFieldDefinition(revision: 2, field: 5, Index = 70, Size = 2)]
         public Strategy Strategy { get; set; }
 
-        [StrategyOptionsDefinition(field: 6, revision: 2, Index = 74, Size = 5, PaddingChar = '0', PaddingOrientation = PaddingOrientation.LeftPadded)]
+        [StrategyOptionsDefinition(revision: 2, field: 6, Index = 74, Size = 5, PaddingChar = '0', PaddingOrientation = PaddingOrientation.LeftPadded)]
         public StrategyOptions StrategyOptions { get; set; }
 
-        [Int32DataFieldDefinition(field: 7, revision: 2, Index = 81, Size = 4)]
+        [Int32DataFieldDefinition(revision: 2, field: 7, Index = 81, Size = 4)]
         public int BatchSize { get; set; }
 
-        [Int32DataFieldDefinition(field: 13, revision: 2, Index = 105, Size = 1)]
+        [Int32DataFieldDefinition(revision: 2, field: 13, Index = 105, Size = 1)]
         public TighteningValueStatus RundownAngleStatus { get; set; }
 
-        [Int32DataFieldDefinition(field: 14, revision: 2, Index = 108, Size = 1)]
+        [Int32DataFieldDefinition(revision: 2, field: 14, Index = 108, Size = 1)]
         public TighteningValueStatus CurrentMonitoringStatus { get; set; }
 
-        [Int32DataFieldDefinition(field: 15, revision: 2, Index = 111, Size = 1)]
+        [Int32DataFieldDefinition(revision: 2, field: 15, Index = 111, Size = 1)]
         public TighteningValueStatus SelftapStatus { get; set; }
 
-        [Int32DataFieldDefinition(field: 16, revision: 2, Index = 114, Size = 1)]
+        [Int32DataFieldDefinition(revision: 2, field: 16, Index = 114, Size = 1)]
         public TighteningValueStatus PrevailTorqueMonitoringStatus { get; set; }
 
-        [Int32DataFieldDefinition(field: 17, revision: 2, Index = 117, Size = 1)]
+        [Int32DataFieldDefinition(revision: 2, field: 17, Index = 117, Size = 1)]
         public TighteningValueStatus PrevailTorqueCompensateStatus { get; set; }
 
-        [TighteningErrorStatusDefinition(field: 18, revision: 2, Index = 120, Size = 10, PaddingChar = '0', PaddingOrientation = PaddingOrientation.LeftPadded)]
+        [TighteningErrorStatusDefinition(revision: 2, field: 18, Index = 120, Size = 10, PaddingChar = '0', PaddingOrientation = PaddingOrientation.LeftPadded)]
         public TighteningErrorStatus TighteningErrorStatus { get; set; }
 
-        [Int32DataFieldDefinition(field: 21, revision: 2, Index = 147, Size = 5)]
+        [Int32DataFieldDefinition(revision: 2, field: 21, Index = 147, Size = 5)]
         public int RundownAngle { get; set; }
 
-        [Int32DataFieldDefinition(field: 22, revision: 2, Index = 154, Size = 3)]
+        [Int32DataFieldDefinition(revision: 2, field: 22, Index = 154, Size = 3)]
         public int CurrentMonitoringValue { get; set; }
 
-        [TruncatedDecimalDataFieldDefinition(field: 23, revision: 2, Index = 159, Size = 6)]
+        [TruncatedDecimalDataFieldDefinition(revision: 2, field: 23, Index = 159, Size = 6)]
         public decimal SelftapTorque { get; set; }
 
-        [TruncatedDecimalDataFieldDefinition(field: 24, revision: 2, Index = 167, Size = 6)]
+        [TruncatedDecimalDataFieldDefinition(revision: 2, field: 24, Index = 167, Size = 6)]
         public decimal PrevailTorque { get; set; }
 
-        [Int32DataFieldDefinition(field: 25, revision: 2, Index = 175, Size = 5)]
+        [Int32DataFieldDefinition(revision: 2, field: 25, Index = 175, Size = 5)]
         public int JobSequenceNumber { get; set; }
 
-        [Int32DataFieldDefinition(field: 26, revision: 2, Index = 182, Size = 5)]
+        [Int32DataFieldDefinition(revision: 2, field: 26, Index = 182, Size = 5)]
         public int SyncTighteningId { get; set; }
 
-        [StringDataFieldDefinition(field: 27, revision: 2, Index = 189, Size = 14)]
+        [StringDataFieldDefinition(revision: 2, field: 27, Index = 189, Size = 14)]
         public string ToolSerialNumber { get; set; }
 
         //Rev 3
-        [Int32DataFieldDefinition(field: 29, revision: 3, Index = 226, Size = 1)]
+        [Int32DataFieldDefinition(revision: 3, field: 29, Index = 226, Size = 1)]
         public TorqueValuesUnit TorqueValuesUnit { get; set; }
 
-        [Int32DataFieldDefinition(field: 30, revision: 3, Index = 229, Size = 2)]
+        [Int32DataFieldDefinition(revision: 3, field: 30, Index = 229, Size = 2)]
         public ResultType ResultType { get; set; }
 
 
         //Rev 4
-        [StringDataFieldDefinition(field: 31, revision: 4, Index = 233, Size = 25)]
+        [StringDataFieldDefinition(revision: 4, field: 31, Index = 233, Size = 25)]
         public string IdentifierResultPart2 { get; set; }
 
-        [StringDataFieldDefinition(field: 32, revision: 4, Index = 260, Size = 25)]
+        [StringDataFieldDefinition(revision: 4, field: 32, Index = 260, Size = 25)]
         public string IdentifierResultPart3 { get; set; }
 
-        [StringDataFieldDefinition(field: 33, revision: 4, Index = 287, Size = 25)]
+        [StringDataFieldDefinition(revision: 4, field: 33, Index = 287, Size = 25)]
         public string IdentifierResultPart4 { get; set; }
 
         //Rev 5
-        [StringDataFieldDefinition(field: 34, revision: 5, Index = 314, Size = 4)]
+        [StringDataFieldDefinition(revision: 5, field: 34, Index = 314, Size = 4)]
         public string CustomerTighteningErrorCode { get; set; }
 
         //Rev 6
-        [TruncatedDecimalDataFieldDefinition(field: 35, revision: 6, Index = 320, Size = 6)]
+        [TruncatedDecimalDataFieldDefinition(revision: 6, field: 35, Index = 320, Size = 6)]
         public decimal PrevailTorqueCompensateValue { get; set; }
 
-        [TighteningErrorStatus2Definition(field: 36, revision: 6, Index = 328, Size = 10, PaddingChar = '0', PaddingOrientation = PaddingOrientation.LeftPadded)]
+        [TighteningErrorStatus2Definition(revision: 6, field: 36, Index = 328, Size = 10, PaddingChar = '0', PaddingOrientation = PaddingOrientation.LeftPadded)]
         public TighteningErrorStatus2 TighteningErrorStatus2 { get; set; }
 
         //Rev 7
-        [Int64DataFieldDefinition(field: 37, revision: 7, Index = 340, Size = 10)]
+        [Int64DataFieldDefinition(revision: 7, field: 37, Index = 340, Size = 10)]
         public long StationId { get; set; }
 
-        [StringDataFieldDefinition(field: 38, revision: 7, Index = 352, Size = 25)]
+        [StringDataFieldDefinition(revision: 7, field: 38, Index = 352, Size = 25)]
         public string StationName { get; set; }
 
         //Rev 8
-        [TruncatedDecimalDataFieldDefinition(field: 39, revision: 8, Index = 379, Size = 6)]
+        [TruncatedDecimalDataFieldDefinition(revision: 8, field: 39, Index = 379, Size = 6)]
         public decimal StartFinalAngle { get; set; }
 
-        [Int32DataFieldDefinition(field: 40, revision: 8, Index = 387, Size = 1)]
+        [Int32DataFieldDefinition(revision: 8, field: 40, Index = 387, Size = 1)]
         public PostViewTorque PostViewTorqueActivated { get; set; }
 
-        [TruncatedDecimalDataFieldDefinition(field: 41, revision: 8, Index = 390, Size = 6)]
+        [TruncatedDecimalDataFieldDefinition(revision: 8, field: 41, Index = 390, Size = 6)]
         public decimal PostViewTorqueHigh { get; set; }
 
-        [TruncatedDecimalDataFieldDefinition(field: 42, revision: 8, Index = 398, Size = 6)]
+        [TruncatedDecimalDataFieldDefinition(revision: 8, field: 42, Index = 398, Size = 6)]
         public decimal PostViewTorqueLow { get; set; }
 
         //Rev 9
-        [TruncatedDecimalDataFieldDefinition(field: 43, revision: 9, Index = 406, Size = 5)]
+        [TruncatedDecimalDataFieldDefinition(revision: 9, field: 43, Index = 406, Size = 5)]
         public decimal CurrentMonitoringAmpere { get; set; }
 
-        [TruncatedDecimalDataFieldDefinition(field: 44, revision: 9, Index = 413, Size = 5)]
+        [TruncatedDecimalDataFieldDefinition(revision: 9, field: 44, Index = 413, Size = 5)]
         public decimal CurrentMonitoringAmpereMin { get; set; }
 
-        [TruncatedDecimalDataFieldDefinition(field: 45, revision: 9, Index = 420, Size = 5)]
+        [TruncatedDecimalDataFieldDefinition(revision: 9, field: 45, Index = 420, Size = 5)]
         public decimal CurrentMonitoringAmpereMax { get; set; }
 
         //Rev 10 addition
-        [Int32DataFieldDefinition(field: 46, revision: 10, Index = 427, Size = 5)]
+        [Int32DataFieldDefinition(revision: 10, field: 46, Index = 427, Size = 5)]
         public int AngleNumeratorScaleFactor { get; set; }
 
-        [Int32DataFieldDefinition(field: 47, revision: 10, Index = 434, Size = 5)]
+        [Int32DataFieldDefinition(revision: 10, field: 47, Index = 434, Size = 5)]
         public int AngleDenominatorScaleFactor { get; set; }
 
-        [Int32DataFieldDefinition(field: 48, revision: 10, Index = 441, Size = 1)]
+        [Int32DataFieldDefinition(revision: 10, field: 48, Index = 441, Size = 1)]
         public TighteningValueStatus OverallAngleStatus { get; set; }
 
-        [Int32DataFieldDefinition(field: 49, revision: 10, Index = 444, Size = 5)]
+        [Int32DataFieldDefinition(revision: 10, field: 49, Index = 444, Size = 5)]
         public int OverallAngleMin { get; set; }
 
-        [Int32DataFieldDefinition(field: 50, revision: 10, Index = 451, Size = 5)]
+        [Int32DataFieldDefinition(revision: 10, field: 50, Index = 451, Size = 5)]
         public int OverallAngleMax { get; set; }
 
-        [Int32DataFieldDefinition(field: 51, revision: 10, Index = 458, Size = 5)]
+        [Int32DataFieldDefinition(revision: 10, field: 51, Index = 458, Size = 5)]
         public int OverallAngle { get; set; }
 
-        [TruncatedDecimalDataFieldDefinition(field: 52, revision: 10, Index = 465, Size = 6)]
+        [TruncatedDecimalDataFieldDefinition(revision: 10, field: 52, Index = 465, Size = 6)]
         public decimal PeakTorque { get; set; }
 
-        [TruncatedDecimalDataFieldDefinition(field: 53, revision: 10, Index = 473, Size = 6)]
+        [TruncatedDecimalDataFieldDefinition(revision: 10, field: 53, Index = 473, Size = 6)]
         public decimal ResidualBreakawayTorque { get; set; }
 
-        [TruncatedDecimalDataFieldDefinition(field: 54, revision: 10, Index = 481, Size = 6)]
+        [TruncatedDecimalDataFieldDefinition(revision: 10, field: 54, Index = 481, Size = 6)]
         public decimal StartRundownAngle { get; set; }
 
-        [TruncatedDecimalDataFieldDefinition(field: 55, revision: 10, Index = 489, Size = 6)]
+        [TruncatedDecimalDataFieldDefinition(revision: 10, field: 55, Index = 489, Size = 6)]
         public decimal RundownAngleComplete { get; set; }
 
         //Rev 11
-        [TruncatedDecimalDataFieldDefinition(field: 56, revision: 11, Index = 497, Size = 6)]
+        [TruncatedDecimalDataFieldDefinition(revision: 11, field: 56, Index = 497, Size = 6)]
         public decimal ClickTorque { get; set; }
 
-        [Int32DataFieldDefinition(field: 57, revision: 11, Index = 505, Size = 5)]
+        [Int32DataFieldDefinition(revision: 11, field: 57, Index = 505, Size = 5)]
         public int ClickAngle { get; set; }
 
         //Rev 12
-        [Int32DataFieldDefinition(field: 58, revision: 12, Index = 512, Size = 4)]
+        [Int32DataFieldDefinition(revision: 12, field: 58, Index = 512, Size = 4)]
         public int SelectedIdentifierNumber { get; set; }
 
-        [StringDataFieldDefinition(field: 59, revision: 12, Index = 518, Size = 25)]
+        [StringDataFieldDefinition(revision: 12, field: 59, Index = 518, Size = 25)]
         public string JointId { get; set; }
 
         //Rev 998 addition
-        [Int32DataFieldDefinition(field: 37, revision: 998, Index = 340, Size = 2)]
+        [Int32DataFieldDefinition(revision: 998, field: 37, Index = 340, Size = 2)]
         public int NumberOfStagesInMultistage { get; set; }
 
-        [Int32DataFieldDefinition(field: 38, revision: 998, Index = 344, Size = 2)]
+        [Int32DataFieldDefinition(revision: 998, field: 38, Index = 344, Size = 2)]
         public int NumberOfStageResults { get; set; }
 
-        [StageResultCollectionDefinition(field: 39, revision: 998, Index = 348, Size = 0)]
+        [StageResultCollectionDefinition(revision: 998, field: 39, Index = 348, Size = 0)]
         public List<StageResult> StageResults { get; set; }
 
         public Mid0065() : this(DEFAULT_REVISION)
@@ -307,85 +307,6 @@ namespace OpenProtocolInterpreter.Tightening
                 foreach (var dataField in RevisionsByFields[998])
                     yield return dataField;
             }
-        }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            TighteningId,
-            VinNumber,
-            ParameterSetId,
-            BatchCounter,
-            TighteningStatus,
-            TorqueStatus,
-            AngleStatus,
-            Torque,
-            Angle,
-            Timestamp,
-            BatchStatus,
-            //Rev 2 Additions
-            JobId,
-            Strategy,
-            StrategyOptions,
-            BatchSize,
-            RundownAngleStatus,
-            CurrentMonitoringStatus,
-            SelftapStatus,
-            PrevailTorqueMonitoringStatus,
-            PrevaiTorqueMonitoringStatus,
-            TighteningErrorStatus,
-            RundownAngle,
-            CurrentMonitoringValue,
-            SelftapTorque,
-            PrevailTorque,
-            JobSequenceNumber,
-            SyncTighteningId,
-            ToolSerialNumber,
-            //Rev 3 Additions
-            TorqueValuesUnit,
-            ResultType,
-            //Rev 4 Additions
-            IdentifierResulPart2,
-            IdentifierResulPart3,
-            IdentifierResulPart4,
-            //Rev 5 Additions
-            CustomerTighteningErrorCode,
-            //Rev 6 Additions
-            PrevailTorqueCompensateValue,
-            TighteningErrorStatus2,
-            //Rev 7 Additions
-            StationId,
-            StationName,
-            //Rev 8 Additions
-            StartFinalAngle,
-            PostViewTorqueActivated,
-            PostViewTorqueHigh,
-            PostViewTorqueLow,
-            //Rev 9
-            CurrentMonitoringAmp,
-            CurrentMonitoringAmpMin,
-            CurrentMonitoringAmpMax,
-            //Rev 10
-            AngleNumeratorScaleFactor,
-            AngleDenominatorScaleFactor,
-            OverallAngleStatus,
-            OverallAngleMin,
-            OverallAngleMax,
-            OverallAngle,
-            PeakTorque,
-            ResidualBreakawayTorque,
-            StartRundownAngle,
-            RundownAngleComplete,
-            //Rev 11
-            ClickTorque,
-            ClickAngle,
-            //Rev 12
-            SelectedIdentifierNumber,
-            JointId,
-            //Rev 998 (Go over rev 7)
-            NumberOfStagesInMultistage,
-            NumberOfStageResults,
-            StageResult
         }
     }
 }

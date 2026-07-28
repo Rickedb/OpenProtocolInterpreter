@@ -31,11 +31,5 @@ namespace OpenProtocolInterpreter.MotorTuning
         public Mid0501(Header header) : base(header)
         {
         }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            MotorTuneResult
-        }
     }
 }

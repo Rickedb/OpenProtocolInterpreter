@@ -19,9 +19,9 @@ namespace OpenProtocolInterpreter.IOInterface
     {
         public const int MID = 221;
 
-        [Int32DataFieldDefinition(field: 1, revision: 1, Size = 3)]
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 3)]
         public DigitalInputNumber DigitalInputNumber { get; set; }
-        [BooleanDataFieldDefinition(field: 2, revision: 1)]
+        [BooleanDataFieldDefinition(revision: 1, field: 2, Index = 25)]
         public bool DigitalInputStatus { get; set; }
 
         public Mid0221() : this(new Header()
@@ -34,13 +34,6 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public Mid0221(Header header) : base(header)
         {
-        }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            DigitalInputNumber,
-            DigitalInputStatus
         }
     }
 }

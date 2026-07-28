@@ -65,13 +65,5 @@ namespace OpenProtocolInterpreter.ParameterSet
             }
             base.ProcessDataField(dataField, package);
         }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            ParameterSetId,
-            NumberOfParameterDataFields,
-            DataFields
-        }
     }
 }

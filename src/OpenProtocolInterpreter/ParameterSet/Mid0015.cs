@@ -138,26 +138,5 @@ namespace OpenProtocolInterpreter.ParameterSet
             foreach (var dataField in RevisionsByFields[Header.StandardizedRevision].OrderBy(x => x.Field))
                 yield return dataField;
         }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            ParameterSetId,
-            LastChangeInParameterSet,
-            //Rev 2
-            ParameterSetName,
-            RotationDirection,
-            BatchSize,
-            TorqueMin,
-            TorqueMax,
-            TorqueFinalTarget,
-            AngleMin,
-            AngleMax,
-            FinalAngleTarget,
-            FirstTarget,
-            StartFinalAngle,
-            SelectedIdentifierNumber,
-            JointId
-        }
     }
 }

@@ -15,13 +15,16 @@ namespace OpenProtocolInterpreter.Alarm
     {
         public const int MID = 1000;
 
-        [StringDataFieldDefinition(field: 0, revision: 1, Size = 5, HasPrefix = false, PaddingOrientation = PaddingOrientation.LeftPadded)]
+        [StringDataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 5, HasPrefix = false, PaddingOrientation = PaddingOrientation.LeftPadded)]
         public string AlarmCode { get; set; }
-        [TimestampDataFieldDefinition(field: 1, revision: 1, HasPrefix = false)]
+
+        [TimestampDataFieldDefinition(revision: 1, field: 2, Index = 25, HasPrefix = false)]
         public DateTime Time { get; set; }
-        [Int32DataFieldDefinition(field: 2, revision: 1, Size = 3, HasPrefix = false)]
+
+        [Int32DataFieldDefinition(revision: 1, field: 3, Index = 44, Size = 3, HasPrefix = false)]
         public int NumberOfDataFields { get; set; }
-        [VariableDataFieldCollectionDefinition(field: 3, revision: 1, HasPrefix = false)]
+
+        [VariableDataFieldCollectionDefinition(revision: 1, field: 4, Index = 47, HasPrefix = false)]
         public List<VariableDataField> AlarmDataFields { get; set; }
 
         public Mid1000() : this(DEFAULT_REVISION)
@@ -46,26 +49,17 @@ namespace OpenProtocolInterpreter.Alarm
         public override string Pack()
         {
             NumberOfDataFields = AlarmDataFields?.Count ?? 0; //Enforce list size even if modified
-            GetField(revision: 1, field: 3).Size = AlarmDataFields?.Sum(x => x.TotalSize) ?? 0; //Enforce size of variable data fields
+            GetField(revision: 1, field: 4).Size = AlarmDataFields?.Sum(x => x.TotalSize) ?? 0; //Enforce size of variable data fields
             return base.Pack();
         }
 
         protected override void ProcessDataField(DataField dataField, ReadOnlySpan<char> package)
         {
-            if (dataField.Field == 3) //AlarmDataFields
+            if (dataField.Field == 4) //AlarmDataFields
             {
                 dataField.Size = Header.Length - dataField.Index;
             }
             base.ProcessDataField(dataField, package);
-        }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            AlarmCode,
-            Time,
-            NumberOfDataFields,
-            EachAlarmDataField
         }
     }
 }

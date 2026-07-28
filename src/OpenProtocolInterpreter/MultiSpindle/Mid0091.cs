@@ -58,15 +58,5 @@ namespace OpenProtocolInterpreter.MultiSpindle
             }
             base.ProcessDataField(dataField, package);
         }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            NumberOfSpindles,
-            SyncTighteningId,
-            Time,
-            SyncOverallStatus,
-            SpindleStatus
-        }
     }
 }

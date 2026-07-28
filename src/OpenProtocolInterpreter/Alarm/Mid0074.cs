@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace OpenProtocolInterpreter.Alarm
 {
@@ -13,7 +14,8 @@ namespace OpenProtocolInterpreter.Alarm
     {
         public const int MID = 74;
 
-        [StringDataFieldDefinition(field: 0, revision: 1, Size = 4, HasPrefix = false, PaddingOrientation = PaddingOrientation.LeftPadded)]
+        [StringDataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 4, HasPrefix = false, PaddingOrientation = PaddingOrientation.LeftPadded)]
+        [StringDataFieldDefinition(revision: 2, field: 1, Index = 20, Size = 5, HasPrefix = false, PaddingOrientation = PaddingOrientation.LeftPadded)]
         public string ErrorCode { get; set; }
 
         public Mid0074() : this(DEFAULT_REVISION)
@@ -31,28 +33,38 @@ namespace OpenProtocolInterpreter.Alarm
 
         }
 
+        protected override string BuildHeader()
+        {
+            Header.Length = Header.DefaultSize;
+            foreach (var field in RevisionsByFields[Header.StandardizedRevision])
+            {
+                Header.Length += field.TotalSize;
+            }
+
+            return Header.ToString();
+        }
+
         public override string Pack()
         {
-            HandleRevision();
-            return base.Pack();
+            var header = BuildHeader();
+            var builder = new StringBuilder(Header.Length);
+            builder.Append(header);
+            builder.Append(base.Pack(DataFieldsByRevision()));
+            return builder.ToString();
         }
 
         protected override void ProcessDataFields(ReadOnlySpan<char> package)
         {
-            HandleRevision();
-            base.ProcessDataFields(package);
+            foreach (var field in DataFieldsByRevision())
+            {
+                ProcessDataField(field, package);
+            }
         }
 
-        private void HandleRevision()
+        private IEnumerable<DataField> DataFieldsByRevision()
         {
-            var errorCodeField = GetField(revision: 1, field: 0);
-            errorCodeField.Size = Header.Revision > 1 ? 5 : 4;
-        }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            ErrorCode
+            foreach (var field in RevisionsByFields[Header.StandardizedRevision])
+                yield return field;
         }
     }
 }

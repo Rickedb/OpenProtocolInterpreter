@@ -33,9 +33,9 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
     {
         public const int MID = 411;
 
-        [Int32DataFieldDefinition(field: 1, revision: 1, Size = 2, HasPrefix = false)]
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 2, HasPrefix = false)]
         public int AutoDisableSetting { get; set; }
-        [Int32DataFieldDefinition(field: 2, revision: 1, Size = 2, HasPrefix = false)]
+        [Int32DataFieldDefinition(revision: 1, field: 2, Index = 22, Size = 2, HasPrefix = false)]
         public int CurrentBatch { get; set; }
 
         public Mid0411() : this(new Header()
@@ -49,13 +49,6 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
 
         public Mid0411(Header header) : base(header)
         {
-        }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            AutoDisableSetting,
-            CurrentBatch
         }
     }
 }

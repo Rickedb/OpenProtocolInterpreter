@@ -72,12 +72,5 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         private IEnumerable<DataField> DataFieldsByRevision()
             => RevisionsByFields[Header.StandardizedRevision];
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            ParameterSetId,
-            BatchSize
-        }
     }
 }

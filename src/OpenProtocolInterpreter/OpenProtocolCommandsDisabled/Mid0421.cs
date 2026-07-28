@@ -31,11 +31,5 @@ namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
         public Mid0421(Header header) : base(header)
         {
         }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            DigitalInputStatus
-        }
     }
 }

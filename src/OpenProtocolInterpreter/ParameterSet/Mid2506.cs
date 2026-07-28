@@ -39,12 +39,5 @@ namespace OpenProtocolInterpreter.ParameterSet
         {
 
         }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            ProgramId,
-            NodeType
-        }
     }
 }

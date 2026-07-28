@@ -16,8 +16,8 @@ namespace OpenProtocolInterpreter.Job
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JobIdNotPresent };
 
-        [Int32DataFieldDefinition(field: 1, revision: 1, Index = 20, Size = 2, HasPrefix = false)]
-        [Int32DataFieldDefinition(field: 1, revision: 2, Index = 20, Size = 4, HasPrefix = false)]
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 2, HasPrefix = false)]
+        [Int32DataFieldDefinition(revision: 2, field: 1, Index = 20, Size = 4, HasPrefix = false)]
         public int JobId { get; set; }
 
         public Mid0032() : this(DEFAULT_REVISION)
@@ -76,12 +76,6 @@ namespace OpenProtocolInterpreter.Job
                     ProcessDataFields(fields, package);
             }
             return this;
-        }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            JobId
         }
     }
 }

@@ -23,23 +23,23 @@ namespace OpenProtocolInterpreter.IOInterface
     {
         public const int MID = 215;
 
-        [Int32DataFieldDefinition(field: 1, revision: 1, Index = 20, Size = 2)]
-        [Int32DataFieldDefinition(field: 1, revision: 2, Index = 20, Size = 2)]
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 2)]
+        [Int32DataFieldDefinition(revision: 2, field: 1, Index = 20, Size = 2)]
         public int IODeviceId { get; set; }
 
-        [RelayCollectionDefinition(field: 2, revision: 1, Index = 24, Size = 4 * 8)]
-        [RelayCollectionDefinition(field: 2, revision: 2, Index = 28, Size = 4 * 8)]
+        [RelayCollectionDefinition(revision: 1, field: 2, Index = 24, Size = 4 * 8)]
+        [RelayCollectionDefinition(revision: 2, field: 2, Index = 28, Size = 4 * 8)]
         public List<Relay> Relays { get; set; }
 
-        [DigitalInputCollectionDefinition(field: 3, revision: 1, Index = 58, Size = 4 * 8)]
-        [DigitalInputCollectionDefinition(field: 3, revision: 2, Index = 0, Size = 4 * 8)]
+        [DigitalInputCollectionDefinition(revision: 1, field: 3, Index = 58, Size = 4 * 8)]
+        [DigitalInputCollectionDefinition(revision: 2, field: 3, Index = 0, Size = 4 * 8)]
         public List<DigitalInput> DigitalInputs { get; set; }
 
         //At revision 2 number of relays/digital inputs comes before their lists
-        [Int32DataFieldDefinition(field: 4, revision: 2, Index = 24, Size = 2)]
+        [Int32DataFieldDefinition(revision: 2, field: 4, Index = 24, Size = 2)]
         public int NumberOfRelays { get; set; }
 
-        [Int32DataFieldDefinition(field: 5, revision: 2, Index = 0, Size = 2)]
+        [Int32DataFieldDefinition(revision: 2, field: 5, Index = 0, Size = 2)]
         public int NumberOfDigitalInputs { get; set; }
 
         public Mid0215() : this(DEFAULT_REVISION)
@@ -170,17 +170,6 @@ namespace OpenProtocolInterpreter.IOInterface
             GetField(nameof(DigitalInputs)).Size = 4 * 8;
             for (int i = DigitalInputs.Count; i < 8; i++)
                 DigitalInputs.Add(new DigitalInput(DigitalInputNumber.Off, false));
-        }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            IODeviceId,
-            RelayList,
-            DigitalInputList,
-            //rev2
-            NumberOfRelays,
-            NumberOfDigitalInputs
         }
     }
 }

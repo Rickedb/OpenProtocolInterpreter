@@ -32,11 +32,5 @@ namespace OpenProtocolInterpreter.Job.Advanced
         public Mid0130(Header header) : base(header)
         {
         }
-
-        [Obsolete("Use the constructor that takes a Header as parameter instead")]
-        protected enum DataFields
-        {
-            JobOffStatus
-        }
     }
 }

@@ -24,7 +24,7 @@ namespace OpenProtocolInterpreter.IOInterface
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.InvalidData };
 
 
-        [Int32DataFieldDefinition(field: 1, revision: 1, Size = 3, HasPrefix = false)]
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 3, HasPrefix = false)]
         public DigitalInputNumber DigitalInputNumber { get; set; }
 
         public Mid0225() : this(new Header()
@@ -38,12 +38,6 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public Mid0225(Header header) : base(header)
         {
-        }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            DigitalInputNumber
         }
     }
 }

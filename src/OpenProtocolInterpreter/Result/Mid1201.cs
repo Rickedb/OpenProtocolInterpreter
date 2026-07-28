@@ -23,52 +23,38 @@ namespace OpenProtocolInterpreter.Result
     {
         public const int MID = 1201;
 
-        public int TotalNumberOfMessages
-        {
-            get => GetField(Header.StandardizedRevision, DataFields.TotalMessages).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(Header.StandardizedRevision, DataFields.TotalMessages).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int MessageNumber
-        {
-            get => GetField(Header.StandardizedRevision, DataFields.MessageNumber).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(Header.StandardizedRevision, DataFields.MessageNumber).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int ResultDataIdentifier
-        {
-            get => GetField(Header.StandardizedRevision, DataFields.ResultDataIdentifier).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(Header.StandardizedRevision, DataFields.ResultDataIdentifier).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public DateTime Time
-        {
-            get => GetField(Header.StandardizedRevision, DataFields.Time).GetValue(OpenProtocolConvert.ToDateTime);
-            set => GetField(Header.StandardizedRevision, DataFields.Time).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public bool ResultStatus
-        {
-            get => GetField(Header.StandardizedRevision, DataFields.ResultStatus).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(Header.StandardizedRevision, DataFields.ResultStatus).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public OperationType OperationType
-        {
-            get => (OperationType)GetField(Header.StandardizedRevision, DataFields.OperationType).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(Header.StandardizedRevision, DataFields.OperationType).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 3, HasPrefix = false)]
+        public int TotalNumberOfMessages { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 2, Index = 23, Size = 3, HasPrefix = false)]
+        public int MessageNumber { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 3, Index = 26, Size = 10, HasPrefix = false)]
+        public int ResultDataIdentifier { get; set; }
+
+        [TimestampDataFieldDefinition(revision: 1, field: 4, Index = 36, PaddingChar = '0', HasPrefix = false)]
+        public DateTime Time { get; set; }
+
+        [BooleanDataFieldDefinition(revision: 1, field: 5, Index = 55, HasPrefix = false)]
+        public bool ResultStatus { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 6, Index = 56, Size = 2, HasPrefix = false)]
+        public OperationType OperationType { get; set; }
+
+        [Int32DataFieldDefinition(revision: 2, field: 7, Index = 58, Size = 4, HasPrefix = false)]
         public int RequestMid
         {
             get => GetField(Header.StandardizedRevision, DataFields.RequestMid).GetValue(OpenProtocolConvert.ToInt32);
             set => GetField(Header.StandardizedRevision, DataFields.RequestMid).SetValue(OpenProtocolConvert.ToString, value);
         }
-        public int NumberOfObjects
-        {
-            get => GetField(Header.StandardizedRevision, DataFields.NumberOfObjects).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(Header.StandardizedRevision, DataFields.NumberOfObjects).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int NumberOfDataFields
-        {
-            get => GetField(Header.StandardizedRevision, DataFields.NumberOfDataFields).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(Header.StandardizedRevision, DataFields.NumberOfDataFields).SetValue(OpenProtocolConvert.ToString, value);
-        }
+
+        [Int32DataFieldDefinition(revision: 1, field: 8, Index = 58, Size = 3, HasPrefix = false)]
+        public int NumberOfObjects { get; set; }
+
         public List<ObjectData> ObjectDataList { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 10, Index = 61, Size = 3, HasPrefix = false)]
+        public int NumberOfDataFields { get; set; }
         public List<VariableDataField> VariableDataFields { get; set; }
 
         public Mid1201() : this(DEFAULT_REVISION)

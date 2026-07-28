@@ -224,32 +224,5 @@ namespace OpenProtocolInterpreter.Job.Advanced
                 yield return dataField;
             }
         }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            JobId,
-            JobName,
-            NumberOfParameterSets,
-            JobList,
-            ForcedOrder,
-            LockAtJobDone,
-            ToolLoosening,
-            RepeatJob,
-            JobBatchDone,
-            BatchStatusAtIncrement,
-            DecrementBatchAtOkLoosening,
-            MaxTimeForFirstTightening,
-            MaxTimeToCompleteJob,
-            DisplayResultAtAutoSelect,
-            UseLineControl,
-            IdentifierResultPart,
-            ResultOfNonTightenings,
-            ResetAllIdentifiersAtJobDone,
-            Reserved,
-
-            //Rev 2
-            JobSequenceNumber
-        }
     }
 }

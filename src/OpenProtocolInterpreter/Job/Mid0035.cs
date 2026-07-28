@@ -125,32 +125,6 @@ namespace OpenProtocolInterpreter.Job
                     yield return dataField;
             }
         }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            //rev 1 and 2
-            JobId,
-            JobStatus,
-            JobBatchMode,
-            JobBatchSize,
-            JobBatchCounter,
-            Timestamp,
-            //rev 3
-            JobCurrentStep,
-            JobTotalNumberOfSteps,
-            JobStepType,
-            //rev 4
-            JobTighteningStatus,
-            //rev5
-            JobSequenceNumber,
-            VinNumber,
-            IdentifierResultPart2,
-            IdentifierResultPart3,
-            IdentifierResultPart4,
-            //Rev 6
-            JointId
-        }
     }
 
 }

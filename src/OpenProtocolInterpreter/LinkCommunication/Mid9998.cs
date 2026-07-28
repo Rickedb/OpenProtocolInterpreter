@@ -36,12 +36,5 @@ namespace OpenProtocolInterpreter.LinkCommunication
         public Mid9998(Header header) : base(header)
         {
         }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            MidNumber,
-            ErrorCode
-        }
     }
 }

@@ -17,38 +17,38 @@ namespace OpenProtocolInterpreter.Communication
     {
         public const int MID = 2;
 
-        [Int32DataFieldDefinition(field: 1, revision: 1, Size = 4)]
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 4)]
         public int CellId { get; set; }
 
-        [Int32DataFieldDefinition(field: 2, revision: 1, Size = 2)]
+        [Int32DataFieldDefinition(revision: 1, field: 2, Index = 26, Size = 2)]
         public int ChannelId { get; set; }
 
-        [StringDataFieldDefinition(field: 3, revision: 1, Size = 25)]
+        [StringDataFieldDefinition(revision: 1, field: 3, Index = 30, Size = 25)]
         public string ControllerName { get; set; }
 
         //Rev 2
-        [StringDataFieldDefinition(field: 4, revision: 2, Size = 3)]
+        [StringDataFieldDefinition(revision: 2, field: 4, Index = 57, Size = 3)]
         public string SupplierCode { get; set; }
 
         //Rev 3
-        [StringDataFieldDefinition(field: 5, revision: 3, Size = 19)]
+        [StringDataFieldDefinition(revision: 3, field: 5, Index = 62, Size = 19)]
         public string OpenProtocolVersion { get; set; }
 
-        [StringDataFieldDefinition(field: 6, revision: 3, Size = 19)]
+        [StringDataFieldDefinition(revision: 3, field: 6, Index = 83, Size = 19)]
         public string ControllerSoftwareVersion { get; set; }
 
-        [StringDataFieldDefinition(field: 7, revision: 3, Size = 19)]
+        [StringDataFieldDefinition(revision: 3, field: 7, Index = 104, Size = 19)]
         public string ToolSoftwareVersion { get; set; }
 
         //Rev 4
-        [StringDataFieldDefinition(field: 8, revision: 4, Size = 24)]
+        [StringDataFieldDefinition(revision: 4, field: 8, Index = 125, Size = 24)]
         public string RBUType { get; set; }
 
-        [StringDataFieldDefinition(field: 9, revision: 4, Size = 10)]
+        [StringDataFieldDefinition(revision: 4, field: 9, Index = 151, Size = 10)]
         public string ControllerSerialNumber { get; set; }
 
         //Rev 5
-        [Int32DataFieldDefinition(field: 10, revision: 5, Size = 3)]
+        [Int32DataFieldDefinition(revision: 5, field: 10, Index = 163, Size = 3)]
         public SystemType SystemType { get; set; }
 
         /// <summary>
@@ -60,31 +60,31 @@ namespace OpenProtocolInterpreter.Communication
         /// <para>002 = a system running presses instead of spindles.</para>
         /// </summary>
 
-        [Int32DataFieldDefinition(field: 11, revision: 5, Size = 3)]
+        [Int32DataFieldDefinition(revision: 5, field: 11, Index = 168, Size = 3)]
         public SystemSubType SystemSubType { get; set; }
 
         //Rev 6
-        [BooleanDataFieldDefinition(field: 12, revision: 6)]
+        [BooleanDataFieldDefinition(revision: 6, field: 12, Index = 173)]
         public bool SequenceNumberSupport { get; set; }
 
-        [BooleanDataFieldDefinition(field: 13, revision: 6)]
+        [BooleanDataFieldDefinition(revision: 6, field: 13, Index = 176)]
         public bool LinkingHandlingSupport { get; set; }
 
         /// <summary>
         /// <para>Station ID for PF6000</para>
         /// <para>Cell ID for PF4000</para>
         /// </summary>
-        [Int64DataFieldDefinition(field: 14, revision: 6, Size = 10)]
+        [Int64DataFieldDefinition(revision: 6, field: 14, Index = 179, Size = 10)]
         public long StationCellId { get; set; }
 
         /// <summary>
         /// <para>Station ID for PF6000</para>
         /// <para>Cell ID for PF4000</para>
         /// </summary>
-        [StringDataFieldDefinition(field: 15, revision: 6, Size = 25)]
+        [StringDataFieldDefinition(revision: 6, field: 15, Index = 191, Size = 25)]
         public string StationCellName { get; set; }
 
-        [StringDataFieldDefinition(field: 16, revision: 6, Size = 1)]
+        [StringDataFieldDefinition(revision: 6, field: 16, Index = 218, Size = 1)]
         public string ClientId { get; set; }
 
         //Rev 7
@@ -92,13 +92,13 @@ namespace OpenProtocolInterpreter.Communication
         /// <para>False = Use Keep alive (Keep alive is mandatory)</para>
         /// <para>True = Ignore Keep alive (Keep alive is optional)</para>
         /// </summary>
-        [BooleanDataFieldDefinition(field: 17, revision: 7)]
+        [BooleanDataFieldDefinition(revision: 7, field: 17, Index = 221)]
         public bool OptionalKeepAlive { get; set; }
 
-        [BooleanDataFieldDefinition(field: 18, revision: 8)]
+        [BooleanDataFieldDefinition(revision: 8, field: 18, Index = 224)]
         public bool OptionalToolLockAtDisconnection { get; set; }
 
-        [DecimalDataFieldDefinition(field: 19, revision: 8, Size = 1)]
+        [DecimalDataFieldDefinition(revision: 8, field: 19, Index = 227, Size = 1)]
         public decimal OptionalEarlyLock { get; set; }
 
         public Mid0002() : this(DEFAULT_REVISION)
@@ -118,38 +118,6 @@ namespace OpenProtocolInterpreter.Communication
         })
         {
 
-        }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            //Rev 1
-            CellId,
-            ChannelId,
-            ControllerName,
-            //Rev 2
-            SupplierCode,
-            //Rev 3
-            OpenProtocolVersion,
-            ControllerSoftwareVersion,
-            ToolSoftwareVersion,
-            //Rev 4
-            RBUType,
-            ControllerSerialNumber,
-            //Rev 5
-            SystemType,
-            SystemSubtype,
-            //Rev 6
-            SequenceNumberSupport,
-            LinkingHandlingSupport,
-            StationCellId,
-            StationCellName,
-            ClientId,
-            //Rev 7
-            OptionalKeepAlive,
-            //Rev 8
-            OptionalToolLockAtDisconnection,
-            OptionalEarlyLock
         }
     }
 }

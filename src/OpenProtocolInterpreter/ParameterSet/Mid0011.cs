@@ -52,12 +52,5 @@ namespace OpenProtocolInterpreter.ParameterSet
             GetField(nameof(ParameterSets)).Size = TotalParameterSets * 3;
             return base.Pack();
         }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            TotalParameterSets,
-            EachParameterSet
-        }
     }
 }

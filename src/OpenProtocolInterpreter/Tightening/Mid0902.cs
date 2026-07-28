@@ -15,25 +15,25 @@ namespace OpenProtocolInterpreter.Tightening
     {
         public const int MID = 902;
 
-        [Int64DataFieldDefinition(field: 1, revision: 1, Size = 10, HasPrefix = false)]
+        [Int64DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 10, HasPrefix = false)]
         public long Capacity { get; set; }
 
-        [Int64DataFieldDefinition(field: 2, revision: 1, Size = 10, HasPrefix = false)]
+        [Int64DataFieldDefinition(revision: 1, field: 2, Index = 30, Size = 10, HasPrefix = false)]
         public long OldestSequenceNumber { get; set; }
 
-        [TimestampDataFieldDefinition(field: 3, revision: 1, HasPrefix = false)]
+        [TimestampDataFieldDefinition(revision: 1, field: 3, Index = 40, HasPrefix = false)]
         public DateTime OldestTime { get; set; }
 
-        [Int64DataFieldDefinition(field: 4, revision: 1, Size = 10, HasPrefix = false)]
+        [Int64DataFieldDefinition(revision: 1, field: 4, Index = 59, Size = 10, HasPrefix = false)]
         public long NewestSequenceNumber { get; set; }
 
-        [TimestampDataFieldDefinition(field: 5, revision: 1, HasPrefix = false)]
+        [TimestampDataFieldDefinition(revision: 1, field: 5, Index = 69, HasPrefix = false)]
         public DateTime NewestTime { get; set; }
 
-        [Int32DataFieldDefinition(field: 6, revision: 1, Size = 3, HasPrefix = false)]
+        [Int32DataFieldDefinition(revision: 1, field: 6, Index = 88, Size = 3, HasPrefix = false)]
         public int NumberOfPIDs { get; set; }
 
-        [VariableDataFieldCollectionDefinition(field: 7, revision: 1, HasPrefix = false)]
+        [VariableDataFieldCollectionDefinition(revision: 1, field: 7, Index = 91, Size = 0, HasPrefix = false)]
         public List<VariableDataField> VariableDataFields { get; set; }
 
         public Mid0902() : this(new Header()
@@ -64,18 +64,6 @@ namespace OpenProtocolInterpreter.Tightening
                 dataField.Size = Header.Length - dataField.Index;
             }
             base.ProcessDataField(dataField, package);
-        }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            Capacity,
-            OldestSequenceNumber,
-            OldestTime,
-            NewestSequenceNumber,
-            NewestTime,
-            NumberOfPIDs,
-            VariableDataFields
         }
     }
 }

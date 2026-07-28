@@ -135,33 +135,5 @@ namespace OpenProtocolInterpreter.MultiSpindle
                 }
             }
         }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            NumberOfSpindlesOrPresses,
-            VinNumber,
-            JobId,
-            ParameterSetId,
-            BatchSize,
-            BatchCounter,
-            BatchStatus,
-            TorqueOrForceMinLimit,
-            TorqueOrForceMaxLimit,
-            TorqueOrForceFinalTarget,
-            AngleOrStrokeMinLimit,
-            AngleOrStrokeMaxLimit,
-            FinalAngleOrStrokeTarget,
-            Target,
-            LastChangeInParameterSet,
-            Timestamp,
-            SyncTighteningId,
-            SyncOverallStatus,
-            SpindesOrPressesStatus,
-            //Rev 4
-            SystemSubType,
-            //Rev 5
-            JobSequenceNumber
-        }
     }
 }

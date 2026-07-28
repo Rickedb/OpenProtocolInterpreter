@@ -33,11 +33,5 @@ namespace OpenProtocolInterpreter.LinkCommunication
         })
         {
         }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            MidNumber
-        }
     }
 }

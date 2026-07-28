@@ -31,11 +31,5 @@ namespace OpenProtocolInterpreter.ParameterSet
         public Mid0018(Header header) : base(header)
         {
         }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            ParameterSetId
-        }
     }
 }

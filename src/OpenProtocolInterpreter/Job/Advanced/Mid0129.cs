@@ -45,12 +45,5 @@ namespace OpenProtocolInterpreter.Job.Advanced
         {
 
         }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            ChannelId,
-            ParameterSetId
-        }
     }
 }

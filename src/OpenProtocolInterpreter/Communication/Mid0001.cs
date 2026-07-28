@@ -15,13 +15,13 @@ namespace OpenProtocolInterpreter.Communication
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.ClientAlreadyConnected, Error.MidRevisionUnsupported };
 
-        [BooleanDataFieldDefinition(field: 1, revision: 7)]
+        [BooleanDataFieldDefinition(revision: 7, field: 1)]
         public bool OptionalKeepAlive { get; set; }
 
-        [BooleanDataFieldDefinition(field: 2, revision: 8)]
+        [BooleanDataFieldDefinition(revision: 8, field: 2)]
         public bool OptionalToolLockAtDisconnection { get; set; }
 
-        [DecimalDataFieldDefinition(field: 3, revision: 8, Size = 4)]
+        [DecimalDataFieldDefinition(revision: 8, field: 3, Size = 4)]
         public decimal OptionalEarlyLock { get; set; }
 
         public Mid0001() : this(DEFAULT_REVISION)
@@ -39,15 +39,6 @@ namespace OpenProtocolInterpreter.Communication
             Revision = revision
         })
         {
-        }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            //Rev 7
-            UseKeepAlive,
-            OptionalToolLockAtDisconnection,
-            OptionalEarlyLock
         }
     }
 }

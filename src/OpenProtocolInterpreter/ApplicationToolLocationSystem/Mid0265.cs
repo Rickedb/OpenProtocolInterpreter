@@ -15,10 +15,10 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.MidRevisionUnsupported };
 
-        [StringDataFieldDefinition(field: 1, revision: 1, Size = 8)]
+        [StringDataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 8)]
         public string ToolTagId { get; set; }
 
-        [Int32DataFieldDefinition(field: 2, revision: 1, Size = 2)]
+        [Int32DataFieldDefinition(revision: 1, field: 2, Index = 30, Size = 2)]
         public ToolStatus ToolStatus { get; set; }
 
         public Mid0265() : this(new Header()
@@ -33,13 +33,6 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
         public Mid0265(Header header) : base(header)
         {
 
-        }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            ToolTagId,
-            ToolStatus
         }
     }
 }

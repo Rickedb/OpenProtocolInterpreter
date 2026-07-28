@@ -64,11 +64,5 @@ namespace OpenProtocolInterpreter.Job
             ProcessDataFields(RevisionsByFields[Header.StandardizedRevision], package);
             return this;
         }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            JobId
-        }
     }
 }

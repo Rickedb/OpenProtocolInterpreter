@@ -28,10 +28,10 @@ namespace OpenProtocolInterpreter.Tightening
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.TighteningIdRequestNotFound, Error.MidRevisionUnsupported };
 
-        [Int64DataFieldDefinition(field: 1, revision: 1, Size = 10, HasPrefix = false)]
+        [Int64DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 10, HasPrefix = false)]
         public long TighteningId { get; set; }
 
-        [BooleanDataFieldDefinition(field: 2, revision: 10, Size = 1, HasPrefix = false)]
+        [BooleanDataFieldDefinition(revision: 10, field: 2, Index = 30, Size = 1, HasPrefix = false)]
         public bool OfflineResult { get; set; }
 
         public Mid0064() : this(DEFAULT_REVISION)
@@ -55,13 +55,6 @@ namespace OpenProtocolInterpreter.Tightening
         override public string Pack()
         {
             return base.Pack();
-        }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            TighteningId,
-            OfflineResult
         }
     }
 }

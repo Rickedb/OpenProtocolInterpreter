@@ -34,12 +34,12 @@ namespace OpenProtocolInterpreter.ParameterSet
         [Int32DataFieldDefinition(revision: 1, field: 10, Index = 97, Size = 5)]
         public int AngleFinalTarget { get; set; }
         //Rev 2
-        [TruncatedDecimalDataFieldDefinition(revision: 2, field: 1, Index = 104, Size = 6)]
+        [TruncatedDecimalDataFieldDefinition(revision: 2, field: 11, Index = 104, Size = 6)]
         public decimal FirstTarget { get; set; }
-        [TruncatedDecimalDataFieldDefinition(revision: 2, field: 2, Index = 112, Size = 6)]
+        [TruncatedDecimalDataFieldDefinition(revision: 2, field: 12, Index = 112, Size = 6)]
         public decimal StartFinalAngle { get; set; }
         //Rev 5
-        [TimestampDataFieldDefinition(revision: 5, field: 1, Index = 120)]
+        [TimestampDataFieldDefinition(revision: 5, field: 13, Index = 120)]
         public DateTime LastChangeInParameterSet { get; set; }
 
         public Mid0013() : this(DEFAULT_REVISION)
@@ -58,26 +58,6 @@ namespace OpenProtocolInterpreter.ParameterSet
             Revision = revision
         })
         {
-        }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            ParameterSetId,
-            ParameterSetName,
-            RotationDirection,
-            BatchSize,
-            MinTorque,
-            MaxTorque,
-            TorqueFinalTarget,
-            MinAngle,
-            MaxAngle,
-            AngleFinalTarget,
-            //Rev 2
-            FirstTarget,
-            StartFinalTarget,
-            //Rev 5
-            LastChangeInParameterSet
         }
     }
 }

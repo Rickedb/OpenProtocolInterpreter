@@ -27,7 +27,7 @@ namespace OpenProtocolInterpreter.Communication
     {
         public const int MID = 5;
 
-        [Int32DataFieldDefinition(field: 1, revision: 1, Size = 4, HasPrefix = false)]
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 4, HasPrefix = false)]
         public int MidAccepted { get; set; }
 
         public Mid0005() : this(DEFAULT_REVISION)
@@ -46,12 +46,6 @@ namespace OpenProtocolInterpreter.Communication
         })
         {
 
-        }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            MidAccepted
         }
     }
 }

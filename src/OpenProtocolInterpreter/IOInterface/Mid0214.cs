@@ -21,7 +21,7 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.FaultyIODeviceId, Error.IODeviceNotConnected };
 
-        [Int32DataFieldDefinition(field: 1, revision: 1, Size = 2, HasPrefix = false)]
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 2, HasPrefix = false)]
         public int DeviceNumber { get; set; }
 
         public Mid0214() : this(DEFAULT_REVISION)
@@ -38,12 +38,6 @@ namespace OpenProtocolInterpreter.IOInterface
             Revision = revision
         })
         {
-        }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            DeviceNumber
         }
     }
 }

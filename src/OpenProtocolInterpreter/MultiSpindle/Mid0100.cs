@@ -61,12 +61,5 @@ namespace OpenProtocolInterpreter.MultiSpindle
         })
         {
         }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            DataNumberSystem,
-            SendOnlyNewData
-        }
     }
 }

@@ -15,11 +15,11 @@ namespace OpenProtocolInterpreter.Tightening
     {
         public const int MID = 66;
 
-        [Int32DataFieldDefinition(field: 1, revision: 1, Index = 20, Size = 2)]
-        [Int32DataFieldDefinition(field: 1, revision: 2, Index = 20, Size = 3)]
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 2)]
+        [Int32DataFieldDefinition(revision: 2, field: 1, Index = 20, Size = 3)]
         public int NumberOfOfflineResults { get; set; }
 
-        [Int32DataFieldDefinition(field: 2, revision: 2, Index = 25, Size = 3)]
+        [Int32DataFieldDefinition(revision: 2, field: 2, Index = 25, Size = 3)]
         public int NumberOfOfflineCurves { get; set; }
 
 
@@ -57,13 +57,6 @@ namespace OpenProtocolInterpreter.Tightening
 
             builder.Append(Pack(fields));
             return builder.ToString();
-        }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            NumberOfOfflineResults,
-            NumberOfOfflineCurves
         }
     }
 }

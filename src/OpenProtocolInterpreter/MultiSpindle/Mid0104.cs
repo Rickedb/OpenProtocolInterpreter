@@ -28,11 +28,5 @@ namespace OpenProtocolInterpreter.MultiSpindle
         public Mid0104(Header header) : base(header)
         {
         }
-
-        [Obsolete("Use DataFieldDefinition attributes instead")]
-        protected enum DataFields
-        {
-            RequestedResultIndex
-        }
     }
 }
