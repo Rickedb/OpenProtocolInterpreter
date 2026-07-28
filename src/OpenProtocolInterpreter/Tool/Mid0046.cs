@@ -9,8 +9,8 @@ namespace OpenProtocolInterpreter.Tool
     /// <para>Warning 2: the new configuration will not be active until the next controller reboot!</para>
     /// <para>Message sent by: Integrator</para>
     /// <para>
-    ///     Answer: <see cref="Communication.Mid0005"/> Command accepted or 
-    ///             <see cref="Communication.Mid0004"/> Command error, Programming control not granted or 
+    ///     Answer: <see cref="Communication.Mid0005"/> Command accepted or
+    ///             <see cref="Communication.Mid0004"/> Command error, Programming control not granted or
     ///                                                 Invalid data (value not supported by controller)
     /// </para>
     /// </summary>
@@ -20,11 +20,8 @@ namespace OpenProtocolInterpreter.Tool
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.ProgrammingControlNotGranted, Error.InvalidData };
 
-        public PrimaryTool PrimaryTool
-        {
-            get => (PrimaryTool)GetField(1, DataFields.PrimaryTool).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.PrimaryTool).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 2)]
+        public PrimaryTool PrimaryTool { get; set; }
 
         public Mid0046() : this(new Header()
         {
@@ -36,24 +33,6 @@ namespace OpenProtocolInterpreter.Tool
 
         public Mid0046(Header header) : base(header)
         {
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.PrimaryTool, 20, 2)
-                            }
-                }
-            };
-        }
-
-        protected enum DataFields
-        {
-            PrimaryTool
         }
     }
 }

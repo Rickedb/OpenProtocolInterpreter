@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace OpenProtocolInterpreter.Tool
 {
@@ -28,14 +29,7 @@ namespace OpenProtocolInterpreter.Tool
         }
 
         public static OpenEndData Parse(string value)
-        {
-            return new OpenEndData()
-            {
-                UseOpenEnd = OpenProtocolConvert.ToBoolean(value[0].ToString()),
-                TighteningDirection = (TighteningDirection)OpenProtocolConvert.ToInt32(value[1].ToString()),
-                MotorRotation = (MotorRotation)OpenProtocolConvert.ToInt32(value[2].ToString()),
-            };
-        }
+            => Parse(value.AsSpan());
 
         public static OpenEndData Parse(ReadOnlySpan<char> value)
         {
@@ -46,5 +40,32 @@ namespace OpenProtocolInterpreter.Tool
                 MotorRotation = (MotorRotation)OpenProtocolConvert.ToInt32(value.Slice(2, 1)),
             };
         }
+    }
+
+    public class OpenEndDataDefinitionAttribute : DataFieldDefinitionAttribute
+    {
+        public OpenEndDataDefinitionAttribute(int revision) : base(revision)
+        {
+
+        }
+        public OpenEndDataDefinitionAttribute(int field, int revision) : base(field, revision)
+        {
+
+        }
+
+        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        {
+            return new DataField<OpenEndData>(Field, index, Size, HasPrefix)
+            {
+                DefaultConverter = PackOpenEndData,
+                DefaultParser = ParseOpenEndData
+            }.Bind(mid, propertyInfo);
+        }
+
+        private string PackOpenEndData(char paddingChar, int size, PaddingOrientation orientation, OpenEndData openEndData)
+            => openEndData.Pack();
+
+        private OpenEndData ParseOpenEndData(string value)
+            => OpenEndData.Parse(value);
     }
 }

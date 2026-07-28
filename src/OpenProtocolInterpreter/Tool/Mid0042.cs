@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace OpenProtocolInterpreter.Tool
+﻿namespace OpenProtocolInterpreter.Tool
 {
     /// <summary>
     /// Disable tool
@@ -11,16 +9,11 @@ namespace OpenProtocolInterpreter.Tool
     {
         public const int MID = 42;
 
-        public int ToolNumber
-        {
-            get => GetField(2, DataFields.ToolNumber).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(2, DataFields.ToolNumber).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public DisableType DisableType
-        {
-            get => (DisableType)GetField(2, DataFields.DisableType).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(2, DataFields.DisableType).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 2, field: 1, Index = 20, Size = 4)]
+        public int ToolNumber { get; set; }
+
+        [Int32DataFieldDefinition(revision: 2, field: 2, Index = 26, Size = 2)]
+        public DisableType DisableType { get; set; }
 
         public Mid0042() : this(DEFAULT_REVISION)
         {
@@ -37,26 +30,5 @@ namespace OpenProtocolInterpreter.Tool
         })
         {
         }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    2, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.ToolNumber, 20, 4),
-                                DataField.Number(DataFields.DisableType, 26, 2)
-                            }
-                },
-            };
-        }
-
-        protected enum DataFields
-        {
-            ToolNumber,
-            DisableType
-        }
     }
-
 }

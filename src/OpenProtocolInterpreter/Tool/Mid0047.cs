@@ -5,9 +5,9 @@ namespace OpenProtocolInterpreter.Tool
     /// <summary>
     /// Tool Pairing handling
     /// <para>
-    ///     This message is sent by the integrator in order to Pair tools, to abort ongoing pairing, 
+    ///     This message is sent by the integrator in order to Pair tools, to abort ongoing pairing,
     ///     to Abort/Disconnect established connection and request for pairing status of the IRC-B or IRC-W tool types.
-    ///     At pairing handling type, Start Pairing and Pairing Abort or Disconnect the controller must take program control 
+    ///     At pairing handling type, Start Pairing and Pairing Abort or Disconnect the controller must take program control
     ///     and release when finished. MID 0048 will be uploaded during the pairing process at each change of the pairing stage.
     /// </para>
     /// <para>Message sent by: Integrator</para>
@@ -22,11 +22,8 @@ namespace OpenProtocolInterpreter.Tool
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { };
 
-        public PairingHandlingType PairingHandlingType
-        {
-            get => (PairingHandlingType)GetField(1, DataFields.PairingHandlingType).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.PairingHandlingType).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 2)]
+        public PairingHandlingType PairingHandlingType { get; set; }
 
         public Mid0047() : this(new Header()
         {
@@ -38,24 +35,6 @@ namespace OpenProtocolInterpreter.Tool
 
         public Mid0047(Header header) : base(header)
         {
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.PairingHandlingType, 20, 2)
-                            }
-                }
-            };
-        }
-
-        protected enum DataFields
-        {
-            PairingHandlingType
         }
     }
 }

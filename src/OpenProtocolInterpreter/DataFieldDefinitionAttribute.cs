@@ -149,6 +149,7 @@ namespace OpenProtocolInterpreter
             PaddingChar = '0';
             PaddingOrientation = PaddingOrientation.LeftPadded;
         }
+
         internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
         {
             return DataField.TruncatedDecimal(Field, index, Size, DecimalPoints, HasPrefix)
