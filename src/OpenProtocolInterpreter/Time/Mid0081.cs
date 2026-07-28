@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Time
 {
@@ -13,15 +12,12 @@ namespace OpenProtocolInterpreter.Time
     {
         public const int MID = 81;
 
-        public DateTime Time
-        {
-            get => GetField(1, DataFields.Time).GetValue(OpenProtocolConvert.ToDateTime);
-            set => GetField(1, DataFields.Time).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [TimestampDataFieldDefinition(revision: 1, field: 1, Index = 20, HasPrefix = false)]
+        public DateTime Time { get; set; }
 
         public Mid0081() : this(new Header()
         {
-            Mid = MID, 
+            Mid = MID,
             Revision = DEFAULT_REVISION
         })
         {
@@ -29,24 +25,6 @@ namespace OpenProtocolInterpreter.Time
 
         public Mid0081(Header header) : base(header)
         {
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Timestamp(DataFields.Time, 20, false)
-                            }
-                }
-            };
-        }
-
-        protected enum DataFields
-        {
-            Time
         }
     }
 }
