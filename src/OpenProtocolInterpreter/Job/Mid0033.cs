@@ -114,9 +114,8 @@ namespace OpenProtocolInterpreter.Job
             NumberOfParameterSets = ParameterSetList?.Count ?? 0;
             GetField(nameof(ParameterSetList)).Size = NumberOfParameterSets * ParameterSet.Size(Header.StandardizedRevision);
             var builder = new StringBuilder(BuildHeader());
-            int prefixIndex = 1;
             var fields = DataFieldsByRevision().ToList();
-            builder.Append(base.Pack(fields, ref prefixIndex));
+            builder.Append(base.Pack(fields));
             return builder.ToString();
         }
 

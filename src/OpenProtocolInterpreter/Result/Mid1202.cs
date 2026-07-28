@@ -1,5 +1,5 @@
 using System;
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace OpenProtocolInterpreter.Result
@@ -7,20 +7,20 @@ namespace OpenProtocolInterpreter.Result
     /// <summary>
     /// Operation result object data
     /// <para>
-    ///     This message contains the cycle data for one object, both data for the whole process and data related to 
-    ///     the different steps in the process.The user defined values are preconfigured in the controller via the 
+    ///     This message contains the cycle data for one object, both data for the whole process and data related to
+    ///     the different steps in the process.The user defined values are preconfigured in the controller via the
     ///     configuration tool. The message uses the Variable Parameter pattern for transmission of the values.
     /// </para>
     /// <para>
-    ///     Note: Only values that exist in the result will be sent.So the actual data received may vary between 
+    ///     Note: Only values that exist in the result will be sent.So the actual data received may vary between
     ///     the cycles if the settings differ between different programs.
     /// </para>
     /// <para>Message sent by: Controller</para>
     /// <para>
-    ///     Answer: <see cref="Mid1203"/> Operation result data acknowledge or 
+    ///     Answer: <see cref="Mid1203"/> Operation result data acknowledge or
     ///             <see cref="Communication.Mid0005"/> with <see cref="Mid1202"/> in the data field.
     /// </para>
-    ///         
+    ///
     ///         If the sequence number acknowledge functionality is used there is no need for these acknowledges.
     /// </summary>
     public class Mid1202 : Mid, IResult, IController, IAcknowledgeable<Mid1203>, IAcceptableCommand
@@ -83,8 +83,7 @@ namespace OpenProtocolInterpreter.Result
             NumberOfDataFields = VariableDataFields.Count;
             var revision = Header.StandardizedRevision;
             GetField(revision, DataFields.VariableDataFields).SetValue(OpenProtocolConvert.ToString(VariableDataFields));
-            int prefixIndex = 0;
-            return string.Concat(BuildHeader(), base.Pack(revision, ref prefixIndex));
+            return string.Concat(BuildHeader(), base.Pack(revision));
         }
 
         public override Mid Parse(ReadOnlySpan<char> package)

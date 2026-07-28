@@ -59,10 +59,9 @@ namespace OpenProtocolInterpreter.Job
             var builder = new StringBuilder(BuildHeader());
 
             var fromRevision = Header.StandardizedRevision > 1 ? 2 : 1;
-            int prefixIndex = 1;
             for (int i = fromRevision; i <= Header.StandardizedRevision; i++)
             {
-                builder.Append(Pack(i, ref prefixIndex));
+                builder.Append(Pack(i));
             }
             return builder.ToString();
         }

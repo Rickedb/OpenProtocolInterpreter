@@ -90,10 +90,9 @@ namespace OpenProtocolInterpreter.IOInterface
                 digitalInputsField.Size = NumberOfDigitalInputs * 4;
 
                 var builder = new StringBuilder(BuildHeader());
-                int prefixIndex = 1;
 
                 var fields = OrderedDataFieldsByRevision().ToList();
-                builder.Append(base.Pack(fields, ref prefixIndex));
+                builder.Append(base.Pack(fields));
                 return builder.ToString();
             }
             else

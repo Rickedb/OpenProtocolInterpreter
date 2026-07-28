@@ -13,17 +13,17 @@ namespace OpenProtocolInterpreter.Alarm
     {
         public const int MID = 71;
 
-        [StringDataFieldDefinition(field: 0, revision: 1, Size = 4, PaddingOrientation = PaddingOrientation.LeftPadded)]
+        [StringDataFieldDefinition(field: 1, revision: 1, Size = 4, PaddingOrientation = PaddingOrientation.LeftPadded)]
         public string ErrorCode { get; set; }
 
-        [BooleanDataFieldDefinition(field: 1, revision: 1)]
-        public bool ControllerReadyStatus { get; set; }
         [BooleanDataFieldDefinition(field: 2, revision: 1)]
+        public bool ControllerReadyStatus { get; set; }
+        [BooleanDataFieldDefinition(field: 3, revision: 1)]
         public bool ToolReadyStatus { get; set; }
-        [TimestampDataFieldDefinition(field: 3, revision: 1)]
+        [TimestampDataFieldDefinition(field: 4, revision: 1)]
         public DateTime Time { get; set; }
 
-        [StringDataFieldDefinition(field: 4, revision: 2, Index = 54, Size = 50)] //Always has index 54 due to error code field size change
+        [StringDataFieldDefinition(field: 5, revision: 2, Index = 54, Size = 50)] //Always has index 54 due to error code field size change
         public string AlarmText { get; set; }
 
         public Mid0071() : this(DEFAULT_REVISION)

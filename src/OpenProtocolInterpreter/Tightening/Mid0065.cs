@@ -263,9 +263,8 @@ namespace OpenProtocolInterpreter.Tightening
         {
             var builder = new StringBuilder();
             var fields = DataFieldsByRevision().OrderBy(f => f.Index).ToList();
-            int prefixIndex = 1;
             builder.Append(BuildHeader());
-            builder.Append(Pack(fields, ref prefixIndex));
+            builder.Append(Pack(fields));
 
             return builder.ToString();
         }

@@ -103,9 +103,8 @@ namespace OpenProtocolInterpreter.Job
         {
             var builder = new StringBuilder();
             var fields = DataFieldsByRevision().OrderBy(x => x.Index).ToList();
-            int prefixIndex = 1;
             builder.Append(BuildHeader());
-            builder.Append(base.Pack(fields, ref prefixIndex));
+            builder.Append(base.Pack(fields));
             return builder.ToString();
         }
 

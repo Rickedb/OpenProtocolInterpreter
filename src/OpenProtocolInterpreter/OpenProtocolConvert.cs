@@ -66,6 +66,9 @@ namespace OpenProtocolInterpreter
             return TruncatePadded(paddingChar, size, orientation, str);
         }
 
+        public static decimal ToDecimal(ReadOnlySpan<char> value)
+            => ToDecimal(value.ToString());
+
         public static decimal ToDecimal(string value)
         {
             decimal decimalValue = 0;

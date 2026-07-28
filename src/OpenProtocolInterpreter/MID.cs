@@ -66,11 +66,10 @@ namespace OpenProtocolInterpreter
                 return header;
 
             var builder = new StringBuilder(header);
-            int prefixIndex = 1;
             var revision = Header.StandardizedRevision;
-            for (int i = 1; i <= revision; i++)
+            for (int rev = 1; rev <= revision; rev++)
             {
-                builder.Append(Pack(i, ref prefixIndex));
+                builder.Append(Pack(rev));
             }
 
             return builder.ToString();
@@ -78,17 +77,17 @@ namespace OpenProtocolInterpreter
 
         public virtual byte[] PackBytes() => Encoding.ASCII.GetBytes(Pack());
 
-        protected virtual string Pack(int revision, ref int prefixIndex)
+        protected virtual string Pack(int revision)
         {
             if (!RevisionsByFields.TryGetValue(revision, out var dataFields))
             {
                 return string.Empty;
             }
 
-            return Pack(dataFields, ref prefixIndex);
+            return Pack(dataFields);
         }
 
-        protected virtual string Pack(List<DataField> dataFields, ref int prefixIndex)
+        protected virtual string Pack(IEnumerable<DataField> dataFields)
         {
             var builder = new StringBuilder();
             foreach (var dataField in dataFields)
@@ -98,8 +97,7 @@ namespace OpenProtocolInterpreter
 
                 if (dataField.HasPrefix)
                 {
-                    builder.Append(prefixIndex.ToString("D2"));
-                    prefixIndex++;
+                    builder.Append(dataField.Field.ToString("D2"));
                 }
 
                 builder.Append(dataField.Value);
@@ -293,6 +291,16 @@ namespace OpenProtocolInterpreter
             }
 
             return fields.FirstOrDefault(x => x.Field == field) ?? DataField.Default;
+        }
+
+        protected DataField<T> GetField<T>(int revision, int field)
+        {
+            if (!RevisionsByFields.TryGetValue(revision, out var fields))
+            {
+                throw new ArgumentException("No fields registered for the specified revision.", nameof(revision));
+            }
+
+            return (DataField<T>)fields.FirstOrDefault(x => x.GetType() == typeof(DataField<T>) && x.Field == field);
         }
 
         protected DataField GetField(string propertyName)

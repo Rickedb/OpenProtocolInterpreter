@@ -55,8 +55,7 @@ namespace OpenProtocolInterpreter.Tightening
             var fields = RevisionsByFields[Header.StandardizedRevision];
             var builder = new StringBuilder(BuildHeader());
 
-            int prefixIndex = 1;
-            builder.Append(Pack(fields, ref prefixIndex));
+            builder.Append(Pack(fields));
             return builder.ToString();
         }
 

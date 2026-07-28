@@ -1,5 +1,5 @@
 using System;
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace OpenProtocolInterpreter.Tool
@@ -8,7 +8,7 @@ namespace OpenProtocolInterpreter.Tool
     /// Tool Data status reply with generic data
     /// <para>
     ///     Upload requested parameters from given tool.
-    /// </para>    
+    /// </para>
     /// <para>Message sent by: Controller</para>
     /// <para>
     ///     Answer: None
@@ -46,8 +46,7 @@ namespace OpenProtocolInterpreter.Tool
             var revision = Header.StandardizedRevision;
             GetField(revision, DataFields.VariableDataFields).SetValue(OpenProtocolConvert.ToString(VariableDataFields));
 
-            var index = 1;
-            return string.Concat(BuildHeader(), base.Pack(revision, ref index));
+            return string.Concat(BuildHeader(), base.Pack(revision));
         }
 
         public override Mid Parse(ReadOnlySpan<char> package)

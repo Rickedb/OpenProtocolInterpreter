@@ -69,8 +69,7 @@ namespace OpenProtocolInterpreter.Communication
             }
 
             var builder = new StringBuilder(BuildHeader());
-            int prefixIndex = 1;
-            builder.Append(base.Pack(dataFields, ref prefixIndex));
+            builder.Append(base.Pack(dataFields));
             return builder.ToString();
         }
 

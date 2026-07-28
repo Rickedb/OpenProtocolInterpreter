@@ -33,78 +33,55 @@ namespace OpenProtocolInterpreter.PowerMACS
     {
         public const int MID = 106;
 
-        public int TotalNumberOfMessages
-        {
-            get => GetField(1, DataFields.TotalNumberOfMessages).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.TotalNumberOfMessages).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int MessageNumber
-        {
-            get => GetField(1, DataFields.MessageNumber).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.MessageNumber).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int DataNumberSystem
-        {
-            get => GetField(1, DataFields.DataNumberSystem).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.DataNumberSystem).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int StationNumber
-        {
-            get => GetField(1, DataFields.StationNumber).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.StationNumber).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public string StationName
-        {
-            get => GetField(1, DataFields.StationName).Value;
-            set => GetField(1, DataFields.StationName).SetValue(value);
-        }
-        public DateTime Time
-        {
-            get => GetField(1, DataFields.Time).GetValue(OpenProtocolConvert.ToDateTime);
-            set => GetField(1, DataFields.Time).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int ModeNumber
-        {
-            get => GetField(1, DataFields.ModeNumber).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.ModeNumber).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public string ModeName
-        {
-            get => GetField(1, DataFields.ModeName).Value;
-            set => GetField(1, DataFields.ModeName).SetValue(value);
-        }
-        public bool SimpleStatus
-        {
-            get => GetField(1, DataFields.SimpleStatus).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1, DataFields.SimpleStatus).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public PowerMacsStatus PMStatus
-        {
-            get => (PowerMacsStatus)GetField(1, DataFields.PMStatus).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.PMStatus).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public string WpId
-        {
-            get => GetField(1, DataFields.WPId).Value;
-            set => GetField(1, DataFields.WPId).SetValue(value);
-        }
-        public int NumberOfBolts
-        {
-            get => GetField(1, DataFields.NumberOfBolts).GetValue(OpenProtocolConvert.ToInt32);
-            private set => GetField(1, DataFields.NumberOfBolts).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 2)]
+        public int TotalNumberOfMessages { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 2, Index = 24, Size = 2)]
+        public int MessageNumber { get; set; }
+
+        [Int64DataFieldDefinition(revision: 1, field: 3, Index = 28, Size = 10)]
+        public long DataNumberSystem { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 4, Index = 40, Size = 2)]
+        public int StationNumber { get; set; }
+
+        [StringDataFieldDefinition(revision: 1, field: 5, Index = 44, Size = 20)]
+        public string StationName { get; set; }
+
+        [TimestampDataFieldDefinition(revision: 1, field: 6, Index = 66)]
+        public DateTime Time { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 7, Index = 87, Size = 2)]
+        public int ModeNumber { get; set; }
+
+        [StringDataFieldDefinition(revision: 1, field: 8, Index = 91, Size = 20)]
+        public string ModeName { get; set; }
+
+        [BooleanDataFieldDefinition(revision: 1, field: 9, Index = 113)]
+        public bool SimpleStatus { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 10, Index = 116, Size = 1)]
+        public PowerMacsStatus PMStatus { get; set; }
+
+        [StringDataFieldDefinition(revision: 1, field: 11, Index = 119, Size = 40)]
+        public string WpId { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 12, Index = 161, Size = 2)]
+        public int NumberOfBolts { get; set; }
+
+        [BoltDataCollectionDefinition(revision: 1, field: 13, Index = 165, HasPrefix = false)]
         public List<BoltData> BoltsData { get; set; }
-        public int TotalSpecialValues
-        {
-            get => GetField(1, DataFields.NumberOfSpecialValues).GetValue(OpenProtocolConvert.ToInt32);
-            private set => GetField(1, DataFields.NumberOfSpecialValues).SetValue(OpenProtocolConvert.ToString, value);
-        }
+
+        //Total Special values has a weird pattern of being attached to the list of special values instead of being a separate field.
+        //So we do process is in a separate way with special values and set its value and have to do it together with list because each special value
+        //has a dynamic size, due to that, we cannot make the same processing as Bolt data list that has fixed length of 67 bytes for each bolt data.
+        public int TotalSpecialValues { get; set; }
+
+        [SpecialValueCollectionDefinition(revision: 1, field: 23, Index = 0, Size = 67)]
         public List<SpecialValue> SpecialValues { get; set; }
-        public SystemSubType SystemSubType
-        {
-            get => (SystemSubType)GetField(4, DataFields.SystemSubType).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(4, DataFields.SystemSubType).SetValue(OpenProtocolConvert.ToString, value);
-        }
+
+        [Int32DataFieldDefinition(revision: 4, field: 24, Index = 0, Size = 3)]
+        public SystemSubType SystemSubType { get; set; }
 
         public Mid0106() : this(DEFAULT_REVISION)
         {
@@ -125,179 +102,67 @@ namespace OpenProtocolInterpreter.PowerMACS
         {
         }
 
+        protected override string BuildHeader()
+        {
+            Header.Length = Header.DefaultSize;
+            var fields = DataFieldsByRevision();
+            Header.Length += fields.Sum(x => x.TotalSize);
+            return Header.ToString();
+        }
+
         public override string Pack()
         {
             NumberOfBolts = BoltsData.Count;
             TotalSpecialValues = SpecialValues.Count;
-            GetField(1, DataFields.BoltData).Value = PackBoltsData();
-            GetField(1, DataFields.SpecialValues).Value = PackSpecialValues();
+            GetField(nameof(BoltsData)).Size = NumberOfBolts * 67;
+            GetField(nameof(SpecialValues)).Size = 2 + SpecialValues.Sum(x => x.TotalFieldLength);
+            return base.Pack();
+        }
 
-            var builder = new StringBuilder(BuildHeader());
-            int prefixIndex = 1;
-            for (int i = 1; i <= (Header.Revision > 0 ? Header.Revision : 1); i++)
+        protected override void ProcessDataField(DataField dataField, ReadOnlySpan<char> package)
+        {
+            if (dataField.Field == 23)
+            {
+                if (Header.Revision > 3)
+                    dataField.Size = Header.Length - GetField(revision: 4, field: 4).TotalSize - 2;
+                else
+                    dataField.Size = Header.Length - dataField.Index - 2;
+
+                base.ProcessDataField(dataField, package);
+                TotalSpecialValues = SpecialValues.Count;
+                return;
+            }
+
+            if (dataField.Field == 13)
+            {
+                dataField.Size = NumberOfBolts * 67;
+            }
+
+            base.ProcessDataField(dataField, package);
+        }
+
+        protected override void ProcessDataFields(ReadOnlySpan<char> package)
+        {
+            foreach (var field in DataFieldsByRevision())
+                ProcessDataField(field, package);
+        }
+
+        private IEnumerable<DataField> DataFieldsByRevision()
+        {
+            var previousField = default(DataField);
+            for (int i = 1; i <= Header.StandardizedRevision; i++)
+            {
                 foreach (var dataField in RevisionsByFields[i])
                 {
-                    if (dataField.Field == (int)DataFields.NumberOfSpecialValues)
-                        prefixIndex = 23;
-
-                    if (dataField.HasPrefix)
+                    if (previousField != null && dataField.Index == 0)
                     {
-                        builder.Append(prefixIndex.ToString("D2"));
-                        prefixIndex++;
+                        dataField.Index = previousField.Index + previousField.TotalSize;
                     }
 
-                    builder.Append(dataField.Value);
+                    previousField = dataField;
+                    yield return dataField;
                 }
-
-            return builder.ToString();
-        }
-
-        public override Mid Parse(ReadOnlySpan<char> package)
-        {
-            Header = ProcessHeader(package);
-
-            int numberOfBolts = OpenProtocolConvert.ToInt32(GetValue(GetField(1, DataFields.NumberOfBolts), package).ToString());
-            GetField(1, DataFields.BoltData).Size *= numberOfBolts;
-
-            var numberOfSpecialValuesField = GetField(1, DataFields.NumberOfSpecialValues);
-            numberOfSpecialValuesField.Index = GetField(1, DataFields.BoltData).Index + GetField(1, DataFields.BoltData).Size;
-
-            var specialValues = GetField(1, DataFields.SpecialValues);
-            specialValues.Index = numberOfSpecialValuesField.Index + numberOfSpecialValuesField.Size + 2;
-            if (Header.Revision > 3)
-            {
-                specialValues.Size = Header.Length - GetField(4, DataFields.SystemSubType).Size - 2;
-                GetField(4, DataFields.SystemSubType).Index = specialValues.Index + specialValues.Size;
             }
-            else
-            {
-                specialValues.Size = Header.Length - specialValues.Index;
-            }
-
-            ProcessDataFields(package);
-
-            BoltsData = ParseBoltsData(GetField(1, DataFields.BoltData).Value);
-            SpecialValues = SpecialValue.ParseAll(GetField(1, DataFields.SpecialValues).Value, TotalSpecialValues, false).ToList();
-            return this;
-        }
-
-        protected virtual string PackBoltsData()
-        {
-            var builder = new StringBuilder();
-            foreach (var bolt in BoltsData)
-            {
-                builder.Append($"13{OpenProtocolConvert.ToString('0', 2, PaddingOrientation.LeftPadded, bolt.OrdinalBoltNumber)}");
-                builder.Append($"14{OpenProtocolConvert.ToString(bolt.SimpleBoltStatus)}");
-                builder.Append($"15{OpenProtocolConvert.ToString(bolt.TorqueStatus)}");
-                builder.Append($"16{OpenProtocolConvert.ToString(bolt.AngleStatus)}");
-                builder.Append($"17{OpenProtocolConvert.ToString('0', 7, PaddingOrientation.RightPadded, bolt.BoltTorque)}");
-                builder.Append($"18{OpenProtocolConvert.ToString('0', 7, PaddingOrientation.RightPadded, bolt.BoltAngle)}");
-                builder.Append($"19{OpenProtocolConvert.ToString('0', 7, PaddingOrientation.RightPadded, bolt.BoltTorqueHighLimit)}");
-                builder.Append($"20{OpenProtocolConvert.ToString('0', 7, PaddingOrientation.RightPadded, bolt.BoltTorqueLowLimit)}");
-                builder.Append($"21{OpenProtocolConvert.ToString('0', 7, PaddingOrientation.RightPadded, bolt.BoltAngleHighLimit)}");
-                builder.Append($"22{OpenProtocolConvert.ToString('0', 7, PaddingOrientation.RightPadded, bolt.BoltAngleLowLimit)}");
-            }
-
-            return builder.ToString();
-        }
-
-        protected virtual string PackSpecialValues()
-        {
-            var builder = new StringBuilder();
-            foreach (var v in SpecialValues)
-            {
-                builder.Append(v.Pack(false));
-            }
-
-            return builder.ToString();
-        }
-
-        protected virtual List<BoltData> ParseBoltsData(string value)
-        {
-            var list = new List<BoltData>();
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                return list;
-            }
-
-            var bolts = new List<string>();
-            for (int i = 0; i < NumberOfBolts; i++)
-                bolts.Add(value.Substring(i * 67, 67));
-
-            foreach (var bolt in bolts)
-            {
-                var obj = new BoltData()
-                {
-                    OrdinalBoltNumber = OpenProtocolConvert.ToInt32(bolt.Substring(2, 2)),
-                    SimpleBoltStatus = OpenProtocolConvert.ToBoolean(bolt.Substring(6, 1)),
-                    TorqueStatus = (TorqueStatus)OpenProtocolConvert.ToInt32(bolt.Substring(9, 1)),
-                    AngleStatus = (AngleStatus)OpenProtocolConvert.ToInt32(bolt.Substring(12, 1)),
-                    BoltTorque = OpenProtocolConvert.ToDecimal(bolt.Substring(15, 7)),
-                    BoltAngle = OpenProtocolConvert.ToDecimal(bolt.Substring(24, 7)),
-                    BoltTorqueHighLimit = OpenProtocolConvert.ToDecimal(bolt.Substring(33, 7)),
-                    BoltTorqueLowLimit = OpenProtocolConvert.ToDecimal(bolt.Substring(42, 7)),
-                    BoltAngleHighLimit = OpenProtocolConvert.ToDecimal(bolt.Substring(51, 7)),
-                    BoltAngleLowLimit = OpenProtocolConvert.ToDecimal(bolt.Substring(60, 7)),
-                };
-
-                list.Add(obj);
-            }
-
-            return list;
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-                {
-                    {
-                        1, new List<DataField>()
-                                {
-                                        DataField.Number(DataFields.TotalNumberOfMessages, 20, 2),
-                                        DataField.Number(DataFields.MessageNumber, 24, 2),
-                                        DataField.Number(DataFields.DataNumberSystem, 28, 10),
-                                        DataField.Number(DataFields.StationNumber, 40, 2),
-                                        DataField.String(DataFields.StationName, 44, 20),
-                                        DataField.Timestamp(DataFields.Time, 66),
-                                        DataField.Number(DataFields.ModeNumber, 87, 2),
-                                        DataField.String(DataFields.ModeName, 91, 20),
-                                        DataField.Boolean(DataFields.SimpleStatus, 113),
-                                        DataField.Number(DataFields.PMStatus, 116, 1),
-                                        DataField.String(DataFields.WPId, 119, 40),
-                                        DataField.Number(DataFields.NumberOfBolts, 161, 2),
-                                        new(DataFields.BoltData, 165, 67, false),
-                                        DataField.Number(DataFields.NumberOfSpecialValues, 0, 2),
-                                        DataField.Volatile(DataFields.SpecialValues, false)
-                                }
-                    },
-                    {
-                        4, new List<DataField>()
-                                {
-                                        DataField.Number(DataFields.SystemSubType, 0, 3)
-                                }
-                    }
-                };
-        }
-
-        protected enum DataFields
-        {
-            TotalNumberOfMessages,
-            MessageNumber,
-            DataNumberSystem,
-            StationNumber,
-            StationName,
-            Time,
-            ModeNumber,
-            ModeName,
-            SimpleStatus,
-            PMStatus,
-            WPId,
-            NumberOfBolts,
-            BoltData,
-            NumberOfSpecialValues,
-            SpecialValues,
-            //Rev 4
-            SystemSubType
         }
     }
 }
