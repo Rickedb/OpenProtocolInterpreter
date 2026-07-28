@@ -119,7 +119,7 @@ namespace OpenProtocolInterpreter.Job
             return builder.ToString();
         }
 
-        protected override void ProcessDataFields(List<DataField> dataFields, ReadOnlySpan<char> package)
+        protected override void ProcessDataFields(IEnumerable<DataField> dataFields, ReadOnlySpan<char> package)
         {
             foreach (var dataField in DataFieldsByRevision())
                 ProcessDataField(dataField, package);

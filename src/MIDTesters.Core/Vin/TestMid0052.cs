@@ -60,36 +60,7 @@ namespace MIDTesters.Vin
 
         [TestMethod]
         [TestCategory("Revision 2"), TestCategory("ASCII")]
-        public void Mid0052Revision2VehicleIdLengthHigher()
-        {
-            string package = "01300052002         01VehicleIdNumberHigherThan2502IdentifierPart2          03IdentifierPart3          04IdentifierPart4          ";
-            var mid = _midInterpreter.Parse<Mid0052>(package);
-
-            Assert.AreEqual("VehicleIdNumberHigherThan25", mid.VinNumber);
-            Assert.AreEqual("IdentifierPart2", mid.IdentifierResultPart2.TrimEnd());
-            Assert.AreEqual("IdentifierPart3", mid.IdentifierResultPart3.TrimEnd());
-            Assert.AreEqual("IdentifierPart4", mid.IdentifierResultPart4.TrimEnd());
-            AssertEqualPackages(package, mid);
-        }
-
-        [TestMethod]
-        [TestCategory("Revision 2"), TestCategory("ByteArray")]
-        public void Mid0052ByteRevision2VehicleIdLengthHigher()
-        {
-            string package = "01300052002         01VehicleIdNumberHigherThan2502IdentifierPart2          03IdentifierPart3          04IdentifierPart4          ";
-            byte[] bytes = GetAsciiBytes(package);
-            var mid = _midInterpreter.Parse<Mid0052>(bytes);
-
-            Assert.AreEqual("VehicleIdNumberHigherThan25", mid.VinNumber);
-            Assert.AreEqual("IdentifierPart2", mid.IdentifierResultPart2.TrimEnd());
-            Assert.AreEqual("IdentifierPart3", mid.IdentifierResultPart3.TrimEnd());
-            Assert.AreEqual("IdentifierPart4", mid.IdentifierResultPart4.TrimEnd());
-            AssertEqualPackages(bytes, mid);
-        }
-
-        [TestMethod]
-        [TestCategory("Revision 2"), TestCategory("ASCII")]
-        public void Mid0052Revision2VehicleIdLengthLower()
+        public void Mid0052Revision2()
         {
             string package = "01280052002         01VehicleIdNumber          02IdentifierPart2          03IdentifierPart3          04IdentifierPart4          ";
             var mid = _midInterpreter.Parse<Mid0052>(package);
@@ -103,7 +74,7 @@ namespace MIDTesters.Vin
 
         [TestMethod]
         [TestCategory("Revision 2"), TestCategory("ByteArray")]
-        public void Mid0052ByteRevision2VehicleIdLengthLower()
+        public void Mid0052ByteRevision2()
         {
             string package = "01280052002         01VehicleIdNumber          02IdentifierPart2          03IdentifierPart3          04IdentifierPart4          ";
             byte[] bytes = GetAsciiBytes(package);

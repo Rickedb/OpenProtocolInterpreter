@@ -1,5 +1,5 @@
 using System;
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Vin
 {
@@ -11,7 +11,7 @@ namespace OpenProtocolInterpreter.Vin
     /// <para>Used by the integrator to send a VIN number to the controller.</para>
     /// <para>Message sent by: Integrator</para>
     /// <para>
-    ///     Answer: <see cref="Communication.Mid0005"/> Command accepted or 
+    ///     Answer: <see cref="Communication.Mid0005"/> Command accepted or
     ///             <see cref="Communication.Mid0004"/> Command error, VIN input source not granted
     /// </para>
     /// </summary>
@@ -21,11 +21,8 @@ namespace OpenProtocolInterpreter.Vin
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.VINInputSourceNotGranted };
 
-        public string VinNumber
-        {
-            get => GetField(1, DataFields.VinNumber).Value;
-            set => GetField(1, DataFields.VinNumber).SetValue(value);
-        }
+        [StringDataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 25, HasPrefix = false)]
+        public string VinNumber { get; set; }
 
         public Mid0050() : base(MID, DEFAULT_REVISION) { }
 
@@ -35,34 +32,16 @@ namespace OpenProtocolInterpreter.Vin
 
         public override string Pack()
         {
-            GetField(1, DataFields.VinNumber).Size = VinNumber.Length;
+            GetField(nameof(VinNumber)).Size = VinNumber.Length;
             return base.Pack();
         }
 
         public override Mid Parse(ReadOnlySpan<char> package)
         {
             Header = ProcessHeader(package);
-            GetField(1, DataFields.VinNumber).Size = Header.Length - 20;
+            GetField(nameof(VinNumber)).Size = Header.Length - 20;
             ProcessDataFields(package);
             return this;
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Volatile(DataFields.VinNumber, 20, false), //dynamic
-                            }
-                }
-            };
-        }
-
-        protected enum DataFields
-        {
-            VinNumber
         }
     }
 }

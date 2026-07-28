@@ -223,10 +223,10 @@ namespace OpenProtocolInterpreter
             }
         }
 
-        protected virtual void ProcessDataFields(List<DataField> dataFields, string package)
+        protected virtual void ProcessDataFields(IEnumerable<DataField> dataFields, string package)
             => ProcessDataFields(dataFields, package.AsSpan());
 
-        protected virtual void ProcessDataFields(List<DataField> dataFields, ReadOnlySpan<char> package)
+        protected virtual void ProcessDataFields(IEnumerable<DataField> dataFields, ReadOnlySpan<char> package)
         {
             foreach (var dataField in dataFields)
                 ProcessDataField(dataField, package);
