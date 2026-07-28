@@ -1,24 +1,14 @@
-<img src="https://github.com/Rickedb/OpenProtocolInterpreter/blob/master/media/logo.png?raw=true" width="550" alt="Open Protocol Interpreter" />
+<img src="media/logo.png" width="550" alt="Open Protocol Interpreter" />
 
-<h1>
-   <a href="https://www.buymeacoffee.com/openprotocolitp">
-    <img height="40" alt="Buy me a coffee" src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=openprotocolitp&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" />
-   </a>
-  <a href="https://opencollective.com/open-protocol-interpreter" alt="Financial Contributors on Open Collective">
-    <img src="https://opencollective.com/open-protocol-interpreter/all/badge.svg?label=financial+contributors" />
-  </a>
-  <a href="https://github.com/Rickedb/OpenProtocolInterpreter/">
-    <img src="https://github.com/rickedb/openprotocolinterpreter/workflows/master/badge.svg" />
-  </a>
-  <a href="https://raw.githubusercontent.com/Rickedb/OpenProtocolIntepreter/master/LICENSE">
-    <img src= "https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT">
-  </a>
-</h1>
+[![Version](https://img.shields.io/nuget/vpre/OpenProtocolInterpreter.svg)](https://www.nuget.org/packages/OpenProtocolInterpreter)
+[![Downloads](https://img.shields.io/nuget/dt/OpenProtocolInterpreter.svg)](https://www.nuget.org/packages/OpenProtocolInterpreter)
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/rickedb/OpenProtocolInterpreter/release.yml?branch=master)](https://github.com/Rickedb/OpenProtocolInterpreter/actions/workflows/release.yml)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/Rickedb/OpenProtocolIntepreter/master/LICENSE)
+[![Sponsors](https://img.shields.io/github/sponsors/rickedb?style=social)](https://github.com/sponsors/rickedb)
 
-  
 > OpenProtocol communication utility
 
- 1. [What is Open Protocol at all?](#what-is-open-protocol-at-all) 
+ 1. [What is Open Protocol at all?](#what-is-open-protocol-at-all)
  2. [What is OpenProtocolInterpreter?](#what-is-openprotocolinterpreter)
  3. [How does it work?](#how-does-it-work)
  4. [Usage examples](#lets-see-some-examples-of-usage)
@@ -44,13 +34,13 @@ Most common Tightening Controllers from Atlas Copco company are **PowerFocus4000
 OpenProtocolInterpreter is a **library that converts the ugly string** that came from Open Protocol packages, which is commonly called **MID**, to an **object**.
 *"Substringing"* packages is such a boring thing to do, so let OpenProtocolIntepreter do it for you!
 
-**[If you're curious, just take a look at their documentation.](https://github.com/Rickedb/OpenProtocolIntepreter/blob/master/docs/OpenProtocol_Specification.pdf)**
+**[If you're curious, just take a look at their documentation.](docs/OpenProtocol_Specification.pdf)**
 
 ## How does it work?
 
 It's simple, you give us your byte[] or string package and we deliver you an object, simple as that!
 
-For example, let's imagine you received the following string package: 
+For example, let's imagine you received the following string package:
 ``` csharp
 string package = "00240005001         0018";
 ```
@@ -69,14 +59,14 @@ var myMid04 = interpreter.Parse<Mid0004>(midPackage);
 int myFailedMid = myMid04.FailedMid;
 //An enum with Error Code
 Error errorCode = myMid04.ErrorCode;
-```   
+```
 
 It can generate an object from a string, but can it make it to the other way?? FOR SURE!
 ``` csharp
 var jobUploadRequest = new Mid0032(1, 2); //Job id 1, revision 2
 var package = jobUploadRequest.Pack();
 //Generated package => 00240032002         0001
-```  
+```
 
 ## Get it on [NuGet](https://www.nuget.org/packages/OpenProtocolInterpreter)!
 ```
@@ -96,12 +86,12 @@ For now, instead of iterating through all Mids of the same category, it relies o
 
 #### MIDs Identifying Customization
 
-We have several MIDs inside Open Protocol documentation, but do you really need all of them? 
+We have several MIDs inside Open Protocol documentation, but do you really need all of them?
 The answer is... **NO!**
 
 You will probably need only to use a range of MIDs, with this in mind, we did something to make things faster. You can tell us which MIDs we should considerate!
 
-> *NOTE: You can register only mids you need to call "Parse" method 
+> *NOTE: You can register only mids you need to call "Parse" method
 
 Here is an example:
 ``` csharp
@@ -118,7 +108,7 @@ var myCustomInterpreter = new MidInterpreter()
 //Will work:
 var myMid04 = myCustomInterpreter.Parse<Mid0004>(package);
 //Won't work, will throw NotImplementedException:
-var myMid30 = myCustomInterpreter.Parse<Mid0030>(package);        
+var myMid30 = myCustomInterpreter.Parse<Mid0030>(package);
 //Won't work, will throw InvalidCastException:
 var myMid01 = myCustomInterpreter.Parse<Mid0001>(package);
 ```
@@ -127,7 +117,7 @@ When you don't know which package will come, use ``` Parse ``` overload, not ```
 
 #### MIDs Overriding
 
-Maybe you have a totally crazy controller that does not implement the Mid as the documentation says or you might want to inject your own Mid inheriting another Mid, 
+Maybe you have a totally crazy controller that does not implement the Mid as the documentation says or you might want to inject your own Mid inheriting another Mid,
 so you can customize it and add more properties to handle some conversions. Anyway, if you need that, it's possible to override!
 
 Here is an example:
@@ -147,7 +137,7 @@ public class OverridedMid0081 : Mid0081
 
     public OverridedMid0081()
     {
-        
+
     }
 
     public override string Pack()
@@ -254,7 +244,7 @@ protected void OnPackageReceived(string message)
 
         //Get Registered delegate for the MID that was identified
         var action = OnReceivedMid.FirstOrDefault(x => x.Key == mid.GetType());
-        
+
         if (action.Equals(default(KeyValuePair<Type, ReceivedCommandActionDelegate>)))
            return; //Stop if there is no delegate registered for the message that arrived
 
@@ -266,7 +256,7 @@ protected void OnPackageReceived(string message)
      }
 }
 ```
-This would call the registered delegate which you're sure what mid it is. 
+This would call the registered delegate which you're sure what mid it is.
 For example when a **MID_0061** (last tightening) pop up, the  **onTighteningReceived** delegate will be called:
 
 ``` csharp
@@ -277,7 +267,7 @@ protected void OnTighteningReceived(ReceivedMidEventArgs e)
         Mid0061 tighteningMid = e.ReceivedMID as Mid0061; //Casting to the right mid
 
         //This method just send the ack from tightening mid
-        BuildAndSendAcknowledge(tighteningMid); 
+        BuildAndSendAcknowledge(tighteningMid);
         Console.log("TIGHTENING ARRIVED")
      }
      catch (Exception ex)
@@ -299,13 +289,6 @@ protected void BuildAndSendAcknowledge(Mid mid)
 > **Controller Implementation Tip:** Always **TRY** to register used MIDs, not all Tightening Controllers use every available MID.
 
 > **Integrator Implementation Tip:** Always **DO** register used MIDs, I'm pretty sure you won't need all of them to your application.
-
-### Contribute to the project
-
-Lot's of effort were given to this project and by seen people using it motivated me a lot to improve it more and more.
-
-Does it help you a lot? That's awesome and very rewarding!
-But if you wish, you can support and help to motivate the constant improving of this library by contributing in [OpenCollective](https://opencollective.com/open-protocol-interpreter).
 
 ### List of still unavailable Mids
 
