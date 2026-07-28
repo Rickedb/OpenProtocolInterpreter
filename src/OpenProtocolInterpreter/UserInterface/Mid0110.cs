@@ -14,7 +14,7 @@ namespace OpenProtocolInterpreter.UserInterface
     /// </para>
     /// <para>Message sent by: Integrator</para>
     /// <para>
-    ///     Answer: <see cref="Communication.Mid0005"/> Command accepted or 
+    ///     Answer: <see cref="Communication.Mid0005"/> Command accepted or
     ///             <see cref="Communication.Mid0004"/> Command error, User text could not be displayed
     /// </para>
     /// </summary>
@@ -24,11 +24,8 @@ namespace OpenProtocolInterpreter.UserInterface
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { };
 
-        public string UserText
-        {
-            get => GetField(1, DataFields.UserText).Value;
-            set => GetField(1, DataFields.UserText).SetValue(value);
-        }
+        [StringDataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 4, HasPrefix = false)]
+        public string UserText { get; set; }
 
         public Mid0110() : base(MID, DEFAULT_REVISION)
         {
@@ -37,24 +34,6 @@ namespace OpenProtocolInterpreter.UserInterface
 
         public Mid0110(Header header) : base(header)
         {
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.String(DataFields.UserText, 20, 4, false),
-                            }
-                }
-            };
-        }
-
-        protected enum DataFields
-        {
-            UserText
         }
     }
 }
