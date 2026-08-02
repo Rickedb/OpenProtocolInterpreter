@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -61,32 +62,35 @@ namespace OpenProtocolInterpreter.Job.Advanced
         }
 
         public static AdvancedJob Parse(string section, int revision)
+            => Parse(section.AsSpan(), revision);
+
+        public static AdvancedJob Parse(ReadOnlySpan<char> section, int revision)
         {
-            var fields = section.Split(':');
+            var remaining = section;
             var obj = new AdvancedJob()
             {
-                ChannelId = OpenProtocolConvert.ToInt32(fields[0]),
-                ProgramId = OpenProtocolConvert.ToInt32(fields[1]),
-                AutoSelect = (AutoSelect)OpenProtocolConvert.ToInt32(fields[2]),
-                BatchSize = OpenProtocolConvert.ToInt32(fields[3]),
-                MaxCoherentNok = OpenProtocolConvert.ToInt32(fields[4])
+                ChannelId = OpenProtocolConvert.ToInt32(NextField(ref remaining, ':')),
+                ProgramId = OpenProtocolConvert.ToInt32(NextField(ref remaining, ':')),
+                AutoSelect = (AutoSelect)OpenProtocolConvert.ToInt32(NextField(ref remaining, ':')),
+                BatchSize = OpenProtocolConvert.ToInt32(NextField(ref remaining, ':')),
+                MaxCoherentNok = OpenProtocolConvert.ToInt32(NextField(ref remaining, ':'))
             };
 
             if (revision > 1)
             {
-                obj.BatchCounter = OpenProtocolConvert.ToInt32(fields[5]);
+                obj.BatchCounter = OpenProtocolConvert.ToInt32(NextField(ref remaining, ':'));
                 if (revision != 999)
                 {
-                    obj.IdentifierNumber = OpenProtocolConvert.ToInt32(fields[6]);
-                    obj.JobStepName = fields[7];
-                    obj.JobStepType = OpenProtocolConvert.ToInt32(fields[8]);
+                    obj.IdentifierNumber = OpenProtocolConvert.ToInt32(NextField(ref remaining, ':'));
+                    obj.JobStepName = NextField(ref remaining, ':').ToString();
+                    obj.JobStepType = OpenProtocolConvert.ToInt32(NextField(ref remaining, ':'));
                     if (revision > 2)
                     {
-                        obj.ToolLoosening = (ToolLoosening)OpenProtocolConvert.ToInt32(fields[9]);
-                        obj.JobBatchMode = (BatchMode)OpenProtocolConvert.ToInt32(fields[10]);
-                        obj.BatchStatusAtIncrement = (BatchStatusAtIncrement)OpenProtocolConvert.ToInt32(fields[11]);
-                        obj.DecrementBatchAfterLoosening = (DecrementBatchAfterLoosening)OpenProtocolConvert.ToInt32(fields[12]);
-                        obj.CurrentBatchStatus = (CurrentBatchStatus)OpenProtocolConvert.ToInt32(fields[13]);
+                        obj.ToolLoosening = (ToolLoosening)OpenProtocolConvert.ToInt32(NextField(ref remaining, ':'));
+                        obj.JobBatchMode = (BatchMode)OpenProtocolConvert.ToInt32(NextField(ref remaining, ':'));
+                        obj.BatchStatusAtIncrement = (BatchStatusAtIncrement)OpenProtocolConvert.ToInt32(NextField(ref remaining, ':'));
+                        obj.DecrementBatchAfterLoosening = (DecrementBatchAfterLoosening)OpenProtocolConvert.ToInt32(NextField(ref remaining, ':'));
+                        obj.CurrentBatchStatus = (CurrentBatchStatus)OpenProtocolConvert.ToInt32(NextField(ref remaining, ':'));
                     }
                 }
             }
@@ -95,18 +99,37 @@ namespace OpenProtocolInterpreter.Job.Advanced
         }
 
         public static IEnumerable<AdvancedJob> ParseAll(string section, int revision)
+            => ParseAll(section.AsSpan(), revision);
+
+        public static IEnumerable<AdvancedJob> ParseAll(ReadOnlySpan<char> section, int revision)
         {
-            if (string.IsNullOrEmpty(section))
+            if (section.IsEmpty)
+                return Array.Empty<AdvancedJob>();
+
+            var result = new List<AdvancedJob>();
+            var remaining = section;
+            while (!remaining.IsEmpty)
             {
-                yield break;
+                var job = NextField(ref remaining, ';');
+                if (!job.IsWhiteSpace())
+                    result.Add(Parse(job, revision));
+            }
+            return result;
+        }
+
+        private static ReadOnlySpan<char> NextField(ref ReadOnlySpan<char> remaining, char separator)
+        {
+            int idx = remaining.IndexOf(separator);
+            if (idx < 0)
+            {
+                var last = remaining;
+                remaining = ReadOnlySpan<char>.Empty;
+                return last;
             }
 
-            var jobs = section.Split(';').ToList();
-            jobs.RemoveAll(string.IsNullOrWhiteSpace); //remove last one which will probably be empty
-            foreach (var advancedJob in jobs)
-            {
-                yield return Parse(advancedJob, revision);
-            }
+            var field = remaining.Slice(0, idx);
+            remaining = remaining.Slice(idx + 1);
+            return field;
         }
 
         internal static int GetDefaultSize(int revision)

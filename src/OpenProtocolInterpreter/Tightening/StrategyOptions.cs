@@ -60,11 +60,7 @@ namespace OpenProtocolInterpreter.Tightening
         }
 
         public static StrategyOptions Parse(string value)
-        {
-            var intValue = OpenProtocolConvert.ToInt32(value);
-            var bytes = BitConverter.GetBytes(intValue);
-            return Parse(bytes);
-        }
+            => Parse(value.AsSpan());
 
         public static StrategyOptions Parse(ReadOnlySpan<char> value)
         {

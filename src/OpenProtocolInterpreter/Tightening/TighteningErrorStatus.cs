@@ -105,16 +105,12 @@ namespace OpenProtocolInterpreter.Tightening
         }
 
         public static TighteningErrorStatus Parse(string value)
-        {
-            var longValue = OpenProtocolConvert.ToInt64(value);
-            var bytes = System.BitConverter.GetBytes(longValue);
-            return Parse(bytes);
-        }
+            => Parse(value.AsSpan());
 
         public static TighteningErrorStatus Parse(ReadOnlySpan<char> value)
         {
             var longValue = OpenProtocolConvert.ToInt64(value);
-            var bytes = System.BitConverter.GetBytes(longValue);
+            var bytes = BitConverter.GetBytes(longValue);
             return Parse(bytes);
         }
 
@@ -274,11 +270,7 @@ namespace OpenProtocolInterpreter.Tightening
         }
 
         public static TighteningErrorStatus2 Parse(string value)
-        {
-            var longValue = OpenProtocolConvert.ToInt64(value);
-            var bytes = System.BitConverter.GetBytes(longValue);
-            return Parse(bytes);
-        }
+            => Parse(value.AsSpan());
 
         public static TighteningErrorStatus2 Parse(ReadOnlySpan<char> value)
         {

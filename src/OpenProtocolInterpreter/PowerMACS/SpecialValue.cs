@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -33,59 +34,68 @@ namespace OpenProtocolInterpreter.PowerMACS
         }
 
         public static SpecialValue Parse(string value, bool useStepNumber)
+            => Parse(value.AsSpan(), useStepNumber);
+
+        public static SpecialValue Parse(ReadOnlySpan<char> value, bool useStepNumber)
         {
             var obj = new SpecialValue
             {
-                VariableName = value.Substring(0, 20),
-                Type = (DataType)value.Substring(20, 2),
-                Length = OpenProtocolConvert.ToInt32(value.Substring(22, 2))
+                VariableName = value.Slice(0, 20).ToString(),
+                Type = (DataType)value.Slice(20, 2).ToString(),
+                Length = OpenProtocolConvert.ToInt32(value.Slice(22, 2))
             };
-            obj.Value = value.Substring(24, obj.Length);
+            obj.Value = value.Slice(24, obj.Length).ToString();
             if (useStepNumber)
             {
-                obj.StepNumber = OpenProtocolConvert.ToInt32(value.Substring(24 + obj.Length, 2));
+                obj.StepNumber = OpenProtocolConvert.ToInt32(value.Slice(24 + obj.Length, 2));
             }
 
             return obj;
         }
 
         public static IEnumerable<SpecialValue> ParseAll(string value, bool useStepNumber)
-        {
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                yield break;
-            }
+            => ParseAll(value.AsSpan(), useStepNumber);
 
-            var totalSpecialValues = OpenProtocolConvert.ToInt32(value.Substring(0, 2));
+        public static IEnumerable<SpecialValue> ParseAll(ReadOnlySpan<char> value, bool useStepNumber)
+        {
+            if (value.IsWhiteSpace() || value.IsEmpty)
+                return Array.Empty<SpecialValue>();
+
+            var result = new List<SpecialValue>();
+            var totalSpecialValues = OpenProtocolConvert.ToInt32(value.Slice(0, 2));
             int index = 2;
             const int sectionSize = 24;
             for (int i = 0; i < totalSpecialValues; i++)
             {
-                var length = OpenProtocolConvert.ToInt32(value.Substring(22 + index, 2));
+                var length = OpenProtocolConvert.ToInt32(value.Slice(22 + index, 2));
                 var totalSize = length + (useStepNumber ? sectionSize + 2 : sectionSize);
-                var section = value.Substring(index, totalSize);
+                var section = value.Slice(index, totalSize);
                 index += totalSize;
-                yield return Parse(section, useStepNumber);
+                result.Add(Parse(section, useStepNumber));
             }
+            return result;
         }
 
         public static IEnumerable<SpecialValue> ParseAll(string value, int totalSpecialValues, bool useStepNumber)
-        {
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                yield break;
-            }
+            => ParseAll(value.AsSpan(), totalSpecialValues, useStepNumber);
 
+        public static IEnumerable<SpecialValue> ParseAll(ReadOnlySpan<char> value, int totalSpecialValues, bool useStepNumber)
+        {
+            if (value.IsWhiteSpace() || value.IsEmpty)
+                return Array.Empty<SpecialValue>();
+
+            var result = new List<SpecialValue>();
             int index = 0;
             const int sectionSize = 24;
             for (int i = 0; i < totalSpecialValues; i++)
             {
-                var length = OpenProtocolConvert.ToInt32(value.Substring(22 + index, 2));
+                var length = OpenProtocolConvert.ToInt32(value.Slice(22 + index, 2));
                 var totalSize = length + (useStepNumber ? sectionSize + 2 : sectionSize);
-                var section = value.Substring(index, totalSize);
+                var section = value.Slice(index, totalSize);
                 index += totalSize;
-                yield return Parse(section, useStepNumber);
+                result.Add(Parse(section, useStepNumber));
             }
+            return result;
         }
     }
 

@@ -22,15 +22,7 @@ namespace OpenProtocolInterpreter.Tool
         }
 
         public static ToolData Parse(string value)
-        {
-            return new ToolData()
-            {
-                Number = OpenProtocolConvert.ToInt32(value.Substring(0, 4)),
-                SerialNumber = value.Substring(4, 30),
-                ModelName = value.Substring(34, 30),
-                ModelArticleNumber = value.Substring(64, 30)
-            };
-        }
+            => Parse(value.AsSpan());
 
         public static ToolData Parse(ReadOnlySpan<char> value)
         {
@@ -44,19 +36,7 @@ namespace OpenProtocolInterpreter.Tool
         }
 
         public static IEnumerable<ToolData> ParseAll(string value)
-        {
-            if(string.IsNullOrEmpty(value))
-            {
-                yield break;
-            }
-
-            const int sectionSize = 94;
-            for (int i = 0; i < value.Length; i += sectionSize)
-            {
-                var section = value.Substring(i, sectionSize);
-                yield return Parse(section);
-            }
-        }
+            => ParseAll(value.AsSpan());
 
         public static IEnumerable<ToolData> ParseAll(ReadOnlySpan<char> value)
         {

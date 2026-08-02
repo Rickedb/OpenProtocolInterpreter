@@ -27,7 +27,11 @@ namespace OpenProtocolInterpreter
 
         public Mid Parse(string package)
         {
+#if NETSTANDARD2_0
             int mid = int.Parse(package.Substring(4, 4));
+#else
+            int mid = int.Parse(package.AsSpan(4, 4));
+#endif
             var instance = TryParseStandaloneMid(mid);
             if (instance != default)
                 return instance;
@@ -38,7 +42,13 @@ namespace OpenProtocolInterpreter
 
         public Mid Parse(byte[] package)
         {
+#if NETSTANDARD2_0
             int mid = int.Parse(Encoding.ASCII.GetString(package, 4, 4));
+#else
+            Span<char> buffer = stackalloc char[4];
+            Encoding.ASCII.GetChars(package.AsSpan(4, 4), buffer);
+            int mid = int.Parse(buffer);
+#endif
             var instance = TryParseStandaloneMid(mid);
             if (instance != default)
                 return instance;

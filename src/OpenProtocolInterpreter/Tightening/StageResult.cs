@@ -21,13 +21,7 @@ namespace OpenProtocolInterpreter.Tightening
         }
 
         public static StageResult Parse(string value)
-        {
-            return new StageResult()
-            {
-                Torque = OpenProtocolConvert.ToTruncatedDecimal(value.Substring(0, 6)),
-                Angle = OpenProtocolConvert.ToInt32(value.Substring(6, 5))
-            };
-        }
+            => Parse(value.AsSpan());
 
         public static StageResult Parse(ReadOnlySpan<char> value)
         {
@@ -39,14 +33,7 @@ namespace OpenProtocolInterpreter.Tightening
         }
 
         public static IEnumerable<StageResult> ParseAll(string value)
-        {
-            const int sectionSize = 11;
-            for (int i = 0; i < value.Length; i += sectionSize)
-            {
-                var section = value.Substring(i, sectionSize);
-                yield return Parse(section);
-            }
-        }
+            => ParseAll(value.AsSpan());
 
         public static IEnumerable<StageResult> ParseAll(ReadOnlySpan<char> value)
         {

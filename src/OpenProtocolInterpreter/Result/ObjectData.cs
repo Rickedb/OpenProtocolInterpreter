@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace OpenProtocolInterpreter.Result
@@ -33,30 +34,35 @@ namespace OpenProtocolInterpreter.Result
             => Parse(1, value);
 
         public static ObjectData Parse(int revision, string value)
+            => Parse(revision, value.AsSpan());
+
+        public static ObjectData Parse(int revision, ReadOnlySpan<char> value)
         {
             var obj = new ObjectData()
             {
-                Id = OpenProtocolConvert.ToInt32(value.Substring(0, 4)),
-                Status = OpenProtocolConvert.ToBoolean(value.Substring(4, 1))
+                Id = OpenProtocolConvert.ToInt32(value.Slice(0, 4)),
+                Status = OpenProtocolConvert.ToBoolean(value.Slice(4, 1))
             };
 
             if (revision > 2)
             {
-                obj.ObjectType = (ObjectType)OpenProtocolConvert.ToInt32(value.Substring(5, 1));
-                obj.ReferenceObjectId = OpenProtocolConvert.ToInt32(value.Substring(6, 4));
+                obj.ObjectType = (ObjectType)OpenProtocolConvert.ToInt32(value.Slice(5, 1));
+                obj.ReferenceObjectId = OpenProtocolConvert.ToInt32(value.Slice(6, 4));
             }
 
             return obj;
         }
 
         public static IEnumerable<ObjectData> ParseAll(int revision, string value)
+            => ParseAll(revision, value.AsSpan());
+
+        public static IEnumerable<ObjectData> ParseAll(int revision, ReadOnlySpan<char> value)
         {
             int sectionSize = Size(revision);
+            var result = new List<ObjectData>();
             for (int i = 0; i < value.Length; i += sectionSize)
-            {
-                var section = value.Substring(i, sectionSize);
-                yield return Parse(revision, section);
-            }
+                result.Add(Parse(revision, value.Slice(i, sectionSize)));
+            return result;
         }
 
         public static IEnumerable<ObjectData> ParseAll(string value)

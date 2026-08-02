@@ -64,10 +64,7 @@ namespace OpenProtocolInterpreter
         }
 
         public static VariableDataField Parse(string value)
-        {
-            var length = OpenProtocolConvert.ToInt32(value.Substring(5, 3));
-            return Parse(value, length);
-        }
+            => Parse(value.AsSpan());
 
         public static VariableDataField Parse(ReadOnlySpan<char> value)
         {
@@ -76,21 +73,7 @@ namespace OpenProtocolInterpreter
         }
 
         public static List<VariableDataField> ParseAll(string value)
-        {
-            var list = new List<VariableDataField>();
-            if (!string.IsNullOrWhiteSpace(value))
-            {
-                int valueLength;
-                const int fixedLength = 17;
-                for (int i = 0; i < value.Length; i += fixedLength + valueLength)
-                {
-                    valueLength = OpenProtocolConvert.ToInt32(value.Substring(i + 5, 3));
-                    var section = value.Substring(i, fixedLength + valueLength);
-                    list.Add(Parse(section, valueLength));
-                }
-            }
-            return list;
-        }
+            => ParseAll(value.AsSpan());
 
         public static List<VariableDataField> ParseAll(ReadOnlySpan<char> value)
         {
@@ -106,19 +89,6 @@ namespace OpenProtocolInterpreter
                 result.Add(Parse(value.Slice(i, fixedLength + valueLength), valueLength));
             }
             return result;
-        }
-
-        private static VariableDataField Parse(string value, int length)
-        {
-            return new VariableDataField()
-            {
-                ParameterId = OpenProtocolConvert.ToInt32(value.Substring(0, 5)),
-                Length = length,
-                DataType = (DataTypeDefinition)OpenProtocolConvert.ToInt32(value.Substring(8, 2)),
-                Unit = (DataUnitType)OpenProtocolConvert.ToInt32(value.Substring(10, 3)),
-                StepNumber = OpenProtocolConvert.ToInt32(value.Substring(13, 4)),
-                DataValue = value.Substring(17, length)
-            };
         }
 
         private static VariableDataField Parse(ReadOnlySpan<char> value, int length)

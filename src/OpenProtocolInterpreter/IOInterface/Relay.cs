@@ -32,13 +32,7 @@ namespace OpenProtocolInterpreter.IOInterface
         }
 
         public static Relay Parse(string section)
-        {
-            return new Relay()
-            {
-                Number = (RelayNumber)OpenProtocolConvert.ToInt32(section.Substring(0, 3)),
-                Status = OpenProtocolConvert.ToBoolean(section.Substring(3, 1))
-            };
-        }
+            => Parse(section.AsSpan());
 
         public static Relay Parse(ReadOnlySpan<char> section)
         {
@@ -50,19 +44,7 @@ namespace OpenProtocolInterpreter.IOInterface
         }
 
         public static IEnumerable<Relay> ParseAll(string value)
-        {
-            if (string.IsNullOrEmpty(value))
-            {
-                yield break;
-            }
-
-            const int sectionSize = 4;
-            for (int i = 0; i < value.Length; i += sectionSize)
-            {
-                var section = value.Substring(i, sectionSize);
-                yield return Parse(section);
-            }
-        }
+            => ParseAll(value.AsSpan());
 
         public static IEnumerable<Relay> ParseAll(ReadOnlySpan<char> value)
         {

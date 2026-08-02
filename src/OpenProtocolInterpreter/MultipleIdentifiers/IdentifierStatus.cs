@@ -22,20 +22,7 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
         }
 
         public static IdentifierStatus Parse(string section)
-        {
-            if (string.IsNullOrEmpty(section))
-            {
-                return default;
-            }
-
-            return new IdentifierStatus()
-            {
-                IdentifierTypeNumber = OpenProtocolConvert.ToInt32(section.Substring(0, 1)),
-                IncludedInWorkOrder = OpenProtocolConvert.ToBoolean(section.Substring(1, 2)),
-                StatusInWorkOrder = (StatusInWorkOrder)OpenProtocolConvert.ToInt32(section.Substring(3, 2)),
-                ResultPart = section.SafeSubstring(5, 25)
-            };
-        }
+            => Parse(section.AsSpan());
 
         public static IdentifierStatus Parse(ReadOnlySpan<char> section)
         {

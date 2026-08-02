@@ -90,9 +90,10 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
             protected static List<bool> ParseSocketStatus(string section)
             {
-                var list = new List<bool>();
-                foreach (var c in section)
-                    list.Add(OpenProtocolConvert.ToBoolean(c.ToString()));
+                var span = section.AsSpan();
+                var list = new List<bool>(span.Length);
+                for (int i = 0; i < span.Length; i++)
+                    list.Add(OpenProtocolConvert.ToBoolean(span.Slice(i, 1)));
 
                 return list;
             }
