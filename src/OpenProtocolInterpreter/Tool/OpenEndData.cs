@@ -53,13 +53,13 @@ namespace OpenProtocolInterpreter.Tool
 
         }
 
-        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
         {
             return new DataField<OpenEndData>(Field, index, Size, HasPrefix)
             {
                 DefaultConverter = PackOpenEndData,
                 DefaultParser = ParseOpenEndData
-            }.Bind(mid, propertyInfo);
+            }.Bind(owner, propertyInfo);
         }
 
         private string PackOpenEndData(char paddingChar, int size, PaddingOrientation orientation, OpenEndData openEndData)

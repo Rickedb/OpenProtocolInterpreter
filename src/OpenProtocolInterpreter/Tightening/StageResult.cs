@@ -56,13 +56,13 @@ namespace OpenProtocolInterpreter.Tightening
 
         }
 
-        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
         {
             return new DataField<List<StageResult>>(Field, index, Size, HasPrefix)
             {
                 DefaultConverter = PackStageResults,
                 DefaultParser = ParseStageResults
-            }.Bind(mid, propertyInfo);
+            }.Bind(owner, propertyInfo);
         }
 
         private static string PackStageResults(char paddingChar, int size, PaddingOrientation orientation, List<StageResult> stageResults)

@@ -15,7 +15,7 @@ namespace OpenProtocolInterpreter.Communication
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: MID Requested for or <see cref="Mid0004"/> Command error. Error described at each MID description.</para>
     /// </summary>
-    public class Mid0006 : Mid, ICommunication, IIntegrator
+    public class Mid0006 : Mid, ICommunication, IIntegrator, IExtraDataContainer
     {
         public const int MID = 6;
 
@@ -49,6 +49,14 @@ namespace OpenProtocolInterpreter.Communication
             ExtraDataLength = ExtraData?.Length ?? 0;
             HandleExtraDataFieldSize();
             return base.Pack();
+        }
+
+        public void SetExtraData<TExtraData>(TExtraData extraData) where TExtraData : ExtraData, IExtraDataRequest
+        {
+            RequestedMid = extraData.Mid;
+            WantedRevision = extraData.Revision;
+            ExtraData = extraData.Pack();
+            ExtraDataLength = ExtraData?.Length ?? 0;
         }
 
         protected override void ProcessDataField(DataField dataField, ReadOnlySpan<char> package)

@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenProtocolInterpreter;
 using OpenProtocolInterpreter.Communication;
 
 namespace MIDTesters.Communication

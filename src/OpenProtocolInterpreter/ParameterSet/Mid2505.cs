@@ -17,7 +17,7 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// The message can substitute Pset selection, Set Identifier, Reset All Identifier, Reset Latest Identifier, Set Batch Size, Disable Tool and Enable Tool.
     /// </para>
     /// </summary>
-    public class Mid2505 : Mid, IParameterSet, IIntegrator, IAcceptableCommand, IDeclinableCommand
+    public class Mid2505 : Mid, IParameterSet, IIntegrator, IAcceptableCommand, IDeclinableCommand, IExtraDataRequest
     {
         public const int MID = 2505;
 

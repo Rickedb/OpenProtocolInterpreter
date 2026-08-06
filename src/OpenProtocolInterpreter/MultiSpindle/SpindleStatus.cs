@@ -64,13 +64,13 @@ namespace OpenProtocolInterpreter.MultiSpindle
 
         }
 
-        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
         {
             return new DataField<List<SpindleStatus>>(Field, index, Size, HasPrefix)
             {
                 DefaultConverter = Pack,
                 DefaultParser = SpindleStatus.ParseAll
-            }.Bind(mid, propertyInfo);
+            }.Bind(owner, propertyInfo);
         }
 
         private static string Pack(char paddingChar, int size, PaddingOrientation orientation, List<SpindleStatus> spindleStatus)

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace OpenProtocolInterpreter.Tool
 {
@@ -8,6 +10,8 @@ namespace OpenProtocolInterpreter.Tool
     /// </summary>
     public class ToolData
     {
+        internal const int SectionSize = 94;
+
         public int Number { get; set; }
         public string SerialNumber { get; set; }
         public string ModelName { get; set; }
@@ -41,13 +45,39 @@ namespace OpenProtocolInterpreter.Tool
         public static IEnumerable<ToolData> ParseAll(ReadOnlySpan<char> value)
         {
             if (value.IsEmpty)
-                return System.Array.Empty<ToolData>();
+                return Array.Empty<ToolData>();
 
-            var result = new System.Collections.Generic.List<ToolData>();
-            const int sectionSize = 94;
-            for (int i = 0; i < value.Length; i += sectionSize)
-                result.Add(Parse(value.Slice(i, sectionSize)));
+            var result = new List<ToolData>();
+            for (int i = 0; i < value.Length; i += SectionSize)
+                result.Add(Parse(value.Slice(i, SectionSize)));
             return result;
         }
+    }
+
+    public class ToolDataCollectionDefinitionAttribute : DataFieldDefinitionAttribute
+    {
+        public ToolDataCollectionDefinitionAttribute(int revision) : base(revision)
+        {
+
+        }
+        public ToolDataCollectionDefinitionAttribute(int field, int revision) : base(field, revision)
+        {
+
+        }
+
+        internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
+        {
+            return new DataField<List<ToolData>>(Field, index, Size, HasPrefix)
+            {
+                DefaultConverter = PackToolData,
+                DefaultParser = ParseToolData
+            }.Bind(owner, propertyInfo);
+        }
+
+        private string PackToolData(char paddingChar, int size, PaddingOrientation orientation, List<ToolData> toolData)
+            => string.Join("", toolData.Select(t => t.Pack()));
+
+        private List<ToolData> ParseToolData(string value)
+            => ToolData.ParseAll(value).ToList();
     }
 }

@@ -20,9 +20,12 @@ namespace OpenProtocolInterpreter
             Property = property;
         }
 
-        public DataField CreateAndBind(Mid mid)
+        /// <summary>
+        /// Creates the data field bound to <paramref name="owner"/>, which is either a <see cref="Mid"/> or an <see cref="ExtraData"/>.
+        /// </summary>
+        public DataField CreateAndBind(object owner)
         {
-            return Attribute.CreateAndBind(mid, Property, Index);
+            return Attribute.CreateAndBind(owner, Property, Index);
         }
     }
 }

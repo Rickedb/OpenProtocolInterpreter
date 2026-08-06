@@ -28,13 +28,13 @@ namespace OpenProtocolInterpreter.PowerMACS
 
         }
 
-        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
         {
             return new DataField<List<StepResult>>(Field, index, Size, HasPrefix)
             {
                 DefaultConverter = PackStepResults,
                 DefaultParser = ParseStepResults
-            }.Bind(mid, propertyInfo);
+            }.Bind(owner, propertyInfo);
         }
 
         protected static string PackStepResults(char paddingChar, int size, PaddingOrientation orientation, List<StepResult> stepResults)

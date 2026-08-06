@@ -201,7 +201,7 @@ namespace OpenProtocolInterpreter
 
     public class DataField<T> : DataField, IBackedPropertyDataField
     {
-        private Mid _owner;
+        private object _owner;
         private PropertyInfo _backingProperty;
         protected internal Func<char, int, PaddingOrientation, T, string> DefaultConverter;
         protected internal Func<string, T> DefaultParser;
@@ -244,10 +244,10 @@ namespace OpenProtocolInterpreter
                 _backingProperty.SetValue(_owner, value);
         }
 
-        protected internal DataField<T> Bind(Mid owner, string propertyName)
+        protected internal DataField<T> Bind(object owner, string propertyName)
             => Bind(owner, owner.GetType().GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance));
 
-        protected internal DataField<T> Bind(Mid owner, PropertyInfo propertyInfo)
+        protected internal DataField<T> Bind(object owner, PropertyInfo propertyInfo)
         {
             _owner = owner;
             _backingProperty = propertyInfo;

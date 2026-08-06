@@ -1,13 +1,15 @@
-﻿using OpenProtocolInterpreter.Messages;
+﻿using OpenProtocolInterpreter.Communication;
+using OpenProtocolInterpreter.Messages;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
 namespace OpenProtocolInterpreter
 {
     /// <summary>
-    /// Responsible for building and parsing any incoming Mid. 
+    /// Responsible for building and parsing any incoming Mid.
     /// Message templates initialization must be done with <see cref="MidInterpreterMessagesExtensions"/> methods.
     /// </summary>
     public class MidInterpreter
@@ -40,6 +42,54 @@ namespace OpenProtocolInterpreter
             return template.ProcessPackage(mid, package);
         }
 
+        public TExtraData ParseExtraData<TExtraData>(Mid0006 mid) where TExtraData : ExtraData, IExtraDataRequest
+        {
+            var instance = ParseExtraData(mid);
+            if (instance is TExtraData extraData)
+                return extraData;
+
+            throw new InvalidCastException($"Extra data cannot be casted to {typeof(TExtraData).Name}");
+        }
+
+        public TExtraData ParseExtraData<TExtraData>(Mid0008 mid) where TExtraData : ExtraData, IExtraDataSubscription
+        {
+            var instance = ParseExtraData(mid);
+            if (instance is TExtraData extraData)
+                return extraData;
+
+            throw new InvalidCastException($"Extra data cannot be casted to {typeof(TExtraData).Name}");
+        }
+
+        public TExtraData ParseExtraData<TExtraData>(Mid0009 mid) where TExtraData : ExtraData, IExtraDataUnsubscription
+        {
+            var expectedExtraData = ParseExtraData(mid);
+            if (expectedExtraData is TExtraData extraData)
+                return extraData;
+
+            throw new InvalidCastException($"Extra data cannot be casted to {typeof(TExtraData).Name}");
+        }
+
+        public TExtraData ParseExtraData<TMid, TExtraData>(TMid mid) where TMid : Mid, IExtraDataContainer
+                                                                     where TExtraData : ExtraData
+        {
+            var expectedExtraData = ParseExtraData(mid);
+            if (expectedExtraData is TExtraData extraData)
+                return extraData;
+
+            throw new InvalidCastException($"Extra data cannot be casted to {typeof(TExtraData).Name}");
+        }
+
+        public ExtraData ParseExtraData<TMid>(TMid mid) where TMid : Mid, IExtraDataContainer
+        {
+            var expectedMid = GetMidFromExtraDataMid(mid);
+            var template = GetMessageTemplate(expectedMid);
+            var instance = template.GetExtraDataInstance(expectedMid, GetExtraDataKind(mid));
+
+            var extraDataInstance = instance.CompiledConstructor();
+            extraDataInstance.Revision = mid.WantedRevision;
+            return extraDataInstance.Parse(mid.ExtraData);
+        }
+
         public Mid Parse(byte[] package)
         {
 #if NETSTANDARD2_0
@@ -60,8 +110,8 @@ namespace OpenProtocolInterpreter
         public ExpectedMid Parse<ExpectedMid>(string package) where ExpectedMid : Mid
         {
             Mid mid = Parse(package);
-            if (mid.GetType().Equals(typeof(ExpectedMid)))
-                return (ExpectedMid)mid;
+            if (mid is ExpectedMid expectedMid)
+                return expectedMid;
 
             throw new InvalidCastException($"Package is Mid {mid.GetType().Name}, cannot be casted to {typeof(ExpectedMid).Name}");
         }
@@ -154,6 +204,28 @@ namespace OpenProtocolInterpreter
                 ApplicationController.Mid0270.MID => new ApplicationController.Mid0270(),
                 _ => default,
             };
+        }
+
+        private static int GetMidFromExtraDataMid<TMid>(TMid mid) where TMid : Mid, IExtraDataContainer
+        {
+            switch (mid)
+            {
+                case Communication.Mid0006 m: return m.RequestedMid;
+                case Communication.Mid0008 m: return m.SubscriptionMid;
+                case Communication.Mid0009 m: return m.UnsubscriptionMid;
+                default: throw new NotImplementedException($"Could not get the MID from {mid.GetType().Name} as extra data, please implement it");
+            }
+        }
+
+        private static Type GetExtraDataKind<TMid>(TMid mid) where TMid : Mid, IExtraDataContainer
+        {
+            switch (mid)
+            {
+                case Communication.Mid0006 _: return typeof(IExtraDataRequest);
+                case Communication.Mid0008 _: return typeof(IExtraDataSubscription);
+                case Communication.Mid0009 _: return typeof(IExtraDataUnsubscription);
+                default: throw new NotImplementedException($"Could not get the extra data kind from {mid.GetType().Name}, please implement it");
+            }
         }
     }
 }

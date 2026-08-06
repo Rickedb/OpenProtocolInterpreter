@@ -35,14 +35,17 @@ namespace OpenProtocolInterpreter
             Field = field;
         }
 
-        internal DataField CreateAndBind(Mid mid, PropertyInfo propertyInfo)
-            => CreateAndBind(mid, propertyInfo, Index);
-        internal DataField CreateAndBind(Mid mid, PropertyInfo propertyInfo, int index)
+        /// <summary>
+        /// Creates the data field and binds it to the decorated property of its owner (<see cref="Mid"/> or <see cref="ExtraData"/>).
+        /// </summary>
+        internal DataField CreateAndBind(object owner, PropertyInfo propertyInfo)
+            => CreateAndBind(owner, propertyInfo, Index);
+        internal DataField CreateAndBind(object owner, PropertyInfo propertyInfo, int index)
         {
-            return Build(mid, propertyInfo, index);
+            return Build(owner, propertyInfo, index);
         }
 
-        internal virtual DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        internal virtual DataField Build(object owner, PropertyInfo propertyInfo, int index)
         {
             return new DataField(Field, index, Size, PaddingChar, PaddingOrientation, HasPrefix);
         }
@@ -57,10 +60,10 @@ namespace OpenProtocolInterpreter
         {
             Size = 1;
         }
-        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
         {
             return DataField.Boolean(Field, Index, HasPrefix)
-                            .Bind(mid, propertyInfo);
+                            .Bind(owner, propertyInfo);
         }
     }
     public class StringDataFieldDefinitionAttribute : DataFieldDefinitionAttribute
@@ -72,10 +75,10 @@ namespace OpenProtocolInterpreter
         {
 
         }
-        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
         {
             return DataField.String(Field, index, Size, PaddingOrientation, HasPrefix)
-                            .Bind(mid, propertyInfo);
+                            .Bind(owner, propertyInfo);
         }
     }
     public class Int32DataFieldDefinitionAttribute : DataFieldDefinitionAttribute
@@ -90,10 +93,10 @@ namespace OpenProtocolInterpreter
             PaddingChar = '0';
             PaddingOrientation = PaddingOrientation.LeftPadded;
         }
-        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
         {
             return DataField.Int32(Field, index, Size, HasPrefix)
-                            .Bind(mid, propertyInfo);
+                            .Bind(owner, propertyInfo);
         }
     }
     public class Int64DataFieldDefinitionAttribute : DataFieldDefinitionAttribute
@@ -108,10 +111,10 @@ namespace OpenProtocolInterpreter
             PaddingChar = '0';
             PaddingOrientation = PaddingOrientation.LeftPadded;
         }
-        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
         {
             return DataField.Int64(Field, index, Size, HasPrefix)
-                            .Bind(mid, propertyInfo);
+                            .Bind(owner, propertyInfo);
         }
     }
     public class DecimalDataFieldDefinitionAttribute : DataFieldDefinitionAttribute
@@ -126,10 +129,10 @@ namespace OpenProtocolInterpreter
             PaddingChar = '0';
             PaddingOrientation = PaddingOrientation.LeftPadded;
         }
-        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
         {
             return DataField.Decimal(Field, index, Size, HasPrefix)
-                            .Bind(mid, propertyInfo);
+                            .Bind(owner, propertyInfo);
         }
     }
 
@@ -150,10 +153,10 @@ namespace OpenProtocolInterpreter
             PaddingOrientation = PaddingOrientation.LeftPadded;
         }
 
-        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
         {
             return DataField.TruncatedDecimal(Field, index, Size, DecimalPoints, HasPrefix)
-                            .Bind(mid, propertyInfo);
+                            .Bind(owner, propertyInfo);
         }
     }
 
@@ -167,10 +170,10 @@ namespace OpenProtocolInterpreter
         {
             Size = 19;
         }
-        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
         {
             return DataField.Timestamp(Field, index, HasPrefix)
-                            .Bind(mid, propertyInfo);
+                            .Bind(owner, propertyInfo);
         }
     }
 
@@ -185,13 +188,13 @@ namespace OpenProtocolInterpreter
 
         }
 
-        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
         {
             return new DataField<List<VariableDataField>>(Field, index, Size, HasPrefix)
             {
                 DefaultConverter = OpenProtocolConvert.ToString,
                 DefaultParser = VariableDataField.ParseAll
-            }.Bind(mid, propertyInfo);
+            }.Bind(owner, propertyInfo);
         }
     }
 
@@ -211,13 +214,16 @@ namespace OpenProtocolInterpreter
             PaddingOrientation = PaddingOrientation.LeftPadded;
         }
 
-        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
         {
+            if (EachFieldSize <= 0)
+                throw new InvalidOperationException("EachFieldSize must be greater than 0 for Int32CollectionDefinitionAttribute.");
+
             return new DataField<List<int>>(Field, index, Size, PaddingChar, PaddingOrientation, HasPrefix)
             {
                 DefaultConverter = PackList,
                 DefaultParser = ParseList
-            }.Bind(mid, propertyInfo);
+            }.Bind(owner, propertyInfo);
         }
 
         private string PackList(char paddingChar, int size, PaddingOrientation orientation, List<int> list)
@@ -254,13 +260,13 @@ namespace OpenProtocolInterpreter
 
         }
 
-        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
         {
             return new DataField<List<T>>(Field, index, Size, HasPrefix)
             {
                 DefaultConverter = PackEnums,
                 DefaultParser = ParseEnums
-            }.Bind(mid, propertyInfo);
+            }.Bind(owner, propertyInfo);
         }
 
         private static string PackEnums(char paddingChar, int size, PaddingOrientation orientation, List<T> list)

@@ -1,5 +1,6 @@
 ﻿using OpenProtocolInterpreter.Communication;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace OpenProtocolInterpreter
@@ -50,7 +51,7 @@ namespace OpenProtocolInterpreter
         public static TAckMid GetAcknowledge<TAckMid>(this IAcknowledgeable<TAckMid> instance) where TAckMid : Mid, IAcknowledge, new()
         {
             var mid = new TAckMid();
-            if(instance is Mid acknowledgeableMid)
+            if (instance is Mid acknowledgeableMid)
                 mid.Header.Revision = acknowledgeableMid.Header.Revision;
 
             return mid;
@@ -103,7 +104,7 @@ namespace OpenProtocolInterpreter
         }
 
         /// <summary>
-        /// Assert that error code is a possible error for the current failed mid and generates a Communication Negative Acknowledge mid (<see cref="Mid0004"/>) 
+        /// Assert that error code is a possible error for the current failed mid and generates a Communication Negative Acknowledge mid (<see cref="Mid0004"/>)
         /// instance for the failed mid and with the informed error code.
         /// </summary>
         /// <typeparam name="TDeclinedMid"><see cref="Mid"/> instance and <see cref="IDeclinableCommand"/> implementer</typeparam>

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.ParameterSet
 {
@@ -11,7 +10,7 @@ namespace OpenProtocolInterpreter.ParameterSet
     ///     <see cref="Communication.Mid0004"/> Command error, Dynamic Job cannot be created, non-existing pset
     /// </para>
     /// </summary>
-    public class Mid2504 : Mid, IParameterSet, IIntegrator, IAcceptableCommand, IDeclinableCommand
+    public class Mid2504 : Mid, IParameterSet, IIntegrator, IAcceptableCommand, IDeclinableCommand, IExtraDataRequest
     {
         public const int MID = 2504;
 

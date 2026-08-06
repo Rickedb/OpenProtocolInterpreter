@@ -17,7 +17,7 @@ namespace OpenProtocolInterpreter
         private readonly Lazy<Dictionary<int, List<DataField>>> _lazyFields;
         protected const int DEFAULT_REVISION = 1;
 
-        protected Dictionary<int, List<DataField>> RevisionsByFields => _lazyFields.Value;
+        protected internal Dictionary<int, List<DataField>> RevisionsByFields => _lazyFields.Value;
 
         /// <summary>
         /// Header of the MID message containing standardized fields.
@@ -59,6 +59,11 @@ namespace OpenProtocolInterpreter
             return Header.ToString();
         }
 
+        /// <summary>
+        /// Packs the MID message into a string representation, including the header and all data fields for the current revision.
+        /// <para> If the MID has no data fields, only the header will be packed. </para>
+        /// </summary>
+        /// <returns>The string representing the packed MID message.</returns>
         public virtual string Pack()
         {
             var header = BuildHeader();
@@ -75,6 +80,12 @@ namespace OpenProtocolInterpreter
             return builder.ToString();
         }
 
+        /// <summary>
+        /// Packs the MID message into a byte array representation, including the header and all data fields for the current revision.
+        /// <para> If the MID has no data fields, only the header will be packed. </para>
+        /// <para> The byte array is encoded in ASCII. </para>
+        /// </summary>
+        /// <returns>The byte array representing the packed MID message in ASCII encoding.</returns>
         public virtual byte[] PackBytes() => Encoding.ASCII.GetBytes(Pack());
 
         protected virtual string Pack(int revision)
@@ -87,7 +98,7 @@ namespace OpenProtocolInterpreter
             return Pack(dataFields);
         }
 
-        protected virtual string Pack(IEnumerable<DataField> dataFields)
+        protected internal virtual string Pack(IEnumerable<DataField> dataFields)
         {
             var builder = new StringBuilder();
             foreach (var dataField in dataFields)
@@ -136,7 +147,6 @@ namespace OpenProtocolInterpreter
             });
 
             var fields = new Dictionary<int, List<DataField>>();
-            var currentRevision = Header.Revision;
             foreach (var m in metadata)
             {
                 if (!fields.TryGetValue(m.Attribute.Revision, out var revisionFields))
@@ -188,18 +198,6 @@ namespace OpenProtocolInterpreter
             return Parse(pack);
         }
 
-        protected virtual void ProcessDataFields(string package)
-        {
-            if (!RevisionsByFields.Any())
-                return;
-
-            int revision = Header.Revision > 0 ? Header.Revision : 1;
-            for (int i = 1; i <= revision; i++)
-            {
-                ProcessDataFields(i, package);
-            }
-        }
-
         protected virtual void ProcessDataFields(ReadOnlySpan<char> package)
         {
             if (!RevisionsByFields.Any())
@@ -223,32 +221,14 @@ namespace OpenProtocolInterpreter
             }
         }
 
-        protected virtual void ProcessDataFields(IEnumerable<DataField> dataFields, string package)
-            => ProcessDataFields(dataFields, package.AsSpan());
-
         protected virtual void ProcessDataFields(IEnumerable<DataField> dataFields, ReadOnlySpan<char> package)
         {
             foreach (var dataField in dataFields)
                 ProcessDataField(dataField, package);
         }
 
-        protected virtual void ProcessDataField(DataField dataField, string package)
-            => dataField.SetValue(GetValue(dataField, package));
-
         protected virtual void ProcessDataField(DataField dataField, ReadOnlySpan<char> package)
             => dataField.SetValue(GetValue(dataField, package));
-
-        protected string GetValue(DataField field, string package)
-        {
-            try
-            {
-                return field.HasPrefix ? package.Substring(2 + field.Index, field.Size) : package.Substring(field.Index, field.Size);
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                return null;
-            }
-        }
 
         protected ReadOnlySpan<char> GetValue(DataField field, ReadOnlySpan<char> package)
         {

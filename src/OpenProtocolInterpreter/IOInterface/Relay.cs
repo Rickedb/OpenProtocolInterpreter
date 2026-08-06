@@ -70,13 +70,13 @@ namespace OpenProtocolInterpreter.IOInterface
 
         }
 
-        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
         {
             return new DataField<List<Relay>>(Field, index, Size, HasPrefix)
             {
                 DefaultConverter = PackRelays,
                 DefaultParser = ParseRelays
-            }.Bind(mid, propertyInfo);
+            }.Bind(owner, propertyInfo);
         }
 
         private static string PackRelays(char paddingChar, int size, PaddingOrientation orientation, List<Relay> relays)

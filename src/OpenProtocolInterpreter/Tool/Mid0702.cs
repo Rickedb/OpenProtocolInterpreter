@@ -1,19 +1,25 @@
 using System;
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace OpenProtocolInterpreter.Tool
 {
+    /// <summary>
+    /// Tool Data upload reply with generic data
+    /// <para>Upload a list of connected tools from controller.</para>
+    /// <para>Message sent by: Controller</para>
+    /// <para>Answer: None</para>
+    /// <para>The list will contain all tool parameters that are connected to the controller or station.</para>
+    /// <para>To request the data <see cref="Communication.Mid0006"/> with required extra data (<see cref="Mid0702ExtraData"/>) is used.</para>
+    /// </summary>
     public class Mid0702 : Mid, ITool, IController
     {
         public const int MID = 702;
 
-        public int ToolNumber
-        {
-            get => GetField(1, DataFields.ToolNumber).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.ToolNumber).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int NumberOfToolParameters => ToolDataUpload.Count;
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 3, HasPrefix = false)]
+        public int NumberOfToolPIDs { get; set; }
+
+        [VariableDataFieldCollectionDefinition(revision: 1, field: 2, Index = 23, Size = 0, HasPrefix = false)]
         public List<VariableDataField> ToolDataUpload { get; set; }
 
         public Mid0702() : this(new Header()
@@ -31,41 +37,41 @@ namespace OpenProtocolInterpreter.Tool
 
         public override string Pack()
         {
-            GetField(1, DataFields.NumberOfToolParameters).SetValue(OpenProtocolConvert.ToString, ToolDataUpload.Count);
-            GetField(1, DataFields.EachToolDataUpload).Value = OpenProtocolConvert.ToString(ToolDataUpload);
+            NumberOfToolPIDs = ToolDataUpload?.Count ?? 0; //Enforce list size even if modified
+            GetField(revision: 1, field: 2).Size = ToolDataUpload?.Sum(x => x.TotalSize) ?? 0; //Enforce size of variable data fields
             return base.Pack();
         }
 
-        public override Mid Parse(ReadOnlySpan<char> package)
+        protected override void ProcessDataField(DataField dataField, ReadOnlySpan<char> package)
         {
-            Header = ProcessHeader(package);
-            var dataFieldsField = GetField(1, DataFields.EachToolDataUpload);
-            dataFieldsField.Size = Header.Length - dataFieldsField.Index;
-            ProcessDataFields(package);
-            ToolDataUpload = VariableDataField.ParseAll(dataFieldsField.Value).ToList();
-            return this;
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
+            if (dataField.Field == 2) //VariableDataFields
             {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.ToolNumber, 20, 4),
-                                DataField.Number(DataFields.NumberOfToolParameters, 26, 2, false),
-                                new(DataFields.EachToolDataUpload, 28, 0, false)
-                            }
-                }
-            };
-        }
-
-        protected enum DataFields
-        {
-            ToolNumber,
-            NumberOfToolParameters,
-            EachToolDataUpload
+                dataField.Size = Header.Length - dataField.Index;
+            }
+            base.ProcessDataField(dataField, package);
         }
     }
+
+    /// <summary>
+    /// To request the data <see cref="Communication.Mid0006"/> Application data message request with required extra data is used
+    /// <para>A check for allowed PIDs to be included in this message should be done for each controller type.</para>
+    /// </summary>
+    public class Mid0702ExtraData : ExtraData, IExtraDataRequest
+    {
+        public override int Mid => Mid0702.MID;
+
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 0, Size = 4)]
+        public int ToolNumber { get; set; }
+
+        public Mid0702ExtraData()
+        {
+
+        }
+
+        public Mid0702ExtraData(int revision) : base(revision)
+        {
+
+        }
+    }
+
 }

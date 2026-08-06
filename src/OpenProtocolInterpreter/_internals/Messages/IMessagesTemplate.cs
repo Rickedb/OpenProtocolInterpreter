@@ -12,5 +12,7 @@ namespace OpenProtocolInterpreter.Messages
         Mid ProcessPackage(int mid, string package);
         Mid ProcessPackage(int mid, byte[] package);
         bool IsAssignableTo(int mid);
+        CompiledInstance<Mid> GetInstance(int mid);
+        CompiledInstance<ExtraData> GetExtraDataInstance(int mid, Type kind);
     }
 }

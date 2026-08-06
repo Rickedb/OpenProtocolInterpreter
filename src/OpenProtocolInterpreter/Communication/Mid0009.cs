@@ -19,15 +19,16 @@ namespace OpenProtocolInterpreter.Communication
     ///         MID revision unsupported or Invalid data code and the MID subscribed for
     /// </para>
     /// </summary>
-    public class Mid0009 : Mid, ICommunication, IIntegrator
+    public class Mid0009 : Mid, ICommunication, IIntegrator, IExtraDataContainer
     {
+        private int _extraDataRevision;
         public const int MID = 9;
 
         [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 4, HasPrefix = false)]
         public int UnsubscriptionMid { get; set; }
 
         [Int32DataFieldDefinition(revision: 1, field: 2, Index = 24, Size = 3, HasPrefix = false)]
-        public int ExtraDataRevision { get; set; }
+        public int ExtraDataRevision { get => _extraDataRevision; set => _extraDataRevision = value; }
 
         [Int32DataFieldDefinition(revision: 1, field: 3, Index = 27, Size = 2, HasPrefix = false)]
         public int ExtraDataLength { get; set; }
@@ -35,6 +36,7 @@ namespace OpenProtocolInterpreter.Communication
         [StringDataFieldDefinition(revision: 1, field: 4, Index = 29, Size = 0, HasPrefix = false)]
         public string ExtraData { get; set; }
 
+        int IExtraDataContainer.WantedRevision { get => _extraDataRevision; set => _extraDataRevision = value; }
         public Mid0009() : this(new Header()
         {
             Mid = MID,
@@ -54,6 +56,15 @@ namespace OpenProtocolInterpreter.Communication
             HandleExtraDataFieldSize();
             return base.Pack();
         }
+
+        public void SetExtraData<TExtraData>(TExtraData extraData) where TExtraData : ExtraData, IExtraDataUnsubscription
+        {
+            UnsubscriptionMid = extraData.Mid;
+            ExtraDataRevision = extraData.Revision;
+            ExtraData = extraData.Pack();
+            ExtraDataLength = ExtraData?.Length ?? 0;
+        }
+
 
         protected override void ProcessDataField(DataField dataField, ReadOnlySpan<char> package)
         {

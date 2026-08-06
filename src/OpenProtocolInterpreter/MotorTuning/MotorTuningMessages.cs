@@ -11,13 +11,13 @@ namespace OpenProtocolInterpreter.MotorTuning
     {
         public MotorTuningMessages() : base()
         {
-            _templates = new Dictionary<int, MidCompiledInstance>()
+            _templates = new Dictionary<int, CompiledInstance<Mid>>()
             {
-                { Mid0500.MID, new MidCompiledInstance(typeof(Mid0500)) },
-                { Mid0501.MID, new MidCompiledInstance(typeof(Mid0501)) },
-                { Mid0502.MID, new MidCompiledInstance(typeof(Mid0502)) },
-                { Mid0503.MID, new MidCompiledInstance(typeof(Mid0503)) },
-                { Mid0504.MID, new MidCompiledInstance(typeof(Mid0504)) }
+                { Mid0500.MID, new CompiledInstance<Mid>(typeof(Mid0500)) },
+                { Mid0501.MID, new CompiledInstance<Mid>(typeof(Mid0501)) },
+                { Mid0502.MID, new CompiledInstance<Mid>(typeof(Mid0502)) },
+                { Mid0503.MID, new CompiledInstance<Mid>(typeof(Mid0503)) },
+                { Mid0504.MID, new CompiledInstance<Mid>(typeof(Mid0504)) }
             };
         }
 

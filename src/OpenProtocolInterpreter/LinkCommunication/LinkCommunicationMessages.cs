@@ -8,10 +8,10 @@ namespace OpenProtocolInterpreter.LinkCommunication
     {
         public LinkCommunicationMessages() : base()
         {
-            _templates = new Dictionary<int, MidCompiledInstance>()
+            _templates = new Dictionary<int, CompiledInstance<Mid>>()
             {
-                { Mid9997.MID, new MidCompiledInstance(typeof(Mid9997)) },
-                { Mid9998.MID, new MidCompiledInstance(typeof(Mid9998)) }
+                { Mid9997.MID, new CompiledInstance<Mid>(typeof(Mid9997)) },
+                { Mid9998.MID, new CompiledInstance<Mid>(typeof(Mid9998)) }
             };
         }
 

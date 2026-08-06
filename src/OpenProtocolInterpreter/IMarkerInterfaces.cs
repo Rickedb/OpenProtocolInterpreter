@@ -69,10 +69,35 @@ namespace OpenProtocolInterpreter
     }
 
     /// <summary>
-    /// Contract which a mid can be packed as extra data in a <see cref="Communication.Mid0006"/>.
+    /// Contract which every <see cref="Mid"/> message that has extra data implements.
     /// </summary>
-    public interface IExtraData
+    public interface IExtraDataContainer
     {
-        string PackAsExtraData();
+        int WantedRevision { get; set; }
+        int ExtraDataLength { get; set; }
+        string ExtraData { get; set; }
+    }
+
+    /// <summary>
+    /// Contract which a mid can be packed as extra data in <see cref="Communication.Mid0006"/>, <see cref="Communication.Mid0008" /> or <see cref="Communication.Mid0009"/>.
+    /// </summary>
+    public interface IExtraDataSource
+    {
+
+    }
+
+    public interface IExtraDataRequest : IExtraDataSource
+    {
+
+    }
+
+    public interface IExtraDataSubscription : IExtraDataSource
+    {
+
+    }
+
+    public interface IExtraDataUnsubscription : IExtraDataSource
+    {
+
     }
 }

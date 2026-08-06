@@ -11,11 +11,11 @@ namespace OpenProtocolInterpreter.Time
     {
         public TimeMessages() : base()
         {
-            _templates = new Dictionary<int, MidCompiledInstance>()
+            _templates = new Dictionary<int, CompiledInstance<Mid>>()
             {
-                { Mid0080.MID, new MidCompiledInstance(typeof(Mid0080)) },
-                { Mid0081.MID, new MidCompiledInstance(typeof(Mid0081)) },
-                { Mid0082.MID, new MidCompiledInstance(typeof(Mid0082)) }
+                { Mid0080.MID, new CompiledInstance<Mid>(typeof(Mid0080)) },
+                { Mid0081.MID, new CompiledInstance<Mid>(typeof(Mid0081)) },
+                { Mid0082.MID, new CompiledInstance<Mid>(typeof(Mid0082)) }
             };
         }
 

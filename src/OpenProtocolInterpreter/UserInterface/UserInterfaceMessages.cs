@@ -11,11 +11,11 @@ namespace OpenProtocolInterpreter.UserInterface
     {
         public UserInterfaceMessages() : base()
         {
-            _templates = new Dictionary<int, MidCompiledInstance>()
+            _templates = new Dictionary<int, CompiledInstance<Mid>>()
             {
-                { Mid0110.MID, new MidCompiledInstance(typeof(Mid0110)) },
-                { Mid0111.MID, new MidCompiledInstance(typeof(Mid0111)) },
-                { Mid0113.MID, new MidCompiledInstance(typeof(Mid0113)) }
+                { Mid0110.MID, new CompiledInstance<Mid>(typeof(Mid0110)) },
+                { Mid0111.MID, new CompiledInstance<Mid>(typeof(Mid0111)) },
+                { Mid0113.MID, new CompiledInstance<Mid>(typeof(Mid0113)) }
             };
         }
 

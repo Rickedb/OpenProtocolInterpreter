@@ -112,13 +112,13 @@ namespace OpenProtocolInterpreter.PowerMACS
 
         }
 
-        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
         {
             return new DataField<List<SpecialValue>>(Field, index, Size, HasPrefix)
             {
                 DefaultConverter = PackSpecialValues,
                 DefaultParser = ParseSpecialValues
-            }.Bind(mid, propertyInfo);
+            }.Bind(owner, propertyInfo);
         }
 
         private string PackSpecialValues(char paddingChar, int size, PaddingOrientation orientation, List<SpecialValue> specialValues)

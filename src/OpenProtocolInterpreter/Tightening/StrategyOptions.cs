@@ -101,13 +101,13 @@ namespace OpenProtocolInterpreter.Tightening
 
         }
 
-        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
         {
             return new DataField<StrategyOptions>(Field, index, Size, HasPrefix)
             {
                 DefaultConverter = PackStrategyOptions,
                 DefaultParser = ParseStrategyOptions
-            }.Bind(mid, propertyInfo);
+            }.Bind(owner, propertyInfo);
         }
 
         private static string PackStrategyOptions(char paddingChar, int size, PaddingOrientation orientation, StrategyOptions strategyOptions)

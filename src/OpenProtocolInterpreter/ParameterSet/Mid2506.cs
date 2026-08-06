@@ -14,7 +14,7 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// <para> <b>Note</b>: If a running program is included in MID 2506 deletion the program shall finish before deletion. </para>
     /// <para> <b>Note</b>: Deleting programs included in other nodes may give unwanted behaviour. It will behave identical to a manual delete of the program. </para>
     /// </summary>
-    public class Mid2506 : Mid, IParameterSet, IIntegrator, IAcceptableCommand, IDeclinableCommand
+    public class Mid2506 : Mid, IParameterSet, IIntegrator, IAcceptableCommand, IDeclinableCommand, IExtraDataRequest
     {
         public const int MID = 2506;
 

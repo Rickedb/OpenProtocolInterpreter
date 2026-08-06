@@ -3,7 +3,7 @@ using OpenProtocolInterpreter;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MIDTesters.Core.Converters
+namespace MIDTesters.Converters
 {
     [TestClass]
     [TestCategory("Converters")]

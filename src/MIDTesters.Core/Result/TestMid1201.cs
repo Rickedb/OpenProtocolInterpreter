@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Result;
 
-namespace MIDTesters.Core.Result
+namespace MIDTesters.Result
 {
     [TestClass]
     [TestCategory("Result")]

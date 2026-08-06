@@ -7,9 +7,9 @@ namespace OpenProtocolInterpreter.Alarm
     /// <summary>
     /// Alarm
     /// <para>An alarm has appeared in the controller. The current alarm is uploaded from the controller to the integrator.
-    /// This MID replace the old alarm MID 0071.</para>
+    /// This MID replace the old alarm <see cref="Mid0071"/> .</para>
     /// <para>Message sent by: Controller</para>
-    /// <para>Answer: <see cref="Mid0071"/> Alarm status acknowledge</para>
+    /// <para>Answer: <see cref="Mid1001"/> Alarm acknowledge</para>
     /// </summary>
     public class Mid1000 : Mid, IAlarm, IController, IAcknowledgeable<Mid1001>
     {

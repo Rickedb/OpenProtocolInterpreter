@@ -28,18 +28,18 @@ namespace OpenProtocolInterpreter.IOInterface
         public int IODeviceId { get; set; }
 
         [RelayCollectionDefinition(revision: 1, field: 2, Index = 24, Size = 4 * 8)]
-        [RelayCollectionDefinition(revision: 2, field: 2, Index = 28, Size = 4 * 8)]
+        [RelayCollectionDefinition(revision: 2, field: 3, Index = 28, Size = 4 * 8)]
         public List<Relay> Relays { get; set; }
 
         [DigitalInputCollectionDefinition(revision: 1, field: 3, Index = 58, Size = 4 * 8)]
-        [DigitalInputCollectionDefinition(revision: 2, field: 3, Index = 0, Size = 4 * 8)]
+        [DigitalInputCollectionDefinition(revision: 2, field: 5, Index = 0, Size = 4 * 8)]
         public List<DigitalInput> DigitalInputs { get; set; }
 
         //At revision 2 number of relays/digital inputs comes before their lists
-        [Int32DataFieldDefinition(revision: 2, field: 4, Index = 24, Size = 2)]
+        [Int32DataFieldDefinition(revision: 2, field: 2, Index = 24, Size = 2)]
         public int NumberOfRelays { get; set; }
 
-        [Int32DataFieldDefinition(revision: 2, field: 5, Index = 0, Size = 2)]
+        [Int32DataFieldDefinition(revision: 2, field: 4, Index = 26, Size = 2)]
         public int NumberOfDigitalInputs { get; set; }
 
         public Mid0215() : this(DEFAULT_REVISION)
@@ -79,19 +79,19 @@ namespace OpenProtocolInterpreter.IOInterface
                 NumberOfRelays = Relays.Count;
                 NumberOfDigitalInputs = DigitalInputs.Count;
 
-                var relaysField = GetField(nameof(Relays));
+                var relaysField = GetField(revision: 2, field: 3);
                 relaysField.Size = NumberOfRelays * 4;
 
-                var numberOfDigitalInputsField = GetField(nameof(NumberOfDigitalInputs));
+                var numberOfDigitalInputsField = GetField(revision: 2, field: 4);
                 numberOfDigitalInputsField.Index = relaysField.Index + relaysField.TotalSize;
 
-                var digitalInputsField = GetField(nameof(DigitalInputs));
+                var digitalInputsField = GetField(revision: 2, field: 5);
                 digitalInputsField.Index = numberOfDigitalInputsField.Index + numberOfDigitalInputsField.TotalSize;
                 digitalInputsField.Size = NumberOfDigitalInputs * 4;
 
                 var builder = new StringBuilder(BuildHeader());
 
-                var fields = OrderedDataFieldsByRevision().ToList();
+                var fields = RevisionsByFields[Header.StandardizedRevision].OrderBy(x => x.Field);
                 builder.Append(base.Pack(fields));
                 return builder.ToString();
             }
@@ -108,53 +108,33 @@ namespace OpenProtocolInterpreter.IOInterface
                 EnsureEightRelaysAndDigitalInputs();
             }
 
-            var fields = OrderedDataFieldsByRevision();
+            var fields = RevisionsByFields[Header.StandardizedRevision].OrderBy(x => x.Field);
             var enumerator = fields.GetEnumerator();
 
-            var index = 0;
             while (enumerator.MoveNext())
             {
-                index++;
                 var field = enumerator.Current;
                 base.ProcessDataField(field, package);
                 if (Header.StandardizedRevision <= 1)
                     continue;
 
-                if (index == 2)
+                if (field.Field == 2)
                 {
-                    var relays = GetField(nameof(Relays));
+                    var relays = GetField(revision: 2, field: 3);
                     relays.Index = field.Index + field.TotalSize;
                     relays.Size = NumberOfRelays * 4;
                 }
-                else if (index == 3)
+                else if (field.Field == 3)
                 {
-                    var numberOfDigitalInputs = GetField(nameof(NumberOfDigitalInputs));
+                    var numberOfDigitalInputs = GetField(revision: 2, field: 4);
                     numberOfDigitalInputs.Index = field.Index + field.TotalSize;
                 }
-                else if (index == 4)
+                else if (field.Field == 4)
                 {
-                    var digitalInputs = GetField(nameof(DigitalInputs));
+                    var digitalInputs = GetField(revision: 2, field: 5);
                     digitalInputs.Index = field.Index + field.TotalSize;
                     digitalInputs.Size = NumberOfDigitalInputs * 4;
                 }
-            }
-        }
-
-        private IEnumerable<DataField> OrderedDataFieldsByRevision()
-        {
-            if (Header.StandardizedRevision == 1)
-            {
-                yield return GetField(nameof(IODeviceId));
-                yield return GetField(nameof(Relays));
-                yield return GetField(nameof(DigitalInputs));
-            }
-            else
-            {
-                yield return GetField(nameof(IODeviceId));
-                yield return GetField(nameof(NumberOfRelays));
-                yield return GetField(nameof(Relays));
-                yield return GetField(nameof(NumberOfDigitalInputs));
-                yield return GetField(nameof(DigitalInputs));
             }
         }
 

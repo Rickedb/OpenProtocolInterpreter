@@ -169,13 +169,13 @@ namespace OpenProtocolInterpreter.Tightening
 
         }
 
-        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
         {
             return new DataField<TighteningErrorStatus>(Field, index, Size, HasPrefix)
             {
                 DefaultConverter = PackTighteningErrorStatus,
                 DefaultParser = ParseTighteningErrorStatus
-            }.Bind(mid, propertyInfo);
+            }.Bind(owner, propertyInfo);
         }
 
         private static string PackTighteningErrorStatus(char paddingChar, int size, PaddingOrientation orientation, TighteningErrorStatus tighteningErrorStatus)
@@ -325,13 +325,13 @@ namespace OpenProtocolInterpreter.Tightening
 
         }
 
-        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
         {
             return new DataField<TighteningErrorStatus2>(Field, index, Size, HasPrefix)
             {
                 DefaultConverter = PackTighteningErrorStatus2,
                 DefaultParser = ParseTighteningErrorStatus2
-            }.Bind(mid, propertyInfo);
+            }.Bind(owner, propertyInfo);
         }
 
         private static string PackTighteningErrorStatus2(char paddingChar, int size, PaddingOrientation orientation, TighteningErrorStatus2 tighteningErrorStatus)

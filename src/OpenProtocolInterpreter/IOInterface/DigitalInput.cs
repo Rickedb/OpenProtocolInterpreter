@@ -70,13 +70,13 @@ namespace OpenProtocolInterpreter.IOInterface
 
         }
 
-        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
         {
             return new DataField<List<DigitalInput>>(Field, index, Size, HasPrefix)
             {
                 DefaultConverter = PackDigitalInputs,
                 DefaultParser = ParseDigitalInputs
-            }.Bind(mid, propertyInfo);
+            }.Bind(owner, propertyInfo);
         }
 
         private static string PackDigitalInputs(char paddingChar, int size, PaddingOrientation orientation, List<DigitalInput> digitalInputs)

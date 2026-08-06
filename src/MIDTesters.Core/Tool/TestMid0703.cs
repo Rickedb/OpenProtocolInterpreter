@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Tool;
 
-namespace MIDTesters.Core.Tool
+namespace MIDTesters.Tool
 {
     [TestClass]
     [TestCategory("Tool")]
@@ -9,7 +9,7 @@ namespace MIDTesters.Core.Tool
     {
         [TestMethod]
         [TestCategory("Revision 1"), TestCategory("ASCII")]
-        public void Mid0701Revision1()
+        public void Mid0703Revision1()
         {
             string package = "01050703001         0100400301200012040000000QST50-150CTT01202012040000000SERIALNUMBER0120300201000000011";
             var mid = _midInterpreter.Parse<Mid0703>(package);
@@ -22,7 +22,7 @@ namespace MIDTesters.Core.Tool
 
         [TestMethod]
         [TestCategory("Revision 1"), TestCategory("ByteArray")]
-        public void Mid0701ByteRevision1()
+        public void Mid0703ByteRevision1()
         {
             string package = "01050703001         0100400301200012040000000QST50-150CTT01202012040000000SERIALNUMBER0120300201000000011";
             byte[] bytes = GetAsciiBytes(package);

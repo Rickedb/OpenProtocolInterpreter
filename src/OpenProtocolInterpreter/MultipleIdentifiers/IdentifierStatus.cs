@@ -50,13 +50,13 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
 
         }
 
-        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
         {
             return new DataField<IdentifierStatus>(Field, index, Size, HasPrefix)
             {
                 DefaultConverter = Pack,
                 DefaultParser = IdentifierStatus.Parse
-            }.Bind(mid, propertyInfo);
+            }.Bind(owner, propertyInfo);
         }
 
         private static string Pack(char paddingChar, int size, PaddingOrientation orientation, IdentifierStatus identifierStatus)

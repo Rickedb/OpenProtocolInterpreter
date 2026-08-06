@@ -11,19 +11,19 @@ namespace OpenProtocolInterpreter.Alarm
     {
         public AlarmMessages() : base()
         {
-            _templates = new Dictionary<int, MidCompiledInstance>()
+            _templates = new Dictionary<int, CompiledInstance<Mid>>()
             {
-               { Mid0070.MID,  new MidCompiledInstance(typeof(Mid0070)) },
-               { Mid0071.MID,  new MidCompiledInstance(typeof(Mid0071)) },
-               { Mid0072.MID,  new MidCompiledInstance(typeof(Mid0072)) },
-               { Mid0073.MID,  new MidCompiledInstance(typeof(Mid0073)) },
-               { Mid0074.MID,  new MidCompiledInstance(typeof(Mid0074)) },
-               { Mid0075.MID,  new MidCompiledInstance(typeof(Mid0075)) },
-               { Mid0076.MID,  new MidCompiledInstance(typeof(Mid0076)) },
-               { Mid0077.MID,  new MidCompiledInstance(typeof(Mid0077)) },
-               { Mid0078.MID,  new MidCompiledInstance(typeof(Mid0078)) },
-               { Mid1000.MID,  new MidCompiledInstance(typeof(Mid1000)) },
-               { Mid1001.MID,  new MidCompiledInstance(typeof(Mid1001)) },
+               { Mid0070.MID,  new CompiledInstance<Mid>(typeof(Mid0070)) },
+               { Mid0071.MID,  new CompiledInstance<Mid>(typeof(Mid0071)) },
+               { Mid0072.MID,  new CompiledInstance<Mid>(typeof(Mid0072)) },
+               { Mid0073.MID,  new CompiledInstance<Mid>(typeof(Mid0073)) },
+               { Mid0074.MID,  new CompiledInstance<Mid>(typeof(Mid0074)) },
+               { Mid0075.MID,  new CompiledInstance<Mid>(typeof(Mid0075)) },
+               { Mid0076.MID,  new CompiledInstance<Mid>(typeof(Mid0076)) },
+               { Mid0077.MID,  new CompiledInstance<Mid>(typeof(Mid0077)) },
+               { Mid0078.MID,  new CompiledInstance<Mid>(typeof(Mid0078)) },
+               { Mid1000.MID,  new CompiledInstance<Mid>(typeof(Mid1000)) },
+               { Mid1001.MID,  new CompiledInstance<Mid>(typeof(Mid1001)) },
             };
         }
 

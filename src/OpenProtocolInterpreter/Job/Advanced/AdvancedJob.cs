@@ -157,13 +157,13 @@ namespace OpenProtocolInterpreter.Job.Advanced
 
         }
 
-        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
         {
             return new DataField<List<AdvancedJob>>(Field, index, Size, HasPrefix)
             {
                 DefaultConverter = PackAdvancedJobs,
                 DefaultParser = ParseAdvancedJobs
-            }.Bind(mid, propertyInfo);
+            }.Bind(owner, propertyInfo);
         }
 
         private string PackAdvancedJobs(char paddingChar, int size, PaddingOrientation orientation, List<AdvancedJob> advancedJobs)

@@ -35,13 +35,13 @@ namespace OpenProtocolInterpreter.PowerMACS
 
         }
 
-        internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+        internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
         {
             return new DataField<List<BoltData>>(Field, index, Size, HasPrefix)
             {
                 DefaultConverter = PackBoltData,
                 DefaultParser = ParseBoltData
-            }.Bind(mid, propertyInfo);
+            }.Bind(owner, propertyInfo);
         }
 
         private static string PackBoltData(char paddingChar, int size, PaddingOrientation orientation, List<BoltData> boltsData)

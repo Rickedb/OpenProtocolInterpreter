@@ -70,13 +70,13 @@ namespace OpenProtocolInterpreter.ApplicationSelector
 
             }
 
-            internal override DataField Build(Mid mid, PropertyInfo propertyInfo, int index)
+            internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
             {
                 return new DataField<List<bool>>(Field, index, Size, HasPrefix)
                 {
                     DefaultConverter = PackSocketStatus,
                     DefaultParser = ParseSocketStatus
-                }.Bind(mid, propertyInfo);
+                }.Bind(owner, propertyInfo);
             }
 
             protected static string PackSocketStatus(char paddingChar, int size, PaddingOrientation orientation, List<bool> socketStatus)

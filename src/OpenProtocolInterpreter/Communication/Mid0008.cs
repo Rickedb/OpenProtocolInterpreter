@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Runtime.Versioning;
 
 namespace OpenProtocolInterpreter.Communication
 {
@@ -20,7 +18,7 @@ namespace OpenProtocolInterpreter.Communication
     ///         MID revision unsupported or Invalid data code and the MID subscribed for
     /// </para>
     /// </summary>
-    public class Mid0008 : Mid, ICommunication, IIntegrator
+    public class Mid0008 : Mid, ICommunication, IIntegrator, IExtraDataContainer
     {
         public const int MID = 8;
 
@@ -47,6 +45,14 @@ namespace OpenProtocolInterpreter.Communication
 
         public Mid0008(Header header) : base(header)
         {
+        }
+
+        public void SetExtraData<TExtraData>(TExtraData extraData) where TExtraData : ExtraData, IExtraDataSubscription
+        {
+            SubscriptionMid = extraData.Mid;
+            WantedRevision = extraData.Revision;
+            ExtraData = extraData.Pack();
+            ExtraDataLength = ExtraData?.Length ?? 0;
         }
 
         public override string Pack()
