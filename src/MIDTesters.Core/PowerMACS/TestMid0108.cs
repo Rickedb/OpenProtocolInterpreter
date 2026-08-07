@@ -29,5 +29,17 @@ namespace MIDTesters.PowerMACS
             Assert.IsTrue(mid.BoltData);
             AssertEqualPackages(bytes, mid);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("Pack")]
+        public void Mid0108PackAllRevisions()
+        {
+            string package = "00210108002         1";
+
+            AssertBuildAndParse(package, new Mid0108(2)
+            {
+                BoltData = true
+            });
+        }
     }
 }

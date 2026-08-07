@@ -29,5 +29,14 @@ namespace MIDTesters.Alarm
             Assert.AreEqual(typeof(Mid0073), mid.GetType());
             AssertEqualPackages(bytes, mid);
         }
+
+        [TestMethod]
+        [TestCategory("Pack")]
+        public void Mid0073PackAllRevisions()
+        {
+            string pack = @"00200073002         ";
+
+            AssertBuildAndParse(pack, new Mid0073(2));
+        }
     }
 }

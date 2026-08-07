@@ -29,5 +29,16 @@ namespace MIDTesters.PowerMACS
             Assert.AreEqual(typeof(Mid0109), mid.GetType());
             AssertEqualPackages(bytes, mid);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("Pack")]
+        public void Mid0109PackAllRevisions()
+        {
+            string package = "00200109002         ";
+
+            AssertBuildAndParse(package, new Mid0109(2)
+            {
+            });
+        }
     }
 }

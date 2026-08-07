@@ -30,5 +30,17 @@ namespace MIDTesters.IOInterface
             Assert.AreEqual(RelayNumber.ExternalControlled10, mid.RelayNumber);
             AssertEqualPackages(bytes, mid, true);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0219PackRevision1()
+        {
+            string package = "00230219            102";
+
+            AssertBuildAndParse(package, new Mid0219()
+            {
+                RelayNumber = RelayNumber.ExternalControlled10
+            }, true);
+        }
     }
 }

@@ -3,6 +3,7 @@ using OpenProtocolInterpreter.Communication;
 using OpenProtocolInterpreter.Tool;
 using System.Collections.Generic;
 
+using OpenProtocolInterpreter;
 namespace MIDTesters.Tool
 {
     [TestClass]
@@ -76,7 +77,7 @@ namespace MIDTesters.Tool
         }
 
         [TestMethod]
-        [TestCategory("Revision 1"), TestCategory("ASCII")]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
         public void Mid0704ExtraDataRequestPackRevision1()
         {
             string package = "00480006001         0704001190001002001213001215";
@@ -140,7 +141,7 @@ namespace MIDTesters.Tool
         }
 
         [TestMethod]
-        [TestCategory("Revision 1"), TestCategory("ASCII")]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
         public void Mid0704ExtraDataSubscriptionPackRevision1()
         {
             string package = "00540008001         0704001250001002001213005001215000";
@@ -196,7 +197,7 @@ namespace MIDTesters.Tool
         }
 
         [TestMethod]
-        [TestCategory("Revision 1"), TestCategory("ASCII")]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
         public void Mid0704ExtraDataUnsubscriptionPackRevision1()
         {
             string package = "00330009001         0704001040001";
@@ -211,6 +212,40 @@ namespace MIDTesters.Tool
             Assert.AreEqual(4, mid.ExtraDataLength);
             Assert.AreEqual("0001", mid.ExtraData);
             AssertEqualPackages(package, mid);
+        }
+
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0704PackRevision1()
+        {
+            string package = "00700704001         00201200012040000000QST50-150CTT012150010200000003";
+
+            AssertBuildAndParse(package, new Mid0704()
+            {
+                NumberOfDataFields = 2,
+                VariableDataFields = new List<VariableDataField>()
+                {
+                    new VariableDataField()
+                    {
+                        ParameterId = 1200,
+                        Length = 12,
+                        DataType = DataTypeDefinition.String,
+                        Unit = DataUnitType.NoUnit,
+                        StepNumber = 0,
+                        DataValue = "QST50-150CTT"
+                    },
+                    new VariableDataField()
+                    {
+                        ParameterId = 1215,
+                        Length = 1,
+                        DataType = DataTypeDefinition.Integer,
+                        Unit = DataUnitType.NoUnit,
+                        StepNumber = 0,
+                        DataValue = "3"
+                    }
+                }
+            });
         }
     }
 }

@@ -29,5 +29,17 @@ namespace MIDTesters.LinkCommunication
             Assert.AreEqual(65, mid.MidNumber);
             AssertEqualPackages(bytes, mid);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid9997PackRevision1()
+        {
+            string package = "00249997001         0061";
+
+            AssertBuildAndParse(package, new Mid9997()
+            {
+                MidNumber = 61
+            });
+        }
     }
 }

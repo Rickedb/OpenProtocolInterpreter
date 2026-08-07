@@ -59,5 +59,20 @@ namespace MIDTesters.ApplicationSelector
             }, mid.SocketStatus);
             AssertEqualPackages(bytes, mid, true);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0251PackRevision1()
+        {
+            string package = "00400251   1        01500210030101101110";
+
+            AssertBuildAndParse(package, new Mid0251()
+            {
+                Header = { NoAckFlag = true },
+                DeviceId = 50,
+                NumberOfSockets = 10,
+                SocketStatus = new List<bool>() { false, true, false, true, true, false, true, true, true, false }
+            }, true);
+        }
     }
 }

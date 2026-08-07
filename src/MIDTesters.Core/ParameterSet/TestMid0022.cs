@@ -31,5 +31,18 @@ namespace MIDTesters.ParameterSet
             Assert.IsTrue(mid.RelayStatus);
             AssertEqualPackages(bytes, mid, true);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0022PackRevision1()
+        {
+            string package = "00210022   1        1";
+
+            AssertBuildAndParse(package, new Mid0022()
+            {
+                Header = { NoAckFlag = true },
+                RelayStatus = true
+            }, true);
+        }
     }
 }

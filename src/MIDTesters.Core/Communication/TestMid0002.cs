@@ -288,5 +288,149 @@ namespace MIDTesters.Communication
             Assert.IsTrue(mid.OptionalKeepAlive);
             AssertEqualPackages(bytes, mid);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0002PackRevision1()
+        {
+            string pack = @"00570002001         010001020103Airbag1                  ";
+
+            AssertBuildAndParse(pack, new Mid0002(1)
+            {
+                CellId = 1,
+                ChannelId = 1,
+                ControllerName = "Airbag1"
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("Pack")]
+        public void Mid0002PackRevision2()
+        {
+            string pack = @"00620002002         010001020103Airbag1                  04ACT";
+
+            AssertBuildAndParse(pack, new Mid0002(2)
+            {
+                CellId = 1,
+                ChannelId = 1,
+                ControllerName = "Airbag1",
+                SupplierCode = "ACT"
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 3"), TestCategory("Pack")]
+        public void Mid0002PackRevision3()
+        {
+            string pack = @"01250002003         010001020103Airbag1                  04ACT05OpenProtocolVersion06Version 19.0.0.0   07Version 01.0.0.0   ";
+
+            AssertBuildAndParse(pack, new Mid0002(3)
+            {
+                CellId = 1,
+                ChannelId = 1,
+                ControllerName = "Airbag1",
+                SupplierCode = "ACT",
+                OpenProtocolVersion = "OpenProtocolVersion",
+                ControllerSoftwareVersion = "Version 19.0.0.0",
+                ToolSoftwareVersion = "Version 01.0.0.0"
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 4"), TestCategory("Pack")]
+        public void Mid0002PackRevision4()
+        {
+            string pack = @"01630002004         010001020103Airbag1                  04ACT05OpenProtocolVersion06Version 19.0.0.0   07Version 01.0.0.0   08RBUType                 09Serial    ";
+
+            AssertBuildAndParse(pack, new Mid0002(4)
+            {
+                CellId = 1,
+                ChannelId = 1,
+                ControllerName = "Airbag1",
+                SupplierCode = "ACT",
+                OpenProtocolVersion = "OpenProtocolVersion",
+                ControllerSoftwareVersion = "Version 19.0.0.0",
+                ToolSoftwareVersion = "Version 01.0.0.0",
+                RBUType = "RBUType",
+                ControllerSerialNumber = "Serial"
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 5"), TestCategory("Pack")]
+        public void Mid0002PackRevision5()
+        {
+            string pack = @"01730002005         010001020103Airbag1                  04ACT05OpenProtocolVersion06Version 19.0.0.0   07Version 01.0.0.0   08RBUType                 09Serial    1000211002";
+
+            AssertBuildAndParse(pack, new Mid0002(5)
+            {
+                CellId = 1,
+                ChannelId = 1,
+                ControllerName = "Airbag1",
+                SupplierCode = "ACT",
+                OpenProtocolVersion = "OpenProtocolVersion",
+                ControllerSoftwareVersion = "Version 19.0.0.0",
+                ToolSoftwareVersion = "Version 01.0.0.0",
+                RBUType = "RBUType",
+                ControllerSerialNumber = "Serial",
+                SystemType = SystemType.PowerMacs4000,
+                SystemSubType = SystemSubType.SystemRunningPresses
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 6"), TestCategory("Pack")]
+        public void Mid0002PackRevision6()
+        {
+            string pack = @"02210002006         010001020103Airbag1                  04ACT05OpenProtocolVersion06Version 19.0.0.0   07Version 01.0.0.0   08RBUType                 09Serial    100021100212013114429496729515Station Or Cell Name     16A";
+
+            AssertBuildAndParse(pack, new Mid0002(6)
+            {
+                CellId = 1,
+                ChannelId = 1,
+                ControllerName = "Airbag1",
+                SupplierCode = "ACT",
+                OpenProtocolVersion = "OpenProtocolVersion",
+                ControllerSoftwareVersion = "Version 19.0.0.0",
+                ToolSoftwareVersion = "Version 01.0.0.0",
+                RBUType = "RBUType",
+                ControllerSerialNumber = "Serial",
+                SystemType = SystemType.PowerMacs4000,
+                SystemSubType = SystemSubType.SystemRunningPresses,
+                SequenceNumberSupport = false,
+                LinkingHandlingSupport = true,
+                StationCellId = 4294967295L,
+                StationCellName = "Station Or Cell Name",
+                ClientId = "A"
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 7"), TestCategory("Pack")]
+        public void Mid0002PackRevision7()
+        {
+            string pack = @"02240002007         010001020103Airbag1                  04ACT05OpenProtocolVersion06Version 19.0.0.0   07Version 01.0.0.0   08RBUType                 09Serial    100021100212013114429496729515Station Or Cell Name     16A171";
+
+            AssertBuildAndParse(pack, new Mid0002(7)
+            {
+                CellId = 1,
+                ChannelId = 1,
+                ControllerName = "Airbag1",
+                SupplierCode = "ACT",
+                OpenProtocolVersion = "OpenProtocolVersion",
+                ControllerSoftwareVersion = "Version 19.0.0.0",
+                ToolSoftwareVersion = "Version 01.0.0.0",
+                RBUType = "RBUType",
+                ControllerSerialNumber = "Serial",
+                SystemType = SystemType.PowerMacs4000,
+                SystemSubType = SystemSubType.SystemRunningPresses,
+                SequenceNumberSupport = false,
+                LinkingHandlingSupport = true,
+                StationCellId = 4294967295L,
+                StationCellName = "Station Or Cell Name",
+                ClientId = "A",
+                OptionalKeepAlive = true
+            });
+        }
     }
 }

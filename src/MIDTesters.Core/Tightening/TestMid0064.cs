@@ -58,5 +58,30 @@ namespace MIDTesters.Tightening
             Assert.IsTrue(mid.OfflineResult);
             AssertEqualPackages(bytes, mid);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0064PackRevision1()
+        {
+            string package = "00300064001         0123456789";
+
+            AssertBuildAndParse(package, new Mid0064(1)
+            {
+                TighteningId = 123456789L
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 10"), TestCategory("Pack")]
+        public void Mid0064PackRevision10()
+        {
+            string package = "00310064010         01234567891";
+
+            AssertBuildAndParse(package, new Mid0064(10)
+            {
+                TighteningId = 123456789L,
+                OfflineResult = true
+            });
+        }
     }
 }

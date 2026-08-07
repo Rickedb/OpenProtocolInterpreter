@@ -29,5 +29,17 @@ namespace MIDTesters.MultiSpindle
             Assert.AreEqual(3009021015L, mid.RequestedResultIndex);
             AssertEqualPackages(bytes, mid, true);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0104PackRevision1()
+        {
+            string pack = @"00320104            013009021015";
+
+            AssertBuildAndParse(pack, new Mid0104()
+            {
+                RequestedResultIndex = 3009021015L
+            }, true);
+        }
     }
 }

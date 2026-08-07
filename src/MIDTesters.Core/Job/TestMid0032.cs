@@ -98,5 +98,53 @@ namespace MIDTesters.Job
             Assert.AreEqual(3, mid.JobId);
             AssertEqualPackages(bytes, mid);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0032PackRevision1()
+        {
+            string package = "00220032001         04";
+
+            AssertBuildAndParse(package, new Mid0032(1)
+            {
+                JobId = 4
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("Pack")]
+        public void Mid0032PackRevision2()
+        {
+            string package = "00240032002         0002";
+
+            AssertBuildAndParse(package, new Mid0032(2)
+            {
+                JobId = 2
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 3"), TestCategory("Pack")]
+        public void Mid0032PackRevision3()
+        {
+            string package = "00240032003         0003";
+
+            AssertBuildAndParse(package, new Mid0032(3)
+            {
+                JobId = 3
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 4"), TestCategory("Pack")]
+        public void Mid0032PackRevision4()
+        {
+            string package = "00240032004         0003";
+
+            AssertBuildAndParse(package, new Mid0032(4)
+            {
+                JobId = 3
+            });
+        }
     }
 }

@@ -29,5 +29,18 @@ namespace MIDTesters.AutomaticManualMode
             Assert.IsTrue(mid.ManualAutomaticMode);
             AssertEqualPackages(bytes, mid, true);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0401PackRevision1()
+        {
+            string package = "00210401   1        1";
+
+            AssertBuildAndParse(package, new Mid0401()
+            {
+                Header = { NoAckFlag = true },
+                ManualAutomaticMode = true
+            }, true);
+        }
     }
 }

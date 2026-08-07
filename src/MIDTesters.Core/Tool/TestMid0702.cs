@@ -2,6 +2,8 @@
 using OpenProtocolInterpreter.Communication;
 using OpenProtocolInterpreter.Tool;
 
+using OpenProtocolInterpreter;
+using System.Collections.Generic;
 namespace MIDTesters.Tool
 {
     [TestClass]
@@ -66,5 +68,47 @@ namespace MIDTesters.Tool
             AssertEqualPackages(bytes, mid);
         }
 
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0702PackRevision1()
+        {
+            string package = "01000702001         00301200012040000000QST50-150CTT01202012040000000SERIALNUMBER0120300201000000011";
+
+            AssertBuildAndParse(package, new Mid0702()
+            {
+                NumberOfToolPIDs = 3,
+                ToolDataUpload = new List<VariableDataField>()
+                {
+                    new VariableDataField()
+                    {
+                        ParameterId = 1200,
+                        Length = 12,
+                        DataType = DataTypeDefinition.String,
+                        Unit = DataUnitType.NoUnit,
+                        StepNumber = 0,
+                        DataValue = "QST50-150CTT"
+                    },
+                    new VariableDataField()
+                    {
+                        ParameterId = 1202,
+                        Length = 12,
+                        DataType = DataTypeDefinition.String,
+                        Unit = DataUnitType.NoUnit,
+                        StepNumber = 0,
+                        DataValue = "SERIALNUMBER"
+                    },
+                    new VariableDataField()
+                    {
+                        ParameterId = 1203,
+                        Length = 2,
+                        DataType = DataTypeDefinition.UnsignedInteger,
+                        Unit = DataUnitType.NoUnit,
+                        StepNumber = 0,
+                        DataValue = "11"
+                    }
+                }
+            });
+        }
     }
 }

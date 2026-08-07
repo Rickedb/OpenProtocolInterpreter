@@ -30,5 +30,17 @@ namespace MIDTesters.IOInterface
             Assert.AreEqual(DigitalInputNumber.IdCard, mid.DigitalInputNumber);
             AssertEqualPackages(bytes, mid, true);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0223PackRevision1()
+        {
+            string package = "00230223            066";
+
+            AssertBuildAndParse(package, new Mid0223()
+            {
+                DigitalInputNumber = DigitalInputNumber.IdCard
+            }, true);
+        }
     }
 }

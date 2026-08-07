@@ -52,5 +52,29 @@ namespace MIDTesters.Alarm
             Assert.AreEqual("E8514", mid.ErrorCode);
             AssertEqualPackages(bytes, mid);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0074PackRevision1()
+        {
+            string pack = @"00240074001         E851";
+
+            AssertBuildAndParse(pack, new Mid0074(1)
+            {
+                ErrorCode = "E851"
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("Pack")]
+        public void Mid0074PackRevision2()
+        {
+            string pack = @"00250074002         E8514";
+
+            AssertBuildAndParse(pack, new Mid0074(2)
+            {
+                ErrorCode = "E8514"
+            });
+        }
     }
 }

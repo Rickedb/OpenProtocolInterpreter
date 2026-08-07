@@ -31,5 +31,14 @@ namespace MIDTesters.OpenProtocolCommandsDisabled
             Assert.IsTrue(mid.Header.NoAckFlag);
             AssertEqualPackages(bytes, mid, true);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0420PackRevision1()
+        {
+            string package = "00200420   1        ";
+
+            AssertBuildAndParse(package, new Mid0420(noAckFlag: true), true);
+        }
     }
 }

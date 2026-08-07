@@ -29,5 +29,17 @@ namespace MIDTesters.Vin
             Assert.AreEqual("VehicleIdNumber", mid.VinNumber);
             AssertEqualPackages(bytes, mid);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0050PackRevision1()
+        {
+            string package = "00350050001         VehicleIdNumber";
+
+            AssertBuildAndParse(package, new Mid0050()
+            {
+                VinNumber = "VehicleIdNumber"
+            });
+        }
     }
 }

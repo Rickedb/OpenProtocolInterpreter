@@ -2,6 +2,7 @@
 using OpenProtocolInterpreter.Alarm;
 using System;
 
+using OpenProtocolInterpreter;
 namespace MIDTesters.Alarm
 {
     [TestClass]
@@ -95,6 +96,53 @@ namespace MIDTesters.Alarm
             Assert.AreEqual(new DateTime(2017, 12, 1, 20, 12, 45), mid.Time);
             Assert.AreEqual("Alarm Text                                        ", mid.AlarmText);
             AssertEqualPackages(bytes, mid);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0071PackRevision1()
+        {
+            string pack = @"00530071001         01E851021031042017-12-01:20:12:45";
+
+            AssertBuildAndParse(pack, new Mid0071(1)
+            {
+                ErrorCode = "E851",
+                ControllerReadyStatus = true,
+                ToolReadyStatus = true,
+                Time = new DateTime(2017, 12, 1, 20, 12, 45)
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("Pack")]
+        public void Mid0071PackRevision2()
+        {
+            string pack = @"00540071002         01E1021021031042017-12-01:20:12:45";
+
+            AssertBuildAndParse(pack, new Mid0071(2)
+            {
+                ErrorCode = "E1021",
+                ControllerReadyStatus = true,
+                ToolReadyStatus = true,
+                Time = new DateTime(2017, 12, 1, 20, 12, 45)
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 3"), TestCategory("Pack")]
+        public void Mid0071PackRevision3()
+        {
+            string pack = @"01090071003         01E1021021031042017-12-01:20:12:4505106Alarm Text                                        ";
+
+            AssertBuildAndParse(pack, new Mid0071(3)
+            {
+                ErrorCode = "E1021",
+                ControllerReadyStatus = true,
+                ToolReadyStatus = true,
+                Time = new DateTime(2017, 12, 1, 20, 12, 45),
+                ToolHealth = ToolHealth.Ok,
+                AlarmText = "Alarm Text"
+            });
         }
     }
 }

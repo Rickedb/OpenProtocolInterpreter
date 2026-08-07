@@ -3,6 +3,7 @@ using OpenProtocolInterpreter;
 using OpenProtocolInterpreter.Alarm;
 using System;
 
+using System.Collections.Generic;
 namespace MIDTesters.Alarm
 {
     [TestClass]
@@ -70,6 +71,25 @@ namespace MIDTesters.Alarm
             Assert.AreEqual("2", alarmFlag.DataValue);
 
             AssertEqualPackages(bytes, mid);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid1000PackRevision1()
+        {
+            string pack = "00911000001         ABCDE2017-12-01:20:12:4500201700009040000000ALARMTEXT017010010100000001";
+
+            AssertBuildAndParse(pack, new Mid1000(1)
+            {
+                AlarmCode = "ABCDE",
+                Time = new DateTime(2017, 12, 1, 20, 12, 45),
+                NumberOfDataFields = 2,
+                AlarmDataFields = new List<VariableDataField>()
+                {
+                    new VariableDataField() { ParameterId = 1700, Length = 9, DataType = DataTypeDefinition.String, Unit = DataUnitType.NoUnit, StepNumber = 0, DataValue = "ALARMTEXT" },
+                    new VariableDataField() { ParameterId = 1701, Length = 1, DataType = DataTypeDefinition.UnsignedInteger, Unit = DataUnitType.NoUnit, StepNumber = 0, DataValue = "1" }
+                }
+            });
         }
     }
 }

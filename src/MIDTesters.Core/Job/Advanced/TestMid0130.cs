@@ -29,5 +29,17 @@ namespace MIDTesters.Job.Advanced
             Assert.IsTrue(mid.JobOffStatus);
             AssertEqualPackages(bytes, mid, true);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0130PackRevision1()
+        {
+            string package = "00210130            1";
+
+            AssertBuildAndParse(package, new Mid0130()
+            {
+                JobOffStatus = true
+            }, true);
+        }
     }
 }

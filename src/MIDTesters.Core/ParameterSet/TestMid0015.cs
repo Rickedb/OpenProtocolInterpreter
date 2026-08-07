@@ -80,6 +80,42 @@ namespace MIDTesters.ParameterSet
             Assert.AreEqual(10.06m, mid.StartFinalAngle);
             AssertEqualPackages(bytes, mid);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0015PackRevision1()
+        {
+            string package = "00420015001         0022017-06-02:09:54:09";
+
+            AssertBuildAndParse(package, new Mid0015(1)
+            {
+                ParameterSetId = 2,
+                LastChangeInParameterSet = new DateTime(2017, 6, 2, 9, 54, 9)
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("Pack")]
+        public void Mid0015PackRevision2()
+        {
+            string package = "01410015002         0100202Airbag parameter         032017-06-02:09:54:0904205040600510107010009080050050900001109999911003601200123413001006";
+
+            AssertBuildAndParse(package, new Mid0015(2)
+            {
+                ParameterSetId = 2,
+                LastChangeInParameterSet = new DateTime(2017, 6, 2, 9, 54, 9),
+                ParameterSetName = "Airbag parameter",
+                RotationDirection = RotationDirection.Counterclockwise,
+                BatchSize = 4,
+                MinTorque = 51.01m,
+                MaxTorque = 100.09m,
+                TorqueFinalTarget = 50.05m,
+                MinAngle = 1,
+                MaxAngle = 99999,
+                AngleFinalTarget = 360,
+                FirstTarget = 12.34m,
+                StartFinalAngle = 10.06m
+            });
+        }
     }
 }
-

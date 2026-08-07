@@ -29,5 +29,17 @@ namespace MIDTesters.OpenProtocolCommandsDisabled
             Assert.IsTrue(mid.DigitalInputStatus);
             AssertEqualPackages(bytes, mid, true);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0421PackRevision1()
+        {
+            string package = "00210421            1";
+
+            AssertBuildAndParse(package, new Mid0421()
+            {
+                DigitalInputStatus = true
+            }, true);
+        }
     }
 }

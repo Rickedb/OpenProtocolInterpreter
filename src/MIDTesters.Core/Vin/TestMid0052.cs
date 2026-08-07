@@ -86,5 +86,32 @@ namespace MIDTesters.Vin
             Assert.AreEqual("IdentifierPart4", mid.IdentifierResultPart4.TrimEnd());
             AssertEqualPackages(bytes, mid);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0052PackRevision1()
+        {
+            string package = "00470052001         VehicleIdNumberHigherThan25";
+
+            AssertBuildAndParse(package, new Mid0052(1)
+            {
+                VinNumber = "VehicleIdNumberHigherThan25"
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("Pack")]
+        public void Mid0052PackRevision2()
+        {
+            string package = "01280052002         01VehicleIdNumber          02IdentifierPart2          03IdentifierPart3          04IdentifierPart4          ";
+
+            AssertBuildAndParse(package, new Mid0052(2)
+            {
+                VinNumber = "VehicleIdNumber",
+                IdentifierResultPart2 = "IdentifierPart2",
+                IdentifierResultPart3 = "IdentifierPart3",
+                IdentifierResultPart4 = "IdentifierPart4"
+            });
+        }
     }
 }

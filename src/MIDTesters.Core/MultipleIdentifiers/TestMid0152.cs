@@ -60,5 +60,20 @@ namespace MIDTesters.MultipleIdentifiers
             Assert.AreEqual("Result part 4", mid.FourthIdentifierStatus.ResultPart.TrimEnd());
             AssertEqualPackages(bytes, mid);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0152PackRevision1()
+        {
+            string package = "01480152001         0110101Result part 1            0220003Result part 2            0330104Result part 3            0440105Result part 4            ";
+
+            AssertBuildAndParse(package, new Mid0152()
+            {
+                FirstIdentifierStatus = new IdentifierStatus() { IdentifierTypeNumber = 1, IncludedInWorkOrder = true, StatusInWorkOrder = StatusInWorkOrder.Accepted, ResultPart = "Result part 1" },
+                SecondIdentifierStatus = new IdentifierStatus() { IdentifierTypeNumber = 2, IncludedInWorkOrder = false, StatusInWorkOrder = StatusInWorkOrder.Reset, ResultPart = "Result part 2" },
+                ThirdIdentifierStatus = new IdentifierStatus() { IdentifierTypeNumber = 3, IncludedInWorkOrder = true, StatusInWorkOrder = StatusInWorkOrder.Next, ResultPart = "Result part 3" },
+                FourthIdentifierStatus = new IdentifierStatus() { IdentifierTypeNumber = 4, IncludedInWorkOrder = true, StatusInWorkOrder = StatusInWorkOrder.Initial, ResultPart = "Result part 4" }
+            });
+        }
     }
 }

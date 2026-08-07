@@ -43,5 +43,18 @@ namespace MIDTesters.PLCUserData
             Assert.AreEqual(208, mid0245.UserData.Length);
             Assert.IsTrue(mid0245.Pack().Length == 223);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0245PackRevision1()
+        {
+            string package = "00460245            022My identifier less than";
+
+            AssertBuildAndParse(package, new Mid0245(1)
+            {
+                Offset = 22,
+                UserData = "My identifier less than"
+            }, true);
+        }
     }
 }

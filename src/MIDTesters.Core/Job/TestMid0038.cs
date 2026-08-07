@@ -54,15 +54,27 @@ namespace MIDTesters.Job
         }
 
         [TestMethod]
-        [TestCategory("Revision 2"), TestCategory("ByteArray")]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0038PackRevision1()
+        {
+            string package = "00220038001         01";
+
+            AssertBuildAndParse(package, new Mid0038(1)
+            {
+                JobId = 1
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("Pack")]
         public void Mid0038PackRevision2()
         {
-            var mid = new Mid0038(2);
-            mid.JobId = 1;
-            var actual = mid.PackBytes();
-            var package = "00240038002         0001";
+            string package = "00240038002         0001";
 
-            CollectionAssert.AreEqual(GetAsciiBytes(package), actual);
+            AssertBuildAndParse(package, new Mid0038(2)
+            {
+                JobId = 1
+            });
         }
     }
 }

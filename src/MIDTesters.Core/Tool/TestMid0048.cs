@@ -33,5 +33,18 @@ namespace MIDTesters.Tool
             Assert.AreEqual(new DateTime(2017, 12, 1, 20, 12, 45), mid.TimeStamp);
             AssertEqualPackages(bytes, mid);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0048PackRevision1()
+        {
+            string package = "00450048001         0107022017-12-01:20:12:45";
+
+            AssertBuildAndParse(package, new Mid0048()
+            {
+                PairingStatus = PairingStatus.Denied,
+                TimeStamp = new DateTime(2017, 12, 1, 20, 12, 45)
+            });
+        }
     }
 }

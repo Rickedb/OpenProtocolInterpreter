@@ -54,5 +54,27 @@ namespace MIDTesters.Job.Advanced
             Assert.AreEqual(123, mid.ParameterSetId);
             AssertEqualPackages(bytes, mid);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0129PackRevision1()
+        {
+            string package = "00200129            ";
+
+            AssertBuildAndParse(package, new Mid0129(1), true);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("Pack")]
+        public void Mid0129PackRevision2()
+        {
+            string package = "00290129002         010302123";
+
+            AssertBuildAndParse(package, new Mid0129(2)
+            {
+                ChannelId = 3,
+                ParameterSetId = 123
+            });
+        }
     }
 }

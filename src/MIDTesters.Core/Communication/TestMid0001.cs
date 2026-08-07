@@ -52,5 +52,26 @@ namespace MIDTesters.Communication
             Assert.IsTrue(mid.OptionalKeepAlive);
             AssertEqualPackages(bytes, mid);
         }
+
+        [TestMethod]
+        [TestCategory("Pack")]
+        public void Mid0001PackAllRevisions()
+        {
+            var package = "00200001003         ";
+
+            AssertBuildAndParse(package, new Mid0001(3));
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 7"), TestCategory("Pack")]
+        public void Mid0001PackRevision7()
+        {
+            var package = "00230001007         011";
+
+            AssertBuildAndParse(package, new Mid0001(7)
+            {
+                OptionalKeepAlive = true
+            });
+        }
     }
 }

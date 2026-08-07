@@ -29,5 +29,14 @@ namespace MIDTesters.PLCUserData
             Assert.AreEqual(typeof(Mid0244), mid.GetType());
             AssertEqualPackages(bytes, mid, true);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0244PackRevision1()
+        {
+            string package = "00200244            ";
+
+            AssertBuildAndParse(package, new Mid0244(), true);
+        }
     }
 }

@@ -40,5 +40,22 @@ namespace MIDTesters.UserInterface
             Assert.AreEqual("Line 4 Text", mid.Line4.TrimEnd());
             AssertEqualPackages(bytes, mid);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0111PackRevision1()
+        {
+            string package = "01370111001         01200502103Header Text              04Line 2 Text              05Line 3 Text              06Line 4 Text              ";
+
+            AssertBuildAndParse(package, new Mid0111()
+            {
+                TextDuration = 2005,
+                RemovalCondition = RemovalCondition.Acknowledge,
+                Line1 = "Header Text",
+                Line2 = "Line 2 Text",
+                Line3 = "Line 3 Text",
+                Line4 = "Line 4 Text"
+            });
+        }
     }
 }

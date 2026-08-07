@@ -31,5 +31,18 @@ namespace MIDTesters.AutomaticManualMode
             Assert.AreEqual(5, mid.CurrentBatch);
             AssertEqualPackages(bytes, mid, true);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0411PackRevision1()
+        {
+            string package = "00240411            0105";
+
+            AssertBuildAndParse(package, new Mid0411()
+            {
+                AutoDisableSetting = 1,
+                CurrentBatch = 5
+            }, true);
+        }
     }
 }

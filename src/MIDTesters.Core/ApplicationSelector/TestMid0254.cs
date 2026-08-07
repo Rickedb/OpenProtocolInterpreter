@@ -45,5 +45,22 @@ namespace MIDTesters.ApplicationSelector
             }, mid.GreenLights);
             AssertEqualPackages(bytes, mid, true);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0254PackRevision1()
+        {
+            string package = "00340254            01110201221022";
+
+            AssertBuildAndParse(package, new Mid0254()
+            {
+                DeviceId = 11,
+                GreenLights = new List<LightCommand>()
+                {
+                    LightCommand.Off, LightCommand.Steady, LightCommand.Flashing, LightCommand.Flashing,
+                    LightCommand.Steady, LightCommand.Off, LightCommand.Flashing, LightCommand.Flashing
+                }
+            }, true);
+        }
     }
 }

@@ -42,5 +42,17 @@ namespace MIDTesters.MultipleIdentifiers
             var mid0150 = new Mid0150() { IdentifierData = identifier };
             Assert.IsTrue(mid0150.Pack().Length == 120);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0150PackRevision1()
+        {
+            string package = "00470150001         My identifier less than 100";
+
+            AssertBuildAndParse(package, new Mid0150()
+            {
+                IdentifierData = "My identifier less than 100"
+            });
+        }
     }
 }

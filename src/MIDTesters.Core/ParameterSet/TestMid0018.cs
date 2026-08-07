@@ -29,5 +29,17 @@ namespace MIDTesters.ParameterSet
             Assert.AreEqual(22, mid.ParameterSetId);
             AssertEqualPackages(bytes, mid);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0018PackRevision1()
+        {
+            string package = "00230018001         022";
+
+            AssertBuildAndParse(package, new Mid0018()
+            {
+                ParameterSetId = 22
+            });
+        }
     }
 }

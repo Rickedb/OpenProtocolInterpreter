@@ -30,5 +30,17 @@ namespace MIDTesters.Tool
             Assert.AreEqual(PairingHandlingType.FetchLatestPairingStatus, mid.PairingHandlingType);
             AssertEqualPackages(bytes, mid);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0047PackRevision1()
+        {
+            string package = "00240047001         0103";
+
+            AssertBuildAndParse(package, new Mid0047()
+            {
+                PairingHandlingType = PairingHandlingType.FetchLatestPairingStatus
+            });
+        }
     }
 }

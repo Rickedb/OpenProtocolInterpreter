@@ -30,5 +30,17 @@ namespace MIDTesters.Time
             Assert.AreEqual(new DateTime(2017, 12, 1, 20, 12, 45), mid.Time);
             AssertEqualPackages(bytes, mid, true);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0082PackRevision1()
+        {
+            string package = "00390082            2017-12-01:20:12:45";
+
+            AssertBuildAndParse(package, new Mid0082()
+            {
+                Time = new DateTime(2017, 12, 1, 20, 12, 45)
+            }, true);
+        }
     }
 }

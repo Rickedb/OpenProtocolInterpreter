@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.ParameterSet;
 
+using System.Collections.Generic;
 namespace MIDTesters.ParameterSet
 {
     [TestClass]
@@ -41,6 +42,19 @@ namespace MIDTesters.ParameterSet
             Assert.AreEqual(999, mid.TotalParameterSets);
             Assert.AreEqual(999, mid.ParameterSets.Count);
             AssertEqualPackages(pack, mid, true);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0011PackRevision1()
+        {
+            string package = "00290011            002001002";
+
+            AssertBuildAndParse(package, new Mid0011()
+            {
+                TotalParameterSets = 2,
+                ParameterSets = new List<int>() { 1, 2 }
+            }, true);
         }
     }
 }

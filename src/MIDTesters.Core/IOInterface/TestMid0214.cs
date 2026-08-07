@@ -29,5 +29,17 @@ namespace MIDTesters.IOInterface
             Assert.AreEqual(10, mid.DeviceNumber);
             AssertEqualPackages(bytes, mid);
         }
+
+        [TestMethod]
+        [TestCategory("Pack")]
+        public void Mid0214PackAllRevisions()
+        {
+            string package = "00220214002         10";
+
+            AssertBuildAndParse(package, new Mid0214(2)
+            {
+                DeviceNumber = 10
+            });
+        }
     }
 }

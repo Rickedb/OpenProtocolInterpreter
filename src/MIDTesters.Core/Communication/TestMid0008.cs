@@ -35,5 +35,19 @@ namespace MIDTesters.Communication
             Assert.AreEqual("lengthequals14", mid.ExtraData);
             AssertEqualPackages(bytes, mid, true);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0008PackRevision1()
+        {
+            string pack = @"00430008            002200214lengthequals14";
+
+            AssertBuildAndParse(pack, new Mid0008()
+            {
+                SubscriptionMid = 22,
+                WantedRevision = 2,
+                ExtraData = "lengthequals14"
+            }, true);
+        }
     }
 }

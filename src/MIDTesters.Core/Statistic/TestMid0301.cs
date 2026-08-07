@@ -56,5 +56,30 @@ namespace MIDTesters.Statistic
             Assert.AreEqual(9999, mid.NinethBar);
             AssertEqualPackages(bytes, mid, true);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0301PackRevision1()
+        {
+            string package = "01070301            010020205031234560465432105999999061111072222083333094444105555116666127777138888149999";
+
+            AssertBuildAndParse(package, new Mid0301()
+            {
+                ParameterSetId = 2,
+                HistogramType = HistogramType.RundownAngle,
+                SigmaHistogram = 1234.56m,
+                MeanValueHistogram = 6543.21m,
+                ClassRange = 9999.99m,
+                FirstBar = 1111,
+                SecondBar = 2222,
+                ThirdBar = 3333,
+                FourthBar = 4444,
+                FifthBar = 5555,
+                SixthBar = 6666,
+                SeventhBar = 7777,
+                EighthBar = 8888,
+                NinethBar = 9999
+            }, true);
+        }
     }
 }

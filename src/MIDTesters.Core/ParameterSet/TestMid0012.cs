@@ -102,5 +102,55 @@ namespace MIDTesters.ParameterSet
             Assert.AreEqual(12345678, mid.ParameterSetFileVersion);
             AssertEqualPackages(bytes, mid);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0012PackRevision1()
+        {
+            string package = "00230012            002";
+
+            AssertBuildAndParse(package, new Mid0012(1)
+            {
+                ParameterSetId = 2
+            }, true);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("Pack")]
+        public void Mid0012PackRevision2()
+        {
+            string package = @"00230012002         002";
+
+            AssertBuildAndParse(package, new Mid0012(2)
+            {
+                ParameterSetId = 2
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 3"), TestCategory("Pack")]
+        public void Mid0012PackRevision3()
+        {
+            string package = "00310012003         00212345678";
+
+            AssertBuildAndParse(package, new Mid0012(3)
+            {
+                ParameterSetId = 2,
+                ParameterSetFileVersion = 12345678
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 4"), TestCategory("Pack")]
+        public void Mid0012PackRevision4()
+        {
+            string package = @"00310012004         00212345678";
+
+            AssertBuildAndParse(package, new Mid0012(4)
+            {
+                ParameterSetId = 2,
+                ParameterSetFileVersion = 12345678
+            });
+        }
     }
 }

@@ -141,5 +141,58 @@ namespace MIDTesters.ParameterSet
             Assert.AreEqual(new DateTime(2001, 5, 29, 12, 34, 33), mid.LastChangeInParameterSet);
             AssertEqualPackages(bytes, mid);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0013PackRevision1()
+        {
+            string package = "01040013            0100102Airbag1                  0310403050012000600150007001400080036009007201000480";
+
+            AssertBuildAndParse(package, BuildMid0013(1), true);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("Pack")]
+        public void Mid0013PackRevision2()
+        {
+            string package = @"01200013002         0100102Airbag1                  03104030500120006001500070014000800360090072010004801102021112017854";
+
+            var mid = BuildMid0013(2);
+            mid.FirstTarget = 202.11m;
+            mid.StartFinalAngle = 178.54m;
+
+            AssertBuildAndParse(package, mid);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 5"), TestCategory("Pack")]
+        public void Mid0013PackRevision5()
+        {
+            string package = @"01410013005         0100102Airbag1                  03104030500120006001500070014000800360090072010004801102021112017854132001-05-29:12:34:33";
+
+            var mid = BuildMid0013(5);
+            mid.FirstTarget = 202.11m;
+            mid.StartFinalAngle = 178.54m;
+            mid.LastChangeInParameterSet = new DateTime(2001, 5, 29, 12, 34, 33);
+
+            AssertBuildAndParse(package, mid);
+        }
+
+        private static Mid0013 BuildMid0013(int revision)
+        {
+            return new Mid0013(revision)
+            {
+                ParameterSetId = 1,
+                ParameterSetName = "Airbag1",
+                RotationDirection = RotationDirection.Clockwise,
+                BatchSize = 3,
+                MinTorque = 12,
+                MaxTorque = 15,
+                TorqueFinalTarget = 14,
+                MinAngle = 360,
+                MaxAngle = 720,
+                AngleFinalTarget = 480
+            };
+        }
     }
 }

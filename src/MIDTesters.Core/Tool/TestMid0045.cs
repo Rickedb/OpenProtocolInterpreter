@@ -61,5 +61,32 @@ namespace MIDTesters.Tool
             Assert.AreEqual(2, mid.ChannelNumber);
             AssertEqualPackages(bytes, mid);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0045PackRevision1()
+        {
+            string package = "00310045            01402003000";
+
+            AssertBuildAndParse(package, new Mid0045(1)
+            {
+                CalibrationValueUnit = CalibrationUnit.Kpm,
+                CalibrationValue = 30
+            }, true);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("Pack")]
+        public void Mid0045PackRevision2()
+        {
+            string package = "00350045002         014020030000301";
+
+            AssertBuildAndParse(package, new Mid0045(2)
+            {
+                CalibrationValueUnit = CalibrationUnit.Kpm,
+                CalibrationValue = 30,
+                ChannelNumber = 1
+            });
+        }
     }
 }

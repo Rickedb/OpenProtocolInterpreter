@@ -29,5 +29,17 @@ namespace MIDTesters.MotorTuning
             Assert.IsTrue(mid.MotorTuneResult);
             AssertEqualPackages(bytes, mid, true);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0501PackRevision1()
+        {
+            string package = "00230501            011";
+
+            AssertBuildAndParse(package, new Mid0501()
+            {
+                MotorTuneResult = true
+            }, true);
+        }
     }
 }

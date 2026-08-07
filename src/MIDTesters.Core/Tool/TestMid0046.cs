@@ -30,5 +30,17 @@ namespace MIDTesters.Tool
             Assert.AreEqual(PrimaryTool.IRC_B, mid.PrimaryTool);
             AssertEqualPackages(bytes, mid);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0046PackRevision1()
+        {
+            string package = "00240046001         0102";
+
+            AssertBuildAndParse(package, new Mid0046()
+            {
+                PrimaryTool = PrimaryTool.IRC_B
+            });
+        }
     }
 }

@@ -57,5 +57,31 @@ namespace MIDTesters.Communication
             Assert.AreEqual(Error.JobNotRunning, mid.ErrorCode);
             AssertEqualPackages(bytes, mid);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0004PackRevision1()
+        {
+            string pack = @"00260004            001802";
+
+            AssertBuildAndParse(pack, new Mid0004(1)
+            {
+                FailedMid = 18,
+                ErrorCode = Error.ParameterSetIdNotPresent
+            }, true);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("Pack")]
+        public void Mid0004PackRevision2()
+        {
+            string pack = @"00270004002         0018021";
+
+            AssertBuildAndParse(pack, new Mid0004(2)
+            {
+                FailedMid = 18,
+                ErrorCode = Error.JobNotRunning
+            });
+        }
     }
 }

@@ -45,5 +45,25 @@ namespace MIDTesters.IOInterface
             Assert.IsTrue(mid.StatusDigInEight);
             AssertEqualPackages(bytes, mid, true);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0211PackRevision1()
+        {
+            string package = "00280211   1        10101011";
+
+            AssertBuildAndParse(package, new Mid0211()
+            {
+                Header = { NoAckFlag = true },
+                StatusDigInOne = true,
+                StatusDigInTwo = false,
+                StatusDigInThree = true,
+                StatusDigInFour = false,
+                StatusDigInFive = true,
+                StatusDigInSix = false,
+                StatusDigInSeven = true,
+                StatusDigInEight = true
+            }, true);
+        }
     }
 }

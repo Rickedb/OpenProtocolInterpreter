@@ -30,5 +30,17 @@ namespace MIDTesters.IOInterface
             Assert.AreEqual(DigitalInputNumber.ForcedCcwOnce, mid.DigitalInputNumber);
             AssertEqualPackages(bytes, mid, true);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0220PackRevision1()
+        {
+            string package = "00230220            120";
+
+            AssertBuildAndParse(package, new Mid0220()
+            {
+                DigitalInputNumber = DigitalInputNumber.ForcedCcwOnce
+            }, true);
+        }
     }
 }

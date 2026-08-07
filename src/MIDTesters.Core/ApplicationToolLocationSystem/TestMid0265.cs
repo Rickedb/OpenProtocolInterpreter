@@ -32,5 +32,18 @@ namespace MIDTesters.ApplicationToolLocationSystem
             Assert.AreEqual(ToolStatus.Inoperable, mid.ToolStatus);
             AssertEqualPackages(bytes, mid);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0265PackRevision1()
+        {
+            string package = "00340265001         013200078D0202";
+
+            AssertBuildAndParse(package, new Mid0265()
+            {
+                ToolTagId = "3200078D",
+                ToolStatus = ToolStatus.Inoperable
+            });
+        }
     }
 }

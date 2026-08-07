@@ -32,5 +32,18 @@ namespace MIDTesters.LinkCommunication
             Assert.AreEqual(LinkCommunicationError.InvalidSequenceNumber, mid.ErrorCode);
             AssertEqualPackages(bytes, mid, true);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid9998PackRevision1()
+        {
+            string package = "00289998            00610003";
+
+            AssertBuildAndParse(package, new Mid9998()
+            {
+                MidNumber = 61,
+                ErrorCode = LinkCommunicationError.InvalidSequenceNumber
+            }, true);
+        }
     }
 }

@@ -29,5 +29,14 @@ namespace MIDTesters.MultipleIdentifiers
             Assert.AreEqual(typeof(Mid0151), mid.GetType());
             AssertEqualPackages(bytes, mid);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0151PackRevision1()
+        {
+            string package = "00200151001         ";
+
+            AssertBuildAndParse(package, new Mid0151());
+        }
     }
 }

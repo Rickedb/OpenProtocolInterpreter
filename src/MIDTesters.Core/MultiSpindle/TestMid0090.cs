@@ -31,5 +31,14 @@ namespace MIDTesters.MultiSpindle
             Assert.IsTrue(mid.Header.NoAckFlag);
             AssertEqualPackages(bytes, mid, true);
         }
+
+        [TestMethod]
+        [TestCategory("Pack")]
+        public void Mid0090PackAllRevisions()
+        {
+            string pack = @"00200090   1        ";
+
+            AssertBuildAndParse(pack, new Mid0090(noAckFlag: true), true);
+        }
     }
 }

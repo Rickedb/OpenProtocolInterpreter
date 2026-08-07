@@ -103,5 +103,54 @@ namespace MIDTesters.Alarm
             Assert.AreEqual(ToolHealth.Ok, mid.ToolHealth);
             AssertEqualPackages(bytes, mid);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0076PackRevision1()
+        {
+            string pack = @"00560076001         01102E851031041052017-01-25:10:20:20";
+
+            AssertBuildAndParse(pack, new Mid0076(1)
+            {
+                AlarmStatus = true,
+                ErrorCode = "E851",
+                ControllerReadyStatus = true,
+                ToolReadyStatus = true,
+                Time = new DateTime(2017, 1, 25, 10, 20, 20)
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("Pack")]
+        public void Mid0076PackRevision2()
+        {
+            string pack = @"00570076002         01102 E851031041052017-01-25:10:20:20";
+
+            AssertBuildAndParse(pack, new Mid0076(2)
+            {
+                AlarmStatus = true,
+                ErrorCode = " E851",
+                ControllerReadyStatus = true,
+                ToolReadyStatus = true,
+                Time = new DateTime(2017, 1, 25, 10, 20, 20)
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 3"), TestCategory("Pack")]
+        public void Mid0076PackRevision3()
+        {
+            string pack = @"00600076003         01102 E851031041052017-01-25:10:20:20061";
+
+            AssertBuildAndParse(pack, new Mid0076(3)
+            {
+                AlarmStatus = true,
+                ErrorCode = " E851",
+                ControllerReadyStatus = true,
+                ToolReadyStatus = true,
+                Time = new DateTime(2017, 1, 25, 10, 20, 20),
+                ToolHealth = ToolHealth.Ok
+            });
+        }
     }
 }

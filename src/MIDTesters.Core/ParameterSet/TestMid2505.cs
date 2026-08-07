@@ -2,6 +2,8 @@
 using OpenProtocolInterpreter.Communication;
 using OpenProtocolInterpreter.ParameterSet;
 
+using OpenProtocolInterpreter;
+using System.Collections.Generic;
 namespace MIDTesters.ParameterSet
 {
     [TestClass]
@@ -59,5 +61,23 @@ namespace MIDTesters.ParameterSet
         //     Assert.AreEqual(10, extraDataMid.ParameterSetId);
         //     AssertEqualPackages(bytes, mid);
         // }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid2505PackRevision1()
+        {
+            string package = "00822505001         01000201000003010000000005010030190500000002022-08-12:13:33:22";
+
+            AssertBuildAndParse(package, new Mid2505(1)
+            {
+                ParameterSetId = 10,
+                NumberOfParameterDataFields = 2,
+                VariableDataFields = new List<VariableDataField>()
+                {
+                    new VariableDataField() { ParameterId = 1000, Length = 3, DataType = DataTypeDefinition.UnsignedInteger, Unit = DataUnitType.NoUnit, StepNumber = 0, DataValue = "005" },
+                    new VariableDataField() { ParameterId = 1003, Length = 19, DataType = DataTypeDefinition.Timestamp, Unit = DataUnitType.NoUnit, StepNumber = 0, DataValue = "2022-08-12:13:33:22" }
+                }
+            });
+        }
     }
 }

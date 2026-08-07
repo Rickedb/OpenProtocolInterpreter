@@ -29,5 +29,14 @@ namespace MIDTesters.Job.Advanced
             Assert.AreEqual(typeof(Mid0131), mid.GetType());
             AssertEqualPackages(bytes, mid, true);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0131PackRevision1()
+        {
+            string package = "00200131            ";
+
+            AssertBuildAndParse(package, new Mid0131(), true);
+        }
     }
 }

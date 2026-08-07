@@ -32,5 +32,18 @@ namespace MIDTesters.Statistic
             Assert.AreEqual(HistogramType.Current, mid.HistogramType);
             AssertEqualPackages(bytes, mid, true);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0300PackRevision1()
+        {
+            string package = "00290300            010020202";
+
+            AssertBuildAndParse(package, new Mid0300()
+            {
+                ParameterSetId = 2,
+                HistogramType = HistogramType.Current
+            }, true);
+        }
     }
 }

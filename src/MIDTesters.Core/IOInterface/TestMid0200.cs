@@ -48,5 +48,26 @@ namespace MIDTesters.IOInterface
             Assert.AreEqual(RelayStatus.Off, mid.StatusRelayTen);
             AssertEqualPackages(bytes, mid, true);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0200PackRevision1()
+        {
+            string package = "00300200            1231231230";
+
+            AssertBuildAndParse(package, new Mid0200()
+            {
+                StatusRelayOne = RelayStatus.On,
+                StatusRelayTwo = RelayStatus.Flashing,
+                StatusRelayThree = RelayStatus.KeepCurrentStatus,
+                StatusRelayFour = RelayStatus.On,
+                StatusRelayFive = RelayStatus.Flashing,
+                StatusRelaySix = RelayStatus.KeepCurrentStatus,
+                StatusRelaySeven = RelayStatus.On,
+                StatusRelayEight = RelayStatus.Flashing,
+                StatusRelayNine = RelayStatus.KeepCurrentStatus,
+                StatusRelayTen = RelayStatus.Off
+            }, true);
+        }
     }
 }

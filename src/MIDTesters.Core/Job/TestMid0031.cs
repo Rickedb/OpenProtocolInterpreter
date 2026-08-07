@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Job;
+using System.Collections.Generic;
 
 namespace MIDTesters.Job
 {
@@ -55,6 +56,32 @@ namespace MIDTesters.Job
             Assert.AreEqual(10, mid.TotalJobs);
             Assert.AreEqual(10, mid.JobIds.Count);
             AssertEqualPackages(bytes, mid);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0031PackRevision1()
+        {
+            string package = "00300031001         0401020304";
+
+            AssertBuildAndParse(package, new Mid0031(1)
+            {
+                TotalJobs = 4,
+                JobIds = new List<int>() { 1, 2, 3, 4 }
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("Pack")]
+        public void Mid0031PackRevision2()
+        {
+            string package = "00640031002         00100001000200030004000500100015001100120019";
+
+            AssertBuildAndParse(package, new Mid0031(2)
+            {
+                TotalJobs = 10,
+                JobIds = new List<int>() { 1, 2, 3, 4, 5, 10, 15, 11, 12, 19 }
+            });
         }
     }
 }

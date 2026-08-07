@@ -377,5 +377,211 @@ namespace MIDTesters.Tool
             Assert.AreEqual(130.00m, mid.DownshiftMinSpeed);
             AssertEqualPackages(bytes, mid);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0041PackRevision1()
+        {
+            string package = "00810041001         01ABCDEFG-123456024294967295032017-12-01:20:12:4504GFEDCBA-10";
+
+            AssertBuildAndParse(package, new Mid0041(1)
+            {
+                ToolSerialNumber = "ABCDEFG-123456",
+                ToolNumberOfTightenings = 4294967295L,
+                LastCalibrationDate = new DateTime(2017, 12, 1, 20, 12, 45),
+                ControllerSerialNumber = "GFEDCBA-10"
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("Pack")]
+        public void Mid0041PackRevision2()
+        {
+            string package = "01560041002         01ABCDEFG-123456024294967295032017-12-01:20:12:4504GFEDCBA-1005002000062018-06-04:10:12:45074284967295081009551011111Version 1.0.0      ";
+
+            AssertBuildAndParse(package, new Mid0041(2)
+            {
+                ToolSerialNumber = "ABCDEFG-123456",
+                ToolNumberOfTightenings = 4294967295L,
+                LastCalibrationDate = new DateTime(2017, 12, 1, 20, 12, 45),
+                ControllerSerialNumber = "GFEDCBA-10",
+                CalibrationValue = 20m,
+                LastServiceDate = new DateTime(2018, 6, 4, 10, 12, 45),
+                TighteningsSinceService = 4284967295L,
+                ToolType = ToolType.STB_Tool,
+                MotorSize = 55,
+                OpenEndData = new OpenEndData()
+                {
+                    UseOpenEnd = true,
+                    TighteningDirection = TighteningDirection.Counterclockwise,
+                    MotorRotation = MotorRotation.Inverted
+                },
+                ControllerSoftwareVersion = "Version 1.0.0"
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 3"), TestCategory("Pack")]
+        public void Mid0041PackRevision3()
+        {
+            string package = "01800041003         01ABCDEFG-123456024294967295032017-12-01:20:12:4504GFEDCBA-1005002000062018-06-04:10:12:45074284967295081009551011111Version 1.0.0      120006001300123014004000";
+
+            AssertBuildAndParse(package, new Mid0041(3)
+            {
+                ToolSerialNumber = "ABCDEFG-123456",
+                ToolNumberOfTightenings = 4294967295L,
+                LastCalibrationDate = new DateTime(2017, 12, 1, 20, 12, 45),
+                ControllerSerialNumber = "GFEDCBA-10",
+                CalibrationValue = 20m,
+                LastServiceDate = new DateTime(2018, 6, 4, 10, 12, 45),
+                TighteningsSinceService = 4284967295L,
+                ToolType = ToolType.STB_Tool,
+                MotorSize = 55,
+                OpenEndData = new OpenEndData()
+                {
+                    UseOpenEnd = true,
+                    TighteningDirection = TighteningDirection.Counterclockwise,
+                    MotorRotation = MotorRotation.Inverted
+                },
+                ControllerSoftwareVersion = "Version 1.0.0",
+                ToolMaxTorque = 6m,
+                GearRatio = 12.3m,
+                ToolFullSpeed = 40m
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 4"), TestCategory("Pack")]
+        public void Mid0041PackRevision4()
+        {
+            string package = "01840041004         01ABCDEFG-123456024294967295032017-12-01:20:12:4504GFEDCBA-1005002000062018-06-04:10:12:45074284967295081009551011111Version 1.0.0      1200060013001230140040001503";
+
+            AssertBuildAndParse(package, new Mid0041(4)
+            {
+                ToolSerialNumber = "ABCDEFG-123456",
+                ToolNumberOfTightenings = 4294967295L,
+                LastCalibrationDate = new DateTime(2017, 12, 1, 20, 12, 45),
+                ControllerSerialNumber = "GFEDCBA-10",
+                CalibrationValue = 20m,
+                LastServiceDate = new DateTime(2018, 6, 4, 10, 12, 45),
+                TighteningsSinceService = 4284967295L,
+                ToolType = ToolType.STB_Tool,
+                MotorSize = 55,
+                OpenEndData = new OpenEndData()
+                {
+                    UseOpenEnd = true,
+                    TighteningDirection = TighteningDirection.Counterclockwise,
+                    MotorRotation = MotorRotation.Inverted
+                },
+                ControllerSoftwareVersion = "Version 1.0.0",
+                ToolMaxTorque = 6m,
+                GearRatio = 12.3m,
+                ToolFullSpeed = 40m,
+                PrimaryTool = PrimaryTool.IRC_W
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 5"), TestCategory("Pack")]
+        public void Mid0041PackRevision5()
+        {
+            string package = "01980041005         01ABCDEFG-123456024294967295032017-12-01:20:12:4504GFEDCBA-1005002000062018-06-04:10:12:45074284967295081009551011111Version 1.0.0      120006001300123014004000150316Tool Model  ";
+
+            AssertBuildAndParse(package, new Mid0041(5)
+            {
+                ToolSerialNumber = "ABCDEFG-123456",
+                ToolNumberOfTightenings = 4294967295L,
+                LastCalibrationDate = new DateTime(2017, 12, 1, 20, 12, 45),
+                ControllerSerialNumber = "GFEDCBA-10",
+                CalibrationValue = 20m,
+                LastServiceDate = new DateTime(2018, 6, 4, 10, 12, 45),
+                TighteningsSinceService = 4284967295L,
+                ToolType = ToolType.STB_Tool,
+                MotorSize = 55,
+                OpenEndData = new OpenEndData()
+                {
+                    UseOpenEnd = true,
+                    TighteningDirection = TighteningDirection.Counterclockwise,
+                    MotorRotation = MotorRotation.Inverted
+                },
+                ControllerSoftwareVersion = "Version 1.0.0",
+                ToolMaxTorque = 6m,
+                GearRatio = 12.3m,
+                ToolFullSpeed = 40m,
+                PrimaryTool = PrimaryTool.IRC_W,
+                ToolModel = "Tool Model"
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 6"), TestCategory("Pack")]
+        public void Mid0041PackRevision6()
+        {
+            string package = "02360041006         01ABCDEFG-123456024294967295032017-12-01:20:12:4504GFEDCBA-1005002000062018-06-04:10:12:45074284967295081009551011111Version 1.0.0      120006001300123014004000150316Tool Model  17000118Tool Article Number           ";
+
+            AssertBuildAndParse(package, new Mid0041(6)
+            {
+                ToolSerialNumber = "ABCDEFG-123456",
+                ToolNumberOfTightenings = 4294967295L,
+                LastCalibrationDate = new DateTime(2017, 12, 1, 20, 12, 45),
+                ControllerSerialNumber = "GFEDCBA-10",
+                CalibrationValue = 20m,
+                LastServiceDate = new DateTime(2018, 6, 4, 10, 12, 45),
+                TighteningsSinceService = 4284967295L,
+                ToolType = ToolType.STB_Tool,
+                MotorSize = 55,
+                OpenEndData = new OpenEndData()
+                {
+                    UseOpenEnd = true,
+                    TighteningDirection = TighteningDirection.Counterclockwise,
+                    MotorRotation = MotorRotation.Inverted
+                },
+                ControllerSoftwareVersion = "Version 1.0.0",
+                ToolMaxTorque = 6m,
+                GearRatio = 12.3m,
+                ToolFullSpeed = 40m,
+                PrimaryTool = PrimaryTool.IRC_W,
+                ToolModel = "Tool Model",
+                ToolNumber = 1,
+                ToolArticleNumber = "Tool Article Number"
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 7"), TestCategory("Pack")]
+        public void Mid0041PackRevision7()
+        {
+            string package = "02600041007         01ABCDEFG-123456024294967295032017-12-01:20:12:4504GFEDCBA-1005002000062018-06-04:10:12:45074284967295081009551011111Version 1.0.0      120006001300123014004000150316Tool Model  17000118Tool Article Number           190010002003200021013000";
+
+            AssertBuildAndParse(package, new Mid0041(7)
+            {
+                ToolSerialNumber = "ABCDEFG-123456",
+                ToolNumberOfTightenings = 4294967295L,
+                LastCalibrationDate = new DateTime(2017, 12, 1, 20, 12, 45),
+                ControllerSerialNumber = "GFEDCBA-10",
+                CalibrationValue = 20m,
+                LastServiceDate = new DateTime(2018, 6, 4, 10, 12, 45),
+                TighteningsSinceService = 4284967295L,
+                ToolType = ToolType.STB_Tool,
+                MotorSize = 55,
+                OpenEndData = new OpenEndData()
+                {
+                    UseOpenEnd = true,
+                    TighteningDirection = TighteningDirection.Counterclockwise,
+                    MotorRotation = MotorRotation.Inverted
+                },
+                ControllerSoftwareVersion = "Version 1.0.0",
+                ToolMaxTorque = 6m,
+                GearRatio = 12.3m,
+                ToolFullSpeed = 40m,
+                PrimaryTool = PrimaryTool.IRC_W,
+                ToolModel = "Tool Model",
+                ToolNumber = 1,
+                ToolArticleNumber = "Tool Article Number",
+                RundownMinSpeed = 10m,
+                DownshiftMaxSpeed = 320m,
+                DownshiftMinSpeed = 130m
+            });
+        }
     }
 }
