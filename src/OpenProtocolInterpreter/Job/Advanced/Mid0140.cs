@@ -186,6 +186,8 @@ namespace OpenProtocolInterpreter.Job.Advanced
         public override string Pack()
         {
             var builder = new StringBuilder();
+            NumberOfParameterSets = JobList?.Count ?? 0; //Enforce list size even if modified
+            GetField(revision: Header.StandardizedRevision, field: 4).Size = NumberOfParameterSets * AdvancedJob.GetDefaultSize(Header.StandardizedRevision);
             var fields = DataFieldsByRevision().OrderBy(f => f.Index).ToList();
             builder.Append(BuildHeader());
             builder.Append(Pack(fields));
