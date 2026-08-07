@@ -102,7 +102,7 @@ var jobUploadRequest = new Mid0032(revision: 2) { JobId = 1 };
 var package = jobUploadRequest.Pack();
 //Generated package => 00240032002         0001
 
-var bytes = jobUploadRequest.PackBytes();       // same content, ASCII encoded
+var bytes = jobUploadRequest.PackBytes();       // same content, encoded with Mid.DefaultEncoding (ASCII)
 var terminated = jobUploadRequest.PackWithNul(); // appends the NUL character some controllers expect
 ```
 

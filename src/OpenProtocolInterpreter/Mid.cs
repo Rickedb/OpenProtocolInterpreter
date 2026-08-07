@@ -13,11 +13,27 @@ namespace OpenProtocolInterpreter
     public abstract class Mid
     {
         private static readonly ConcurrentDictionary<Type, DataFieldMetadata[]> _metadataCache = new();
+        private static Encoding _defaultEncoding = Encoding.ASCII;
 
         private readonly Lazy<Dictionary<int, List<DataField>>> _lazyFields;
         protected const int DEFAULT_REVISION = 1;
-
         protected internal Dictionary<int, List<DataField>> RevisionsByFields => _lazyFields.Value;
+
+        /// <summary>
+        /// Encoding used whenever a package is converted from/to its byte array representation.
+        /// <para> Defaults to <see cref="Encoding.ASCII"/>, as stated by the Open Protocol specification. </para>
+        /// <para>
+        ///     Setting it affects every MID, so it is meant to be set once during
+        ///     startup, before any package is packed or parsed. Field positions of the specification are
+        ///     counted in single byte characters, therefore ASCII compatible single byte encodings
+        ///     (such as Latin1) are the ones able to preserve them.
+        /// </para>
+        /// </summary>
+        public static Encoding DefaultEncoding
+        {
+            get => _defaultEncoding;
+            set => _defaultEncoding = value ?? Encoding.ASCII;
+        }
 
         /// <summary>
         /// Header of the MID message containing standardized fields.
@@ -83,10 +99,18 @@ namespace OpenProtocolInterpreter
         /// <summary>
         /// Packs the MID message into a byte array representation, including the header and all data fields for the current revision.
         /// <para> If the MID has no data fields, only the header will be packed. </para>
-        /// <para> The byte array is encoded in ASCII. </para>
+        /// <para> The byte array is encoded with <see cref="DefaultEncoding"/>. </para>
         /// </summary>
-        /// <returns>The byte array representing the packed MID message in ASCII encoding.</returns>
-        public virtual byte[] PackBytes() => Encoding.ASCII.GetBytes(Pack());
+        /// <returns>The byte array representing the packed MID message.</returns>
+        public virtual byte[] PackBytes() => PackBytes(DefaultEncoding);
+
+        /// <summary>
+        /// Packs the MID message into a byte array representation, including the header and all data fields for the current revision.
+        /// <para> If the MID has no data fields, only the header will be packed. </para>
+        /// </summary>
+        /// <param name="encoding">Encoding used to convert the packed message into bytes.</param>
+        /// <returns>The byte array representing the packed MID message in the given encoding.</returns>
+        public virtual byte[] PackBytes(Encoding encoding) => ToBytes(Pack(), encoding);
 
         protected virtual string Pack(int revision)
         {
@@ -204,12 +228,21 @@ namespace OpenProtocolInterpreter
 
         /// <summary>
         /// Parses the MID message from a byte array representation, filling the <see cref="Header"/> and data fields for the current revision.
+        /// <para> The byte array is decoded with <see cref="DefaultEncoding"/>. </para>
         /// </summary>
         /// <param name="package">The MID message as a byte array.</param>
         /// <returns>The parsed <see cref="Mid"/> object.</returns>
-        public virtual Mid Parse(byte[] package)
+        public virtual Mid Parse(byte[] package) => Parse(package, DefaultEncoding);
+
+        /// <summary>
+        /// Parses the MID message from a byte array representation, filling the <see cref="Header"/> and data fields for the current revision.
+        /// </summary>
+        /// <param name="package">The MID message as a byte array.</param>
+        /// <param name="encoding">Encoding used to decode the package.</param>
+        /// <returns>The parsed <see cref="Mid"/> object.</returns>
+        public virtual Mid Parse(byte[] package, Encoding encoding)
         {
-            var pack = ToAscii(package);
+            var pack = ToText(package, encoding);
             return Parse(pack);
         }
 
@@ -314,18 +347,23 @@ namespace OpenProtocolInterpreter
         protected DataField GetField<TEnum>(int revision, TEnum field) where TEnum : struct, Enum
             => GetField(revision, field.GetHashCode());
 
-        protected static string ToAscii(byte[] bytes) => Encoding.ASCII.GetString(bytes);
-        protected static byte[] ToBytes(string value) => Encoding.ASCII.GetBytes(value);
+        [Obsolete("Packages are no longer necessarily ASCII encoded, use ToText(byte[]) which honors " + nameof(DefaultEncoding) + " instead.")]
+        protected static string ToAscii(byte[] bytes) => ToText(bytes, DefaultEncoding);
+        protected static string ToText(byte[] bytes) => ToText(bytes, DefaultEncoding);
+        protected static string ToText(byte[] bytes, Encoding encoding) => encoding.GetString(bytes);
+        protected static byte[] ToBytes(string value) => ToBytes(value, DefaultEncoding);
+        protected static byte[] ToBytes(string value, Encoding encoding) => encoding.GetBytes(value);
         protected static Span<byte> ToBytesSpan(string value) => ToBytes(value.AsSpan());
-        protected static Span<byte> ToBytes(ReadOnlySpan<char> value)
+        protected static Span<byte> ToBytes(ReadOnlySpan<char> value) => ToBytes(value, DefaultEncoding);
+        protected static Span<byte> ToBytes(ReadOnlySpan<char> value, Encoding encoding)
         {
-            var buffer = new byte[value.Length];
 #if NETSTANDARD2_0
-            Encoding.ASCII.GetBytes(value.ToString(), 0, value.Length, buffer, 0);
+            return encoding.GetBytes(value.ToString());
 #else
-            Encoding.ASCII.GetBytes(value, buffer);
-#endif
+            var buffer = new byte[encoding.GetByteCount(value)];
+            encoding.GetBytes(value, buffer);
             return buffer;
+#endif
         }
     }
 }

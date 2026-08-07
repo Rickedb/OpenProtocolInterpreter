@@ -25,7 +25,15 @@ namespace OpenProtocolInterpreter
 
         public static string Pack(Mid mid) => mid.Pack();
 
+        /// <summary>
+        /// Packs a mid into its byte array representation using <see cref="Mid.DefaultEncoding"/>.
+        /// </summary>
         public static byte[] PackBytes(Mid mid) => mid.PackBytes();
+
+        /// <summary>
+        /// Packs a mid into its byte array representation using the given <paramref name="encoding"/>.
+        /// </summary>
+        public static byte[] PackBytes(Mid mid, Encoding encoding) => mid.PackBytes(encoding);
 
         public Mid Parse(string package)
         {
@@ -90,21 +98,32 @@ namespace OpenProtocolInterpreter
             return extraDataInstance.Parse(mid.ExtraData);
         }
 
+        /// <summary>
+        /// Parses a package decoding it with <see cref="Mid.DefaultEncoding"/>.
+        /// </summary>
         public Mid Parse(byte[] package)
         {
-#if NETSTANDARD2_0
-            int mid = int.Parse(Encoding.ASCII.GetString(package, 4, 4));
-#else
-            Span<char> buffer = stackalloc char[4];
-            Encoding.ASCII.GetChars(package.AsSpan(4, 4), buffer);
-            int mid = int.Parse(buffer);
-#endif
+            int mid = ReadMidNumber(package, Mid.DefaultEncoding);
             var instance = TryParseStandaloneMid(mid);
             if (instance != default)
                 return instance;
 
             var template = GetMessageTemplate(mid);
             return template.ProcessPackage(mid, package);
+        }
+
+        /// <summary>
+        /// Parses a package decoding it with the given <paramref name="encoding"/>.
+        /// </summary>
+        public Mid Parse(byte[] package, Encoding encoding)
+        {
+            int mid = ReadMidNumber(package, encoding);
+            var instance = TryParseStandaloneMid(mid);
+            if (instance != default)
+                return instance;
+
+            var template = GetMessageTemplate(mid);
+            return template.ProcessPackage(mid, package, encoding);
         }
 
         public ExpectedMid Parse<ExpectedMid>(string package) where ExpectedMid : Mid
@@ -117,12 +136,28 @@ namespace OpenProtocolInterpreter
         }
 
         public ExpectedMid Parse<ExpectedMid>(byte[] package) where ExpectedMid : Mid
+            => Parse<ExpectedMid>(Parse(package));
+
+        public ExpectedMid Parse<ExpectedMid>(byte[] package, Encoding encoding) where ExpectedMid : Mid
+            => Parse<ExpectedMid>(Parse(package, encoding));
+
+        private static ExpectedMid Parse<ExpectedMid>(Mid mid) where ExpectedMid : Mid
         {
-            Mid mid = Parse(package);
             if (mid.GetType().Equals(typeof(ExpectedMid)))
                 return (ExpectedMid)mid;
 
             throw new InvalidCastException($"Package is Mid {mid.GetType().Name}, cannot be casted to {typeof(ExpectedMid).Name}");
+        }
+
+        private static int ReadMidNumber(byte[] package, Encoding encoding)
+        {
+#if NETSTANDARD2_0
+            return int.Parse(encoding.GetString(package, 4, 4));
+#else
+            Span<char> buffer = stackalloc char[4];
+            var written = encoding.GetChars(package.AsSpan(4, 4), buffer);
+            return int.Parse(buffer.Slice(0, written));
+#endif
         }
 
         internal void UseTemplate(IMessagesTemplate template)

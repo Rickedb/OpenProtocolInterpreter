@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using System.Text;
 
 namespace OpenProtocolInterpreter.Tightening
 {
@@ -26,7 +25,7 @@ namespace OpenProtocolInterpreter.Tightening
         public string Pack()
         {
             byte[] bytes = PackBytes();
-            return Encoding.ASCII.GetString(bytes);
+            return Mid.DefaultEncoding.GetString(bytes);
         }
 
         public byte[] PackBytes()
@@ -56,7 +55,7 @@ namespace OpenProtocolInterpreter.Tightening
             });
 
             var asciiInt = BitConverter.ToInt32(bytes, 0).ToString("D5");
-            return Encoding.ASCII.GetBytes(asciiInt);
+            return Mid.DefaultEncoding.GetBytes(asciiInt);
         }
 
         public static StrategyOptions Parse(string value)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace OpenProtocolInterpreter.Messages
 {
@@ -44,12 +45,25 @@ namespace OpenProtocolInterpreter.Messages
         /// Find out which Mid instance it should instantiate and parse all it's content
         /// </summary>
         /// <param name="mid">Mid number</param>
-        /// <param name="package">package in bytes</param>
+        /// <param name="package">package in bytes, encoded with <see cref="Mid.DefaultEncoding"/></param>
         /// <returns><see cref="Mid"/> instance</returns>
         public Mid ProcessPackage(int mid, byte[] package)
         {
             var compiledInstance = GetInstance(mid);
             return compiledInstance.CompiledConstructor().Parse(package);
+        }
+
+        /// <summary>
+        /// Find out which Mid instance it should instantiate and parse all it's content
+        /// </summary>
+        /// <param name="mid">Mid number</param>
+        /// <param name="package">package in bytes</param>
+        /// <param name="encoding">Encoding used to decode the package</param>
+        /// <returns><see cref="Mid"/> instance</returns>
+        public Mid ProcessPackage(int mid, byte[] package, Encoding encoding)
+        {
+            var compiledInstance = GetInstance(mid);
+            return compiledInstance.CompiledConstructor().Parse(package, encoding);
         }
 
         /// <summary>

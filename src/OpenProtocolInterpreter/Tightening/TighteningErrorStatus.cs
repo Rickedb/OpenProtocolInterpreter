@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using System.Text;
 
 namespace OpenProtocolInterpreter.Tightening
 {
@@ -49,7 +48,7 @@ namespace OpenProtocolInterpreter.Tightening
         public string Pack()
         {
             byte[] bytes = PackBytes();
-            return Encoding.ASCII.GetString(bytes);
+            return Mid.DefaultEncoding.GetString(bytes);
         }
 
         public byte[] PackBytes()
@@ -101,7 +100,7 @@ namespace OpenProtocolInterpreter.Tightening
             ]);
 
             var asciiLong = System.BitConverter.ToInt64(bytes, 0).ToString("D10");
-            return Encoding.ASCII.GetBytes(asciiLong);
+            return Mid.DefaultEncoding.GetBytes(asciiLong);
         }
 
         public static TighteningErrorStatus Parse(string value)
@@ -216,7 +215,7 @@ namespace OpenProtocolInterpreter.Tightening
         public string Pack()
         {
             byte[] bytes = PackBytes();
-            return Encoding.ASCII.GetString(bytes);
+            return Mid.DefaultEncoding.GetString(bytes);
         }
 
         public byte[] PackBytes()
@@ -266,7 +265,7 @@ namespace OpenProtocolInterpreter.Tightening
             ];
 
             var asciiLong = System.BitConverter.ToInt64(bytes, 0).ToString().PadLeft(10, '0');
-            return Encoding.ASCII.GetBytes(asciiLong);
+            return Mid.DefaultEncoding.GetBytes(asciiLong);
         }
 
         public static TighteningErrorStatus2 Parse(string value)
