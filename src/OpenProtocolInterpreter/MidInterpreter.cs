@@ -17,24 +17,45 @@ namespace OpenProtocolInterpreter
         private readonly Dictionary<Type, Lazy<IMessagesTemplate>> _messagesTemplates;
         private readonly SortedDictionary<int, IMessagesTemplate> _midTemplates;
 
+        /// <summary>
+        /// Creates an interpreter with no message template registered.
+        /// <para>
+        ///     Templates must be registered before parsing any package
+        /// </para>
+        /// </summary>
         public MidInterpreter()
         {
             _messagesTemplates = new Dictionary<Type, Lazy<IMessagesTemplate>>();
             _midTemplates = new SortedDictionary<int, IMessagesTemplate>();
         }
 
+        /// <summary>
+        /// Packs a mid into its string representation.
+        /// </summary>
+        /// <param name="mid">The mid to pack.</param>
+        /// <returns>The string representation of the mid.</returns>
         public static string Pack(Mid mid) => mid.Pack();
 
         /// <summary>
         /// Packs a mid into its byte array representation using <see cref="Mid.DefaultEncoding"/>.
         /// </summary>
+        /// <param name="mid">The mid to pack.</param>
+        /// <returns>The byte array representation of the mid.</returns>
         public static byte[] PackBytes(Mid mid) => mid.PackBytes();
 
         /// <summary>
         /// Packs a mid into its byte array representation using the given <paramref name="encoding"/>.
         /// </summary>
+        /// <param name="mid">The mid to pack.</param>
+        /// <param name="encoding">Encoding used to convert the packed mid into bytes.</param>
+        /// <returns>The byte array representation of the mid.</returns>
         public static byte[] PackBytes(Mid mid, Encoding encoding) => mid.PackBytes(encoding);
 
+        /// <summary>
+        /// Parses a package into its corresponding <see cref="Mid"/> instance.
+        /// </summary>
+        /// <param name="package">The package to parse.</param>
+        /// <returns>The parsed mid instance.</returns>
         public Mid Parse(string package)
         {
 #if NETSTANDARD2_0
@@ -50,6 +71,14 @@ namespace OpenProtocolInterpreter
             return template.ProcessPackage(mid, package);
         }
 
+        /// <summary>
+        /// Parses the extra data of a <see cref="Mid0006"/> request into the expected <typeparamref name="TExtraData"/>.
+        /// </summary>
+        /// <typeparam name="TExtraData">The expected extra data type of the requested mid.</typeparam>
+        /// <param name="mid">The mid containing the extra data to parse.</param>
+        /// <returns>The parsed extra data.</returns>
+        /// <exception cref="InvalidCastException">Thrown when the parsed extra data is not a <typeparamref name="TExtraData"/>.</exception>
+        /// <exception cref="NotImplementedException">Thrown when no registered message template handles the requested mid.</exception>
         public TExtraData ParseExtraData<TExtraData>(Mid0006 mid) where TExtraData : ExtraData, IExtraDataRequest
         {
             var instance = ParseExtraData(mid);
@@ -59,6 +88,14 @@ namespace OpenProtocolInterpreter
             throw new InvalidCastException($"Extra data cannot be casted to {typeof(TExtraData).Name}");
         }
 
+        /// <summary>
+        /// Parses the extra data of a <see cref="Mid0008"/> subscription into the expected <typeparamref name="TExtraData"/>.
+        /// </summary>
+        /// <typeparam name="TExtraData">The expected extra data type of the subscribed mid.</typeparam>
+        /// <param name="mid">The mid containing the extra data to parse.</param>
+        /// <returns>The parsed extra data.</returns>
+        /// <exception cref="InvalidCastException">Thrown when the parsed extra data is not a <typeparamref name="TExtraData"/>.</exception>
+        /// <exception cref="NotImplementedException">Thrown when no registered message template handles the subscribed mid.</exception>
         public TExtraData ParseExtraData<TExtraData>(Mid0008 mid) where TExtraData : ExtraData, IExtraDataSubscription
         {
             var instance = ParseExtraData(mid);
@@ -68,6 +105,14 @@ namespace OpenProtocolInterpreter
             throw new InvalidCastException($"Extra data cannot be casted to {typeof(TExtraData).Name}");
         }
 
+        /// <summary>
+        /// Parses the extra data of a <see cref="Mid0009"/> unsubscription into the expected <typeparamref name="TExtraData"/>.
+        /// </summary>
+        /// <typeparam name="TExtraData">The expected extra data type of the unsubscribed mid.</typeparam>
+        /// <param name="mid">The mid containing the extra data to parse.</param>
+        /// <returns>The parsed extra data.</returns>
+        /// <exception cref="InvalidCastException">Thrown when the parsed extra data is not a <typeparamref name="TExtraData"/>.</exception>
+        /// <exception cref="NotImplementedException">Thrown when no registered message template handles the unsubscribed mid.</exception>
         public TExtraData ParseExtraData<TExtraData>(Mid0009 mid) where TExtraData : ExtraData, IExtraDataUnsubscription
         {
             var expectedExtraData = ParseExtraData(mid);
@@ -77,6 +122,15 @@ namespace OpenProtocolInterpreter
             throw new InvalidCastException($"Extra data cannot be casted to {typeof(TExtraData).Name}");
         }
 
+        /// <summary>
+        /// Parses the extra data of any extra data container mid into the expected <typeparamref name="TExtraData"/>.
+        /// </summary>
+        /// <typeparam name="TMid">The type of the mid carrying the extra data.</typeparam>
+        /// <typeparam name="TExtraData">The expected extra data type of the contained mid.</typeparam>
+        /// <param name="mid">The mid containing the extra data to parse.</param>
+        /// <returns>The parsed extra data.</returns>
+        /// <exception cref="InvalidCastException">Thrown when the parsed extra data is not a <typeparamref name="TExtraData"/>.</exception>
+        /// <exception cref="NotImplementedException">Thrown when <typeparamref name="TMid"/> is not a supported extra data container, or when no registered message template handles the contained mid.</exception>
         public TExtraData ParseExtraData<TMid, TExtraData>(TMid mid) where TMid : Mid, IExtraDataContainer
                                                                      where TExtraData : ExtraData
         {
@@ -87,6 +141,14 @@ namespace OpenProtocolInterpreter
             throw new InvalidCastException($"Extra data cannot be casted to {typeof(TExtraData).Name}");
         }
 
+        /// <summary>
+        /// Parses the extra data of any extra data container mid, such as <see cref="Mid0006"/>, <see cref="Mid0008"/> and <see cref="Mid0009"/>.
+        /// <para> The extra data instance is resolved from the mid it refers to and parsed with the revision wanted by <paramref name="mid"/>. </para>
+        /// </summary>
+        /// <typeparam name="TMid">The type of the mid carrying the extra data.</typeparam>
+        /// <param name="mid">The mid containing the extra data to parse.</param>
+        /// <returns>The parsed extra data.</returns>
+        /// <exception cref="NotImplementedException">Thrown when <typeparamref name="TMid"/> is not a supported extra data container, or when no registered message template handles the contained mid.</exception>
         public ExtraData ParseExtraData<TMid>(TMid mid) where TMid : Mid, IExtraDataContainer
         {
             var expectedMid = GetMidFromExtraDataMid(mid);
@@ -101,6 +163,9 @@ namespace OpenProtocolInterpreter
         /// <summary>
         /// Parses a package decoding it with <see cref="Mid.DefaultEncoding"/>.
         /// </summary>
+        /// <param name="package">The package to parse.</param>
+        /// <returns>The parsed mid instance.</returns>
+        /// <exception cref="NotImplementedException">Thrown when no registered message template handles the package's mid.</exception>
         public Mid Parse(byte[] package)
         {
             int mid = ReadMidNumber(package, Mid.DefaultEncoding);
@@ -115,6 +180,10 @@ namespace OpenProtocolInterpreter
         /// <summary>
         /// Parses a package decoding it with the given <paramref name="encoding"/>.
         /// </summary>
+        /// <param name="package">The package to parse.</param>
+        /// <param name="encoding">Encoding used to decode the package.</param>
+        /// <returns>The parsed mid instance.</returns>
+        /// <exception cref="NotImplementedException">Thrown when no registered message template handles the package's mid.</exception>
         public Mid Parse(byte[] package, Encoding encoding)
         {
             int mid = ReadMidNumber(package, encoding);
@@ -126,6 +195,14 @@ namespace OpenProtocolInterpreter
             return template.ProcessPackage(mid, package, encoding);
         }
 
+        /// <summary>
+        /// Parses a package and returns it as the expected mid type.
+        /// </summary>
+        /// <typeparam name="ExpectedMid">The mid type the package is expected to be.</typeparam>
+        /// <param name="package">The package to parse.</param>
+        /// <returns>The parsed mid instance.</returns>
+        /// <exception cref="InvalidCastException">Thrown when the package is not an <typeparamref name="ExpectedMid"/>.</exception>
+        /// <exception cref="NotImplementedException">Thrown when no registered message template handles the package's mid.</exception>
         public ExpectedMid Parse<ExpectedMid>(string package) where ExpectedMid : Mid
         {
             Mid mid = Parse(package);
@@ -135,9 +212,26 @@ namespace OpenProtocolInterpreter
             throw new InvalidCastException($"Package is Mid {mid.GetType().Name}, cannot be casted to {typeof(ExpectedMid).Name}");
         }
 
+        /// <summary>
+        /// Parses a package decoding it with <see cref="Mid.DefaultEncoding"/> and returns it as the expected mid type.
+        /// </summary>
+        /// <typeparam name="ExpectedMid">The mid type the package is expected to be.</typeparam>
+        /// <param name="package">The package to parse.</param>
+        /// <returns>The parsed mid instance.</returns>
+        /// <exception cref="InvalidCastException">Thrown when the package is not an <typeparamref name="ExpectedMid"/>.</exception>
+        /// <exception cref="NotImplementedException">Thrown when no registered message template handles the package's mid.</exception>
         public ExpectedMid Parse<ExpectedMid>(byte[] package) where ExpectedMid : Mid
             => Parse<ExpectedMid>(Parse(package));
 
+        /// <summary>
+        /// Parses a package decoding it with the given <paramref name="encoding"/> and returns it as the expected mid type.
+        /// </summary>
+        /// <typeparam name="ExpectedMid">The mid type the package is expected to be.</typeparam>
+        /// <param name="package">The package to parse.</param>
+        /// <param name="encoding">Encoding used to decode the package.</param>
+        /// <returns>The parsed mid instance.</returns>
+        /// <exception cref="InvalidCastException">Thrown when the package is not an <typeparamref name="ExpectedMid"/>.</exception>
+        /// <exception cref="NotImplementedException">Thrown when no registered message template handles the package's mid.</exception>
         public ExpectedMid Parse<ExpectedMid>(byte[] package, Encoding encoding) where ExpectedMid : Mid
             => Parse<ExpectedMid>(Parse(package, encoding));
 

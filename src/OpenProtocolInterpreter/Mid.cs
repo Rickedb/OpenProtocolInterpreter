@@ -347,7 +347,7 @@ namespace OpenProtocolInterpreter
         protected DataField GetField<TEnum>(int revision, TEnum field) where TEnum : struct, Enum
             => GetField(revision, field.GetHashCode());
 
-        [Obsolete("Packages are no longer necessarily ASCII encoded, use ToText(byte[]) which honors " + nameof(DefaultEncoding) + " instead.")]
+        [Obsolete($"Packages are no longer necessarily ASCII encoded, use ToText(byte[]) which honors {nameof(DefaultEncoding)} instead.")]
         protected static string ToAscii(byte[] bytes) => ToText(bytes, DefaultEncoding);
         protected static string ToText(byte[] bytes) => ToText(bytes, DefaultEncoding);
         protected static string ToText(byte[] bytes, Encoding encoding) => encoding.GetString(bytes);
