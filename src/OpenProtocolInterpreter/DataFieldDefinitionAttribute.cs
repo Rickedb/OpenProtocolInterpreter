@@ -49,6 +49,20 @@ namespace OpenProtocolInterpreter
         {
             return new DataField(Field, index, Size, PaddingChar, PaddingOrientation, HasPrefix);
         }
+
+        /// <summary>
+        /// Tells whether the decorated property is an enum whose underlying type is <typeparamref name="T"/>,
+        /// as happens when a <see cref="TighteningValueStatus"/> property is decorated with an
+        /// <see cref="Int32DataFieldDefinitionAttribute"/>. Such a property reads back as a boxed enum rather
+        /// than as a <typeparamref name="T"/>, so its data field needs a
+        /// <see cref="DataField{T}.BackingPropertyConverter"/> to be packed.
+        /// </summary>
+        protected static bool IsEnumBackedBy<T>(PropertyInfo propertyInfo)
+        {
+            return propertyInfo != null
+                && propertyInfo.PropertyType.IsEnum
+                && Enum.GetUnderlyingType(propertyInfo.PropertyType) == typeof(T);
+        }
     }
     public class BooleanDataFieldDefinitionAttribute : DataFieldDefinitionAttribute
     {
@@ -95,8 +109,13 @@ namespace OpenProtocolInterpreter
         }
         internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
         {
-            return DataField.Int32(Field, index, Size, HasPrefix)
-                            .Bind(owner, propertyInfo);
+            var dataField = DataField.Int32(Field, index, Size, HasPrefix);
+            if (IsEnumBackedBy<int>(propertyInfo))
+            {
+                dataField.BackingPropertyConverter = Convert.ToInt32;
+            }
+
+            return dataField.Bind(owner, propertyInfo);
         }
     }
     public class Int64DataFieldDefinitionAttribute : DataFieldDefinitionAttribute
@@ -113,8 +132,13 @@ namespace OpenProtocolInterpreter
         }
         internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
         {
-            return DataField.Int64(Field, index, Size, HasPrefix)
-                            .Bind(owner, propertyInfo);
+            var dataField = DataField.Int64(Field, index, Size, HasPrefix);
+            if (IsEnumBackedBy<long>(propertyInfo))
+            {
+                dataField.BackingPropertyConverter = Convert.ToInt64;
+            }
+
+            return dataField.Bind(owner, propertyInfo);
         }
     }
     public class DecimalDataFieldDefinitionAttribute : DataFieldDefinitionAttribute
@@ -169,6 +193,23 @@ namespace OpenProtocolInterpreter
         public TimestampDataFieldDefinitionAttribute(int field, int revision) : base(field, revision)
         {
             Size = 19;
+        }
+        internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
+        {
+            return DataField.Timestamp(Field, index, HasPrefix)
+                            .Bind(owner, propertyInfo);
+        }
+    }
+
+    public class UnixTimestampDataFieldDefinitionAttribute : DataFieldDefinitionAttribute
+    {
+        public UnixTimestampDataFieldDefinitionAttribute(int revision) : base(revision)
+        {
+            Size = 10;
+        }
+        public UnixTimestampDataFieldDefinitionAttribute(int field, int revision) : base(field, revision)
+        {
+            Size = 10;
         }
         internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
         {

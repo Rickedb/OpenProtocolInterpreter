@@ -133,6 +133,17 @@ namespace OpenProtocolInterpreter
         public static DataField<DateTime> Timestamp(Enum field, int index, bool hasPrefix = true)
            => Timestamp(field.GetHashCode(), index, hasPrefix);
 
+        public static DataField<DateTimeOffset> UnixTimestamp(int field, int index, bool hasPrefix = true)
+        {
+            return new DataField<DateTimeOffset>(field, index, 10, hasPrefix)
+            {
+                DefaultConverter = OpenProtocolConvert.ToString,
+                DefaultParser = OpenProtocolConvert.ToUnixDateTime
+            };
+        }
+        public static DataField<DateTimeOffset> UnixTimestamp(Enum field, int index, bool hasPrefix = true)
+           => UnixTimestamp(field.GetHashCode(), index, hasPrefix);
+
         public static DataField<decimal> Decimal(int field, int index, int size, bool hasPrefix = true)
         {
             return new DataField<decimal>(field, index, size, '0', PaddingOrientation.LeftPadded, hasPrefix)
@@ -205,6 +216,7 @@ namespace OpenProtocolInterpreter
         private PropertyInfo _backingProperty;
         protected internal Func<char, int, PaddingOrientation, T, string> DefaultConverter;
         protected internal Func<string, T> DefaultParser;
+        protected internal Func<object, T> BackingPropertyConverter;
 
         public DataField(int field, int index, int size, bool hasPrefix = true) : base(field, index, size, hasPrefix)
         {
@@ -224,9 +236,15 @@ namespace OpenProtocolInterpreter
 
         public void SyncWithBackingPropertyIfBound()
         {
-            if (_backingProperty?.GetValue(_owner) is T propValue)
+            var backingValue = _backingProperty?.GetValue(_owner);
+            if (backingValue is T propValue)
             {
                 var value = DefaultConverter(PaddingChar, Size, PaddingOrientation, propValue);
+                base.SetValue(value);
+            }
+            else if (backingValue != null && BackingPropertyConverter != null)
+            {
+                var value = DefaultConverter(PaddingChar, Size, PaddingOrientation, BackingPropertyConverter(backingValue));
                 base.SetValue(value);
             }
         }
