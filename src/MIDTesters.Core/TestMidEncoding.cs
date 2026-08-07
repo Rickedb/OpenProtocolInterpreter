@@ -1,7 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter;
 using OpenProtocolInterpreter.Communication;
-using System;
 using System.Text;
 
 namespace MIDTesters
@@ -41,9 +40,9 @@ namespace MIDTesters
         }
 
         [TestMethod]
-        public void TestDefaultEncodingDoesNotAcceptNull()
+        public void TestDefaultEncodingNullFallbackToAscii()
         {
-            Assert.ThrowsException<ArgumentNullException>(() => Mid.DefaultEncoding = null);
+            Mid.DefaultEncoding = null;
             Assert.AreEqual(Encoding.ASCII, Mid.DefaultEncoding);
         }
 
