@@ -10,16 +10,28 @@
 
  1. [What is Open Protocol at all?](#what-is-open-protocol-at-all)
  2. [What is OpenProtocolInterpreter?](#what-is-openprotocolinterpreter)
- 3. [How does it work?](#how-does-it-work)
- 4. [Usage examples](#lets-see-some-examples-of-usage)
- 5. [Available on package managers](#get-it-on-nuget)
- 6. [Advanced section](#advanced-section)
+ 3. [Get it on NuGet](#get-it-on-nuget)
+ 4. [How does it work?](#how-does-it-work)
+ 5. [Usage examples](#lets-see-some-examples-of-usage)
+    * [Parsing a package](#parsing-a-package)
+    * [Packing a MID](#packing-a-mid)
+    * [Replies and acknowledges](#replies-and-acknowledges)
+ 6. [Anatomy of a MID](#anatomy-of-a-mid)
+    * [Data field attributes](#data-field-attributes)
+    * [Available attributes](#available-attributes)
+    * [Revisions](#revisions)
+ 7. [Advanced section](#advanced-section)
+    * [MIDs identifying customization](#mids-identifying-customization)
+    * [Extra data (MID 0006, 0008 and 0009)](#extra-data-mid-0006-0008-and-0009)
+    * [MIDs overriding](#mids-overriding)
+    * [Adding MIDs that are not in documentation](#adding-mids-that-are-not-in-documentation)
     * [How it was built?](#how-it-was-built)
-    * [Customization](#mids-identifying-customization)
     * [Advanced example](#advanced-example)
-7. [Tips](#tips)
-8. [Contribute to the project](#contribute-to-the-project)
-9. [Still unavailable mids](#list-of-still-unavailable-mids)
+ 8. [Tips](#tips)
+ 9. [Supported frameworks](#supported-frameworks)
+10. [Contribute to the project](#contribute-to-the-project)
+11. [Sponsor the project](#sponsor-the-project)
+12. [Still unavailable mids](#list-of-still-unavailable-mids)
 
 
 ## What is Open Protocol at all?
@@ -36,6 +48,11 @@ OpenProtocolInterpreter is a **library that converts the ugly string** that came
 
 **[If you're curious, just take a look at their documentation.](docs/OpenProtocol_Specification.pdf)**
 
+## Get it on [NuGet](https://www.nuget.org/packages/OpenProtocolInterpreter)!
+```
+Install-Package OpenProtocolInterpreter
+```
+
 ## How does it work?
 
 It's simple, you give us your byte[] or string package and we deliver you an object, simple as that!
@@ -48,41 +65,123 @@ It's **MID 5**, so OpenProtocolIntepreter will return a **Mid0005** class for yo
 
 ## Let's see some examples of usage
 
-A simple usage:
+### Parsing a package
+
+`MidInterpreter` starts empty: you must tell it which MIDs it should know about before parsing anything.
+`UseAllMessages()` is the "give me everything" shortcut — see [MIDs identifying customization](#mids-identifying-customization) to narrow it down.
 
 ``` csharp
-var interpreter = new MidInterpreter();
-var midPackage = @"00260004001         001802";
+var interpreter = new MidInterpreter().UseAllMessages();
+
+var midPackage = "00260004001         001802";
 var myMid04 = interpreter.Parse<Mid0004>(midPackage);
-//MID 0004 is an error mid which contains which MID Failed and its error code
-//Int value of the Failed Mid
-int myFailedMid = myMid04.FailedMid;
-//An enum with Error Code
-Error errorCode = myMid04.ErrorCode;
+
+//MID 0004 is an error mid which contains which MID failed and its error code
+int myFailedMid = myMid04.FailedMid;    // 18
+Error errorCode = myMid04.ErrorCode;    // Error.ParameterSetIdNotPresent
 ```
+
+Everything a MID carries is a plain, settable property, so you can read it straight away.
+`byte[]` packages are accepted by the very same overloads:
+
+``` csharp
+byte[] rawPackage = socket.Receive();
+var mid = interpreter.Parse(rawPackage);        // returns Mid, use it when you don't know what is coming
+var mid04 = interpreter.Parse<Mid0004>(rawPackage);
+```
+
+> Use `Parse(package)` when you don't know which MID will arrive and `Parse<DesiredMid>(package)` when you do.
+> The generic overload throws `InvalidCastException` when the package turns out to be another MID.
+
+### Packing a MID
 
 It can generate an object from a string, but can it make it to the other way?? FOR SURE!
+
 ``` csharp
-var jobUploadRequest = new Mid0032(1, 2); //Job id 1, revision 2
+var jobUploadRequest = new Mid0032(revision: 2) { JobId = 1 };
 var package = jobUploadRequest.Pack();
 //Generated package => 00240032002         0001
+
+var bytes = jobUploadRequest.PackBytes();       // same content, ASCII encoded
+var terminated = jobUploadRequest.PackWithNul(); // appends the NUL character some controllers expect
 ```
 
-## Get it on [NuGet](https://www.nuget.org/packages/OpenProtocolInterpreter)!
+The header length is recalculated for you on every `Pack()`, based on the revision in `Header.Revision`.
+Every MID exposes a parameterless constructor (revision 1) and a `Mid(Header header)` constructor; the ones that
+have more than one documented revision also expose `Mid(int revision)`.
+
+### Replies and acknowledges
+
+MIDs advertise their relationships through marker interfaces, so it might help you to remember which MID answers which or even give a shortcut for you:
+
+``` csharp
+Mid0062 ack = new Mid0061(2).GetAcknowledge();  // IAcknowledgeable<Mid0062>, keeps the source revision
+Mid0033 reply = new Mid0032(2).GetReply();      // IAnswerableBy<Mid0033>
 ```
-Install-Package OpenProtocolInterpreter
+
+## Anatomy of a MID
+
+### Data field attributes
+
+A MID has **each property is decorated with a data field attribute** describing where that value lives inside the package. Which also represents the string index/position of the package accordingly with Open Protocol documentation. E.g.:
+
+``` csharp
+public class Mid0004 : Mid, ICommunication, IController
+{
+    public const int MID = 4;
+
+    [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 4, HasPrefix = false)]
+    [Int32DataFieldDefinition(revision: 2, field: 1, Index = 20, Size = 4, HasPrefix = false)]
+    public int FailedMid { get; set; }
+
+    [Int32DataFieldDefinition(revision: 1, field: 2, Index = 24, Size = 2, HasPrefix = false)]
+    [Int32DataFieldDefinition(revision: 2, field: 2, Index = 24, Size = 3, HasPrefix = false)]
+    public Error ErrorCode { get; set; }
+
+    public Mid0004() : this(DEFAULT_REVISION) { }
+    public Mid0004(Header header) : base(header) { }
+    public Mid0004(int revision) : this(new Header { Mid = MID, Revision = revision }) { }
+}
 ```
+
+Every attribute accepts:
+
+| Member | Meaning |
+| - | - |
+| `revision` | Revision this definition belongs to. |
+| `field` | Data field id/sequence/index inside the revision. |
+| `Index` | Offset of the value inside the package, counted from the start of the package (the header takes the first 20 chars). |
+| `Size` | Length of the value. Fixed automatically by some attributes that has fixed size (booleans, timestamps). |
+| `HasPrefix` | `true` when the package carries the two digit field id right before the value. |
+| `PaddingChar` | Char used to pad the value to its full size when packing. |
+| `PaddingOrientation` | Defines if char filling `RightPadded` or `LeftPadded` |
+
+Parsing and packing both flow through the same definitions: on `Parse` the slice is read, converted and **written back into the property**; on `Pack` the property value is read, converted and written into the package.
+
+### Available attributes
+
+| Attribute | Property type | Notes |
+| - | - | - |
+| `BooleanDataFieldDefinition` | `bool` | `Size` forced to 1 |
+| `StringDataFieldDefinition` | `string` | Defaultly right padded with `' '`|
+| `Int32DataFieldDefinition` | `int`, `int`-backed `enum` | left padded with `'0'` |
+| `Int64DataFieldDefinition` | `long`, `long`-backed `enum` | left padded with `'0'` |
+| `DecimalDataFieldDefinition` | `decimal` | left padded with `'0'` |
+| `TruncatedDecimalDataFieldDefinition` | `decimal` | `DecimalPoints` (default 2) implicit decimal places |
+| `TimestampDataFieldDefinition` | `DateTime` | `Size` forced to 19, `YYYY-MM-DD:HH:MM:SS` |
+| `Int32CollectionDefinition` | `List<int>` | requires `EachFieldSize` |
+| `EnumCollectionDefinition<T>` | `List<T>` where `T : Enum` | one char per entry |
+| `VariableDataFieldCollectionDefinition` | `List<VariableDataField>` | the variable data fields block |
+
+### Revisions
+
+At parse/pack time only the definitions up to `Header.StandardizedRevision` are used so we can avoid confusion with revision `0` since when zero or blank it represents revision `1`.
 
 ## Advanced Section!
 
 Now we will get real!
 Put one thing in mind, in real world we will always need to build something more complex than the dummies examples we give to you.
 **With this in mind, this section is for you:**
-
-#### How it was built?
-
-It used to rely on **Chain Of Responsabilities** design pattern, but since we had some problems with instance references, it changed!
-For now, instead of iterating through all Mids of the same category, it relies on a Dictionary, which every category knows which mid it attends, once it found it creates a new Instance via System.Reflection and parse it.
 
 #### MIDs Identifying Customization
 
@@ -91,29 +190,72 @@ The answer is... **NO!**
 
 You will probably need only to use a range of MIDs, with this in mind, we did something to make things faster. You can tell us which MIDs we should considerate!
 
-> *NOTE: You can register only mids you need to call "Parse" method
-
 Here is an example:
 ``` csharp
-string package = "00260004001         001802";
 var myCustomInterpreter = new MidInterpreter()
-								.UseAllMessages(new Type[]
-		                        {
-		                            typeof(Mid0001),
-		                            typeof(Mid0002),
-		                            typeof(Mid0003),
-		                            typeof(Mid0004),
-		                            typeof(Mid0106)
-		                        });
+                                .UseAllMessages(new Type[]
+                                {
+                                    typeof(Mid0001),
+                                    typeof(Mid0002),
+                                    typeof(Mid0003),
+                                    typeof(Mid0004),
+                                    typeof(Mid0106)
+                                });
+
 //Will work:
-var myMid04 = myCustomInterpreter.Parse<Mid0004>(package);
-//Won't work, will throw NotImplementedException:
-var myMid30 = myCustomInterpreter.Parse<Mid0030>(package);
-//Won't work, will throw InvalidCastException:
-var myMid01 = myCustomInterpreter.Parse<Mid0001>(package);
+var myMid04 = myCustomInterpreter.Parse<Mid0004>("00260004001         001802");
+
+//Won't work, will throw NotImplementedException, MID 0030 was never registered:
+var unknown = myCustomInterpreter.Parse("00220030001         01");
 ```
-When you don't know which package will come, use ``` Parse ``` overload, not ``` Parse<DesiredMid> ```. If you want, take a look at the sample on this repository.
-> If necessary, there is a new overload where you can define if you're the controller or the integrator, which will automatically handle implemented mids
+
+You can also register a whole category at once, and filter it by your role in the communication:
+
+``` csharp
+var interpreter = new MidInterpreter()
+                        .UseCommunicationMessages(InterpreterMode.Integrator)
+                        .UseTighteningMessages(InterpreterMode.Integrator)
+                        .UseAlarmMessages(InterpreterMode.Integrator);
+```
+
+`InterpreterMode.Integrator` keeps only the MIDs a controller can send you, `InterpreterMode.Controller` keeps
+only the ones an integrator can send, and `InterpreterMode.Both` (the default) keeps everything.
+There is one `Use...Messages` extension per category, all of them accepting a mode, an `IEnumerable<Type>` or an
+`IDictionary<int, Type>` (see [MIDs overriding](#mids-overriding)).
+
+#### Extra data (MID 0006, 0008 and 0009)
+
+MIDs 0006 (request), 0008 (subscription) and 0009 (unsubscription) carry a free form payload whose layout
+depends on the MID being requested/subscribed. Those payloads are modelled by `ExtraData` classes, which use the very same data field attributes as a MID:
+
+``` csharp
+var subscription = new Mid0008();
+subscription.SetExtraData(new Mid1201ExtraDataSubscription
+{
+    SendAlternatives = 1,
+    DataIdentifierTimestamp = new DateTime(2026, 8, 7, 13, 45, 0),
+    SendObjectData = true
+});
+
+var package = subscription.Pack();
+//Generated package => 00590008001         12010013000000000012026-08-07:13:45:001
+```
+
+`SetExtraData` fills `SubscriptionMid`, `WantedRevision`, `ExtraDataLength` and `ExtraData` for you.
+On the receiving side, parse the container MID first and then hand its raw `ExtraData` to the matching class:
+
+``` csharp
+var mid08 = interpreter.Parse<Mid0008>(package);
+var extraData = (Mid1201ExtraDataSubscription)new Mid1201ExtraDataSubscription(mid08.WantedRevision)
+                                                    .Parse(mid08.ExtraData);
+
+int alternatives = extraData.SendAlternatives;
+DateTime timestamp = extraData.DataIdentifierTimestamp;
+```
+
+A MID may declare one `ExtraData` per kind, since request (`IExtraDataRequest`), subscription (`IExtraDataSubscription`) and unsubscription (`IExtraDataUnsubscription`) payloads don't necessarily share the same content.
+
+> If necessary you can add `ExtraData` manually as plain string.
 
 #### MIDs Overriding
 
@@ -123,8 +265,12 @@ so you can customize it and add more properties to handle some conversions. Anyw
 Here is an example:
 ``` csharp
 //This will override Mid 81 with my custom Mid
-var _midInterpreter new MidInterpreter().UseAllMessages()
-                                        .UseTimeMessages(new Dictionary<int, Type>() { { 81, typeof(OverridedMid0081) } });
+var interpreter = new MidInterpreter()
+                        .UseAllMessages()
+                        .UseTimeMessages(new Dictionary<int, Type> { { Mid0081.MID, typeof(OverridedMid0081) } });
+
+var mid = interpreter.Parse("00390081001         2026-08-07:13:45:00");
+//mid is an OverridedMid0081
 
 
 public class OverridedMid0081 : Mid0081
@@ -139,65 +285,43 @@ public class OverridedMid0081 : Mid0081
     {
 
     }
-
-    public override string Pack()
-    {
-        Time = TestCustomMid.Now;
-        return base.Pack();
-    }
 }
 ```
+
+> Your type must expose a parameterless constructor — that's the one the interpreter compiles and calls.
 
 #### Adding MIDs that are not in documentation
 
 Maybe your controller is weird and have unknown MID numbers, MIDs that are not in the documentation and you want to inject into MidInterpreter, there is a way:
 
 ``` csharp
-var _midInterpreter new MidInterpreter().UseAllMessages()
-                                        .UseCustomMessage(new Dictionary<int, Type>() { { 83, typeof(NewMid0083) } });
+var interpreter = new MidInterpreter()
+                        .UseAllMessages()
+                        .UseCustomMessage(new Dictionary<int, Type> { { NewMid0083.MID, typeof(NewMid0083) } });
 
 public class NewMid0083 : Mid
 {
-    private readonly IValueConverter<DateTime> _dateConverter;
-    private const int LAST_REVISION = 1;
     public const int MID = 83;
 
-    public DateTime Time
+    [TimestampDataFieldDefinition(revision: 1, field: 1, Index = 20, HasPrefix = false)]
+    public DateTime Time { get; set; }
+
+    [StringDataFieldDefinition(revision: 1, field: 2, Index = 39, Size = 2, HasPrefix = false)]
+    public string TimeZone { get; set; }
+
+    public NewMid0083() : base(MID, DEFAULT_REVISION)
     {
-        get => GetField(1, (int)DataFields.TIME).GetValue(_dateConverter.Convert);
-        set => GetField(1, (int)DataFields.TIME).SetValue(_dateConverter.Convert, value);
-    }
-    public string TimeZone
-    {
-        get => GetField(1, (int)DataFields.TIMEZONE).Value;
-        set => GetField(1, (int)DataFields.TIMEZONE).SetValue(value);
+
     }
 
-    public NewMid0083() : base(MID, LAST_REVISION)
+    public NewMid0083(Header header) : base(header)
     {
-        _dateConverter = new DateConverter();
-    }
 
-    protected override Dictionary<int, List<DataField>> RegisterDatafields()
-    {
-        return new Dictionary<int, List<DataField>>()
-        {
-            {
-                1, new List<DataField>()
-                        {
-                            new DataField((int)DataFields.TIME, 20, 19),
-                            new DataField((int)DataFields.TIMEZONE, 41, 2)
-                        }
-            }
-        };
-    }
-
-    public enum DataFields
-    {
-        TIME,
-        TIMEZONE
     }
 }
+
+//new NewMid0083 { Time = new DateTime(2026, 8, 7, 13, 45, 0), TimeZone = "BR" }.Pack()
+//  => 00410083001         2026-08-07:13:45:00BR
 ```
 
 > **NOTE:** Custom messages might not perform as fast as other MIDs because they don't have optimizations for finding it
@@ -207,9 +331,9 @@ public class NewMid0083 : Mid
 Declared a delegate:
 
 ``` csharp
-protected delegate void ReceivedCommandActionDelegate(ReceivedMIDEventArgs e);
+protected delegate void ReceivedCommandActionDelegate(ReceivedMidEventArgs e);
 ```
-**ReceivedMIDEventArgs class**:
+**ReceivedMidEventArgs class**:
 ``` csharp
 public class ReceivedMidEventArgs : EventArgs
 {
@@ -243,58 +367,79 @@ protected void OnPackageReceived(string message)
         var mid = Interpreter.Parse(message);
 
         //Get Registered delegate for the MID that was identified
-        var action = OnReceivedMid.FirstOrDefault(x => x.Key == mid.GetType());
+        if (!OnReceivedMid.TryGetValue(mid.GetType(), out var action))
+            return; //Stop if there is no delegate registered for the message that arrived
 
-        if (action.Equals(default(KeyValuePair<Type, ReceivedCommandActionDelegate>)))
-           return; //Stop if there is no delegate registered for the message that arrived
-
-         action.Value(new ReceivedMidEventArgs() { ReceivedMid = mid }); //Call delegate
-     }
-     catch (Exception ex)
-     {
-        Console.log(ex.Message);
-     }
+        action(new ReceivedMidEventArgs { ReceivedMid = mid }); //Call delegate
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
 }
 ```
 This would call the registered delegate which you're sure what mid it is.
-For example when a **MID_0061** (last tightening) pop up, the  **onTighteningReceived** delegate will be called:
+For example when a **MID_0061** (last tightening) pop up, the **OnTighteningReceived** delegate will be called:
 
 ``` csharp
 protected void OnTighteningReceived(ReceivedMidEventArgs e)
 {
     try
     {
-        Mid0061 tighteningMid = e.ReceivedMID as Mid0061; //Casting to the right mid
+        var tighteningMid = (Mid0061)e.ReceivedMid; //Casting to the right mid
 
         //This method just send the ack from tightening mid
         BuildAndSendAcknowledge(tighteningMid);
-        Console.log("TIGHTENING ARRIVED")
-     }
-     catch (Exception ex)
-     {
-         Console.log(ex.Message);
-     }
+        Console.WriteLine("TIGHTENING ARRIVED");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
 }
 
-protected void BuildAndSendAcknowledge(Mid mid)
+protected void BuildAndSendAcknowledge(Mid0061 mid)
 {
-     TcpClient.GetStream().Write(new Mid0062().Pack()); //Send acknowledge to controller
+    var ack = mid.GetAcknowledge(); //Mid0062, on the same revision as the received mid
+    TcpClient.GetStream().Write(ack.PackBytes()); //Send acknowledge to controller
 }
 ```
 
 ### Tips
 
-> Instantiate the **MIDIdentifier** class just once and keep working with it!
+> Instantiate the **MidInterpreter** class just once and keep working with it! Template lookups are cached per instance.
 
 > **Controller Implementation Tip:** Always **TRY** to register used MIDs, not all Tightening Controllers use every available MID.
 
 > **Integrator Implementation Tip:** Always **DO** register used MIDs, I'm pretty sure you won't need all of them to your application.
+
+### Contribute to the project
+
+Bug reports, controllers that behave differently from the specification and new MIDs are all very welcome.
+Fork it, add your MID next to its category (with its tests in `src/MIDTesters.Core`) and open a pull request.
+The [Still unavailable MIDs](#list-of-still-unavailable-mids) table below is a good place to pick something up.
+
+### Sponsor the project
+
+OpenProtocolInterpreter is built and maintained on free time, and the hardware it talks to isn't exactly the
+kind of thing you keep on your desk. If this library saved you a few days of *"substringing"* packages — or if
+your company ships something on top of it — consider sponsoring its development:
+
+[![Sponsor on GitHub](https://img.shields.io/badge/Sponsor-GitHub%20Sponsors-ea4aaa?logo=githubsponsors&logoColor=white)](https://github.com/sponsors/rickedb)
+[![Buy me a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-ffdd00?logo=buymeacoffee&logoColor=black)](https://www.buymeacoffee.com/rickedb)
+
+* **[GitHub Sponsors](https://github.com/sponsors/rickedb)** — one-off or monthly, and it shows up right here on the repository.
+* **[Buy me a coffee](https://www.buymeacoffee.com/rickedb)** — for a quick thank you.
+
+Sponsoring keeps new MIDs, new specification revisions and bug fixes coming. Not in a position to sponsor?
+Starring the repository, reporting a controller that misbehaves or sending a pull request helps just as much.
 
 ### List of still unavailable Mids
 
 | MID | Description | Notes |
 | - | - | - |
 | 0007 | Reserved | Reserved by Atlas Copco |
+| 0025 | Parameter user set download request | |
 | 0049 | Pairing Status Acknowledge | |
 | 0700 | Tightening data download status for radio tools | |
 | 0900 | Result traces curve | |
@@ -305,9 +450,6 @@ protected void BuildAndSendAcknowledge(Mid mid)
 | 1901 | Selector socket control | |
 | 2100 | Device command | |
 | 2500 | Program data download | |
-| 2501 | Program data upload reply | |
-| 2502 | Password request | |
-| 2503 | Password response | |
 | 2600 | Mode ID upload request | |
 | 2601 | Mode ID upload reply | |
 | 2602 | Mode data upload request | |
