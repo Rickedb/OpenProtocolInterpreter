@@ -59,6 +59,25 @@ namespace OpenProtocolInterpreter
             return convertedValue;
         }
 
+        public static string ToString(DateTimeOffset value)
+            => ToString('0', 10, PaddingOrientation.LeftPadded, value);
+
+        public static string ToString(char paddingChar, int size, PaddingOrientation orientation, DateTimeOffset value)
+            => ToString(paddingChar, size, orientation, value.ToUnixTimeSeconds());
+
+        public static DateTimeOffset ToUnixDateTime(string value)
+           => ToUnixDateTime(value.AsSpan());
+
+        public static DateTimeOffset ToUnixDateTime(ReadOnlySpan<char> value)
+        {
+            var convertedValue = DateTimeOffset.UnixEpoch;
+            if (value.IsWhiteSpace())
+                return convertedValue;
+
+            var unixTimestamp = ToInt64(value);
+            return DateTimeOffset.FromUnixTimeSeconds(unixTimestamp);
+        }
+
         public static string ToString(decimal value)
         {
             return value.ToString("00.0###", _formatProvider);
