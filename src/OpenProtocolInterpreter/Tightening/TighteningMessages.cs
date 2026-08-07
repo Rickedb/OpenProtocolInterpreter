@@ -20,7 +20,18 @@ namespace OpenProtocolInterpreter.Tightening
                 { Mid0064.MID, new CompiledInstance<Mid>(typeof(Mid0064)) },
                 { Mid0065.MID, new CompiledInstance<Mid>(typeof(Mid0065)) },
                 { Mid0066.MID, new CompiledInstance<Mid>(typeof(Mid0066)) },
+                { Mid0067.MID, new CompiledInstance<Mid>(typeof(Mid0067)) },
                 { Mid0902.MID, new CompiledInstance<Mid>(typeof(Mid0902)) }
+            };
+
+            _extraDataTemplates = new Dictionary<int, List<CompiledInstance<ExtraData>>>()
+            {
+                {
+                    Mid0067.MID, new List<CompiledInstance<ExtraData>>()
+                    {
+                        new CompiledInstance<ExtraData>(typeof(Mid0067ExtraData))
+                    }
+                }
             };
         }
 
