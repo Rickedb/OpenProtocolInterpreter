@@ -69,15 +69,15 @@ namespace OpenProtocolInterpreter.Tool
         {
             return new DataField<List<ToolData>>(Field, index, Size, HasPrefix)
             {
-                DefaultConverter = PackToolData,
-                DefaultParser = ParseToolData
+                DefaultConverter = Pack,
+                DefaultParser = Parse
             }.Bind(owner, propertyInfo);
         }
 
-        private string PackToolData(char paddingChar, int size, PaddingOrientation orientation, List<ToolData> toolData)
+        private string Pack(char paddingChar, int size, PaddingOrientation orientation, List<ToolData> toolData)
             => string.Join("", toolData.Select(t => t.Pack()));
 
-        private List<ToolData> ParseToolData(string value)
+        private List<ToolData> Parse(string value)
             => ToolData.ParseAll(value).ToList();
     }
 }

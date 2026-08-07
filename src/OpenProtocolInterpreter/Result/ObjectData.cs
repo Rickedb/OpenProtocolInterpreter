@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace OpenProtocolInterpreter.Result
@@ -20,10 +22,10 @@ namespace OpenProtocolInterpreter.Result
         public string Pack(int revision)
         {
             var package = OpenProtocolConvert.ToString('0', 4, PaddingOrientation.LeftPadded, Id) + OpenProtocolConvert.ToString(Status);
-            if(revision > 2)
+            if (revision > 2)
             {
-                return string.Concat(package, 
-                                    OpenProtocolConvert.ToString((int)ObjectType), 
+                return string.Concat(package,
+                                    OpenProtocolConvert.ToString((int)ObjectType),
                                     OpenProtocolConvert.ToString('0', 4, PaddingOrientation.LeftPadded, ReferenceObjectId));
             }
 
@@ -69,5 +71,32 @@ namespace OpenProtocolInterpreter.Result
             => ParseAll(1, value);
 
         internal static int Size(int revision) => revision > 2 ? 10 : 5;
+    }
+
+    public class ObjectDataCollectionDefinitionAttribute : DataFieldDefinitionAttribute
+    {
+        public ObjectDataCollectionDefinitionAttribute(int revision) : base(revision)
+        {
+
+        }
+        public ObjectDataCollectionDefinitionAttribute(int field, int revision) : base(field, revision)
+        {
+
+        }
+
+        internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
+        {
+            return new DataField<List<ObjectData>>(Field, index, Size, HasPrefix)
+            {
+                DefaultConverter = Pack,
+                DefaultParser = Parse
+            }.Bind(owner, propertyInfo);
+        }
+
+        private string Pack(char paddingChar, int size, PaddingOrientation orientation, List<ObjectData> value)
+            => string.Join("", value.Select(t => t.Pack(Revision)));
+
+        private List<ObjectData> Parse(string value)
+            => ObjectData.ParseAll(Revision, value).ToList();
     }
 }
