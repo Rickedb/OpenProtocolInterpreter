@@ -176,15 +176,25 @@ namespace OpenProtocolInterpreter
                 Span<char> buffer = stackalloc char[20];
                 package.CopyTo(buffer);
                 buffer.Slice(package.Length).Fill(' ');
-                return ParseHeader(buffer);
+                return Header.Parse(buffer);
             }
 
-            return ParseHeader(package);
+            return Header.Parse(package);
         }
 
+        /// <summary>
+        /// Parses the MID message from a string representation, filling the <see cref="Header"/> and data fields for the current revision.
+        /// </summary>
+        /// <param name="package">The MID message as a string.</param>
+        /// <returns>The parsed <see cref="Mid"/> object.</returns>
         public virtual Mid Parse(string package)
             => Parse(package.AsSpan());
 
+        /// <summary>
+        /// Parses the MID message from a read-only span of characters, filling the <see cref="Header"/> and data fields for the current revision.
+        /// </summary>
+        /// <param name="package">The MID message as a read-only span of characters.</param>
+        /// <returns>The parsed <see cref="Mid"/> object.</returns>
         public virtual Mid Parse(ReadOnlySpan<char> package)
         {
             Header = ProcessHeader(package);
@@ -192,6 +202,11 @@ namespace OpenProtocolInterpreter
             return this;
         }
 
+        /// <summary>
+        /// Parses the MID message from a byte array representation, filling the <see cref="Header"/> and data fields for the current revision.
+        /// </summary>
+        /// <param name="package">The MID message as a byte array.</param>
+        /// <returns>The parsed <see cref="Mid"/> object.</returns>
         public virtual Mid Parse(byte[] package)
         {
             var pack = ToAscii(package);
@@ -311,40 +326,6 @@ namespace OpenProtocolInterpreter
             Encoding.ASCII.GetBytes(value, buffer);
 #endif
             return buffer;
-        }
-
-        private Header ParseHeader(ReadOnlySpan<char> package)
-        {
-#if NETSTANDARD2_0
-            static bool IsNotEmptyOrZero(ReadOnlySpan<char> package, out int value)
-            {
-                value = 0;
-                return !package.IsWhiteSpace() && int.TryParse(package.ToString(), out value) && value > 0;
-            }
-            static int ParseInt(ReadOnlySpan<char> span) => int.Parse(span.ToString());
-            static bool TryParseInt(ReadOnlySpan<char> span, out int value) => int.TryParse(span.ToString(), out value);
-#else
-            static bool IsNotEmptyOrZero(ReadOnlySpan<char> package, out int value)
-            {
-                value = 0;
-                return !package.IsWhiteSpace() && int.TryParse(package, out value) && value > 0;
-            }
-            static int ParseInt(ReadOnlySpan<char> span) => int.Parse(span);
-            static bool TryParseInt(ReadOnlySpan<char> span, out int value) => int.TryParse(span, out value);
-#endif
-
-            return new Header
-            {
-                Length = ParseInt(package.Slice(0, 4)),
-                Mid = ParseInt(package.Slice(4, 4)),
-                Revision = IsNotEmptyOrZero(package.Slice(8, 3), out var revision) ? revision : 1,
-                NoAckFlag = !package.Slice(11, 1).IsWhiteSpace(),
-                StationId = TryParseInt(package.Slice(12, 2), out var stationId) ? stationId : 1,
-                SpindleId = TryParseInt(package.Slice(14, 2), out var spindleId) ? spindleId : 1,
-                SequenceNumber = IsNotEmptyOrZero(package.Slice(16, 2), out var sequenceNumber) ? sequenceNumber : default(int?),
-                NumberOfMessages = IsNotEmptyOrZero(package.Slice(18, 1), out var numberOfMessages) ? numberOfMessages : default(int?),
-                MessageNumber = IsNotEmptyOrZero(package.Slice(19, 1), out var messageNumber) ? messageNumber : default(int?)
-            };
         }
     }
 }

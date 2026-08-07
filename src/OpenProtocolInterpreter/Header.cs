@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace OpenProtocolInterpreter
 {
@@ -20,7 +21,7 @@ namespace OpenProtocolInterpreter
         public int Mid { get; set; }
 
         /// <summary>
-        /// The MID Revision is unique per MID and is used in case different versions are available for the same MID. 
+        /// The MID Revision is unique per MID and is used in case different versions are available for the same MID.
         /// Using the revision number the integrator can subscribe or ask for different versions of the same MID.
         /// <para>
         ///     Note: The default MID Revision is 1. There is three different ways to get it, either send three spaces or 000 or 001.
@@ -29,7 +30,7 @@ namespace OpenProtocolInterpreter
         public int Revision { get; set; }
 
         /// <summary>
-        /// The MID Revision is unique per MID and is used in case different versions are available for the same MID. 
+        /// The MID Revision is unique per MID and is used in case different versions are available for the same MID.
         /// Using the revision number the integrator can subscribe or ask for different versions of the same MID.
         /// <para>
         ///     Note: Enforces the default MID Revision to 1 when it's either send three spaces or 000 or 001.
@@ -97,6 +98,53 @@ namespace OpenProtocolInterpreter
             builder.Append(NumberOfMessages.HasValue ? NumberOfMessages.ToString() : " ");
             builder.Append(MessageNumber.HasValue ? MessageNumber.ToString() : " ");
             return builder.ToString();
+        }
+
+        /// <summary>
+        /// Parses the header from a string representation of the MID message.
+        /// </summary>
+        /// <param name="package">The MID message as a string.</param>
+        /// <returns>The parsed <see cref="Header"/> object.</returns>
+        public static Header Parse(string package)
+            => Parse(package.AsSpan());
+
+        /// <summary>
+        /// Parses the header from a read-only span of characters representing the MID message.
+        /// </summary>
+        /// <param name="package">The MID message as a read-only span of characters.</param>
+        /// <returns>The parsed <see cref="Header"/> object.</returns>
+        public static Header Parse(ReadOnlySpan<char> package)
+        {
+#if NETSTANDARD2_0
+            static bool IsNotEmptyOrZero(ReadOnlySpan<char> package, out int value)
+            {
+                value = 0;
+                return !package.IsWhiteSpace() && int.TryParse(package.ToString(), out value) && value > 0;
+            }
+            static int ParseInt(ReadOnlySpan<char> span) => int.Parse(span.ToString());
+            static bool TryParseInt(ReadOnlySpan<char> span, out int value) => int.TryParse(span.ToString(), out value);
+#else
+            static bool IsNotEmptyOrZero(ReadOnlySpan<char> package, out int value)
+            {
+                value = 0;
+                return !package.IsWhiteSpace() && int.TryParse(package, out value) && value > 0;
+            }
+            static int ParseInt(ReadOnlySpan<char> span) => int.Parse(span);
+            static bool TryParseInt(ReadOnlySpan<char> span, out int value) => int.TryParse(span, out value);
+#endif
+
+            return new Header
+            {
+                Length = ParseInt(package.Slice(0, 4)),
+                Mid = ParseInt(package.Slice(4, 4)),
+                Revision = IsNotEmptyOrZero(package.Slice(8, 3), out var revision) ? revision : 1,
+                NoAckFlag = !package.Slice(11, 1).IsWhiteSpace(),
+                StationId = TryParseInt(package.Slice(12, 2), out var stationId) ? stationId : 1,
+                SpindleId = TryParseInt(package.Slice(14, 2), out var spindleId) ? spindleId : 1,
+                SequenceNumber = IsNotEmptyOrZero(package.Slice(16, 2), out var sequenceNumber) ? sequenceNumber : default(int?),
+                NumberOfMessages = IsNotEmptyOrZero(package.Slice(18, 1), out var numberOfMessages) ? numberOfMessages : default(int?),
+                MessageNumber = IsNotEmptyOrZero(package.Slice(19, 1), out var messageNumber) ? messageNumber : default(int?)
+            };
         }
     }
 }
