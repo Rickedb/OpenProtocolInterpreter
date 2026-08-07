@@ -66,7 +66,7 @@ namespace OpenProtocolInterpreter.Result
         [ObjectDataCollectionDefinition(revision: 1, field: 8, Index = 61, Size = 0, HasPrefix = false)]
         [ObjectDataCollectionDefinition(revision: 2, field: 9, Index = 65, Size = 0, HasPrefix = false)]
         [ObjectDataCollectionDefinition(revision: 3, field: 9, Index = 65, Size = 0, HasPrefix = false)]
-        public List<ObjectData> ObjectDataList { get; set; }
+        public List<ObjectData> ObjectDataList { get; set; } = new List<ObjectData>();
 
         [Int32DataFieldDefinition(revision: 1, field: 9, Index = 0, Size = 3, HasPrefix = false)]
         [Int32DataFieldDefinition(revision: 2, field: 10, Index = 0, Size = 3, HasPrefix = false)]
@@ -76,7 +76,7 @@ namespace OpenProtocolInterpreter.Result
         [VariableDataFieldCollectionDefinition(revision: 1, field: 10, Index = 0, Size = 0, HasPrefix = false)]
         [VariableDataFieldCollectionDefinition(revision: 2, field: 11, Index = 0, Size = 0, HasPrefix = false)]
         [VariableDataFieldCollectionDefinition(revision: 3, field: 11, Index = 0, Size = 0, HasPrefix = false)]
-        public List<VariableDataField> VariableDataFields { get; set; }
+        public List<VariableDataField> VariableDataFields { get; set; } = new List<VariableDataField>();
 
         public Mid1201() : this(DEFAULT_REVISION)
         {

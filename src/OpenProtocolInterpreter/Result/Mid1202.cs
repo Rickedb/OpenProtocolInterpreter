@@ -53,7 +53,7 @@ namespace OpenProtocolInterpreter.Result
 
         [VariableDataFieldCollectionDefinition(revision: 1, field: 6, Index = 43, Size = 0, HasPrefix = false)]
         [VariableDataFieldCollectionDefinition(revision: 2, field: 7, Index = 79, Size = 0, HasPrefix = false)]
-        public List<VariableDataField> VariableDataFields { get; set; }
+        public List<VariableDataField> VariableDataFields { get; set; } = new List<VariableDataField>();
 
         public Mid1202() : this(new Header()
         {

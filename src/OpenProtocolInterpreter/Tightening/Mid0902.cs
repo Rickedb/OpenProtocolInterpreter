@@ -34,7 +34,7 @@ namespace OpenProtocolInterpreter.Tightening
         public int NumberOfPIDs { get; set; }
 
         [VariableDataFieldCollectionDefinition(revision: 1, field: 7, Index = 91, Size = 0, HasPrefix = false)]
-        public List<VariableDataField> VariableDataFields { get; set; }
+        public List<VariableDataField> VariableDataFields { get; set; } = new List<VariableDataField>();
 
         public Mid0902() : this(new Header()
         {

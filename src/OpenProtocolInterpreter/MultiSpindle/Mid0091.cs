@@ -26,7 +26,7 @@ namespace OpenProtocolInterpreter.MultiSpindle
         [BooleanDataFieldDefinition(revision: 1, field: 4, Index = 52)]
         public bool SyncOverallStatus { get; set; }
         [SpindleStatusCollectionDefinition(revision: 1, field: 5, Index = 55, Size = 5)]
-        public List<SpindleStatus> SpindlesStatus { get; set; }
+        public List<SpindleStatus> SpindlesStatus { get; set; } = new List<SpindleStatus>();
 
         public Mid0091() : this(new Header()
         {

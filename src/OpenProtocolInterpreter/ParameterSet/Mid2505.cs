@@ -30,7 +30,7 @@ namespace OpenProtocolInterpreter.ParameterSet
         public int NumberOfParameterDataFields { get; set; }
 
         [VariableDataFieldCollectionDefinition(revision: 1, field: 3, Index = 26, HasPrefix = false)]
-        public List<VariableDataField> VariableDataFields { get; set; }
+        public List<VariableDataField> VariableDataFields { get; set; } = new List<VariableDataField>();
 
         public Mid2505() : this(DEFAULT_REVISION)
         {

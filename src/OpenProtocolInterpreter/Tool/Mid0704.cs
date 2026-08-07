@@ -25,7 +25,7 @@ namespace OpenProtocolInterpreter.Tool
         public int NumberOfDataFields { get; set; }
 
         [VariableDataFieldCollectionDefinition(revision: 1, field: 2, Index = 23, Size = 0, HasPrefix = false)]
-        public List<VariableDataField> VariableDataFields { get; set; }
+        public List<VariableDataField> VariableDataFields { get; set; } = new List<VariableDataField>();
 
         public Mid0704() : this(new Header()
         {
@@ -38,6 +38,7 @@ namespace OpenProtocolInterpreter.Tool
 
         public Mid0704(Header header) : base(header)
         {
+            VariableDataFields ??= [];
         }
 
         public override string Pack()
@@ -73,7 +74,7 @@ namespace OpenProtocolInterpreter.Tool
         public int TotalRequestedPIDs { get; set; }
 
         [Int32CollectionDefinition(revision: 1, field: 3, Index = 7, Size = 0, HasPrefix = false, EachFieldSize = PID_SIZE)]
-        public List<int> RequestedPIDs { get; set; }
+        public List<int> RequestedPIDs { get; set; } = new List<int>();
 
         public Mid0704ExtraDataRequest()
         {
@@ -124,7 +125,7 @@ namespace OpenProtocolInterpreter.Tool
         public int NumberOfPIDs { get; set; }
 
         [PIDRestrictionCollectionDefinition(revision: 1, field: 3, Index = 7, Size = 0, HasPrefix = false)]
-        public List<PIDRestriction> PIDRestrictions { get; set; }
+        public List<PIDRestriction> PIDRestrictions { get; set; } = new List<PIDRestriction>();
 
         public Mid0704ExtraDataSubscription()
         {

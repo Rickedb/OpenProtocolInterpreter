@@ -29,11 +29,11 @@ namespace OpenProtocolInterpreter.IOInterface
 
         [RelayCollectionDefinition(revision: 1, field: 2, Index = 24, Size = 4 * 8)]
         [RelayCollectionDefinition(revision: 2, field: 3, Index = 28, Size = 4 * 8)]
-        public List<Relay> Relays { get; set; }
+        public List<Relay> Relays { get; set; } = new List<Relay>();
 
         [DigitalInputCollectionDefinition(revision: 1, field: 3, Index = 58, Size = 4 * 8)]
         [DigitalInputCollectionDefinition(revision: 2, field: 5, Index = 0, Size = 4 * 8)]
-        public List<DigitalInput> DigitalInputs { get; set; }
+        public List<DigitalInput> DigitalInputs { get; set; } = new List<DigitalInput>();
 
         //At revision 2 number of relays/digital inputs comes before their lists
         [Int32DataFieldDefinition(revision: 2, field: 2, Index = 24, Size = 2)]

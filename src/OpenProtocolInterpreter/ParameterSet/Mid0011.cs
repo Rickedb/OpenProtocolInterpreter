@@ -23,7 +23,7 @@ namespace OpenProtocolInterpreter.ParameterSet
         public int TotalParameterSets { get; set; }
 
         [Int32CollectionDefinition(revision: 1, field: 2, Index = 23, EachFieldSize = 3, HasPrefix = false)]
-        public List<int> ParameterSets { get; set; }
+        public List<int> ParameterSets { get; set; } = new List<int>();
 
         public Mid0011() : this(new Header()
         {

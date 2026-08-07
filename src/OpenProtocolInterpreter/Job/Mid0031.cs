@@ -24,7 +24,7 @@ namespace OpenProtocolInterpreter.Job
 
         [Int32CollectionDefinition(revision: 1, field: 2, Index = 22, Size = 2, EachFieldSize = 2, HasPrefix = false)]
         [Int32CollectionDefinition(revision: 2, field: 2, Index = 24, Size = 4, EachFieldSize = 4, HasPrefix = false)]
-        public List<int> JobIds { get; set; }
+        public List<int> JobIds { get; set; } = new List<int>();
 
         public Mid0031() : this(DEFAULT_REVISION)
         {

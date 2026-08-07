@@ -48,7 +48,7 @@ namespace OpenProtocolInterpreter.Job.Advanced
         [AdvancedJobCollectionDefinition(revision: 3, field: 4, Index = 57, Size = 0)]
         [AdvancedJobCollectionDefinition(revision: 4, field: 4, Index = 57, Size = 0)]
         [AdvancedJobCollectionDefinition(revision: 999, field: 4, Index = 57, Size = 0)]
-        public List<AdvancedJob> JobList { get; set; }
+        public List<AdvancedJob> JobList { get; set; } = new List<AdvancedJob>();
 
         [Int32DataFieldDefinition(revision: 1, field: 5, Index = 0, Size = 1)]
         [Int32DataFieldDefinition(revision: 2, field: 5, Index = 0, Size = 1)]

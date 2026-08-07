@@ -20,7 +20,7 @@ namespace OpenProtocolInterpreter.Tool
         public int NumberOfToolPIDs { get; set; }
 
         [VariableDataFieldCollectionDefinition(revision: 1, field: 2, Index = 23, Size = 0, HasPrefix = false)]
-        public List<VariableDataField> ToolDataUpload { get; set; }
+        public List<VariableDataField> ToolDataUpload { get; set; } = new List<VariableDataField>();
 
         public Mid0702() : this(new Header()
         {

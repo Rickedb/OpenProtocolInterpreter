@@ -306,7 +306,7 @@ namespace OpenProtocolInterpreter.Tightening
         public int NumberOfStageResults { get; set; }
 
         [StageResultCollectionDefinition(revision: 998, field: 58, Index = 534, Size = 0)]
-        public List<StageResult> StageResults { get; set; }
+        public List<StageResult> StageResults { get; set; } = new List<StageResult>();
 
         public Mid0061() : this(DEFAULT_REVISION)
         {
@@ -315,6 +315,7 @@ namespace OpenProtocolInterpreter.Tightening
 
         public Mid0061(Header header) : base(header)
         {
+
         }
 
         public Mid0061(int revision) : this(new Header()

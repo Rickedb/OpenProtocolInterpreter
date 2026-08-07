@@ -68,7 +68,7 @@ namespace OpenProtocolInterpreter.Job
         [ParameterSetCollectionDefinition(revision: 3, field: 13, Index = 91, Size = 0)]
         [ParameterSetCollectionDefinition(revision: 4, field: 13, Index = 91, Size = 0)]
         [ParameterSetCollectionDefinition(revision: 5, field: 13, Index = 91, Size = 0)]
-        public List<ParameterSet> ParameterSetList { get; set; }
+        public List<ParameterSet> ParameterSetList { get; set; } = new List<ParameterSet>();
 
         public Mid0033() : this(DEFAULT_REVISION)
         {

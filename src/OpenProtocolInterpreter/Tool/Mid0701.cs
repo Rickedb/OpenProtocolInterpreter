@@ -21,7 +21,7 @@ namespace OpenProtocolInterpreter.Tool
         public int TotalTools { get; set; }
 
         [ToolDataCollectionDefinition(revision: 1, field: 2, Index = 23, Size = 0, HasPrefix = false)]
-        public List<ToolData> Tools { get; set; }
+        public List<ToolData> Tools { get; set; } = new List<ToolData>();
 
         public Mid0701() : this(new Header()
         {

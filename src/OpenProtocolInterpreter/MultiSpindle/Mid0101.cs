@@ -59,7 +59,7 @@ namespace OpenProtocolInterpreter.MultiSpindle
         [BooleanDataFieldDefinition(revision: 1, field: 17, Index = 169)]
         public bool SyncOverallStatus { get; set; }
         [SpindleOrPressStatusCollectionDefinition(revision: 1, field: 18, Index = 172)]
-        public List<SpindleOrPressStatus> SpindlesOrPressesStatus { get; set; }
+        public List<SpindleOrPressStatus> SpindlesOrPressesStatus { get; set; } = new List<SpindleOrPressStatus>();
         [Int32DataFieldDefinition(revision: 4, field: 19, Index = 0, Size = 3)]
         public SystemSubType SystemSubType { get; set; }
         [Int32DataFieldDefinition(revision: 5, field: 20, Index = 0, Size = 5)]

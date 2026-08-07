@@ -70,7 +70,7 @@ namespace OpenProtocolInterpreter.PowerMACS
         public int NumberOfBolts { get; set; }
 
         [BoltDataCollectionDefinition(revision: 1, field: 13, Index = 165, HasPrefix = false)]
-        public List<BoltData> BoltsData { get; set; }
+        public List<BoltData> BoltsData { get; set; } = new List<BoltData>();
 
         //Total Special values has a weird pattern of being attached to the list of special values instead of being a separate field.
         //So we do process is in a separate way with special values and set its value and have to do it together with list because each special value
@@ -78,7 +78,7 @@ namespace OpenProtocolInterpreter.PowerMACS
         public int TotalSpecialValues { get; set; }
 
         [SpecialValueCollectionDefinition(revision: 1, field: 23, Index = 0, Size = 67)]
-        public List<SpecialValue> SpecialValues { get; set; }
+        public List<SpecialValue> SpecialValues { get; set; } = new List<SpecialValue>();
 
         [Int32DataFieldDefinition(revision: 4, field: 24, Index = 0, Size = 3)]
         public SystemSubType SystemSubType { get; set; }

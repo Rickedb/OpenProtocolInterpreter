@@ -28,7 +28,7 @@ namespace OpenProtocolInterpreter.Tool
         public int NumberOfCalibrationParameters { get; set; }
 
         [VariableDataFieldCollectionDefinition(revision: 1, field: 3, Index = 28, Size = 0, HasPrefix = false)]
-        public List<VariableDataField> CalibrationParameters { get; set; }
+        public List<VariableDataField> CalibrationParameters { get; set; } = new List<VariableDataField>();
 
         public Mid0703() : this(new Header()
         {
