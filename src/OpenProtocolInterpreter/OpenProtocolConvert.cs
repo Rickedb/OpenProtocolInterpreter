@@ -10,6 +10,7 @@ namespace OpenProtocolInterpreter
     public class OpenProtocolConvert
     {
         private static readonly IFormatProvider _formatProvider = new CultureInfo("en-US");
+        private static readonly DateTimeOffset _unixEpoch = DateTimeOffset.FromUnixTimeSeconds(0);
 
         public static string ToString(bool value)
             => value ? "1" : "0";
@@ -70,9 +71,8 @@ namespace OpenProtocolInterpreter
 
         public static DateTimeOffset ToUnixDateTime(ReadOnlySpan<char> value)
         {
-            var convertedValue = DateTimeOffset.UnixEpoch;
             if (value.IsWhiteSpace())
-                return convertedValue;
+                return _unixEpoch;
 
             var unixTimestamp = ToInt64(value);
             return DateTimeOffset.FromUnixTimeSeconds(unixTimestamp);
