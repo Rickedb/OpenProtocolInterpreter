@@ -15,7 +15,7 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse<Mid0064>(package);
 
             Assert.AreEqual(typeof(Mid0064), mid.GetType());
-            Assert.IsNotNull(mid.TighteningId);
+            Assert.AreEqual(123456789L, mid.TighteningId);
             AssertEqualPackages(package, mid);
         }
 
@@ -28,7 +28,7 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse<Mid0064>(bytes);
 
             Assert.AreEqual(typeof(Mid0064), mid.GetType());
-            Assert.IsNotNull(mid.TighteningId);
+            Assert.AreEqual(123456789L, mid.TighteningId);
             AssertEqualPackages(bytes, mid);
         }
 
@@ -40,7 +40,7 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse<Mid0064>(package);
 
             Assert.AreEqual(typeof(Mid0064), mid.GetType());
-            Assert.IsNotNull(mid.TighteningId);
+            Assert.AreEqual(123456789L, mid.TighteningId);
             Assert.IsTrue(mid.OfflineResult);
             AssertEqualPackages(package, mid);
         }
@@ -54,9 +54,34 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse<Mid0064>(bytes);
 
             Assert.AreEqual(typeof(Mid0064), mid.GetType());
-            Assert.IsNotNull(mid.TighteningId);
+            Assert.AreEqual(123456789L, mid.TighteningId);
             Assert.IsTrue(mid.OfflineResult);
             AssertEqualPackages(bytes, mid);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0064PackRevision1()
+        {
+            string package = "00300064001         0123456789";
+
+            AssertBuildAndParse(package, new Mid0064(1)
+            {
+                TighteningId = 123456789L
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 10"), TestCategory("Pack")]
+        public void Mid0064PackRevision10()
+        {
+            string package = "00310064010         01234567891";
+
+            AssertBuildAndParse(package, new Mid0064(10)
+            {
+                TighteningId = 123456789L,
+                OfflineResult = true
+            });
         }
     }
 }

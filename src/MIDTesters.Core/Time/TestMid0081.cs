@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Time;
+using System;
 
 namespace MIDTesters.Time
 {
@@ -14,7 +15,7 @@ namespace MIDTesters.Time
             string pack = @"00390081            2017-12-01:20:12:45";
             var mid = _midInterpreter.Parse<Mid0081>(pack);
 
-            Assert.IsNotNull(mid.Time);
+            Assert.AreEqual(new DateTime(2017, 12, 1, 20, 12, 45), mid.Time);
             AssertEqualPackages(pack, mid, true);
         }
 
@@ -26,8 +27,20 @@ namespace MIDTesters.Time
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0081>(bytes);
 
-            Assert.IsNotNull(mid.Time);
+            Assert.AreEqual(new DateTime(2017, 12, 1, 20, 12, 45), mid.Time);
             AssertEqualPackages(bytes, mid, true);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0081PackRevision1()
+        {
+            string package = "00390081            2017-12-01:20:12:45";
+
+            AssertBuildAndParse(package, new Mid0081()
+            {
+                Time = new DateTime(2017, 12, 1, 20, 12, 45)
+            }, true);
         }
     }
 }

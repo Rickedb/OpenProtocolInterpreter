@@ -14,7 +14,7 @@ namespace MIDTesters.UserInterface
             string package = "00240110001         TEST";
             var mid = _midInterpreter.Parse<Mid0110>(package);
 
-            Assert.IsNotNull(mid.UserText);
+            Assert.AreEqual("TEST", mid.UserText);
             AssertEqualPackages(package, mid);
         }
 
@@ -26,8 +26,20 @@ namespace MIDTesters.UserInterface
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0110>(bytes);
 
-            Assert.IsNotNull(mid.UserText);
+            Assert.AreEqual("TEST", mid.UserText);
             AssertEqualPackages(bytes, mid);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0110PackRevision1()
+        {
+            string package = "00240110001         TEST";
+
+            AssertBuildAndParse(package, new Mid0110()
+            {
+                UserText = "TEST"
+            });
         }
     }
 }

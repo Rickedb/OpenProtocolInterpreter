@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.PLCUserData
 {
     /// <summary>
     /// User data download with offset
     /// <para>
-    ///     Used by the integrator to send user data input to the PLC. 
+    ///     Used by the integrator to send user data input to the PLC.
     ///     The difference compared to <see cref="Mid0240"/> User data download is that with this MID it is possible
-    ///     to specify an offset for the data written in the PLC. This makes it possible to have more than 
+    ///     to specify an offset for the data written in the PLC. This makes it possible to have more than
     ///     one device writing user data to the PLC on different data areas.
     /// </para>
     /// <para>
@@ -18,14 +19,14 @@ namespace OpenProtocolInterpreter.PLCUserData
     ///     characters in the telegram.
     /// </para>
     /// <para>
-    ///     Only data that is sent in the user data field will be written to the PLC, the remaining data will 
+    ///     Only data that is sent in the user data field will be written to the PLC, the remaining data will
     ///     be untouched.
     /// </para>
     /// <para>
     ///     This means for example that if the offset is 10 and the user data is 1234 the bytes with
     ///     address 13010 and 13011 will be updated (to 0x12 and 0x34) and the rest of the area will be
     ///     unchanged.
-    /// </para>    
+    /// </para>
     /// <para>Message sent by: Integrator</para>
     /// <para>
     ///     Answer: <see cref="Communication.Mid0005"/> Command accepted or
@@ -45,16 +46,11 @@ namespace OpenProtocolInterpreter.PLCUserData
             Error.MidRevisionUnsupported
         };
 
-        public int Offset
-        {
-            get => GetField(1, DataFields.Offset).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.Offset).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public string UserData
-        {
-            get => GetField(1, DataFields.UserData).Value;
-            set => GetField(1, DataFields.UserData).SetValue(value);
-        }
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 3, HasPrefix = false)]
+        public int Offset { get; set; }
+
+        [StringDataFieldDefinition(revision: 1, field: 2, Index = 23, Size = 2, HasPrefix = false)]
+        public string UserData { get; set; }
 
         public Mid0245() : this(DEFAULT_REVISION)
         {
@@ -75,46 +71,22 @@ namespace OpenProtocolInterpreter.PLCUserData
 
         public override string Pack()
         {
-            var userDataField = GetField(1, DataFields.UserData);
-            if (string.IsNullOrEmpty(userDataField.Value))
+            if (UserData.Length > 200)
             {
-                userDataField.Value = "  ";
-            }
-            else if (userDataField.Value.Length > 200)
-            {
-                userDataField.Value = userDataField.Value.Substring(0, 200);
+                UserData = UserData.SafeSubstring(0, 200);
             }
 
-            userDataField.Size = userDataField.Value.Length;
+            GetField(revision: 1, field: 2).Size = UserData.Length; //Enforce size of user data
             return base.Pack();
         }
 
-        public override Mid Parse(string package)
+        protected override void ProcessDataField(DataField dataField, ReadOnlySpan<char> package)
         {
-            Header = ProcessHeader(package);
-            GetField(1, DataFields.UserData).Size = Header.Length - 23;
-            ProcessDataFields(package);
-            return this;
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
+            if (dataField.Field == 2) //UserData
             {
-                {
-                    1, new List<DataField>()
-                    {
-                        DataField.Number(DataFields.Offset, 20, 3, false),
-                        DataField.Volatile(DataFields.UserData, 23, false)
-                    }
-                }
-            };
-        }
-
-        internal enum DataFields
-        {
-            Offset,
-            UserData
+                dataField.Size = Header.Length - dataField.Index;
+            }
+            base.ProcessDataField(dataField, package);
         }
     }
 }

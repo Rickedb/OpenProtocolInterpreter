@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.MotorTuning
 {
@@ -16,11 +17,8 @@ namespace OpenProtocolInterpreter.MotorTuning
         /// <para>Motor Tune Failed = false (0)</para>
         /// <para>Motor Tune Success = true (1)</para>
         /// </summary>
-        public bool MotorTuneResult
-        {
-            get => GetField(1, DataFields.MotorTuneResult).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1, DataFields.MotorTuneResult).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [BooleanDataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 1)]
+        public bool MotorTuneResult { get; set; }
 
         public Mid0501() : this(new Header()
         {
@@ -32,24 +30,6 @@ namespace OpenProtocolInterpreter.MotorTuning
 
         public Mid0501(Header header) : base(header)
         {
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Boolean(DataFields.MotorTuneResult, 20)
-                            }
-                }
-            };
-        }
-
-        protected enum DataFields
-        {
-            MotorTuneResult
         }
     }
 }

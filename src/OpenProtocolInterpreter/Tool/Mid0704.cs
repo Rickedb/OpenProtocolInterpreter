@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace OpenProtocolInterpreter.Tool
@@ -7,7 +8,7 @@ namespace OpenProtocolInterpreter.Tool
     /// Tool Data status reply with generic data
     /// <para>
     ///     Upload requested parameters from given tool.
-    /// </para>    
+    /// </para>
     /// <para>Message sent by: Controller</para>
     /// <para>
     ///     Answer: None
@@ -20,12 +21,11 @@ namespace OpenProtocolInterpreter.Tool
     {
         public const int MID = 704;
 
-        public int NumberOfDataFields
-        {
-            get => GetField(1, DataFields.NumberOfDataFields).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.NumberOfDataFields).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public List<VariableDataField> VariableDataFields { get; set; }
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 3, HasPrefix = false)]
+        public int NumberOfDataFields { get; set; }
+
+        [VariableDataFieldCollectionDefinition(revision: 1, field: 2, Index = 23, Size = 0, HasPrefix = false)]
+        public List<VariableDataField> VariableDataFields { get; set; } = new List<VariableDataField>();
 
         public Mid0704() : this(new Header()
         {
@@ -38,46 +38,140 @@ namespace OpenProtocolInterpreter.Tool
 
         public Mid0704(Header header) : base(header)
         {
+            VariableDataFields ??= [];
         }
 
         public override string Pack()
         {
-            var revision = Header.StandardizedRevision;
-            GetField(revision, DataFields.VariableDataFields).SetValue(OpenProtocolConvert.ToString(VariableDataFields));
-
-            var index = 1;
-            return string.Concat(BuildHeader(), base.Pack(revision, ref index));
+            NumberOfDataFields = VariableDataFields?.Count ?? 0; //Enforce list size even if modified
+            GetField(revision: 1, field: 2).Size = VariableDataFields?.Sum(x => x.TotalSize) ?? 0; //Enforce size of variable data fields
+            return base.Pack();
         }
 
-        public override Mid Parse(string package)
+        protected override void ProcessDataField(DataField dataField, ReadOnlySpan<char> package)
         {
-            Header = ProcessHeader(package);
-
-            var field = GetField(1, DataFields.VariableDataFields);
-            field.Size = Header.Length - field.Index;
-            base.Parse(package);
-            VariableDataFields = VariableDataField.ParseAll(field.Value).ToList();
-            return this;
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
+            if (dataField.Field == 2) //VariableDataFields
             {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.NumberOfDataFields, 20, 3, false),
-                                DataField.Volatile(DataFields.VariableDataFields, 23, false)
-                            }
-                }
-            };
+                dataField.Size = Header.Length - dataField.Index;
+            }
+            base.ProcessDataField(dataField, package);
+        }
+    }
+
+    /// <summary>
+    /// Use <see cref="Communication.Mid0006"/> to request for <see cref="Mid0704"/> uploads.
+    /// </summary>
+    public class Mid0704ExtraDataRequest : ExtraData, IExtraDataRequest
+    {
+        private const int PID_SIZE = 6;
+
+        public override int Mid => Mid0704.MID;
+
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 0, Size = 4, HasPrefix = false)]
+        public int ToolNumber { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 2, Index = 4, Size = 3, HasPrefix = false)]
+        public int TotalRequestedPIDs { get; set; }
+
+        [Int32CollectionDefinition(revision: 1, field: 3, Index = 7, Size = 0, HasPrefix = false, EachFieldSize = PID_SIZE)]
+        public List<int> RequestedPIDs { get; set; } = new List<int>();
+
+        public Mid0704ExtraDataRequest()
+        {
+
         }
 
-        protected enum DataFields
+        public Mid0704ExtraDataRequest(int revision) : base(revision)
         {
-            NumberOfDataFields,
-            VariableDataFields
+
+        }
+
+        public override string Pack()
+        {
+            TotalRequestedPIDs = RequestedPIDs?.Count ?? 0; //Enforce list size even if modified
+            GetField(revision: 1, field: 3).Size = TotalRequestedPIDs * PID_SIZE; //Enforce size of requested pids
+            return base.Pack();
+        }
+
+        protected override void ProcessDataField(DataField dataField, ReadOnlySpan<char> package)
+        {
+            if (dataField.Field == 3) //RequestedPIDs
+            {
+                dataField.Size = package.Length - dataField.Index;
+            }
+            base.ProcessDataField(dataField, package);
+        }
+    }
+
+    /// <summary>
+    ///Use <see cref="Communication.Mid0008"/> for subscription of <see cref="Mid0704"/> uploads at versioning.
+    /// <para>
+    /// As the restriction is given as an UI the value may be casted to the type for the requested
+    /// parameter. For a string parameter only 000 is allowed. For time parameters the restriction is
+    /// given in seconds.
+    /// </para>
+    /// <para>
+    /// <strong>Example:</strong> A request for temperature with a restriction of 5 will initiate a transmission of MID 0704 whenever the temperature has changed 5 degrees or more.
+    /// </para>
+    /// </summary>
+    public class Mid0704ExtraDataSubscription : ExtraData, IExtraDataSubscription
+    {
+        public override int Mid => Mid0704.MID;
+
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 0, Size = 4, HasPrefix = false)]
+        public int ToolNumber { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 2, Index = 4, Size = 3, HasPrefix = false)]
+        public int NumberOfPIDs { get; set; }
+
+        [PIDRestrictionCollectionDefinition(revision: 1, field: 3, Index = 7, Size = 0, HasPrefix = false)]
+        public List<PIDRestriction> PIDRestrictions { get; set; } = new List<PIDRestriction>();
+
+        public Mid0704ExtraDataSubscription()
+        {
+
+        }
+
+        public Mid0704ExtraDataSubscription(int revision) : base(revision)
+        {
+
+        }
+
+        public override string Pack()
+        {
+            NumberOfPIDs = PIDRestrictions?.Count ?? 0; //Enforce list size even if modified
+            GetField(revision: 1, field: 3).Size = NumberOfPIDs * PIDRestriction.PackedSize; //Enforce size of variable data fields
+            return base.Pack();
+        }
+
+        protected override void ProcessDataField(DataField dataField, ReadOnlySpan<char> package)
+        {
+            if (dataField.Field == 3) //CalibrationParameters
+            {
+                dataField.Size = package.Length - dataField.Index;
+            }
+            base.ProcessDataField(dataField, package);
+        }
+    }
+
+    /// <summary>
+    /// Use <see cref="Communication.Mid0009"/> to unsubscribe a <see cref="Mid0704"/>.
+    /// </summary>
+    public class Mid0704ExtraDataUnsubscription : ExtraData, IExtraDataUnsubscription
+    {
+        public override int Mid => Mid0704.MID;
+
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 0, Size = 4, HasPrefix = false)]
+        public int ToolNumber { get; set; }
+
+        public Mid0704ExtraDataUnsubscription()
+        {
+
+        }
+
+        public Mid0704ExtraDataUnsubscription(int revision) : base(revision)
+        {
+
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Communication
 {
@@ -14,11 +15,14 @@ namespace OpenProtocolInterpreter.Communication
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.ClientAlreadyConnected, Error.MidRevisionUnsupported };
 
-        public bool OptionalKeepAlive
-        {
-            get => GetField(7, DataFields.UseKeepAlive).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(7, DataFields.UseKeepAlive).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [BooleanDataFieldDefinition(revision: 7, field: 1)]
+        public bool OptionalKeepAlive { get; set; }
+
+        [BooleanDataFieldDefinition(revision: 8, field: 2)]
+        public bool OptionalToolLockAtDisconnection { get; set; }
+
+        [DecimalDataFieldDefinition(revision: 8, field: 3, Size = 4)]
+        public decimal OptionalEarlyLock { get; set; }
 
         public Mid0001() : this(DEFAULT_REVISION)
         {
@@ -35,26 +39,6 @@ namespace OpenProtocolInterpreter.Communication
             Revision = revision
         })
         {
-
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    7, new List<DataField>()
-                            {
-                                DataField.Boolean(DataFields.UseKeepAlive, 20)
-                            }
-                }
-            };
-        }
-
-        protected enum DataFields
-        {
-            //Rev 7
-            UseKeepAlive
         }
     }
 }

@@ -14,7 +14,7 @@ namespace MIDTesters.ParameterSet
             string package = "00230020            054";
             var mid = _midInterpreter.Parse<Mid0020>(package);
 
-            Assert.IsNotNull(mid.ParameterSetId);
+            Assert.AreEqual(54, mid.ParameterSetId);
             AssertEqualPackages(package, mid, true);
         }
 
@@ -26,8 +26,20 @@ namespace MIDTesters.ParameterSet
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0020>(bytes);
 
-            Assert.IsNotNull(mid.ParameterSetId);
+            Assert.AreEqual(54, mid.ParameterSetId);
             AssertEqualPackages(bytes, mid, true);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0020PackRevision1()
+        {
+            string package = "00230020            054";
+
+            AssertBuildAndParse(package, new Mid0020()
+            {
+                ParameterSetId = 54
+            }, true);
         }
     }
 }

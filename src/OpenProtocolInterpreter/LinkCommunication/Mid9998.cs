@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.LinkCommunication
 {
@@ -18,16 +19,10 @@ namespace OpenProtocolInterpreter.LinkCommunication
     {
         public const int MID = 9998;
 
-        public int MidNumber
-        {
-            get => GetField(1, DataFields.MidNumber).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.MidNumber).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public LinkCommunicationError ErrorCode
-        {
-            get => (LinkCommunicationError)GetField(1, DataFields.ErrorCode).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.ErrorCode).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 4, HasPrefix = false)]
+        public int MidNumber { get; set; }
+        [Int32DataFieldDefinition(revision: 1, field: 2, Index = 24, Size = 4, HasPrefix = false)]
+        public LinkCommunicationError ErrorCode { get; set; }
 
         public Mid9998() : this(new Header()
         {
@@ -35,31 +30,11 @@ namespace OpenProtocolInterpreter.LinkCommunication
             Revision = DEFAULT_REVISION
         })
         {
-            
+
         }
 
         public Mid9998(Header header) : base(header)
         {
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.MidNumber, 20, 4, false),
-                                DataField.Number(DataFields.ErrorCode, 24, 4, false)
-                            }
-                }
-            };
-        }
-
-        protected enum DataFields
-        {
-            MidNumber,
-            ErrorCode
         }
     }
 }

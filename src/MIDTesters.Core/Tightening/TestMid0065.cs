@@ -1,4 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenProtocolInterpreter;
+using System;
 using OpenProtocolInterpreter.Tightening;
 using System.Collections.Generic;
 
@@ -16,17 +18,17 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse<Mid0065>(package);
 
             Assert.AreEqual(typeof(Mid0065), mid.GetType());
-            Assert.IsNotNull(mid.TighteningId);
-            Assert.IsNotNull(mid.VinNumber);
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.BatchCounter);
-            Assert.IsNotNull(mid.TighteningStatus);
-            Assert.IsNotNull(mid.TorqueStatus);
-            Assert.IsNotNull(mid.AngleStatus);
-            Assert.IsNotNull(mid.Torque);
-            Assert.IsNotNull(mid.Angle);
-            Assert.IsNotNull(mid.Timestamp);
-            Assert.IsNotNull(mid.BatchStatus);
+            Assert.AreEqual(123456789L, mid.TighteningId);
+            Assert.AreEqual("AIRBAG                   ", mid.VinNumber);
+            Assert.AreEqual(1, mid.ParameterSetId);
+            Assert.AreEqual(2, mid.BatchCounter);
+            Assert.AreEqual(false, mid.TighteningStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.TorqueStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.AngleStatus);
+            Assert.AreEqual(14.67m, mid.Torque);
+            Assert.AreEqual(46, mid.Angle);
+            Assert.AreEqual(new DateTime(2001,4,22,14,54,34), mid.Timestamp);
+            Assert.AreEqual(BatchStatus.NotUsed, mid.BatchStatus);
             AssertEqualPackages(package, mid);
         }
 
@@ -39,17 +41,17 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse<Mid0065>(bytes);
 
             Assert.AreEqual(typeof(Mid0065), mid.GetType());
-            Assert.IsNotNull(mid.TighteningId);
-            Assert.IsNotNull(mid.VinNumber);
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.BatchCounter);
-            Assert.IsNotNull(mid.TighteningStatus);
-            Assert.IsNotNull(mid.TorqueStatus);
-            Assert.IsNotNull(mid.AngleStatus);
-            Assert.IsNotNull(mid.Torque);
-            Assert.IsNotNull(mid.Angle);
-            Assert.IsNotNull(mid.Timestamp);
-            Assert.IsNotNull(mid.BatchStatus);
+            Assert.AreEqual(123456789L, mid.TighteningId);
+            Assert.AreEqual("AIRBAG                   ", mid.VinNumber);
+            Assert.AreEqual(1, mid.ParameterSetId);
+            Assert.AreEqual(2, mid.BatchCounter);
+            Assert.AreEqual(false, mid.TighteningStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.TorqueStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.AngleStatus);
+            Assert.AreEqual(14.67m, mid.Torque);
+            Assert.AreEqual(46, mid.Angle);
+            Assert.AreEqual(new DateTime(2001,4,22,14,54,34), mid.Timestamp);
+            Assert.AreEqual(BatchStatus.NotUsed, mid.BatchStatus);
             AssertEqualPackages(bytes, mid);
         }
 
@@ -61,33 +63,34 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse<Mid0065>(package);
 
             Assert.AreEqual(typeof(Mid0065), mid.GetType());
-            Assert.IsNotNull(mid.TighteningId);
-            Assert.IsNotNull(mid.VinNumber);
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.Strategy);
+            Assert.AreEqual(123456789L, mid.TighteningId);
+            Assert.AreEqual("AIRBAG                   ", mid.VinNumber);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual(2, mid.ParameterSetId);
+            Assert.AreEqual(Strategy.RotateSpindleForward, mid.Strategy);
             Assert.IsNotNull(mid.StrategyOptions);
-            Assert.IsNotNull(mid.BatchSize);
-            Assert.IsNotNull(mid.BatchCounter);
-            Assert.IsNotNull(mid.TighteningStatus);
-            Assert.IsNotNull(mid.BatchStatus);
-            Assert.IsNotNull(mid.TorqueStatus);
-            Assert.IsNotNull(mid.AngleStatus);
-            Assert.IsNotNull(mid.RundownAngleStatus);
-            Assert.IsNotNull(mid.CurrentMonitoringStatus);
-            Assert.IsNotNull(mid.SelftapStatus);
-            Assert.IsNotNull(mid.PrevailTorqueMonitoringStatus);
-            Assert.IsNotNull(mid.PrevailTorqueCompensateStatus);
+            Assert.AreEqual(0, mid.BatchSize);
+            Assert.AreEqual(0, mid.BatchCounter);
+            Assert.AreEqual(false, mid.TighteningStatus);
+            Assert.AreEqual(BatchStatus.Nok, mid.BatchStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.TorqueStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.AngleStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.RundownAngleStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.CurrentMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.SelftapStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.PrevailTorqueMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.PrevailTorqueCompensateStatus);
             Assert.IsNotNull(mid.TighteningErrorStatus);
-            Assert.IsNotNull(mid.Torque);
-            Assert.IsNotNull(mid.Angle);
-            Assert.IsNotNull(mid.RundownAngle);
-            Assert.IsNotNull(mid.CurrentMonitoringValue);
-            Assert.IsNotNull(mid.SelftapTorque);
-            Assert.IsNotNull(mid.JobSequenceNumber);
-            Assert.IsNotNull(mid.SyncTighteningId);
-            Assert.IsNotNull(mid.ToolSerialNumber);
-            Assert.IsNotNull(mid.Timestamp);
+            Assert.AreEqual(10m, mid.Torque);
+            Assert.AreEqual(360, mid.Angle);
+            Assert.AreEqual(250, mid.RundownAngle);
+            Assert.AreEqual(2, mid.CurrentMonitoringValue);
+            Assert.AreEqual(2.15m, mid.SelftapTorque);
+            Assert.AreEqual(10.25m, mid.PrevailTorque);
+            Assert.AreEqual(12, mid.JobSequenceNumber);
+            Assert.AreEqual(65535, mid.SyncTighteningId);
+            Assert.AreEqual("ABCDEFG-123   ", mid.ToolSerialNumber);
+            Assert.AreEqual(new DateTime(2019,1,5,9,0,5), mid.Timestamp);
             AssertEqualPackages(package, mid);
         }
 
@@ -133,33 +136,34 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse<Mid0065>(bytes.ToArray());
 
             Assert.AreEqual(typeof(Mid0065), mid.GetType());
-            Assert.IsNotNull(mid.TighteningId);
-            Assert.IsNotNull(mid.VinNumber);
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.Strategy);
+            Assert.AreEqual(123456789L, mid.TighteningId);
+            Assert.AreEqual("AIRBAG                   ", mid.VinNumber);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual(2, mid.ParameterSetId);
+            Assert.AreEqual(Strategy.RotateSpindleForward, mid.Strategy);
             Assert.IsNotNull(mid.StrategyOptions);
-            Assert.IsNotNull(mid.BatchSize);
-            Assert.IsNotNull(mid.BatchCounter);
-            Assert.IsNotNull(mid.TighteningStatus);
-            Assert.IsNotNull(mid.BatchStatus);
-            Assert.IsNotNull(mid.TorqueStatus);
-            Assert.IsNotNull(mid.AngleStatus);
-            Assert.IsNotNull(mid.RundownAngleStatus);
-            Assert.IsNotNull(mid.CurrentMonitoringStatus);
-            Assert.IsNotNull(mid.SelftapStatus);
-            Assert.IsNotNull(mid.PrevailTorqueMonitoringStatus);
-            Assert.IsNotNull(mid.PrevailTorqueCompensateStatus);
+            Assert.AreEqual(0, mid.BatchSize);
+            Assert.AreEqual(0, mid.BatchCounter);
+            Assert.AreEqual(false, mid.TighteningStatus);
+            Assert.AreEqual(BatchStatus.Nok, mid.BatchStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.TorqueStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.AngleStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.RundownAngleStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.CurrentMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.SelftapStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.PrevailTorqueMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.PrevailTorqueCompensateStatus);
             Assert.IsNotNull(mid.TighteningErrorStatus);
-            Assert.IsNotNull(mid.Torque);
-            Assert.IsNotNull(mid.Angle);
-            Assert.IsNotNull(mid.RundownAngle);
-            Assert.IsNotNull(mid.CurrentMonitoringValue);
-            Assert.IsNotNull(mid.SelftapTorque);
-            Assert.IsNotNull(mid.JobSequenceNumber);
-            Assert.IsNotNull(mid.SyncTighteningId);
-            Assert.IsNotNull(mid.ToolSerialNumber);
-            Assert.IsNotNull(mid.Timestamp);
+            Assert.AreEqual(10m, mid.Torque);
+            Assert.AreEqual(360, mid.Angle);
+            Assert.AreEqual(250, mid.RundownAngle);
+            Assert.AreEqual(2, mid.CurrentMonitoringValue);
+            Assert.AreEqual(2.15m, mid.SelftapTorque);
+            Assert.AreEqual(10.25m, mid.PrevailTorque);
+            Assert.AreEqual(12, mid.JobSequenceNumber);
+            Assert.AreEqual(65535, mid.SyncTighteningId);
+            Assert.AreEqual("ABCDEFG-123   ", mid.ToolSerialNumber);
+            Assert.AreEqual(new DateTime(2019,1,5,9,0,5), mid.Timestamp);
             AssertEqualPackages(bytes, mid);
         }
 
@@ -171,35 +175,36 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse<Mid0065>(package);
 
             Assert.AreEqual(typeof(Mid0065), mid.GetType());
-            Assert.IsNotNull(mid.TighteningId);
-            Assert.IsNotNull(mid.VinNumber);
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.Strategy);
+            Assert.AreEqual(123456789L, mid.TighteningId);
+            Assert.AreEqual("AIRBAG                   ", mid.VinNumber);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual(2, mid.ParameterSetId);
+            Assert.AreEqual(Strategy.RotateSpindleForward, mid.Strategy);
             Assert.IsNotNull(mid.StrategyOptions);
-            Assert.IsNotNull(mid.BatchSize);
-            Assert.IsNotNull(mid.BatchCounter);
-            Assert.IsNotNull(mid.TighteningStatus);
-            Assert.IsNotNull(mid.BatchStatus);
-            Assert.IsNotNull(mid.TorqueStatus);
-            Assert.IsNotNull(mid.AngleStatus);
-            Assert.IsNotNull(mid.RundownAngleStatus);
-            Assert.IsNotNull(mid.CurrentMonitoringStatus);
-            Assert.IsNotNull(mid.SelftapStatus);
-            Assert.IsNotNull(mid.PrevailTorqueMonitoringStatus);
-            Assert.IsNotNull(mid.PrevailTorqueCompensateStatus);
+            Assert.AreEqual(0, mid.BatchSize);
+            Assert.AreEqual(0, mid.BatchCounter);
+            Assert.AreEqual(false, mid.TighteningStatus);
+            Assert.AreEqual(BatchStatus.Nok, mid.BatchStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.TorqueStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.AngleStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.RundownAngleStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.CurrentMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.SelftapStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.PrevailTorqueMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.PrevailTorqueCompensateStatus);
             Assert.IsNotNull(mid.TighteningErrorStatus);
-            Assert.IsNotNull(mid.Torque);
-            Assert.IsNotNull(mid.Angle);
-            Assert.IsNotNull(mid.RundownAngle);
-            Assert.IsNotNull(mid.CurrentMonitoringValue);
-            Assert.IsNotNull(mid.SelftapTorque);
-            Assert.IsNotNull(mid.JobSequenceNumber);
-            Assert.IsNotNull(mid.SyncTighteningId);
-            Assert.IsNotNull(mid.ToolSerialNumber);
-            Assert.IsNotNull(mid.Timestamp);
-            Assert.IsNotNull(mid.TorqueValuesUnit);
-            Assert.IsNotNull(mid.ResultType);
+            Assert.AreEqual(10m, mid.Torque);
+            Assert.AreEqual(360, mid.Angle);
+            Assert.AreEqual(250, mid.RundownAngle);
+            Assert.AreEqual(2, mid.CurrentMonitoringValue);
+            Assert.AreEqual(2.15m, mid.SelftapTorque);
+            Assert.AreEqual(10.25m, mid.PrevailTorque);
+            Assert.AreEqual(12, mid.JobSequenceNumber);
+            Assert.AreEqual(65535, mid.SyncTighteningId);
+            Assert.AreEqual("ABCDEFG-123   ", mid.ToolSerialNumber);
+            Assert.AreEqual(new DateTime(2019,1,5,9,0,5), mid.Timestamp);
+            Assert.AreEqual(TorqueValuesUnit.Percentage, mid.TorqueValuesUnit);
+            Assert.AreEqual((ResultType)8, mid.ResultType);
             AssertEqualPackages(package, mid);
         }
 
@@ -245,35 +250,36 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse<Mid0065>(bytes.ToArray());
 
             Assert.AreEqual(typeof(Mid0065), mid.GetType());
-            Assert.IsNotNull(mid.TighteningId);
-            Assert.IsNotNull(mid.VinNumber);
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.Strategy);
+            Assert.AreEqual(123456789L, mid.TighteningId);
+            Assert.AreEqual("AIRBAG                   ", mid.VinNumber);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual(2, mid.ParameterSetId);
+            Assert.AreEqual(Strategy.RotateSpindleForward, mid.Strategy);
             Assert.IsNotNull(mid.StrategyOptions);
-            Assert.IsNotNull(mid.BatchSize);
-            Assert.IsNotNull(mid.BatchCounter);
-            Assert.IsNotNull(mid.TighteningStatus);
-            Assert.IsNotNull(mid.BatchStatus);
-            Assert.IsNotNull(mid.TorqueStatus);
-            Assert.IsNotNull(mid.AngleStatus);
-            Assert.IsNotNull(mid.RundownAngleStatus);
-            Assert.IsNotNull(mid.CurrentMonitoringStatus);
-            Assert.IsNotNull(mid.SelftapStatus);
-            Assert.IsNotNull(mid.PrevailTorqueMonitoringStatus);
-            Assert.IsNotNull(mid.PrevailTorqueCompensateStatus);
+            Assert.AreEqual(0, mid.BatchSize);
+            Assert.AreEqual(0, mid.BatchCounter);
+            Assert.AreEqual(false, mid.TighteningStatus);
+            Assert.AreEqual(BatchStatus.Nok, mid.BatchStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.TorqueStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.AngleStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.RundownAngleStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.CurrentMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.SelftapStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.PrevailTorqueMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.PrevailTorqueCompensateStatus);
             Assert.IsNotNull(mid.TighteningErrorStatus);
-            Assert.IsNotNull(mid.Torque);
-            Assert.IsNotNull(mid.Angle);
-            Assert.IsNotNull(mid.RundownAngle);
-            Assert.IsNotNull(mid.CurrentMonitoringValue);
-            Assert.IsNotNull(mid.SelftapTorque);
-            Assert.IsNotNull(mid.JobSequenceNumber);
-            Assert.IsNotNull(mid.SyncTighteningId);
-            Assert.IsNotNull(mid.ToolSerialNumber);
-            Assert.IsNotNull(mid.Timestamp);
-            Assert.IsNotNull(mid.TorqueValuesUnit);
-            Assert.IsNotNull(mid.ResultType);
+            Assert.AreEqual(10m, mid.Torque);
+            Assert.AreEqual(360, mid.Angle);
+            Assert.AreEqual(250, mid.RundownAngle);
+            Assert.AreEqual(2, mid.CurrentMonitoringValue);
+            Assert.AreEqual(2.15m, mid.SelftapTorque);
+            Assert.AreEqual(10.25m, mid.PrevailTorque);
+            Assert.AreEqual(12, mid.JobSequenceNumber);
+            Assert.AreEqual(65535, mid.SyncTighteningId);
+            Assert.AreEqual("ABCDEFG-123   ", mid.ToolSerialNumber);
+            Assert.AreEqual(new DateTime(2019,1,5,9,0,5), mid.Timestamp);
+            Assert.AreEqual(TorqueValuesUnit.Percentage, mid.TorqueValuesUnit);
+            Assert.AreEqual((ResultType)8, mid.ResultType);
             AssertEqualPackages(bytes, mid);
         }
 
@@ -285,38 +291,39 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse<Mid0065>(package);
 
             Assert.AreEqual(typeof(Mid0065), mid.GetType());
-            Assert.IsNotNull(mid.TighteningId);
-            Assert.IsNotNull(mid.VinNumber);
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.Strategy);
+            Assert.AreEqual(123456789L, mid.TighteningId);
+            Assert.AreEqual("AIRBAG                   ", mid.VinNumber);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual(2, mid.ParameterSetId);
+            Assert.AreEqual(Strategy.RotateSpindleForward, mid.Strategy);
             Assert.IsNotNull(mid.StrategyOptions);
-            Assert.IsNotNull(mid.BatchSize);
-            Assert.IsNotNull(mid.BatchCounter);
-            Assert.IsNotNull(mid.TighteningStatus);
-            Assert.IsNotNull(mid.BatchStatus);
-            Assert.IsNotNull(mid.TorqueStatus);
-            Assert.IsNotNull(mid.AngleStatus);
-            Assert.IsNotNull(mid.RundownAngleStatus);
-            Assert.IsNotNull(mid.CurrentMonitoringStatus);
-            Assert.IsNotNull(mid.SelftapStatus);
-            Assert.IsNotNull(mid.PrevailTorqueMonitoringStatus);
-            Assert.IsNotNull(mid.PrevailTorqueCompensateStatus);
+            Assert.AreEqual(0, mid.BatchSize);
+            Assert.AreEqual(0, mid.BatchCounter);
+            Assert.AreEqual(false, mid.TighteningStatus);
+            Assert.AreEqual(BatchStatus.Nok, mid.BatchStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.TorqueStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.AngleStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.RundownAngleStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.CurrentMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.SelftapStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.PrevailTorqueMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.PrevailTorqueCompensateStatus);
             Assert.IsNotNull(mid.TighteningErrorStatus);
-            Assert.IsNotNull(mid.Torque);
-            Assert.IsNotNull(mid.Angle);
-            Assert.IsNotNull(mid.RundownAngle);
-            Assert.IsNotNull(mid.CurrentMonitoringValue);
-            Assert.IsNotNull(mid.SelftapTorque);
-            Assert.IsNotNull(mid.JobSequenceNumber);
-            Assert.IsNotNull(mid.SyncTighteningId);
-            Assert.IsNotNull(mid.ToolSerialNumber);
-            Assert.IsNotNull(mid.Timestamp);
-            Assert.IsNotNull(mid.TorqueValuesUnit);
-            Assert.IsNotNull(mid.ResultType);
-            Assert.IsNotNull(mid.IdentifierResultPart2);
-            Assert.IsNotNull(mid.IdentifierResultPart3);
-            Assert.IsNotNull(mid.IdentifierResultPart4);
+            Assert.AreEqual(10m, mid.Torque);
+            Assert.AreEqual(360, mid.Angle);
+            Assert.AreEqual(250, mid.RundownAngle);
+            Assert.AreEqual(2, mid.CurrentMonitoringValue);
+            Assert.AreEqual(2.15m, mid.SelftapTorque);
+            Assert.AreEqual(10.25m, mid.PrevailTorque);
+            Assert.AreEqual(12, mid.JobSequenceNumber);
+            Assert.AreEqual(65535, mid.SyncTighteningId);
+            Assert.AreEqual("ABCDEFG-123   ", mid.ToolSerialNumber);
+            Assert.AreEqual(new DateTime(2019,1,5,9,0,5), mid.Timestamp);
+            Assert.AreEqual(TorqueValuesUnit.Percentage, mid.TorqueValuesUnit);
+            Assert.AreEqual((ResultType)8, mid.ResultType);
+            Assert.AreEqual("Identifier result part 2 ", mid.IdentifierResultPart2);
+            Assert.AreEqual("Identifier result part 3 ", mid.IdentifierResultPart3);
+            Assert.AreEqual("Identifier result part 4 ", mid.IdentifierResultPart4);
             AssertEqualPackages(package, mid);
         }
 
@@ -362,38 +369,39 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse<Mid0065>(bytes.ToArray());
 
             Assert.AreEqual(typeof(Mid0065), mid.GetType());
-            Assert.IsNotNull(mid.TighteningId);
-            Assert.IsNotNull(mid.VinNumber);
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.Strategy);
+            Assert.AreEqual(123456789L, mid.TighteningId);
+            Assert.AreEqual("AIRBAG                   ", mid.VinNumber);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual(2, mid.ParameterSetId);
+            Assert.AreEqual(Strategy.RotateSpindleForward, mid.Strategy);
             Assert.IsNotNull(mid.StrategyOptions);
-            Assert.IsNotNull(mid.BatchSize);
-            Assert.IsNotNull(mid.BatchCounter);
-            Assert.IsNotNull(mid.TighteningStatus);
-            Assert.IsNotNull(mid.BatchStatus);
-            Assert.IsNotNull(mid.TorqueStatus);
-            Assert.IsNotNull(mid.AngleStatus);
-            Assert.IsNotNull(mid.RundownAngleStatus);
-            Assert.IsNotNull(mid.CurrentMonitoringStatus);
-            Assert.IsNotNull(mid.SelftapStatus);
-            Assert.IsNotNull(mid.PrevailTorqueMonitoringStatus);
-            Assert.IsNotNull(mid.PrevailTorqueCompensateStatus);
+            Assert.AreEqual(0, mid.BatchSize);
+            Assert.AreEqual(0, mid.BatchCounter);
+            Assert.AreEqual(false, mid.TighteningStatus);
+            Assert.AreEqual(BatchStatus.Nok, mid.BatchStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.TorqueStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.AngleStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.RundownAngleStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.CurrentMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.SelftapStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.PrevailTorqueMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.PrevailTorqueCompensateStatus);
             Assert.IsNotNull(mid.TighteningErrorStatus);
-            Assert.IsNotNull(mid.Torque);
-            Assert.IsNotNull(mid.Angle);
-            Assert.IsNotNull(mid.RundownAngle);
-            Assert.IsNotNull(mid.CurrentMonitoringValue);
-            Assert.IsNotNull(mid.SelftapTorque);
-            Assert.IsNotNull(mid.JobSequenceNumber);
-            Assert.IsNotNull(mid.SyncTighteningId);
-            Assert.IsNotNull(mid.ToolSerialNumber);
-            Assert.IsNotNull(mid.Timestamp);
-            Assert.IsNotNull(mid.TorqueValuesUnit);
-            Assert.IsNotNull(mid.ResultType);
-            Assert.IsNotNull(mid.IdentifierResultPart2);
-            Assert.IsNotNull(mid.IdentifierResultPart3);
-            Assert.IsNotNull(mid.IdentifierResultPart4);
+            Assert.AreEqual(10m, mid.Torque);
+            Assert.AreEqual(360, mid.Angle);
+            Assert.AreEqual(250, mid.RundownAngle);
+            Assert.AreEqual(2, mid.CurrentMonitoringValue);
+            Assert.AreEqual(2.15m, mid.SelftapTorque);
+            Assert.AreEqual(10.25m, mid.PrevailTorque);
+            Assert.AreEqual(12, mid.JobSequenceNumber);
+            Assert.AreEqual(65535, mid.SyncTighteningId);
+            Assert.AreEqual("ABCDEFG-123   ", mid.ToolSerialNumber);
+            Assert.AreEqual(new DateTime(2019,1,5,9,0,5), mid.Timestamp);
+            Assert.AreEqual(TorqueValuesUnit.Percentage, mid.TorqueValuesUnit);
+            Assert.AreEqual((ResultType)8, mid.ResultType);
+            Assert.AreEqual("Identifier result part 2 ", mid.IdentifierResultPart2);
+            Assert.AreEqual("Identifier result part 3 ", mid.IdentifierResultPart3);
+            Assert.AreEqual("Identifier result part 4 ", mid.IdentifierResultPart4);
             AssertEqualPackages(bytes, mid);
         }
 
@@ -405,39 +413,40 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse<Mid0065>(package);
 
             Assert.AreEqual(typeof(Mid0065), mid.GetType());
-            Assert.IsNotNull(mid.TighteningId);
-            Assert.IsNotNull(mid.VinNumber);
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.Strategy);
+            Assert.AreEqual(123456789L, mid.TighteningId);
+            Assert.AreEqual("AIRBAG                   ", mid.VinNumber);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual(2, mid.ParameterSetId);
+            Assert.AreEqual(Strategy.RotateSpindleForward, mid.Strategy);
             Assert.IsNotNull(mid.StrategyOptions);
-            Assert.IsNotNull(mid.BatchSize);
-            Assert.IsNotNull(mid.BatchCounter);
-            Assert.IsNotNull(mid.TighteningStatus);
-            Assert.IsNotNull(mid.BatchStatus);
-            Assert.IsNotNull(mid.TorqueStatus);
-            Assert.IsNotNull(mid.AngleStatus);
-            Assert.IsNotNull(mid.RundownAngleStatus);
-            Assert.IsNotNull(mid.CurrentMonitoringStatus);
-            Assert.IsNotNull(mid.SelftapStatus);
-            Assert.IsNotNull(mid.PrevailTorqueMonitoringStatus);
-            Assert.IsNotNull(mid.PrevailTorqueCompensateStatus);
+            Assert.AreEqual(0, mid.BatchSize);
+            Assert.AreEqual(0, mid.BatchCounter);
+            Assert.AreEqual(false, mid.TighteningStatus);
+            Assert.AreEqual(BatchStatus.Nok, mid.BatchStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.TorqueStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.AngleStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.RundownAngleStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.CurrentMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.SelftapStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.PrevailTorqueMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.PrevailTorqueCompensateStatus);
             Assert.IsNotNull(mid.TighteningErrorStatus);
-            Assert.IsNotNull(mid.Torque);
-            Assert.IsNotNull(mid.Angle);
-            Assert.IsNotNull(mid.RundownAngle);
-            Assert.IsNotNull(mid.CurrentMonitoringValue);
-            Assert.IsNotNull(mid.SelftapTorque);
-            Assert.IsNotNull(mid.JobSequenceNumber);
-            Assert.IsNotNull(mid.SyncTighteningId);
-            Assert.IsNotNull(mid.ToolSerialNumber);
-            Assert.IsNotNull(mid.Timestamp);
-            Assert.IsNotNull(mid.TorqueValuesUnit);
-            Assert.IsNotNull(mid.ResultType);
-            Assert.IsNotNull(mid.IdentifierResultPart2);
-            Assert.IsNotNull(mid.IdentifierResultPart3);
-            Assert.IsNotNull(mid.IdentifierResultPart4);
-            Assert.IsNotNull(mid.CustomerTighteningErrorCode);
+            Assert.AreEqual(10m, mid.Torque);
+            Assert.AreEqual(360, mid.Angle);
+            Assert.AreEqual(250, mid.RundownAngle);
+            Assert.AreEqual(2, mid.CurrentMonitoringValue);
+            Assert.AreEqual(2.15m, mid.SelftapTorque);
+            Assert.AreEqual(10.25m, mid.PrevailTorque);
+            Assert.AreEqual(12, mid.JobSequenceNumber);
+            Assert.AreEqual(65535, mid.SyncTighteningId);
+            Assert.AreEqual("ABCDEFG-123   ", mid.ToolSerialNumber);
+            Assert.AreEqual(new DateTime(2019,1,5,9,0,5), mid.Timestamp);
+            Assert.AreEqual(TorqueValuesUnit.Percentage, mid.TorqueValuesUnit);
+            Assert.AreEqual((ResultType)8, mid.ResultType);
+            Assert.AreEqual("Identifier result part 2 ", mid.IdentifierResultPart2);
+            Assert.AreEqual("Identifier result part 3 ", mid.IdentifierResultPart3);
+            Assert.AreEqual("Identifier result part 4 ", mid.IdentifierResultPart4);
+            Assert.AreEqual("E124", mid.CustomerTighteningErrorCode);
             AssertEqualPackages(package, mid);
         }
 
@@ -483,39 +492,40 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse<Mid0065>(bytes.ToArray());
 
             Assert.AreEqual(typeof(Mid0065), mid.GetType());
-            Assert.IsNotNull(mid.TighteningId);
-            Assert.IsNotNull(mid.VinNumber);
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.Strategy);
+            Assert.AreEqual(123456789L, mid.TighteningId);
+            Assert.AreEqual("AIRBAG                   ", mid.VinNumber);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual(2, mid.ParameterSetId);
+            Assert.AreEqual(Strategy.RotateSpindleForward, mid.Strategy);
             Assert.IsNotNull(mid.StrategyOptions);
-            Assert.IsNotNull(mid.BatchSize);
-            Assert.IsNotNull(mid.BatchCounter);
-            Assert.IsNotNull(mid.TighteningStatus);
-            Assert.IsNotNull(mid.BatchStatus);
-            Assert.IsNotNull(mid.TorqueStatus);
-            Assert.IsNotNull(mid.AngleStatus);
-            Assert.IsNotNull(mid.RundownAngleStatus);
-            Assert.IsNotNull(mid.CurrentMonitoringStatus);
-            Assert.IsNotNull(mid.SelftapStatus);
-            Assert.IsNotNull(mid.PrevailTorqueMonitoringStatus);
-            Assert.IsNotNull(mid.PrevailTorqueCompensateStatus);
+            Assert.AreEqual(0, mid.BatchSize);
+            Assert.AreEqual(0, mid.BatchCounter);
+            Assert.AreEqual(false, mid.TighteningStatus);
+            Assert.AreEqual(BatchStatus.Nok, mid.BatchStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.TorqueStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.AngleStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.RundownAngleStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.CurrentMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.SelftapStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.PrevailTorqueMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.PrevailTorqueCompensateStatus);
             Assert.IsNotNull(mid.TighteningErrorStatus);
-            Assert.IsNotNull(mid.Torque);
-            Assert.IsNotNull(mid.Angle);
-            Assert.IsNotNull(mid.RundownAngle);
-            Assert.IsNotNull(mid.CurrentMonitoringValue);
-            Assert.IsNotNull(mid.SelftapTorque);
-            Assert.IsNotNull(mid.JobSequenceNumber);
-            Assert.IsNotNull(mid.SyncTighteningId);
-            Assert.IsNotNull(mid.ToolSerialNumber);
-            Assert.IsNotNull(mid.Timestamp);
-            Assert.IsNotNull(mid.TorqueValuesUnit);
-            Assert.IsNotNull(mid.ResultType);
-            Assert.IsNotNull(mid.IdentifierResultPart2);
-            Assert.IsNotNull(mid.IdentifierResultPart3);
-            Assert.IsNotNull(mid.IdentifierResultPart4);
-            Assert.IsNotNull(mid.CustomerTighteningErrorCode);
+            Assert.AreEqual(10m, mid.Torque);
+            Assert.AreEqual(360, mid.Angle);
+            Assert.AreEqual(250, mid.RundownAngle);
+            Assert.AreEqual(2, mid.CurrentMonitoringValue);
+            Assert.AreEqual(2.15m, mid.SelftapTorque);
+            Assert.AreEqual(10.25m, mid.PrevailTorque);
+            Assert.AreEqual(12, mid.JobSequenceNumber);
+            Assert.AreEqual(65535, mid.SyncTighteningId);
+            Assert.AreEqual("ABCDEFG-123   ", mid.ToolSerialNumber);
+            Assert.AreEqual(new DateTime(2019,1,5,9,0,5), mid.Timestamp);
+            Assert.AreEqual(TorqueValuesUnit.Percentage, mid.TorqueValuesUnit);
+            Assert.AreEqual((ResultType)8, mid.ResultType);
+            Assert.AreEqual("Identifier result part 2 ", mid.IdentifierResultPart2);
+            Assert.AreEqual("Identifier result part 3 ", mid.IdentifierResultPart3);
+            Assert.AreEqual("Identifier result part 4 ", mid.IdentifierResultPart4);
+            Assert.AreEqual("E124", mid.CustomerTighteningErrorCode);
             AssertEqualPackages(bytes, mid);
         }
 
@@ -527,40 +537,41 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse<Mid0065>(package);
 
             Assert.AreEqual(typeof(Mid0065), mid.GetType());
-            Assert.IsNotNull(mid.TighteningId);
-            Assert.IsNotNull(mid.VinNumber);
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.Strategy);
+            Assert.AreEqual(123456789L, mid.TighteningId);
+            Assert.AreEqual("AIRBAG                   ", mid.VinNumber);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual(2, mid.ParameterSetId);
+            Assert.AreEqual(Strategy.RotateSpindleForward, mid.Strategy);
             Assert.IsNotNull(mid.StrategyOptions);
-            Assert.IsNotNull(mid.BatchSize);
-            Assert.IsNotNull(mid.BatchCounter);
-            Assert.IsNotNull(mid.TighteningStatus);
-            Assert.IsNotNull(mid.BatchStatus);
-            Assert.IsNotNull(mid.TorqueStatus);
-            Assert.IsNotNull(mid.AngleStatus);
-            Assert.IsNotNull(mid.RundownAngleStatus);
-            Assert.IsNotNull(mid.CurrentMonitoringStatus);
-            Assert.IsNotNull(mid.SelftapStatus);
-            Assert.IsNotNull(mid.PrevailTorqueMonitoringStatus);
-            Assert.IsNotNull(mid.PrevailTorqueCompensateStatus);
+            Assert.AreEqual(0, mid.BatchSize);
+            Assert.AreEqual(0, mid.BatchCounter);
+            Assert.AreEqual(false, mid.TighteningStatus);
+            Assert.AreEqual(BatchStatus.Nok, mid.BatchStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.TorqueStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.AngleStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.RundownAngleStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.CurrentMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.SelftapStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.PrevailTorqueMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.PrevailTorqueCompensateStatus);
             Assert.IsNotNull(mid.TighteningErrorStatus);
-            Assert.IsNotNull(mid.Torque);
-            Assert.IsNotNull(mid.Angle);
-            Assert.IsNotNull(mid.RundownAngle);
-            Assert.IsNotNull(mid.CurrentMonitoringValue);
-            Assert.IsNotNull(mid.SelftapTorque);
-            Assert.IsNotNull(mid.JobSequenceNumber);
-            Assert.IsNotNull(mid.SyncTighteningId);
-            Assert.IsNotNull(mid.ToolSerialNumber);
-            Assert.IsNotNull(mid.Timestamp);
-            Assert.IsNotNull(mid.TorqueValuesUnit);
-            Assert.IsNotNull(mid.ResultType);
-            Assert.IsNotNull(mid.IdentifierResultPart2);
-            Assert.IsNotNull(mid.IdentifierResultPart3);
-            Assert.IsNotNull(mid.IdentifierResultPart4);
-            Assert.IsNotNull(mid.CustomerTighteningErrorCode);
-            Assert.IsNotNull(mid.PrevailTorqueCompensateValue);
+            Assert.AreEqual(10m, mid.Torque);
+            Assert.AreEqual(360, mid.Angle);
+            Assert.AreEqual(250, mid.RundownAngle);
+            Assert.AreEqual(2, mid.CurrentMonitoringValue);
+            Assert.AreEqual(2.15m, mid.SelftapTorque);
+            Assert.AreEqual(10.25m, mid.PrevailTorque);
+            Assert.AreEqual(12, mid.JobSequenceNumber);
+            Assert.AreEqual(65535, mid.SyncTighteningId);
+            Assert.AreEqual("ABCDEFG-123   ", mid.ToolSerialNumber);
+            Assert.AreEqual(new DateTime(2019,1,5,9,0,5), mid.Timestamp);
+            Assert.AreEqual(TorqueValuesUnit.Percentage, mid.TorqueValuesUnit);
+            Assert.AreEqual((ResultType)8, mid.ResultType);
+            Assert.AreEqual("Identifier result part 2 ", mid.IdentifierResultPart2);
+            Assert.AreEqual("Identifier result part 3 ", mid.IdentifierResultPart3);
+            Assert.AreEqual("Identifier result part 4 ", mid.IdentifierResultPart4);
+            Assert.AreEqual("E124", mid.CustomerTighteningErrorCode);
+            Assert.AreEqual(51m, mid.PrevailTorqueCompensateValue);
             Assert.IsNotNull(mid.TighteningErrorStatus2);
             AssertEqualPackages(package, mid);
         }
@@ -622,40 +633,41 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse<Mid0065>(bytes.ToArray());
 
             Assert.AreEqual(typeof(Mid0065), mid.GetType());
-            Assert.IsNotNull(mid.TighteningId);
-            Assert.IsNotNull(mid.VinNumber);
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.Strategy);
+            Assert.AreEqual(123456789L, mid.TighteningId);
+            Assert.AreEqual("AIRBAG                   ", mid.VinNumber);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual(2, mid.ParameterSetId);
+            Assert.AreEqual(Strategy.RotateSpindleForward, mid.Strategy);
             Assert.IsNotNull(mid.StrategyOptions);
-            Assert.IsNotNull(mid.BatchSize);
-            Assert.IsNotNull(mid.BatchCounter);
-            Assert.IsNotNull(mid.TighteningStatus);
-            Assert.IsNotNull(mid.BatchStatus);
-            Assert.IsNotNull(mid.TorqueStatus);
-            Assert.IsNotNull(mid.AngleStatus);
-            Assert.IsNotNull(mid.RundownAngleStatus);
-            Assert.IsNotNull(mid.CurrentMonitoringStatus);
-            Assert.IsNotNull(mid.SelftapStatus);
-            Assert.IsNotNull(mid.PrevailTorqueMonitoringStatus);
-            Assert.IsNotNull(mid.PrevailTorqueCompensateStatus);
+            Assert.AreEqual(0, mid.BatchSize);
+            Assert.AreEqual(0, mid.BatchCounter);
+            Assert.AreEqual(false, mid.TighteningStatus);
+            Assert.AreEqual(BatchStatus.Nok, mid.BatchStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.TorqueStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.AngleStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.RundownAngleStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.CurrentMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.SelftapStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.PrevailTorqueMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.PrevailTorqueCompensateStatus);
             Assert.IsNotNull(mid.TighteningErrorStatus);
-            Assert.IsNotNull(mid.Torque);
-            Assert.IsNotNull(mid.Angle);
-            Assert.IsNotNull(mid.RundownAngle);
-            Assert.IsNotNull(mid.CurrentMonitoringValue);
-            Assert.IsNotNull(mid.SelftapTorque);
-            Assert.IsNotNull(mid.JobSequenceNumber);
-            Assert.IsNotNull(mid.SyncTighteningId);
-            Assert.IsNotNull(mid.ToolSerialNumber);
-            Assert.IsNotNull(mid.Timestamp);
-            Assert.IsNotNull(mid.TorqueValuesUnit);
-            Assert.IsNotNull(mid.ResultType);
-            Assert.IsNotNull(mid.IdentifierResultPart2);
-            Assert.IsNotNull(mid.IdentifierResultPart3);
-            Assert.IsNotNull(mid.IdentifierResultPart4);
-            Assert.IsNotNull(mid.CustomerTighteningErrorCode);
-            Assert.IsNotNull(mid.PrevailTorqueCompensateValue);
+            Assert.AreEqual(10m, mid.Torque);
+            Assert.AreEqual(360, mid.Angle);
+            Assert.AreEqual(250, mid.RundownAngle);
+            Assert.AreEqual(2, mid.CurrentMonitoringValue);
+            Assert.AreEqual(2.15m, mid.SelftapTorque);
+            Assert.AreEqual(10.25m, mid.PrevailTorque);
+            Assert.AreEqual(12, mid.JobSequenceNumber);
+            Assert.AreEqual(65535, mid.SyncTighteningId);
+            Assert.AreEqual("ABCDEFG-123   ", mid.ToolSerialNumber);
+            Assert.AreEqual(new DateTime(2019,1,5,9,0,5), mid.Timestamp);
+            Assert.AreEqual(TorqueValuesUnit.Percentage, mid.TorqueValuesUnit);
+            Assert.AreEqual((ResultType)8, mid.ResultType);
+            Assert.AreEqual("Identifier result part 2 ", mid.IdentifierResultPart2);
+            Assert.AreEqual("Identifier result part 3 ", mid.IdentifierResultPart3);
+            Assert.AreEqual("Identifier result part 4 ", mid.IdentifierResultPart4);
+            Assert.AreEqual("E124", mid.CustomerTighteningErrorCode);
+            Assert.AreEqual(51m, mid.PrevailTorqueCompensateValue);
             Assert.IsNotNull(mid.TighteningErrorStatus2);
             AssertEqualPackages(bytes, mid);
         }
@@ -668,43 +680,44 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse<Mid0065>(package);
 
             Assert.AreEqual(typeof(Mid0065), mid.GetType());
-            Assert.IsNotNull(mid.TighteningId);
-            Assert.IsNotNull(mid.VinNumber);
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.Strategy);
+            Assert.AreEqual(123456789L, mid.TighteningId);
+            Assert.AreEqual("AIRBAG                   ", mid.VinNumber);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual(2, mid.ParameterSetId);
+            Assert.AreEqual(Strategy.RotateSpindleForward, mid.Strategy);
             Assert.IsNotNull(mid.StrategyOptions);
-            Assert.IsNotNull(mid.BatchSize);
-            Assert.IsNotNull(mid.BatchCounter);
-            Assert.IsNotNull(mid.TighteningStatus);
-            Assert.IsNotNull(mid.BatchStatus);
-            Assert.IsNotNull(mid.TorqueStatus);
-            Assert.IsNotNull(mid.AngleStatus);
-            Assert.IsNotNull(mid.RundownAngleStatus);
-            Assert.IsNotNull(mid.CurrentMonitoringStatus);
-            Assert.IsNotNull(mid.SelftapStatus);
-            Assert.IsNotNull(mid.PrevailTorqueMonitoringStatus);
-            Assert.IsNotNull(mid.PrevailTorqueCompensateStatus);
+            Assert.AreEqual(0, mid.BatchSize);
+            Assert.AreEqual(0, mid.BatchCounter);
+            Assert.AreEqual(false, mid.TighteningStatus);
+            Assert.AreEqual(BatchStatus.Nok, mid.BatchStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.TorqueStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.AngleStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.RundownAngleStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.CurrentMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.SelftapStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.PrevailTorqueMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.PrevailTorqueCompensateStatus);
             Assert.IsNotNull(mid.TighteningErrorStatus);
-            Assert.IsNotNull(mid.Torque);
-            Assert.IsNotNull(mid.Angle);
-            Assert.IsNotNull(mid.RundownAngle);
-            Assert.IsNotNull(mid.CurrentMonitoringValue);
-            Assert.IsNotNull(mid.SelftapTorque);
-            Assert.IsNotNull(mid.JobSequenceNumber);
-            Assert.IsNotNull(mid.SyncTighteningId);
-            Assert.IsNotNull(mid.ToolSerialNumber);
-            Assert.IsNotNull(mid.Timestamp);
-            Assert.IsNotNull(mid.TorqueValuesUnit);
-            Assert.IsNotNull(mid.ResultType);
-            Assert.IsNotNull(mid.IdentifierResultPart2);
-            Assert.IsNotNull(mid.IdentifierResultPart3);
-            Assert.IsNotNull(mid.IdentifierResultPart4);
-            Assert.IsNotNull(mid.CustomerTighteningErrorCode);
-            Assert.IsNotNull(mid.PrevailTorqueCompensateValue);
+            Assert.AreEqual(10m, mid.Torque);
+            Assert.AreEqual(360, mid.Angle);
+            Assert.AreEqual(250, mid.RundownAngle);
+            Assert.AreEqual(2, mid.CurrentMonitoringValue);
+            Assert.AreEqual(2.15m, mid.SelftapTorque);
+            Assert.AreEqual(10.25m, mid.PrevailTorque);
+            Assert.AreEqual(12, mid.JobSequenceNumber);
+            Assert.AreEqual(65535, mid.SyncTighteningId);
+            Assert.AreEqual("ABCDEFG-123   ", mid.ToolSerialNumber);
+            Assert.AreEqual(new DateTime(2019,1,5,9,0,5), mid.Timestamp);
+            Assert.AreEqual(TorqueValuesUnit.Percentage, mid.TorqueValuesUnit);
+            Assert.AreEqual((ResultType)8, mid.ResultType);
+            Assert.AreEqual("Identifier result part 2 ", mid.IdentifierResultPart2);
+            Assert.AreEqual("Identifier result part 3 ", mid.IdentifierResultPart3);
+            Assert.AreEqual("Identifier result part 4 ", mid.IdentifierResultPart4);
+            Assert.AreEqual("E124", mid.CustomerTighteningErrorCode);
+            Assert.AreEqual(51m, mid.PrevailTorqueCompensateValue);
             Assert.IsNotNull(mid.TighteningErrorStatus2);
-            Assert.AreNotEqual(0, mid.StationId);
-            Assert.IsNotNull(mid.StationName);
+            Assert.AreEqual(4294967295, mid.StationId);
+            Assert.AreEqual("Station Name             ", mid.StationName);
             AssertEqualPackages(package, mid);
         }
 
@@ -768,43 +781,44 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse<Mid0065>(bytes.ToArray());
 
             Assert.AreEqual(typeof(Mid0065), mid.GetType());
-            Assert.IsNotNull(mid.TighteningId);
-            Assert.IsNotNull(mid.VinNumber);
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.Strategy);
+            Assert.AreEqual(123456789L, mid.TighteningId);
+            Assert.AreEqual("AIRBAG                   ", mid.VinNumber);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual(2, mid.ParameterSetId);
+            Assert.AreEqual(Strategy.RotateSpindleForward, mid.Strategy);
             Assert.IsNotNull(mid.StrategyOptions);
-            Assert.IsNotNull(mid.BatchSize);
-            Assert.IsNotNull(mid.BatchCounter);
-            Assert.IsNotNull(mid.TighteningStatus);
-            Assert.IsNotNull(mid.BatchStatus);
-            Assert.IsNotNull(mid.TorqueStatus);
-            Assert.IsNotNull(mid.AngleStatus);
-            Assert.IsNotNull(mid.RundownAngleStatus);
-            Assert.IsNotNull(mid.CurrentMonitoringStatus);
-            Assert.IsNotNull(mid.SelftapStatus);
-            Assert.IsNotNull(mid.PrevailTorqueMonitoringStatus);
-            Assert.IsNotNull(mid.PrevailTorqueCompensateStatus);
+            Assert.AreEqual(0, mid.BatchSize);
+            Assert.AreEqual(0, mid.BatchCounter);
+            Assert.AreEqual(false, mid.TighteningStatus);
+            Assert.AreEqual(BatchStatus.Nok, mid.BatchStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.TorqueStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.AngleStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.RundownAngleStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.CurrentMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.SelftapStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.PrevailTorqueMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.PrevailTorqueCompensateStatus);
             Assert.IsNotNull(mid.TighteningErrorStatus);
-            Assert.IsNotNull(mid.Torque);
-            Assert.IsNotNull(mid.Angle);
-            Assert.IsNotNull(mid.RundownAngle);
-            Assert.IsNotNull(mid.CurrentMonitoringValue);
-            Assert.IsNotNull(mid.SelftapTorque);
-            Assert.IsNotNull(mid.JobSequenceNumber);
-            Assert.IsNotNull(mid.SyncTighteningId);
-            Assert.IsNotNull(mid.ToolSerialNumber);
-            Assert.IsNotNull(mid.Timestamp);
-            Assert.IsNotNull(mid.TorqueValuesUnit);
-            Assert.IsNotNull(mid.ResultType);
-            Assert.IsNotNull(mid.IdentifierResultPart2);
-            Assert.IsNotNull(mid.IdentifierResultPart3);
-            Assert.IsNotNull(mid.IdentifierResultPart4);
-            Assert.IsNotNull(mid.CustomerTighteningErrorCode);
-            Assert.IsNotNull(mid.PrevailTorqueCompensateValue);
+            Assert.AreEqual(10m, mid.Torque);
+            Assert.AreEqual(360, mid.Angle);
+            Assert.AreEqual(250, mid.RundownAngle);
+            Assert.AreEqual(2, mid.CurrentMonitoringValue);
+            Assert.AreEqual(2.15m, mid.SelftapTorque);
+            Assert.AreEqual(10.25m, mid.PrevailTorque);
+            Assert.AreEqual(12, mid.JobSequenceNumber);
+            Assert.AreEqual(65535, mid.SyncTighteningId);
+            Assert.AreEqual("ABCDEFG-123   ", mid.ToolSerialNumber);
+            Assert.AreEqual(new DateTime(2019,1,5,9,0,5), mid.Timestamp);
+            Assert.AreEqual(TorqueValuesUnit.Percentage, mid.TorqueValuesUnit);
+            Assert.AreEqual((ResultType)8, mid.ResultType);
+            Assert.AreEqual("Identifier result part 2 ", mid.IdentifierResultPart2);
+            Assert.AreEqual("Identifier result part 3 ", mid.IdentifierResultPart3);
+            Assert.AreEqual("Identifier result part 4 ", mid.IdentifierResultPart4);
+            Assert.AreEqual("E124", mid.CustomerTighteningErrorCode);
+            Assert.AreEqual(51m, mid.PrevailTorqueCompensateValue);
             Assert.IsNotNull(mid.TighteningErrorStatus2);
-            Assert.AreNotEqual(0, mid.StationId);
-            Assert.IsNotNull(mid.StationName);
+            Assert.AreEqual(4294967295, mid.StationId);
+            Assert.AreEqual("Station Name             ", mid.StationName);
             AssertEqualPackages(bytes, mid);
         }
 
@@ -816,47 +830,48 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse<Mid0065>(package);
 
             Assert.AreEqual(typeof(Mid0065), mid.GetType());
-            Assert.IsNotNull(mid.TighteningId);
-            Assert.IsNotNull(mid.VinNumber);
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.Strategy);
+            Assert.AreEqual(123456789L, mid.TighteningId);
+            Assert.AreEqual("AIRBAG                   ", mid.VinNumber);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual(2, mid.ParameterSetId);
+            Assert.AreEqual(Strategy.RotateSpindleForward, mid.Strategy);
             Assert.IsNotNull(mid.StrategyOptions);
-            Assert.IsNotNull(mid.BatchSize);
-            Assert.IsNotNull(mid.BatchCounter);
-            Assert.IsNotNull(mid.TighteningStatus);
-            Assert.IsNotNull(mid.BatchStatus);
-            Assert.IsNotNull(mid.TorqueStatus);
-            Assert.IsNotNull(mid.AngleStatus);
-            Assert.IsNotNull(mid.RundownAngleStatus);
-            Assert.IsNotNull(mid.CurrentMonitoringStatus);
-            Assert.IsNotNull(mid.SelftapStatus);
-            Assert.IsNotNull(mid.PrevailTorqueMonitoringStatus);
-            Assert.IsNotNull(mid.PrevailTorqueCompensateStatus);
+            Assert.AreEqual(0, mid.BatchSize);
+            Assert.AreEqual(0, mid.BatchCounter);
+            Assert.AreEqual(false, mid.TighteningStatus);
+            Assert.AreEqual(BatchStatus.Nok, mid.BatchStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.TorqueStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.AngleStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.RundownAngleStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.CurrentMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.SelftapStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.PrevailTorqueMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.PrevailTorqueCompensateStatus);
             Assert.IsNotNull(mid.TighteningErrorStatus);
-            Assert.IsNotNull(mid.Torque);
-            Assert.IsNotNull(mid.Angle);
-            Assert.IsNotNull(mid.RundownAngle);
-            Assert.IsNotNull(mid.CurrentMonitoringValue);
-            Assert.IsNotNull(mid.SelftapTorque);
-            Assert.IsNotNull(mid.JobSequenceNumber);
-            Assert.IsNotNull(mid.SyncTighteningId);
-            Assert.IsNotNull(mid.ToolSerialNumber);
-            Assert.IsNotNull(mid.Timestamp);
-            Assert.IsNotNull(mid.TorqueValuesUnit);
-            Assert.IsNotNull(mid.ResultType);
-            Assert.IsNotNull(mid.IdentifierResultPart2);
-            Assert.IsNotNull(mid.IdentifierResultPart3);
-            Assert.IsNotNull(mid.IdentifierResultPart4);
-            Assert.IsNotNull(mid.CustomerTighteningErrorCode);
-            Assert.IsNotNull(mid.PrevailTorqueCompensateValue);
+            Assert.AreEqual(10m, mid.Torque);
+            Assert.AreEqual(360, mid.Angle);
+            Assert.AreEqual(250, mid.RundownAngle);
+            Assert.AreEqual(2, mid.CurrentMonitoringValue);
+            Assert.AreEqual(2.15m, mid.SelftapTorque);
+            Assert.AreEqual(10.25m, mid.PrevailTorque);
+            Assert.AreEqual(12, mid.JobSequenceNumber);
+            Assert.AreEqual(65535, mid.SyncTighteningId);
+            Assert.AreEqual("ABCDEFG-123   ", mid.ToolSerialNumber);
+            Assert.AreEqual(new DateTime(2019,1,5,9,0,5), mid.Timestamp);
+            Assert.AreEqual(TorqueValuesUnit.Percentage, mid.TorqueValuesUnit);
+            Assert.AreEqual((ResultType)8, mid.ResultType);
+            Assert.AreEqual("Identifier result part 2 ", mid.IdentifierResultPart2);
+            Assert.AreEqual("Identifier result part 3 ", mid.IdentifierResultPart3);
+            Assert.AreEqual("Identifier result part 4 ", mid.IdentifierResultPart4);
+            Assert.AreEqual("E124", mid.CustomerTighteningErrorCode);
+            Assert.AreEqual(51m, mid.PrevailTorqueCompensateValue);
             Assert.IsNotNull(mid.TighteningErrorStatus2);
-            Assert.AreNotEqual(0, mid.StationId);
-            Assert.IsNotNull(mid.StationName);
-            Assert.AreNotEqual(0, mid.StartFinalAngle);
-            Assert.IsNotNull(mid.PostViewTorqueActivated);
-            Assert.AreNotEqual(0, mid.PostViewTorqueHigh);
-            Assert.AreNotEqual(0, mid.PostViewTorqueLow);
+            Assert.AreEqual(4294967295, mid.StationId);
+            Assert.AreEqual("Station Name             ", mid.StationName);
+            Assert.AreEqual(10m, mid.StartFinalAngle);
+            Assert.AreEqual(PostViewTorque.OnlyPVTHOn, mid.PostViewTorqueActivated);
+            Assert.AreEqual(6521.43m, mid.PostViewTorqueHigh);
+            Assert.AreEqual(52.32m, mid.PostViewTorqueLow);
             AssertEqualPackages(package, mid);
         }
 
@@ -920,47 +935,48 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse<Mid0065>(bytes.ToArray());
 
             Assert.AreEqual(typeof(Mid0065), mid.GetType());
-            Assert.IsNotNull(mid.TighteningId);
-            Assert.IsNotNull(mid.VinNumber);
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.Strategy);
+            Assert.AreEqual(123456789L, mid.TighteningId);
+            Assert.AreEqual("AIRBAG                   ", mid.VinNumber);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual(2, mid.ParameterSetId);
+            Assert.AreEqual(Strategy.RotateSpindleForward, mid.Strategy);
             Assert.IsNotNull(mid.StrategyOptions);
-            Assert.IsNotNull(mid.BatchSize);
-            Assert.IsNotNull(mid.BatchCounter);
-            Assert.IsNotNull(mid.TighteningStatus);
-            Assert.IsNotNull(mid.BatchStatus);
-            Assert.IsNotNull(mid.TorqueStatus);
-            Assert.IsNotNull(mid.AngleStatus);
-            Assert.IsNotNull(mid.RundownAngleStatus);
-            Assert.IsNotNull(mid.CurrentMonitoringStatus);
-            Assert.IsNotNull(mid.SelftapStatus);
-            Assert.IsNotNull(mid.PrevailTorqueMonitoringStatus);
-            Assert.IsNotNull(mid.PrevailTorqueCompensateStatus);
+            Assert.AreEqual(0, mid.BatchSize);
+            Assert.AreEqual(0, mid.BatchCounter);
+            Assert.AreEqual(false, mid.TighteningStatus);
+            Assert.AreEqual(BatchStatus.Nok, mid.BatchStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.TorqueStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.AngleStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.RundownAngleStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.CurrentMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.SelftapStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.PrevailTorqueMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.PrevailTorqueCompensateStatus);
             Assert.IsNotNull(mid.TighteningErrorStatus);
-            Assert.IsNotNull(mid.Torque);
-            Assert.IsNotNull(mid.Angle);
-            Assert.IsNotNull(mid.RundownAngle);
-            Assert.IsNotNull(mid.CurrentMonitoringValue);
-            Assert.IsNotNull(mid.SelftapTorque);
-            Assert.IsNotNull(mid.JobSequenceNumber);
-            Assert.IsNotNull(mid.SyncTighteningId);
-            Assert.IsNotNull(mid.ToolSerialNumber);
-            Assert.IsNotNull(mid.Timestamp);
-            Assert.IsNotNull(mid.TorqueValuesUnit);
-            Assert.IsNotNull(mid.ResultType);
-            Assert.IsNotNull(mid.IdentifierResultPart2);
-            Assert.IsNotNull(mid.IdentifierResultPart3);
-            Assert.IsNotNull(mid.IdentifierResultPart4);
-            Assert.IsNotNull(mid.CustomerTighteningErrorCode);
-            Assert.IsNotNull(mid.PrevailTorqueCompensateValue);
+            Assert.AreEqual(10m, mid.Torque);
+            Assert.AreEqual(360, mid.Angle);
+            Assert.AreEqual(250, mid.RundownAngle);
+            Assert.AreEqual(2, mid.CurrentMonitoringValue);
+            Assert.AreEqual(2.15m, mid.SelftapTorque);
+            Assert.AreEqual(10.25m, mid.PrevailTorque);
+            Assert.AreEqual(12, mid.JobSequenceNumber);
+            Assert.AreEqual(65535, mid.SyncTighteningId);
+            Assert.AreEqual("ABCDEFG-123   ", mid.ToolSerialNumber);
+            Assert.AreEqual(new DateTime(2019,1,5,9,0,5), mid.Timestamp);
+            Assert.AreEqual(TorqueValuesUnit.Percentage, mid.TorqueValuesUnit);
+            Assert.AreEqual((ResultType)8, mid.ResultType);
+            Assert.AreEqual("Identifier result part 2 ", mid.IdentifierResultPart2);
+            Assert.AreEqual("Identifier result part 3 ", mid.IdentifierResultPart3);
+            Assert.AreEqual("Identifier result part 4 ", mid.IdentifierResultPart4);
+            Assert.AreEqual("E124", mid.CustomerTighteningErrorCode);
+            Assert.AreEqual(51m, mid.PrevailTorqueCompensateValue);
             Assert.IsNotNull(mid.TighteningErrorStatus2);
-            Assert.AreNotEqual(0, mid.StationId);
-            Assert.IsNotNull(mid.StationName);
-            Assert.AreNotEqual(0, mid.StartFinalAngle);
-            Assert.IsNotNull(mid.PostViewTorqueActivated);
-            Assert.AreNotEqual(0, mid.PostViewTorqueHigh);
-            Assert.AreNotEqual(0, mid.PostViewTorqueLow);
+            Assert.AreEqual(4294967295, mid.StationId);
+            Assert.AreEqual("Station Name             ", mid.StationName);
+            Assert.AreEqual(10m, mid.StartFinalAngle);
+            Assert.AreEqual(PostViewTorque.OnlyPVTHOn, mid.PostViewTorqueActivated);
+            Assert.AreEqual(6521.43m, mid.PostViewTorqueHigh);
+            Assert.AreEqual(52.32m, mid.PostViewTorqueLow);
             AssertEqualPackages(bytes, mid);
         }
 
@@ -972,50 +988,51 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse<Mid0065>(package);
 
             Assert.AreEqual(typeof(Mid0065), mid.GetType());
-            Assert.IsNotNull(mid.TighteningId);
-            Assert.IsNotNull(mid.VinNumber);
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.Strategy);
+            Assert.AreEqual(123456789L, mid.TighteningId);
+            Assert.AreEqual("AIRBAG                   ", mid.VinNumber);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual(2, mid.ParameterSetId);
+            Assert.AreEqual(Strategy.RotateSpindleForward, mid.Strategy);
             Assert.IsNotNull(mid.StrategyOptions);
-            Assert.IsNotNull(mid.BatchSize);
-            Assert.IsNotNull(mid.BatchCounter);
-            Assert.IsNotNull(mid.TighteningStatus);
-            Assert.IsNotNull(mid.BatchStatus);
-            Assert.IsNotNull(mid.TorqueStatus);
-            Assert.IsNotNull(mid.AngleStatus);
-            Assert.IsNotNull(mid.RundownAngleStatus);
-            Assert.IsNotNull(mid.CurrentMonitoringStatus);
-            Assert.IsNotNull(mid.SelftapStatus);
-            Assert.IsNotNull(mid.PrevailTorqueMonitoringStatus);
-            Assert.IsNotNull(mid.PrevailTorqueCompensateStatus);
+            Assert.AreEqual(0, mid.BatchSize);
+            Assert.AreEqual(0, mid.BatchCounter);
+            Assert.AreEqual(false, mid.TighteningStatus);
+            Assert.AreEqual(BatchStatus.Nok, mid.BatchStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.TorqueStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.AngleStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.RundownAngleStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.CurrentMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.SelftapStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.PrevailTorqueMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.PrevailTorqueCompensateStatus);
             Assert.IsNotNull(mid.TighteningErrorStatus);
-            Assert.IsNotNull(mid.Torque);
-            Assert.IsNotNull(mid.Angle);
-            Assert.IsNotNull(mid.RundownAngle);
-            Assert.IsNotNull(mid.CurrentMonitoringValue);
-            Assert.IsNotNull(mid.SelftapTorque);
-            Assert.IsNotNull(mid.JobSequenceNumber);
-            Assert.IsNotNull(mid.SyncTighteningId);
-            Assert.IsNotNull(mid.ToolSerialNumber);
-            Assert.IsNotNull(mid.Timestamp);
-            Assert.IsNotNull(mid.TorqueValuesUnit);
-            Assert.IsNotNull(mid.ResultType);
-            Assert.IsNotNull(mid.IdentifierResultPart2);
-            Assert.IsNotNull(mid.IdentifierResultPart3);
-            Assert.IsNotNull(mid.IdentifierResultPart4);
-            Assert.IsNotNull(mid.CustomerTighteningErrorCode);
-            Assert.IsNotNull(mid.PrevailTorqueCompensateValue);
+            Assert.AreEqual(10m, mid.Torque);
+            Assert.AreEqual(360, mid.Angle);
+            Assert.AreEqual(250, mid.RundownAngle);
+            Assert.AreEqual(2, mid.CurrentMonitoringValue);
+            Assert.AreEqual(2.15m, mid.SelftapTorque);
+            Assert.AreEqual(10.25m, mid.PrevailTorque);
+            Assert.AreEqual(12, mid.JobSequenceNumber);
+            Assert.AreEqual(65535, mid.SyncTighteningId);
+            Assert.AreEqual("ABCDEFG-123   ", mid.ToolSerialNumber);
+            Assert.AreEqual(new DateTime(2019,1,5,9,0,5), mid.Timestamp);
+            Assert.AreEqual(TorqueValuesUnit.Percentage, mid.TorqueValuesUnit);
+            Assert.AreEqual((ResultType)8, mid.ResultType);
+            Assert.AreEqual("Identifier result part 2 ", mid.IdentifierResultPart2);
+            Assert.AreEqual("Identifier result part 3 ", mid.IdentifierResultPart3);
+            Assert.AreEqual("Identifier result part 4 ", mid.IdentifierResultPart4);
+            Assert.AreEqual("E124", mid.CustomerTighteningErrorCode);
+            Assert.AreEqual(51m, mid.PrevailTorqueCompensateValue);
             Assert.IsNotNull(mid.TighteningErrorStatus2);
-            Assert.AreNotEqual(0, mid.StationId);
-            Assert.IsNotNull(mid.StationName);
-            Assert.AreNotEqual(0, mid.StartFinalAngle);
-            Assert.IsNotNull(mid.PostViewTorqueActivated);
-            Assert.AreNotEqual(0, mid.PostViewTorqueHigh);
-            Assert.AreNotEqual(0, mid.PostViewTorqueLow);
-            Assert.AreNotEqual(0, mid.CurrentMonitoringAmpere);
-            Assert.AreNotEqual(0, mid.CurrentMonitoringAmpereMin);
-            Assert.AreNotEqual(0, mid.CurrentMonitoringAmpereMax);
+            Assert.AreEqual(4294967295, mid.StationId);
+            Assert.AreEqual("Station Name             ", mid.StationName);
+            Assert.AreEqual(10m, mid.StartFinalAngle);
+            Assert.AreEqual(PostViewTorque.OnlyPVTHOn, mid.PostViewTorqueActivated);
+            Assert.AreEqual(6521.43m, mid.PostViewTorqueHigh);
+            Assert.AreEqual(52.32m, mid.PostViewTorqueLow);
+            Assert.AreEqual(1m, mid.CurrentMonitoringAmpere);
+            Assert.AreEqual(0.5m, mid.CurrentMonitoringAmpereMin);
+            Assert.AreEqual(1.5m, mid.CurrentMonitoringAmpereMax);
             AssertEqualPackages(package, mid);
         }
 
@@ -1079,50 +1096,51 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse<Mid0065>(bytes.ToArray());
 
             Assert.AreEqual(typeof(Mid0065), mid.GetType());
-            Assert.IsNotNull(mid.TighteningId);
-            Assert.IsNotNull(mid.VinNumber);
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.Strategy);
+            Assert.AreEqual(123456789L, mid.TighteningId);
+            Assert.AreEqual("AIRBAG                   ", mid.VinNumber);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual(2, mid.ParameterSetId);
+            Assert.AreEqual(Strategy.RotateSpindleForward, mid.Strategy);
             Assert.IsNotNull(mid.StrategyOptions);
-            Assert.IsNotNull(mid.BatchSize);
-            Assert.IsNotNull(mid.BatchCounter);
-            Assert.IsNotNull(mid.TighteningStatus);
-            Assert.IsNotNull(mid.BatchStatus);
-            Assert.IsNotNull(mid.TorqueStatus);
-            Assert.IsNotNull(mid.AngleStatus);
-            Assert.IsNotNull(mid.RundownAngleStatus);
-            Assert.IsNotNull(mid.CurrentMonitoringStatus);
-            Assert.IsNotNull(mid.SelftapStatus);
-            Assert.IsNotNull(mid.PrevailTorqueMonitoringStatus);
-            Assert.IsNotNull(mid.PrevailTorqueCompensateStatus);
+            Assert.AreEqual(0, mid.BatchSize);
+            Assert.AreEqual(0, mid.BatchCounter);
+            Assert.AreEqual(false, mid.TighteningStatus);
+            Assert.AreEqual(BatchStatus.Nok, mid.BatchStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.TorqueStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.AngleStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.RundownAngleStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.CurrentMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.SelftapStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.PrevailTorqueMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.PrevailTorqueCompensateStatus);
             Assert.IsNotNull(mid.TighteningErrorStatus);
-            Assert.IsNotNull(mid.Torque);
-            Assert.IsNotNull(mid.Angle);
-            Assert.IsNotNull(mid.RundownAngle);
-            Assert.IsNotNull(mid.CurrentMonitoringValue);
-            Assert.IsNotNull(mid.SelftapTorque);
-            Assert.IsNotNull(mid.JobSequenceNumber);
-            Assert.IsNotNull(mid.SyncTighteningId);
-            Assert.IsNotNull(mid.ToolSerialNumber);
-            Assert.IsNotNull(mid.Timestamp);
-            Assert.IsNotNull(mid.TorqueValuesUnit);
-            Assert.IsNotNull(mid.ResultType);
-            Assert.IsNotNull(mid.IdentifierResultPart2);
-            Assert.IsNotNull(mid.IdentifierResultPart3);
-            Assert.IsNotNull(mid.IdentifierResultPart4);
-            Assert.IsNotNull(mid.CustomerTighteningErrorCode);
-            Assert.IsNotNull(mid.PrevailTorqueCompensateValue);
+            Assert.AreEqual(10m, mid.Torque);
+            Assert.AreEqual(360, mid.Angle);
+            Assert.AreEqual(250, mid.RundownAngle);
+            Assert.AreEqual(2, mid.CurrentMonitoringValue);
+            Assert.AreEqual(2.15m, mid.SelftapTorque);
+            Assert.AreEqual(10.25m, mid.PrevailTorque);
+            Assert.AreEqual(12, mid.JobSequenceNumber);
+            Assert.AreEqual(65535, mid.SyncTighteningId);
+            Assert.AreEqual("ABCDEFG-123   ", mid.ToolSerialNumber);
+            Assert.AreEqual(new DateTime(2019,1,5,9,0,5), mid.Timestamp);
+            Assert.AreEqual(TorqueValuesUnit.Percentage, mid.TorqueValuesUnit);
+            Assert.AreEqual((ResultType)8, mid.ResultType);
+            Assert.AreEqual("Identifier result part 2 ", mid.IdentifierResultPart2);
+            Assert.AreEqual("Identifier result part 3 ", mid.IdentifierResultPart3);
+            Assert.AreEqual("Identifier result part 4 ", mid.IdentifierResultPart4);
+            Assert.AreEqual("E124", mid.CustomerTighteningErrorCode);
+            Assert.AreEqual(51m, mid.PrevailTorqueCompensateValue);
             Assert.IsNotNull(mid.TighteningErrorStatus2);
-            Assert.AreNotEqual(0, mid.StationId);
-            Assert.IsNotNull(mid.StationName);
-            Assert.AreNotEqual(0, mid.StartFinalAngle);
-            Assert.IsNotNull(mid.PostViewTorqueActivated);
-            Assert.AreNotEqual(0, mid.PostViewTorqueHigh);
-            Assert.AreNotEqual(0, mid.PostViewTorqueLow);
-            Assert.AreNotEqual(0, mid.CurrentMonitoringAmpere);
-            Assert.AreNotEqual(0, mid.CurrentMonitoringAmpereMin);
-            Assert.AreNotEqual(0, mid.CurrentMonitoringAmpereMax);
+            Assert.AreEqual(4294967295, mid.StationId);
+            Assert.AreEqual("Station Name             ", mid.StationName);
+            Assert.AreEqual(10m, mid.StartFinalAngle);
+            Assert.AreEqual(PostViewTorque.OnlyPVTHOn, mid.PostViewTorqueActivated);
+            Assert.AreEqual(6521.43m, mid.PostViewTorqueHigh);
+            Assert.AreEqual(52.32m, mid.PostViewTorqueLow);
+            Assert.AreEqual(1m, mid.CurrentMonitoringAmpere);
+            Assert.AreEqual(0.5m, mid.CurrentMonitoringAmpereMin);
+            Assert.AreEqual(1.5m, mid.CurrentMonitoringAmpereMax);
             AssertEqualPackages(bytes, mid);
         }
 
@@ -1134,61 +1152,61 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse<Mid0065>(pack);
 
             Assert.AreEqual(typeof(Mid0065), mid.GetType());
-            Assert.IsNotNull(mid.TighteningId);
-            Assert.IsNotNull(mid.VinNumber);
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.Strategy);
+            Assert.AreEqual(123456789L, mid.TighteningId);
+            Assert.AreEqual("AIRBAG                   ", mid.VinNumber);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual(2, mid.ParameterSetId);
+            Assert.AreEqual(Strategy.RotateSpindleForward, mid.Strategy);
             Assert.IsNotNull(mid.StrategyOptions);
-            Assert.IsNotNull(mid.BatchSize);
-            Assert.IsNotNull(mid.BatchCounter);
-            Assert.IsNotNull(mid.TighteningStatus);
-            Assert.IsNotNull(mid.BatchStatus);
-            Assert.IsNotNull(mid.TorqueStatus);
-            Assert.IsNotNull(mid.AngleStatus);
-            Assert.IsNotNull(mid.RundownAngleStatus);
-            Assert.IsNotNull(mid.CurrentMonitoringStatus);
-            Assert.IsNotNull(mid.SelftapStatus);
-            Assert.IsNotNull(mid.PrevailTorqueMonitoringStatus);
-            Assert.IsNotNull(mid.PrevailTorqueCompensateStatus);
+            Assert.AreEqual(0, mid.BatchSize);
+            Assert.AreEqual(0, mid.BatchCounter);
+            Assert.AreEqual(false, mid.TighteningStatus);
+            Assert.AreEqual(BatchStatus.Nok, mid.BatchStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.TorqueStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.AngleStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.RundownAngleStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.CurrentMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.SelftapStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.PrevailTorqueMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.PrevailTorqueCompensateStatus);
             Assert.IsNotNull(mid.TighteningErrorStatus);
-            Assert.IsNotNull(mid.Torque);
-            Assert.IsNotNull(mid.Angle);
-            Assert.IsNotNull(mid.RundownAngle);
-            Assert.IsNotNull(mid.CurrentMonitoringValue);
-            Assert.IsNotNull(mid.SelftapTorque);
-            Assert.IsNotNull(mid.JobSequenceNumber);
-            Assert.IsNotNull(mid.SyncTighteningId);
-            Assert.IsNotNull(mid.ToolSerialNumber);
-            Assert.IsNotNull(mid.Timestamp);
-            Assert.IsNotNull(mid.TorqueValuesUnit);
-            Assert.IsNotNull(mid.ResultType);
-            Assert.IsNotNull(mid.IdentifierResultPart2);
-            Assert.IsNotNull(mid.IdentifierResultPart3);
-            Assert.IsNotNull(mid.IdentifierResultPart4);
-            Assert.IsNotNull(mid.CustomerTighteningErrorCode);
-            Assert.IsNotNull(mid.PrevailTorqueCompensateValue);
+            Assert.AreEqual(10m, mid.Torque);
+            Assert.AreEqual(360, mid.Angle);
+            Assert.AreEqual(250, mid.RundownAngle);
+            Assert.AreEqual(2, mid.CurrentMonitoringValue);
+            Assert.AreEqual(2.15m, mid.SelftapTorque);
+            Assert.AreEqual(10.25m, mid.PrevailTorque);
+            Assert.AreEqual(12, mid.JobSequenceNumber);
+            Assert.AreEqual(65535, mid.SyncTighteningId);
+            Assert.AreEqual("ABCDEFG-123   ", mid.ToolSerialNumber);
+            Assert.AreEqual(new DateTime(2019,1,5,9,0,5), mid.Timestamp);
+            Assert.AreEqual(TorqueValuesUnit.Percentage, mid.TorqueValuesUnit);
+            Assert.AreEqual((ResultType)8, mid.ResultType);
+            Assert.AreEqual("Identifier result part 2 ", mid.IdentifierResultPart2);
+            Assert.AreEqual("Identifier result part 3 ", mid.IdentifierResultPart3);
+            Assert.AreEqual("Identifier result part 4 ", mid.IdentifierResultPart4);
+            Assert.AreEqual("E124", mid.CustomerTighteningErrorCode);
+            Assert.AreEqual(51m, mid.PrevailTorqueCompensateValue);
             Assert.IsNotNull(mid.TighteningErrorStatus2);
-            Assert.AreNotEqual(0, mid.StationId);
-            Assert.IsNotNull(mid.StationName);
-            Assert.AreNotEqual(0, mid.StartFinalAngle);
-            Assert.IsNotNull(mid.PostViewTorqueActivated);
-            Assert.AreNotEqual(0, mid.PostViewTorqueHigh);
-            Assert.AreNotEqual(0, mid.PostViewTorqueLow);
-            Assert.AreNotEqual(0, mid.CurrentMonitoringAmpere);
-            Assert.AreNotEqual(0, mid.CurrentMonitoringAmpereMin);
-            Assert.AreNotEqual(0, mid.CurrentMonitoringAmpereMax);
-            Assert.AreNotEqual(0, mid.AngleNumeratorScaleFactor);
-            Assert.AreNotEqual(0, mid.AngleDenominatorScaleFactor);
-            Assert.IsNotNull(mid.OverallAngleStatus);
-            Assert.AreNotEqual(0, mid.OverallAngleMin);
-            Assert.AreNotEqual(0, mid.OverallAngleMax);
-            Assert.AreNotEqual(0, mid.OverallAngle);
-            Assert.AreNotEqual(0, mid.PeakTorque);
-            Assert.AreNotEqual(0, mid.ResidualBreakawayTorque);
-            Assert.AreNotEqual(0, mid.StartRundownAngle);
-            Assert.AreNotEqual(0, mid.RundownAngleComplete);
-
+            Assert.AreEqual(4294967295, mid.StationId);
+            Assert.AreEqual("Station Name             ", mid.StationName);
+            Assert.AreEqual(10m, mid.StartFinalAngle);
+            Assert.AreEqual(PostViewTorque.OnlyPVTHOn, mid.PostViewTorqueActivated);
+            Assert.AreEqual(6521.43m, mid.PostViewTorqueHigh);
+            Assert.AreEqual(52.32m, mid.PostViewTorqueLow);
+            Assert.AreEqual(1m, mid.CurrentMonitoringAmpere);
+            Assert.AreEqual(0.5m, mid.CurrentMonitoringAmpereMin);
+            Assert.AreEqual(1.5m, mid.CurrentMonitoringAmpereMax);
+            Assert.AreEqual(1, mid.AngleNumeratorScaleFactor);
+            Assert.AreEqual(1, mid.AngleDenominatorScaleFactor);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.OverallAngleStatus);
+            Assert.AreEqual(-20, mid.OverallAngleMin);
+            Assert.AreEqual(100, mid.OverallAngleMax);
+            Assert.AreEqual(120, mid.OverallAngle);
+            Assert.AreEqual(32.91m, mid.PeakTorque);
+            Assert.AreEqual(10.05m, mid.ResidualBreakawayTorque);
+            Assert.AreEqual(1.1m, mid.StartRundownAngle);
+            Assert.AreEqual(90m, mid.RundownAngleComplete);
             AssertEqualPackages(pack, mid);
         }
 
@@ -1252,61 +1270,61 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse<Mid0065>(bytes.ToArray());
 
             Assert.AreEqual(typeof(Mid0065), mid.GetType());
-            Assert.IsNotNull(mid.TighteningId);
-            Assert.IsNotNull(mid.VinNumber);
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.Strategy);
+            Assert.AreEqual(123456789L, mid.TighteningId);
+            Assert.AreEqual("AIRBAG                   ", mid.VinNumber);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual(2, mid.ParameterSetId);
+            Assert.AreEqual(Strategy.RotateSpindleForward, mid.Strategy);
             Assert.IsNotNull(mid.StrategyOptions);
-            Assert.IsNotNull(mid.BatchSize);
-            Assert.IsNotNull(mid.BatchCounter);
-            Assert.IsNotNull(mid.TighteningStatus);
-            Assert.IsNotNull(mid.BatchStatus);
-            Assert.IsNotNull(mid.TorqueStatus);
-            Assert.IsNotNull(mid.AngleStatus);
-            Assert.IsNotNull(mid.RundownAngleStatus);
-            Assert.IsNotNull(mid.CurrentMonitoringStatus);
-            Assert.IsNotNull(mid.SelftapStatus);
-            Assert.IsNotNull(mid.PrevailTorqueMonitoringStatus);
-            Assert.IsNotNull(mid.PrevailTorqueCompensateStatus);
+            Assert.AreEqual(0, mid.BatchSize);
+            Assert.AreEqual(0, mid.BatchCounter);
+            Assert.AreEqual(false, mid.TighteningStatus);
+            Assert.AreEqual(BatchStatus.Nok, mid.BatchStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.TorqueStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.AngleStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.RundownAngleStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.CurrentMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.SelftapStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.PrevailTorqueMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.PrevailTorqueCompensateStatus);
             Assert.IsNotNull(mid.TighteningErrorStatus);
-            Assert.IsNotNull(mid.Torque);
-            Assert.IsNotNull(mid.Angle);
-            Assert.IsNotNull(mid.RundownAngle);
-            Assert.IsNotNull(mid.CurrentMonitoringValue);
-            Assert.IsNotNull(mid.SelftapTorque);
-            Assert.IsNotNull(mid.JobSequenceNumber);
-            Assert.IsNotNull(mid.SyncTighteningId);
-            Assert.IsNotNull(mid.ToolSerialNumber);
-            Assert.IsNotNull(mid.Timestamp);
-            Assert.IsNotNull(mid.TorqueValuesUnit);
-            Assert.IsNotNull(mid.ResultType);
-            Assert.IsNotNull(mid.IdentifierResultPart2);
-            Assert.IsNotNull(mid.IdentifierResultPart3);
-            Assert.IsNotNull(mid.IdentifierResultPart4);
-            Assert.IsNotNull(mid.CustomerTighteningErrorCode);
-            Assert.IsNotNull(mid.PrevailTorqueCompensateValue);
+            Assert.AreEqual(10m, mid.Torque);
+            Assert.AreEqual(360, mid.Angle);
+            Assert.AreEqual(250, mid.RundownAngle);
+            Assert.AreEqual(2, mid.CurrentMonitoringValue);
+            Assert.AreEqual(2.15m, mid.SelftapTorque);
+            Assert.AreEqual(10.25m, mid.PrevailTorque);
+            Assert.AreEqual(12, mid.JobSequenceNumber);
+            Assert.AreEqual(65535, mid.SyncTighteningId);
+            Assert.AreEqual("ABCDEFG-123   ", mid.ToolSerialNumber);
+            Assert.AreEqual(new DateTime(2019,1,5,9,0,5), mid.Timestamp);
+            Assert.AreEqual(TorqueValuesUnit.Percentage, mid.TorqueValuesUnit);
+            Assert.AreEqual((ResultType)8, mid.ResultType);
+            Assert.AreEqual("Identifier result part 2 ", mid.IdentifierResultPart2);
+            Assert.AreEqual("Identifier result part 3 ", mid.IdentifierResultPart3);
+            Assert.AreEqual("Identifier result part 4 ", mid.IdentifierResultPart4);
+            Assert.AreEqual("E124", mid.CustomerTighteningErrorCode);
+            Assert.AreEqual(51m, mid.PrevailTorqueCompensateValue);
             Assert.IsNotNull(mid.TighteningErrorStatus2);
-            Assert.AreNotEqual(0, mid.StationId);
-            Assert.IsNotNull(mid.StationName);
-            Assert.AreNotEqual(0, mid.StartFinalAngle);
-            Assert.IsNotNull(mid.PostViewTorqueActivated);
-            Assert.AreNotEqual(0, mid.PostViewTorqueHigh);
-            Assert.AreNotEqual(0, mid.PostViewTorqueLow);
-            Assert.AreNotEqual(0, mid.CurrentMonitoringAmpere);
-            Assert.AreNotEqual(0, mid.CurrentMonitoringAmpereMin);
-            Assert.AreNotEqual(0, mid.CurrentMonitoringAmpereMax);
-            Assert.AreNotEqual(0, mid.AngleNumeratorScaleFactor);
-            Assert.AreNotEqual(0, mid.AngleDenominatorScaleFactor);
-            Assert.IsNotNull(mid.OverallAngleStatus);
-            Assert.AreNotEqual(0, mid.OverallAngleMin);
-            Assert.AreNotEqual(0, mid.OverallAngleMax);
-            Assert.AreNotEqual(0, mid.OverallAngle);
-            Assert.AreNotEqual(0, mid.PeakTorque);
-            Assert.AreNotEqual(0, mid.ResidualBreakawayTorque);
-            Assert.AreNotEqual(0, mid.StartRundownAngle);
-            Assert.AreNotEqual(0, mid.RundownAngleComplete);
-
+            Assert.AreEqual(4294967295, mid.StationId);
+            Assert.AreEqual("Station Name             ", mid.StationName);
+            Assert.AreEqual(10m, mid.StartFinalAngle);
+            Assert.AreEqual(PostViewTorque.OnlyPVTHOn, mid.PostViewTorqueActivated);
+            Assert.AreEqual(6521.43m, mid.PostViewTorqueHigh);
+            Assert.AreEqual(52.32m, mid.PostViewTorqueLow);
+            Assert.AreEqual(1m, mid.CurrentMonitoringAmpere);
+            Assert.AreEqual(0.5m, mid.CurrentMonitoringAmpereMin);
+            Assert.AreEqual(1.5m, mid.CurrentMonitoringAmpereMax);
+            Assert.AreEqual(1, mid.AngleNumeratorScaleFactor);
+            Assert.AreEqual(1, mid.AngleDenominatorScaleFactor);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.OverallAngleStatus);
+            Assert.AreEqual(-20, mid.OverallAngleMin);
+            Assert.AreEqual(100, mid.OverallAngleMax);
+            Assert.AreEqual(120, mid.OverallAngle);
+            Assert.AreEqual(32.91m, mid.PeakTorque);
+            Assert.AreEqual(10.05m, mid.ResidualBreakawayTorque);
+            Assert.AreEqual(1.1m, mid.StartRundownAngle);
+            Assert.AreEqual(90m, mid.RundownAngleComplete);
             AssertEqualPackages(bytes, mid);
         }
 
@@ -1318,63 +1336,63 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse<Mid0065>(pack);
 
             Assert.AreEqual(typeof(Mid0065), mid.GetType());
-            Assert.IsNotNull(mid.TighteningId);
-            Assert.IsNotNull(mid.VinNumber);
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.Strategy);
+            Assert.AreEqual(123456789L, mid.TighteningId);
+            Assert.AreEqual("AIRBAG                   ", mid.VinNumber);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual(2, mid.ParameterSetId);
+            Assert.AreEqual(Strategy.RotateSpindleForward, mid.Strategy);
             Assert.IsNotNull(mid.StrategyOptions);
-            Assert.IsNotNull(mid.BatchSize);
-            Assert.IsNotNull(mid.BatchCounter);
-            Assert.IsNotNull(mid.TighteningStatus);
-            Assert.IsNotNull(mid.BatchStatus);
-            Assert.IsNotNull(mid.TorqueStatus);
-            Assert.IsNotNull(mid.AngleStatus);
-            Assert.IsNotNull(mid.RundownAngleStatus);
-            Assert.IsNotNull(mid.CurrentMonitoringStatus);
-            Assert.IsNotNull(mid.SelftapStatus);
-            Assert.IsNotNull(mid.PrevailTorqueMonitoringStatus);
-            Assert.IsNotNull(mid.PrevailTorqueCompensateStatus);
+            Assert.AreEqual(0, mid.BatchSize);
+            Assert.AreEqual(0, mid.BatchCounter);
+            Assert.AreEqual(false, mid.TighteningStatus);
+            Assert.AreEqual(BatchStatus.Nok, mid.BatchStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.TorqueStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.AngleStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.RundownAngleStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.CurrentMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.SelftapStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.PrevailTorqueMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.PrevailTorqueCompensateStatus);
             Assert.IsNotNull(mid.TighteningErrorStatus);
-            Assert.IsNotNull(mid.Torque);
-            Assert.IsNotNull(mid.Angle);
-            Assert.IsNotNull(mid.RundownAngle);
-            Assert.IsNotNull(mid.CurrentMonitoringValue);
-            Assert.IsNotNull(mid.SelftapTorque);
-            Assert.IsNotNull(mid.JobSequenceNumber);
-            Assert.IsNotNull(mid.SyncTighteningId);
-            Assert.IsNotNull(mid.ToolSerialNumber);
-            Assert.IsNotNull(mid.Timestamp);
-            Assert.IsNotNull(mid.TorqueValuesUnit);
-            Assert.IsNotNull(mid.ResultType);
-            Assert.IsNotNull(mid.IdentifierResultPart2);
-            Assert.IsNotNull(mid.IdentifierResultPart3);
-            Assert.IsNotNull(mid.IdentifierResultPart4);
-            Assert.IsNotNull(mid.CustomerTighteningErrorCode);
-            Assert.IsNotNull(mid.PrevailTorqueCompensateValue);
+            Assert.AreEqual(10m, mid.Torque);
+            Assert.AreEqual(360, mid.Angle);
+            Assert.AreEqual(250, mid.RundownAngle);
+            Assert.AreEqual(2, mid.CurrentMonitoringValue);
+            Assert.AreEqual(2.15m, mid.SelftapTorque);
+            Assert.AreEqual(10.25m, mid.PrevailTorque);
+            Assert.AreEqual(12, mid.JobSequenceNumber);
+            Assert.AreEqual(65535, mid.SyncTighteningId);
+            Assert.AreEqual("ABCDEFG-123   ", mid.ToolSerialNumber);
+            Assert.AreEqual(new DateTime(2019,1,5,9,0,5), mid.Timestamp);
+            Assert.AreEqual(TorqueValuesUnit.Percentage, mid.TorqueValuesUnit);
+            Assert.AreEqual((ResultType)8, mid.ResultType);
+            Assert.AreEqual("Identifier result part 2 ", mid.IdentifierResultPart2);
+            Assert.AreEqual("Identifier result part 3 ", mid.IdentifierResultPart3);
+            Assert.AreEqual("Identifier result part 4 ", mid.IdentifierResultPart4);
+            Assert.AreEqual("E124", mid.CustomerTighteningErrorCode);
+            Assert.AreEqual(51m, mid.PrevailTorqueCompensateValue);
             Assert.IsNotNull(mid.TighteningErrorStatus2);
-            Assert.AreNotEqual(0, mid.StationId);
-            Assert.IsNotNull(mid.StationName);
-            Assert.AreNotEqual(0, mid.StartFinalAngle);
-            Assert.IsNotNull(mid.PostViewTorqueActivated);
-            Assert.AreNotEqual(0, mid.PostViewTorqueHigh);
-            Assert.AreNotEqual(0, mid.PostViewTorqueLow);
-            Assert.AreNotEqual(0, mid.CurrentMonitoringAmpere);
-            Assert.AreNotEqual(0, mid.CurrentMonitoringAmpereMin);
-            Assert.AreNotEqual(0, mid.CurrentMonitoringAmpereMax);
-            Assert.AreNotEqual(0, mid.AngleNumeratorScaleFactor);
-            Assert.AreNotEqual(0, mid.AngleDenominatorScaleFactor);
-            Assert.IsNotNull(mid.OverallAngleStatus);
-            Assert.AreNotEqual(0, mid.OverallAngleMin);
-            Assert.AreNotEqual(0, mid.OverallAngleMax);
-            Assert.AreNotEqual(0, mid.OverallAngle);
-            Assert.AreNotEqual(0, mid.PeakTorque);
-            Assert.AreNotEqual(0, mid.ResidualBreakawayTorque);
-            Assert.AreNotEqual(0, mid.StartRundownAngle);
-            Assert.AreNotEqual(0, mid.RundownAngleComplete);
-            Assert.AreNotEqual(0, mid.ClickTorque);
-            Assert.AreNotEqual(0, mid.ClickAngle);
-
+            Assert.AreEqual(4294967295, mid.StationId);
+            Assert.AreEqual("Station Name             ", mid.StationName);
+            Assert.AreEqual(10m, mid.StartFinalAngle);
+            Assert.AreEqual(PostViewTorque.OnlyPVTHOn, mid.PostViewTorqueActivated);
+            Assert.AreEqual(6521.43m, mid.PostViewTorqueHigh);
+            Assert.AreEqual(52.32m, mid.PostViewTorqueLow);
+            Assert.AreEqual(1m, mid.CurrentMonitoringAmpere);
+            Assert.AreEqual(0.5m, mid.CurrentMonitoringAmpereMin);
+            Assert.AreEqual(1.5m, mid.CurrentMonitoringAmpereMax);
+            Assert.AreEqual(1, mid.AngleNumeratorScaleFactor);
+            Assert.AreEqual(1, mid.AngleDenominatorScaleFactor);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.OverallAngleStatus);
+            Assert.AreEqual(-20, mid.OverallAngleMin);
+            Assert.AreEqual(100, mid.OverallAngleMax);
+            Assert.AreEqual(120, mid.OverallAngle);
+            Assert.AreEqual(32.91m, mid.PeakTorque);
+            Assert.AreEqual(10.05m, mid.ResidualBreakawayTorque);
+            Assert.AreEqual(1.1m, mid.StartRundownAngle);
+            Assert.AreEqual(90m, mid.RundownAngleComplete);
+            Assert.AreEqual(1.2m, mid.ClickTorque);
+            Assert.AreEqual(1, mid.ClickAngle);
             AssertEqualPackages(pack, mid);
         }
 
@@ -1438,64 +1456,1262 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse<Mid0065>(bytes.ToArray());
 
             Assert.AreEqual(typeof(Mid0065), mid.GetType());
-            Assert.IsNotNull(mid.TighteningId);
-            Assert.IsNotNull(mid.VinNumber);
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.Strategy);
+            Assert.AreEqual(123456789L, mid.TighteningId);
+            Assert.AreEqual("AIRBAG                   ", mid.VinNumber);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual(2, mid.ParameterSetId);
+            Assert.AreEqual(Strategy.RotateSpindleForward, mid.Strategy);
             Assert.IsNotNull(mid.StrategyOptions);
-            Assert.IsNotNull(mid.BatchSize);
-            Assert.IsNotNull(mid.BatchCounter);
-            Assert.IsNotNull(mid.TighteningStatus);
-            Assert.IsNotNull(mid.BatchStatus);
-            Assert.IsNotNull(mid.TorqueStatus);
-            Assert.IsNotNull(mid.AngleStatus);
-            Assert.IsNotNull(mid.RundownAngleStatus);
-            Assert.IsNotNull(mid.CurrentMonitoringStatus);
-            Assert.IsNotNull(mid.SelftapStatus);
-            Assert.IsNotNull(mid.PrevailTorqueMonitoringStatus);
-            Assert.IsNotNull(mid.PrevailTorqueCompensateStatus);
+            Assert.AreEqual(0, mid.BatchSize);
+            Assert.AreEqual(0, mid.BatchCounter);
+            Assert.AreEqual(false, mid.TighteningStatus);
+            Assert.AreEqual(BatchStatus.Nok, mid.BatchStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.TorqueStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.AngleStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.RundownAngleStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.CurrentMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Low, mid.SelftapStatus);
+            Assert.AreEqual(TighteningValueStatus.High, mid.PrevailTorqueMonitoringStatus);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.PrevailTorqueCompensateStatus);
             Assert.IsNotNull(mid.TighteningErrorStatus);
-            Assert.IsNotNull(mid.Torque);
-            Assert.IsNotNull(mid.Angle);
-            Assert.IsNotNull(mid.RundownAngle);
-            Assert.IsNotNull(mid.CurrentMonitoringValue);
-            Assert.IsNotNull(mid.SelftapTorque);
-            Assert.IsNotNull(mid.JobSequenceNumber);
-            Assert.IsNotNull(mid.SyncTighteningId);
-            Assert.IsNotNull(mid.ToolSerialNumber);
-            Assert.IsNotNull(mid.Timestamp);
-            Assert.IsNotNull(mid.TorqueValuesUnit);
-            Assert.IsNotNull(mid.ResultType);
-            Assert.IsNotNull(mid.IdentifierResultPart2);
-            Assert.IsNotNull(mid.IdentifierResultPart3);
-            Assert.IsNotNull(mid.IdentifierResultPart4);
-            Assert.IsNotNull(mid.CustomerTighteningErrorCode);
-            Assert.IsNotNull(mid.PrevailTorqueCompensateValue);
+            Assert.AreEqual(10m, mid.Torque);
+            Assert.AreEqual(360, mid.Angle);
+            Assert.AreEqual(250, mid.RundownAngle);
+            Assert.AreEqual(2, mid.CurrentMonitoringValue);
+            Assert.AreEqual(2.15m, mid.SelftapTorque);
+            Assert.AreEqual(10.25m, mid.PrevailTorque);
+            Assert.AreEqual(12, mid.JobSequenceNumber);
+            Assert.AreEqual(65535, mid.SyncTighteningId);
+            Assert.AreEqual("ABCDEFG-123   ", mid.ToolSerialNumber);
+            Assert.AreEqual(new DateTime(2019,1,5,9,0,5), mid.Timestamp);
+            Assert.AreEqual(TorqueValuesUnit.Percentage, mid.TorqueValuesUnit);
+            Assert.AreEqual((ResultType)8, mid.ResultType);
+            Assert.AreEqual("Identifier result part 2 ", mid.IdentifierResultPart2);
+            Assert.AreEqual("Identifier result part 3 ", mid.IdentifierResultPart3);
+            Assert.AreEqual("Identifier result part 4 ", mid.IdentifierResultPart4);
+            Assert.AreEqual("E124", mid.CustomerTighteningErrorCode);
+            Assert.AreEqual(51m, mid.PrevailTorqueCompensateValue);
             Assert.IsNotNull(mid.TighteningErrorStatus2);
-            Assert.AreNotEqual(0, mid.StationId);
-            Assert.IsNotNull(mid.StationName);
-            Assert.AreNotEqual(0, mid.StartFinalAngle);
-            Assert.IsNotNull(mid.PostViewTorqueActivated);
-            Assert.AreNotEqual(0, mid.PostViewTorqueHigh);
-            Assert.AreNotEqual(0, mid.PostViewTorqueLow);
-            Assert.AreNotEqual(0, mid.CurrentMonitoringAmpere);
-            Assert.AreNotEqual(0, mid.CurrentMonitoringAmpereMin);
-            Assert.AreNotEqual(0, mid.CurrentMonitoringAmpereMax);
-            Assert.AreNotEqual(0, mid.AngleNumeratorScaleFactor);
-            Assert.AreNotEqual(0, mid.AngleDenominatorScaleFactor);
-            Assert.IsNotNull(mid.OverallAngleStatus);
-            Assert.AreNotEqual(0, mid.OverallAngleMin);
-            Assert.AreNotEqual(0, mid.OverallAngleMax);
-            Assert.AreNotEqual(0, mid.OverallAngle);
-            Assert.AreNotEqual(0, mid.PeakTorque);
-            Assert.AreNotEqual(0, mid.ResidualBreakawayTorque);
-            Assert.AreNotEqual(0, mid.StartRundownAngle);
-            Assert.AreNotEqual(0, mid.RundownAngleComplete);
-            Assert.AreNotEqual(0, mid.ClickTorque);
-            Assert.AreNotEqual(0, mid.ClickAngle);
-
+            Assert.AreEqual(4294967295, mid.StationId);
+            Assert.AreEqual("Station Name             ", mid.StationName);
+            Assert.AreEqual(10m, mid.StartFinalAngle);
+            Assert.AreEqual(PostViewTorque.OnlyPVTHOn, mid.PostViewTorqueActivated);
+            Assert.AreEqual(6521.43m, mid.PostViewTorqueHigh);
+            Assert.AreEqual(52.32m, mid.PostViewTorqueLow);
+            Assert.AreEqual(1m, mid.CurrentMonitoringAmpere);
+            Assert.AreEqual(0.5m, mid.CurrentMonitoringAmpereMin);
+            Assert.AreEqual(1.5m, mid.CurrentMonitoringAmpereMax);
+            Assert.AreEqual(1, mid.AngleNumeratorScaleFactor);
+            Assert.AreEqual(1, mid.AngleDenominatorScaleFactor);
+            Assert.AreEqual(TighteningValueStatus.Ok, mid.OverallAngleStatus);
+            Assert.AreEqual(-20, mid.OverallAngleMin);
+            Assert.AreEqual(100, mid.OverallAngleMax);
+            Assert.AreEqual(120, mid.OverallAngle);
+            Assert.AreEqual(32.91m, mid.PeakTorque);
+            Assert.AreEqual(10.05m, mid.ResidualBreakawayTorque);
+            Assert.AreEqual(1.1m, mid.StartRundownAngle);
+            Assert.AreEqual(90m, mid.RundownAngleComplete);
+            Assert.AreEqual(1.2m, mid.ClickTorque);
+            Assert.AreEqual(1, mid.ClickAngle);
             AssertEqualPackages(bytes, mid);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0065PackRevision1()
+        {
+            string package = "01180065001         01012345678902AIRBAG                   03001040002050060070080014670900046102001-04-22:14:54:34112";
+
+            AssertBuildAndParse(package, new Mid0065(1)
+            {
+                TighteningId = 123456789L,
+                VinNumber = "AIRBAG",
+                ParameterSetId = 1,
+                BatchCounter = 2,
+                TighteningStatus = false,
+                TorqueStatus = TighteningValueStatus.Low,
+                AngleStatus = TighteningValueStatus.Low,
+                Torque = 14.67m,
+                Angle = 46,
+                Timestamp = new DateTime(2001, 4, 22, 14, 54, 34),
+                BatchStatus = BatchStatus.NotUsed
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("Pack")]
+        public void Mid0065PackRevision2()
+        {
+            string package = "02260065002         01012345678902AIRBAG                   030001040020510060093807000008000009010011112013214115016217118000004189819001000200036021002502200223000215240010252500012266553527ABCDEFG-123   282019-01-05:09:00:05";
+
+            AssertBuildAndParse(package, new Mid0065(2)
+            {
+                TighteningId = 123456789L,
+                VinNumber = "AIRBAG",
+                ParameterSetId = 2,
+                BatchCounter = 0,
+                TighteningStatus = false,
+                TorqueStatus = TighteningValueStatus.Ok,
+                AngleStatus = TighteningValueStatus.Low,
+                Torque = 10m,
+                Angle = 360,
+                Timestamp = new DateTime(2019, 1, 5, 9, 0, 5),
+                BatchStatus = BatchStatus.Nok,
+                JobId = 1,
+                Strategy = Strategy.RotateSpindleForward,
+                StrategyOptions = new StrategyOptions()
+                {
+                    Torque = false,
+                    Angle = true,
+                    Batch = false,
+                    PvtMonitoring = true,
+                    PvtCompensate = false,
+                    Selftap = true,
+                    Rundown = false,
+                    CM = true,
+                    DsControl = true,
+                    ClickWrench = true,
+                    RbwMonitoring = false
+                },
+                BatchSize = 0,
+                RundownAngleStatus = TighteningValueStatus.High,
+                CurrentMonitoringStatus = TighteningValueStatus.Ok,
+                SelftapStatus = TighteningValueStatus.Low,
+                PrevailTorqueMonitoringStatus = TighteningValueStatus.High,
+                PrevailTorqueCompensateStatus = TighteningValueStatus.Ok,
+                TighteningErrorStatus = new TighteningErrorStatus()
+                {
+                    RundownAngleMaxShutOff = false,
+                    RundownAngleMinShutOff = true,
+                    TorqueMaxShutOff = false,
+                    AngleMaxShutOff = true,
+                    SelftapTorqueMaxShutOff = false,
+                    SelftapTorqueMinShutOff = true,
+                    PrevailTorqueMaxShutOff = false,
+                    PrevailTorqueMinShutOff = true,
+                    PrevailTorqueCompensateOverflow = true,
+                    CurrentMonitoringMaxShutOff = true,
+                    PostViewTorqueMinTorqueShutOff = false,
+                    PostViewTorqueMaxTorqueShutOff = false,
+                    PostViewTorqueAngleTooSmall = false,
+                    TriggerLost = true,
+                    TorqueLessThanTarget = false,
+                    ToolHot = true,
+                    MultistageAbort = false,
+                    Rehit = false,
+                    DsMeasureFailed = false,
+                    CurrentLimitReached = false,
+                    EndTimeOutShutOff = false,
+                    RemoveFastenerLimitExceeded = false,
+                    DisableDrive = false,
+                    TransducerLost = false,
+                    TransducerShorted = false,
+                    TransducerCorrupt = false,
+                    SyncTimeout = false,
+                    DynamicCurrentMonitoringMin = false,
+                    DynamicCurrentMonitoringMax = false,
+                    AngleMaxMonitor = false,
+                    YieldNutOff = false,
+                    YieldTooFewSamples = false
+                },
+                RundownAngle = 250,
+                CurrentMonitoringValue = 2,
+                SelftapTorque = 2.15m,
+                PrevailTorque = 10.25m,
+                JobSequenceNumber = 12,
+                SyncTighteningId = 65535,
+                ToolSerialNumber = "ABCDEFG-123"
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 3"), TestCategory("Pack")]
+        public void Mid0065PackRevision3()
+        {
+            string package = "02330065003         01012345678902AIRBAG                   030001040020510060093807000008000009010011112013214115016217118000004189819001000200036021002502200223000215240010252500012266553527ABCDEFG-123   282019-01-05:09:00:052973008";
+
+            AssertBuildAndParse(package, new Mid0065(3)
+            {
+                TighteningId = 123456789L,
+                VinNumber = "AIRBAG",
+                ParameterSetId = 2,
+                BatchCounter = 0,
+                TighteningStatus = false,
+                TorqueStatus = TighteningValueStatus.Ok,
+                AngleStatus = TighteningValueStatus.Low,
+                Torque = 10m,
+                Angle = 360,
+                Timestamp = new DateTime(2019, 1, 5, 9, 0, 5),
+                BatchStatus = BatchStatus.Nok,
+                JobId = 1,
+                Strategy = Strategy.RotateSpindleForward,
+                StrategyOptions = new StrategyOptions()
+                {
+                    Torque = false,
+                    Angle = true,
+                    Batch = false,
+                    PvtMonitoring = true,
+                    PvtCompensate = false,
+                    Selftap = true,
+                    Rundown = false,
+                    CM = true,
+                    DsControl = true,
+                    ClickWrench = true,
+                    RbwMonitoring = false
+                },
+                BatchSize = 0,
+                RundownAngleStatus = TighteningValueStatus.High,
+                CurrentMonitoringStatus = TighteningValueStatus.Ok,
+                SelftapStatus = TighteningValueStatus.Low,
+                PrevailTorqueMonitoringStatus = TighteningValueStatus.High,
+                PrevailTorqueCompensateStatus = TighteningValueStatus.Ok,
+                TighteningErrorStatus = new TighteningErrorStatus()
+                {
+                    RundownAngleMaxShutOff = false,
+                    RundownAngleMinShutOff = true,
+                    TorqueMaxShutOff = false,
+                    AngleMaxShutOff = true,
+                    SelftapTorqueMaxShutOff = false,
+                    SelftapTorqueMinShutOff = true,
+                    PrevailTorqueMaxShutOff = false,
+                    PrevailTorqueMinShutOff = true,
+                    PrevailTorqueCompensateOverflow = true,
+                    CurrentMonitoringMaxShutOff = true,
+                    PostViewTorqueMinTorqueShutOff = false,
+                    PostViewTorqueMaxTorqueShutOff = false,
+                    PostViewTorqueAngleTooSmall = false,
+                    TriggerLost = true,
+                    TorqueLessThanTarget = false,
+                    ToolHot = true,
+                    MultistageAbort = false,
+                    Rehit = false,
+                    DsMeasureFailed = false,
+                    CurrentLimitReached = false,
+                    EndTimeOutShutOff = false,
+                    RemoveFastenerLimitExceeded = false,
+                    DisableDrive = false,
+                    TransducerLost = false,
+                    TransducerShorted = false,
+                    TransducerCorrupt = false,
+                    SyncTimeout = false,
+                    DynamicCurrentMonitoringMin = false,
+                    DynamicCurrentMonitoringMax = false,
+                    AngleMaxMonitor = false,
+                    YieldNutOff = false,
+                    YieldTooFewSamples = false
+                },
+                RundownAngle = 250,
+                CurrentMonitoringValue = 2,
+                SelftapTorque = 2.15m,
+                PrevailTorque = 10.25m,
+                JobSequenceNumber = 12,
+                SyncTighteningId = 65535,
+                ToolSerialNumber = "ABCDEFG-123",
+                TorqueValuesUnit = TorqueValuesUnit.Percentage,
+                ResultType = ResultType.ReferenceSetup
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 4"), TestCategory("Pack")]
+        public void Mid0065PackRevision4()
+        {
+            string package = "03140065004         01012345678902AIRBAG                   030001040020510060093807000008000009010011112013214115016217118000004189819001000200036021002502200223000215240010252500012266553527ABCDEFG-123   282019-01-05:09:00:05297300831Identifier result part 2 32Identifier result part 3 33Identifier result part 4 ";
+
+            AssertBuildAndParse(package, new Mid0065(4)
+            {
+                TighteningId = 123456789L,
+                VinNumber = "AIRBAG",
+                ParameterSetId = 2,
+                BatchCounter = 0,
+                TighteningStatus = false,
+                TorqueStatus = TighteningValueStatus.Ok,
+                AngleStatus = TighteningValueStatus.Low,
+                Torque = 10m,
+                Angle = 360,
+                Timestamp = new DateTime(2019, 1, 5, 9, 0, 5),
+                BatchStatus = BatchStatus.Nok,
+                JobId = 1,
+                Strategy = Strategy.RotateSpindleForward,
+                StrategyOptions = new StrategyOptions()
+                {
+                    Torque = false,
+                    Angle = true,
+                    Batch = false,
+                    PvtMonitoring = true,
+                    PvtCompensate = false,
+                    Selftap = true,
+                    Rundown = false,
+                    CM = true,
+                    DsControl = true,
+                    ClickWrench = true,
+                    RbwMonitoring = false
+                },
+                BatchSize = 0,
+                RundownAngleStatus = TighteningValueStatus.High,
+                CurrentMonitoringStatus = TighteningValueStatus.Ok,
+                SelftapStatus = TighteningValueStatus.Low,
+                PrevailTorqueMonitoringStatus = TighteningValueStatus.High,
+                PrevailTorqueCompensateStatus = TighteningValueStatus.Ok,
+                TighteningErrorStatus = new TighteningErrorStatus()
+                {
+                    RundownAngleMaxShutOff = false,
+                    RundownAngleMinShutOff = true,
+                    TorqueMaxShutOff = false,
+                    AngleMaxShutOff = true,
+                    SelftapTorqueMaxShutOff = false,
+                    SelftapTorqueMinShutOff = true,
+                    PrevailTorqueMaxShutOff = false,
+                    PrevailTorqueMinShutOff = true,
+                    PrevailTorqueCompensateOverflow = true,
+                    CurrentMonitoringMaxShutOff = true,
+                    PostViewTorqueMinTorqueShutOff = false,
+                    PostViewTorqueMaxTorqueShutOff = false,
+                    PostViewTorqueAngleTooSmall = false,
+                    TriggerLost = true,
+                    TorqueLessThanTarget = false,
+                    ToolHot = true,
+                    MultistageAbort = false,
+                    Rehit = false,
+                    DsMeasureFailed = false,
+                    CurrentLimitReached = false,
+                    EndTimeOutShutOff = false,
+                    RemoveFastenerLimitExceeded = false,
+                    DisableDrive = false,
+                    TransducerLost = false,
+                    TransducerShorted = false,
+                    TransducerCorrupt = false,
+                    SyncTimeout = false,
+                    DynamicCurrentMonitoringMin = false,
+                    DynamicCurrentMonitoringMax = false,
+                    AngleMaxMonitor = false,
+                    YieldNutOff = false,
+                    YieldTooFewSamples = false
+                },
+                RundownAngle = 250,
+                CurrentMonitoringValue = 2,
+                SelftapTorque = 2.15m,
+                PrevailTorque = 10.25m,
+                JobSequenceNumber = 12,
+                SyncTighteningId = 65535,
+                ToolSerialNumber = "ABCDEFG-123",
+                TorqueValuesUnit = TorqueValuesUnit.Percentage,
+                ResultType = ResultType.ReferenceSetup,
+                IdentifierResultPart2 = "Identifier result part 2",
+                IdentifierResultPart3 = "Identifier result part 3",
+                IdentifierResultPart4 = "Identifier result part 4"
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 5"), TestCategory("Pack")]
+        public void Mid0065PackRevision5()
+        {
+            string package = "03200065005         01012345678902AIRBAG                   030001040020510060093807000008000009010011112013214115016217118000004189819001000200036021002502200223000215240010252500012266553527ABCDEFG-123   282019-01-05:09:00:05297300831Identifier result part 2 32Identifier result part 3 33Identifier result part 4 34E124";
+
+            AssertBuildAndParse(package, new Mid0065(5)
+            {
+                TighteningId = 123456789L,
+                VinNumber = "AIRBAG",
+                ParameterSetId = 2,
+                BatchCounter = 0,
+                TighteningStatus = false,
+                TorqueStatus = TighteningValueStatus.Ok,
+                AngleStatus = TighteningValueStatus.Low,
+                Torque = 10m,
+                Angle = 360,
+                Timestamp = new DateTime(2019, 1, 5, 9, 0, 5),
+                BatchStatus = BatchStatus.Nok,
+                JobId = 1,
+                Strategy = Strategy.RotateSpindleForward,
+                StrategyOptions = new StrategyOptions()
+                {
+                    Torque = false,
+                    Angle = true,
+                    Batch = false,
+                    PvtMonitoring = true,
+                    PvtCompensate = false,
+                    Selftap = true,
+                    Rundown = false,
+                    CM = true,
+                    DsControl = true,
+                    ClickWrench = true,
+                    RbwMonitoring = false
+                },
+                BatchSize = 0,
+                RundownAngleStatus = TighteningValueStatus.High,
+                CurrentMonitoringStatus = TighteningValueStatus.Ok,
+                SelftapStatus = TighteningValueStatus.Low,
+                PrevailTorqueMonitoringStatus = TighteningValueStatus.High,
+                PrevailTorqueCompensateStatus = TighteningValueStatus.Ok,
+                TighteningErrorStatus = new TighteningErrorStatus()
+                {
+                    RundownAngleMaxShutOff = false,
+                    RundownAngleMinShutOff = true,
+                    TorqueMaxShutOff = false,
+                    AngleMaxShutOff = true,
+                    SelftapTorqueMaxShutOff = false,
+                    SelftapTorqueMinShutOff = true,
+                    PrevailTorqueMaxShutOff = false,
+                    PrevailTorqueMinShutOff = true,
+                    PrevailTorqueCompensateOverflow = true,
+                    CurrentMonitoringMaxShutOff = true,
+                    PostViewTorqueMinTorqueShutOff = false,
+                    PostViewTorqueMaxTorqueShutOff = false,
+                    PostViewTorqueAngleTooSmall = false,
+                    TriggerLost = true,
+                    TorqueLessThanTarget = false,
+                    ToolHot = true,
+                    MultistageAbort = false,
+                    Rehit = false,
+                    DsMeasureFailed = false,
+                    CurrentLimitReached = false,
+                    EndTimeOutShutOff = false,
+                    RemoveFastenerLimitExceeded = false,
+                    DisableDrive = false,
+                    TransducerLost = false,
+                    TransducerShorted = false,
+                    TransducerCorrupt = false,
+                    SyncTimeout = false,
+                    DynamicCurrentMonitoringMin = false,
+                    DynamicCurrentMonitoringMax = false,
+                    AngleMaxMonitor = false,
+                    YieldNutOff = false,
+                    YieldTooFewSamples = false
+                },
+                RundownAngle = 250,
+                CurrentMonitoringValue = 2,
+                SelftapTorque = 2.15m,
+                PrevailTorque = 10.25m,
+                JobSequenceNumber = 12,
+                SyncTighteningId = 65535,
+                ToolSerialNumber = "ABCDEFG-123",
+                TorqueValuesUnit = TorqueValuesUnit.Percentage,
+                ResultType = ResultType.ReferenceSetup,
+                IdentifierResultPart2 = "Identifier result part 2",
+                IdentifierResultPart3 = "Identifier result part 3",
+                IdentifierResultPart4 = "Identifier result part 4",
+                CustomerTighteningErrorCode = "E124"
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 6"), TestCategory("Pack")]
+        public void Mid0065PackRevision6()
+        {
+            string package = "03400065006         01012345678902AIRBAG                   030001040020510060093807000008000009010011112013214115016217118000004189819001000200036021002502200223000215240010252500012266553527ABCDEFG-123   282019-01-05:09:00:05297300831Identifier result part 2 32Identifier result part 3 33Identifier result part 4 34E12435005100360000000042";
+
+            AssertBuildAndParse(package, new Mid0065(6)
+            {
+                TighteningId = 123456789L,
+                VinNumber = "AIRBAG",
+                ParameterSetId = 2,
+                BatchCounter = 0,
+                TighteningStatus = false,
+                TorqueStatus = TighteningValueStatus.Ok,
+                AngleStatus = TighteningValueStatus.Low,
+                Torque = 10m,
+                Angle = 360,
+                Timestamp = new DateTime(2019, 1, 5, 9, 0, 5),
+                BatchStatus = BatchStatus.Nok,
+                JobId = 1,
+                Strategy = Strategy.RotateSpindleForward,
+                StrategyOptions = new StrategyOptions()
+                {
+                    Torque = false,
+                    Angle = true,
+                    Batch = false,
+                    PvtMonitoring = true,
+                    PvtCompensate = false,
+                    Selftap = true,
+                    Rundown = false,
+                    CM = true,
+                    DsControl = true,
+                    ClickWrench = true,
+                    RbwMonitoring = false
+                },
+                BatchSize = 0,
+                RundownAngleStatus = TighteningValueStatus.High,
+                CurrentMonitoringStatus = TighteningValueStatus.Ok,
+                SelftapStatus = TighteningValueStatus.Low,
+                PrevailTorqueMonitoringStatus = TighteningValueStatus.High,
+                PrevailTorqueCompensateStatus = TighteningValueStatus.Ok,
+                TighteningErrorStatus = new TighteningErrorStatus()
+                {
+                    RundownAngleMaxShutOff = false,
+                    RundownAngleMinShutOff = true,
+                    TorqueMaxShutOff = false,
+                    AngleMaxShutOff = true,
+                    SelftapTorqueMaxShutOff = false,
+                    SelftapTorqueMinShutOff = true,
+                    PrevailTorqueMaxShutOff = false,
+                    PrevailTorqueMinShutOff = true,
+                    PrevailTorqueCompensateOverflow = true,
+                    CurrentMonitoringMaxShutOff = true,
+                    PostViewTorqueMinTorqueShutOff = false,
+                    PostViewTorqueMaxTorqueShutOff = false,
+                    PostViewTorqueAngleTooSmall = false,
+                    TriggerLost = true,
+                    TorqueLessThanTarget = false,
+                    ToolHot = true,
+                    MultistageAbort = false,
+                    Rehit = false,
+                    DsMeasureFailed = false,
+                    CurrentLimitReached = false,
+                    EndTimeOutShutOff = false,
+                    RemoveFastenerLimitExceeded = false,
+                    DisableDrive = false,
+                    TransducerLost = false,
+                    TransducerShorted = false,
+                    TransducerCorrupt = false,
+                    SyncTimeout = false,
+                    DynamicCurrentMonitoringMin = false,
+                    DynamicCurrentMonitoringMax = false,
+                    AngleMaxMonitor = false,
+                    YieldNutOff = false,
+                    YieldTooFewSamples = false
+                },
+                RundownAngle = 250,
+                CurrentMonitoringValue = 2,
+                SelftapTorque = 2.15m,
+                PrevailTorque = 10.25m,
+                JobSequenceNumber = 12,
+                SyncTighteningId = 65535,
+                ToolSerialNumber = "ABCDEFG-123",
+                TorqueValuesUnit = TorqueValuesUnit.Percentage,
+                ResultType = ResultType.ReferenceSetup,
+                IdentifierResultPart2 = "Identifier result part 2",
+                IdentifierResultPart3 = "Identifier result part 3",
+                IdentifierResultPart4 = "Identifier result part 4",
+                CustomerTighteningErrorCode = "E124",
+                PrevailTorqueCompensateValue = 51m,
+                TighteningErrorStatus2 = new TighteningErrorStatus2()
+                {
+                    DriveDeactivated = false,
+                    ToolStall = true,
+                    DriveHot = false,
+                    GradientMonitoringHigh = true,
+                    GradientMonitoringLow = false,
+                    ReactionBarFailed = true,
+                    SnugMax = false,
+                    CycleAbort = false,
+                    NeckingFailure = false,
+                    EffectiveLoosening = false,
+                    OverSpeed = false,
+                    NoResidualTorque = false,
+                    PositioningFail = false,
+                    SnugMonLow = false,
+                    SnugMonHigh = false,
+                    DynamicMinCurrent = false,
+                    DynamicMaxCurrent = false,
+                    LatentResult = false,
+                    Reserved = new byte[]
+                    {
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    }
+                }
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 7"), TestCategory("Pack")]
+        public void Mid0065PackRevision7()
+        {
+            string package = "03790065007         01012345678902AIRBAG                   030001040020510060093807000008000009010011112013214115016217118000004189819001000200036021002502200223000215240010252500012266553527ABCDEFG-123   282019-01-05:09:00:05297300831Identifier result part 2 32Identifier result part 3 33Identifier result part 4 34E1243500510036000000004237429496729538Station Name             ";
+
+            AssertBuildAndParse(package, new Mid0065(7)
+            {
+                TighteningId = 123456789L,
+                VinNumber = "AIRBAG",
+                ParameterSetId = 2,
+                BatchCounter = 0,
+                TighteningStatus = false,
+                TorqueStatus = TighteningValueStatus.Ok,
+                AngleStatus = TighteningValueStatus.Low,
+                Torque = 10m,
+                Angle = 360,
+                Timestamp = new DateTime(2019, 1, 5, 9, 0, 5),
+                BatchStatus = BatchStatus.Nok,
+                JobId = 1,
+                Strategy = Strategy.RotateSpindleForward,
+                StrategyOptions = new StrategyOptions()
+                {
+                    Torque = false,
+                    Angle = true,
+                    Batch = false,
+                    PvtMonitoring = true,
+                    PvtCompensate = false,
+                    Selftap = true,
+                    Rundown = false,
+                    CM = true,
+                    DsControl = true,
+                    ClickWrench = true,
+                    RbwMonitoring = false
+                },
+                BatchSize = 0,
+                RundownAngleStatus = TighteningValueStatus.High,
+                CurrentMonitoringStatus = TighteningValueStatus.Ok,
+                SelftapStatus = TighteningValueStatus.Low,
+                PrevailTorqueMonitoringStatus = TighteningValueStatus.High,
+                PrevailTorqueCompensateStatus = TighteningValueStatus.Ok,
+                TighteningErrorStatus = new TighteningErrorStatus()
+                {
+                    RundownAngleMaxShutOff = false,
+                    RundownAngleMinShutOff = true,
+                    TorqueMaxShutOff = false,
+                    AngleMaxShutOff = true,
+                    SelftapTorqueMaxShutOff = false,
+                    SelftapTorqueMinShutOff = true,
+                    PrevailTorqueMaxShutOff = false,
+                    PrevailTorqueMinShutOff = true,
+                    PrevailTorqueCompensateOverflow = true,
+                    CurrentMonitoringMaxShutOff = true,
+                    PostViewTorqueMinTorqueShutOff = false,
+                    PostViewTorqueMaxTorqueShutOff = false,
+                    PostViewTorqueAngleTooSmall = false,
+                    TriggerLost = true,
+                    TorqueLessThanTarget = false,
+                    ToolHot = true,
+                    MultistageAbort = false,
+                    Rehit = false,
+                    DsMeasureFailed = false,
+                    CurrentLimitReached = false,
+                    EndTimeOutShutOff = false,
+                    RemoveFastenerLimitExceeded = false,
+                    DisableDrive = false,
+                    TransducerLost = false,
+                    TransducerShorted = false,
+                    TransducerCorrupt = false,
+                    SyncTimeout = false,
+                    DynamicCurrentMonitoringMin = false,
+                    DynamicCurrentMonitoringMax = false,
+                    AngleMaxMonitor = false,
+                    YieldNutOff = false,
+                    YieldTooFewSamples = false
+                },
+                RundownAngle = 250,
+                CurrentMonitoringValue = 2,
+                SelftapTorque = 2.15m,
+                PrevailTorque = 10.25m,
+                JobSequenceNumber = 12,
+                SyncTighteningId = 65535,
+                ToolSerialNumber = "ABCDEFG-123",
+                TorqueValuesUnit = TorqueValuesUnit.Percentage,
+                ResultType = ResultType.ReferenceSetup,
+                IdentifierResultPart2 = "Identifier result part 2",
+                IdentifierResultPart3 = "Identifier result part 3",
+                IdentifierResultPart4 = "Identifier result part 4",
+                CustomerTighteningErrorCode = "E124",
+                PrevailTorqueCompensateValue = 51m,
+                TighteningErrorStatus2 = new TighteningErrorStatus2()
+                {
+                    DriveDeactivated = false,
+                    ToolStall = true,
+                    DriveHot = false,
+                    GradientMonitoringHigh = true,
+                    GradientMonitoringLow = false,
+                    ReactionBarFailed = true,
+                    SnugMax = false,
+                    CycleAbort = false,
+                    NeckingFailure = false,
+                    EffectiveLoosening = false,
+                    OverSpeed = false,
+                    NoResidualTorque = false,
+                    PositioningFail = false,
+                    SnugMonLow = false,
+                    SnugMonHigh = false,
+                    DynamicMinCurrent = false,
+                    DynamicMaxCurrent = false,
+                    LatentResult = false,
+                    Reserved = new byte[]
+                    {
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    }
+                },
+                StationId = 4294967295L,
+                StationName = "Station Name"
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 8"), TestCategory("Pack")]
+        public void Mid0065PackRevision8()
+        {
+            string package = "04060065008         01012345678902AIRBAG                   030001040020510060093807000008000009010011112013214115016217118000004189819001000200036021002502200223000215240010252500012266553527ABCDEFG-123   282019-01-05:09:00:05297300831Identifier result part 2 32Identifier result part 3 33Identifier result part 4 34E1243500510036000000004237429496729538Station Name             390010004024165214342005232";
+
+            AssertBuildAndParse(package, new Mid0065(8)
+            {
+                TighteningId = 123456789L,
+                VinNumber = "AIRBAG",
+                ParameterSetId = 2,
+                BatchCounter = 0,
+                TighteningStatus = false,
+                TorqueStatus = TighteningValueStatus.Ok,
+                AngleStatus = TighteningValueStatus.Low,
+                Torque = 10m,
+                Angle = 360,
+                Timestamp = new DateTime(2019, 1, 5, 9, 0, 5),
+                BatchStatus = BatchStatus.Nok,
+                JobId = 1,
+                Strategy = Strategy.RotateSpindleForward,
+                StrategyOptions = new StrategyOptions()
+                {
+                    Torque = false,
+                    Angle = true,
+                    Batch = false,
+                    PvtMonitoring = true,
+                    PvtCompensate = false,
+                    Selftap = true,
+                    Rundown = false,
+                    CM = true,
+                    DsControl = true,
+                    ClickWrench = true,
+                    RbwMonitoring = false
+                },
+                BatchSize = 0,
+                RundownAngleStatus = TighteningValueStatus.High,
+                CurrentMonitoringStatus = TighteningValueStatus.Ok,
+                SelftapStatus = TighteningValueStatus.Low,
+                PrevailTorqueMonitoringStatus = TighteningValueStatus.High,
+                PrevailTorqueCompensateStatus = TighteningValueStatus.Ok,
+                TighteningErrorStatus = new TighteningErrorStatus()
+                {
+                    RundownAngleMaxShutOff = false,
+                    RundownAngleMinShutOff = true,
+                    TorqueMaxShutOff = false,
+                    AngleMaxShutOff = true,
+                    SelftapTorqueMaxShutOff = false,
+                    SelftapTorqueMinShutOff = true,
+                    PrevailTorqueMaxShutOff = false,
+                    PrevailTorqueMinShutOff = true,
+                    PrevailTorqueCompensateOverflow = true,
+                    CurrentMonitoringMaxShutOff = true,
+                    PostViewTorqueMinTorqueShutOff = false,
+                    PostViewTorqueMaxTorqueShutOff = false,
+                    PostViewTorqueAngleTooSmall = false,
+                    TriggerLost = true,
+                    TorqueLessThanTarget = false,
+                    ToolHot = true,
+                    MultistageAbort = false,
+                    Rehit = false,
+                    DsMeasureFailed = false,
+                    CurrentLimitReached = false,
+                    EndTimeOutShutOff = false,
+                    RemoveFastenerLimitExceeded = false,
+                    DisableDrive = false,
+                    TransducerLost = false,
+                    TransducerShorted = false,
+                    TransducerCorrupt = false,
+                    SyncTimeout = false,
+                    DynamicCurrentMonitoringMin = false,
+                    DynamicCurrentMonitoringMax = false,
+                    AngleMaxMonitor = false,
+                    YieldNutOff = false,
+                    YieldTooFewSamples = false
+                },
+                RundownAngle = 250,
+                CurrentMonitoringValue = 2,
+                SelftapTorque = 2.15m,
+                PrevailTorque = 10.25m,
+                JobSequenceNumber = 12,
+                SyncTighteningId = 65535,
+                ToolSerialNumber = "ABCDEFG-123",
+                TorqueValuesUnit = TorqueValuesUnit.Percentage,
+                ResultType = ResultType.ReferenceSetup,
+                IdentifierResultPart2 = "Identifier result part 2",
+                IdentifierResultPart3 = "Identifier result part 3",
+                IdentifierResultPart4 = "Identifier result part 4",
+                CustomerTighteningErrorCode = "E124",
+                PrevailTorqueCompensateValue = 51m,
+                TighteningErrorStatus2 = new TighteningErrorStatus2()
+                {
+                    DriveDeactivated = false,
+                    ToolStall = true,
+                    DriveHot = false,
+                    GradientMonitoringHigh = true,
+                    GradientMonitoringLow = false,
+                    ReactionBarFailed = true,
+                    SnugMax = false,
+                    CycleAbort = false,
+                    NeckingFailure = false,
+                    EffectiveLoosening = false,
+                    OverSpeed = false,
+                    NoResidualTorque = false,
+                    PositioningFail = false,
+                    SnugMonLow = false,
+                    SnugMonHigh = false,
+                    DynamicMinCurrent = false,
+                    DynamicMaxCurrent = false,
+                    LatentResult = false,
+                    Reserved = new byte[]
+                    {
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    }
+                },
+                StationId = 4294967295L,
+                StationName = "Station Name",
+                StartFinalAngle = 10m,
+                PostViewTorqueActivated = PostViewTorque.OnlyPVTHOn,
+                PostViewTorqueHigh = 6521.43m,
+                PostViewTorqueLow = 52.32m
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 9"), TestCategory("Pack")]
+        public void Mid0065PackRevision9()
+        {
+            string package = "04270065009         01012345678902AIRBAG                   030001040020510060093807000008000009010011112013214115016217118000004189819001000200036021002502200223000215240010252500012266553527ABCDEFG-123   282019-01-05:09:00:05297300831Identifier result part 2 32Identifier result part 3 33Identifier result part 4 34E1243500510036000000004237429496729538Station Name             390010004024165214342005232430010044000504500150";
+
+            AssertBuildAndParse(package, new Mid0065(9)
+            {
+                TighteningId = 123456789L,
+                VinNumber = "AIRBAG",
+                ParameterSetId = 2,
+                BatchCounter = 0,
+                TighteningStatus = false,
+                TorqueStatus = TighteningValueStatus.Ok,
+                AngleStatus = TighteningValueStatus.Low,
+                Torque = 10m,
+                Angle = 360,
+                Timestamp = new DateTime(2019, 1, 5, 9, 0, 5),
+                BatchStatus = BatchStatus.Nok,
+                JobId = 1,
+                Strategy = Strategy.RotateSpindleForward,
+                StrategyOptions = new StrategyOptions()
+                {
+                    Torque = false,
+                    Angle = true,
+                    Batch = false,
+                    PvtMonitoring = true,
+                    PvtCompensate = false,
+                    Selftap = true,
+                    Rundown = false,
+                    CM = true,
+                    DsControl = true,
+                    ClickWrench = true,
+                    RbwMonitoring = false
+                },
+                BatchSize = 0,
+                RundownAngleStatus = TighteningValueStatus.High,
+                CurrentMonitoringStatus = TighteningValueStatus.Ok,
+                SelftapStatus = TighteningValueStatus.Low,
+                PrevailTorqueMonitoringStatus = TighteningValueStatus.High,
+                PrevailTorqueCompensateStatus = TighteningValueStatus.Ok,
+                TighteningErrorStatus = new TighteningErrorStatus()
+                {
+                    RundownAngleMaxShutOff = false,
+                    RundownAngleMinShutOff = true,
+                    TorqueMaxShutOff = false,
+                    AngleMaxShutOff = true,
+                    SelftapTorqueMaxShutOff = false,
+                    SelftapTorqueMinShutOff = true,
+                    PrevailTorqueMaxShutOff = false,
+                    PrevailTorqueMinShutOff = true,
+                    PrevailTorqueCompensateOverflow = true,
+                    CurrentMonitoringMaxShutOff = true,
+                    PostViewTorqueMinTorqueShutOff = false,
+                    PostViewTorqueMaxTorqueShutOff = false,
+                    PostViewTorqueAngleTooSmall = false,
+                    TriggerLost = true,
+                    TorqueLessThanTarget = false,
+                    ToolHot = true,
+                    MultistageAbort = false,
+                    Rehit = false,
+                    DsMeasureFailed = false,
+                    CurrentLimitReached = false,
+                    EndTimeOutShutOff = false,
+                    RemoveFastenerLimitExceeded = false,
+                    DisableDrive = false,
+                    TransducerLost = false,
+                    TransducerShorted = false,
+                    TransducerCorrupt = false,
+                    SyncTimeout = false,
+                    DynamicCurrentMonitoringMin = false,
+                    DynamicCurrentMonitoringMax = false,
+                    AngleMaxMonitor = false,
+                    YieldNutOff = false,
+                    YieldTooFewSamples = false
+                },
+                RundownAngle = 250,
+                CurrentMonitoringValue = 2,
+                SelftapTorque = 2.15m,
+                PrevailTorque = 10.25m,
+                JobSequenceNumber = 12,
+                SyncTighteningId = 65535,
+                ToolSerialNumber = "ABCDEFG-123",
+                TorqueValuesUnit = TorqueValuesUnit.Percentage,
+                ResultType = ResultType.ReferenceSetup,
+                IdentifierResultPart2 = "Identifier result part 2",
+                IdentifierResultPart3 = "Identifier result part 3",
+                IdentifierResultPart4 = "Identifier result part 4",
+                CustomerTighteningErrorCode = "E124",
+                PrevailTorqueCompensateValue = 51m,
+                TighteningErrorStatus2 = new TighteningErrorStatus2()
+                {
+                    DriveDeactivated = false,
+                    ToolStall = true,
+                    DriveHot = false,
+                    GradientMonitoringHigh = true,
+                    GradientMonitoringLow = false,
+                    ReactionBarFailed = true,
+                    SnugMax = false,
+                    CycleAbort = false,
+                    NeckingFailure = false,
+                    EffectiveLoosening = false,
+                    OverSpeed = false,
+                    NoResidualTorque = false,
+                    PositioningFail = false,
+                    SnugMonLow = false,
+                    SnugMonHigh = false,
+                    DynamicMinCurrent = false,
+                    DynamicMaxCurrent = false,
+                    LatentResult = false,
+                    Reserved = new byte[]
+                    {
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    }
+                },
+                StationId = 4294967295L,
+                StationName = "Station Name",
+                StartFinalAngle = 10m,
+                PostViewTorqueActivated = PostViewTorque.OnlyPVTHOn,
+                PostViewTorqueHigh = 6521.43m,
+                PostViewTorqueLow = 52.32m,
+                CurrentMonitoringAmpere = 1m,
+                CurrentMonitoringAmpereMin = 0.5m,
+                CurrentMonitoringAmpereMax = 1.5m
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 10"), TestCategory("Pack")]
+        public void Mid0065PackRevision10()
+        {
+            string package = "04970065010         01012345678902AIRBAG                   030001040020510060093807000008000009010011112013214115016217118000004189819001000200036021002502200223000215240010252500012266553527ABCDEFG-123   282019-01-05:09:00:05297300831Identifier result part 2 32Identifier result part 3 33Identifier result part 4 34E1243500510036000000004237429496729538Station Name             3900100040241652143420052324300100440005045001504600001470000148149-00205000100510012052003291530010055400011055009000";
+
+            AssertBuildAndParse(package, new Mid0065(10)
+            {
+                TighteningId = 123456789L,
+                VinNumber = "AIRBAG",
+                ParameterSetId = 2,
+                BatchCounter = 0,
+                TighteningStatus = false,
+                TorqueStatus = TighteningValueStatus.Ok,
+                AngleStatus = TighteningValueStatus.Low,
+                Torque = 10m,
+                Angle = 360,
+                Timestamp = new DateTime(2019, 1, 5, 9, 0, 5),
+                BatchStatus = BatchStatus.Nok,
+                JobId = 1,
+                Strategy = Strategy.RotateSpindleForward,
+                StrategyOptions = new StrategyOptions()
+                {
+                    Torque = false,
+                    Angle = true,
+                    Batch = false,
+                    PvtMonitoring = true,
+                    PvtCompensate = false,
+                    Selftap = true,
+                    Rundown = false,
+                    CM = true,
+                    DsControl = true,
+                    ClickWrench = true,
+                    RbwMonitoring = false
+                },
+                BatchSize = 0,
+                RundownAngleStatus = TighteningValueStatus.High,
+                CurrentMonitoringStatus = TighteningValueStatus.Ok,
+                SelftapStatus = TighteningValueStatus.Low,
+                PrevailTorqueMonitoringStatus = TighteningValueStatus.High,
+                PrevailTorqueCompensateStatus = TighteningValueStatus.Ok,
+                TighteningErrorStatus = new TighteningErrorStatus()
+                {
+                    RundownAngleMaxShutOff = false,
+                    RundownAngleMinShutOff = true,
+                    TorqueMaxShutOff = false,
+                    AngleMaxShutOff = true,
+                    SelftapTorqueMaxShutOff = false,
+                    SelftapTorqueMinShutOff = true,
+                    PrevailTorqueMaxShutOff = false,
+                    PrevailTorqueMinShutOff = true,
+                    PrevailTorqueCompensateOverflow = true,
+                    CurrentMonitoringMaxShutOff = true,
+                    PostViewTorqueMinTorqueShutOff = false,
+                    PostViewTorqueMaxTorqueShutOff = false,
+                    PostViewTorqueAngleTooSmall = false,
+                    TriggerLost = true,
+                    TorqueLessThanTarget = false,
+                    ToolHot = true,
+                    MultistageAbort = false,
+                    Rehit = false,
+                    DsMeasureFailed = false,
+                    CurrentLimitReached = false,
+                    EndTimeOutShutOff = false,
+                    RemoveFastenerLimitExceeded = false,
+                    DisableDrive = false,
+                    TransducerLost = false,
+                    TransducerShorted = false,
+                    TransducerCorrupt = false,
+                    SyncTimeout = false,
+                    DynamicCurrentMonitoringMin = false,
+                    DynamicCurrentMonitoringMax = false,
+                    AngleMaxMonitor = false,
+                    YieldNutOff = false,
+                    YieldTooFewSamples = false
+                },
+                RundownAngle = 250,
+                CurrentMonitoringValue = 2,
+                SelftapTorque = 2.15m,
+                PrevailTorque = 10.25m,
+                JobSequenceNumber = 12,
+                SyncTighteningId = 65535,
+                ToolSerialNumber = "ABCDEFG-123",
+                TorqueValuesUnit = TorqueValuesUnit.Percentage,
+                ResultType = ResultType.ReferenceSetup,
+                IdentifierResultPart2 = "Identifier result part 2",
+                IdentifierResultPart3 = "Identifier result part 3",
+                IdentifierResultPart4 = "Identifier result part 4",
+                CustomerTighteningErrorCode = "E124",
+                PrevailTorqueCompensateValue = 51m,
+                TighteningErrorStatus2 = new TighteningErrorStatus2()
+                {
+                    DriveDeactivated = false,
+                    ToolStall = true,
+                    DriveHot = false,
+                    GradientMonitoringHigh = true,
+                    GradientMonitoringLow = false,
+                    ReactionBarFailed = true,
+                    SnugMax = false,
+                    CycleAbort = false,
+                    NeckingFailure = false,
+                    EffectiveLoosening = false,
+                    OverSpeed = false,
+                    NoResidualTorque = false,
+                    PositioningFail = false,
+                    SnugMonLow = false,
+                    SnugMonHigh = false,
+                    DynamicMinCurrent = false,
+                    DynamicMaxCurrent = false,
+                    LatentResult = false,
+                    Reserved = new byte[]
+                    {
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    }
+                },
+                StationId = 4294967295L,
+                StationName = "Station Name",
+                StartFinalAngle = 10m,
+                PostViewTorqueActivated = PostViewTorque.OnlyPVTHOn,
+                PostViewTorqueHigh = 6521.43m,
+                PostViewTorqueLow = 52.32m,
+                CurrentMonitoringAmpere = 1m,
+                CurrentMonitoringAmpereMin = 0.5m,
+                CurrentMonitoringAmpereMax = 1.5m,
+                AngleNumeratorScaleFactor = 1,
+                AngleDenominatorScaleFactor = 1,
+                OverallAngleStatus = TighteningValueStatus.Ok,
+                OverallAngleMin = -20,
+                OverallAngleMax = 100,
+                OverallAngle = 120,
+                PeakTorque = 32.91m,
+                ResidualBreakawayTorque = 10.05m,
+                StartRundownAngle = 1.1m,
+                RundownAngleComplete = 90m
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 11"), TestCategory("Pack")]
+        public void Mid0065PackRevision11()
+        {
+            string package = "05120065011         01012345678902AIRBAG                   030001040020510060093807000008000009010011112013214115016217118000004189819001000200036021002502200223000215240010252500012266553527ABCDEFG-123   282019-01-05:09:00:05297300831Identifier result part 2 32Identifier result part 3 33Identifier result part 4 34E1243500510036000000004237429496729538Station Name             3900100040241652143420052324300100440005045001504600001470000148149-00205000100510012052003291530010055400011055009000560001205700001";
+
+            AssertBuildAndParse(package, new Mid0065(11)
+            {
+                TighteningId = 123456789L,
+                VinNumber = "AIRBAG",
+                ParameterSetId = 2,
+                BatchCounter = 0,
+                TighteningStatus = false,
+                TorqueStatus = TighteningValueStatus.Ok,
+                AngleStatus = TighteningValueStatus.Low,
+                Torque = 10m,
+                Angle = 360,
+                Timestamp = new DateTime(2019, 1, 5, 9, 0, 5),
+                BatchStatus = BatchStatus.Nok,
+                JobId = 1,
+                Strategy = Strategy.RotateSpindleForward,
+                StrategyOptions = new StrategyOptions()
+                {
+                    Torque = false,
+                    Angle = true,
+                    Batch = false,
+                    PvtMonitoring = true,
+                    PvtCompensate = false,
+                    Selftap = true,
+                    Rundown = false,
+                    CM = true,
+                    DsControl = true,
+                    ClickWrench = true,
+                    RbwMonitoring = false
+                },
+                BatchSize = 0,
+                RundownAngleStatus = TighteningValueStatus.High,
+                CurrentMonitoringStatus = TighteningValueStatus.Ok,
+                SelftapStatus = TighteningValueStatus.Low,
+                PrevailTorqueMonitoringStatus = TighteningValueStatus.High,
+                PrevailTorqueCompensateStatus = TighteningValueStatus.Ok,
+                TighteningErrorStatus = new TighteningErrorStatus()
+                {
+                    RundownAngleMaxShutOff = false,
+                    RundownAngleMinShutOff = true,
+                    TorqueMaxShutOff = false,
+                    AngleMaxShutOff = true,
+                    SelftapTorqueMaxShutOff = false,
+                    SelftapTorqueMinShutOff = true,
+                    PrevailTorqueMaxShutOff = false,
+                    PrevailTorqueMinShutOff = true,
+                    PrevailTorqueCompensateOverflow = true,
+                    CurrentMonitoringMaxShutOff = true,
+                    PostViewTorqueMinTorqueShutOff = false,
+                    PostViewTorqueMaxTorqueShutOff = false,
+                    PostViewTorqueAngleTooSmall = false,
+                    TriggerLost = true,
+                    TorqueLessThanTarget = false,
+                    ToolHot = true,
+                    MultistageAbort = false,
+                    Rehit = false,
+                    DsMeasureFailed = false,
+                    CurrentLimitReached = false,
+                    EndTimeOutShutOff = false,
+                    RemoveFastenerLimitExceeded = false,
+                    DisableDrive = false,
+                    TransducerLost = false,
+                    TransducerShorted = false,
+                    TransducerCorrupt = false,
+                    SyncTimeout = false,
+                    DynamicCurrentMonitoringMin = false,
+                    DynamicCurrentMonitoringMax = false,
+                    AngleMaxMonitor = false,
+                    YieldNutOff = false,
+                    YieldTooFewSamples = false
+                },
+                RundownAngle = 250,
+                CurrentMonitoringValue = 2,
+                SelftapTorque = 2.15m,
+                PrevailTorque = 10.25m,
+                JobSequenceNumber = 12,
+                SyncTighteningId = 65535,
+                ToolSerialNumber = "ABCDEFG-123",
+                TorqueValuesUnit = TorqueValuesUnit.Percentage,
+                ResultType = ResultType.ReferenceSetup,
+                IdentifierResultPart2 = "Identifier result part 2",
+                IdentifierResultPart3 = "Identifier result part 3",
+                IdentifierResultPart4 = "Identifier result part 4",
+                CustomerTighteningErrorCode = "E124",
+                PrevailTorqueCompensateValue = 51m,
+                TighteningErrorStatus2 = new TighteningErrorStatus2()
+                {
+                    DriveDeactivated = false,
+                    ToolStall = true,
+                    DriveHot = false,
+                    GradientMonitoringHigh = true,
+                    GradientMonitoringLow = false,
+                    ReactionBarFailed = true,
+                    SnugMax = false,
+                    CycleAbort = false,
+                    NeckingFailure = false,
+                    EffectiveLoosening = false,
+                    OverSpeed = false,
+                    NoResidualTorque = false,
+                    PositioningFail = false,
+                    SnugMonLow = false,
+                    SnugMonHigh = false,
+                    DynamicMinCurrent = false,
+                    DynamicMaxCurrent = false,
+                    LatentResult = false,
+                    Reserved = new byte[]
+                    {
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    }
+                },
+                StationId = 4294967295L,
+                StationName = "Station Name",
+                StartFinalAngle = 10m,
+                PostViewTorqueActivated = PostViewTorque.OnlyPVTHOn,
+                PostViewTorqueHigh = 6521.43m,
+                PostViewTorqueLow = 52.32m,
+                CurrentMonitoringAmpere = 1m,
+                CurrentMonitoringAmpereMin = 0.5m,
+                CurrentMonitoringAmpereMax = 1.5m,
+                AngleNumeratorScaleFactor = 1,
+                AngleDenominatorScaleFactor = 1,
+                OverallAngleStatus = TighteningValueStatus.Ok,
+                OverallAngleMin = -20,
+                OverallAngleMax = 100,
+                OverallAngle = 120,
+                PeakTorque = 32.91m,
+                ResidualBreakawayTorque = 10.05m,
+                StartRundownAngle = 1.1m,
+                RundownAngleComplete = 90m,
+                ClickTorque = 1.2m,
+                ClickAngle = 1
+            });
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.ApplicationSelector;
+using System.Collections.Generic;
 
 namespace MIDTesters.ApplicationSelector
 {
@@ -15,9 +16,21 @@ namespace MIDTesters.ApplicationSelector
             var mid = _midInterpreter.Parse<Mid0251>(package);
 
             Assert.IsTrue(mid.Header.NoAckFlag);
-            Assert.IsNotNull(mid.DeviceId);
-            Assert.IsNotNull(mid.NumberOfSockets);
-            Assert.IsNotNull(mid.SocketStatus);
+            Assert.AreEqual(50, mid.DeviceId);
+            Assert.AreEqual(10, mid.NumberOfSockets);
+            CollectionAssert.AreEqual(new List<bool>
+            {
+                false,
+                true,
+                false,
+                true,
+                true,
+                false,
+                true,
+                true,
+                true,
+                false
+            }, mid.SocketStatus);
             AssertEqualPackages(package, mid, true);
         }
 
@@ -29,10 +42,37 @@ namespace MIDTesters.ApplicationSelector
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0251>(bytes);
 
-            Assert.IsNotNull(mid.DeviceId);
-            Assert.IsNotNull(mid.NumberOfSockets);
-            Assert.IsNotNull(mid.SocketStatus);
+            Assert.AreEqual(50, mid.DeviceId);
+            Assert.AreEqual(10, mid.NumberOfSockets);
+            CollectionAssert.AreEqual(new List<bool>
+            {
+                false,
+                true,
+                false,
+                true,
+                true,
+                false,
+                true,
+                true,
+                true,
+                false
+            }, mid.SocketStatus);
             AssertEqualPackages(bytes, mid, true);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0251PackRevision1()
+        {
+            string package = "00400251   1        01500210030101101110";
+
+            AssertBuildAndParse(package, new Mid0251()
+            {
+                Header = { NoAckFlag = true },
+                DeviceId = 50,
+                NumberOfSockets = 10,
+                SocketStatus = new List<bool>() { false, true, false, true, true, false, true, true, true, false }
+            }, true);
         }
     }
 }

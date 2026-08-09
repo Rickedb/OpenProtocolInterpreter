@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.IOInterface
 {
@@ -11,7 +12,7 @@ namespace OpenProtocolInterpreter.IOInterface
     ///     status to the subscriber.
     ///     <see cref="Mid0216"/> can only subscribe for one single relay function at a time, but still, Open Protocol supports
     ///     keeping several relay function subscriptions simultaneously.
-    /// </para>    
+    /// </para>
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: <see cref="Communication.Mid0005"/> Command accepted or <see cref="Communication.Mid0004"/> Command error, The relay function subscription already exists</para>
     /// </summary>
@@ -21,11 +22,8 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.RelayFunctionSubscriptionAlreadyExists };
 
-        public RelayNumber RelayNumber
-        {
-            get => (RelayNumber)GetField(1, DataFields.RelayNumber).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.RelayNumber).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 3, HasPrefix = false)]
+        public RelayNumber RelayNumber { get; set; }
 
         public Mid0216() : this(false)
         {
@@ -43,25 +41,7 @@ namespace OpenProtocolInterpreter.IOInterface
             NoAckFlag = noAckFlag
         })
         {
-            
-        }
 
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                    {
-                        DataField.Number(DataFields.RelayNumber, 20, 3, false)
-                    }
-                }
-            };
-        }
-
-        protected enum DataFields
-        {
-            RelayNumber
         }
     }
 }

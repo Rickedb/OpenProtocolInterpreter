@@ -1,63 +1,59 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace OpenProtocolInterpreter.Result
 {
     /// <summary>
     /// Operation result object data
     /// <para>
-    ///     This message contains the cycle data for one object, both data for the whole process and data related to 
-    ///     the different steps in the process.The user defined values are preconfigured in the controller via the 
+    ///     This message contains the cycle data for one object, both data for the whole process and data related to
+    ///     the different steps in the process.The user defined values are preconfigured in the controller via the
     ///     configuration tool. The message uses the Variable Parameter pattern for transmission of the values.
     /// </para>
     /// <para>
-    ///     Note: Only values that exist in the result will be sent.So the actual data received may vary between 
+    ///     Note: Only values that exist in the result will be sent.So the actual data received may vary between
     ///     the cycles if the settings differ between different programs.
     /// </para>
     /// <para>Message sent by: Controller</para>
     /// <para>
-    ///     Answer: <see cref="Mid1203"/> Operation result data acknowledge or 
+    ///     Answer: <see cref="Mid1203"/> Operation result data acknowledge or
     ///             <see cref="Communication.Mid0005"/> with <see cref="Mid1202"/> in the data field.
     /// </para>
-    ///         
+    ///
     ///         If the sequence number acknowledge functionality is used there is no need for these acknowledges.
     /// </summary>
     public class Mid1202 : Mid, IResult, IController, IAcknowledgeable<Mid1203>, IAcceptableCommand
     {
         public const int MID = 1202;
 
-        public int TotalNumberOfMessages
-        {
-            get => GetField(Header.StandardizedRevision, DataFields.TotalMessages).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(Header.StandardizedRevision, DataFields.TotalMessages).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int MessageNumber
-        {
-            get => GetField(Header.StandardizedRevision, DataFields.MessageNumber).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(Header.StandardizedRevision, DataFields.MessageNumber).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public long ResultDataIdentifier
-        {
-            get => GetField(Header.StandardizedRevision, DataFields.ResultDataIdentifier).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(Header.StandardizedRevision, DataFields.ResultDataIdentifier).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int ObjectId
-        {
-            get => GetField(Header.StandardizedRevision, DataFields.ObjectId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(Header.StandardizedRevision, DataFields.ObjectId).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public string NodeGuid
-        {
-            get => GetField(Header.StandardizedRevision, DataFields.NodeGuid).Value;
-            set => GetField(Header.StandardizedRevision, DataFields.NodeGuid).SetValue(value);
-        }
-        public int NumberOfDataFields
-        {
-            get => GetField(Header.StandardizedRevision, DataFields.NumberOfDataFields).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(Header.StandardizedRevision, DataFields.NumberOfDataFields).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 3, HasPrefix = false)]
+        [Int32DataFieldDefinition(revision: 2, field: 1, Index = 20, Size = 3, HasPrefix = false)]
+        public int TotalNumberOfMessages { get; set; }
 
-        public List<VariableDataField> VariableDataFields { get; set; }
+        [Int32DataFieldDefinition(revision: 1, field: 2, Index = 23, Size = 3, HasPrefix = false)]
+        [Int32DataFieldDefinition(revision: 2, field: 2, Index = 23, Size = 3, HasPrefix = false)]
+        public int MessageNumber { get; set; }
+
+        [Int64DataFieldDefinition(revision: 1, field: 3, Index = 26, Size = 10, HasPrefix = false)]
+        [Int64DataFieldDefinition(revision: 2, field: 3, Index = 26, Size = 10, HasPrefix = false)]
+        public long ResultDataIdentifier { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 4, Index = 36, Size = 4, HasPrefix = false)]
+        [Int32DataFieldDefinition(revision: 2, field: 4, Index = 36, Size = 4, HasPrefix = false)]
+        public int ObjectId { get; set; }
+
+        [StringDataFieldDefinition(revision: 2, field: 5, Index = 40, Size = 36, HasPrefix = false)]
+        public string NodeGuid { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 5, Index = 40, Size = 3, HasPrefix = false)]
+        [Int32DataFieldDefinition(revision: 2, field: 6, Index = 76, Size = 3, HasPrefix = false)]
+        public int NumberOfDataFields { get; set; }
+
+        [VariableDataFieldCollectionDefinition(revision: 1, field: 6, Index = 43, Size = 0, HasPrefix = false)]
+        [VariableDataFieldCollectionDefinition(revision: 2, field: 7, Index = 79, Size = 0, HasPrefix = false)]
+        public List<VariableDataField> VariableDataFields { get; set; } = new List<VariableDataField>();
 
         public Mid1202() : this(new Header()
         {
@@ -71,72 +67,58 @@ namespace OpenProtocolInterpreter.Result
         {
             VariableDataFields = [];
         }
+
         protected override string BuildHeader()
         {
-            Header.Length = 20 + RevisionsByFields[Header.StandardizedRevision].Sum(x => x.TotalSize);
+            var fields = DataFieldsByRevision();
+            Header.Length = Header.DefaultSize + fields.Sum(x => x.TotalSize);
             return Header.ToString();
         }
 
         public override string Pack()
         {
-            NumberOfDataFields = VariableDataFields.Count;
-            var revision = Header.StandardizedRevision;
-            GetField(revision, DataFields.VariableDataFields).SetValue(OpenProtocolConvert.ToString(VariableDataFields));
-            int prefixIndex = 0;
-            return string.Concat(BuildHeader(), base.Pack(revision, ref prefixIndex));
+            NumberOfDataFields = VariableDataFields?.Count ?? 0; //Enforce list size even if modified
+            var field = Header.StandardizedRevision > 1 ? 7 : 6;
+            GetField(revision: Header.StandardizedRevision, field: field).Size = VariableDataFields?.Sum(x => x.TotalSize) ?? 0; //Enforce size of variable data fields
+
+            var builder = new StringBuilder();
+            builder.Append(BuildHeader());
+            builder.Append(Pack(DataFieldsByRevision()));
+            return builder.ToString();
         }
 
-        public override Mid Parse(string package)
+        protected override void ProcessDataField(DataField dataField, ReadOnlySpan<char> package)
         {
-            Header = ProcessHeader(package);
-            var revision = Header.StandardizedRevision;
-            var variableDataField = GetField(revision, DataFields.VariableDataFields);
-            variableDataField.Size = Header.Length - variableDataField.Index;
-            ProcessDataFields(revision, package);
-
-            VariableDataFields = VariableDataField.ParseAll(variableDataField.Value).ToList();
-            return this;
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
+            switch (dataField.Field)
             {
-                {
-                    1, new List<DataField>()
-                    {
-                        DataField.Number(DataFields.TotalMessages, 20, 3, false),
-                        DataField.Number(DataFields.MessageNumber, 23, 3, false),
-                        DataField.Number(DataFields.ResultDataIdentifier, 26, 10, false),
-                        DataField.Number(DataFields.ObjectId, 36, 4, false),
-                        DataField.Number(DataFields.NumberOfDataFields, 40, 3, false),
-                        DataField.Volatile(DataFields.VariableDataFields, 43, false) //defined at runtime
-                    }
-                },
-                {
-                    2, new List<DataField>()
-                    {
-                        DataField.Number(DataFields.TotalMessages, 20, 3, false),
-                        DataField.Number(DataFields.MessageNumber, 23, 3, false),
-                        DataField.Number(DataFields.ResultDataIdentifier, 26, 10, false),
-                        DataField.Number(DataFields.ObjectId, 36, 4, false),
-                        DataField.String(DataFields.NodeGuid, 40, 36, false),
-                        DataField.Number(DataFields.NumberOfDataFields, 76, 3, false),
-                        DataField.Volatile(DataFields.VariableDataFields, 79, false) //defined at runtime
-                    }
-                }
-            };
+                case 6 when dataField is DataField<List<VariableDataField>>:
+                case 7 when dataField is DataField<List<VariableDataField>>:
+                    dataField.Size = Header.Length - dataField.Index;
+                    break;
+            }
+
+            base.ProcessDataField(dataField, package);
         }
 
-        protected enum DataFields
+        protected override void ProcessDataFields(ReadOnlySpan<char> package)
         {
-            TotalMessages,
-            MessageNumber,
-            ResultDataIdentifier,
-            ObjectId,
-            NodeGuid,
-            NumberOfDataFields,
-            VariableDataFields
+            foreach (var field in DataFieldsByRevision())
+                ProcessDataField(field, package);
+        }
+
+        private IEnumerable<DataField> DataFieldsByRevision()
+        {
+            var previousField = default(DataField);
+            foreach (var dataField in RevisionsByFields[Header.StandardizedRevision])
+            {
+                if (previousField != null && dataField.Index == 0)
+                {
+                    dataField.Index = previousField.Index + previousField.TotalSize;
+                }
+
+                previousField = dataField;
+                yield return dataField;
+            }
         }
     }
 }

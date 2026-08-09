@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.ParameterSet;
 
+using OpenProtocolInterpreter;
 namespace MIDTesters.ParameterSet
 {
     [TestClass]
@@ -14,8 +15,8 @@ namespace MIDTesters.ParameterSet
             string package = "00250019            77750";
             var mid = _midInterpreter.Parse<Mid0019>(package);
 
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.BatchSize);
+            Assert.AreEqual(777, mid.ParameterSetId);
+            Assert.AreEqual(50, mid.BatchSize);
             AssertEqualPackages(package, mid, true);
         }
 
@@ -27,8 +28,8 @@ namespace MIDTesters.ParameterSet
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0019>(bytes);
 
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.BatchSize);
+            Assert.AreEqual(777, mid.ParameterSetId);
+            Assert.AreEqual(50, mid.BatchSize);
             AssertEqualPackages(bytes, mid, true);
         }
 
@@ -39,8 +40,8 @@ namespace MIDTesters.ParameterSet
             string package = "00270019002         7770050";
             var mid = _midInterpreter.Parse<Mid0019>(package);
 
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.BatchSize);
+            Assert.AreEqual(777, mid.ParameterSetId);
+            Assert.AreEqual(50, mid.BatchSize);
             AssertEqualPackages(package, mid);
         }
 
@@ -52,9 +53,35 @@ namespace MIDTesters.ParameterSet
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0019>(bytes);
 
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.BatchSize);
+            Assert.AreEqual(777, mid.ParameterSetId);
+            Assert.AreEqual(50, mid.BatchSize);
             AssertEqualPackages(bytes, mid);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0019PackRevision1()
+        {
+            string package = "00250019            77750";
+
+            AssertBuildAndParse(package, new Mid0019()
+            {
+                ParameterSetId = 777,
+                BatchSize = 50
+            }, true);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("Pack")]
+        public void Mid0019PackRevision2()
+        {
+            string package = "00270019002         7770050";
+
+            AssertBuildAndParse(package, new Mid0019(new Header() { Mid = Mid0019.MID, Revision = 2 })
+            {
+                ParameterSetId = 777,
+                BatchSize = 50
+            });
         }
     }
 }

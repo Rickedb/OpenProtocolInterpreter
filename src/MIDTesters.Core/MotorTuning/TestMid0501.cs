@@ -14,7 +14,7 @@ namespace MIDTesters.MotorTuning
             string package = "00230501            011";
             var mid = _midInterpreter.Parse<Mid0501>(package);
 
-            Assert.IsNotNull(mid.MotorTuneResult);
+            Assert.IsTrue(mid.MotorTuneResult);
             AssertEqualPackages(package, mid, true);
         }
 
@@ -26,8 +26,20 @@ namespace MIDTesters.MotorTuning
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0501>(bytes);
 
-            Assert.IsNotNull(mid.MotorTuneResult);
+            Assert.IsTrue(mid.MotorTuneResult);
             AssertEqualPackages(bytes, mid, true);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0501PackRevision1()
+        {
+            string package = "00230501            011";
+
+            AssertBuildAndParse(package, new Mid0501()
+            {
+                MotorTuneResult = true
+            }, true);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.IOInterface
 {
@@ -17,16 +18,10 @@ namespace OpenProtocolInterpreter.IOInterface
     {
         public const int MID = 217;
 
-        public RelayNumber RelayNumber
-        {
-            get => (RelayNumber)GetField(1, DataFields.RelayNumber).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.RelayNumber).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public bool RelayStatus
-        {
-            get => GetField(1, DataFields.RelayStatus).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1, DataFields.RelayStatus).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 3)]
+        public RelayNumber RelayNumber { get; set; }
+        [BooleanDataFieldDefinition(revision: 1, field: 2, Index = 25)]
+        public bool RelayStatus { get; set; }
 
         public Mid0217() : this(new Header()
         {
@@ -39,26 +34,6 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public Mid0217(Header header) : base(header)
         {
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                    {
-                        DataField.Number(DataFields.RelayNumber, 20, 3),
-                        DataField.Boolean(DataFields.RelayStatus, 25)
-                    }
-                }
-            };
-        }
-
-        protected enum DataFields
-        {
-            RelayNumber,
-            RelayStatus
         }
     }
 }

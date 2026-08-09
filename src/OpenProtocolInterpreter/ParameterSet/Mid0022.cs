@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 
 namespace OpenProtocolInterpreter.ParameterSet
 {
@@ -12,15 +12,12 @@ namespace OpenProtocolInterpreter.ParameterSet
     {
         public const int MID = 22;
 
-        public bool RelayStatus
-        {
-            get => GetField(1, DataFields.RelayStatus).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1, DataFields.RelayStatus).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [BooleanDataFieldDefinition(revision: 1, field: 1, Index = 20, HasPrefix = false)]
+        public bool RelayStatus { get; set; }
 
         public Mid0022() : this(new Header()
         {
-            Mid = MID, 
+            Mid = MID,
             Revision = DEFAULT_REVISION
         })
         {
@@ -28,24 +25,6 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public Mid0022(Header header) : base(header)
         {
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Boolean(DataFields.RelayStatus, 20, false)
-                            }
-                }
-            };
-        }
-
-        protected enum DataFields
-        {
-            RelayStatus
         }
     }
 }

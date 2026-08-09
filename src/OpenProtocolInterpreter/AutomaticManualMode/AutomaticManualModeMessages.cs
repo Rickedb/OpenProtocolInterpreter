@@ -11,14 +11,14 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
     {
         public AutomaticManualModeMessages() : base()
         {
-            _templates = new Dictionary<int, MidCompiledInstance>()
+            _templates = new Dictionary<int, CompiledInstance<Mid>>()
             {
-                { Mid0400.MID, new MidCompiledInstance(typeof(Mid0400)) },
-                { Mid0401.MID, new MidCompiledInstance(typeof(Mid0401)) },
-                { Mid0402.MID, new MidCompiledInstance(typeof(Mid0402)) },
-                { Mid0403.MID, new MidCompiledInstance(typeof(Mid0403)) },
-                { Mid0410.MID, new MidCompiledInstance(typeof(Mid0410)) },
-                { Mid0411.MID, new MidCompiledInstance(typeof(Mid0411)) }
+                { Mid0400.MID, new CompiledInstance<Mid>(typeof(Mid0400)) },
+                { Mid0401.MID, new CompiledInstance<Mid>(typeof(Mid0401)) },
+                { Mid0402.MID, new CompiledInstance<Mid>(typeof(Mid0402)) },
+                { Mid0403.MID, new CompiledInstance<Mid>(typeof(Mid0403)) },
+                { Mid0410.MID, new CompiledInstance<Mid>(typeof(Mid0410)) },
+                { Mid0411.MID, new CompiledInstance<Mid>(typeof(Mid0411)) }
             };
         }
 

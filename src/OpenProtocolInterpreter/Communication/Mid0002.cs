@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Communication
 {
     /// <summary>
     /// Application Communication start acknowledge
     /// <para>
-    ///     When accepting the communication start the controller sends as reply, 
+    ///     When accepting the communication start the controller sends as reply,
     ///     a Communication start acknowledge. This message contains some basic information about the
     ///     controller, such as cell ID, channel ID, and name.
     /// </para>
@@ -16,68 +17,39 @@ namespace OpenProtocolInterpreter.Communication
     {
         public const int MID = 2;
 
-        public int CellId
-        {
-            get => GetField(1, DataFields.CellId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.CellId).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 4)]
+        public int CellId { get; set; }
 
-        public int ChannelId
-        {
-            get => GetField(1, DataFields.ChannelId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.ChannelId).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public string ControllerName
-        {
-            get => GetField(1, DataFields.ControllerName).Value;
-            set => GetField(1, DataFields.ControllerName).SetValue(value);
-        }
+        [Int32DataFieldDefinition(revision: 1, field: 2, Index = 26, Size = 2)]
+        public int ChannelId { get; set; }
+
+        [StringDataFieldDefinition(revision: 1, field: 3, Index = 30, Size = 25)]
+        public string ControllerName { get; set; }
 
         //Rev 2
-        public string SupplierCode
-        {
-            get => GetField(2, DataFields.SupplierCode).Value;
-            set => GetField(2, DataFields.SupplierCode).SetValue(value);
-        }
+        [StringDataFieldDefinition(revision: 2, field: 4, Index = 57, Size = 3)]
+        public string SupplierCode { get; set; }
 
         //Rev 3
-        public string OpenProtocolVersion
-        {
-            get => GetField(3, DataFields.OpenProtocolVersion).Value;
-            set => GetField(3, DataFields.OpenProtocolVersion).SetValue(value);
-        }
+        [StringDataFieldDefinition(revision: 3, field: 5, Index = 62, Size = 19)]
+        public string OpenProtocolVersion { get; set; }
 
-        public string ControllerSoftwareVersion
-        {
-            get => GetField(3, DataFields.ControllerSoftwareVersion).Value;
-            set => GetField(3, DataFields.ControllerSoftwareVersion).SetValue(value);
-        }
+        [StringDataFieldDefinition(revision: 3, field: 6, Index = 83, Size = 19)]
+        public string ControllerSoftwareVersion { get; set; }
 
-        public string ToolSoftwareVersion
-        {
-            get => GetField(3, DataFields.ToolSoftwareVersion).Value;
-            set => GetField(3, DataFields.ToolSoftwareVersion).SetValue(value);
-        }
+        [StringDataFieldDefinition(revision: 3, field: 7, Index = 104, Size = 19)]
+        public string ToolSoftwareVersion { get; set; }
 
         //Rev 4
-        public string RBUType
-        {
-            get => GetField(4, DataFields.RBUType).Value;
-            set => GetField(4, DataFields.RBUType).SetValue(value);
-        }
+        [StringDataFieldDefinition(revision: 4, field: 8, Index = 125, Size = 24)]
+        public string RBUType { get; set; }
 
-        public string ControllerSerialNumber
-        {
-            get => GetField(4, DataFields.ControllerSerialNumber).Value;
-            set => GetField(4, DataFields.ControllerSerialNumber).SetValue(value);
-        }
+        [StringDataFieldDefinition(revision: 4, field: 9, Index = 151, Size = 10)]
+        public string ControllerSerialNumber { get; set; }
 
-        //Rev 5 
-        public SystemType SystemType
-        {
-            get => (SystemType)GetField(5, DataFields.SystemType).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(5, DataFields.SystemType).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        //Rev 5
+        [Int32DataFieldDefinition(revision: 5, field: 10, Index = 163, Size = 3)]
+        public SystemType SystemType { get; set; }
 
         /// <summary>
         /// <para>If no subtype exists it will be set to 000</para>
@@ -87,61 +59,47 @@ namespace OpenProtocolInterpreter.Communication
         /// <para>001 = a normal tightening system </para>
         /// <para>002 = a system running presses instead of spindles.</para>
         /// </summary>
-        public SystemSubType SystemSubType
-        {
-            get => (SystemSubType)GetField(5, DataFields.SystemSubtype).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(5, DataFields.SystemSubtype).SetValue(OpenProtocolConvert.ToString, value);
-        }
+
+        [Int32DataFieldDefinition(revision: 5, field: 11, Index = 168, Size = 3)]
+        public SystemSubType SystemSubType { get; set; }
 
         //Rev 6
-        public bool SequenceNumberSupport
-        {
-            get => GetField(6, DataFields.SequenceNumberSupport).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(6, DataFields.SequenceNumberSupport).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [BooleanDataFieldDefinition(revision: 6, field: 12, Index = 173)]
+        public bool SequenceNumberSupport { get; set; }
 
-        public bool LinkingHandlingSupport
-        {
-            get => GetField(6, DataFields.LinkingHandlingSupport).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(6, DataFields.LinkingHandlingSupport).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [BooleanDataFieldDefinition(revision: 6, field: 13, Index = 176)]
+        public bool LinkingHandlingSupport { get; set; }
 
         /// <summary>
         /// <para>Station ID for PF6000</para>
         /// <para>Cell ID for PF4000</para>
         /// </summary>
-        public long StationCellId 
-        {
-            get => GetField(6, DataFields.StationCellId).GetValue(OpenProtocolConvert.ToInt64);
-            set => GetField(6, DataFields.StationCellId).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int64DataFieldDefinition(revision: 6, field: 14, Index = 179, Size = 10)]
+        public long StationCellId { get; set; }
 
         /// <summary>
         /// <para>Station ID for PF6000</para>
         /// <para>Cell ID for PF4000</para>
         /// </summary>
-        public string StationCellName
-        {
-            get => GetField(6, DataFields.StationCellName).Value;
-            set => GetField(6, DataFields.StationCellName).SetValue(value);
-        }
+        [StringDataFieldDefinition(revision: 6, field: 15, Index = 191, Size = 25)]
+        public string StationCellName { get; set; }
 
-        public string ClientId
-        {
-            get => GetField(6, DataFields.ClientId).Value;
-            set => GetField(6, DataFields.ClientId).SetValue(value);
-        }
+        [StringDataFieldDefinition(revision: 6, field: 16, Index = 218, Size = 1)]
+        public string ClientId { get; set; }
 
         //Rev 7
         /// <summary>
-        /// <para>False = Use Keep alive (Keep alive is mandatory)</para> 
+        /// <para>False = Use Keep alive (Keep alive is mandatory)</para>
         /// <para>True = Ignore Keep alive (Keep alive is optional)</para>
         /// </summary>
-        public bool OptionalKeepAlive 
-        {
-            get => GetField(7, DataFields.OptionalKeepAlive).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(7, DataFields.OptionalKeepAlive).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [BooleanDataFieldDefinition(revision: 7, field: 17, Index = 221)]
+        public bool OptionalKeepAlive { get; set; }
+
+        [BooleanDataFieldDefinition(revision: 8, field: 18, Index = 224)]
+        public bool OptionalToolLockAtDisconnection { get; set; }
+
+        [DecimalDataFieldDefinition(revision: 8, field: 19, Index = 227, Size = 1)]
+        public decimal OptionalEarlyLock { get; set; }
 
         public Mid0002() : this(DEFAULT_REVISION)
         {
@@ -155,98 +113,11 @@ namespace OpenProtocolInterpreter.Communication
 
         public Mid0002(int revision) : this(new Header()
         {
-            Mid= MID, 
+            Mid = MID,
             Revision = revision
         })
         {
-            
-        }
 
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.CellId, 20, 4),
-                                DataField.Number(DataFields.ChannelId, 26, 2),
-                                DataField.String(DataFields.ControllerName, 30, 25)
-                            }
-                },
-                {
-                    2, new  List<DataField>()
-                            {
-                                DataField.String(DataFields.SupplierCode, 57, 3)
-                            }
-                },
-                {
-                    3, new  List<DataField>()
-                            {
-                                DataField.String(DataFields.OpenProtocolVersion, 62, 19),
-                                DataField.String(DataFields.ControllerSoftwareVersion, 83, 19),
-                                DataField.String(DataFields.ToolSoftwareVersion, 104, 19)
-                            }
-                },
-                {
-                    4, new  List<DataField>()
-                            {
-                                DataField.String(DataFields.RBUType, 125, 24),
-                                DataField.String(DataFields.ControllerSerialNumber, 151, 10)
-                            }
-                },
-                {
-                    5, new  List<DataField>()
-                            {
-                                DataField.Number(DataFields.SystemType, 163, 3),
-                                DataField.Number(DataFields.SystemSubtype, 168, 3)
-                            }
-                },
-                {
-                    6, new  List<DataField>()
-                            {
-                                DataField.Boolean(DataFields.SequenceNumberSupport, 173),
-                                DataField.Boolean(DataFields.LinkingHandlingSupport, 176),
-                                DataField.Number(DataFields.StationCellId, 179, 10),
-                                DataField.String(DataFields.StationCellName, 191, 25),
-                                DataField.String(DataFields.ClientId, 218, 1)
-                            }
-                },
-                {
-                    7, new  List<DataField>()
-                            {
-                                DataField.Boolean(DataFields.OptionalKeepAlive, 221)
-                            }
-                }
-            };
-        }
-
-        protected enum DataFields
-        {
-            //Rev 1
-            CellId,
-            ChannelId,
-            ControllerName,
-            //Rev 2
-            SupplierCode,
-            //Rev 3
-            OpenProtocolVersion,
-            ControllerSoftwareVersion,
-            ToolSoftwareVersion,
-            //Rev 4
-            RBUType,
-            ControllerSerialNumber,
-            //Rev 5
-            SystemType,
-            SystemSubtype,
-            //Rev 6
-            SequenceNumberSupport,
-            LinkingHandlingSupport,
-            StationCellId,
-            StationCellName,
-            ClientId,
-            //Rev 7
-            OptionalKeepAlive
         }
     }
 }

@@ -14,7 +14,7 @@ namespace MIDTesters.ParameterSet
             string pack = @"00230012            002";
             var mid = _midInterpreter.Parse<Mid0012>(pack);
 
-            Assert.IsNotNull(mid.ParameterSetId);
+            Assert.AreEqual(2, mid.ParameterSetId);
             AssertEqualPackages(pack, mid, true);
         }
 
@@ -26,7 +26,7 @@ namespace MIDTesters.ParameterSet
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0012>(bytes);
 
-            Assert.IsNotNull(mid.ParameterSetId);
+            Assert.AreEqual(2, mid.ParameterSetId);
             AssertEqualPackages(bytes, mid, true);
         }
 
@@ -37,7 +37,7 @@ namespace MIDTesters.ParameterSet
             string pack = @"00230012002         002";
             var mid = _midInterpreter.Parse<Mid0012>(pack);
 
-            Assert.IsNotNull(mid.ParameterSetId);
+            Assert.AreEqual(2, mid.ParameterSetId);
             AssertEqualPackages(pack, mid);
         }
 
@@ -49,7 +49,7 @@ namespace MIDTesters.ParameterSet
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0012>(bytes);
 
-            Assert.IsNotNull(mid.ParameterSetId);
+            Assert.AreEqual(2, mid.ParameterSetId);
             AssertEqualPackages(bytes, mid);
         }
 
@@ -60,8 +60,8 @@ namespace MIDTesters.ParameterSet
             string pack = @"00310012003         00212345678";
             var mid = _midInterpreter.Parse<Mid0012>(pack);
 
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.ParameterSetFileVersion);
+            Assert.AreEqual(2, mid.ParameterSetId);
+            Assert.AreEqual(12345678, mid.ParameterSetFileVersion);
             AssertEqualPackages(pack, mid);
         }
 
@@ -73,8 +73,8 @@ namespace MIDTesters.ParameterSet
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0012>(bytes);
 
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.ParameterSetFileVersion);
+            Assert.AreEqual(2, mid.ParameterSetId);
+            Assert.AreEqual(12345678, mid.ParameterSetFileVersion);
             AssertEqualPackages(bytes, mid);
         }
 
@@ -85,8 +85,8 @@ namespace MIDTesters.ParameterSet
             string pack = @"00310012004         00212345678";
             var mid = _midInterpreter.Parse<Mid0012>(pack);
 
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.ParameterSetFileVersion);
+            Assert.AreEqual(2, mid.ParameterSetId);
+            Assert.AreEqual(12345678, mid.ParameterSetFileVersion);
             AssertEqualPackages(pack, mid);
         }
 
@@ -98,9 +98,59 @@ namespace MIDTesters.ParameterSet
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0012>(bytes);
 
-            Assert.IsNotNull(mid.ParameterSetId);
-            Assert.IsNotNull(mid.ParameterSetFileVersion);
+            Assert.AreEqual(2, mid.ParameterSetId);
+            Assert.AreEqual(12345678, mid.ParameterSetFileVersion);
             AssertEqualPackages(bytes, mid);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0012PackRevision1()
+        {
+            string package = "00230012            002";
+
+            AssertBuildAndParse(package, new Mid0012(1)
+            {
+                ParameterSetId = 2
+            }, true);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("Pack")]
+        public void Mid0012PackRevision2()
+        {
+            string package = @"00230012002         002";
+
+            AssertBuildAndParse(package, new Mid0012(2)
+            {
+                ParameterSetId = 2
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 3"), TestCategory("Pack")]
+        public void Mid0012PackRevision3()
+        {
+            string package = "00310012003         00212345678";
+
+            AssertBuildAndParse(package, new Mid0012(3)
+            {
+                ParameterSetId = 2,
+                ParameterSetFileVersion = 12345678
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 4"), TestCategory("Pack")]
+        public void Mid0012PackRevision4()
+        {
+            string package = @"00310012004         00212345678";
+
+            AssertBuildAndParse(package, new Mid0012(4)
+            {
+                ParameterSetId = 2,
+                ParameterSetFileVersion = 12345678
+            });
         }
     }
 }

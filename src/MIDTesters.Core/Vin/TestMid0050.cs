@@ -14,7 +14,7 @@ namespace MIDTesters.Vin
             string package = "00350050001         VehicleIdNumber";
             var mid = _midInterpreter.Parse<Mid0050>(package);
 
-            Assert.IsNotNull(mid.VinNumber);
+            Assert.AreEqual("VehicleIdNumber", mid.VinNumber);
             AssertEqualPackages(package, mid);
         }
 
@@ -26,8 +26,20 @@ namespace MIDTesters.Vin
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0050>(bytes);
 
-            Assert.IsNotNull(mid.VinNumber);
+            Assert.AreEqual("VehicleIdNumber", mid.VinNumber);
             AssertEqualPackages(bytes, mid);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0050PackRevision1()
+        {
+            string package = "00350050001         VehicleIdNumber";
+
+            AssertBuildAndParse(package, new Mid0050()
+            {
+                VinNumber = "VehicleIdNumber"
+            });
         }
     }
 }

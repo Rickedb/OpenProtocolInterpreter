@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.IOInterface
 {
@@ -15,56 +16,35 @@ namespace OpenProtocolInterpreter.IOInterface
     {
         public const int MID = 200;
 
-        public RelayStatus StatusRelayOne
-        {
-            get => (RelayStatus)GetField(1, DataFields.StatusRelay1).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.StatusRelay1).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public RelayStatus StatusRelayTwo
-        {
-            get => (RelayStatus)GetField(1, DataFields.StatusRelay2).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.StatusRelay2).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public RelayStatus StatusRelayThree
-        {
-            get => (RelayStatus)GetField(1, DataFields.StatusRelay3).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.StatusRelay3).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public RelayStatus StatusRelayFour
-        {
-            get => (RelayStatus)GetField(1, DataFields.StatusRelay4).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.StatusRelay4).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public RelayStatus StatusRelayFive
-        {
-            get => (RelayStatus)GetField(1, DataFields.StatusRelay5).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.StatusRelay5).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public RelayStatus StatusRelaySix
-        {
-            get => (RelayStatus)GetField(1, DataFields.StatusRelay6).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.StatusRelay6).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public RelayStatus StatusRelaySeven
-        {
-            get => (RelayStatus)GetField(1, DataFields.StatusRelay7).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.StatusRelay7).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public RelayStatus StatusRelayEight
-        {
-            get => (RelayStatus)GetField(1, DataFields.StatusRelay8).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.StatusRelay8).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public RelayStatus StatusRelayNine
-        {
-            get => (RelayStatus)GetField(1, DataFields.StatusRelay9).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.StatusRelay9).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public RelayStatus StatusRelayTen
-        {
-            get => (RelayStatus)GetField(1, DataFields.StatusRelay10).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.StatusRelay10).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 1, HasPrefix = false)]
+        public RelayStatus StatusRelayOne { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 2, Index = 21, Size = 1, HasPrefix = false)]
+        public RelayStatus StatusRelayTwo { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 3, Index = 22, Size = 1, HasPrefix = false)]
+        public RelayStatus StatusRelayThree { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 4, Index = 23, Size = 1, HasPrefix = false)]
+        public RelayStatus StatusRelayFour { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 5, Index = 24, Size = 1, HasPrefix = false)]
+        public RelayStatus StatusRelayFive { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 6, Index = 25, Size = 1, HasPrefix = false)]
+        public RelayStatus StatusRelaySix { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 7, Index = 26, Size = 1, HasPrefix = false)]
+        public RelayStatus StatusRelaySeven { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 8, Index = 27, Size = 1, HasPrefix = false)]
+        public RelayStatus StatusRelayEight { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 9, Index = 28, Size = 1, HasPrefix = false)]
+        public RelayStatus StatusRelayNine { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 10, Index = 29, Size = 1, HasPrefix = false)]
+        public RelayStatus StatusRelayTen { get; set; }
 
         public Mid0200() : this(new Header()
         {
@@ -77,42 +57,6 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public Mid0200(Header header) : base(header)
         {
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                    {
-                        DataField.Number(DataFields.StatusRelay1, 20, 1, false),
-                        DataField.Number(DataFields.StatusRelay2, 21, 1, false),
-                        DataField.Number(DataFields.StatusRelay3, 22, 1, false),
-                        DataField.Number(DataFields.StatusRelay4, 23, 1, false),
-                        DataField.Number(DataFields.StatusRelay5, 24, 1, false),
-                        DataField.Number(DataFields.StatusRelay6, 25, 1, false),
-                        DataField.Number(DataFields.StatusRelay7, 26, 1, false),
-                        DataField.Number(DataFields.StatusRelay8, 27, 1, false),
-                        DataField.Number(DataFields.StatusRelay9, 28, 1, false),
-                        DataField.Number(DataFields.StatusRelay10, 29, 1, false)
-                    }
-                }
-            };
-        }
-
-        protected enum DataFields
-        {
-            StatusRelay1,
-            StatusRelay2,
-            StatusRelay3,
-            StatusRelay4,
-            StatusRelay5,
-            StatusRelay6,
-            StatusRelay7,
-            StatusRelay8,
-            StatusRelay9,
-            StatusRelay10
         }
     }
 }

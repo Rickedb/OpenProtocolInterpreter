@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -22,24 +23,24 @@ namespace OpenProtocolInterpreter.IOInterface
     {
         public const int MID = 215;
 
-        public int IODeviceId
-        {
-            get => GetField(Header.StandardizedRevision, DataFields.IODeviceId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(Header.StandardizedRevision, DataFields.IODeviceId).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public List<Relay> Relays { get; set; }
-        public List<DigitalInput> DigitalInputs { get; set; }
-        //rev 2
-        public int NumberOfRelays
-        {
-            get => GetField(2, DataFields.NumberOfRelays).GetValue(OpenProtocolConvert.ToInt32);
-            private set => GetField(2, DataFields.NumberOfRelays).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int NumberOfDigitalInputs
-        {
-            get => GetField(2, DataFields.NumberOfDigitalInputs).GetValue(OpenProtocolConvert.ToInt32);
-            private set => GetField(2, DataFields.NumberOfDigitalInputs).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 2)]
+        [Int32DataFieldDefinition(revision: 2, field: 1, Index = 20, Size = 2)]
+        public int IODeviceId { get; set; }
+
+        [RelayCollectionDefinition(revision: 1, field: 2, Index = 24, Size = 4 * 8)]
+        [RelayCollectionDefinition(revision: 2, field: 3, Index = 28, Size = 4 * 8)]
+        public List<Relay> Relays { get; set; } = new List<Relay>();
+
+        [DigitalInputCollectionDefinition(revision: 1, field: 3, Index = 58, Size = 4 * 8)]
+        [DigitalInputCollectionDefinition(revision: 2, field: 5, Index = 0, Size = 4 * 8)]
+        public List<DigitalInput> DigitalInputs { get; set; } = new List<DigitalInput>();
+
+        //At revision 2 number of relays/digital inputs comes before their lists
+        [Int32DataFieldDefinition(revision: 2, field: 2, Index = 24, Size = 2)]
+        public int NumberOfRelays { get; set; }
+
+        [Int32DataFieldDefinition(revision: 2, field: 4, Index = 26, Size = 2)]
+        public int NumberOfDigitalInputs { get; set; }
 
         public Mid0215() : this(DEFAULT_REVISION)
         {
@@ -63,13 +64,11 @@ namespace OpenProtocolInterpreter.IOInterface
 
         protected override string BuildHeader()
         {
-            if (RevisionsByFields.Any())
+            if (RevisionsByFields.TryGetValue(Header.StandardizedRevision, out var dataFields))
             {
-                Header.Length = 20;
-                var revision = Header.StandardizedRevision;
-                foreach (var dataField in RevisionsByFields[revision])
-                    Header.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
+                Header.Length = Header.DefaultSize + dataFields.Sum(x => x.TotalSize);
             }
+
             return Header.ToString();
         }
 
@@ -80,109 +79,77 @@ namespace OpenProtocolInterpreter.IOInterface
                 NumberOfRelays = Relays.Count;
                 NumberOfDigitalInputs = DigitalInputs.Count;
 
-                var relayListField = GetField(2, DataFields.RelayList);
-                relayListField.Size = NumberOfRelays * 4;
-                relayListField.Value = PackRelays();
-                GetField(2, DataFields.NumberOfDigitalInputs).Index = relayListField.Index + relayListField.Size;
+                var relaysField = GetField(revision: 2, field: 3);
+                relaysField.Size = NumberOfRelays * 4;
 
-                GetField(2, DataFields.DigitalInputList).Index = GetField(2, DataFields.NumberOfDigitalInputs).Index + 2;
-                GetField(2, DataFields.DigitalInputList).Size = NumberOfDigitalInputs * 4;
-                GetField(2, DataFields.DigitalInputList).Value = PackDigitalInputs();
+                var numberOfDigitalInputsField = GetField(revision: 2, field: 4);
+                numberOfDigitalInputsField.Index = relaysField.Index + relaysField.TotalSize;
+
+                var digitalInputsField = GetField(revision: 2, field: 5);
+                digitalInputsField.Index = numberOfDigitalInputsField.Index + numberOfDigitalInputsField.TotalSize;
+                digitalInputsField.Size = NumberOfDigitalInputs * 4;
+
+                var builder = new StringBuilder(BuildHeader());
+
+                var fields = RevisionsByFields[Header.StandardizedRevision].OrderBy(x => x.Field);
+                builder.Append(base.Pack(fields));
+                return builder.ToString();
             }
             else
+                EnsureEightRelaysAndDigitalInputs();
+
+            return base.Pack();
+        }
+
+        protected override void ProcessDataFields(ReadOnlySpan<char> package)
+        {
+            if (Header.StandardizedRevision == 1)
             {
-                GetField(1, DataFields.RelayList).Value = PackRelays();
-                GetField(1, DataFields.DigitalInputList).Value = PackDigitalInputs();
+                EnsureEightRelaysAndDigitalInputs();
             }
 
-            var builder = new StringBuilder(BuildHeader());
-            int prefixIndex = 1;
-            foreach (var field in RevisionsByFields[Header.StandardizedRevision])
+            var fields = RevisionsByFields[Header.StandardizedRevision].OrderBy(x => x.Field);
+            var enumerator = fields.GetEnumerator();
+
+            while (enumerator.MoveNext())
             {
-                builder.Append(string.Concat(prefixIndex.ToString("D2"), field.Value));
-                prefixIndex++;
-            }
-            return builder.ToString();
-        }
+                var field = enumerator.Current;
+                base.ProcessDataField(field, package);
+                if (Header.StandardizedRevision <= 1)
+                    continue;
 
-        public override Mid Parse(string package)
-        {
-            Header = ProcessHeader(package);
-
-            var revision = Header.StandardizedRevision;
-
-            var relayListField = GetField(revision, DataFields.RelayList);
-            var digitalListField = GetField(revision, DataFields.DigitalInputList);
-            if (revision > 1)
-            {
-                int numberOfRelays = OpenProtocolConvert.ToInt32(GetValue(GetField(2, DataFields.NumberOfRelays), package));
-                relayListField.Size = numberOfRelays * 4;
-
-                var numberOfDigitalInputsField = GetField(2, DataFields.NumberOfDigitalInputs);
-                numberOfDigitalInputsField.Index = relayListField.Index + 2 + relayListField.Size;
-
-                digitalListField.Index = numberOfDigitalInputsField.Index + 2 + numberOfDigitalInputsField.Size;
-                digitalListField.Size = Header.Length - 2 - digitalListField.Index;
-            }
-
-            ProcessDataFields(package);
-
-            Relays = Relay.ParseAll(relayListField.Value).ToList();
-            DigitalInputs = DigitalInput.ParseAll(digitalListField.Value).ToList();
-            return this;
-        }
-
-        protected virtual string PackRelays()
-        {
-            var value = new StringBuilder();
-            foreach (var relay in Relays)
-                value.Append(relay.Pack());
-
-            return value.ToString();
-        }
-
-        protected virtual string PackDigitalInputs()
-        {
-            var value = new StringBuilder();
-            foreach (var digitalInput in DigitalInputs)
-                value.Append(digitalInput.Pack());
-
-            return value.ToString();
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
+                if (field.Field == 2)
                 {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.IODeviceId, 20, 2),
-                                new(DataFields.RelayList, 24, 32),
-                                new(DataFields.DigitalInputList, 58, 32)
-                            }
-                },
-                {
-                    2, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.IODeviceId, 20, 2),
-                                DataField.Number(DataFields.NumberOfRelays, 24, 2),
-                                DataField.Volatile(DataFields.RelayList, 28),
-                                new(DataFields.NumberOfDigitalInputs, 0, 2, '0', PaddingOrientation.LeftPadded),
-                                DataField.Volatile(DataFields.DigitalInputList)
-                            }
+                    var relays = GetField(revision: 2, field: 3);
+                    relays.Index = field.Index + field.TotalSize;
+                    relays.Size = NumberOfRelays * 4;
                 }
-            };
+                else if (field.Field == 3)
+                {
+                    var numberOfDigitalInputs = GetField(revision: 2, field: 4);
+                    numberOfDigitalInputs.Index = field.Index + field.TotalSize;
+                }
+                else if (field.Field == 4)
+                {
+                    var digitalInputs = GetField(revision: 2, field: 5);
+                    digitalInputs.Index = field.Index + field.TotalSize;
+                    digitalInputs.Size = NumberOfDigitalInputs * 4;
+                }
+            }
         }
 
-        protected enum DataFields
+        private void EnsureEightRelaysAndDigitalInputs()
         {
-            IODeviceId,
-            RelayList,
-            DigitalInputList,
-            //rev2 
-            NumberOfRelays,
-            NumberOfDigitalInputs
+            if (Relays.Count > 8 || DigitalInputs.Count > 8)
+                throw new InvalidOperationException("Revision 1 of MID 0215 can only have up to 8 relays and digital inputs.");
+
+            GetField(nameof(Relays)).Size = 4 * 8;
+            for (int i = Relays.Count; i < 8; i++)
+                Relays.Add(new Relay(RelayNumber.Off, false));
+
+            GetField(nameof(DigitalInputs)).Size = 4 * 8;
+            for (int i = DigitalInputs.Count; i < 8; i++)
+                DigitalInputs.Add(new DigitalInput(DigitalInputNumber.Off, false));
         }
     }
 }

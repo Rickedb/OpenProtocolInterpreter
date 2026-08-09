@@ -38,7 +38,7 @@ namespace MIDTesters.MultiSpindle
             var mid = _midInterpreter.Parse<Mid0100>(pack);
 
             Assert.AreEqual(typeof(Mid0100), mid.GetType());
-            Assert.IsNotNull(mid.DataNumberSystem);
+            Assert.AreEqual(123456789L, mid.DataNumberSystem);
             AssertEqualPackages(pack, mid);
         }
 
@@ -51,7 +51,7 @@ namespace MIDTesters.MultiSpindle
             var mid = _midInterpreter.Parse<Mid0100>(bytes);
 
             Assert.AreEqual(typeof(Mid0100), mid.GetType());
-            Assert.IsNotNull(mid.DataNumberSystem);
+            Assert.AreEqual(123456789L, mid.DataNumberSystem);
             AssertEqualPackages(bytes, mid);
         }
 
@@ -63,8 +63,8 @@ namespace MIDTesters.MultiSpindle
             var mid = _midInterpreter.Parse<Mid0100>(pack);
 
             Assert.AreEqual(typeof(Mid0100), mid.GetType());
-            Assert.IsNotNull(mid.DataNumberSystem);
-            Assert.IsNotNull(mid.SendOnlyNewData);
+            Assert.AreEqual(123456789L, mid.DataNumberSystem);
+            Assert.IsTrue(mid.SendOnlyNewData);
             AssertEqualPackages(pack, mid);
         }
 
@@ -77,9 +77,43 @@ namespace MIDTesters.MultiSpindle
             var mid = _midInterpreter.Parse<Mid0100>(bytes);
 
             Assert.AreEqual(typeof(Mid0100), mid.GetType());
-            Assert.IsNotNull(mid.DataNumberSystem);
-            Assert.IsNotNull(mid.SendOnlyNewData);
+            Assert.AreEqual(123456789L, mid.DataNumberSystem);
+            Assert.IsTrue(mid.SendOnlyNewData);
             AssertEqualPackages(bytes, mid);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0100PackRevision1()
+        {
+            string pack = @"00200100001         ";
+
+            AssertBuildAndParse(pack, new Mid0100(1));
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("Pack")]
+        public void Mid0100PackRevision2()
+        {
+            string pack = @"00300100002         0123456789";
+
+            AssertBuildAndParse(pack, new Mid0100(2)
+            {
+                DataNumberSystem = 123456789L
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 3"), TestCategory("Pack")]
+        public void Mid0100PackRevision3()
+        {
+            string pack = @"00310100003         01234567891";
+
+            AssertBuildAndParse(pack, new Mid0100(3)
+            {
+                DataNumberSystem = 123456789L,
+                SendOnlyNewData = true
+            });
         }
     }
 }

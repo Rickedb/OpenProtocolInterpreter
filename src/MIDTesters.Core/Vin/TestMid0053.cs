@@ -16,5 +16,14 @@ namespace MIDTesters.Vin
 
             AssertEqualPackages(package, mid);
         }
+
+        [TestMethod]
+        [TestCategory("Pack")]
+        public void Mid0053PackAllRevisions()
+        {
+            string package = "00200053001         ";
+
+            AssertBuildAndParse(package, new Mid0053(1));
+        }
     }
 }

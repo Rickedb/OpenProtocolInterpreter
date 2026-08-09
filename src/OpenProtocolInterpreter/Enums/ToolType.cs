@@ -38,6 +38,9 @@
         ITP = 30,
         QSHIELD_C = 31,
         DeltaWrench = 32,
-        STRWrench = 33
+        STRWrench = 33,
+        XPBM = 34,
+        ExBC = 35,
+        ExD = 36
     }
 }

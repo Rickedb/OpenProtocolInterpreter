@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Communication;
+using OpenProtocolInterpreter;
 
 namespace MIDTesters.Communication
 {
@@ -14,8 +15,8 @@ namespace MIDTesters.Communication
             string pack = @"00260004            001802";
             var mid = _midInterpreter.Parse<Mid0004>(pack);
 
-            Assert.IsNotNull(mid.FailedMid);
-            Assert.IsNotNull(mid.ErrorCode);
+            Assert.AreEqual(18, mid.FailedMid);
+            Assert.AreEqual(Error.ParameterSetIdNotPresent, mid.ErrorCode);
             AssertEqualPackages(pack, mid, true);
         }
 
@@ -27,8 +28,8 @@ namespace MIDTesters.Communication
             byte[] bytes = GetAsciiBytes(pack);
             var mid = _midInterpreter.Parse<Mid0004>(bytes);
 
-            Assert.IsNotNull(mid.FailedMid);
-            Assert.IsNotNull(mid.ErrorCode);
+            Assert.AreEqual(18, mid.FailedMid);
+            Assert.AreEqual(Error.ParameterSetIdNotPresent, mid.ErrorCode);
             AssertEqualPackages(bytes, mid, true);
         }
 
@@ -39,8 +40,8 @@ namespace MIDTesters.Communication
             string pack = @"00270004002         0018021";
             var mid = _midInterpreter.Parse<Mid0004>(pack);
 
-            Assert.IsNotNull(mid.FailedMid);
-            Assert.IsNotNull(mid.ErrorCode);
+            Assert.AreEqual(18, mid.FailedMid);
+            Assert.AreEqual(Error.JobNotRunning, mid.ErrorCode);
             AssertEqualPackages(pack, mid);
         }
 
@@ -52,9 +53,35 @@ namespace MIDTesters.Communication
             byte[] bytes = GetAsciiBytes(pack);
             var mid = _midInterpreter.Parse<Mid0004>(bytes);
 
-            Assert.IsNotNull(mid.FailedMid);
-            Assert.IsNotNull(mid.ErrorCode);
+            Assert.AreEqual(18, mid.FailedMid);
+            Assert.AreEqual(Error.JobNotRunning, mid.ErrorCode);
             AssertEqualPackages(bytes, mid);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0004PackRevision1()
+        {
+            string pack = @"00260004            001802";
+
+            AssertBuildAndParse(pack, new Mid0004(1)
+            {
+                FailedMid = 18,
+                ErrorCode = Error.ParameterSetIdNotPresent
+            }, true);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("Pack")]
+        public void Mid0004PackRevision2()
+        {
+            string pack = @"00270004002         0018021";
+
+            AssertBuildAndParse(pack, new Mid0004(2)
+            {
+                FailedMid = 18,
+                ErrorCode = Error.JobNotRunning
+            });
         }
     }
 }

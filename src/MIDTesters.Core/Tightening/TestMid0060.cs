@@ -29,5 +29,16 @@ namespace MIDTesters.Tightening
             Assert.AreEqual(typeof(Mid0060), mid.GetType());
             AssertEqualPackages(bytes, mid);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 998"), TestCategory("Pack")]
+        public void Mid0060PackAllRevisions()
+        {
+            string package = "00200060998         ";
+
+            AssertBuildAndParse(package, new Mid0060(998)
+            {
+            });
+        }
     }
 }

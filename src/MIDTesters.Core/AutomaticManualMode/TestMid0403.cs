@@ -29,5 +29,14 @@ namespace MIDTesters.AutomaticManualMode
             Assert.AreEqual(typeof(Mid0403), mid.GetType());
             AssertEqualPackages(bytes, mid, true);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0403PackRevision1()
+        {
+            string package = "00200403            ";
+
+            AssertBuildAndParse(package, new Mid0403(), true);
+        }
     }
 }

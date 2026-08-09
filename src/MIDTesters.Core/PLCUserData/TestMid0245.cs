@@ -14,8 +14,8 @@ namespace MIDTesters.PLCUserData
             string package = "00460245            022My identifier less than";
             var mid = _midInterpreter.Parse<Mid0245>(package);
 
-            Assert.IsNotNull(mid.Offset);
-            Assert.IsNotNull(mid.UserData);
+            Assert.AreEqual(22, mid.Offset);
+            Assert.AreEqual("My identifier less than", mid.UserData);
             AssertEqualPackages(package, mid, true);
         }
 
@@ -27,8 +27,8 @@ namespace MIDTesters.PLCUserData
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0245>(bytes);
 
-            Assert.IsNotNull(mid.Offset);
-            Assert.IsNotNull(mid.UserData);
+            Assert.AreEqual(22, mid.Offset);
+            Assert.AreEqual("My identifier less than", mid.UserData);
             AssertEqualPackages(bytes, mid, true);
         }
 
@@ -39,9 +39,22 @@ namespace MIDTesters.PLCUserData
             userData += userData; //double it to get 208 characters
 
             var mid0245 = new Mid0245(2) { Offset = 0, UserData = userData };
-            Assert.IsNotNull(mid0245.Offset);
-            Assert.IsNotNull(mid0245.UserData);
+            Assert.AreEqual(0, mid0245.Offset);
+            Assert.AreEqual(208, mid0245.UserData.Length);
             Assert.IsTrue(mid0245.Pack().Length == 223);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0245PackRevision1()
+        {
+            string package = "00460245            022My identifier less than";
+
+            AssertBuildAndParse(package, new Mid0245(1)
+            {
+                Offset = 22,
+                UserData = "My identifier less than"
+            }, true);
         }
     }
 }

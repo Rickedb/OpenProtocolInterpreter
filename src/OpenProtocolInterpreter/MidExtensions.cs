@@ -1,6 +1,8 @@
 ﻿using OpenProtocolInterpreter.Communication;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace OpenProtocolInterpreter
 {
@@ -31,13 +33,22 @@ namespace OpenProtocolInterpreter
         /// <param name="mid">Mid instance</param>
         /// <returns>Mid's package in bytes with NUL character</returns>
         public static byte[] PackBytesWithNul(this Mid mid)
+            => PackBytesWithNul(mid, Mid.DefaultEncoding);
+
+        /// <summary>
+        /// <see cref="Mid.PackBytes(Encoding)"/> then concatenate NUL charactor to it`s end
+        /// </summary>
+        /// <param name="mid">Mid instance</param>
+        /// <param name="encoding">Encoding used to convert the packed message into bytes</param>
+        /// <returns>Mid's package in bytes with NUL character</returns>
+        public static byte[] PackBytesWithNul(this Mid mid, Encoding encoding)
         {
             if (mid == default)
             {
                 return default;
             }
 
-            var bytes = mid.PackBytes();
+            var bytes = mid.PackBytes(encoding);
             return bytes.Concat(new byte[] { 0x00 }).ToArray();
         }
 
@@ -50,7 +61,7 @@ namespace OpenProtocolInterpreter
         public static TAckMid GetAcknowledge<TAckMid>(this IAcknowledgeable<TAckMid> instance) where TAckMid : Mid, IAcknowledge, new()
         {
             var mid = new TAckMid();
-            if(instance is Mid acknowledgeableMid)
+            if (instance is Mid acknowledgeableMid)
                 mid.Header.Revision = acknowledgeableMid.Header.Revision;
 
             return mid;
@@ -103,7 +114,7 @@ namespace OpenProtocolInterpreter
         }
 
         /// <summary>
-        /// Assert that error code is a possible error for the current failed mid and generates a Communication Negative Acknowledge mid (<see cref="Mid0004"/>) 
+        /// Assert that error code is a possible error for the current failed mid and generates a Communication Negative Acknowledge mid (<see cref="Mid0004"/>)
         /// instance for the failed mid and with the informed error code.
         /// </summary>
         /// <typeparam name="TDeclinedMid"><see cref="Mid"/> instance and <see cref="IDeclinableCommand"/> implementer</typeparam>

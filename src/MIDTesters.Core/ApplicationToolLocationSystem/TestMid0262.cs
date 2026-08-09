@@ -14,7 +14,7 @@ namespace MIDTesters.ApplicationToolLocationSystem
             string package = "00300262001         013200078D";
             var mid = _midInterpreter.Parse<Mid0262>(package);
 
-            Assert.IsNotNull(mid.ToolTagId);
+            Assert.AreEqual("3200078D", mid.ToolTagId);
             AssertEqualPackages(package, mid);
         }
 
@@ -26,8 +26,20 @@ namespace MIDTesters.ApplicationToolLocationSystem
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0262>(bytes);
 
-            Assert.IsNotNull(mid.ToolTagId);
+            Assert.AreEqual("3200078D", mid.ToolTagId);
             AssertEqualPackages(bytes, mid);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0262PackRevision1()
+        {
+            string package = "00300262001         013200078D";
+
+            AssertBuildAndParse(package, new Mid0262()
+            {
+                ToolTagId = "3200078D"
+            });
         }
     }
 }

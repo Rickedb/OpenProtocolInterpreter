@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.PowerMACS
 {
@@ -15,7 +16,7 @@ namespace OpenProtocolInterpreter.PowerMACS
     /// </para>
     /// <para>Message sent by: Integrator</para>
     /// <para>
-    ///     Answer: <see cref="Communication.Mid0005"/> Command accepted or 
+    ///     Answer: <see cref="Communication.Mid0005"/> Command accepted or
     ///         <see cref="Communication.Mid0004"/> Command error, Subscription already exists or MID revision unsupported
     /// </para>
     /// </summary>
@@ -25,16 +26,10 @@ namespace OpenProtocolInterpreter.PowerMACS
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.SubscriptionAlreadyExists, Error.MidRevisionUnsupported };
 
-        public int DataNumberSystem
-        {
-            get => GetField(2, DataFields.DataNumberSystem).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(2, DataFields.DataNumberSystem).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public bool SendOnlyNewData
-        {
-            get => GetField(3, DataFields.SendOnlyNewData).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(3, DataFields.SendOnlyNewData).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int64DataFieldDefinition(revision: 2, field: 1, Index = 20, Size = 10, HasPrefix = false)]
+        public long DataNumberSystem { get; set; }
+        [BooleanDataFieldDefinition(revision: 3, field: 2, Index = 30, HasPrefix = false)]
+        public bool SendOnlyNewData { get; set; }
 
         public Mid0105() : this(DEFAULT_REVISION)
         {
@@ -57,31 +52,6 @@ namespace OpenProtocolInterpreter.PowerMACS
             NoAckFlag = noAckFlag
         })
         {
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    2, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.DataNumberSystem, 20, 10, false),
-                            }
-                },
-                {
-                    3, new List<DataField>()
-                            {
-                                DataField.Boolean(DataFields.SendOnlyNewData, 30, false)
-                            }
-                },
-            };
-        }
-
-        protected enum DataFields
-        {
-            DataNumberSystem,
-            SendOnlyNewData
         }
     }
 }

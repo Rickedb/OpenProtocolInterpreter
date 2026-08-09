@@ -14,7 +14,7 @@ namespace MIDTesters.Job
             string package = "00220039001         01";
             var mid = _midInterpreter.Parse<Mid0039>(package);
 
-            Assert.IsNotNull(mid.JobId);
+            Assert.AreEqual(1, mid.JobId);
             AssertEqualPackages(package, mid);
         }
 
@@ -26,7 +26,7 @@ namespace MIDTesters.Job
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0039>(bytes);
 
-            Assert.IsNotNull(mid.JobId);
+            Assert.AreEqual(1, mid.JobId);
             AssertEqualPackages(bytes, mid);
         }
 
@@ -37,7 +37,7 @@ namespace MIDTesters.Job
             string package = "00240039002         0003";
             var mid = _midInterpreter.Parse<Mid0039>(package);
 
-            Assert.IsNotNull(mid.JobId);
+            Assert.AreEqual(3, mid.JobId);
             AssertEqualPackages(package, mid);
         }
 
@@ -49,8 +49,32 @@ namespace MIDTesters.Job
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0039>(bytes);
 
-            Assert.IsNotNull(mid.JobId);
+            Assert.AreEqual(3, mid.JobId);
             AssertEqualPackages(bytes, mid);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0039PackRevision1()
+        {
+            string package = "00220039001         01";
+
+            AssertBuildAndParse(package, new Mid0039(1)
+            {
+                JobId = 1
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("Pack")]
+        public void Mid0039PackRevision2()
+        {
+            string package = "00240039002         0003";
+
+            AssertBuildAndParse(package, new Mid0039(2)
+            {
+                JobId = 3
+            });
         }
     }
 }

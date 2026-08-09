@@ -10,21 +10,18 @@ namespace OpenProtocolInterpreter.ParameterSet
     ///     <see cref="Communication.Mid0004"/> Command error, Dynamic Job cannot be created, non-existing pset
     /// </para>
     /// </summary>
-    public class Mid2504 : Mid, IParameterSet, IIntegrator, IAcceptableCommand, IDeclinableCommand
+    public class Mid2504 : Mid, IParameterSet, IIntegrator, IAcceptableCommand, IDeclinableCommand, IExtraDataRequest
     {
         public const int MID = 2504;
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.ParameterSetIdNotPresent };
 
-        public int ParameterSetId
-        {
-            get => GetField(1, DataFields.ParameterSetId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.ParameterSetId).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 3, HasPrefix = false)]
+        public int ParameterSetId { get; set; }
 
         public Mid2504() : this(new Header()
         {
-            Mid = MID, 
+            Mid = MID,
             Revision = DEFAULT_REVISION
         })
         {
@@ -33,24 +30,6 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         public Mid2504(Header header) : base(header)
         {
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.ParameterSetId, 20, 3, false)
-                            }
-                }
-            };
-        }
-
-        protected enum DataFields
-        {
-            ParameterSetId
         }
     }
 }

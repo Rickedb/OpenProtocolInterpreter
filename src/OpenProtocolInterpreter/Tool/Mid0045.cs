@@ -9,7 +9,7 @@ namespace OpenProtocolInterpreter.Tool
     /// </para>
     /// <para>Message sent by: Integrator</para>
     /// <para>
-    ///     Answer: <see cref="Communication.Mid0005"/> Command accepted or 
+    ///     Answer: <see cref="Communication.Mid0005"/> Command accepted or
     ///             <see cref="Communication.Mid0004"/> Command error, Calibration failed
     /// </para>
     /// </summary>
@@ -19,21 +19,20 @@ namespace OpenProtocolInterpreter.Tool
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.CalibrationFailed };
 
-        public CalibrationUnit CalibrationValueUnit
-        {
-            get => (CalibrationUnit)GetField(1, DataFields.CalibrationValueUnit).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.CalibrationValueUnit).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public decimal CalibrationValue
-        {
-            get => GetField(1, DataFields.CalibrationValue).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
-            set => GetField(1, DataFields.CalibrationValue).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
-        }
-        public int ChannelNumber
-        {
-            get => GetField(2, DataFields.ChannelNumber).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(2, DataFields.ChannelNumber).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 1)]
+        public CalibrationUnit CalibrationValueUnit { get; set; }
+
+        [TruncatedDecimalDataFieldDefinition(revision: 1, field: 2, Index = 23, Size = 6)]
+        public decimal CalibrationValue { get; set; }
+
+        [Int32DataFieldDefinition(revision: 2, field: 3, Index = 31, Size = 2)]
+        public int ChannelNumber { get; set; }
+
+        [TruncatedDecimalDataFieldDefinition(revision: 3, field: 4, Index = 35, Size = 10, DecimalPoints = 4)]
+        public decimal ExtendedCalibrationValue { get; set; }
+
+        [Int32DataFieldDefinition(revision: 3, field: 5, Index = 47, Size = 1)]
+        public int TransducerNumber { get; set; }
 
         public Mid0045() : this(DEFAULT_REVISION)
         {
@@ -49,33 +48,6 @@ namespace OpenProtocolInterpreter.Tool
             Revision = revision
         })
         {
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.CalibrationValueUnit, 20, 1),
-                                DataField.Number(DataFields.CalibrationValue, 23, 6)
-                            }
-                },
-                {
-                    2, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.ChannelNumber, 31, 2),
-                            }
-                }
-            };
-        }
-
-        protected enum DataFields
-        {
-            CalibrationValueUnit,
-            CalibrationValue,
-            ChannelNumber
         }
     }
 }

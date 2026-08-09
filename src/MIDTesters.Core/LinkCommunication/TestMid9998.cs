@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenProtocolInterpreter;
 using OpenProtocolInterpreter.LinkCommunication;
 
 namespace MIDTesters.LinkCommunication
@@ -14,8 +15,8 @@ namespace MIDTesters.LinkCommunication
             string package = "00289998            00610003";
             var mid = _midInterpreter.Parse<Mid9998>(package);
 
-            Assert.AreNotEqual(0, mid.MidNumber);
-            Assert.IsNotNull(mid.ErrorCode);
+            Assert.AreEqual(61, mid.MidNumber);
+            Assert.AreEqual(LinkCommunicationError.InvalidSequenceNumber, mid.ErrorCode);
             AssertEqualPackages(package, mid, true);
         }
 
@@ -27,9 +28,22 @@ namespace MIDTesters.LinkCommunication
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid9998>(bytes);
 
-            Assert.AreNotEqual(0, mid.MidNumber);
-            Assert.IsNotNull(mid.ErrorCode);
+            Assert.AreEqual(61, mid.MidNumber);
+            Assert.AreEqual(LinkCommunicationError.InvalidSequenceNumber, mid.ErrorCode);
             AssertEqualPackages(bytes, mid, true);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid9998PackRevision1()
+        {
+            string package = "00289998            00610003";
+
+            AssertBuildAndParse(package, new Mid9998()
+            {
+                MidNumber = 61,
+                ErrorCode = LinkCommunicationError.InvalidSequenceNumber
+            }, true);
         }
     }
 }

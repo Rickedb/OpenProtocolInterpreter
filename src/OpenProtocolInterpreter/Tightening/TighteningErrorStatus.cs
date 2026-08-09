@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Reflection;
 
 namespace OpenProtocolInterpreter.Tightening
 {
@@ -47,7 +48,7 @@ namespace OpenProtocolInterpreter.Tightening
         public string Pack()
         {
             byte[] bytes = PackBytes();
-            return Encoding.ASCII.GetString(bytes);
+            return Mid.DefaultEncoding.GetString(bytes);
         }
 
         public byte[] PackBytes()
@@ -99,13 +100,16 @@ namespace OpenProtocolInterpreter.Tightening
             ]);
 
             var asciiLong = System.BitConverter.ToInt64(bytes, 0).ToString("D10");
-            return Encoding.ASCII.GetBytes(asciiLong);
+            return Mid.DefaultEncoding.GetBytes(asciiLong);
         }
 
         public static TighteningErrorStatus Parse(string value)
+            => Parse(value.AsSpan());
+
+        public static TighteningErrorStatus Parse(ReadOnlySpan<char> value)
         {
             var longValue = OpenProtocolConvert.ToInt64(value);
-            var bytes = System.BitConverter.GetBytes(longValue);
+            var bytes = BitConverter.GetBytes(longValue);
             return Parse(bytes);
         }
 
@@ -153,6 +157,33 @@ namespace OpenProtocolInterpreter.Tightening
         }
     }
 
+    public class TighteningErrorStatusDefinitionAttribute : DataFieldDefinitionAttribute
+    {
+        public TighteningErrorStatusDefinitionAttribute(int revision) : base(revision)
+        {
+
+        }
+        public TighteningErrorStatusDefinitionAttribute(int field, int revision) : base(field, revision)
+        {
+
+        }
+
+        internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
+        {
+            return new DataField<TighteningErrorStatus>(Field, index, Size, HasPrefix)
+            {
+                DefaultConverter = PackTighteningErrorStatus,
+                DefaultParser = ParseTighteningErrorStatus
+            }.Bind(owner, propertyInfo);
+        }
+
+        private static string PackTighteningErrorStatus(char paddingChar, int size, PaddingOrientation orientation, TighteningErrorStatus tighteningErrorStatus)
+            => tighteningErrorStatus.Pack().PadLeft(size, paddingChar);
+
+        private static TighteningErrorStatus ParseTighteningErrorStatus(string value)
+            => TighteningErrorStatus.Parse(value);
+    }
+
     public class TighteningErrorStatus2
     {
         public bool DriveDeactivated { get; set; }
@@ -184,7 +215,7 @@ namespace OpenProtocolInterpreter.Tightening
         public string Pack()
         {
             byte[] bytes = PackBytes();
-            return Encoding.ASCII.GetString(bytes);
+            return Mid.DefaultEncoding.GetString(bytes);
         }
 
         public byte[] PackBytes()
@@ -234,10 +265,13 @@ namespace OpenProtocolInterpreter.Tightening
             ];
 
             var asciiLong = System.BitConverter.ToInt64(bytes, 0).ToString().PadLeft(10, '0');
-            return Encoding.ASCII.GetBytes(asciiLong);
+            return Mid.DefaultEncoding.GetBytes(asciiLong);
         }
 
         public static TighteningErrorStatus2 Parse(string value)
+            => Parse(value.AsSpan());
+
+        public static TighteningErrorStatus2 Parse(ReadOnlySpan<char> value)
         {
             var longValue = OpenProtocolConvert.ToInt64(value);
             var bytes = System.BitConverter.GetBytes(longValue);
@@ -278,4 +312,32 @@ namespace OpenProtocolInterpreter.Tightening
             return obj;
         }
     }
+
+    public class TighteningErrorStatus2DefinitionAttribute : DataFieldDefinitionAttribute
+    {
+        public TighteningErrorStatus2DefinitionAttribute(int revision) : base(revision)
+        {
+
+        }
+        public TighteningErrorStatus2DefinitionAttribute(int field, int revision) : base(field, revision)
+        {
+
+        }
+
+        internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
+        {
+            return new DataField<TighteningErrorStatus2>(Field, index, Size, HasPrefix)
+            {
+                DefaultConverter = PackTighteningErrorStatus2,
+                DefaultParser = ParseTighteningErrorStatus2
+            }.Bind(owner, propertyInfo);
+        }
+
+        private static string PackTighteningErrorStatus2(char paddingChar, int size, PaddingOrientation orientation, TighteningErrorStatus2 tighteningErrorStatus)
+            => tighteningErrorStatus.Pack().PadLeft(size, paddingChar);
+
+        private static TighteningErrorStatus2 ParseTighteningErrorStatus2(string value)
+            => TighteningErrorStatus2.Parse(value);
+    }
+
 }

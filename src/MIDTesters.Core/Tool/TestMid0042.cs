@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenProtocolInterpreter;
 using OpenProtocolInterpreter.Tool;
 
 namespace MIDTesters.Tool
@@ -37,8 +38,8 @@ namespace MIDTesters.Tool
             string package = "00300042002         0100420201";
             var mid = _midInterpreter.Parse<Mid0042>(package);
 
-            Assert.IsNotNull(mid.ToolNumber);
-            Assert.IsNotNull(mid.DisableType);
+            Assert.AreEqual(42, mid.ToolNumber);
+            Assert.AreEqual(DisableType.InhibitNok, mid.DisableType);
             AssertEqualPackages(package, mid);
         }
 
@@ -50,9 +51,31 @@ namespace MIDTesters.Tool
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0042>(bytes);
 
-            Assert.IsNotNull(mid.ToolNumber);
-            Assert.IsNotNull(mid.DisableType);
+            Assert.AreEqual(42, mid.ToolNumber);
+            Assert.AreEqual(DisableType.Disable, mid.DisableType);
             AssertEqualPackages(bytes, mid);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0042PackRevision1()
+        {
+            string package = "00200042            ";
+
+            AssertBuildAndParse(package, new Mid0042(1), true);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("Pack")]
+        public void Mid0042PackRevision2()
+        {
+            string package = "00300042002         0100420200";
+
+            AssertBuildAndParse(package, new Mid0042(2)
+            {
+                ToolNumber = 42,
+                DisableType = DisableType.Disable
+            });
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Tool;
 
+using System.Collections.Generic;
 namespace MIDTesters.Tool
 {
     [TestClass]
@@ -14,8 +15,8 @@ namespace MIDTesters.Tool
             string package = "02110701001         0020001Tool 1 Serial number          Tool 1 Model Name             Tool 1 Model Article Number   0002Tool 2 Serial number          Tool 2 Model Name             Tool 2 Model Article Number   ";
             var mid = _midInterpreter.Parse<Mid0701>(package);
 
-            Assert.IsNotNull(mid.Tools);
-            Assert.AreNotEqual(0, mid.TotalTools);
+            Assert.AreEqual(2, mid.Tools.Count);
+            Assert.AreEqual(2, mid.TotalTools);
             AssertEqualPackages(package, mid);
         }
 
@@ -27,9 +28,38 @@ namespace MIDTesters.Tool
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0701>(bytes);
 
-            Assert.IsNotNull(mid.Tools);
-            Assert.AreNotEqual(0, mid.TotalTools);
+            Assert.AreEqual(2, mid.Tools.Count);
+            Assert.AreEqual(2, mid.TotalTools);
             AssertEqualPackages(bytes, mid);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0701PackRevision1()
+        {
+            string package = "02110701001         0020001Tool 1 Serial number          Tool 1 Model Name             Tool 1 Model Article Number   0002Tool 2 Serial number          Tool 2 Model Name             Tool 2 Model Article Number   ";
+
+            AssertBuildAndParse(package, new Mid0701()
+            {
+                TotalTools = 2,
+                Tools = new List<ToolData>()
+                {
+                    new ToolData()
+                    {
+                        Number = 1,
+                        SerialNumber = "Tool 1 Serial number",
+                        ModelName = "Tool 1 Model Name",
+                        ModelArticleNumber = "Tool 1 Model Article Number"
+                    },
+                    new ToolData()
+                    {
+                        Number = 2,
+                        SerialNumber = "Tool 2 Serial number",
+                        ModelName = "Tool 2 Model Name",
+                        ModelArticleNumber = "Tool 2 Model Article Number"
+                    }
+                }
+            });
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenProtocolInterpreter;
 using OpenProtocolInterpreter.IOInterface;
 
 namespace MIDTesters.IOInterface
@@ -14,7 +15,7 @@ namespace MIDTesters.IOInterface
             string package = "00230225            055";
             var mid = _midInterpreter.Parse<Mid0225>(package);
 
-            Assert.IsNotNull(mid.DigitalInputNumber);
+            Assert.AreEqual(DigitalInputNumber.EndOfCycle, mid.DigitalInputNumber);
             AssertEqualPackages(package, mid, true);
         }
 
@@ -26,8 +27,20 @@ namespace MIDTesters.IOInterface
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0225>(bytes);
 
-            Assert.IsNotNull(mid.DigitalInputNumber);
+            Assert.AreEqual(DigitalInputNumber.EndOfCycle, mid.DigitalInputNumber);
             AssertEqualPackages(bytes, mid, true);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0225PackRevision1()
+        {
+            string package = "00230225            055";
+
+            AssertBuildAndParse(package, new Mid0225()
+            {
+                DigitalInputNumber = DigitalInputNumber.EndOfCycle
+            }, true);
         }
     }
 }

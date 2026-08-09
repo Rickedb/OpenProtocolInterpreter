@@ -15,7 +15,7 @@ namespace MIDTesters.PLCUserData
             var mid = _midInterpreter.Parse<Mid0242>(package);
 
             Assert.IsTrue(mid.Header.NoAckFlag);
-            Assert.IsNotNull(mid.UserData);
+            Assert.AreEqual("My identifier less than", mid.UserData);
             AssertEqualPackages(package, mid, true);
         }
 
@@ -28,8 +28,21 @@ namespace MIDTesters.PLCUserData
             var mid = _midInterpreter.Parse<Mid0242>(bytes);
 
             Assert.IsTrue(mid.Header.NoAckFlag);
-            Assert.IsNotNull(mid.UserData);
+            Assert.AreEqual("My identifier less than", mid.UserData);
             AssertEqualPackages(bytes, mid, true);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0242PackRevision1()
+        {
+            string package = "00430242   1        My identifier less than";
+
+            AssertBuildAndParse(package, new Mid0242()
+            {
+                Header = { NoAckFlag = true },
+                UserData = "My identifier less than"
+            }, true);
         }
     }
 }

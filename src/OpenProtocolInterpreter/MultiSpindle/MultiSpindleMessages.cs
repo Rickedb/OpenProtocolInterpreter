@@ -11,17 +11,17 @@ namespace OpenProtocolInterpreter.MultiSpindle
     {
         public MultiSpindleMessages() : base()
         {
-            _templates = new Dictionary<int, MidCompiledInstance>()
+            _templates = new Dictionary<int, CompiledInstance<Mid>>()
             {
-                { Mid0090.MID, new MidCompiledInstance(typeof(Mid0090)) },
-                { Mid0091.MID, new MidCompiledInstance(typeof(Mid0091)) },
-                { Mid0092.MID, new MidCompiledInstance(typeof(Mid0092)) },
-                { Mid0093.MID, new MidCompiledInstance(typeof(Mid0093)) },
-                { Mid0100.MID, new MidCompiledInstance(typeof(Mid0100)) },
-                { Mid0101.MID, new MidCompiledInstance(typeof(Mid0101)) },
-                { Mid0102.MID, new MidCompiledInstance(typeof(Mid0102)) },
-                { Mid0103.MID, new MidCompiledInstance(typeof(Mid0103)) },
-                { Mid0104.MID, new MidCompiledInstance(typeof(Mid0104)) },
+                { Mid0090.MID, new CompiledInstance<Mid>(typeof(Mid0090)) },
+                { Mid0091.MID, new CompiledInstance<Mid>(typeof(Mid0091)) },
+                { Mid0092.MID, new CompiledInstance<Mid>(typeof(Mid0092)) },
+                { Mid0093.MID, new CompiledInstance<Mid>(typeof(Mid0093)) },
+                { Mid0100.MID, new CompiledInstance<Mid>(typeof(Mid0100)) },
+                { Mid0101.MID, new CompiledInstance<Mid>(typeof(Mid0101)) },
+                { Mid0102.MID, new CompiledInstance<Mid>(typeof(Mid0102)) },
+                { Mid0103.MID, new CompiledInstance<Mid>(typeof(Mid0103)) },
+                { Mid0104.MID, new CompiledInstance<Mid>(typeof(Mid0104)) },
             };
         }
 

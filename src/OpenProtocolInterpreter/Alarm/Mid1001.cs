@@ -1,7 +1,7 @@
 namespace OpenProtocolInterpreter.Alarm
 {
     /// <summary>
-    /// Alarm status acknowledge
+    /// Alarm acknowledge
     /// <para>Acknowledge for  <see cref="Mid1000"/> Alarm</para>
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer : None</para>

@@ -37,7 +37,7 @@ namespace MIDTesters.Tool
             string package = "00260040007         010001";
             var mid = _midInterpreter.Parse<Mid0040>(package);
 
-            Assert.IsNotNull(mid.ToolNumber);
+            Assert.AreEqual(1, mid.ToolNumber);
             AssertEqualPackages(package, mid);
         }
 
@@ -49,8 +49,31 @@ namespace MIDTesters.Tool
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0040>(bytes);
 
-            Assert.IsNotNull(mid.ToolNumber);
+            Assert.AreEqual(1, mid.ToolNumber);
             AssertEqualPackages(bytes, mid);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 4"), TestCategory("Pack")]
+        public void Mid0040PackRevisions1To5()
+        {
+            string package = "00200040004         ";
+
+            AssertBuildAndParse(package, new Mid0040(4)
+            {
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 7"), TestCategory("Pack")]
+        public void Mid0040PackRevisions6And7()
+        {
+            string package = "00260040007         010001";
+
+            AssertBuildAndParse(package, new Mid0040(7)
+            {
+                ToolNumber = 1
+            });
         }
     }
 }

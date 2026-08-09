@@ -11,13 +11,13 @@ namespace OpenProtocolInterpreter.Vin
     {
         public VinMessages() : base()
         {
-            _templates = new Dictionary<int, MidCompiledInstance>()
+            _templates = new Dictionary<int, CompiledInstance<Mid>>()
             {
-                { Mid0050.MID, new MidCompiledInstance(typeof(Mid0050)) },
-                { Mid0051.MID, new MidCompiledInstance(typeof(Mid0051)) },
-                { Mid0052.MID, new MidCompiledInstance(typeof(Mid0052)) },
-                { Mid0053.MID, new MidCompiledInstance(typeof(Mid0053)) },
-                { Mid0054.MID, new MidCompiledInstance(typeof(Mid0054)) }
+                { Mid0050.MID, new CompiledInstance<Mid>(typeof(Mid0050)) },
+                { Mid0051.MID, new CompiledInstance<Mid>(typeof(Mid0051)) },
+                { Mid0052.MID, new CompiledInstance<Mid>(typeof(Mid0052)) },
+                { Mid0053.MID, new CompiledInstance<Mid>(typeof(Mid0053)) },
+                { Mid0054.MID, new CompiledInstance<Mid>(typeof(Mid0054)) }
             };
         }
 

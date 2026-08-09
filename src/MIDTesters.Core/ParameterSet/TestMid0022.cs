@@ -15,7 +15,7 @@ namespace MIDTesters.ParameterSet
             var mid = _midInterpreter.Parse<Mid0022>(package);
 
             Assert.IsTrue(mid.Header.NoAckFlag);
-            Assert.IsNotNull(mid.RelayStatus);
+            Assert.IsTrue(mid.RelayStatus);
             AssertEqualPackages(package, mid, true);
         }
 
@@ -28,8 +28,21 @@ namespace MIDTesters.ParameterSet
             var mid = _midInterpreter.Parse<Mid0022>(bytes);
 
             Assert.IsTrue(mid.Header.NoAckFlag);
-            Assert.IsNotNull(mid.RelayStatus);
+            Assert.IsTrue(mid.RelayStatus);
             AssertEqualPackages(bytes, mid, true);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0022PackRevision1()
+        {
+            string package = "00210022   1        1";
+
+            AssertBuildAndParse(package, new Mid0022()
+            {
+                Header = { NoAckFlag = true },
+                RelayStatus = true
+            }, true);
         }
     }
 }

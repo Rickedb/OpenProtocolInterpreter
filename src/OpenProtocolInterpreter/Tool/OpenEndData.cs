@@ -1,4 +1,7 @@
-﻿namespace OpenProtocolInterpreter.Tool
+﻿using System;
+using System.Reflection;
+
+namespace OpenProtocolInterpreter.Tool
 {
     public class OpenEndData
     {
@@ -26,13 +29,43 @@
         }
 
         public static OpenEndData Parse(string value)
+            => Parse(value.AsSpan());
+
+        public static OpenEndData Parse(ReadOnlySpan<char> value)
         {
             return new OpenEndData()
             {
-                UseOpenEnd = OpenProtocolConvert.ToBoolean(value[0].ToString()),
-                TighteningDirection = (TighteningDirection)OpenProtocolConvert.ToInt32(value[1].ToString()),
-                MotorRotation = (MotorRotation)OpenProtocolConvert.ToInt32(value[2].ToString()),
+                UseOpenEnd = OpenProtocolConvert.ToBoolean(value.Slice(0, 1)),
+                TighteningDirection = (TighteningDirection)OpenProtocolConvert.ToInt32(value.Slice(1, 1)),
+                MotorRotation = (MotorRotation)OpenProtocolConvert.ToInt32(value.Slice(2, 1)),
             };
         }
+    }
+
+    public class OpenEndDataDefinitionAttribute : DataFieldDefinitionAttribute
+    {
+        public OpenEndDataDefinitionAttribute(int revision) : base(revision)
+        {
+
+        }
+        public OpenEndDataDefinitionAttribute(int field, int revision) : base(field, revision)
+        {
+
+        }
+
+        internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
+        {
+            return new DataField<OpenEndData>(Field, index, Size, HasPrefix)
+            {
+                DefaultConverter = PackOpenEndData,
+                DefaultParser = ParseOpenEndData
+            }.Bind(owner, propertyInfo);
+        }
+
+        private string PackOpenEndData(char paddingChar, int size, PaddingOrientation orientation, OpenEndData openEndData)
+            => openEndData.Pack();
+
+        private OpenEndData ParseOpenEndData(string value)
+            => OpenEndData.Parse(value);
     }
 }

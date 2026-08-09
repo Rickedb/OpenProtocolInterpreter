@@ -14,7 +14,7 @@ namespace MIDTesters.PLCUserData
             string package = "00470240            My identifier less than 200";
             var mid = _midInterpreter.Parse<Mid0240>(package);
 
-            Assert.IsNotNull(mid.UserData);
+            Assert.AreEqual("My identifier less than 200", mid.UserData);
             AssertEqualPackages(package, mid, true);
         }
 
@@ -26,7 +26,7 @@ namespace MIDTesters.PLCUserData
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0240>(bytes);
             
-            Assert.IsNotNull(mid.UserData);
+            Assert.AreEqual("My identifier less than 200", mid.UserData);
             AssertEqualPackages(bytes, mid, true);
         }
 
@@ -37,8 +37,20 @@ namespace MIDTesters.PLCUserData
             userData += userData; //double it to get 208 characters
 
             var mid0240 = new Mid0240() { UserData = userData };
-            Assert.IsNotNull(mid0240.UserData);
+            Assert.AreEqual(208, mid0240.UserData.Length);
             Assert.IsTrue(mid0240.Pack().Length == 220);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0240PackRevision1()
+        {
+            string package = "00470240            My identifier less than 200";
+
+            AssertBuildAndParse(package, new Mid0240()
+            {
+                UserData = "My identifier less than 200"
+            }, true);
         }
     }
 }

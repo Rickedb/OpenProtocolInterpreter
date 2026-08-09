@@ -11,16 +11,27 @@ namespace OpenProtocolInterpreter.Tightening
     {
         public TighteningMessages() : base()
         {
-            _templates = new Dictionary<int, MidCompiledInstance>()
+            _templates = new Dictionary<int, CompiledInstance<Mid>>()
             {
-                { Mid0060.MID, new MidCompiledInstance(typeof(Mid0060)) },
-                { Mid0061.MID, new MidCompiledInstance(typeof(Mid0061)) },
-                { Mid0062.MID, new MidCompiledInstance(typeof(Mid0062)) },
-                { Mid0063.MID, new MidCompiledInstance(typeof(Mid0063)) },
-                { Mid0064.MID, new MidCompiledInstance(typeof(Mid0064)) },
-                { Mid0065.MID, new MidCompiledInstance(typeof(Mid0065)) },
-                { Mid0066.MID, new MidCompiledInstance(typeof(Mid0066)) },
-                { Mid0902.MID, new MidCompiledInstance(typeof(Mid0902)) }
+                { Mid0060.MID, new CompiledInstance<Mid>(typeof(Mid0060)) },
+                { Mid0061.MID, new CompiledInstance<Mid>(typeof(Mid0061)) },
+                { Mid0062.MID, new CompiledInstance<Mid>(typeof(Mid0062)) },
+                { Mid0063.MID, new CompiledInstance<Mid>(typeof(Mid0063)) },
+                { Mid0064.MID, new CompiledInstance<Mid>(typeof(Mid0064)) },
+                { Mid0065.MID, new CompiledInstance<Mid>(typeof(Mid0065)) },
+                { Mid0066.MID, new CompiledInstance<Mid>(typeof(Mid0066)) },
+                { Mid0067.MID, new CompiledInstance<Mid>(typeof(Mid0067)) },
+                { Mid0902.MID, new CompiledInstance<Mid>(typeof(Mid0902)) }
+            };
+
+            _extraDataTemplates = new Dictionary<int, List<CompiledInstance<ExtraData>>>()
+            {
+                {
+                    Mid0067.MID, new List<CompiledInstance<ExtraData>>()
+                    {
+                        new CompiledInstance<ExtraData>(typeof(Mid0067ExtraData))
+                    }
+                }
             };
         }
 

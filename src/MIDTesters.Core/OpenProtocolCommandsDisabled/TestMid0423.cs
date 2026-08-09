@@ -29,5 +29,14 @@ namespace MIDTesters.OpenProtocolCommandsDisabled
             Assert.AreEqual(typeof(Mid0423), mid.GetType());
             AssertEqualPackages(bytes, mid, true);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0423PackRevision1()
+        {
+            string package = "00200423            ";
+
+            AssertBuildAndParse(package, new Mid0423(), true);
+        }
     }
 }

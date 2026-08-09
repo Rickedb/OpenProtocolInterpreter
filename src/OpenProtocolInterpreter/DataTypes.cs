@@ -38,6 +38,7 @@ namespace OpenProtocolInterpreter
                 return _valueSent.ToString().PadLeft(2, '0');
             }
         }
+
         public string Type { get; set; }
         public int Length { get; set; }
 
@@ -50,7 +51,7 @@ namespace OpenProtocolInterpreter
 
         public static implicit operator DataType(string type)
         {
-            return _dataTypesDefinition.FirstOrDefault(x=> x == type);
+            return _dataTypesDefinition.FirstOrDefault(x => x == type);
         }
 
         public static bool operator ==(DataType type, string type2)

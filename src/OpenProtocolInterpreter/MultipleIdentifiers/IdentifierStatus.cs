@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace OpenProtocolInterpreter.MultipleIdentifiers
 {
@@ -21,19 +22,44 @@ namespace OpenProtocolInterpreter.MultipleIdentifiers
         }
 
         public static IdentifierStatus Parse(string section)
+            => Parse(section.AsSpan());
+
+        public static IdentifierStatus Parse(ReadOnlySpan<char> section)
         {
-            if (string.IsNullOrEmpty(section))
-            {
+            if (section.IsEmpty)
                 return default;
-            }
 
             return new IdentifierStatus()
             {
-                IdentifierTypeNumber = OpenProtocolConvert.ToInt32(section.Substring(0, 1)),
-                IncludedInWorkOrder = OpenProtocolConvert.ToBoolean(section.Substring(1, 2)),
-                StatusInWorkOrder = (StatusInWorkOrder)OpenProtocolConvert.ToInt32(section.Substring(3, 2)),
+                IdentifierTypeNumber = OpenProtocolConvert.ToInt32(section.Slice(0, 1)),
+                IncludedInWorkOrder = OpenProtocolConvert.ToBoolean(section.Slice(1, 2)),
+                StatusInWorkOrder = (StatusInWorkOrder)OpenProtocolConvert.ToInt32(section.Slice(3, 2)),
                 ResultPart = section.SafeSubstring(5, 25)
             };
         }
+    }
+
+    public class IdentifierStatusDefinitionAttribute : DataFieldDefinitionAttribute
+    {
+        public IdentifierStatusDefinitionAttribute(int revision) : base(revision)
+        {
+
+        }
+        public IdentifierStatusDefinitionAttribute(int field, int revision) : base(field, revision)
+        {
+
+        }
+
+        internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
+        {
+            return new DataField<IdentifierStatus>(Field, index, Size, HasPrefix)
+            {
+                DefaultConverter = Pack,
+                DefaultParser = IdentifierStatus.Parse
+            }.Bind(owner, propertyInfo);
+        }
+
+        private static string Pack(char paddingChar, int size, PaddingOrientation orientation, IdentifierStatus identifierStatus)
+            => identifierStatus.Pack();
     }
 }

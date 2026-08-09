@@ -1,16 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.IOInterface
 {
     /// <summary>
     /// Reset digital input function
     /// <para>
-    ///     Reset the digital input function with the digital input number. 
+    ///     Reset the digital input function with the digital input number.
     ///     The digital input function numbers are defined in Table 80.
-    /// </para>    
+    /// </para>
     /// <para>
     ///     This MID will only affect the digital input functions of tracking type.
-    ///     The digital input functions with the type flank cannot be reset (for example reset the reset 
+    ///     The digital input functions with the type flank cannot be reset (for example reset the reset
     ///     batch digital input function will have no effect).
     /// </para>
     /// <para>Message sent by: Integrator</para>
@@ -22,11 +23,9 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.InvalidData };
 
-        public DigitalInputNumber DigitalInputNumber
-        {
-            get => (DigitalInputNumber)GetField(1, DataFields.DigitalInputNumber).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.DigitalInputNumber).SetValue(OpenProtocolConvert.ToString, value);
-        }
+
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 3, HasPrefix = false)]
+        public DigitalInputNumber DigitalInputNumber { get; set; }
 
         public Mid0225() : this(new Header()
         {
@@ -39,24 +38,6 @@ namespace OpenProtocolInterpreter.IOInterface
 
         public Mid0225(Header header) : base(header)
         {
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                    {
-                        DataField.Number(DataFields.DigitalInputNumber, 20, 3, false)
-                    }
-                }
-            };
-        }
-
-        protected enum DataFields
-        {
-            DigitalInputNumber
         }
     }
 }

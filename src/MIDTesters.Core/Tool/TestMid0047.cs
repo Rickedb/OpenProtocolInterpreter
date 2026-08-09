@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenProtocolInterpreter;
 using OpenProtocolInterpreter.Tool;
 
 namespace MIDTesters.Tool
@@ -14,7 +15,7 @@ namespace MIDTesters.Tool
             string package = "00240047001         0103";
             var mid = _midInterpreter.Parse<Mid0047>(package);
 
-            Assert.IsNotNull(mid.PairingHandlingType);
+            Assert.AreEqual(PairingHandlingType.FetchLatestPairingStatus, mid.PairingHandlingType);
             AssertEqualPackages(package, mid);
         }
 
@@ -26,8 +27,20 @@ namespace MIDTesters.Tool
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0047>(bytes);
 
-            Assert.IsNotNull(mid.PairingHandlingType);
+            Assert.AreEqual(PairingHandlingType.FetchLatestPairingStatus, mid.PairingHandlingType);
             AssertEqualPackages(bytes, mid);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0047PackRevision1()
+        {
+            string package = "00240047001         0103";
+
+            AssertBuildAndParse(package, new Mid0047()
+            {
+                PairingHandlingType = PairingHandlingType.FetchLatestPairingStatus
+            });
         }
     }
 }

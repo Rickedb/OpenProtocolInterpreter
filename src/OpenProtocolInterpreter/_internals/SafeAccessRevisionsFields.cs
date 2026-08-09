@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 namespace OpenProtocolInterpreter
 {
@@ -40,10 +39,6 @@ namespace OpenProtocolInterpreter
         }
 
         public SafeAccessRevisionsFields(int capacity, IEqualityComparer<int> comparer) : base(capacity, comparer)
-        {
-        }
-
-        protected SafeAccessRevisionsFields(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

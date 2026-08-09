@@ -4,7 +4,7 @@ using System;
 using System.Threading.Tasks;
 using System.Threading;
 
-namespace MIDTesters.Core.Converters
+namespace MIDTesters.Converters
 {
     [TestClass]
     [TestCategory("Converters")]

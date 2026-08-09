@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace OpenProtocolInterpreter.Job
 {
@@ -14,11 +16,9 @@ namespace OpenProtocolInterpreter.Job
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.JobIdNotPresent };
 
-        public int JobId
-        {
-            get => GetField(1, DataFields.JobId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.JobId).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 2, HasPrefix = false)]
+        [Int32DataFieldDefinition(revision: 2, field: 1, Index = 20, Size = 4, HasPrefix = false)]
+        public int JobId { get; set; }
 
         public Mid0032() : this(DEFAULT_REVISION)
         {
@@ -27,7 +27,7 @@ namespace OpenProtocolInterpreter.Job
 
         public Mid0032(Header header) : base(header)
         {
-            HandleRevision();
+
         }
 
         public Mid0032(int revision) : this(new Header()
@@ -38,39 +38,44 @@ namespace OpenProtocolInterpreter.Job
         {
         }
 
-        public override Mid Parse(string package)
+        protected override string BuildHeader()
+        {
+            Header.Length = Header.DefaultSize;
+            var fromRevision = Header.StandardizedRevision > 1 ? 2 : 1;
+            for (int i = fromRevision; i <= Header.StandardizedRevision; i++)
+            {
+                if (RevisionsByFields.TryGetValue(i, out var dataFields))
+                {
+                    foreach (var dataField in dataFields)
+                        Header.Length += dataField.TotalSize;
+                }
+            }
+
+            return Header.ToString();
+        }
+
+        public override string Pack()
+        {
+            var builder = new StringBuilder(BuildHeader());
+
+            var fromRevision = Header.StandardizedRevision > 1 ? 2 : 1;
+            for (int i = fromRevision; i <= Header.StandardizedRevision; i++)
+            {
+                builder.Append(Pack(i));
+            }
+            return builder.ToString();
+        }
+
+        public override Mid Parse(ReadOnlySpan<char> package)
         {
             Header = ProcessHeader(package);
-            HandleRevision();
-            ProcessDataFields(package);
-            return this;
-        }
-
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
+            var fromRevision = Header.StandardizedRevision > 1 ? 2 : 1;
+            for (int i = fromRevision; i <= Header.StandardizedRevision; i++)
             {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.JobId, 20, 2, false),
-                            }
-                }
-            };
-        }
-
-        private void HandleRevision()
-        {
-            if (Header.Revision == 1)
-                GetField(1, DataFields.JobId).Size = 2;
-            else
-                GetField(1, DataFields.JobId).Size = 4;
-        }
-
-        protected enum DataFields
-        {
-            JobId
+                if (RevisionsByFields.TryGetValue(i, out var fields))
+                    ProcessDataFields(fields, package);
+            }
+            return this;
         }
     }
 }

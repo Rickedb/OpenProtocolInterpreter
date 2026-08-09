@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenProtocolInterpreter;
 using OpenProtocolInterpreter.Communication;
 
 namespace MIDTesters.Communication
@@ -15,10 +16,10 @@ namespace MIDTesters.Communication
             var mid = _midInterpreter.Parse<Mid0006>(pack);
 
             Assert.AreEqual(typeof(Mid0006), mid.GetType());
-            Assert.IsNotNull(mid.RequestedMid);
-            Assert.IsNotNull(mid.WantedRevision);
-            Assert.IsNotNull(mid.ExtraDataLength);
-            Assert.IsNotNull(mid.ExtraData);
+            Assert.AreEqual(18, mid.RequestedMid);
+            Assert.AreEqual(2, mid.WantedRevision);
+            Assert.AreEqual(14, mid.ExtraDataLength);
+            Assert.AreEqual("lengthequals14", mid.ExtraData);
             AssertEqualPackages(pack, mid, true);
         }
 
@@ -31,11 +32,25 @@ namespace MIDTesters.Communication
             var mid = _midInterpreter.Parse<Mid0006>(bytes);
 
             Assert.AreEqual(typeof(Mid0006), mid.GetType());
-            Assert.IsNotNull(mid.RequestedMid);
-            Assert.IsNotNull(mid.WantedRevision);
-            Assert.IsNotNull(mid.ExtraDataLength);
-            Assert.IsNotNull(mid.ExtraData);
+            Assert.AreEqual(18, mid.RequestedMid);
+            Assert.AreEqual(2, mid.WantedRevision);
+            Assert.AreEqual(14, mid.ExtraDataLength);
+            Assert.AreEqual("lengthequals14", mid.ExtraData);
             AssertEqualPackages(bytes, mid, true);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0006PackRevision1()
+        {
+            string pack = @"00430006            001800214lengthequals14";
+
+            AssertBuildAndParse(pack, new Mid0006()
+            {
+                RequestedMid = 18,
+                WantedRevision = 2,
+                ExtraData = "lengthequals14"
+            }, true);
         }
     }
 }

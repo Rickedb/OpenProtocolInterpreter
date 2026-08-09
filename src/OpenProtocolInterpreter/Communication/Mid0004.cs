@@ -1,18 +1,21 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace OpenProtocolInterpreter.Communication
 {
     /// <summary>
     /// Application Communication negative acknowledge
     /// <para>
-    ///     This message is used by the controller when a request, command or subscription for any reason has 
-    ///     not been performed. 
+    ///     This message is used by the controller when a request, command or subscription for any reason has
+    ///     not been performed.
     ///     The data field contains the message ID of the message request that failed as well as an error code.
     ///     It can also be used by the integrator to acknowledge received subscribed data/events upload and will
     ///     then do all the special subscription data acknowledges obsolete.
     /// </para>
     /// <para>
-    ///     When using the communication acknowledgement of MID 0007 and <see cref="Mid0006"/> together with sequence 
+    ///     When using the communication acknowledgement of MID 0007 and <see cref="Mid0006"/> together with sequence
     ///     numbering this is an application level message only.
     /// </para>
     /// <para>Message sent by: Controller</para>
@@ -22,16 +25,13 @@ namespace OpenProtocolInterpreter.Communication
     {
         public const int MID = 4;
 
-        public int FailedMid
-        {
-            get => GetField(1, DataFields.Mid).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.Mid).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public Error ErrorCode
-        {
-            get => (Error)GetField(1, DataFields.ErrorCode).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.ErrorCode).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 4, HasPrefix = false)]
+        [Int32DataFieldDefinition(revision: 2, field: 1, Index = 20, Size = 4, HasPrefix = false)]
+        public int FailedMid { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 2, Index = 24, Size = 2, HasPrefix = false)]
+        [Int32DataFieldDefinition(revision: 2, field: 2, Index = 24, Size = 3, HasPrefix = false)]
+        public Error ErrorCode { get; set; }
 
         public Mid0004() : this(DEFAULT_REVISION)
         {
@@ -51,45 +51,37 @@ namespace OpenProtocolInterpreter.Communication
 
         }
 
+        protected override string BuildHeader()
+        {
+            if (RevisionsByFields.TryGetValue(Header.StandardizedRevision, out var dataFields))
+            {
+                Header.Length = Header.DefaultSize + dataFields.Sum(x => x.TotalSize);
+            }
+
+            return Header.ToString();
+        }
+
         public override string Pack()
         {
-            HandleRevision();
-            return base.Pack();
-        }
-
-        public override Mid Parse(string package)
-        {
-            Header = ProcessHeader(package);
-            HandleRevision();
-            ProcessDataFields(package);
-            return this;
-        }
-
-        private void HandleRevision()
-        {
-            var errorCodeField = GetField(1, DataFields.ErrorCode);
-            errorCodeField.Size = Header.Revision > 1 ? 3 : 2;
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
+            if (!RevisionsByFields.TryGetValue(Header.StandardizedRevision, out var dataFields))
             {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.Mid, 20, 4, false),
-                                DataField.Number(DataFields.ErrorCode, 24, 2, false)
-                            }
-                }
-            };
+                throw new InvalidOperationException($"No data fields defined for revision {Header.StandardizedRevision}");
+            }
+
+            var builder = new StringBuilder(BuildHeader());
+            builder.Append(base.Pack(dataFields));
+            return builder.ToString();
         }
 
-
-        protected enum DataFields
+        protected override void ProcessDataFields(ReadOnlySpan<char> package)
         {
-            Mid,
-            ErrorCode
+            if (!RevisionsByFields.TryGetValue(Header.StandardizedRevision, out var dataFields))
+            {
+                throw new InvalidOperationException($"No data fields defined for revision {Header.StandardizedRevision}");
+            }
+
+            base.ProcessDataFields(dataFields, package);
         }
+
     }
 }

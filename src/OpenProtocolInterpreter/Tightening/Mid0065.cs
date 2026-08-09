@@ -14,289 +14,215 @@ namespace OpenProtocolInterpreter.Tightening
     {
         public const int MID = 65;
 
-        public long TighteningId
-        {
-            get => GetField(GetCurrentRevisionIndex(), DataFields.TighteningId).GetValue(OpenProtocolConvert.ToInt64);
-            set => GetField(GetCurrentRevisionIndex(), DataFields.TighteningId).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public string VinNumber
-        {
-            get => GetField(GetCurrentRevisionIndex(), DataFields.VinNumber).Value;
-            set => GetField(GetCurrentRevisionIndex(), DataFields.VinNumber).SetValue(value);
-        }
-        public int ParameterSetId
-        {
-            get => GetField(GetCurrentRevisionIndex(), DataFields.ParameterSetId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(GetCurrentRevisionIndex(), DataFields.ParameterSetId).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int BatchCounter
-        {
-            get => GetField(GetCurrentRevisionIndex(), DataFields.BatchCounter).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(GetCurrentRevisionIndex(), DataFields.BatchCounter).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public bool TighteningStatus
-        {
-            get => GetField(GetCurrentRevisionIndex(), DataFields.TighteningStatus).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(GetCurrentRevisionIndex(), DataFields.TighteningStatus).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public TighteningValueStatus TorqueStatus
-        {
-            get => (TighteningValueStatus)GetField(GetCurrentRevisionIndex(), DataFields.TorqueStatus).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(GetCurrentRevisionIndex(), DataFields.TorqueStatus).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public TighteningValueStatus AngleStatus
-        {
-            get => (TighteningValueStatus)GetField(GetCurrentRevisionIndex(), DataFields.AngleStatus).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(GetCurrentRevisionIndex(), DataFields.AngleStatus).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public decimal Torque
-        {
-            get => GetField(GetCurrentRevisionIndex(), DataFields.Torque).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
-            set => GetField(GetCurrentRevisionIndex(), DataFields.Torque).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
-        }
-        public int Angle
-        {
-            get => GetField(GetCurrentRevisionIndex(), DataFields.Angle).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(GetCurrentRevisionIndex(), DataFields.Angle).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public DateTime Timestamp
-        {
-            get => GetField(GetCurrentRevisionIndex(), DataFields.Timestamp).GetValue(OpenProtocolConvert.ToDateTime);
-            set => GetField(GetCurrentRevisionIndex(), DataFields.Timestamp).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public BatchStatus BatchStatus
-        {
-            get => (BatchStatus)GetField(GetCurrentRevisionIndex(), DataFields.BatchStatus).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(GetCurrentRevisionIndex(), DataFields.BatchStatus).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int64DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 10)]
+        [Int64DataFieldDefinition(revision: 2, field: 1, Index = 20, Size = 10)]
+        public long TighteningId { get; set; }
+
+        [StringDataFieldDefinition(revision: 1, field: 2, Index = 32, Size = 25)]
+        [StringDataFieldDefinition(revision: 2, field: 2, Index = 32, Size = 25)]
+        public string VinNumber { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 3, Index = 59, Size = 3)]
+        [Int32DataFieldDefinition(revision: 2, field: 4, Index = 65, Size = 3)]
+        public int ParameterSetId { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 4, Index = 64, Size = 4)]
+        [Int32DataFieldDefinition(revision: 2, field: 8, Index = 87, Size = 4)]
+        public int BatchCounter { get; set; }
+
+        [BooleanDataFieldDefinition(revision: 1, field: 5, Index = 70, Size = 1)]
+        [BooleanDataFieldDefinition(revision: 2, field: 9, Index = 93, Size = 1)]
+        public bool TighteningStatus { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 6, Index = 73, Size = 1)]
+        [Int32DataFieldDefinition(revision: 2, field: 11, Index = 99, Size = 1)]
+        public TighteningValueStatus TorqueStatus { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 7, Index = 76, Size = 1)]
+        [Int32DataFieldDefinition(revision: 2, field: 12, Index = 102, Size = 1)]
+        public TighteningValueStatus AngleStatus { get; set; }
+
+        [TruncatedDecimalDataFieldDefinition(revision: 1, field: 8, Index = 79, Size = 6)]
+        [TruncatedDecimalDataFieldDefinition(revision: 2, field: 19, Index = 132, Size = 6)]
+        public decimal Torque { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 9, Index = 87, Size = 5)]
+        [Int32DataFieldDefinition(revision: 2, field: 20, Index = 140, Size = 5)]
+        public int Angle { get; set; }
+
+        [TimestampDataFieldDefinition(revision: 1, field: 10, Index = 94, Size = 19)]
+        [TimestampDataFieldDefinition(revision: 2, field: 28, Index = 205, Size = 19)]
+        public DateTime Timestamp { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 11, Index = 115, Size = 1)]
+        [Int32DataFieldDefinition(revision: 2, field: 10, Index = 96, Size = 1)]
+        public BatchStatus BatchStatus { get; set; }
+
         //Rev 2
-        public int JobId
-        {
-            get => GetField(2, DataFields.JobId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(2, DataFields.JobId).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public Strategy Strategy
-        {
-            get => (Strategy)GetField(2, DataFields.Strategy).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(2, DataFields.Strategy).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 2, field: 3, Index = 59, Size = 4)]
+        public int JobId { get; set; }
+
+        [Int32DataFieldDefinition(revision: 2, field: 5, Index = 70, Size = 2)]
+        public Strategy Strategy { get; set; }
+
+        [StrategyOptionsDefinition(revision: 2, field: 6, Index = 74, Size = 5, PaddingChar = '0', PaddingOrientation = PaddingOrientation.LeftPadded)]
         public StrategyOptions StrategyOptions { get; set; }
-        public int BatchSize
-        {
-            get => GetField(2, DataFields.BatchSize).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(2, DataFields.BatchSize).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public TighteningValueStatus RundownAngleStatus
-        {
-            get => (TighteningValueStatus)GetField(2, DataFields.RundownAngleStatus).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(2, DataFields.RundownAngleStatus).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public TighteningValueStatus CurrentMonitoringStatus
-        {
-            get => (TighteningValueStatus)GetField(2, DataFields.CurrentMonitoringStatus).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(2, DataFields.CurrentMonitoringStatus).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public TighteningValueStatus SelftapStatus
-        {
-            get => (TighteningValueStatus)GetField(2, DataFields.SelftapStatus).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(2, DataFields.SelftapStatus).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public TighteningValueStatus PrevailTorqueMonitoringStatus
-        {
-            get => (TighteningValueStatus)GetField(2, DataFields.PrevailTorqueMonitoringStatus).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(2, DataFields.PrevailTorqueMonitoringStatus).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public TighteningValueStatus PrevailTorqueCompensateStatus
-        {
-            get => (TighteningValueStatus)GetField(2, DataFields.PrevaiTorqueMonitoringStatus).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(2, DataFields.PrevaiTorqueMonitoringStatus).SetValue(OpenProtocolConvert.ToString, value);
-        }
+
+        [Int32DataFieldDefinition(revision: 2, field: 7, Index = 81, Size = 4)]
+        public int BatchSize { get; set; }
+
+        [Int32DataFieldDefinition(revision: 2, field: 13, Index = 105, Size = 1)]
+        public TighteningValueStatus RundownAngleStatus { get; set; }
+
+        [Int32DataFieldDefinition(revision: 2, field: 14, Index = 108, Size = 1)]
+        public TighteningValueStatus CurrentMonitoringStatus { get; set; }
+
+        [Int32DataFieldDefinition(revision: 2, field: 15, Index = 111, Size = 1)]
+        public TighteningValueStatus SelftapStatus { get; set; }
+
+        [Int32DataFieldDefinition(revision: 2, field: 16, Index = 114, Size = 1)]
+        public TighteningValueStatus PrevailTorqueMonitoringStatus { get; set; }
+
+        [Int32DataFieldDefinition(revision: 2, field: 17, Index = 117, Size = 1)]
+        public TighteningValueStatus PrevailTorqueCompensateStatus { get; set; }
+
+        [TighteningErrorStatusDefinition(revision: 2, field: 18, Index = 120, Size = 10, PaddingChar = '0', PaddingOrientation = PaddingOrientation.LeftPadded)]
         public TighteningErrorStatus TighteningErrorStatus { get; set; }
-        public int RundownAngle
-        {
-            get => GetField(2, DataFields.RundownAngle).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(2, DataFields.RundownAngle).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int CurrentMonitoringValue
-        {
-            get => GetField(2, DataFields.CurrentMonitoringValue).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(2, DataFields.CurrentMonitoringValue).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public decimal SelftapTorque
-        {
-            get => GetField(2, DataFields.SelftapTorque).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
-            set => GetField(2, DataFields.SelftapTorque).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
-        }
-        public decimal PrevailTorque
-        {
-            get => GetField(2, DataFields.PrevailTorque).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
-            set => GetField(2, DataFields.PrevailTorque).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
-        }
-        public int JobSequenceNumber
-        {
-            get => GetField(2, DataFields.JobSequenceNumber).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(2, DataFields.JobSequenceNumber).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int SyncTighteningId
-        {
-            get => GetField(2, DataFields.SyncTighteningId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(2, DataFields.SyncTighteningId).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public string ToolSerialNumber
-        {
-            get => GetField(2, DataFields.ToolSerialNumber).Value;
-            set => GetField(2, DataFields.ToolSerialNumber).SetValue(value);
-        }
+
+        [Int32DataFieldDefinition(revision: 2, field: 21, Index = 147, Size = 5)]
+        public int RundownAngle { get; set; }
+
+        [Int32DataFieldDefinition(revision: 2, field: 22, Index = 154, Size = 3)]
+        public int CurrentMonitoringValue { get; set; }
+
+        [TruncatedDecimalDataFieldDefinition(revision: 2, field: 23, Index = 159, Size = 6)]
+        public decimal SelftapTorque { get; set; }
+
+        [TruncatedDecimalDataFieldDefinition(revision: 2, field: 24, Index = 167, Size = 6)]
+        public decimal PrevailTorque { get; set; }
+
+        [Int32DataFieldDefinition(revision: 2, field: 25, Index = 175, Size = 5)]
+        public int JobSequenceNumber { get; set; }
+
+        [Int32DataFieldDefinition(revision: 2, field: 26, Index = 182, Size = 5)]
+        public int SyncTighteningId { get; set; }
+
+        [StringDataFieldDefinition(revision: 2, field: 27, Index = 189, Size = 14)]
+        public string ToolSerialNumber { get; set; }
+
         //Rev 3
-        public TorqueValuesUnit TorqueValuesUnit
-        {
-            get => (TorqueValuesUnit)GetField(3, DataFields.TorqueValuesUnit).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(3, DataFields.TorqueValuesUnit).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public ResultType ResultType
-        {
-            get => (ResultType)GetField(3, DataFields.ResultType).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(3, DataFields.ResultType).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 3, field: 29, Index = 226, Size = 1)]
+        public TorqueValuesUnit TorqueValuesUnit { get; set; }
+
+        [Int32DataFieldDefinition(revision: 3, field: 30, Index = 229, Size = 2)]
+        public ResultType ResultType { get; set; }
+
+
         //Rev 4
-        public string IdentifierResultPart2
-        {
-            get => GetField(4, DataFields.IdentifierResulPart2).Value;
-            set => GetField(4, DataFields.IdentifierResulPart2).SetValue(value);
-        }
-        public string IdentifierResultPart3
-        {
-            get => GetField(4, DataFields.IdentifierResulPart3).Value;
-            set => GetField(4, DataFields.IdentifierResulPart3).SetValue(value);
-        }
-        public string IdentifierResultPart4
-        {
-            get => GetField(4, DataFields.IdentifierResulPart4).Value;
-            set => GetField(4, DataFields.IdentifierResulPart4).SetValue(value);
-        }
+        [StringDataFieldDefinition(revision: 4, field: 31, Index = 233, Size = 25)]
+        public string IdentifierResultPart2 { get; set; }
+
+        [StringDataFieldDefinition(revision: 4, field: 32, Index = 260, Size = 25)]
+        public string IdentifierResultPart3 { get; set; }
+
+        [StringDataFieldDefinition(revision: 4, field: 33, Index = 287, Size = 25)]
+        public string IdentifierResultPart4 { get; set; }
+
         //Rev 5
-        public string CustomerTighteningErrorCode
-        {
-            get => GetField(5, DataFields.CustomerTighteningErrorCode).Value;
-            set => GetField(5, DataFields.CustomerTighteningErrorCode).SetValue(value);
-        }
+        [StringDataFieldDefinition(revision: 5, field: 34, Index = 314, Size = 4)]
+        public string CustomerTighteningErrorCode { get; set; }
+
         //Rev 6
-        public decimal PrevailTorqueCompensateValue
-        {
-            get => GetField(6, DataFields.PrevailTorqueCompensateValue).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
-            set => GetField(6, DataFields.PrevailTorqueCompensateValue).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
-        }
+        [TruncatedDecimalDataFieldDefinition(revision: 6, field: 35, Index = 320, Size = 6)]
+        public decimal PrevailTorqueCompensateValue { get; set; }
+
+        [TighteningErrorStatus2Definition(revision: 6, field: 36, Index = 328, Size = 10, PaddingChar = '0', PaddingOrientation = PaddingOrientation.LeftPadded)]
         public TighteningErrorStatus2 TighteningErrorStatus2 { get; set; }
+
         //Rev 7
-        public long StationId
-        {
-            get => GetField(7, DataFields.StationId).GetValue(OpenProtocolConvert.ToInt64);
-            set => GetField(7, DataFields.StationId).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public string StationName
-        {
-            get => GetField(7, DataFields.StationName).Value;
-            set => GetField(7, DataFields.StationName).SetValue(value);
-        }
+        [Int64DataFieldDefinition(revision: 7, field: 37, Index = 340, Size = 10)]
+        public long StationId { get; set; }
+
+        [StringDataFieldDefinition(revision: 7, field: 38, Index = 352, Size = 25)]
+        public string StationName { get; set; }
+
         //Rev 8
-        public decimal StartFinalAngle
-        {
-            get => GetField(8, DataFields.StartFinalAngle).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
-            set => GetField(8, DataFields.StartFinalAngle).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
-        }
-        public PostViewTorque PostViewTorqueActivated
-        {
-            get => (PostViewTorque)GetField(8, DataFields.PostViewTorqueActivated).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(8, DataFields.PostViewTorqueActivated).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public decimal PostViewTorqueHigh
-        {
-            get => GetField(8, DataFields.PostViewTorqueHigh).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
-            set => GetField(8, DataFields.PostViewTorqueHigh).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
-        }
-        public decimal PostViewTorqueLow
-        {
-            get => GetField(8, DataFields.PostViewTorqueLow).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
-            set => GetField(8, DataFields.PostViewTorqueLow).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
-        }
+        [TruncatedDecimalDataFieldDefinition(revision: 8, field: 39, Index = 379, Size = 6)]
+        public decimal StartFinalAngle { get; set; }
+
+        [Int32DataFieldDefinition(revision: 8, field: 40, Index = 387, Size = 1)]
+        public PostViewTorque PostViewTorqueActivated { get; set; }
+
+        [TruncatedDecimalDataFieldDefinition(revision: 8, field: 41, Index = 390, Size = 6)]
+        public decimal PostViewTorqueHigh { get; set; }
+
+        [TruncatedDecimalDataFieldDefinition(revision: 8, field: 42, Index = 398, Size = 6)]
+        public decimal PostViewTorqueLow { get; set; }
+
         //Rev 9
-        public decimal CurrentMonitoringAmpere
-        {
-            get => GetField(9, DataFields.CurrentMonitoringAmp).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
-            set => GetField(9, DataFields.CurrentMonitoringAmp).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
-        }
-        public decimal CurrentMonitoringAmpereMin
-        {
-            get => GetField(9, DataFields.CurrentMonitoringAmpMin).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
-            set => GetField(9, DataFields.CurrentMonitoringAmpMin).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
-        }
-        public decimal CurrentMonitoringAmpereMax
-        {
-            get => GetField(9, DataFields.CurrentMonitoringAmpMax).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
-            set => GetField(9, DataFields.CurrentMonitoringAmpMax).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
-        }
+        [TruncatedDecimalDataFieldDefinition(revision: 9, field: 43, Index = 406, Size = 5)]
+        public decimal CurrentMonitoringAmpere { get; set; }
+
+        [TruncatedDecimalDataFieldDefinition(revision: 9, field: 44, Index = 413, Size = 5)]
+        public decimal CurrentMonitoringAmpereMin { get; set; }
+
+        [TruncatedDecimalDataFieldDefinition(revision: 9, field: 45, Index = 420, Size = 5)]
+        public decimal CurrentMonitoringAmpereMax { get; set; }
+
         //Rev 10 addition
-        public int AngleNumeratorScaleFactor
-        {
-            get => GetField(10, DataFields.AngleNumeratorScaleFactor).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(10, DataFields.AngleNumeratorScaleFactor).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int AngleDenominatorScaleFactor
-        {
-            get => GetField(10, DataFields.AngleDenominatorScaleFactor).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(10, DataFields.AngleDenominatorScaleFactor).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public TighteningValueStatus OverallAngleStatus
-        {
-            get => (TighteningValueStatus)GetField(10, DataFields.OverallAngleStatus).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(10, DataFields.OverallAngleStatus).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int OverallAngleMin
-        {
-            get => GetField(10, DataFields.OverallAngleMin).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(10, DataFields.OverallAngleMin).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int OverallAngleMax
-        {
-            get => GetField(10, DataFields.OverallAngleMax).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(10, DataFields.OverallAngleMax).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int OverallAngle
-        {
-            get => GetField(10, DataFields.OverallAngle).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(10, DataFields.OverallAngle).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public decimal PeakTorque
-        {
-            get => GetField(10, DataFields.PeakTorque).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
-            set => GetField(10, DataFields.PeakTorque).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
-        }
-        public decimal ResidualBreakawayTorque
-        {
-            get => GetField(10, DataFields.ResidualBreakawayTorque).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
-            set => GetField(10, DataFields.ResidualBreakawayTorque).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
-        }
-        public decimal StartRundownAngle
-        {
-            get => GetField(10, DataFields.StartRundownAngle).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
-            set => GetField(10, DataFields.StartRundownAngle).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
-        }
-        public decimal RundownAngleComplete
-        {
-            get => GetField(10, DataFields.RundownAngleComplete).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
-            set => GetField(10, DataFields.RundownAngleComplete).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 10, field: 46, Index = 427, Size = 5)]
+        public int AngleNumeratorScaleFactor { get; set; }
+
+        [Int32DataFieldDefinition(revision: 10, field: 47, Index = 434, Size = 5)]
+        public int AngleDenominatorScaleFactor { get; set; }
+
+        [Int32DataFieldDefinition(revision: 10, field: 48, Index = 441, Size = 1)]
+        public TighteningValueStatus OverallAngleStatus { get; set; }
+
+        [Int32DataFieldDefinition(revision: 10, field: 49, Index = 444, Size = 5)]
+        public int OverallAngleMin { get; set; }
+
+        [Int32DataFieldDefinition(revision: 10, field: 50, Index = 451, Size = 5)]
+        public int OverallAngleMax { get; set; }
+
+        [Int32DataFieldDefinition(revision: 10, field: 51, Index = 458, Size = 5)]
+        public int OverallAngle { get; set; }
+
+        [TruncatedDecimalDataFieldDefinition(revision: 10, field: 52, Index = 465, Size = 6)]
+        public decimal PeakTorque { get; set; }
+
+        [TruncatedDecimalDataFieldDefinition(revision: 10, field: 53, Index = 473, Size = 6)]
+        public decimal ResidualBreakawayTorque { get; set; }
+
+        [TruncatedDecimalDataFieldDefinition(revision: 10, field: 54, Index = 481, Size = 6)]
+        public decimal StartRundownAngle { get; set; }
+
+        [TruncatedDecimalDataFieldDefinition(revision: 10, field: 55, Index = 489, Size = 6)]
+        public decimal RundownAngleComplete { get; set; }
+
         //Rev 11
-        public decimal ClickTorque
-        {
-            get => GetField(11, DataFields.ClickTorque).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
-            set => GetField(11, DataFields.ClickTorque).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
-        }
-        public int ClickAngle
-        {
-            get => GetField(11, DataFields.ClickAngle).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(11, DataFields.ClickAngle).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [TruncatedDecimalDataFieldDefinition(revision: 11, field: 56, Index = 497, Size = 6)]
+        public decimal ClickTorque { get; set; }
+
+        [Int32DataFieldDefinition(revision: 11, field: 57, Index = 505, Size = 5)]
+        public int ClickAngle { get; set; }
+
+        //Rev 12
+        [Int32DataFieldDefinition(revision: 12, field: 58, Index = 512, Size = 4)]
+        public int SelectedIdentifierNumber { get; set; }
+
+        [StringDataFieldDefinition(revision: 12, field: 59, Index = 518, Size = 25)]
+        public string JointId { get; set; }
+
+        //Rev 998 addition
+        [Int32DataFieldDefinition(revision: 998, field: 37, Index = 340, Size = 2)]
+        public int NumberOfStagesInMultistage { get; set; }
+
+        [Int32DataFieldDefinition(revision: 998, field: 38, Index = 344, Size = 2)]
+        public int NumberOfStageResults { get; set; }
+
+        [StageResultCollectionDefinition(revision: 998, field: 39, Index = 348, Size = 0)]
+        public List<StageResult> StageResults { get; set; } = new List<StageResult>();
 
         public Mid0065() : this(DEFAULT_REVISION)
         {
@@ -305,7 +231,7 @@ namespace OpenProtocolInterpreter.Tightening
 
         public Mid0065(Header header) : base(header)
         {
-
+            StageResults ??= [];
         }
 
         public Mid0065(int revision) : this(new Header()
@@ -320,279 +246,67 @@ namespace OpenProtocolInterpreter.Tightening
         {
             if (RevisionsByFields.Any())
             {
-                Header.Length = 20;
-                Header.Revision = Header.Revision > 0 ? Header.Revision : 1;
-                if (Header.Revision > 1)
+                Header.Length = Header.DefaultSize;
+                if (Header.Revision == 998)
                 {
-                    for (int i = 2; i <= Header.Revision; i++)
-                        foreach (var dataField in RevisionsByFields[i])
-                            Header.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
+                    var stageResultField = GetField(nameof(StageResults));
+                    stageResultField.Size = StageResults.Count * 11;
                 }
-                else
-                {
-                    foreach (var dataField in RevisionsByFields[1])
-                        Header.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
-                }
+
+                var fields = DataFieldsByRevision();
+                Header.Length += fields.Sum(x => x.TotalSize);
             }
             return Header.ToString();
         }
 
         public override string Pack()
         {
-            var builder = new StringBuilder(BuildHeader());
-            int prefixIndex = 1;
-            if (Header.Revision > 1)
-            {
-                GetField(2, DataFields.StrategyOptions).SetValue(StrategyOptions.Pack());
-                GetField(2, DataFields.TighteningErrorStatus).SetValue(TighteningErrorStatus.Pack());
-
-                if (Header.Revision > 5)
-                {
-                    GetField(6, DataFields.TighteningErrorStatus2).SetValue(TighteningErrorStatus2.Pack());
-                }
-
-                int processUntil = Header.Revision;
-                for (int revision = 2; revision <= processUntil; revision++)
-                {
-                    builder.Append(Pack(revision, ref prefixIndex));
-                }
-            }
-            else
-            {
-                builder.Append(Pack(Header.Revision, ref prefixIndex));
-            }
+            var builder = new StringBuilder();
+            var fields = DataFieldsByRevision().OrderBy(f => f.Index).ToList();
+            builder.Append(BuildHeader());
+            builder.Append(Pack(fields));
 
             return builder.ToString();
         }
 
-        protected override void ProcessDataFields(string package)
+        protected override void ProcessDataFields(ReadOnlySpan<char> package)
         {
-            if (Header.Revision == 1)
-            {
-                ProcessDataFields(Header.Revision, package);
-            }
-            else
-            {
-                int processUntil = Header.Revision;
-                for (int revision = 2; revision <= processUntil; revision++)
-                    ProcessDataFields(revision, package);
-
-                var strategyOptionsField = GetField(2, DataFields.StrategyOptions);
-                StrategyOptions = StrategyOptions.Parse(strategyOptionsField.Value);
-
-                var tighteningErrorStatusField = GetField(2, DataFields.TighteningErrorStatus);
-                TighteningErrorStatus = TighteningErrorStatus.Parse(tighteningErrorStatusField.Value);
-
-                if (Header.Revision > 5)
-                {
-                    var tighteningErrorStatus2Field = GetField(6, DataFields.TighteningErrorStatus2);
-                    TighteningErrorStatus2 = TighteningErrorStatus2.Parse(tighteningErrorStatus2Field.Value);
-                }
-            }
+            var fields = DataFieldsByRevision().OrderBy(f => f.Index).ToList();
+            base.ProcessDataFields(fields, package);
         }
 
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        protected override void ProcessDataField(DataField dataField, ReadOnlySpan<char> package)
         {
-            //opted to work with a different approuch (since it would need to modify too much fields)
-            return new Dictionary<int, List<DataField>>()
+            if (Header.StandardizedRevision == 998 && dataField.Field == 39)
             {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.TighteningId, 20, 10),
-                                DataField.String(DataFields.VinNumber, 32, 25),
-                                DataField.Number(DataFields.ParameterSetId, 59, 3),
-                                DataField.Number(DataFields.BatchCounter, 64, 4),
-                                DataField.Number(DataFields.TighteningStatus, 70, 1),
-                                DataField.Number(DataFields.TorqueStatus, 73, 1),
-                                DataField.Number(DataFields.AngleStatus, 76, 1),
-                                DataField.Number(DataFields.Torque, 79, 6),
-                                DataField.Number(DataFields.Angle, 87, 5),
-                                DataField.Timestamp(DataFields.Timestamp, 94),
-                                DataField.Number(DataFields.BatchStatus, 115, 1)
-                            }
-                },
-                {
-                    2, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.TighteningId, 20, 10),
-                                DataField.String(DataFields.VinNumber, 32, 25),
-                                DataField.Number(DataFields.JobId, 59, 4),
-                                DataField.Number(DataFields.ParameterSetId, 65, 3),
-                                DataField.Number(DataFields.Strategy, 70, 2),
-                                new(DataFields.StrategyOptions, 74, 5, '0', PaddingOrientation.LeftPadded),
-                                DataField.Number(DataFields.BatchSize, 81, 4),
-                                DataField.Number(DataFields.BatchCounter, 87, 4),
-                                DataField.Number(DataFields.TighteningStatus, 93, 1),
-                                DataField.Number(DataFields.BatchStatus, 96, 1),
-                                DataField.Number(DataFields.TorqueStatus, 99, 1),
-                                DataField.Number(DataFields.AngleStatus, 102, 1),
-                                DataField.Number(DataFields.RundownAngleStatus, 105, 1),
-                                DataField.Number(DataFields.CurrentMonitoringStatus, 108, 1),
-                                DataField.Number(DataFields.SelftapStatus, 111, 1),
-                                DataField.Number(DataFields.PrevailTorqueMonitoringStatus, 114, 1),
-                                DataField.Number(DataFields.PrevaiTorqueMonitoringStatus, 117, 1),
-                                new(DataFields.TighteningErrorStatus, 120, 10, '0', PaddingOrientation.LeftPadded),
-                                DataField.Number(DataFields.Torque, 132, 6),
-                                DataField.Number(DataFields.Angle, 140, 5),
-                                DataField.Number(DataFields.RundownAngle, 147, 5),
-                                DataField.Number(DataFields.CurrentMonitoringValue, 154, 3),
-                                DataField.Number(DataFields.SelftapTorque, 159, 6),
-                                DataField.Number(DataFields.PrevailTorque, 167, 6),
-                                DataField.Number(DataFields.JobSequenceNumber, 175, 5),
-                                DataField.Number(DataFields.SyncTighteningId, 182, 5),
-                                DataField.String(DataFields.ToolSerialNumber, 189, 14),
-                                DataField.Timestamp(DataFields.Timestamp, 205),
-                            }
-                },
-                {
-                    3, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.TorqueValuesUnit, 226, 1),
-                                DataField.Number(DataFields.ResultType, 229, 2)
-                            }
-                },
-                {
-                    4, new List<DataField>()
-                            {
-                                DataField.String(DataFields.IdentifierResulPart2, 233, 25),
-                                DataField.String(DataFields.IdentifierResulPart3, 260, 25),
-                                DataField.String(DataFields.IdentifierResulPart4, 287, 25)
-                            }
-                },
-                {
-                    5, new List<DataField>()
-                            {
-                                DataField.String(DataFields.CustomerTighteningErrorCode, 314, 4),
-                            }
-                },
-                {
-                    6, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.PrevailTorqueCompensateValue, 320, 6),
-                                new(DataFields.TighteningErrorStatus2, 328, 10, '0', PaddingOrientation.LeftPadded)
-                            }
-                },
-                {
-                    7, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.StationId, 340, 10),
-                                DataField.String(DataFields.StationName, 352, 25)
-                            }
-                },
-                {
-                    8, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.StartFinalAngle, 379, 6),
-                                DataField.Number(DataFields.PostViewTorqueActivated, 387, 1),
-                                DataField.Number(DataFields.PostViewTorqueHigh, 390, 6),
-                                DataField.Number(DataFields.PostViewTorqueLow, 398, 6),
-                            }
-                },
-                {
-                    9, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.CurrentMonitoringAmp, 406, 5),
-                                DataField.Number(DataFields.CurrentMonitoringAmpMin, 413, 5),
-                                DataField.Number(DataFields.CurrentMonitoringAmpMax, 420, 5)
-                            }
-                },
-                {
-                    10, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.AngleNumeratorScaleFactor, 427, 5),
-                                DataField.Number(DataFields.AngleDenominatorScaleFactor, 434, 5),
-                                DataField.Number(DataFields.OverallAngleStatus, 441, 1),
-                                DataField.Number(DataFields.OverallAngleMin, 444, 5),
-                                DataField.Number(DataFields.OverallAngleMax, 451, 5),
-                                DataField.Number(DataFields.OverallAngle, 458, 5),
-                                DataField.Number(DataFields.PeakTorque, 465, 6),
-                                DataField.Number(DataFields.ResidualBreakawayTorque, 473, 6),
-                                DataField.Number(DataFields.StartRundownAngle, 481, 6),
-                                DataField.Number(DataFields.RundownAngleComplete, 489, 6)
-                            }
-                },
-                {
-                    11, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.ClickTorque, 497, 6),
-                                DataField.Number(DataFields.ClickAngle, 505, 5),
-                            }
-                }
-            };
+                dataField.Size = NumberOfStageResults * 11;
+            }
+            base.ProcessDataField(dataField, package);
         }
 
-        private int GetCurrentRevisionIndex() => (Header.Revision > 1) ? 2 : 1;
 
-        protected enum DataFields
+        private IEnumerable<DataField> DataFieldsByRevision()
         {
-            TighteningId,
-            VinNumber,
-            ParameterSetId,
-            BatchCounter,
-            TighteningStatus,
-            TorqueStatus,
-            AngleStatus,
-            Torque,
-            Angle,
-            Timestamp,
-            BatchStatus,
-            //Rev 2 Additions
-            JobId,
-            Strategy,
-            StrategyOptions,
-            BatchSize,
-            RundownAngleStatus,
-            CurrentMonitoringStatus,
-            SelftapStatus,
-            PrevailTorqueMonitoringStatus,
-            PrevaiTorqueMonitoringStatus,
-            TighteningErrorStatus,
-            RundownAngle,
-            CurrentMonitoringValue,
-            SelftapTorque,
-            PrevailTorque,
-            JobSequenceNumber,
-            SyncTighteningId,
-            ToolSerialNumber,
-            //Rev 3 Additions
-            TorqueValuesUnit,
-            ResultType,
-            //Rev 4 Additions
-            IdentifierResulPart2,
-            IdentifierResulPart3,
-            IdentifierResulPart4,
-            //Rev 5 Additions
-            CustomerTighteningErrorCode,
-            //Rev 6 Additions
-            PrevailTorqueCompensateValue,
-            TighteningErrorStatus2,
-            //Rev 7 Additions
-            StationId,
-            StationName,
-            //Rev 8 Additions
-            StartFinalAngle,
-            PostViewTorqueActivated,
-            PostViewTorqueHigh,
-            PostViewTorqueLow,
-            //Rev 9
-            CurrentMonitoringAmp,
-            CurrentMonitoringAmpMin,
-            CurrentMonitoringAmpMax,
-            //Rev 10
-            AngleNumeratorScaleFactor,
-            AngleDenominatorScaleFactor,
-            OverallAngleStatus,
-            OverallAngleMin,
-            OverallAngleMax,
-            OverallAngle,
-            PeakTorque,
-            ResidualBreakawayTorque,
-            StartRundownAngle,
-            RundownAngleComplete,
-            //Rev 11
-            ClickTorque,
-            ClickAngle
+            var currentRevision = Header.StandardizedRevision;
+            var fromRevision = Header.StandardizedRevision;
+            var toRevision = Header.StandardizedRevision;
+            if (currentRevision > 1)
+            {
+                fromRevision = 2;
+                toRevision = Header.StandardizedRevision != 998 ? Header.StandardizedRevision : 6;
+            }
+
+            for (int i = fromRevision; i <= toRevision; i++)
+            {
+                foreach (var dataField in RevisionsByFields[i])
+                    yield return dataField;
+            }
+
+            if (currentRevision == 998)
+            {
+                foreach (var dataField in RevisionsByFields[998])
+                    yield return dataField;
+            }
         }
     }
 }

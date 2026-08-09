@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Job.Advanced
 {
@@ -14,13 +15,10 @@ namespace OpenProtocolInterpreter.Job.Advanced
 
         /// <summary>
         /// <para>False => Set Job Off</para>
-        /// <para>True => Reset Job Off</para> 
+        /// <para>True => Reset Job Off</para>
         /// </summary>
-        public bool JobOffStatus
-        {
-            get => GetField(1, DataFields.JobOffStatus).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1, DataFields.JobOffStatus).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [BooleanDataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 1, HasPrefix = false)]
+        public bool JobOffStatus { get; set; }
 
         public Mid0130() : this(new Header()
         {
@@ -33,24 +31,6 @@ namespace OpenProtocolInterpreter.Job.Advanced
 
         public Mid0130(Header header) : base(header)
         {
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Boolean(DataFields.JobOffStatus, 20, false),
-                            }
-                }
-            };
-        }
-
-        protected enum DataFields
-        {
-            JobOffStatus
         }
     }
 }

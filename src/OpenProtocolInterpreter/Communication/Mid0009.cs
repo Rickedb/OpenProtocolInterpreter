@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Communication
 {
@@ -14,35 +15,28 @@ namespace OpenProtocolInterpreter.Communication
     /// </para>
     /// <para>Message sent by: Integrator</para>
     /// <para>
-    /// Answer: <see cref="Mid0005"/> Command accepted with the MID subscribed for or <see cref="Mid0004"/> Command error, 
+    /// Answer: <see cref="Mid0005"/> Command accepted with the MID subscribed for or <see cref="Mid0004"/> Command error,
     ///         MID revision unsupported or Invalid data code and the MID subscribed for
     /// </para>
     /// </summary>
-    public class Mid0009 : Mid, ICommunication, IIntegrator
+    public class Mid0009 : Mid, ICommunication, IIntegrator, IExtraDataContainer
     {
+        private int _extraDataRevision;
         public const int MID = 9;
 
-        public string UnsubscriptionMid
-        {
-            get => GetField(1, DataFields.UnsubscriptionMid).Value;
-            set => GetField(1, DataFields.UnsubscriptionMid).SetValue(value);
-        }
-        public int ExtraDataRevision
-        {
-            get => GetField(1, DataFields.ExtraDataRevision).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.ExtraDataRevision).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int ExtraDataLength
-        {
-            get => GetField(1, DataFields.ExtraDataLength).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.ExtraDataLength).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public string ExtraData
-        {
-            get => GetField(1, DataFields.ExtraData).Value;
-            set => GetField(1, DataFields.ExtraData).SetValue(value);
-        }
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 4, HasPrefix = false)]
+        public int UnsubscriptionMid { get; set; }
 
+        [Int32DataFieldDefinition(revision: 1, field: 2, Index = 24, Size = 3, HasPrefix = false)]
+        public int ExtraDataRevision { get => _extraDataRevision; set => _extraDataRevision = value; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 3, Index = 27, Size = 2, HasPrefix = false)]
+        public int ExtraDataLength { get; set; }
+
+        [StringDataFieldDefinition(revision: 1, field: 4, Index = 29, Size = 0, HasPrefix = false)]
+        public string ExtraData { get; set; }
+
+        int IExtraDataContainer.WantedRevision { get => _extraDataRevision; set => _extraDataRevision = value; }
         public Mid0009() : this(new Header()
         {
             Mid = MID,
@@ -56,36 +50,34 @@ namespace OpenProtocolInterpreter.Communication
         {
         }
 
-        public override Mid Parse(string package)
+        public override string Pack()
         {
-            Header = ProcessHeader(package);
-            GetField(1, DataFields.ExtraData).Size = Header.Length - 29;
-            ProcessDataFields(package);
-            return this;
+            ExtraDataLength = ExtraData?.Length ?? 0;
+            HandleExtraDataFieldSize();
+            return base.Pack();
         }
 
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        public void SetExtraData<TExtraData>(TExtraData extraData) where TExtraData : ExtraData, IExtraDataUnsubscription
         {
-            return new Dictionary<int, List<DataField>>()
+            UnsubscriptionMid = extraData.Mid;
+            ExtraDataRevision = extraData.Revision;
+            ExtraData = extraData.Pack();
+            ExtraDataLength = ExtraData?.Length ?? 0;
+        }
+
+
+        protected override void ProcessDataField(DataField dataField, ReadOnlySpan<char> package)
+        {
+            base.ProcessDataField(dataField, package);
+            if (dataField.Field == 3)
             {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.UnsubscriptionMid, 20, 4, false),
-                                DataField.Number(DataFields.ExtraDataRevision, 24, 3, false),
-                                DataField.Number(DataFields.ExtraDataLength, 27, 2, false),
-                                DataField.Volatile(DataFields.ExtraData, 29, false)
-                            }
-                }
-            };
+                HandleExtraDataFieldSize();
+            }
         }
 
-        protected enum DataFields
+        private void HandleExtraDataFieldSize()
         {
-            UnsubscriptionMid,
-            ExtraDataRevision,
-            ExtraDataLength,
-            ExtraData
+            GetField(nameof(ExtraData)).Size = ExtraDataLength;
         }
     }
 }

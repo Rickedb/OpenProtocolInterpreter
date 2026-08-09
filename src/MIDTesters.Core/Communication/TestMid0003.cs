@@ -27,5 +27,14 @@ namespace MIDTesters.Communication
 
             AssertEqualPackages(bytes, mid);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0003PackRevision1()
+        {
+            string pack = @"00200003001         ";
+
+            AssertBuildAndParse(pack, new Mid0003());
+        }
     }
 }

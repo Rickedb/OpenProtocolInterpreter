@@ -15,14 +15,14 @@ namespace MIDTesters.IOInterface
             var mid = _midInterpreter.Parse<Mid0211>(package);
 
             Assert.IsTrue(mid.Header.NoAckFlag);
-            Assert.IsNotNull(mid.StatusDigInOne);
-            Assert.IsNotNull(mid.StatusDigInTwo);
-            Assert.IsNotNull(mid.StatusDigInThree);
-            Assert.IsNotNull(mid.StatusDigInFour);
-            Assert.IsNotNull(mid.StatusDigInFive);
-            Assert.IsNotNull(mid.StatusDigInSix);
-            Assert.IsNotNull(mid.StatusDigInSeven);
-            Assert.IsNotNull(mid.StatusDigInEight);
+            Assert.IsTrue(mid.StatusDigInOne);
+            Assert.IsFalse(mid.StatusDigInTwo);
+            Assert.IsTrue(mid.StatusDigInThree);
+            Assert.IsFalse(mid.StatusDigInFour);
+            Assert.IsTrue(mid.StatusDigInFive);
+            Assert.IsFalse(mid.StatusDigInSix);
+            Assert.IsTrue(mid.StatusDigInSeven);
+            Assert.IsTrue(mid.StatusDigInEight);
             AssertEqualPackages(package, mid, true);
         }
 
@@ -35,15 +35,35 @@ namespace MIDTesters.IOInterface
             var mid = _midInterpreter.Parse<Mid0211>(bytes);
 
             Assert.IsTrue(mid.Header.NoAckFlag);
-            Assert.IsNotNull(mid.StatusDigInOne);
-            Assert.IsNotNull(mid.StatusDigInTwo);
-            Assert.IsNotNull(mid.StatusDigInThree);
-            Assert.IsNotNull(mid.StatusDigInFour);
-            Assert.IsNotNull(mid.StatusDigInFive);
-            Assert.IsNotNull(mid.StatusDigInSix);
-            Assert.IsNotNull(mid.StatusDigInSeven);
-            Assert.IsNotNull(mid.StatusDigInEight);
+            Assert.IsTrue(mid.StatusDigInOne);
+            Assert.IsFalse(mid.StatusDigInTwo);
+            Assert.IsTrue(mid.StatusDigInThree);
+            Assert.IsFalse(mid.StatusDigInFour);
+            Assert.IsTrue(mid.StatusDigInFive);
+            Assert.IsFalse(mid.StatusDigInSix);
+            Assert.IsTrue(mid.StatusDigInSeven);
+            Assert.IsTrue(mid.StatusDigInEight);
             AssertEqualPackages(bytes, mid, true);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0211PackRevision1()
+        {
+            string package = "00280211   1        10101011";
+
+            AssertBuildAndParse(package, new Mid0211()
+            {
+                Header = { NoAckFlag = true },
+                StatusDigInOne = true,
+                StatusDigInTwo = false,
+                StatusDigInThree = true,
+                StatusDigInFour = false,
+                StatusDigInFive = true,
+                StatusDigInSix = false,
+                StatusDigInSeven = true,
+                StatusDigInEight = true
+            }, true);
         }
     }
 }

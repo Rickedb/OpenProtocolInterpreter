@@ -1,5 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenProtocolInterpreter;
 using OpenProtocolInterpreter.Job;
+using System;
 
 namespace MIDTesters.Job
 {
@@ -14,12 +16,12 @@ namespace MIDTesters.Job
             string package = "00630035001         0101020030040008050003062001-12-01:20:12:45";
             var mid = _midInterpreter.Parse<Mid0035>(package);
 
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.JobStatus);
-            Assert.IsNotNull(mid.JobBatchMode);
-            Assert.IsNotNull(mid.JobBatchSize);
-            Assert.IsNotNull(mid.JobBatchCounter);
-            Assert.IsNotNull(mid.TimeStamp);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual(JobStatus.NotCompleted, mid.JobStatus);
+            Assert.AreEqual(JobBatchMode.OnlyOkTightenings, mid.JobBatchMode);
+            Assert.AreEqual(8, mid.JobBatchSize);
+            Assert.AreEqual(3, mid.JobBatchCounter);
+            Assert.AreEqual(new DateTime(2001, 12, 1, 20, 12, 45), mid.TimeStamp);
             AssertEqualPackages(package, mid);
         }
 
@@ -31,12 +33,12 @@ namespace MIDTesters.Job
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0035>(bytes);
 
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.JobStatus);
-            Assert.IsNotNull(mid.JobBatchMode);
-            Assert.IsNotNull(mid.JobBatchSize);
-            Assert.IsNotNull(mid.JobBatchCounter);
-            Assert.IsNotNull(mid.TimeStamp);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual(JobStatus.NotCompleted, mid.JobStatus);
+            Assert.AreEqual(JobBatchMode.OnlyOkTightenings, mid.JobBatchMode);
+            Assert.AreEqual(8, mid.JobBatchSize);
+            Assert.AreEqual(3, mid.JobBatchCounter);
+            Assert.AreEqual(new DateTime(2001, 12, 1, 20, 12, 45), mid.TimeStamp);
             AssertEqualPackages(bytes, mid);
         }
 
@@ -47,12 +49,12 @@ namespace MIDTesters.Job
             string package = "00650035002         010001020030040008050003062001-12-01:20:12:45";
             var mid = _midInterpreter.Parse<Mid0035>(package);
 
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.JobStatus);
-            Assert.IsNotNull(mid.JobBatchMode);
-            Assert.IsNotNull(mid.JobBatchSize);
-            Assert.IsNotNull(mid.JobBatchCounter);
-            Assert.IsNotNull(mid.TimeStamp);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual(JobStatus.NotCompleted, mid.JobStatus);
+            Assert.AreEqual(JobBatchMode.OnlyOkTightenings, mid.JobBatchMode);
+            Assert.AreEqual(8, mid.JobBatchSize);
+            Assert.AreEqual(3, mid.JobBatchCounter);
+            Assert.AreEqual(new DateTime(2001, 12, 1, 20, 12, 45), mid.TimeStamp);
             AssertEqualPackages(package, mid);
         }
 
@@ -64,12 +66,12 @@ namespace MIDTesters.Job
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0035>(bytes);
 
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.JobStatus);
-            Assert.IsNotNull(mid.JobBatchMode);
-            Assert.IsNotNull(mid.JobBatchSize);
-            Assert.IsNotNull(mid.JobBatchCounter);
-            Assert.IsNotNull(mid.TimeStamp);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual(JobStatus.NotCompleted, mid.JobStatus);
+            Assert.AreEqual(JobBatchMode.OnlyOkTightenings, mid.JobBatchMode);
+            Assert.AreEqual(8, mid.JobBatchSize);
+            Assert.AreEqual(3, mid.JobBatchCounter);
+            Assert.AreEqual(new DateTime(2001, 12, 1, 20, 12, 45), mid.TimeStamp);
             AssertEqualPackages(bytes, mid);
         }
 
@@ -80,15 +82,15 @@ namespace MIDTesters.Job
             string package = "00790035003         010001020030040008050003062001-12-01:20:12:4507120080100912";
             var mid = _midInterpreter.Parse<Mid0035>(package);
 
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.JobStatus);
-            Assert.IsNotNull(mid.JobBatchMode);
-            Assert.IsNotNull(mid.JobBatchSize);
-            Assert.IsNotNull(mid.JobBatchCounter);
-            Assert.IsNotNull(mid.TimeStamp);
-            Assert.IsNotNull(mid.JobCurrentStep);
-            Assert.IsNotNull(mid.JobTotalNumberOfSteps);
-            Assert.IsNotNull(mid.JobStepType);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual(JobStatus.NotCompleted, mid.JobStatus);
+            Assert.AreEqual(JobBatchMode.OnlyOkTightenings, mid.JobBatchMode);
+            Assert.AreEqual(8, mid.JobBatchSize);
+            Assert.AreEqual(3, mid.JobBatchCounter);
+            Assert.AreEqual(new DateTime(2001, 12, 1, 20, 12, 45), mid.TimeStamp);
+            Assert.AreEqual(120, mid.JobCurrentStep);
+            Assert.AreEqual(10, mid.JobTotalNumberOfSteps);
+            Assert.AreEqual(12, mid.JobStepType);
             AssertEqualPackages(package, mid);
         }
 
@@ -100,15 +102,15 @@ namespace MIDTesters.Job
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0035>(bytes);
 
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.JobStatus);
-            Assert.IsNotNull(mid.JobBatchMode);
-            Assert.IsNotNull(mid.JobBatchSize);
-            Assert.IsNotNull(mid.JobBatchCounter);
-            Assert.IsNotNull(mid.TimeStamp);
-            Assert.IsNotNull(mid.JobCurrentStep);
-            Assert.IsNotNull(mid.JobTotalNumberOfSteps);
-            Assert.IsNotNull(mid.JobStepType);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual(JobStatus.NotCompleted, mid.JobStatus);
+            Assert.AreEqual(JobBatchMode.OnlyOkTightenings, mid.JobBatchMode);
+            Assert.AreEqual(8, mid.JobBatchSize);
+            Assert.AreEqual(3, mid.JobBatchCounter);
+            Assert.AreEqual(new DateTime(2001, 12, 1, 20, 12, 45), mid.TimeStamp);
+            Assert.AreEqual(120, mid.JobCurrentStep);
+            Assert.AreEqual(10, mid.JobTotalNumberOfSteps);
+            Assert.AreEqual(12, mid.JobStepType);
             AssertEqualPackages(bytes, mid);
         }
 
@@ -119,16 +121,16 @@ namespace MIDTesters.Job
             string package = "00830035004         010001020030040008050003062001-12-01:20:12:45071200801009121001";
             var mid = _midInterpreter.Parse<Mid0035>(package);
 
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.JobStatus);
-            Assert.IsNotNull(mid.JobBatchMode);
-            Assert.IsNotNull(mid.JobBatchSize);
-            Assert.IsNotNull(mid.JobBatchCounter);
-            Assert.IsNotNull(mid.TimeStamp);
-            Assert.IsNotNull(mid.JobCurrentStep);
-            Assert.IsNotNull(mid.JobTotalNumberOfSteps);
-            Assert.IsNotNull(mid.JobStepType);
-            Assert.IsNotNull(mid.JobTighteningStatus);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual(JobStatus.NotCompleted, mid.JobStatus);
+            Assert.AreEqual(JobBatchMode.OnlyOkTightenings, mid.JobBatchMode);
+            Assert.AreEqual(8, mid.JobBatchSize);
+            Assert.AreEqual(3, mid.JobBatchCounter);
+            Assert.AreEqual(new DateTime(2001, 12, 1, 20, 12, 45), mid.TimeStamp);
+            Assert.AreEqual(120, mid.JobCurrentStep);
+            Assert.AreEqual(10, mid.JobTotalNumberOfSteps);
+            Assert.AreEqual(12, mid.JobStepType);
+            Assert.AreEqual(JobTighteningStatus.Nok, mid.JobTighteningStatus);
             AssertEqualPackages(package, mid);
         }
 
@@ -140,16 +142,16 @@ namespace MIDTesters.Job
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0035>(bytes);
 
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.JobStatus);
-            Assert.IsNotNull(mid.JobBatchMode);
-            Assert.IsNotNull(mid.JobBatchSize);
-            Assert.IsNotNull(mid.JobBatchCounter);
-            Assert.IsNotNull(mid.TimeStamp);
-            Assert.IsNotNull(mid.JobCurrentStep);
-            Assert.IsNotNull(mid.JobTotalNumberOfSteps);
-            Assert.IsNotNull(mid.JobStepType);
-            Assert.IsNotNull(mid.JobTighteningStatus);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual(JobStatus.NotCompleted, mid.JobStatus);
+            Assert.AreEqual(JobBatchMode.OnlyOkTightenings, mid.JobBatchMode);
+            Assert.AreEqual(8, mid.JobBatchSize);
+            Assert.AreEqual(3, mid.JobBatchCounter);
+            Assert.AreEqual(new DateTime(2001, 12, 1, 20, 12, 45), mid.TimeStamp);
+            Assert.AreEqual(120, mid.JobCurrentStep);
+            Assert.AreEqual(10, mid.JobTotalNumberOfSteps);
+            Assert.AreEqual(12, mid.JobStepType);
+            Assert.AreEqual(JobTighteningStatus.Nok, mid.JobTighteningStatus);
             AssertEqualPackages(bytes, mid);
         }
 
@@ -160,21 +162,21 @@ namespace MIDTesters.Job
             string package = "01980035005         010001020030040008050003062001-12-01:20:12:45071200801009121001111234512VINVINN12345678912345678913IdentifierResultPart2xxxx14IdentifierResultPart3xxxx15IdentifierResultPart4xxxx";
             var mid = _midInterpreter.Parse<Mid0035>(package);
 
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.JobStatus);
-            Assert.IsNotNull(mid.JobBatchMode);
-            Assert.IsNotNull(mid.JobBatchSize);
-            Assert.IsNotNull(mid.JobBatchCounter);
-            Assert.IsNotNull(mid.TimeStamp);
-            Assert.IsNotNull(mid.JobCurrentStep);
-            Assert.IsNotNull(mid.JobTotalNumberOfSteps);
-            Assert.IsNotNull(mid.JobStepType);
-            Assert.IsNotNull(mid.JobTighteningStatus);
-            Assert.IsNotNull(mid.JobSequenceNumber);
-            Assert.IsNotNull(mid.VinNumber);
-            Assert.IsNotNull(mid.IdentifierResultPart2);
-            Assert.IsNotNull(mid.IdentifierResultPart3);
-            Assert.IsNotNull(mid.IdentifierResultPart4);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual(JobStatus.NotCompleted, mid.JobStatus);
+            Assert.AreEqual(JobBatchMode.OnlyOkTightenings, mid.JobBatchMode);
+            Assert.AreEqual(8, mid.JobBatchSize);
+            Assert.AreEqual(3, mid.JobBatchCounter);
+            Assert.AreEqual(new DateTime(2001, 12, 1, 20, 12, 45), mid.TimeStamp);
+            Assert.AreEqual(120, mid.JobCurrentStep);
+            Assert.AreEqual(10, mid.JobTotalNumberOfSteps);
+            Assert.AreEqual(12, mid.JobStepType);
+            Assert.AreEqual(JobTighteningStatus.Nok, mid.JobTighteningStatus);
+            Assert.AreEqual(12345, mid.JobSequenceNumber);
+            Assert.AreEqual("VINVINN123456789123456789", mid.VinNumber);
+            Assert.AreEqual("IdentifierResultPart2xxxx", mid.IdentifierResultPart2);
+            Assert.AreEqual("IdentifierResultPart3xxxx", mid.IdentifierResultPart3);
+            Assert.AreEqual("IdentifierResultPart4xxxx", mid.IdentifierResultPart4);
             AssertEqualPackages(package, mid);
         }
 
@@ -186,22 +188,123 @@ namespace MIDTesters.Job
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0035>(bytes);
 
-            Assert.IsNotNull(mid.JobId);
-            Assert.IsNotNull(mid.JobStatus);
-            Assert.IsNotNull(mid.JobBatchMode);
-            Assert.IsNotNull(mid.JobBatchSize);
-            Assert.IsNotNull(mid.JobBatchCounter);
-            Assert.IsNotNull(mid.TimeStamp);
-            Assert.IsNotNull(mid.JobCurrentStep);
-            Assert.IsNotNull(mid.JobTotalNumberOfSteps);
-            Assert.IsNotNull(mid.JobStepType);
-            Assert.IsNotNull(mid.JobTighteningStatus);
-            Assert.IsNotNull(mid.JobSequenceNumber);
-            Assert.IsNotNull(mid.VinNumber);
-            Assert.IsNotNull(mid.IdentifierResultPart2);
-            Assert.IsNotNull(mid.IdentifierResultPart3);
-            Assert.IsNotNull(mid.IdentifierResultPart4);
+            Assert.AreEqual(1, mid.JobId);
+            Assert.AreEqual(JobStatus.NotCompleted, mid.JobStatus);
+            Assert.AreEqual(JobBatchMode.OnlyOkTightenings, mid.JobBatchMode);
+            Assert.AreEqual(8, mid.JobBatchSize);
+            Assert.AreEqual(3, mid.JobBatchCounter);
+            Assert.AreEqual(new DateTime(2001, 12, 1, 20, 12, 45), mid.TimeStamp);
+            Assert.AreEqual(120, mid.JobCurrentStep);
+            Assert.AreEqual(10, mid.JobTotalNumberOfSteps);
+            Assert.AreEqual(12, mid.JobStepType);
+            Assert.AreEqual(JobTighteningStatus.Nok, mid.JobTighteningStatus);
+            Assert.AreEqual(12345, mid.JobSequenceNumber);
+            Assert.AreEqual("VINVINN123456789123456789", mid.VinNumber);
+            Assert.AreEqual("IdentifierResultPart2xxxx", mid.IdentifierResultPart2);
+            Assert.AreEqual("IdentifierResultPart3xxxx", mid.IdentifierResultPart3);
+            Assert.AreEqual("IdentifierResultPart4xxxx", mid.IdentifierResultPart4);
             AssertEqualPackages(bytes, mid);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0035PackRevision1()
+        {
+            string package = "00630035001         0101020030040008050003062001-12-01:20:12:45";
+
+            AssertBuildAndParse(package, new Mid0035(1)
+            {
+                JobId = 1,
+                JobStatus = JobStatus.NotCompleted,
+                JobBatchMode = JobBatchMode.OnlyOkTightenings,
+                JobBatchSize = 8,
+                JobBatchCounter = 3,
+                TimeStamp = new DateTime(2001, 12, 1, 20, 12, 45)
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("Pack")]
+        public void Mid0035PackRevision2()
+        {
+            string package = "00650035002         010001020030040008050003062001-12-01:20:12:45";
+
+            AssertBuildAndParse(package, new Mid0035(2)
+            {
+                JobId = 1,
+                JobStatus = JobStatus.NotCompleted,
+                JobBatchMode = JobBatchMode.OnlyOkTightenings,
+                JobBatchSize = 8,
+                JobBatchCounter = 3,
+                TimeStamp = new DateTime(2001, 12, 1, 20, 12, 45)
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 3"), TestCategory("Pack")]
+        public void Mid0035PackRevision3()
+        {
+            string package = "00790035003         010001020030040008050003062001-12-01:20:12:4507120080100912";
+
+            AssertBuildAndParse(package, new Mid0035(3)
+            {
+                JobId = 1,
+                JobStatus = JobStatus.NotCompleted,
+                JobBatchMode = JobBatchMode.OnlyOkTightenings,
+                JobBatchSize = 8,
+                JobBatchCounter = 3,
+                TimeStamp = new DateTime(2001, 12, 1, 20, 12, 45),
+                JobCurrentStep = 120,
+                JobTotalNumberOfSteps = 10,
+                JobStepType = 12
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 4"), TestCategory("Pack")]
+        public void Mid0035PackRevision4()
+        {
+            string package = "00830035004         010001020030040008050003062001-12-01:20:12:45071200801009121001";
+
+            AssertBuildAndParse(package, new Mid0035(4)
+            {
+                JobId = 1,
+                JobStatus = JobStatus.NotCompleted,
+                JobBatchMode = JobBatchMode.OnlyOkTightenings,
+                JobBatchSize = 8,
+                JobBatchCounter = 3,
+                TimeStamp = new DateTime(2001, 12, 1, 20, 12, 45),
+                JobCurrentStep = 120,
+                JobTotalNumberOfSteps = 10,
+                JobStepType = 12,
+                JobTighteningStatus = JobTighteningStatus.Nok
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 5"), TestCategory("Pack")]
+        public void Mid0035PackRevision5()
+        {
+            string package = "01980035005         010001020030040008050003062001-12-01:20:12:45071200801009121001111234512VINVINN12345678912345678913IdentifierResultPart2xxxx14IdentifierResultPart3xxxx15IdentifierResultPart4xxxx";
+
+            AssertBuildAndParse(package, new Mid0035(5)
+            {
+                JobId = 1,
+                JobStatus = JobStatus.NotCompleted,
+                JobBatchMode = JobBatchMode.OnlyOkTightenings,
+                JobBatchSize = 8,
+                JobBatchCounter = 3,
+                TimeStamp = new DateTime(2001, 12, 1, 20, 12, 45),
+                JobCurrentStep = 120,
+                JobTotalNumberOfSteps = 10,
+                JobStepType = 12,
+                JobTighteningStatus = JobTighteningStatus.Nok,
+                JobSequenceNumber = 12345,
+                VinNumber = "VINVINN123456789123456789",
+                IdentifierResultPart2 = "IdentifierResultPart2xxxx",
+                IdentifierResultPart3 = "IdentifierResultPart3xxxx",
+                IdentifierResultPart4 = "IdentifierResultPart4xxxx"
+            });
         }
     }
 }

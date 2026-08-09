@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.ParameterSet
 {
@@ -13,22 +14,17 @@ namespace OpenProtocolInterpreter.ParameterSet
     /// <para> <b>Note</b>: If a running program is included in MID 2506 deletion the program shall finish before deletion. </para>
     /// <para> <b>Note</b>: Deleting programs included in other nodes may give unwanted behaviour. It will behave identical to a manual delete of the program. </para>
     /// </summary>
-    public class Mid2506 : Mid, IParameterSet, IIntegrator, IAcceptableCommand, IDeclinableCommand
+    public class Mid2506 : Mid, IParameterSet, IIntegrator, IAcceptableCommand, IDeclinableCommand, IExtraDataRequest
     {
         public const int MID = 2506;
 
         public IEnumerable<Error> DocumentedPossibleErrors => [];
 
-        public int ProgramId
-        {
-            get => GetField(1, DataFields.ProgramId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.ProgramId).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public NodeType NodeType
-        {
-            get => (NodeType)GetField(1, DataFields.NodeType).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.NodeType).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 4, HasPrefix = false)]
+        public int ProgramId { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 2, Index = 24, Size = 3, HasPrefix = false)]
+        public NodeType NodeType { get; set; }
 
         public Mid2506() : this(new Header()
         {
@@ -42,26 +38,6 @@ namespace OpenProtocolInterpreter.ParameterSet
         public Mid2506(Header header) : base(header)
         {
 
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.ProgramId, 20, 4, false),
-                                DataField.Number(DataFields.NodeType, 24, 3, false),
-                            }
-                }
-            };
-        }
-
-        protected enum DataFields
-        {
-            ProgramId,
-            NodeType
         }
     }
 }

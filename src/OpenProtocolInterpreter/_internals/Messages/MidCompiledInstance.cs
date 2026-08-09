@@ -4,16 +4,16 @@ using System.Reflection;
 
 namespace OpenProtocolInterpreter.Messages
 {
-    internal class MidCompiledInstance
+    internal class CompiledInstance<T>
     {
         public Type Type { get; set; }
-        public Func<Mid> CompiledConstructor { get; set; }
+        public Func<T> CompiledConstructor { get; set; }
 
-        public MidCompiledInstance(Type type)
+        public CompiledInstance(Type type)
         {
             Type = type;
             var ctor = type.GetConstructor(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, null, Type.EmptyTypes, null);
-            CompiledConstructor = Expression.Lambda<Func<Mid>>(Expression.New(ctor)).Compile();
+            CompiledConstructor = Expression.Lambda<Func<T>>(Expression.New(ctor)).Compile();
         }
     }
 }

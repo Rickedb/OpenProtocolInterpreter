@@ -31,5 +31,14 @@ namespace MIDTesters.IOInterface
             Assert.IsTrue(mid.Header.NoAckFlag);
             AssertEqualPackages(bytes, mid, true);
         }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0210PackRevision1()
+        {
+            string package = "00200210   1        ";
+
+            AssertBuildAndParse(package, new Mid0210(noAckFlag: true), true);
+        }
     }
 }

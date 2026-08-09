@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net6.0;net8.0;net10.0</TargetFrameworks>
     <LangVersion>latest</LangVersion>
-    <Version>6.1.2</Version>
+    <Version>6.2.0</Version>
     <Description>Converts the ugly package that came from Open Protocol to an object</Description>
     <Copyright>Copyright © 2026</Copyright>
     <Authors>Henrique Dal Bello Batista</Authors>
@@ -13,7 +13,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>CSharp Open Protocol Atlas Copco</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReleaseNotes>See release notes at: https://github.com/Rickedb/OpenProtocolInterpreter/releases/tag/6.1.0</PackageReleaseNotes>
+    <PackageReleaseNotes>See release notes at: https://github.com/Rickedb/OpenProtocolInterpreter/releases/tag/6.2.0</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 
@@ -34,5 +34,9 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="System.Memory" Version="4.5.5" />
   </ItemGroup>
 </Project>

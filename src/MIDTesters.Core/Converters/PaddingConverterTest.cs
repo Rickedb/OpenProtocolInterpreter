@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter;
 
-namespace MIDTesters.Core.Converters
+namespace MIDTesters.Converters
 {
     [TestClass]
     [TestCategory("Converters")]

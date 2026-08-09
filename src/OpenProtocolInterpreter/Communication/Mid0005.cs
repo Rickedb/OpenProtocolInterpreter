@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Communication
 {
@@ -26,11 +27,8 @@ namespace OpenProtocolInterpreter.Communication
     {
         public const int MID = 5;
 
-        public int MidAccepted
-        {
-            get => GetField(1, DataFields.MidAccepted).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.MidAccepted).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 4, HasPrefix = false)]
+        public int MidAccepted { get; set; }
 
         public Mid0005() : this(DEFAULT_REVISION)
         {
@@ -48,24 +46,6 @@ namespace OpenProtocolInterpreter.Communication
         })
         {
 
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.MidAccepted, 20, 4, false)
-                            }
-                }
-            };
-        }
-
-        protected enum DataFields
-        {
-            MidAccepted
         }
     }
 }

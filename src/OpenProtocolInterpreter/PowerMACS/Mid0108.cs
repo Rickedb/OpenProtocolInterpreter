@@ -9,9 +9,9 @@ namespace OpenProtocolInterpreter.PowerMACS
     ///    tightening). Otherwise no more Bolt data is sent for this tightening.
     /// </para>
     /// <para>
-    ///    If only the station data is wanted Bolt Data must be set to FALSE in the acknowledgement of 
+    ///    If only the station data is wanted Bolt Data must be set to FALSE in the acknowledgement of
     ///    <see cref="Mid0106"/> Last Power MACS tightening result Station data.
-    /// </para>   
+    /// </para>
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: None</para>
     /// </summary>
@@ -19,11 +19,8 @@ namespace OpenProtocolInterpreter.PowerMACS
     {
         public const int MID = 108;
 
-        public bool BoltData
-        {
-            get => GetField(1, DataFields.BoltData).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1, DataFields.BoltData).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [BooleanDataFieldDefinition(revision: 1, field: 1, Index = 20, HasPrefix = false)]
+        public bool BoltData { get; set; }
 
         public Mid0108() : this(DEFAULT_REVISION)
         {
@@ -40,24 +37,6 @@ namespace OpenProtocolInterpreter.PowerMACS
             Revision = revision
         })
         {
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Boolean(DataFields.BoltData, 20, false),
-                            }
-                },
-            };
-        }
-
-        protected enum DataFields
-        {
-            BoltData
         }
     }
 }

@@ -14,10 +14,10 @@ namespace MIDTesters.Communication
             string pack = @"00430008            002200214lengthequals14";
             var mid = _midInterpreter.Parse<Mid0008>(pack);
 
-            Assert.IsNotNull(mid.SubscriptionMid);
-            Assert.IsNotNull(mid.WantedRevision);
-            Assert.IsNotNull(mid.ExtraDataLength);
-            Assert.IsNotNull(mid.ExtraData);
+            Assert.AreEqual(22, mid.SubscriptionMid);
+            Assert.AreEqual(2, mid.WantedRevision);
+            Assert.AreEqual(14, mid.ExtraDataLength);
+            Assert.AreEqual("lengthequals14", mid.ExtraData);
             AssertEqualPackages(pack, mid, true);
         }
 
@@ -29,11 +29,25 @@ namespace MIDTesters.Communication
             byte[] bytes = GetAsciiBytes(pack);
             var mid = _midInterpreter.Parse<Mid0008>(bytes);
 
-            Assert.IsNotNull(mid.SubscriptionMid);
-            Assert.IsNotNull(mid.WantedRevision);
-            Assert.IsNotNull(mid.ExtraDataLength);
-            Assert.IsNotNull(mid.ExtraData);
+            Assert.AreEqual(22, mid.SubscriptionMid);
+            Assert.AreEqual(2, mid.WantedRevision);
+            Assert.AreEqual(14, mid.ExtraDataLength);
+            Assert.AreEqual("lengthequals14", mid.ExtraData);
             AssertEqualPackages(bytes, mid, true);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0008PackRevision1()
+        {
+            string pack = @"00430008            002200214lengthequals14";
+
+            AssertBuildAndParse(pack, new Mid0008()
+            {
+                SubscriptionMid = 22,
+                WantedRevision = 2,
+                ExtraData = "lengthequals14"
+            }, true);
         }
     }
 }

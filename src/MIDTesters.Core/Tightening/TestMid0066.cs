@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter.Tightening;
 
+using OpenProtocolInterpreter;
 namespace MIDTesters.Tightening
 {
     [TestClass]
@@ -15,7 +16,6 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse<Mid0066>(package);
 
             Assert.AreEqual(typeof(Mid0066), mid.GetType());
-            Assert.IsNotNull(mid.NumberOfOfflineResults);
             Assert.AreEqual(14, mid.NumberOfOfflineResults);
             AssertEqualPackages(package, mid);
         }
@@ -29,7 +29,6 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse<Mid0066>(bytes);
 
             Assert.AreEqual(typeof(Mid0066), mid.GetType());
-            Assert.IsNotNull(mid.NumberOfOfflineResults);
             Assert.AreEqual(14, mid.NumberOfOfflineResults);
             AssertEqualPackages(package, mid);
         }
@@ -42,8 +41,6 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse<Mid0066>(package);
 
             Assert.AreEqual(typeof(Mid0066), mid.GetType());
-            Assert.IsNotNull(mid.NumberOfOfflineResults);
-            Assert.IsNotNull(mid.NumberOfOfflineCurves);
             Assert.AreEqual(14, mid.NumberOfOfflineResults);
             Assert.AreEqual(11, mid.NumberOfOfflineCurves);
             AssertEqualPackages(package, mid);
@@ -58,11 +55,34 @@ namespace MIDTesters.Tightening
             var mid = _midInterpreter.Parse<Mid0066>(bytes);
 
             Assert.AreEqual(typeof(Mid0066), mid.GetType());
-            Assert.IsNotNull(mid.NumberOfOfflineResults);
-            Assert.IsNotNull(mid.NumberOfOfflineCurves);
             Assert.AreEqual(14, mid.NumberOfOfflineResults);
             Assert.AreEqual(11, mid.NumberOfOfflineCurves);
             AssertEqualPackages(package, mid);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0066PackRevision1()
+        {
+            string package = "00240066001         0114";
+
+            AssertBuildAndParse(package, new Mid0066()
+            {
+                NumberOfOfflineResults = 14
+            });
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 2"), TestCategory("Pack")]
+        public void Mid0066PackRevision2()
+        {
+            string package = "00300066002         0101402011";
+
+            AssertBuildAndParse(package, new Mid0066(new Header() { Mid = Mid0066.MID, Revision = 2 })
+            {
+                NumberOfOfflineResults = 14,
+                NumberOfOfflineCurves = 11
+            });
         }
     }
 }

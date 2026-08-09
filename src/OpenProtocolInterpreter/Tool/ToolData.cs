@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace OpenProtocolInterpreter.Tool
 {
@@ -7,6 +10,8 @@ namespace OpenProtocolInterpreter.Tool
     /// </summary>
     public class ToolData
     {
+        internal const int SectionSize = 94;
+
         public int Number { get; set; }
         public string SerialNumber { get; set; }
         public string ModelName { get; set; }
@@ -21,29 +26,58 @@ namespace OpenProtocolInterpreter.Tool
         }
 
         public static ToolData Parse(string value)
+            => Parse(value.AsSpan());
+
+        public static ToolData Parse(ReadOnlySpan<char> value)
         {
             return new ToolData()
             {
-                Number = OpenProtocolConvert.ToInt32(value.Substring(0, 4)),
-                SerialNumber = value.Substring(4, 30),
-                ModelName = value.Substring(34, 30),
-                ModelArticleNumber = value.Substring(64, 30)
+                Number = OpenProtocolConvert.ToInt32(value.Slice(0, 4)),
+                SerialNumber = value.Slice(4, 30).ToString(),
+                ModelName = value.Slice(34, 30).ToString(),
+                ModelArticleNumber = value.Slice(64, 30).ToString()
             };
         }
 
         public static IEnumerable<ToolData> ParseAll(string value)
-        {
-            if(string.IsNullOrEmpty(value))
-            {
-                yield break;
-            }
+            => ParseAll(value.AsSpan());
 
-            const int sectionSize = 94;
-            for (int i = 0; i < value.Length; i += sectionSize)
-            {
-                var section = value.Substring(i, sectionSize);
-                yield return Parse(section);
-            }
+        public static IEnumerable<ToolData> ParseAll(ReadOnlySpan<char> value)
+        {
+            if (value.IsEmpty)
+                return Array.Empty<ToolData>();
+
+            var result = new List<ToolData>();
+            for (int i = 0; i < value.Length; i += SectionSize)
+                result.Add(Parse(value.Slice(i, SectionSize)));
+            return result;
         }
+    }
+
+    public class ToolDataCollectionDefinitionAttribute : DataFieldDefinitionAttribute
+    {
+        public ToolDataCollectionDefinitionAttribute(int revision) : base(revision)
+        {
+
+        }
+        public ToolDataCollectionDefinitionAttribute(int field, int revision) : base(field, revision)
+        {
+
+        }
+
+        internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
+        {
+            return new DataField<List<ToolData>>(Field, index, Size, HasPrefix)
+            {
+                DefaultConverter = Pack,
+                DefaultParser = Parse
+            }.Bind(owner, propertyInfo);
+        }
+
+        private string Pack(char paddingChar, int size, PaddingOrientation orientation, List<ToolData> toolData)
+            => string.Join("", toolData.Select(t => t.Pack()));
+
+        private List<ToolData> Parse(string value)
+            => ToolData.ParseAll(value).ToList();
     }
 }

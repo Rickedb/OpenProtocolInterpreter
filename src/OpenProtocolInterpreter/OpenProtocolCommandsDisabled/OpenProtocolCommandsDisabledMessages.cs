@@ -11,12 +11,12 @@ namespace OpenProtocolInterpreter.OpenProtocolCommandsDisabled
     {
         public OpenProtocolCommandsDisabledMessages() : base()
         {
-            _templates = new Dictionary<int, MidCompiledInstance>()
+            _templates = new Dictionary<int, CompiledInstance<Mid>>()
             {
-                { Mid0420.MID, new MidCompiledInstance(typeof(Mid0420)) },
-                { Mid0421.MID, new MidCompiledInstance(typeof(Mid0421)) },
-                { Mid0422.MID, new MidCompiledInstance(typeof(Mid0422)) },
-                { Mid0423.MID, new MidCompiledInstance(typeof(Mid0423)) }
+                { Mid0420.MID, new CompiledInstance<Mid>(typeof(Mid0420)) },
+                { Mid0421.MID, new CompiledInstance<Mid>(typeof(Mid0421)) },
+                { Mid0422.MID, new CompiledInstance<Mid>(typeof(Mid0422)) },
+                { Mid0423.MID, new CompiledInstance<Mid>(typeof(Mid0423)) }
             };
         }
 

@@ -29,5 +29,14 @@ namespace MIDTesters.Alarm
             Assert.IsTrue(mid.Header.NoAckFlag);
             AssertEqualPackages(bytes, mid);
         }
+
+        [TestMethod]
+        [TestCategory("Pack")]
+        public void Mid0070PackAllRevisions()
+        {
+            string pack = @"002000700021        ";
+
+            AssertBuildAndParse(pack, new Mid0070(2, noAckFlag: true));
+        }
     }
 }

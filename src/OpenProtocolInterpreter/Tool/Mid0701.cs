@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Tool
 {
@@ -7,7 +7,7 @@ namespace OpenProtocolInterpreter.Tool
     /// Tool list upload reply
     /// <para>
     ///     Upload a list of connected tools from controller.
-    /// </para>    
+    /// </para>
     /// <para>Message sent by: Controller</para>
     /// <para>Answer: None</para>
     /// <para>The list will contain all tools that are connected to the controller or station.</para>
@@ -17,12 +17,15 @@ namespace OpenProtocolInterpreter.Tool
     {
         public const int MID = 701;
 
-        public int TotalTools { get => Tools.Count; }
-        public List<ToolData> Tools { get; set; }
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 3, HasPrefix = false)]
+        public int TotalTools { get; set; }
+
+        [ToolDataCollectionDefinition(revision: 1, field: 2, Index = 23, Size = 0, HasPrefix = false)]
+        public List<ToolData> Tools { get; set; } = new List<ToolData>();
 
         public Mid0701() : this(new Header()
         {
-            Mid = MID, 
+            Mid = MID,
             Revision = DEFAULT_REVISION
         })
         {
@@ -35,52 +38,18 @@ namespace OpenProtocolInterpreter.Tool
 
         public override string Pack()
         {
-            GetField(1, DataFields.TotalTools).SetValue(OpenProtocolConvert.ToString, TotalTools);
-            var eachToolField = GetField(1, DataFields.EachTool);
-            eachToolField.Value = PackTools();
-            eachToolField.Size = eachToolField.Value.Length;
+            TotalTools = Tools?.Count ?? 0; //Enforce list size even if modified
+            GetField(revision: 1, field: 2).Size = TotalTools * ToolData.SectionSize; //Enforce size of variable data fields
             return base.Pack();
         }
 
-        public override Mid Parse(string package)
+        protected override void ProcessDataField(DataField dataField, ReadOnlySpan<char> package)
         {
-            Header = ProcessHeader(package);
-
-            var eachToolField = GetField(1, DataFields.EachTool);
-            eachToolField.Size = Header.Length - eachToolField.Index;
-            ProcessDataFields(package);
-            Tools = ToolData.ParseAll(eachToolField.Value).ToList();
-            return this;
-        }
-
-        protected virtual string PackTools()
-        {
-            string pack = string.Empty;
-            foreach (var tool in Tools)
+            if (dataField.Field == 2) //Tools
             {
-                pack += tool.Pack();
+                dataField.Size = TotalTools * ToolData.SectionSize;
             }
-
-            return pack;
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.TotalTools, 20, 3, false),
-                                new(DataFields.EachTool, 23, 3, false)
-                            }
-                }
-            };
-        }
-        protected enum DataFields
-        {
-            TotalTools,
-            EachTool
+            base.ProcessDataField(dataField, package);
         }
     }
 }

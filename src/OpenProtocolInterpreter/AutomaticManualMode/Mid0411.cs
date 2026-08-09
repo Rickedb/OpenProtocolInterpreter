@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.AutomaticManualMode
 {
@@ -7,7 +8,7 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
     /// <para>
     ///     Information about the setting of AutoDisable tightening in the controller. Also contains information about the currently running batch.
     ///     The settings are reserved for single parameter sets with batch and are not available while running Job.
-    /// </para> 
+    /// </para>
     /// <para>
     ///     Power Macs use:
     ///     “OKs to disable station” is a parameter in Tools Talk PowerMACS and specifies the number of cycles with status OK or OKR that may be run while in Automatic mode before the station is automatically disabled. It is sent as two ASCII digits, a 0 means the function is not in use.
@@ -32,48 +33,22 @@ namespace OpenProtocolInterpreter.AutomaticManualMode
     {
         public const int MID = 411;
 
-        public int AutoDisableSetting
-        {
-            get => GetField(1, DataFields.AutoDisableSetting).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.AutoDisableSetting).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int CurrentBatch
-        {
-            get => GetField(1, DataFields.CurrentBatch).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.CurrentBatch).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 2, HasPrefix = false)]
+        public int AutoDisableSetting { get; set; }
+        [Int32DataFieldDefinition(revision: 1, field: 2, Index = 22, Size = 2, HasPrefix = false)]
+        public int CurrentBatch { get; set; }
 
         public Mid0411() : this(new Header()
         {
-            Mid= MID,
+            Mid = MID,
             Revision = DEFAULT_REVISION
         })
         {
-            
+
         }
 
         public Mid0411(Header header) : base(header)
         {
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.AutoDisableSetting, 20, 2, false),
-                                DataField.Number(DataFields.CurrentBatch, 22, 2, false)
-                            }
-                }
-            };
-        }
-
-        protected enum DataFields
-        {
-            AutoDisableSetting,
-            CurrentBatch
         }
     }
 }

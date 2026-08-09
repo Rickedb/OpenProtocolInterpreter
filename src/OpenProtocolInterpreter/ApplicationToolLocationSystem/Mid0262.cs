@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
 {
@@ -12,11 +13,8 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
     {
         public const int MID = 262;
 
-        public string ToolTagId
-        {
-            get => GetField(1, DataFields.ToolTagId).Value;
-            set => GetField(1, DataFields.ToolTagId).SetValue(value);
-        }
+        [StringDataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 8)]
+        public string ToolTagId { get; set; }
 
         public Mid0262() : base(MID, DEFAULT_REVISION)
         {
@@ -26,24 +24,6 @@ namespace OpenProtocolInterpreter.ApplicationToolLocationSystem
         public Mid0262(Header header) : base(header)
         {
 
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                    {
-                        DataField.String(DataFields.ToolTagId, 20, 8)
-                    }
-                }
-            };
-        }
-
-        protected enum DataFields
-        {
-            ToolTagId
         }
     }
 }

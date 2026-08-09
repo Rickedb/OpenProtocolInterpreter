@@ -29,5 +29,14 @@ namespace MIDTesters.MultiSpindle
             Assert.AreEqual(typeof(Mid0092), mid.GetType());
             AssertEqualPackages(bytes, mid, true);
         }
+
+        [TestMethod]
+        [TestCategory("Pack")]
+        public void Mid0092PackAllRevisions()
+        {
+            string pack = @"00200092            ";
+
+            AssertBuildAndParse(pack, new Mid0092(), true);
+        }
     }
 }

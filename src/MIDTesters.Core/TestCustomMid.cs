@@ -3,6 +3,9 @@ using OpenProtocolInterpreter;
 using OpenProtocolInterpreter.Time;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection.Metadata;
+using System.Threading.Tasks;
 
 namespace MIDTesters
 {
@@ -57,7 +60,7 @@ namespace MIDTesters
 
         public OverridedMid0081()
         {
-            
+
         }
 
         public override string Pack()
@@ -72,39 +75,12 @@ namespace MIDTesters
         private const int LAST_REVISION = 1;
         public const int MID = 83;
 
-        public DateTime Time
-        {
-            get => GetField(1, (int)DataFields.TIME).GetValue(OpenProtocolConvert.ToDateTime);
-            set => GetField(1, (int)DataFields.TIME).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public string TimeZone
-        {
-            get => GetField(1, (int)DataFields.TIMEZONE).Value;
-            set => GetField(1, (int)DataFields.TIMEZONE).SetValue(value);
-        }
-
+        [TimestampDataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 19)]
+        public DateTime Time { get; set; }
+        [StringDataFieldDefinition(revision: 1, field: 2, Index = 41, Size = 2)]
+        public string TimeZone { get; set; }
         public NewMid0083() : base(MID, LAST_REVISION)
         {
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                new DataField((int)DataFields.TIME, 20, 19),
-                                new DataField((int)DataFields.TIMEZONE, 41, 2)
-                            }
-                }
-            };
-        }
-
-        public enum DataFields
-        {
-            TIME,
-            TIMEZONE
         }
     }
 }

@@ -14,8 +14,8 @@ namespace MIDTesters.AutomaticManualMode
             string package = "00240411            0105";
             var mid = _midInterpreter.Parse<Mid0411>(package);
 
-            Assert.IsNotNull(mid.AutoDisableSetting);
-            Assert.IsNotNull(mid.CurrentBatch);
+            Assert.AreEqual(1, mid.AutoDisableSetting);
+            Assert.AreEqual(5, mid.CurrentBatch);
             AssertEqualPackages(package, mid, true);
         }
 
@@ -27,9 +27,22 @@ namespace MIDTesters.AutomaticManualMode
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0411>(bytes);
 
-            Assert.IsNotNull(mid.AutoDisableSetting);
-            Assert.IsNotNull(mid.CurrentBatch);
+            Assert.AreEqual(1, mid.AutoDisableSetting);
+            Assert.AreEqual(5, mid.CurrentBatch);
             AssertEqualPackages(bytes, mid, true);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0411PackRevision1()
+        {
+            string package = "00240411            0105";
+
+            AssertBuildAndParse(package, new Mid0411()
+            {
+                AutoDisableSetting = 1,
+                CurrentBatch = 5
+            }, true);
         }
     }
 }

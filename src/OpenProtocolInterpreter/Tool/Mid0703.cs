@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace OpenProtocolInterpreter.Tool
@@ -7,10 +8,10 @@ namespace OpenProtocolInterpreter.Tool
     /// Set calibration value request with generic data
     /// <para>
     ///     This message is sent by the integrator in order to set the calibration value of the tool.
-    /// </para>    
+    /// </para>
     /// <para>Message sent by: Integrator</para>
     /// <para>
-    ///     Answer: <see cref="Communication.Mid0005"/> Command accepted or 
+    ///     Answer: <see cref="Communication.Mid0005"/> Command accepted or
     ///             <see cref="Communication.Mid0004"/> Command error, with code Calibration failed
     /// </para>
     /// </summary>
@@ -20,13 +21,14 @@ namespace OpenProtocolInterpreter.Tool
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.CalibrationFailed };
 
-        public int ToolNumber
-        {
-            get => GetField(1, DataFields.ToolNumber).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.ToolNumber).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int NumberOfCalibrationParameters => CalibrationParameters.Count;
-        public List<VariableDataField> CalibrationParameters { get; set; }
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 4)]
+        public int ToolNumber { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 2, Index = 26, Size = 2, HasPrefix = false)]
+        public int NumberOfCalibrationParameters { get; set; }
+
+        [VariableDataFieldCollectionDefinition(revision: 1, field: 3, Index = 28, Size = 0, HasPrefix = false)]
+        public List<VariableDataField> CalibrationParameters { get; set; } = new List<VariableDataField>();
 
         public Mid0703() : this(new Header()
         {
@@ -43,40 +45,18 @@ namespace OpenProtocolInterpreter.Tool
 
         public override string Pack()
         {
-            GetField(1, DataFields.NumberOfCalibrationParameters).SetValue(OpenProtocolConvert.ToString, CalibrationParameters.Count);
-            GetField(1, DataFields.EachCalibrationParameter).Value = OpenProtocolConvert.ToString(CalibrationParameters);
+            NumberOfCalibrationParameters = CalibrationParameters?.Count ?? 0; //Enforce list size even if modified
+            GetField(revision: 1, field: 3).Size = CalibrationParameters?.Sum(x => x.TotalSize) ?? 0; //Enforce size of variable data fields
             return base.Pack();
         }
 
-        public override Mid Parse(string package)
+        protected override void ProcessDataField(DataField dataField, ReadOnlySpan<char> package)
         {
-            Header = ProcessHeader(package);
-            var dataFieldsField = GetField(1, DataFields.EachCalibrationParameter);
-            dataFieldsField.Size = Header.Length - dataFieldsField.Index;
-            ProcessDataFields(package);
-            CalibrationParameters = VariableDataField.ParseAll(dataFieldsField.Value).ToList();
-            return this;
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
+            if (dataField.Field == 3) //CalibrationParameters
             {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.ToolNumber, 20, 4),
-                                DataField.Number(DataFields.NumberOfCalibrationParameters, 26, 2, false),
-                                new(DataFields.EachCalibrationParameter, 28, 0, false)
-                            }
-                }
-            };
-        }
-        protected enum DataFields
-        {
-            ToolNumber,
-            NumberOfCalibrationParameters,
-            EachCalibrationParameter
+                dataField.Size = Header.Length - dataField.Index;
+            }
+            base.ProcessDataField(dataField, package);
         }
     }
 }

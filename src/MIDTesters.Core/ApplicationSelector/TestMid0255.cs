@@ -1,5 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenProtocolInterpreter;
 using OpenProtocolInterpreter.ApplicationSelector;
+using System.Collections.Generic;
 
 namespace MIDTesters.ApplicationSelector
 {
@@ -14,8 +16,18 @@ namespace MIDTesters.ApplicationSelector
             string package = "00340255            01510221112022";
             var mid = _midInterpreter.Parse<Mid0255>(package);
 
-            Assert.IsNotNull(mid.DeviceId);
-            Assert.IsNotNull(mid.RedLights);
+            Assert.AreEqual(51, mid.DeviceId);
+            CollectionAssert.AreEqual(new List<LightCommand> 
+            { 
+                LightCommand.Flashing, 
+                LightCommand.Steady, 
+                LightCommand.Steady, 
+                LightCommand.Steady, 
+                LightCommand.Flashing, 
+                LightCommand.Off, 
+                LightCommand.Flashing, 
+                LightCommand.Flashing 
+            }, mid.RedLights);
             AssertEqualPackages(package, mid, true);
         }
 
@@ -27,9 +39,36 @@ namespace MIDTesters.ApplicationSelector
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0255>(bytes);
 
-            Assert.IsNotNull(mid.DeviceId);
-            Assert.IsNotNull(mid.RedLights);
+            Assert.AreEqual(51, mid.DeviceId);
+            CollectionAssert.AreEqual(new List<LightCommand> 
+            { 
+                LightCommand.Flashing, 
+                LightCommand.Steady, 
+                LightCommand.Steady, 
+                LightCommand.Steady, 
+                LightCommand.Flashing, 
+                LightCommand.Off, 
+                LightCommand.Flashing, 
+                LightCommand.Flashing 
+            }, mid.RedLights);
             AssertEqualPackages(bytes, mid, true);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0255PackRevision1()
+        {
+            string package = "00340255            01510221112022";
+
+            AssertBuildAndParse(package, new Mid0255()
+            {
+                DeviceId = 51,
+                RedLights = new List<LightCommand>()
+                {
+                    LightCommand.Flashing, LightCommand.Steady, LightCommand.Steady, LightCommand.Steady,
+                    LightCommand.Flashing, LightCommand.Off, LightCommand.Flashing, LightCommand.Flashing
+                }
+            }, true);
         }
     }
 }

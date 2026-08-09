@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System;
 
 namespace OpenProtocolInterpreter.Communication
 {
@@ -7,82 +7,70 @@ namespace OpenProtocolInterpreter.Communication
     /// <para>
     ///     Do a request for data. This message is used for ALL request handling.
     ///     When used it substitutes the use of all MID special request messages.
-    /// </para>    
+    /// </para>
     /// <para>
-    ///     NOTE! The Header Revision field is the revision of the <see cref="Mid0006"/> itself NOT 
+    ///     NOTE! The Header Revision field is the revision of the <see cref="Mid0006"/> itself NOT
     ///     the revision of the data MID that is wanted to be uploaded.
     /// </para>
     /// <para>Message sent by: Integrator</para>
     /// <para>Answer: MID Requested for or <see cref="Mid0004"/> Command error. Error described at each MID description.</para>
     /// </summary>
-    public class Mid0006 : Mid, ICommunication, IIntegrator
+    public class Mid0006 : Mid, ICommunication, IIntegrator, IExtraDataContainer
     {
         public const int MID = 6;
 
-        public int RequestedMid
-        {
-            get => GetField(1, DataFields.RequestedMid).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.RequestedMid).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int WantedRevision
-        {
-            get => GetField(1, DataFields.WantedRevision).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.WantedRevision).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int ExtraDataLength
-        {
-            get => GetField(1, DataFields.ExtraDataLength).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(1, DataFields.ExtraDataLength).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public string ExtraData
-        {
-            get => GetField(1, DataFields.ExtraData).Value;
-            set => GetField(1, DataFields.ExtraData).SetValue(value);
-        }
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 4, HasPrefix = false)]
+        public int RequestedMid { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 2, Index = 24, Size = 3, HasPrefix = false)]
+        public int WantedRevision { get; set; }
+
+        [Int32DataFieldDefinition(revision: 1, field: 3, Index = 27, Size = 2, HasPrefix = false)]
+        public int ExtraDataLength { get; set; }
+
+        [StringDataFieldDefinition(revision: 1, field: 4, Index = 29, Size = 0, HasPrefix = false)]
+        public string ExtraData { get; set; }
 
         public Mid0006() : this(new Header()
         {
-            Mid = MID, 
+            Mid = MID,
             Revision = DEFAULT_REVISION
         })
         {
-            
+
         }
 
         public Mid0006(Header header) : base(header)
         {
         }
 
-        public override Mid Parse(string package)
+        public override string Pack()
         {
-            Header = ProcessHeader(package);
-            GetField(1, DataFields.ExtraData).Size = Header.Length - 29;
-            ProcessDataFields(package);
-            return this;
+            ExtraDataLength = ExtraData?.Length ?? 0;
+            HandleExtraDataFieldSize();
+            return base.Pack();
         }
 
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        public void SetExtraData<TExtraData>(TExtraData extraData) where TExtraData : ExtraData, IExtraDataRequest
         {
-            return new Dictionary<int, List<DataField>>()
+            RequestedMid = extraData.Mid;
+            WantedRevision = extraData.Revision;
+            ExtraData = extraData.Pack();
+            ExtraDataLength = ExtraData?.Length ?? 0;
+        }
+
+        protected override void ProcessDataField(DataField dataField, ReadOnlySpan<char> package)
+        {
+            base.ProcessDataField(dataField, package);
+            if (dataField.Field == 3)
             {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.RequestedMid, 20, 4, false),
-                                DataField.Number(DataFields.WantedRevision, 24, 3, false),
-                                DataField.Number(DataFields.ExtraDataLength, 27, 2, false),
-                                DataField.Volatile(DataFields.ExtraData, 29, false)
-                            }
-                }
-            };
+                HandleExtraDataFieldSize();
+            }
         }
 
-        protected enum DataFields
+        private void HandleExtraDataFieldSize()
         {
-            RequestedMid,
-            WantedRevision,
-            ExtraDataLength,
-            ExtraData
+            GetField(nameof(ExtraData)).Size = ExtraDataLength;
         }
     }
 }

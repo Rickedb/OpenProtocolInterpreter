@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenProtocolInterpreter;
 using OpenProtocolInterpreter.Tool;
 
 namespace MIDTesters.Tool
@@ -14,8 +16,8 @@ namespace MIDTesters.Tool
             string package = "00450048001         0107022017-12-01:20:12:45";
             var mid = _midInterpreter.Parse<Mid0048>(package);
 
-            Assert.IsNotNull(mid.PairingStatus);
-            Assert.IsNotNull(mid.TimeStamp);
+            Assert.AreEqual(PairingStatus.Denied, mid.PairingStatus);
+            Assert.AreEqual(new DateTime(2017, 12, 1, 20, 12, 45), mid.TimeStamp);
             AssertEqualPackages(package, mid);
         }
 
@@ -27,9 +29,22 @@ namespace MIDTesters.Tool
             byte[] bytes = GetAsciiBytes(package);
             var mid = _midInterpreter.Parse<Mid0048>(bytes);
 
-            Assert.IsNotNull(mid.PairingStatus);
-            Assert.IsNotNull(mid.TimeStamp);
+            Assert.AreEqual(PairingStatus.Denied, mid.PairingStatus);
+            Assert.AreEqual(new DateTime(2017, 12, 1, 20, 12, 45), mid.TimeStamp);
             AssertEqualPackages(bytes, mid);
+        }
+
+        [TestMethod]
+        [TestCategory("Revision 1"), TestCategory("Pack")]
+        public void Mid0048PackRevision1()
+        {
+            string package = "00450048001         0107022017-12-01:20:12:45";
+
+            AssertBuildAndParse(package, new Mid0048()
+            {
+                PairingStatus = PairingStatus.Denied,
+                TimeStamp = new DateTime(2017, 12, 1, 20, 12, 45)
+            });
         }
     }
 }

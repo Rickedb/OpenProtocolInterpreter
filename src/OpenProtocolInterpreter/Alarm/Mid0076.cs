@@ -1,11 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace OpenProtocolInterpreter.Alarm
 {
     /// <summary>
     /// Alarm status
-    /// <para>The alarm status is sent after an accepted subscription of the controller alarms. 
+    /// <para>The alarm status is sent after an accepted subscription of the controller alarms.
     /// This message is used to inform the integrator that an alarm is active on the controller at subscription time.</para>
     /// <para>Message sent by: Controller</para>
     /// <para>Answer: <see cref="Mid0077"/> Alarm status acknowledge</para>
@@ -14,36 +15,33 @@ namespace OpenProtocolInterpreter.Alarm
     {
         public const int MID = 76;
 
-        public bool AlarmStatus
-        {
-            get => GetField(1, DataFields.AlarmStatus).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1, DataFields.AlarmStatus).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public string ErrorCode
-        {
-            get => GetField(1, DataFields.ErrorCode).Value;
-            set => GetField(1, DataFields.ErrorCode).SetValue(value);
-        }
-        public bool ControllerReadyStatus
-        {
-            get => GetField(1, DataFields.ControllerReadyStatus).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1, DataFields.ControllerReadyStatus).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public bool ToolReadyStatus
-        {
-            get => GetField(1, DataFields.ToolReadyStatus).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1, DataFields.ToolReadyStatus).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public DateTime Time
-        {
-            get => GetField(1, DataFields.Time).GetValue(OpenProtocolConvert.ToDateTime);
-            set => GetField(1, DataFields.Time).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public ToolHealth ToolHealth
-        {
-            get => (ToolHealth)GetField(3, DataFields.ToolHealth).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(3, DataFields.ToolHealth).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [BooleanDataFieldDefinition(revision: 1, field: 1, Index = 20)]
+        [BooleanDataFieldDefinition(revision: 2, field: 1, Index = 20)]
+        [BooleanDataFieldDefinition(revision: 3, field: 1, Index = 20)]
+        public bool AlarmStatus { get; set; }
+
+        [StringDataFieldDefinition(revision: 1, field: 2, Index = 23, Size = 4, PaddingOrientation = PaddingOrientation.LeftPadded)]
+        [StringDataFieldDefinition(revision: 2, field: 2, Index = 23, Size = 5, PaddingOrientation = PaddingOrientation.LeftPadded)]
+        [StringDataFieldDefinition(revision: 3, field: 2, Index = 23, Size = 5, PaddingOrientation = PaddingOrientation.LeftPadded)]
+        public string ErrorCode { get; set; }
+
+        [BooleanDataFieldDefinition(revision: 1, field: 3, Index = 29)]
+        [BooleanDataFieldDefinition(revision: 2, field: 3, Index = 30)]
+        [BooleanDataFieldDefinition(revision: 3, field: 3, Index = 30)]
+        public bool ControllerReadyStatus { get; set; }
+
+        [BooleanDataFieldDefinition(revision: 1, field: 4, Index = 32)]
+        [BooleanDataFieldDefinition(revision: 2, field: 4, Index = 33)]
+        [BooleanDataFieldDefinition(revision: 3, field: 4, Index = 33)]
+        public bool ToolReadyStatus { get; set; }
+
+        [TimestampDataFieldDefinition(revision: 1, field: 5, Index = 35)]
+        [TimestampDataFieldDefinition(revision: 2, field: 5, Index = 36)]
+        [TimestampDataFieldDefinition(revision: 3, field: 5, Index = 36)]
+        public DateTime Time { get; set; }
+
+        [Int32DataFieldDefinition(revision: 3, field: 6, Index = 57, Size = 1)]
+        public ToolHealth ToolHealth { get; set; }
 
         public Mid0076() : this(DEFAULT_REVISION)
         {
@@ -52,7 +50,7 @@ namespace OpenProtocolInterpreter.Alarm
 
         public Mid0076(Header header) : base(header)
         {
-            HandleRevision();
+
         }
 
         public Mid0076(int revision) : this(new Header()
@@ -64,59 +62,38 @@ namespace OpenProtocolInterpreter.Alarm
 
         }
 
-        public override Mid Parse(string package)
+        protected override string BuildHeader()
         {
-            Header = ProcessHeader(package);
-            HandleRevision();
-            ProcessDataFields(package);
-            return this;
+            Header.Length = Header.DefaultSize;
+            foreach (var field in RevisionsByFields[Header.StandardizedRevision])
+            {
+                Header.Length += field.TotalSize;
+            }
+
+            return Header.ToString();
         }
 
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        public override string Pack()
         {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Boolean(DataFields.AlarmStatus, 20),
-                                DataField.String(DataFields.ErrorCode, 23, 4, PaddingOrientation.LeftPadded),
-                                DataField.Boolean(DataFields.ControllerReadyStatus, 29),
-                                DataField.Boolean(DataFields.ToolReadyStatus, 32),
-                                DataField.Timestamp(DataFields.Time, 35)
-                            }
-                },
-                {
-                    3, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.ToolHealth, 57, 1),
-                            }
-                }
-            };
+            var header = BuildHeader();
+            var builder = new StringBuilder(Header.Length);
+            builder.Append(header);
+            builder.Append(base.Pack(DataFieldsByRevision()));
+            return builder.ToString();
         }
 
-        private void HandleRevision()
+        protected override void ProcessDataFields(ReadOnlySpan<char> package)
         {
-            var errorCodeField = GetField(1, DataFields.ErrorCode);
-            errorCodeField.Size = Header.Revision > 1 ? 5 : 4;
-
-            int index = errorCodeField.Index + errorCodeField.Size;
-            for (int i = (int)DataFields.ControllerReadyStatus; i < RevisionsByFields[1].Count; i++)
+            foreach (var field in DataFieldsByRevision())
             {
-                var field = GetField(1, i);
-                field.Index = 2 + index;
-                index = field.Index + field.Size;
+                ProcessDataField(field, package);
             }
         }
 
-        protected enum DataFields
+        private IEnumerable<DataField> DataFieldsByRevision()
         {
-            AlarmStatus,
-            ErrorCode,
-            ControllerReadyStatus,
-            ToolReadyStatus,
-            Time,
-            ToolHealth
+            foreach (var field in RevisionsByFields[Header.StandardizedRevision])
+                yield return field;
         }
     }
 }

@@ -1,14 +1,16 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace OpenProtocolInterpreter.ParameterSet
 {
     /// <summary>
     /// Parameter set selected
     /// <para>
-    ///     A new parameter set is selected in the controller. 
-    ///     The message includes the ID of the parameter set selected as well as the date and time of the 
-    ///     last change in the parameter set settings. This message is also sent as an immediate response to <see cref="Mid0014"/> 
+    ///     A new parameter set is selected in the controller.
+    ///     The message includes the ID of the parameter set selected as well as the date and time of the
+    ///     last change in the parameter set settings. This message is also sent as an immediate response to <see cref="Mid0014"/>
     ///     Parameter set selected subscribe.
     /// </para>
     /// <para>Message sent by: Controller</para>
@@ -18,72 +20,66 @@ namespace OpenProtocolInterpreter.ParameterSet
     {
         public const int MID = 15;
 
-        public int ParameterSetId
-        {
-            get => GetField(Header.StandardizedRevision, DataFields.ParameterSetId).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(Header.StandardizedRevision, DataFields.ParameterSetId).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public DateTime LastChangeInParameterSet
-        {
-            get => GetField(Header.StandardizedRevision, DataFields.LastChangeInParameterSet).GetValue(OpenProtocolConvert.ToDateTime);
-            set => GetField(Header.StandardizedRevision, DataFields.LastChangeInParameterSet).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int32DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 3, HasPrefix = false)]
+        [Int32DataFieldDefinition(revision: 2, field: 1, Index = 20, Size = 3)]
+        [Int32DataFieldDefinition(revision: 3, field: 1, Index = 20, Size = 3)]
+        public int ParameterSetId { get; set; }
+
+        [TimestampDataFieldDefinition(revision: 1, field: 2, Index = 23, HasPrefix = false)]
+        [TimestampDataFieldDefinition(revision: 2, field: 3, Index = 52)]
+        [TimestampDataFieldDefinition(revision: 3, field: 3, Index = 52)]
+        public DateTime LastChangeInParameterSet { get; set; }
+
         //Rev 2
-        public string ParameterSetName
-        {
-            get => GetField(2, DataFields.ParameterSetName).Value;
-            set => GetField(2, DataFields.ParameterSetName).SetValue(value);
-        }
-        public RotationDirection RotationDirection
-        {
-            get => (RotationDirection)GetField(2, DataFields.RotationDirection).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(2, DataFields.RotationDirection).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int BatchSize
-        {
-            get => GetField(2, DataFields.BatchSize).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(2, DataFields.BatchSize).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public decimal MinTorque
-        {
-            get => GetField(2, DataFields.TorqueMin).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
-            set => GetField(2, DataFields.TorqueMin).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
-        }
-        public decimal MaxTorque
-        {
-            get => GetField(2, DataFields.TorqueMax).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
-            set => GetField(2, DataFields.TorqueMax).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
-        }
-        public decimal TorqueFinalTarget
-        {
-            get => GetField(2, DataFields.TorqueFinalTarget).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
-            set => GetField(2, DataFields.TorqueFinalTarget).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
-        }
-        public int MinAngle
-        {
-            get => GetField(2, DataFields.AngleMin).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(2, DataFields.AngleMin).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int MaxAngle
-        {
-            get => GetField(2, DataFields.AngleMax).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(2, DataFields.AngleMax).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public int AngleFinalTarget
-        {
-            get => GetField(2, DataFields.FinalAngleTarget).GetValue(OpenProtocolConvert.ToInt32);
-            set => GetField(2, DataFields.FinalAngleTarget).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public decimal FirstTarget
-        {
-            get => GetField(2, DataFields.FirstTarget).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
-            set => GetField(2, DataFields.FirstTarget).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
-        }
-        public decimal StartFinalAngle
-        {
-            get => GetField(2, DataFields.StartFinalAngle).GetValue(OpenProtocolConvert.ToTruncatedDecimal);
-            set => GetField(2, DataFields.StartFinalAngle).SetValue(OpenProtocolConvert.TruncatedDecimalToString, value);
-        }
+        [StringDataFieldDefinition(revision: 2, field: 2, Index = 25, Size = 25)]
+        [StringDataFieldDefinition(revision: 3, field: 2, Index = 25, Size = 25)]
+        public string ParameterSetName { get; set; }
+
+        [Int32DataFieldDefinition(revision: 2, field: 4, Index = 73, Size = 1)]
+        [Int32DataFieldDefinition(revision: 3, field: 4, Index = 73, Size = 1)]
+        public RotationDirection RotationDirection { get; set; }
+
+        [Int32DataFieldDefinition(revision: 2, field: 5, Index = 76, Size = 2)]
+        [Int32DataFieldDefinition(revision: 3, field: 5, Index = 76, Size = 2)]
+        public int BatchSize { get; set; }
+
+        [TruncatedDecimalDataFieldDefinition(revision: 2, field: 6, Index = 80, Size = 6)]
+        [TruncatedDecimalDataFieldDefinition(revision: 3, field: 6, Index = 80, Size = 6)]
+        public decimal MinTorque { get; set; }
+
+        [TruncatedDecimalDataFieldDefinition(revision: 2, field: 7, Index = 88, Size = 6)]
+        [TruncatedDecimalDataFieldDefinition(revision: 3, field: 7, Index = 88, Size = 6)]
+        public decimal MaxTorque { get; set; }
+
+        [TruncatedDecimalDataFieldDefinition(revision: 2, field: 8, Index = 96, Size = 6)]
+        [TruncatedDecimalDataFieldDefinition(revision: 3, field: 8, Index = 96, Size = 6)]
+        public decimal TorqueFinalTarget { get; set; }
+
+        [Int32DataFieldDefinition(revision: 2, field: 9, Index = 104, Size = 5)]
+        [Int32DataFieldDefinition(revision: 3, field: 9, Index = 104, Size = 5)]
+        public int MinAngle { get; set; }
+
+        [Int32DataFieldDefinition(revision: 2, field: 10, Index = 111, Size = 5)]
+        [Int32DataFieldDefinition(revision: 3, field: 10, Index = 111, Size = 5)]
+        public int MaxAngle { get; set; }
+
+        [Int32DataFieldDefinition(revision: 2, field: 11, Index = 118, Size = 5)]
+        [Int32DataFieldDefinition(revision: 3, field: 11, Index = 118, Size = 5)]
+        public int AngleFinalTarget { get; set; }
+
+        [TruncatedDecimalDataFieldDefinition(revision: 2, field: 12, Index = 125, Size = 6)]
+        [TruncatedDecimalDataFieldDefinition(revision: 3, field: 12, Index = 125, Size = 6)]
+        public decimal FirstTarget { get; set; }
+
+        [TruncatedDecimalDataFieldDefinition(revision: 2, field: 13, Index = 133, Size = 6)]
+        [TruncatedDecimalDataFieldDefinition(revision: 3, field: 13, Index = 133, Size = 6)]
+        public decimal StartFinalAngle { get; set; }
+
+        [Int32DataFieldDefinition(revision: 3, field: 14, Index = 141, Size = 4)]
+        public int SelectedIdentifierNumber { get; set; }
+
+        [StringDataFieldDefinition(revision: 3, field: 15, Index = 147, Size = 25)]
+        public string JointId { get; set; }
 
         public Mid0015() : this(DEFAULT_REVISION)
         {
@@ -108,74 +104,39 @@ namespace OpenProtocolInterpreter.ParameterSet
 
         protected override string BuildHeader()
         {
-            Header.Length = 20;
-            foreach (var dataField in RevisionsByFields[Header.StandardizedRevision])
-                Header.Length += (dataField.HasPrefix ? 2 : 0) + dataField.Size;
+            Header.Length = Header.DefaultSize;
+            if (RevisionsByFields.Any())
+            {
+                var fields = DataFieldsByRevision();
+                Header.Length += fields.Sum(x => x.TotalSize);
+            }
 
             return Header.ToString();
         }
 
+
         public override string Pack()
         {
-            int index = 1;
-            return BuildHeader() + base.Pack(Header.StandardizedRevision, ref index);
+            var builder = new StringBuilder();
+            var fields = DataFieldsByRevision().OrderBy(f => f.Field).ToList();
+
+            builder.Append(BuildHeader());
+            builder.Append(Pack(fields));
+
+            return builder.ToString();
         }
 
-        public override Mid Parse(string package)
+        protected override void ProcessDataFields(ReadOnlySpan<char> package)
         {
-            Header = ProcessHeader(package);
-            ProcessDataFields(Header.StandardizedRevision, package);
-            return this;
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
+            foreach (var field in DataFieldsByRevision())
             {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.ParameterSetId, 20, 3, false),
-                                DataField.Timestamp(DataFields.LastChangeInParameterSet, 23, false)
-                            }
-                },
-                {
-                    2, new  List<DataField>()
-                            {
-                                DataField.Number(DataFields.ParameterSetId, 20, 3),
-                                DataField.String(DataFields.ParameterSetName, 25, 25),
-                                DataField.Timestamp(DataFields.LastChangeInParameterSet, 52),
-                                DataField.Number(DataFields.RotationDirection, 73, 1),
-                                DataField.Number(DataFields.BatchSize, 76, 2),
-                                DataField.Number(DataFields.TorqueMin, 80, 6),
-                                DataField.Number(DataFields.TorqueMax, 88, 6),
-                                DataField.Number(DataFields.TorqueFinalTarget, 96, 6),
-                                DataField.Number(DataFields.AngleMin, 104, 5),
-                                DataField.Number(DataFields.AngleMax, 111, 5),
-                                DataField.Number(DataFields.FinalAngleTarget, 118, 5),
-                                DataField.Number(DataFields.FirstTarget, 125, 6),
-                                DataField.Number(DataFields.StartFinalAngle, 133, 6)
-                            }
-                }
-            };
+                ProcessDataField(field, package);
+            }
         }
-
-        protected enum DataFields
+        private IEnumerable<DataField> DataFieldsByRevision()
         {
-            ParameterSetId,
-            LastChangeInParameterSet,
-            //Rev 2
-            ParameterSetName,
-            RotationDirection,
-            BatchSize,
-            TorqueMin,
-            TorqueMax,
-            TorqueFinalTarget,
-            AngleMin,
-            AngleMax,
-            FinalAngleTarget,
-            FirstTarget,
-            StartFinalAngle
+            foreach (var dataField in RevisionsByFields[Header.StandardizedRevision].OrderBy(x => x.Field))
+                yield return dataField;
         }
     }
 }

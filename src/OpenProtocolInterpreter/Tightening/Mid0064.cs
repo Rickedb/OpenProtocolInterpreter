@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace OpenProtocolInterpreter.Tightening
 {
@@ -10,14 +11,14 @@ namespace OpenProtocolInterpreter.Tightening
     ///     network in order to retrieve the missing result during the communication interruption.The integrator
     ///     can see the missing results by always comparing the last tightening IDs of the two last received
     ///     tightenings packets (parameter 23 in the result message).
-    /// </para>    
+    /// </para>
     /// <para>
     ///     Requesting tightening ID zero is the same as requesting the latest tightening performed.
     /// </para>
     /// <para>Message sent by: Integrator</para>
     /// <para>
-    ///     Answer: <see cref="Mid0065"/> Old tightening result upload reply or 
-    ///             <see cref="Communication.Mid0004"/> Command error, Tightening ID requested not found, or 
+    ///     Answer: <see cref="Mid0065"/> Old tightening result upload reply or
+    ///             <see cref="Communication.Mid0004"/> Command error, Tightening ID requested not found, or
     ///             MID revision not supported
     /// </para>
     /// </summary>
@@ -27,16 +28,11 @@ namespace OpenProtocolInterpreter.Tightening
 
         public IEnumerable<Error> DocumentedPossibleErrors => new Error[] { Error.TighteningIdRequestNotFound, Error.MidRevisionUnsupported };
 
-        public long TighteningId
-        {
-            get => GetField(1, DataFields.TighteningId).GetValue(OpenProtocolConvert.ToInt64);
-            set => GetField(1, DataFields.TighteningId).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public bool OfflineResult
-        {
-            get => GetField(10, DataFields.OfflineResult).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(10, DataFields.OfflineResult).SetValue(OpenProtocolConvert.ToString, value);
-        }
+        [Int64DataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 10, HasPrefix = false)]
+        public long TighteningId { get; set; }
+
+        [BooleanDataFieldDefinition(revision: 10, field: 2, Index = 30, Size = 1, HasPrefix = false)]
+        public bool OfflineResult { get; set; }
 
         public Mid0064() : this(DEFAULT_REVISION)
         {
@@ -56,29 +52,9 @@ namespace OpenProtocolInterpreter.Tightening
         {
         }
 
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        override public string Pack()
         {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.Number(DataFields.TighteningId, 20, 10, false)
-                            }
-                },
-                {
-                    10, new List<DataField>()
-                            {
-                                DataField.Boolean(DataFields.OfflineResult, 30, false)
-                            }
-                }
-            };
-        }
-
-        protected enum DataFields
-        {
-            TighteningId,
-            OfflineResult
+            return base.Pack();
         }
     }
 }

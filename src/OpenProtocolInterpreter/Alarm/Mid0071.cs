@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace OpenProtocolInterpreter.Alarm
 {
@@ -13,32 +14,31 @@ namespace OpenProtocolInterpreter.Alarm
     {
         public const int MID = 71;
 
-        public string ErrorCode
-        {
-            get => GetField(1, DataFields.ErrorCode).Value;
-            set => GetField(1, DataFields.ErrorCode).SetValue(value);
-        }
-        public bool ControllerReadyStatus
-        {
-            get => GetField(1, DataFields.ControllerReadyStatus).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1, DataFields.ControllerReadyStatus).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public bool ToolReadyStatus
-        {
-            get => GetField(1, DataFields.ToolReadyStatus).GetValue(OpenProtocolConvert.ToBoolean);
-            set => GetField(1, DataFields.ToolReadyStatus).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        public DateTime Time
-        {
-            get => GetField(1, DataFields.Time).GetValue(OpenProtocolConvert.ToDateTime);
-            set => GetField(1, DataFields.Time).SetValue(OpenProtocolConvert.ToString, value);
-        }
-        //Rev 2
-        public string AlarmText
-        {
-            get => GetField(2, DataFields.AlarmText).Value;
-            set => GetField(2, DataFields.AlarmText).SetValue(value);
-        }
+        [StringDataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 4, PaddingOrientation = PaddingOrientation.LeftPadded)]
+        [StringDataFieldDefinition(revision: 2, field: 1, Index = 20, Size = 5, PaddingOrientation = PaddingOrientation.LeftPadded)]
+        [StringDataFieldDefinition(revision: 3, field: 1, Index = 20, Size = 5, PaddingOrientation = PaddingOrientation.LeftPadded)]
+        public string ErrorCode { get; set; }
+
+        [BooleanDataFieldDefinition(revision: 1, field: 2, Index = 26)]
+        [BooleanDataFieldDefinition(revision: 2, field: 2, Index = 27)]
+        [BooleanDataFieldDefinition(revision: 3, field: 2, Index = 27)]
+        public bool ControllerReadyStatus { get; set; }
+
+        [BooleanDataFieldDefinition(revision: 1, field: 3, Index = 29)]
+        [BooleanDataFieldDefinition(revision: 2, field: 3, Index = 30)]
+        [BooleanDataFieldDefinition(revision: 3, field: 3, Index = 30)]
+        public bool ToolReadyStatus { get; set; }
+
+        [TimestampDataFieldDefinition(revision: 1, field: 4, Index = 32)]
+        [TimestampDataFieldDefinition(revision: 2, field: 4, Index = 33)]
+        [TimestampDataFieldDefinition(revision: 3, field: 4, Index = 33)]
+        public DateTime Time { get; set; }
+
+        [Int32DataFieldDefinition(revision: 3, field: 5, Index = 54, Size = 1)]
+        public ToolHealth ToolHealth { get; set; }
+
+        [StringDataFieldDefinition(revision: 3, field: 6, Index = 57, Size = 50)]
+        public string AlarmText { get; set; }
 
         public Mid0071() : this(DEFAULT_REVISION)
         {
@@ -47,7 +47,6 @@ namespace OpenProtocolInterpreter.Alarm
 
         public Mid0071(Header header) : base(header)
         {
-            HandleRevision();
         }
 
         public Mid0071(int revision) : this(new Header()
@@ -59,65 +58,38 @@ namespace OpenProtocolInterpreter.Alarm
 
         }
 
-        public override Mid Parse(string package)
+        protected override string BuildHeader()
         {
-            Header = ProcessHeader(package);
-            HandleRevision();
-            ProcessDataFields(package);
-            return this;
-        }
-
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
-        {
-            return new Dictionary<int, List<DataField>>()
+            Header.Length = Header.DefaultSize;
+            foreach (var field in RevisionsByFields[Header.StandardizedRevision])
             {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.String(DataFields.ErrorCode, 20, 4, PaddingOrientation.LeftPadded),
-                                DataField.Boolean(DataFields.ControllerReadyStatus, 26),
-                                DataField.Boolean(DataFields.ToolReadyStatus, 29),
-                                DataField.Timestamp(DataFields.Time, 32)
-                            }
-                },
-                {
-                    2, new List<DataField>()
-                    {
-                         DataField.String(DataFields.AlarmText, 54, 50),
-                    }
-                }
-            };
-        }
-
-        private void HandleRevision()
-        {
-            var errorCodeField = GetField(1, (int)DataFields.ErrorCode);
-            if (Header.Revision > 1)
-            {
-                errorCodeField.Size = 5;
-            }
-            else
-            {
-                errorCodeField.Size = 4;
+                Header.Length += field.TotalSize;
             }
 
-            int index = errorCodeField.Index + errorCodeField.Size;
-            for (int i = DataFields.ControllerReadyStatus.GetHashCode(); i < RevisionsByFields[1].Count; i++)
+            return Header.ToString();
+        }
+
+        public override string Pack()
+        {
+            var header = BuildHeader();
+            var builder = new StringBuilder(Header.Length);
+            builder.Append(header);
+            builder.Append(base.Pack(DataFieldsByRevision()));
+            return builder.ToString();
+        }
+
+        protected override void ProcessDataFields(ReadOnlySpan<char> package)
+        {
+            foreach (var field in DataFieldsByRevision())
             {
-                var field = GetField(1, i);
-                field.Index = 2 + index;
-                index = field.Index + field.Size;
+                ProcessDataField(field, package);
             }
         }
 
-        protected enum DataFields
+        private IEnumerable<DataField> DataFieldsByRevision()
         {
-            ErrorCode,
-            ControllerReadyStatus,
-            ToolReadyStatus,
-            Time,
-            //Rev 2
-            AlarmText
+            foreach (var field in RevisionsByFields[Header.StandardizedRevision])
+                yield return field;
         }
     }
 }

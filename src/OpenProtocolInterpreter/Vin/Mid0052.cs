@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace OpenProtocolInterpreter.Vin
 {
@@ -23,26 +25,21 @@ namespace OpenProtocolInterpreter.Vin
     {
         public const int MID = 52;
 
-        public string VinNumber
-        {
-            get => GetField(1, DataFields.VinNumber).Value;
-            set => GetField(1, DataFields.VinNumber).SetValue(value);
-        }
-        public string IdentifierResultPart2
-        {
-            get => GetField(2, DataFields.IdentifierResultPart2).Value;
-            set => GetField(2, DataFields.IdentifierResultPart2).SetValue(value);
-        }
-        public string IdentifierResultPart3
-        {
-            get => GetField(2, DataFields.IdentifierResultPart3).Value;
-            set => GetField(2, DataFields.IdentifierResultPart3).SetValue(value);
-        }
-        public string IdentifierResultPart4
-        {
-            get => GetField(2, DataFields.IdentifierResultPart4).Value;
-            set => GetField(2, DataFields.IdentifierResultPart4).SetValue(value);
-        }
+        /// <summary>
+        /// Note: Only for PowerMACS and rev 000-001, the VIN number can be up to 40 bytes long. Minimum number of bytes is always 25.
+        /// </summary>
+        [StringDataFieldDefinition(revision: 1, field: 1, Index = 20, Size = 25, HasPrefix = false)]
+        [StringDataFieldDefinition(revision: 2, field: 1, Index = 20, Size = 25)]
+        public string VinNumber { get; set; }
+
+        [StringDataFieldDefinition(revision: 2, field: 2, Index = 47, Size = 25)]
+        public string IdentifierResultPart2 { get; set; }
+
+        [StringDataFieldDefinition(revision: 2, field: 3, Index = 74, Size = 25)]
+        public string IdentifierResultPart3 { get; set; }
+
+        [StringDataFieldDefinition(revision: 2, field: 4, Index = 101, Size = 25)]
+        public string IdentifierResultPart4 { get; set; }
 
         public Mid0052() : this(DEFAULT_REVISION)
         {
@@ -55,66 +52,40 @@ namespace OpenProtocolInterpreter.Vin
 
         public Mid0052(int revision) : base(MID, revision) { }
 
+        protected override string BuildHeader()
+        {
+            Header.Length = Header.DefaultSize;
+            foreach (var dataField in DataFieldsByRevision())
+                Header.Length += dataField.TotalSize;
+
+            return Header.ToString();
+        }
+
         public override string Pack()
         {
-            var vinNumberField = GetField(1, DataFields.VinNumber);
-            if (Header.Revision > 1)
-                vinNumberField.HasPrefix = true;
+            if (Header.StandardizedRevision == 1)
+                GetField(nameof(VinNumber)).Size = (VinNumber.Length > 25) ? VinNumber.Length : 25;
 
-            //Can be up to 40 bytes long
-            vinNumberField.Size = (VinNumber.Length > 25) ? VinNumber.Length : 25;
-            return base.Pack();
+            var header = BuildHeader();
+            var builder = new StringBuilder(Header.Length).Append(header).Append(base.Pack(DataFieldsByRevision()));
+            return builder.ToString();
         }
 
-        public override Mid Parse(string package)
+        protected override void ProcessDataFields(ReadOnlySpan<char> package)
+            => base.ProcessDataFields(DataFieldsByRevision(), package);
+
+        protected override void ProcessDataField(DataField dataField, ReadOnlySpan<char> package)
         {
-            Header = ProcessHeader(package);
-            if (Header.Revision > 1)
-            {
-                var vinNumberField = GetField(1, DataFields.VinNumber);
-                vinNumberField.HasPrefix = true;
-                vinNumberField.Size = Header.Length - 103;
-                if (vinNumberField.Size > 25)
-                {
-                    int addedSize = vinNumberField.Size - 25;
-                    GetField(2, DataFields.IdentifierResultPart2).Index += addedSize;
-                    GetField(2, DataFields.IdentifierResultPart3).Index += addedSize;
-                    GetField(2, DataFields.IdentifierResultPart4).Index += addedSize;
-                }
-            }
-            else
-                GetField(1, DataFields.VinNumber).Size = Header.Length - 20;
-            ProcessDataFields(package);
-            return this;
+            if (Header.StandardizedRevision == 1 && dataField.Field == 1)
+                dataField.Size = Header.Length - Header.DefaultSize;
+
+            base.ProcessDataField(dataField, package);
         }
 
-        protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        private IEnumerable<DataField> DataFieldsByRevision()
         {
-            return new Dictionary<int, List<DataField>>()
-            {
-                {
-                    1, new List<DataField>()
-                            {
-                                DataField.String(DataFields.VinNumber, 20, 25, false)
-                            }
-                },
-                {
-                    2, new List<DataField>()
-                            {
-                                DataField.String(DataFields.IdentifierResultPart2, 47, 25),
-                                DataField.String(DataFields.IdentifierResultPart3, 74, 25),
-                                DataField.String(DataFields.IdentifierResultPart4, 101, 25)
-                            }
-                }
-            };
-        }
-
-        protected enum DataFields
-        {
-            VinNumber,
-            IdentifierResultPart2,
-            IdentifierResultPart3,
-            IdentifierResultPart4,
+            foreach (var dataField in RevisionsByFields[Header.StandardizedRevision])
+                yield return dataField;
         }
     }
 }

@@ -10,6 +10,7 @@ namespace OpenProtocolInterpreter
     public class OpenProtocolConvert
     {
         private static readonly IFormatProvider _formatProvider = new CultureInfo("en-US");
+        private static readonly DateTimeOffset _unixEpoch = DateTimeOffset.FromUnixTimeSeconds(0);
 
         public static string ToString(bool value)
             => value ? "1" : "0";
@@ -18,11 +19,16 @@ namespace OpenProtocolInterpreter
             => ToString(value);
 
         public static bool ToBoolean(string value)
+            => ToBoolean(value.AsSpan());
+
+        public static bool ToBoolean(ReadOnlySpan<char> value)
         {
             int intValue = 0;
-            if (value != null)
-                int.TryParse(value.ToString(), out intValue);
-
+#if NETSTANDARD2_0
+            if (!value.IsEmpty) int.TryParse(value.ToString(), out intValue);
+#else
+            if (!value.IsEmpty) int.TryParse(value, out intValue);
+#endif
             return Convert.ToBoolean(intValue);
         }
 
@@ -33,15 +39,43 @@ namespace OpenProtocolInterpreter
             => ToString(value);
 
         public static DateTime ToDateTime(string value)
+            => ToDateTime(value.AsSpan());
+
+        public static DateTime ToDateTime(ReadOnlySpan<char> value)
         {
             var convertedValue = DateTime.Now;
-            if (!string.IsNullOrWhiteSpace(value.ToString()))
-            {
-                var date = value.ToString();
-                DateTime.TryParse($"{date.Substring(0, 10)} {date.Substring(11, 8)}", out convertedValue);
-            }
+            if (value.IsWhiteSpace())
+                return convertedValue;
 
+            Span<char> buffer = stackalloc char[19];
+            value.Slice(0, 10).CopyTo(buffer);
+            buffer[10] = ' ';
+            value.Slice(11, 8).CopyTo(buffer.Slice(11));
+
+#if NETSTANDARD2_0
+            DateTime.TryParse(buffer.ToString(), out convertedValue);
+#else
+            DateTime.TryParse(buffer, out convertedValue);
+#endif
             return convertedValue;
+        }
+
+        public static string ToString(DateTimeOffset value)
+            => ToString('0', 10, PaddingOrientation.LeftPadded, value);
+
+        public static string ToString(char paddingChar, int size, PaddingOrientation orientation, DateTimeOffset value)
+            => ToString(paddingChar, size, orientation, value.ToUnixTimeSeconds());
+
+        public static DateTimeOffset ToUnixDateTime(string value)
+           => ToUnixDateTime(value.AsSpan());
+
+        public static DateTimeOffset ToUnixDateTime(ReadOnlySpan<char> value)
+        {
+            if (value.IsWhiteSpace())
+                return _unixEpoch;
+
+            var unixTimestamp = ToInt64(value);
+            return DateTimeOffset.FromUnixTimeSeconds(unixTimestamp);
         }
 
         public static string ToString(decimal value)
@@ -56,30 +90,66 @@ namespace OpenProtocolInterpreter
         }
 
         public static decimal ToDecimal(string value)
+            => ToDecimal(value.AsSpan());
+
+        public static decimal ToDecimal(ReadOnlySpan<char> value)
         {
             decimal decimalValue = 0;
-            if (!string.IsNullOrWhiteSpace(value))
-                decimal.TryParse(value.Replace(',', '.'), NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign | NumberStyles.AllowExponent, _formatProvider, out decimalValue);
+            if (value.IsWhiteSpace())
+                return decimalValue;
 
+#if NETSTANDARD2_0
+            decimal.TryParse(value.ToString().Replace(',', '.'), NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign | NumberStyles.AllowExponent, _formatProvider, out decimalValue);
+#else
+            Span<char> buffer = value.Length <= 64 ? stackalloc char[value.Length] : new char[value.Length];
+            value.CopyTo(buffer);
+            for (int i = 0; i < buffer.Length; i++)
+            {
+                if (buffer[i] == ',')
+                    buffer[i] = '.';
+            }
+            decimal.TryParse(buffer, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign | NumberStyles.AllowExponent, _formatProvider, out decimalValue);
+#endif
             return decimalValue;
         }
 
         public static string TruncatedDecimalToString(decimal value)
+            => TruncatedDecimalToString(value, 2);
+
+        public static string TruncatedDecimalToString(decimal value, int decimalDigits)
         {
-            int convertedValue = (int)(Math.Round(value, 2) * 100m);
+            var decimals = (decimal)Math.Pow(10, decimalDigits);
+            int convertedValue = (int)(Math.Round(value, 2) * decimals);
             return convertedValue.ToString();
         }
 
         public static string TruncatedDecimalToString(char paddingChar, int size, PaddingOrientation orientation, decimal value)
+            => TruncatedDecimalToString(paddingChar, size, orientation, value, 2);
+
+        public static string TruncatedDecimalToString(char paddingChar, int size, PaddingOrientation orientation, decimal value, int decimalDigits)
         {
-            var str = TruncatedDecimalToString(value);
-            return TruncatePadded(paddingChar, size, orientation, str);
+            if (value < 0)
+            {
+                return string.Concat("-", TruncatePadded(paddingChar, size - 1, orientation, TruncatedDecimalToString(-value, decimalDigits)));
+            }
+
+            return TruncatePadded(paddingChar, size, orientation, TruncatedDecimalToString(value, decimalDigits));
         }
 
         public static decimal ToTruncatedDecimal(string value)
+            => ToTruncatedDecimal(value, 2);
+
+        public static decimal ToTruncatedDecimal(string value, int decimalDigits)
+            => ToTruncatedDecimal(value.AsSpan(), decimalDigits);
+
+        public static decimal ToTruncatedDecimal(ReadOnlySpan<char> value)
+            => ToTruncatedDecimal(value, 2);
+
+        public static decimal ToTruncatedDecimal(ReadOnlySpan<char> value, int decimalDigits)
         {
+            var decimals = (decimal)Math.Pow(10, decimalDigits);
             int intValue = ToInt32(value);
-            return intValue / 100m;
+            return intValue / decimals;
         }
 
         public static string ToString(int value)
@@ -89,7 +159,14 @@ namespace OpenProtocolInterpreter
            => ToString(value.GetHashCode());
 
         public static string ToString(char paddingChar, int size, PaddingOrientation orientation, int value)
-            => TruncatePadded(paddingChar, size, orientation, ToString(value));
+        {
+            if (value < 0)
+            {
+                return string.Concat("-", TruncatePadded(paddingChar, size - 1, orientation, ToString(-value)));
+            }
+
+            return TruncatePadded(paddingChar, size, orientation, ToString(value));
+        }
 
         public static string ToString<TEnum>(char paddingChar, int size, PaddingOrientation orientation, TEnum value) where TEnum : struct, Enum
             => TruncatePadded(paddingChar, size, orientation, ToString(value));
@@ -100,11 +177,27 @@ namespace OpenProtocolInterpreter
             return convertedValue;
         }
 
+        public static int ToInt32(ReadOnlySpan<char> value)
+        {
+#if NETSTANDARD2_0
+            return ToInt32(value.ToString());
+#else
+            int.TryParse(value, out int convertedValue);
+            return convertedValue;
+#endif
+        }
+
         public static string ToString(long value)
            => value.ToString();
 
         public static string ToString(char paddingChar, int size, PaddingOrientation orientation, long value)
-            => TruncatePadded(paddingChar, size, orientation, ToString(value));
+        {
+            if (value < 0)
+            {
+                return string.Concat("-", TruncatePadded(paddingChar, size - 1, orientation, ToString(-value)));
+            }
+            return TruncatePadded(paddingChar, size, orientation, ToString(value));
+        }
 
         public static long ToInt64(string value)
         {
@@ -112,7 +205,20 @@ namespace OpenProtocolInterpreter
             return convertedValue;
         }
 
-        public static string ToString(IEnumerable<VariableDataField> value)
+        public static long ToInt64(ReadOnlySpan<char> value)
+        {
+#if NETSTANDARD2_0
+            return ToInt64(value.ToString());
+#else
+            long.TryParse(value, out long convertedValue);
+            return convertedValue;
+#endif
+        }
+
+        public static string ToString(char paddingChar, int size, PaddingOrientation orientation, List<VariableDataField> value)
+            => ToString(value);
+
+        public static string ToString(List<VariableDataField> value)
         {
             var builder = new StringBuilder();
             foreach (var v in value)
@@ -140,19 +246,22 @@ namespace OpenProtocolInterpreter
         }
 
         public static string TruncatePadded(char paddingChar, int size, PaddingOrientation orientation, string value)
-        {
-            if (value == null)
-                return string.Empty.PadLeft(size, paddingChar);
+            => TruncatePadded(paddingChar, size, orientation, value.AsSpan());
 
-            if (size > 0 && value.Length > size)
-            {
-                value = value.Substring(0, size);
-            }
+        public static string TruncatePadded(char paddingChar, int size, PaddingOrientation orientation, ReadOnlySpan<char> value)
+        {
+            var truncated = size > 0 && value.Length > size ? value.Slice(0, size) : value;
+            int resultLength = Math.Max(size, truncated.Length);
+
+            Span<char> buffer = resultLength <= 128 ? stackalloc char[resultLength] : new char[resultLength];
+            buffer.Fill(paddingChar);
 
             if (orientation == PaddingOrientation.RightPadded)
-                return value.PadRight(size, paddingChar);
+                truncated.CopyTo(buffer);
+            else
+                truncated.CopyTo(buffer.Slice(resultLength - truncated.Length));
 
-            return value.PadLeft(size, paddingChar);
+            return buffer.ToString();
         }
     }
 }
