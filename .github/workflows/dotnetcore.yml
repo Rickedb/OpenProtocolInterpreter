@@ -1,6 +1,6 @@
 name: dotnetcore
 
-on: 
+on:
   pull_request:
     types: [opened, synchronize]
   push:
@@ -15,7 +15,7 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@master
         with:
-          dotnet-version: | 
+          dotnet-version: |
             3.1.x
             6.0.x
             8.0.x
@@ -29,7 +29,7 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@master
         with:
-          dotnet-version: | 
+          dotnet-version: |
             3.1.x
             6.0.x
             8.0.x

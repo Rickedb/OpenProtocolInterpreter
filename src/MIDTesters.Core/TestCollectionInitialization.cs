@@ -50,8 +50,7 @@ namespace MIDTesters
                 }
             }
 
-            Assert.AreEqual(0, failures.Count,
-                            $"{failures.Count} collection(s) are left uninitialized:{Environment.NewLine}{string.Join(Environment.NewLine, failures)}");
+            Assert.AreEqual(0, failures.Count, $"{failures.Count} collection(s) are left uninitialized:{Environment.NewLine}{string.Join(Environment.NewLine, failures)}");
         }
 
         private static IEnumerable<PropertyInfo> GetCollectionProperties(Type type)
