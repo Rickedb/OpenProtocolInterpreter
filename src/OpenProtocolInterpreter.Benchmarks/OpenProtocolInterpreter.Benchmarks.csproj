@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>OpenProtocolInterpreter.Benchmarks</RootNamespace>
+    <AssemblyName>OpenProtocolInterpreter.Benchmarks</AssemblyName>
+    <IsPackable>false</IsPackable>
+
+    <!--
+      BenchmarkDotNet spawns one isolated process per benchmark, and the GC settings here are the ones it
+      inherits. The workstation, non concurrent GC keeps a background collection from landing in the middle
+      of an iteration, which is what makes the allocation columns worth reading.
+    -->
+    <ServerGarbageCollection>false</ServerGarbageCollection>
+    <ConcurrentGarbageCollection>false</ConcurrentGarbageCollection>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" Version="0.15.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OpenProtocolInterpreter\OpenProtocolInterpreter.csproj" />
+  </ItemGroup>
+
+</Project>

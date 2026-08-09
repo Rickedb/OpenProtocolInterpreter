@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="src/MIDTesters.Core/MIDTesters.Core.csproj" />
   <Project Path="src/OpenProtocolInterpreter/OpenProtocolInterpreter.csproj" />
+  <Project Path="src/OpenProtocolInterpreter.Benchmarks/OpenProtocolInterpreter.Benchmarks.csproj" />
 </Solution>
