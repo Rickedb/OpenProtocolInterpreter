@@ -3,9 +3,6 @@ using OpenProtocolInterpreter;
 using OpenProtocolInterpreter.Time;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Threading.Tasks;
 
 namespace MIDTesters
 {
@@ -48,6 +45,33 @@ namespace MIDTesters
             Assert.IsNotNull(mid.TimeZone);
             AssertEqualPackages(pack, mid, true);
         }
+
+        [TestMethod]
+        public void ParseNewCustomMidWithRegisteredDatafields()
+        {
+            _midInterpreter.UseCustomMessage(new Dictionary<int, Type>() { { 83, typeof(NoAttributeMid0083) } });
+
+            string pack = @"00530083            012017-12-01:20:12:4502TESTMID   ";
+            var mid = _midInterpreter.Parse<NoAttributeMid0083>(pack);
+
+            Assert.AreEqual(typeof(NoAttributeMid0083), mid.GetType());
+            Assert.AreEqual(new DateTime(2017, 12, 1, 20, 12, 45), mid.Time);
+            Assert.AreEqual("TESTMID", mid.Description.Trim());
+            AssertEqualPackages(pack, mid, true);
+        }
+
+        [TestMethod]
+        public void BuildNewCustomMidWithRegisteredDatafields()
+        {
+            string pack = @"00530083            012017-12-01:20:12:4502TESTMID   ";
+            var mid = new NoAttributeMid0083()
+            {
+                Time = new DateTime(2017, 12, 1, 20, 12, 45),
+                Description = "TESTMID"
+            };
+
+            AssertPackedFromProperties(pack, mid, true);
+        }
     }
 
     public class OverridedMid0081 : Mid0081
@@ -81,6 +105,52 @@ namespace MIDTesters
         public string TimeZone { get; set; }
         public NewMid0083() : base(MID, LAST_REVISION)
         {
+        }
+    }
+
+    public class NoAttributeMid0083 : Mid
+    {
+        private const int LAST_REVISION = 1;
+        public const int MID = 83;
+
+        public DateTime Time
+        {
+            get => GetField(1, (int)DataFields.Time).GetValue(OpenProtocolConvert.ToDateTime);
+            set => GetField(1, (int)DataFields.Time).SetValue(OpenProtocolConvert.ToString, value);
+        }
+
+        public string Description
+        {
+            get => GetField(1, (int)DataFields.Description).Value;
+            set => GetField(1, (int)DataFields.Description).SetValue(value);
+        }
+
+        public NoAttributeMid0083() : base(MID, LAST_REVISION)
+        {
+        }
+
+        public NoAttributeMid0083(Header header) : base(header)
+        {
+        }
+
+        protected override Dictionary<int, List<DataField>> RegisterDatafields()
+        {
+            return new Dictionary<int, List<DataField>>()
+            {
+                {
+                    1, new List<DataField>()
+                            {
+                                new DataField((int)DataFields.Time, 20, 19),
+                                new DataField((int)DataFields.Description, 41, 10)
+                            }
+                }
+            };
+        }
+
+        public enum DataFields
+        {
+            Time = 1,
+            Description = 2
         }
     }
 }
