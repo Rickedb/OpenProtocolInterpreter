@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net6.0;net8.0;net10.0</TargetFrameworks>
     <LangVersion>latest</LangVersion>
-    <Version>6.1.1</Version>
+    <Version>6.1.2</Version>
     <PackageId>HallerErne.OpenProtocolInterpreter</PackageId>
     <Description>Bidirectional serializer/deserializer for Atlas Copco Open Protocol MID messages. Forked from Rickedb/OpenProtocolInterpreter with Rexroth/NEXO vendor-specific MID extensions.</Description>
     <Copyright>Copyright © 2026 Haller + Erne GmbH</Copyright>
@@ -14,7 +14,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>CSharp Open Protocol Atlas Copco Rexroth NEXO</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageReleaseNotes>Forked from https://github.com/Rickedb/OpenProtocolInterpreter. Added Rexroth/NEXO vendor-specific MIDs (0404, 0510-0515, 0520-0524, 0554-0574, 0800-0809).</PackageReleaseNotes>
+    <PackageReleaseNotes>Added MID 0900 Trace Curve Data and MID 0901 Trace Plot Parameters (Rev 1/2/3). MID 0900 uses Parse(byte[])/PackBytes with NUL separator + big-endian Int16 samples.</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 

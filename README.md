@@ -314,8 +314,6 @@ But if you wish, you can support and help to motivate the constant improving of 
 | 0007 | Reserved | Reserved by Atlas Copco |
 | 0049 | Pairing Status Acknowledge | |
 | 0700 | Tightening data download status for radio tools | |
-| 0900 | Result traces curve | |
-| 0901 | Result traces curve plot data | |
 | 1601 | Dynamic identifier message | |
 | 1602 | Dynamic identifier data acknowledge | |
 | 1900 | Selector socket info | |

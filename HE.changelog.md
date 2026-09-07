@@ -6,6 +6,27 @@ Forked from [Rickedb/OpenProtocolInterpreter](https://github.com/Rickedb/OpenPro
 
 ---
 
+## [6.1.2] — 2026-09-07
+
+### Added
+
+- **Tightening**: Mid0900 — Trace curve data (Controller → Integrator), Rev 1/2/3 per Open Protocol Spec R 2.21.1 §5.8.9 Tables 139–141. ASCII lead + NUL separator + big-endian signed Int16 binary samples via `Parse(byte[])` / `PackBytes()` and `RawBinaryData` / `TraceSamples`.
+- **Tightening**: Mid0901 — Trace plot parameters (Controller → Integrator), Rev 1/2/3 per Spec Tables 146–148 (ASCII variable data fields only).
+- **Tightening**: `ResolutionDataField` helper for MID 0900 resolution section pack/parse.
+- Unit tests: `TestMid0900`, `TestMid0901`.
+
+### Changed
+
+- Package version `6.1.2`.
+- README: removed 0900/0901 from the unavailable MIDs list.
+
+### Notes
+
+- Mid0900/Mid0901 register a **full field layout per revision** (not deltas). `BuildHeader()` / `Pack()` sum and emit only the active revision.
+- Binary sample tail is not modeled as `DataField`s; decode/encode is manual big-endian Int16.
+
+---
+
 ## [6.1.1] — 2026-05-06
 
 ### Added
