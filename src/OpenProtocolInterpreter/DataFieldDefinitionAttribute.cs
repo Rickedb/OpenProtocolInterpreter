@@ -76,7 +76,7 @@ namespace OpenProtocolInterpreter
         }
         internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
         {
-            return DataField.Boolean(Field, Index, HasPrefix)
+            return DataField.Boolean(Field, index, HasPrefix)
                             .Bind(owner, propertyInfo);
         }
     }
@@ -213,7 +213,7 @@ namespace OpenProtocolInterpreter
         }
         internal override DataField Build(object owner, PropertyInfo propertyInfo, int index)
         {
-            return DataField.Timestamp(Field, index, HasPrefix)
+            return DataField.UnixTimestamp(Field, index, HasPrefix)
                             .Bind(owner, propertyInfo);
         }
     }

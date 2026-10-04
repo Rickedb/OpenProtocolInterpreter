@@ -98,7 +98,7 @@ namespace OpenProtocolInterpreter
         /// <returns>A new <see cref="Mid0005"/> instance</returns>
         public static Mid0005 GetAcceptCommand<TAcceptedMid>(this TAcceptedMid mid) where TAcceptedMid : Mid, IAcceptableCommand
         {
-            return new Mid0005(mid.Header.Mid);
+            return new Mid0005() { MidAccepted = mid.Header.Mid };
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace OpenProtocolInterpreter
         /// <returns>A new <see cref="Mid0004"/> instance</returns>
         public static Mid0004 GetDeclineCommand<TDeclinedMid>(this TDeclinedMid mid, Error error) where TDeclinedMid : Mid, IDeclinableCommand
         {
-            return new Mid0004(mid.Header.Mid) { ErrorCode = error };
+            return new Mid0004() { FailedMid = mid.Header.Mid, ErrorCode = error };
         }
 
         /// <summary>

@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenProtocolInterpreter;
+using OpenProtocolInterpreter.Alarm;
 using OpenProtocolInterpreter.Communication;
 using System;
 
@@ -49,6 +50,7 @@ namespace MIDTesters
         {
             var mid0002 = new Mid0001().GetReply();
             Assert.IsNotNull(mid0002);
+            Assert.AreEqual(Mid0002.MID, mid0002.Header.Mid);
         }
 
         [TestMethod]
@@ -61,10 +63,29 @@ namespace MIDTesters
         }
 
         [TestMethod]
+        public void TestGetAcknowledge()
+        {
+            var mid0072 = new Mid0071().GetAcknowledge();
+            Assert.IsNotNull(mid0072);
+            Assert.AreEqual(Mid0072.MID, mid0072.Header.Mid);
+        }
+
+        [TestMethod]
+        public void TestGetAcknowledgeKeepsRevision()
+        {
+            var mid0071 = new Mid0071();
+            mid0071.Header.Revision = 2;
+            Assert.AreEqual(2, mid0071.GetAcknowledge().Header.Revision);
+        }
+
+        [TestMethod]
         public void TestGetAcceptCommand()
         {
             var mid0005 = new Mid0003().GetAcceptCommand();
             Assert.IsNotNull(mid0005);
+            Assert.AreEqual(Mid0005.MID, mid0005.Header.Mid);
+            Assert.AreEqual(Mid0003.MID, mid0005.MidAccepted);
+            Assert.AreEqual(Mid0003.MID, ((Mid0005)new Mid0005().Parse(mid0005.Pack())).MidAccepted);
         }
 
         [TestMethod]
@@ -73,6 +94,8 @@ namespace MIDTesters
             var error = Error.ClientAlreadyConnected;
             var mid0004 = new Mid0001().GetDeclineCommand(error);
             Assert.IsNotNull(mid0004);
+            Assert.AreEqual(Mid0004.MID, mid0004.Header.Mid);
+            Assert.AreEqual(Mid0001.MID, mid0004.FailedMid);
             Assert.AreEqual(mid0004.ErrorCode, error);
         }
 
@@ -82,6 +105,7 @@ namespace MIDTesters
             var error = Error.ClientAlreadyConnected;
             var mid0004 = new Mid0001().AssertAndGetDeclineCommand(error);
             Assert.IsNotNull(mid0004);
+            Assert.AreEqual(Mid0001.MID, mid0004.FailedMid);
             Assert.AreEqual(mid0004.ErrorCode, error);
         }
 
